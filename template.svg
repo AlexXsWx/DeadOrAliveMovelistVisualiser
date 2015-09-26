@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1000mm"
+   height="1000mm"
+   viewBox="0 0 1000 1000"
+   id="svg0"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="template.svg"
+   style="enable-background:new">
+  <metadata
+     id="metadata0">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title />
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs0">
+    <symbol
+       id="P">
+      <circle
+         r="23.875"
+         cy="0"
+         cx="0"
+         id="path0"
+         style="fill:#ffff00;stroke:#ffffff;stroke-width:2.5" />
+      <g
+         transform="matrix(1,0,-0.17632698,1,-15.981942,14.541016)"
+         id="g1">
+        <text
+           id="text0"
+           y="1"
+           x="1"
+           style="font-size:40px;font-family:sans-serif;fill:#000000"
+           xml:space="preserve"><tspan
+             id="tspan0"
+             y="1"
+             x="1"
+             sodipodi:role="line">P</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:40px;font-family:sans-serif;fill:#ffffff"
+           x="-1"
+           y="-1"
+           id="text1"><tspan
+             sodipodi:role="line"
+             x="-1"
+             y="-1"
+             id="tspan1">P</tspan></text>
+      </g>
+    </symbol>
+    <symbol
+       id="K">
+      <circle
+         style="fill:#ff0000;fill-opacity:1;stroke:#ffffff;stroke-width:2.5"
+         id="path1"
+         cx="0"
+         cy="0"
+         r="23.875" />
+      <g
+         id="g2"
+         transform="matrix(1,0,-0.17632698,1,-15.981942,14.541016)">
+        <text
+           xml:space="preserve"
+           style="font-size:40px;font-family:sans-serif;fill:#000000"
+           x="1"
+           y="1"
+           id="text8160"><tspan
+             sodipodi:role="line"
+             x="1"
+             y="1"
+             id="tspan8162">K</tspan></text>
+        <text
+           id="text8164"
+           y="-1"
+           x="-1"
+           style="font-size:40px;font-family:sans-serif;fill:#ffffff"
+           xml:space="preserve"><tspan
+             id="tspan8166"
+             y="-1"
+             x="-1"
+             sodipodi:role="line">K</tspan></text>
+      </g>
+    </symbol>
+    <symbol
+       id="use8178">
+      <circle
+         r="23.875"
+         cy="0"
+         cx="0"
+         id="circle8196"
+         style="fill:#00ff00;fill-opacity:1;stroke:#ffffff;stroke-width:2.5" />
+      <g
+         transform="matrix(1,0,-0.17632698,1,-15.981942,14.541016)"
+         id="g8198">
+        <text
+           id="text8200"
+           y="1"
+           x="1"
+           style="font-size:40px;font-family:sans-serif;fill:#000000"
+           xml:space="preserve"><tspan
+             id="tspan8202"
+             y="1"
+             x="1"
+             sodipodi:role="line">H</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:40px;font-family:sans-serif;fill:#ffffff"
+           x="-1"
+           y="-1"
+           id="text8204"><tspan
+             sodipodi:role="line"
+             x="-1"
+             y="-1"
+             id="tspan8206">H</tspan></text>
+      </g>
+    </symbol>
+    <symbol
+       id="use8218">
+      <circle
+         style="fill:#0000ff;fill-opacity:1;stroke:#ffffff;stroke-width:2.5"
+         id="circle8243"
+         cx="0"
+         cy="0"
+         r="23.875" />
+      <g
+         id="g8245"
+         transform="matrix(1,0,-0.17632698,1,-15.981942,14.541016)">
+        <text
+           xml:space="preserve"
+           style="font-size:40px;font-family:sans-serif;fill:#000000"
+           x="1"
+           y="1"
+           id="text8247"><tspan
+             sodipodi:role="line"
+             x="1"
+             y="1"
+             id="tspan8249">T</tspan></text>
+        <text
+           id="text8251"
+           y="-1"
+           x="-1"
+           style="font-size:40px;font-family:sans-serif;fill:#ffffff"
+           xml:space="preserve"><tspan
+             id="tspan8253"
+             y="-1"
+             x="-1"
+             sodipodi:role="line">T</tspan></text>
+      </g>
+    </symbol>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="512.17357"
+     inkscape:cy="3476.9541"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer0"
+     showgrid="false"
+     inkscape:window-width="1846"
+     inkscape:window-height="1058"
+     inkscape:window-x="66"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox="true" />
+  <g
+     inkscape:label="Layer 0"
+     inkscape:groupmode="layer"
+     id="layer0">
+    <rect
+       style="opacity:0.25;fill:#000000"
+       id="rect0"
+       width="100"
+       height="100"
+       x="-50"
+       y="-50" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.28222221px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 168.12382,53.749206 50.19523,4.233334"
+       id="path12576"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-end="#use12501"
+       inkscape:connection-start="#use12471" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.28222221px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 275.36825,31.171429 218.31905,57.98254"
+       id="path12578"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#use12531"
+       inkscape:connection-end="#use12501" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.28222221px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 291.49524,82.374604 218.31905,57.98254"
+       id="path12580"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#use12561"
+       inkscape:connection-end="#use12501" />
+    <use
+       id="use12471"
+       xlink:href="#P"
+       transform="matrix(0.28222222,0,0,0.28222222,168.12382,53.749206)"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <use
+       id="use12501"
+       xlink:href="#K"
+       transform="matrix(0.28222222,0,0,0.28222222,218.31905,57.98254)"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <use
+       id="use12531"
+       xlink:href="#use8178"
+       transform="matrix(0.28222222,0,0,0.28222222,275.36825,31.171429)"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <use
+       id="use12561"
+       xlink:href="#use8218"
+       transform="matrix(0.28222222,0,0,0.28222222,291.49524,82.374604)"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+  </g>
+</svg>
