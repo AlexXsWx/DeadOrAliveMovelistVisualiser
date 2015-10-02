@@ -3,16 +3,35 @@
     <head>
         <title></title>
         <style>
-            html, body { min-height: 100%; }
-            body { margin: 0; }
+
+            html { height: 100%; }
+
+            body {
+                margin: 0;
+                
+                position: absolute; 
+                top:    0; 
+                bottom: 0; 
+                right:  0; 
+                left:   0;
+
+                display: flex;
+                /*justify-content: center;*/
+            }
+
+            #content {
+                /*align-self: center;*/
+            }
         </style>
     </head>
     <body>
+        <div id="content"></div>
         <script src="lib/d3/d3.min.js" charset="utf-8"></script>
         <script src="./rig.js"></script>
-        <script src="./movelist.js"></script>
+        <!-- <script src="./movelist.js"></script> -->
+        <script src="./d3test.js"></script>
         <script>
-            renderMoveList(document.body, data);
+            // renderMoveList(document.body, data);
         </script>
     </body>
 </html>
