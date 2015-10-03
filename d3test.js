@@ -1,8 +1,14 @@
 // http://techslides.com/save-svg-as-an-image
 
-var WIDTH = 768;
-var HEIGHT = 4096;
+var WIDTH  = 768;
+var HEIGHT = 8192;
+
 var PADDING = 50;
+
+var RGX_PUNCH = /^\d*p(?:\+k)?$/i;
+var RGX_KICK  = /(?:h\+)?k$/i;
+var RGX_HOLD  = /^\d+h$/i;
+var RGX_THROW = /^\d*t$/i;
 
 // var data = {
 //     a: {
@@ -15,7 +21,7 @@ var PADDING = 50;
 
 
 
-main(data.rig.std, 'std');
+main(data.rig, 'rig');
 
 
 
@@ -36,9 +42,14 @@ function main(data, rootName) {
     var nodes = tree.nodes(modifiedData);
     var links = tree.links(nodes);
 
+    // fixed distance between columns (since tree is turned 90deg CCW)
+    nodes.forEach(function(datum) { datum.y = datum.depth * 75; });
+
 
     var svg = d3.select('body div#content')
         .append('svg:svg')
+            .attr("version", 1.1)
+            .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr('width', WIDTH)
             .attr('height', HEIGHT);
 
@@ -55,20 +66,37 @@ function main(data, rootName) {
         // .interpolate('linear');
 
 
-    var linksParent = canvas.append('svg:g')
-        .attr('fill', 'none')
-        .attr('stroke', 'black');
+    addStyle('path.link', {
+        fill: 'none',
+        stroke: 'black'
+    });
 
-    var linksSelection = linksParent.selectAll('path').data(links);
-    linksSelection.enter().append('svg:path').attr('d', lineGenerator);
+    var linksSelection = canvas.selectAll('path.link').data(links);
+    linksSelection.enter().append('svg:path')
+        .attr('class', 'link')
+        .attr('d', lineGenerator);
     // linksSelection.exit().remove();
 
 
-    var nodesParent = canvas.append('svg:g');
+    addStyle('g.node circle', {
+        fill: 'white'
+        // stroke: 'black'
+    });
+    addStyle('g.node.punch circle', { fill: '#ffffaa' });
+    addStyle('g.node.kick circle',  { fill: '#ffaaaa' });
+    addStyle('g.node.hold circle',  { fill: '#aaffaa' });
+    addStyle('g.node.throw circle', { fill: '#aaaaff' });
 
-    var nodesSelection = nodesParent.selectAll('circle').data(nodes);
+    addStyle('g.node text', {
+        'text-anchor': 'middle',
+        'dominant-baseline': 'central',
+        'text-shadow': '0 0 5px white'
+    });
+
+    var nodesSelection = canvas.selectAll('g.node').data(nodes);
 
     var nodeGroup = nodesSelection.enter().append('svg:g')
+        .attr('class', getNodeClass)
         .attr('transform', function(datum) {
             return 'translate(' + datum.y + ',' + datum.x + ')';
         });
@@ -76,18 +104,29 @@ function main(data, rootName) {
     // nodesSelection.exit().remove();
 
     nodeGroup.append('svg:circle')
-        .attr('fill', '#aaffaa') // TODO: style
-        .attr('r', 25)
+        .attr('r', 15)
         .on('click', function(datum) { console.log(datum); toggleChildren(datum); });
 
     nodeGroup.append('svg:text')
-        .attr('fill', 'black') // TODO: style
-        .attr('text-anchor', 'middle') // style?
-        .attr('style', 'dominant-baseline: middle') // central? // TODO: style
         .text(function(datum) {
-            return datum.name;
+            return datum.name || datum.value;
         });
 
+}
+
+
+
+function getNodeClass(datum, index) {
+    var classList = ['node'];
+    if (isObject(datum.value) && datum.value.type != undefined) {
+
+    } else {
+        if (RGX_PUNCH.test(datum.name)) { classList.push('punch'); } else
+        if (RGX_KICK.test(datum.name))  { classList.push('kick');  } else
+        if (RGX_HOLD.test(datum.name))  { classList.push('hold');  } else
+        if (RGX_THROW.test(datum.name)) { classList.push('throw'); }
+    }
+    return classList.join(' ');
 }
 
 
@@ -95,6 +134,19 @@ function toggleChildren(datum) {
     var temp = datum.hiddenChildren;
     datum.hiddenChildren = datum.children;
     datum.children = temp;
+}
+
+
+
+function addStyle(selector, properties) {
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = selector + '{' + 
+        Object.getOwnPropertyNames(properties).map(function(propName) {
+            return propName + ":" + properties[propName];
+        }).join(";") +
+    '}';
+    document.getElementsByTagName('head')[0].appendChild(style);
 }
 
 
@@ -120,9 +172,13 @@ function d3fyJson(json, name) {
         result.children = [];
 
         propNames.forEach(function(propName) {
-            result.children.push(
-                d3fyJson(json[propName], propName)
-            );
+            if (propName == 'meta') {
+                result.value = json[propName];
+            } else {
+                result.children.push(
+                    d3fyJson(json[propName], propName)
+                );
+            }
         });
 
     }
