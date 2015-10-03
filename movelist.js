@@ -17,13 +17,17 @@ var canvas;
 var tree;
 var lineGenerator;
 
-var preparedData = d3fyJson(data.rig, 'rig');
 
+(function() {
 
-main(
-    document.getElementById('content'),
-    preparedData
-);
+    var preparedData = d3fyJson(data.rig, 'rig');
+
+    main(
+        document.getElementById('content'),
+        preparedData
+    );
+
+}());
 
 
 
@@ -59,7 +63,8 @@ main(
             'text-anchor': 'middle',
             'dominant-baseline': 'central',
             'fill': 'white',
-            'text-shadow': '0 0 2px black'
+            'text-shadow': '0 0 2px black',
+            'pointer-events': 'none'
         });
     }
 
@@ -67,12 +72,15 @@ main(
 
 
 
-function d3fyJson(json, name) {
+function d3fyJson(json, name, counter) {
+
+    if (!counter) counter = { value: 0 };
 
     var result = {
         name: name,
-        hiddenChildren: null
-        // children: undefined
+        hiddenChildren: null,
+        children: null,
+        id: counter.value++
         // value: undefined
     };
 
@@ -83,8 +91,7 @@ function d3fyJson(json, name) {
 
     var propNames = Object.getOwnPropertyNames(json);
 
-    if (propNames.length > 0) {
-
+    if (propNames.length > 0) { // FIXME: edgecase - 'meta' is the only property
         result.children = [];
 
         propNames.forEach(function(propName) {
@@ -92,7 +99,7 @@ function d3fyJson(json, name) {
                 result.value = json[propName];
             } else {
                 result.children.push(
-                    d3fyJson(json[propName], propName)
+                    d3fyJson(json[propName], propName, counter)
                 );
             }
         });
@@ -113,6 +120,11 @@ function main(rootNode, data) {
 
     update(data);
 
+}
+
+
+function idByDatum(datum) {
+    return datum.id;
 }
 
 
@@ -151,28 +163,42 @@ function update(data) {
     nodes.forEach(function(datum) { datum.y = datum.depth * 75; });
 
 
-    var linksSelection = canvas.selectAll('path.link').data(links);
+    // links
+
+    var linksSelection = canvas.select('g.links').selectAll('path.link')
+        .data(links, function(d) { return idByDatum(d.target); });
+
+    linksSelection.attr('d', lineGenerator);
+
     linksSelection.enter().append('svg:path')
         .attr('class', 'link')
         .attr('d', lineGenerator);
-    // linksSelection.exit().remove();
+
+    linksSelection.exit().remove();
 
 
-    var nodesSelection = canvas.selectAll('g.node').data(nodes);
+    // nodes
+
+    var nodesSelection = canvas.select('g.nodes').selectAll('g.node').data(nodes, idByDatum);
+
+    nodesSelection.attr('transform', function(datum) {
+        return 'translate(' + datum.y + ',' + datum.x + ')';
+    });
 
     var nodeGroup = nodesSelection.enter().append('svg:g')
         .attr('class', getNodeClass)
         .attr('transform', function(datum) {
             return 'translate(' + datum.y + ',' + datum.x + ')';
         });
-
-    // nodesSelection.exit().remove();
+    nodesSelection.exit().remove();
 
     nodeGroup.append('svg:circle')
         .attr('r', 20)
         .on('click', function(datum) {
-            console.log(datum);
             toggleChildren(datum);
+            console.log(datum);
+            // console.log(data);
+            update(data);
         });
 
     nodeGroup.append('svg:text')
@@ -207,8 +233,6 @@ function toggleChildren(datum) {
 
 
 
-
-
 function createCanvas(rootNode, width, height, padding) {
 
     var svg = d3.select(rootNode).append('svg:svg')
@@ -219,6 +243,9 @@ function createCanvas(rootNode, width, height, padding) {
 
     var canvas = svg.append('svg:g')
         .attr('transform', 'translate(' + padding + ',' + padding + ')');
+
+    canvas.append('svg:g').attr('class', 'links');
+    canvas.append('svg:g').attr('class', 'nodes');
         
     return canvas;
 
