@@ -1,8 +1,5 @@
 // http://techslides.com/save-svg-as-an-image
 
-var WIDTH  = 768;
-var HEIGHT = 768;
-
 var PADDING = 50;
 var NODE_WIDTH  = 100;
 var NODE_HEIGHT = 25;
@@ -16,7 +13,6 @@ var RGX_THROW = /^\d*t$/i;
 
 var svg;
 var canvas;
-var treeParent;
 
 var tree;
 var lineGenerator;
@@ -67,8 +63,8 @@ var lineGenerator;
             'text-anchor': 'end', // 'middle',
             'dominant-baseline': 'central',
             'fill': 'black',
-            'text-shadow': '0 0 2px white',
-            'pointer-events': 'none'
+            'text-shadow': '0 0 2px white'
+            // 'pointer-events': 'none'
         });
 
         // addStyle('g.node text.final', { 'text-anchor': 'start' });
@@ -101,6 +97,7 @@ function d3fyJson(json, name, counter) {
         result.children = [];
 
         propNames.forEach(function(propName) {
+            // if (!propName) return;
             if (propName === 'meta') {
                 result.value = json[propName];
             } else {
@@ -119,7 +116,7 @@ function d3fyJson(json, name, counter) {
 
 function main(rootNode, data) {
 
-    createCanvas(rootNode, WIDTH, HEIGHT, PADDING);
+    createCanvas(rootNode);
 
     initGenerators();
     initStyles();
@@ -168,92 +165,106 @@ function initGenerators() {
 
 
 
-function update(data) {
-    
-    var nodes = tree.nodes(data);
-    var links = tree.links(nodes);
+// ==== Update ====
 
-    var minY = 0;
-    var maxY = 0;
-    var minX = 0;
-    var maxX = 0;
+    function update(data) {
+        
+        var nodes = tree.nodes(data);
+        var links = tree.links(nodes);
 
-    nodes.forEach(function(datum) {
+        var minY = 0;
+        var maxY = 0;
+        var minX = 0;
+        var maxX = 0;
 
-        // fixed distance between columns (since tree is turned 90deg CCW)
-        // datum.y = datum.depth * 75;
+        nodes.forEach(function(datum) {
 
-        // turn 90deg CCW
-        var temp = datum.x;
-        datum.x = datum.y;
-        datum.y = temp;
+            // fixed distance between columns (since tree is turned 90deg CCW)
+            // datum.y = datum.depth * 75;
 
-        // find range
-        if (datum.y > maxY) maxY = datum.y;
-        if (datum.y < minY) minY = datum.y;
-        if (datum.x > maxX) maxX = datum.x;
-        if (datum.x < minX) minX = datum.x;
+            // turn 90deg CCW
+            var swap = datum.x;
+            datum.x = datum.y;
+            datum.y = swap;
 
-    });
+            // find range
+            maxY = Math.max(maxY, datum.y);
+            minY = Math.min(minY, datum.y);
+            maxX = Math.max(maxX, datum.x);
+            minX = Math.min(minX, datum.x);
 
-    // canvas size
+        });
 
-    treeParent.attr('transform', 'translate(0,' + (NODE_HEIGHT - minY) + ')');
+        // canvas size
 
-    svg
-        .attr('width',  maxX - minX + NODE_WIDTH  + 2 * PADDING)
-        .attr('height', maxY - minY + NODE_HEIGHT + 2 * PADDING);
+        canvas.attr('transform', 'translate(' + PADDING + ',' + (PADDING - minY) + ')');
 
+        svg
+            .attr('width',  maxX - minX + 2 * (NODE_WIDTH  + PADDING))
+            .attr('height', maxY - minY + 2 * (NODE_HEIGHT + PADDING));
 
-    // links
+        updateLinks(links);
+        updateNodes(nodes, data);
 
-    var linksSelection = treeParent.select('g.links').selectAll('path.link')
-        .data(links, function(d) { return idByDatum(d.target); });
-
-    linksSelection.attr('d', lineGenerator);
-
-    linksSelection.enter().append('svg:path')
-        .attr('class', 'link')
-        .attr('d', lineGenerator);
-
-    linksSelection.exit().remove();
+    }
 
 
-    // nodes
+    function updateLinks(links) {
 
-    var nodesSelection = treeParent.select('g.nodes').selectAll('g.node').data(nodes, idByDatum);
+        var linksSelection = canvas.select('g.links').selectAll('path.link')
+            .data(links, function(d) { return idByDatum(d.target); });
 
-    nodesSelection.attr('transform', function(datum) {
-        return 'translate(' + datum.x + ',' + datum.y + ')';
-    });
+        linksSelection.attr('d', lineGenerator);
 
-    var nodeGroup = nodesSelection.enter().append('svg:g')
-        .attr('class', getNodeClass)
-        .attr('transform', function(datum) {
+        linksSelection.enter().append('svg:path')
+            .attr('class', 'link')
+            .attr('d', lineGenerator);
+
+        linksSelection.exit().remove();
+
+    }
+
+
+    function updateNodes(nodes, data) {
+
+        var nodesSelection = canvas.select('g.nodes').selectAll('g.node').data(nodes, idByDatum);
+
+        nodesSelection.attr('transform', function(datum) {
             return 'translate(' + datum.x + ',' + datum.y + ')';
         });
-    nodesSelection.exit().remove();
 
-    nodeGroup.append('svg:circle')
-        .attr('r', 7.5)
-        .on('click', function(datum) {
-            toggleChildren(datum);
-            update(data);
-        });
+        var nodeGroup = nodesSelection.enter().append('svg:g')
+            .attr('class', getNodeClass)
+            .attr('transform', function(datum) {
+                return 'translate(' + datum.x + ',' + datum.y + ')';
+            });
+        nodesSelection.exit().remove();
 
-    nodeGroup.append('svg:text')
-        // .attr('class', function(datum) {
-        //     return datum.children && datum.children.length ? '' : 'final';
-        // })
-        // .attr('x', function(datum) {
-        //     return datum.children && datum.children.length ? -10 : 10;
-        // })
-        .attr('x', -10)
-        .text(function(datum) {
-            return datum.name || datum.value;
-        });
+        nodeGroup.append('svg:circle')
+            .attr('r', 7.5)
+            .on('click', function(datum) {
+                toggleChildren(datum);
+                update(data);
+            });
 
-}
+        nodeGroup.append('svg:text')
+
+            // .attr('class', function(datum) {
+            //     return datum.children && datum.children.length ? '' : 'final';
+            // })
+
+            // .attr('x', function(datum) {
+            //     return datum.children && datum.children.length ? -10 : 10;
+            // })
+            .attr('x', -10)
+
+            .text(function(datum) {
+                return datum.name || datum.value;
+            });
+
+    }
+
+// ================
 
 
 
@@ -280,21 +291,16 @@ function toggleChildren(datum) {
 
 
 
-function createCanvas(rootNode, width, height, padding) {
+function createCanvas(rootNode) {
 
     svg = d3.select(rootNode).append('svg:svg')
         .attr("version", 1.1)
-        .attr("xmlns", "http://www.w3.org/2000/svg")
-        .attr('width',  width)
-        .attr('height', height);
+        .attr("xmlns", "http://www.w3.org/2000/svg");
 
-    canvas = svg.append('svg:g')
-        .attr('transform', 'translate(' + padding + ',' + padding + ')');
+    canvas = svg.append('svg:g');
 
-    treeParent = canvas.append('svg:g').attr('class', 'tree');
-
-    treeParent.append('svg:g').attr('class', 'links');
-    treeParent.append('svg:g').attr('class', 'nodes');
+    canvas.append('svg:g').attr('class', 'links');
+    canvas.append('svg:g').attr('class', 'nodes');
 
 }
 
