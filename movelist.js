@@ -27,6 +27,14 @@ var lineGenerator;
         preparedData
     );
 
+    var table = d3.select('#abbreviations');
+
+    for (name in data.meta.abbreviations) {
+        var row = table.append('tr');
+        row.append('td').text(name);
+        row.append('td').text(data.meta.abbreviations[name]);
+    }
+
 }());
 
 
@@ -95,11 +103,11 @@ function prepareJson(json, name, generateNode, categorize) {
         if (categorize === 0) {
 
             var categorized = {
-                'punches':  [],
-                'kicks':    [],
-                'throws':   [],
-                'holds':    [],
-                'specials': []
+                'punches': [],
+                'kicks':   [],
+                'throws':  [],
+                'holds':   [],
+                'other':   []
             }
 
             propNames.forEach(function(propName) {
@@ -109,7 +117,7 @@ function prepareJson(json, name, generateNode, categorize) {
 
                 if (isObject(meta) && meta.type != undefined) {
                     if (meta.type === 'special') {
-                        categorized['specials'].push(wrapped);
+                        categorized['other'].push(wrapped);
                     } else {
                         console.error('Unsupported meta type: %s', meta.type);
                     }
@@ -118,7 +126,7 @@ function prepareJson(json, name, generateNode, categorize) {
                     if (RGX_KICK.test(propName))  { categorized[ 'kicks'   ].push(wrapped); } else
                     if (RGX_HOLD.test(propName))  { categorized[ 'holds'   ].push(wrapped); } else
                     if (RGX_THROW.test(propName)) { categorized[ 'throws'  ].push(wrapped); } else {
-                        categorized['specials'].push(wrapped);
+                        categorized['other'].push(wrapped);
                     }
                 }
 
@@ -126,8 +134,8 @@ function prepareJson(json, name, generateNode, categorize) {
 
             for (key in categorized) {
                 if (categorized[key].length < 1) continue;
-                var child = generateNode(key);
-                child.children = categorized[key].map(function(raw) {
+                var child = generateNode('<' + key + '>');
+                child.hiddenChildren = categorized[key].map(function(raw) {
                     return prepareJson(raw.value, raw.name, generateNode, -1);
                 });
                 result.children.push(child);

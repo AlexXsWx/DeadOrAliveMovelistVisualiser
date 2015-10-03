@@ -3,11 +3,11 @@ var data = {
     "meta": {
         "complete": [ "moves" ],
         "abbreviations": {
-            "TLC": "Turning leg cut",
-            "BND": "Bending stance",
+            "TLC": "Turn Leg Cut",
+            "BND": "Bending Stance",
             "SS": "Side step",
             "BT": "Back turned",
-            "STD": "Standing facing foe"
+            "STD": "Facing foe"
         }
     },
 
@@ -157,6 +157,11 @@ var data = {
             "46H": {}
         },
 
+        "[SS]": {
+            "P": {},
+            "K": {}
+        },
+
         "[BT]": {
             "P": {},
             "7P": { "": "[BT]" },
@@ -168,30 +173,11 @@ var data = {
             },
             "4K": {},
             "2K": {},
-            "P+K": { "": "[TLC]" },
+            "P+K": {
+                "meta": { "type": "special" },
+                "": "[TLC]"
+            },
             "H+K": {}
-        },
-
-        "[TLC]": {
-            "": "[BND]",
-            "P": {},
-            "K": {
-                "K": {
-                    "K": {},
-                    "4K": {}
-                },
-                "H+K": {}
-            },
-            "6K": {
-                "6K": {
-                    "6K": {},
-                    "K": {}
-                },
-                "K": {}
-            },
-            "2K": {},
-            "H+K": {},
-            "6H+K": {}
         },
 
         "[BND]": {
@@ -241,6 +227,28 @@ var data = {
             "H": {}
         },
 
+        "[TLC]": {
+            "": "[BND]",
+            "P": {},
+            "K": {
+                "K": {
+                    "K": {},
+                    "4K": {}
+                },
+                "H+K": {}
+            },
+            "6K": {
+                "6K": {
+                    "6K": {},
+                    "K": {}
+                },
+                "K": {}
+            },
+            "2K": {},
+            "H+K": {},
+            "6H+K": {}
+        },
+
         "[BND]/[BCK]": {
             "P": {},
             "4P": {},
@@ -252,11 +260,6 @@ var data = {
                 "": "[BND]"
             },
             "H+K": {}
-        },
-
-        "[SS]": {
-            "P": {},
-            "K": {}
         }
     }
 };
