@@ -4,6 +4,8 @@ var PADDING = 50;
 var NODE_WIDTH  = 100;
 var NODE_HEIGHT = 25;
 
+var RESIZE_TIMEOUT = 500;
+
 
 var RGX_PUNCH = /^\d*p(?:\+k)?$/i;
 var RGX_KICK  = /(?:h\+)?k$/i;
@@ -16,6 +18,11 @@ var canvas;
 
 var tree;
 var lineGenerator;
+
+
+var newRect = null;
+var mouseOver = false;
+var resizeTimeout = null;
 
 
 (function() {
@@ -42,8 +49,14 @@ var lineGenerator;
 // ==== Styles ====
 
     function initStyles() {
+
         initLinkStyles();
         initNodeStyles();
+
+        addStyle('g.canvas', {
+            'transition': 'transform 0.5s'
+        });
+
     }
 
     function initLinkStyles() {
@@ -185,12 +198,54 @@ function main(rootNode, data) {
 
     createCanvas(rootNode);
 
+    bindDeferredResize();
+
     initGenerators();
     initStyles();
 
-    update(data);
+    update(data, false);
 
 }
+
+
+
+function resize() {
+    canvas.attr('style', 'transform: translate(' + newRect.x + 'px,' + newRect.y + 'px)');
+    svg
+        .attr('width',  Math.max(document.body.clientWidth,  newRect.width))
+        // FIXME: hack -5 to remove vertical scroll bar
+        .attr('height', Math.max(document.body.clientHeight - 5, newRect.height));
+    newRect = null;
+
+    setTimeout(resizeSvgWidth, 0);
+}
+
+
+function resizeSvgWidth() {
+    svg.attr('width', document.body.clientWidth);
+}
+
+
+function bindDeferredResize() {
+
+    window.addEventListener('resize', resizeSvgWidth);
+
+    canvas.node().addEventListener('mouseover', function() {
+        mouseOver = true;
+        if (resizeTimeout != null) {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = null;
+        }
+    });
+
+    canvas.node().addEventListener('mouseleave', function() {
+        mouseOver = false;
+        if (newRect == null) return;
+        resizeTimeout = setTimeout(resize, RESIZE_TIMEOUT);
+    });
+
+}
+
 
 
 function idByDatum(datum) {
@@ -234,7 +289,7 @@ function initGenerators() {
 
 // ==== Update ====
 
-    function update(data) {
+    function update(data, deferResize) {
         
         var nodes = tree.nodes(data);
         var links = tree.links(nodes);
@@ -264,11 +319,16 @@ function initGenerators() {
 
         // canvas size
 
-        canvas.attr('transform', 'translate(' + PADDING + ',' + (PADDING - minY) + ')');
+        newRect = {
+            x: PADDING,
+            y: PADDING - minY,
+            width:  maxX - minX + 2 * (NODE_WIDTH  + PADDING),
+            height: maxY - minY + 2 * (NODE_HEIGHT + PADDING)
+        };
 
-        svg
-            .attr('width',  maxX - minX + 2 * (NODE_WIDTH  + PADDING))
-            .attr('height', maxY - minY + 2 * (NODE_HEIGHT + PADDING));
+        if (!deferResize || !mouseOver) {
+            resize();
+        }
 
         updateLinks(links);
         updateNodes(nodes, data);
@@ -311,7 +371,7 @@ function initGenerators() {
             .attr('r', NODE_HEIGHT / 3.0)
             .on('click', function(datum) {
                 toggleChildren(datum);
-                update(data);
+                update(data, true);
             });
 
         nodeGroup.append('svg:text')
@@ -363,8 +423,9 @@ function createCanvas(rootNode) {
     svg = d3.select(rootNode).append('svg:svg')
         .attr("version", 1.1)
         .attr("xmlns", "http://www.w3.org/2000/svg");
+    resizeSvgWidth();
 
-    canvas = svg.append('svg:g');
+    canvas = svg.append('svg:g').attr('class', 'canvas');
 
     canvas.append('svg:g').attr('class', 'links');
     canvas.append('svg:g').attr('class', 'nodes');
