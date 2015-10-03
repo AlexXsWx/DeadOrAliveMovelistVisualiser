@@ -20,7 +20,7 @@ var lineGenerator;
 
 (function() {
 
-    var preparedData = d3fyJson(data.rig, 'rig');
+    var preparedData = prepareJson(data.rig, 'rig');
 
     main(
         document.getElementById('content'),
@@ -74,17 +74,12 @@ var lineGenerator;
 
 
 
-function d3fyJson(json, name, counter) {
+function prepareJson(json, name, generateNode, categorize) {
 
-    if (!counter) counter = { value: 0 };
+    if (categorize === undefined) categorize = 1;
+    if (!generateNode) generateNode = createNodeGenerator();
 
-    var result = {
-        name: name,
-        hiddenChildren: null,
-        children: null,
-        id: counter.value++
-        // value: undefined
-    };
+    var result = generateNode(name);
 
     if (!isObject(arguments[0])) {
         result.value = arguments[0];
@@ -94,22 +89,86 @@ function d3fyJson(json, name, counter) {
     var propNames = Object.getOwnPropertyNames(json);
 
     if (propNames.length > 0) { // FIXME: edgecase - 'meta' is the only property
+
         result.children = [];
 
-        propNames.forEach(function(propName) {
-            // if (!propName) return;
-            if (propName === 'meta') {
-                result.value = json[propName];
-            } else {
-                result.children.push(
-                    d3fyJson(json[propName], propName, counter)
-                );
+        if (categorize === 0) {
+
+            var categorized = {
+                'punches':  [],
+                'kicks':    [],
+                'throws':   [],
+                'holds':    [],
+                'specials': []
             }
-        });
+
+            propNames.forEach(function(propName) {
+
+                var wrapped = { name: propName, value: json[propName] };
+                var meta = wrapped.value.meta;
+
+                if (isObject(meta) && meta.type != undefined) {
+                    if (meta.type === 'special') {
+                        categorized['specials'].push(wrapped);
+                    } else {
+                        console.error('Unsupported meta type: %s', meta.type);
+                    }
+                } else {
+                    if (RGX_PUNCH.test(propName)) { categorized[ 'punches' ].push(wrapped); } else
+                    if (RGX_KICK.test(propName))  { categorized[ 'kicks'   ].push(wrapped); } else
+                    if (RGX_HOLD.test(propName))  { categorized[ 'holds'   ].push(wrapped); } else
+                    if (RGX_THROW.test(propName)) { categorized[ 'throws'  ].push(wrapped); } else {
+                        categorized['specials'].push(wrapped);
+                    }
+                }
+
+            });
+
+            for (key in categorized) {
+                if (categorized[key].length < 1) continue;
+                var child = generateNode(key);
+                child.children = categorized[key].map(function(raw) {
+                    return prepareJson(raw.value, raw.name, generateNode, -1);
+                });
+                result.children.push(child);
+            }
+
+        } else {
+
+            propNames.forEach(function(propName) {
+                // if (!propName) return;
+                if (propName === 'meta') {
+                    result.value = json[propName];
+                } else {
+                    result.children.push(
+                        prepareJson(json[propName], propName, generateNode, categorize - 1)
+                    );
+                }
+            });
+
+        }
 
     }
 
     return result;
+}
+
+
+
+function createNodeGenerator() {
+
+    var counter = 1;
+    return generateNode;
+
+    function generateNode(name) {
+        return {
+            name: name,
+            hiddenChildren: null,
+            children: null,
+            id: counter++,
+            value: null
+        };
+    };
 }
 
 
@@ -241,7 +300,7 @@ function initGenerators() {
         nodesSelection.exit().remove();
 
         nodeGroup.append('svg:circle')
-            .attr('r', 7.5)
+            .attr('r', NODE_HEIGHT / 3.0)
             .on('click', function(datum) {
                 toggleChildren(datum);
                 update(data);
@@ -254,9 +313,9 @@ function initGenerators() {
             // })
 
             // .attr('x', function(datum) {
-            //     return datum.children && datum.children.length ? -10 : 10;
+            //     return 0.5 * NODE_HEIGHT * datum.children && datum.children.length ? -1 : 1;
             // })
-            .attr('x', -10)
+            .attr('x', -0.5 * NODE_HEIGHT)
 
             .text(function(datum) {
                 return datum.name || datum.value;
