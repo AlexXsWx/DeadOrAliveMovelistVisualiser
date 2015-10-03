@@ -1,9 +1,11 @@
 // http://techslides.com/save-svg-as-an-image
 
 var WIDTH  = 768;
-var HEIGHT = 8192;
+var HEIGHT = 768;
 
 var PADDING = 50;
+var NODE_WIDTH  = 100;
+var NODE_HEIGHT = 25;
 
 
 var RGX_PUNCH = /^\d*p(?:\+k)?$/i;
@@ -12,7 +14,9 @@ var RGX_HOLD  = /^\d+h$/i;
 var RGX_THROW = /^\d*t$/i;
 
 
+var svg;
 var canvas;
+var treeParent;
 
 var tree;
 var lineGenerator;
@@ -41,7 +45,7 @@ var lineGenerator;
     function initLinkStyles() {
         addStyle('path.link', {
             fill: 'none',
-            stroke: '#777'
+            stroke: '#ddd'
         });
     }
 
@@ -58,14 +62,16 @@ var lineGenerator;
 
         addStyle('g.node text', {
             'font-family': 'arial',
-            'font-weight': 'bold',
+            // 'font-weight': 'bold',
             // 'font-style': 'italic',
-            'text-anchor': 'middle',
+            'text-anchor': 'end', // 'middle',
             'dominant-baseline': 'central',
-            'fill': 'white',
-            'text-shadow': '0 0 2px black',
+            'fill': 'black',
+            'text-shadow': '0 0 2px white',
             'pointer-events': 'none'
         });
+
+        // addStyle('g.node text.final', { 'text-anchor': 'start' });
     }
 
 // ================
@@ -113,7 +119,7 @@ function d3fyJson(json, name, counter) {
 
 function main(rootNode, data) {
 
-    canvas = createCanvas(rootNode, WIDTH, HEIGHT, PADDING);
+    createCanvas(rootNode, WIDTH, HEIGHT, PADDING);
 
     initGenerators();
     initStyles();
@@ -132,24 +138,32 @@ function idByDatum(datum) {
 function initGenerators() {
 
     tree = d3.layout.tree();
-    tree.size([
-        HEIGHT - 2 * PADDING,
-        WIDTH  - 2 * PADDING
-    ]);
-    tree.separation(function(a, b) {
-        return 1;
-    });
+
+    tree.nodeSize([ NODE_HEIGHT, NODE_WIDTH ]); // turn 90deg CCW
+
+    // tree.size([
+    //     HEIGHT - 2 * PADDING,
+    //     WIDTH  - 2 * PADDING
+    // ]);
+
+    // tree.separation(function(a, b) {
+    //     return 1;
+    // });
 
 
-    lineGenerator = d3.svg.diagonal()
-        .projection(function(d) {
-            return [ d.y, d.x ];
-        });
-        // .line()
-        // .x(function(datum) { return datum.x; })
-        // .y(function(datum) { return datum.y; })
-        // .interpolate('linear');
+    // lineGenerator = d3.svg.diagonal()
+    //     .projection(function(d) {
+    //         return [ d.y, d.x ];
+    //     });
 
+    var line = d3.svg.line()
+        .x(function(datum) { return datum.x; })
+        .y(function(datum) { return datum.y; })
+        .interpolate('linear');
+
+    lineGenerator = function(datum, index) { 
+        return line([datum.source, datum.target]);
+    }
 }
 
 
@@ -159,13 +173,41 @@ function update(data) {
     var nodes = tree.nodes(data);
     var links = tree.links(nodes);
 
-    // fixed distance between columns (since tree is turned 90deg CCW)
-    nodes.forEach(function(datum) { datum.y = datum.depth * 75; });
+    var minY = 0;
+    var maxY = 0;
+    var minX = 0;
+    var maxX = 0;
+
+    nodes.forEach(function(datum) {
+
+        // fixed distance between columns (since tree is turned 90deg CCW)
+        // datum.y = datum.depth * 75;
+
+        // turn 90deg CCW
+        var temp = datum.x;
+        datum.x = datum.y;
+        datum.y = temp;
+
+        // find range
+        if (datum.y > maxY) maxY = datum.y;
+        if (datum.y < minY) minY = datum.y;
+        if (datum.x > maxX) maxX = datum.x;
+        if (datum.x < minX) minX = datum.x;
+
+    });
+
+    // canvas size
+
+    treeParent.attr('transform', 'translate(0,' + (NODE_HEIGHT - minY) + ')');
+
+    svg
+        .attr('width',  maxX - minX + NODE_WIDTH  + 2 * PADDING)
+        .attr('height', maxY - minY + NODE_HEIGHT + 2 * PADDING);
 
 
     // links
 
-    var linksSelection = canvas.select('g.links').selectAll('path.link')
+    var linksSelection = treeParent.select('g.links').selectAll('path.link')
         .data(links, function(d) { return idByDatum(d.target); });
 
     linksSelection.attr('d', lineGenerator);
@@ -179,29 +221,34 @@ function update(data) {
 
     // nodes
 
-    var nodesSelection = canvas.select('g.nodes').selectAll('g.node').data(nodes, idByDatum);
+    var nodesSelection = treeParent.select('g.nodes').selectAll('g.node').data(nodes, idByDatum);
 
     nodesSelection.attr('transform', function(datum) {
-        return 'translate(' + datum.y + ',' + datum.x + ')';
+        return 'translate(' + datum.x + ',' + datum.y + ')';
     });
 
     var nodeGroup = nodesSelection.enter().append('svg:g')
         .attr('class', getNodeClass)
         .attr('transform', function(datum) {
-            return 'translate(' + datum.y + ',' + datum.x + ')';
+            return 'translate(' + datum.x + ',' + datum.y + ')';
         });
     nodesSelection.exit().remove();
 
     nodeGroup.append('svg:circle')
-        .attr('r', 20)
+        .attr('r', 7.5)
         .on('click', function(datum) {
             toggleChildren(datum);
-            console.log(datum);
-            // console.log(data);
             update(data);
         });
 
     nodeGroup.append('svg:text')
+        // .attr('class', function(datum) {
+        //     return datum.children && datum.children.length ? '' : 'final';
+        // })
+        // .attr('x', function(datum) {
+        //     return datum.children && datum.children.length ? -10 : 10;
+        // })
+        .attr('x', -10)
         .text(function(datum) {
             return datum.name || datum.value;
         });
@@ -235,19 +282,19 @@ function toggleChildren(datum) {
 
 function createCanvas(rootNode, width, height, padding) {
 
-    var svg = d3.select(rootNode).append('svg:svg')
+    svg = d3.select(rootNode).append('svg:svg')
         .attr("version", 1.1)
         .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr('width',  width)
         .attr('height', height);
 
-    var canvas = svg.append('svg:g')
+    canvas = svg.append('svg:g')
         .attr('transform', 'translate(' + padding + ',' + padding + ')');
 
-    canvas.append('svg:g').attr('class', 'links');
-    canvas.append('svg:g').attr('class', 'nodes');
-        
-    return canvas;
+    treeParent = canvas.append('svg:g').attr('class', 'tree');
+
+    treeParent.append('svg:g').attr('class', 'links');
+    treeParent.append('svg:g').attr('class', 'nodes');
 
 }
 
