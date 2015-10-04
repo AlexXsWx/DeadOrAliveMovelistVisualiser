@@ -25,7 +25,30 @@ var mouseOver = false;
 var resizeTimeout = null;
 
 
-main( document.getElementById('content'), data, 'rig' );
+
+(function main(parentElement, rawData, characterName) {
+
+    if (!rawData.hasOwnProperty(characterName)) {
+        var msg = 'Error: property "' + characterName + '" not found';
+        console.error(msg);
+        alert(msg);
+        return;
+    }
+
+    var preparedData = prepareData(rawData[characterName], characterName);
+
+    createCanvas(parentElement);
+
+    bindDeferredResize();
+
+    initGenerators();
+    initStyles();
+
+    update(preparedData, false);
+
+    rawData.meta && showAbbreviations(rawData.meta.abbreviations);
+
+}(document.getElementById('content'), data, 'rig'));
 
 
 
@@ -85,11 +108,17 @@ function createNodeGenerator() {
 
     function generateNode(name) {
         return {
-            name: name,
-            hiddenChildren: null,
-            children: null,
-            id: counter++,
-            value: null
+            // hide info in the fuck-d3-data so it has its very own place and is not affected by d3
+            fd3Data: {
+                name: name, // todo: rename to input?
+                children: {
+                    all:     [],
+                    visible: [],
+                    hidden:  []
+                },
+                id: counter++,
+                value: null // TODO: rename to meta / moveInfo
+            }
         };
     }
     
@@ -97,29 +126,10 @@ function createNodeGenerator() {
 
 
 
-function main(parentElement, dataRoot, dataRootName) {
-
-    var data = prepareData(dataRoot[dataRootName], dataRootName);
-
-    createCanvas(parentElement);
-
-    bindDeferredResize();
-
-    initGenerators();
-    initStyles();
-
-    update(data, false);
-
-    data.meta && showAbbreviations(data.meta.abbreviations);
-
-}
-
-
-
-function prepareData(dataRoot, rootName) {
+function prepareData(characterRawData, characterName) {
     var generateNode = createNodeGenerator();
-    var preparedData = prepareJson(dataRoot, rootName, generateNode);
-    preparedData.children.concat(preparedData.hiddenChildren || []).forEach(function(stance) {
+    var preparedData = d3fyJson(characterRawData, characterName, generateNode);
+    preparedData.fd3Data.children.all.forEach(function(stance) {
         groupByType(stance, generateNode);
     });
     return preparedData;
@@ -127,33 +137,27 @@ function prepareData(dataRoot, rootName) {
 
 
 
-function prepareJson(json, name, generateNode) {
+function d3fyJson(obj, name, generateNode) {
 
     var result = generateNode(name);
 
-    if (!isObject(arguments[0])) {
-        result.value = arguments[0];
+    if (!isObject(obj)) {
+        result.fd3Data.value = obj;
         return result;
     }
 
-    var propNames = Object.getOwnPropertyNames(json);
+    var propNames = Object.getOwnPropertyNames(obj);
 
-    if (propNames.length > 0) { // FIXME: edgecase - 'meta' is the only property
-
-        result.children = [];
-
-        propNames.forEach(function(propName) {
-            // if (!propName) return;
-            if (propName === 'meta') {
-                result.value = json[propName];
-            } else {
-                result.children.push(
-                    prepareJson(json[propName], propName, generateNode)
-                );
-            }
-        });
-
-    }
+    propNames.forEach(function(propName) {
+        // if (!propName) return;
+        if (propName === 'meta') {
+            result.fd3Data.value = obj[propName];
+        } else {
+            var child = d3fyJson(obj[propName], propName, generateNode);
+            result.fd3Data.children.all.push(child);
+            result.fd3Data.children.visible.push(child);
+        }
+    });
 
     return result;
 }
@@ -161,6 +165,8 @@ function prepareJson(json, name, generateNode) {
 
 
 function groupByType(parent, generateNode) {
+
+    // fill groups
 
     var byType = {
         'punches': [],
@@ -170,9 +176,9 @@ function groupByType(parent, generateNode) {
         'other':   []
     }
 
-    parent.children.concat(parent.hiddenChildren || []).forEach(function(child) {
+    parent.fd3Data.children.all.forEach(function(child) {
 
-       var meta = child.value;
+       var meta = child.fd3Data.value;
 
         if (isObject(meta) && meta.type != undefined) {
             if (meta.type === 'special') {
@@ -181,25 +187,34 @@ function groupByType(parent, generateNode) {
                 console.error('Unsupported meta type: %s', meta.type);
             }
         } else {
-            if (RGX_PUNCH.test(child.name)) { byType[ 'punches' ].push(child); } else
-            if (RGX_KICK.test(child.name))  { byType[ 'kicks'   ].push(child); } else
-            if (RGX_HOLD.test(child.name))  { byType[ 'holds'   ].push(child); } else
-            if (RGX_THROW.test(child.name)) { byType[ 'throws'  ].push(child); } else {
+            if (RGX_PUNCH.test(child.fd3Data.name)) { byType[ 'punches' ].push(child); } else
+            if (RGX_KICK.test(child.fd3Data.name))  { byType[ 'kicks'   ].push(child); } else
+            if (RGX_HOLD.test(child.fd3Data.name))  { byType[ 'holds'   ].push(child); } else
+            if (RGX_THROW.test(child.fd3Data.name)) { byType[ 'throws'  ].push(child); } else {
                 byType['other'].push(child);
             }
         }
 
     });
 
-    parent.hiddenChildren = parent.children.concat(parent.hiddenChildren || []);
-    parent.children = [];
+    // assign new children
+
+    parent.fd3Data.children.all     = [];
+    parent.fd3Data.children.visible = [];
+    parent.fd3Data.children.hidden  = [];
 
     for (type in byType) {
-        var children = byType[type];
-        if (children.length < 1) continue;
-        var child = generateNode('<' + type + '>');
-        child.hiddenChildren = children;
-        parent.children.push(child);
+
+        var childrenOfType = byType[type];
+        if (childrenOfType.length < 1) continue;
+
+        var groupingChild = generateNode('<' + type + '>');
+        groupingChild.fd3Data.children.all = childrenOfType;
+        groupingChild.fd3Data.children.hidden = childrenOfType;
+
+        parent.fd3Data.children.all.push(groupingChild);
+        parent.fd3Data.children.visible.push(groupingChild);
+
     }
 
 }
@@ -207,6 +222,7 @@ function groupByType(parent, generateNode) {
 
 
 function resize() {
+    // TODO: use parent's size
     canvas.attr('style', 'transform: translate(' + newRect.x + 'px,' + newRect.y + 'px)');
     svg
         .attr('width',  Math.max(document.body.clientWidth,  newRect.width))
@@ -246,7 +262,7 @@ function bindDeferredResize() {
 
 
 function idByDatum(datum) {
-    return datum.id;
+    return datum.fd3Data.id;
 }
 
 
@@ -256,6 +272,10 @@ function initGenerators() {
     tree = d3.layout.tree();
 
     tree.nodeSize([ NODE_HEIGHT, NODE_WIDTH ]); // turn 90deg CCW
+
+    tree.children(function(datum) {
+        return datum.fd3Data.children.visible;
+    });
 
     // tree.size([
     //     HEIGHT - 2 * PADDING,
@@ -323,7 +343,7 @@ function initGenerators() {
             height: maxY - minY + 2 * (NODE_HEIGHT + PADDING)
         };
 
-        if (!deferResize || !mouseOver) {
+        if (!deferResize || !mouseOver) { // TODO: refactor
             resize();
         }
 
@@ -374,16 +394,16 @@ function initGenerators() {
         nodeGroup.append('svg:text')
 
             // .attr('class', function(datum) {
-            //     return datum.children && datum.children.length ? '' : 'final';
+            //     return (datum.fd3Data.children.visible.length > 0) ? '' : 'final';
             // })
 
             // .attr('x', function(datum) {
-            //     return 0.5 * NODE_HEIGHT * datum.children && datum.children.length ? -1 : 1;
+            //     return 0.5 * NODE_HEIGHT * (datum.fd3Data.children.visible.length > 0) ? -1 : 1;
             // })
             .attr('x', -0.5 * NODE_HEIGHT)
 
             .text(function(datum) {
-                return datum.name || datum.value;
+                return datum.fd3Data.name || datum.fd3Data.value;
             });
 
     }
@@ -394,13 +414,14 @@ function initGenerators() {
 
 function getNodeClass(datum, index) {
     var classList = ['node'];
-    if (isObject(datum.value) && datum.value.type != undefined) {
+    if (isObject(datum.fd3Data.value) && datum.fd3Data.value.type != undefined) {
 
     } else {
-        if (RGX_PUNCH.test(datum.name)) { classList.push('punch'); } else
-        if (RGX_KICK.test(datum.name))  { classList.push('kick');  } else
-        if (RGX_HOLD.test(datum.name))  { classList.push('hold');  } else
-        if (RGX_THROW.test(datum.name)) { classList.push('throw'); }
+        var name = datum.fd3Data.name;
+        if (RGX_PUNCH.test(name)) { classList.push('punch'); } else
+        if (RGX_KICK.test(name))  { classList.push('kick');  } else
+        if (RGX_HOLD.test(name))  { classList.push('hold');  } else
+        if (RGX_THROW.test(name)) { classList.push('throw'); }
     }
     return classList.join(' ');
 }
@@ -408,9 +429,9 @@ function getNodeClass(datum, index) {
 
 
 function toggleChildren(datum) {
-    var temp = datum.hiddenChildren;
-    datum.hiddenChildren = datum.children;
-    datum.children = temp;
+    var temp = datum.fd3Data.children.hidden;
+    datum.fd3Data.children.hidden = datum.fd3Data.children.visible; // FIXME: unique arrays?
+    datum.fd3Data.children.visible = temp;
 }
 
 
