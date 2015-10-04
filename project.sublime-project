@@ -1,0 +1,9 @@
+{
+	"folders":
+	[
+		{
+			"path": "src",
+            "file_exclude_patterns": ["*.min.js"]
+		}
+	]
+}
