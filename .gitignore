@@ -1,3 +1,4 @@
 dist
 project.sublime-workspace
 *.min.js
+other/ignore
