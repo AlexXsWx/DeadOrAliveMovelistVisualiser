@@ -1,6 +1,8 @@
 var data = {
 
     "meta": {
+        "character": "rig",
+        "version": "1.04 (steam)",
         "complete": [ "moves" ],
         "abbreviations": {
             "TLC": "Turn Leg Cut",
@@ -8,14 +10,37 @@ var data = {
             "SS": "Side step",
             "BT": "Back turned",
             "STD": "Facing foe"
+        },
+        "defaults": {
+            "criticalDamage": 28,
+            "knockBack": 0,
+            "groundAttack": false,
+            "tracking": false,
+            "juggleFinisher": false
         }
     },
 
-    "rig": {
+    "data": {
 
         "[STD]": {
 
             "P": {
+                "meta": {
+                    "frames": [ 10, 2, 15 ],
+                    "type": "punch",
+                    "height": "high",
+                    "damage": 10,
+                    "reach": 1.34,
+                    "followUp": [ 12, 23 ],
+                    "_type": "strike",
+                    "advantage": {
+                        "block": -2,
+                        "hit": -2,
+                        "counter": 0,
+                        "hiCounter": 34,
+                        "stun": 34
+                    }
+                },
                 "P": {
                     "4": { "": "[TLC]" },
                     "P": {

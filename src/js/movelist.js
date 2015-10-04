@@ -26,20 +26,16 @@ var resizeTimeout = null;
 
 
 
-(function main(parentElement, rawData, characterName) {
+(function main(parentElement, rawData) {
 
-    if (!rawData.hasOwnProperty(characterName)) {
-        var msg = 'Error: property "' + characterName + '" not found';
-        console.error(msg);
-        alert(msg);
-        return;
-    }
-
-    var preparedData = prepareData(rawData[characterName], characterName);
+    var preparedData = prepareData(
+        rawData.data,
+        rawData.meta.character
+    );
 
     createCanvas(parentElement);
 
-    bindDeferredResize();
+    // bindDeferredResize();
 
     initGenerators();
     initStyles();
@@ -48,7 +44,7 @@ var resizeTimeout = null;
 
     rawData.meta && showAbbreviations(rawData.meta.abbreviations);
 
-}(document.getElementById('content'), data, 'rig'));
+}(document.getElementById('content'), data));
 
 
 
@@ -59,9 +55,9 @@ var resizeTimeout = null;
         initLinkStyles();
         initNodeStyles();
 
-        addStyle('g.canvas', {
-            'transition': 'transform 0.5s'
-        });
+        // addStyle('g.canvas', {
+        //     'transition': 'transform 0.5s'
+        // });
 
     }
 
@@ -202,10 +198,14 @@ function groupByType(parent, generateNode) {
        var meta = child.fd3Data.value;
 
         if (isObject(meta) && meta.type != undefined) {
-            if (meta.type === 'special') {
-                byType['other'].push(child);
-            } else {
-                console.error('Unsupported meta type: %s', meta.type);
+            switch(meta.type) {
+                case 'punch':   byType[ 'punches' ].push(child); break;
+                case 'kick':    byType[ 'kicks'   ].push(child); break;
+                case 'throw':   byType[ 'throws'  ].push(child); break;
+                case 'hold':    byType[ 'holds'   ].push(child); break;
+                case 'special': byType[ 'other'   ].push(child); break;
+                default:
+                    console.error('Unsupported meta type: %s', meta.type);
             }
         } else {
             if (RGX_PUNCH.test(child.fd3Data.name)) { byType[ 'punches' ].push(child); } else
@@ -246,7 +246,7 @@ function resize() {
     // TODO: use parent's size
     canvas.attr('style', 'transform: translate(' + newRect.x + 'px,' + newRect.y + 'px)');
     svg
-        .attr('width',  Math.max(document.body.clientWidth,  newRect.width))
+        .attr('width',  Math.max(document.body.clientWidth, newRect.width))
         // FIXME: hack -5 to remove vertical scroll bar
         .attr('height', Math.max(document.body.clientHeight - 5, newRect.height));
     newRect = null;
@@ -290,15 +290,9 @@ function initGenerators() {
 
     tree.children(getVisibleChildren);
 
-    // tree.size([
-    //     HEIGHT - 2 * PADDING,
-    //     WIDTH  - 2 * PADDING
-    // ]);
-
     // tree.separation(function(a, b) {
     //     return 1;
     // });
-
 
     // lineGenerator = d3.svg.diagonal()
     //     .projection(function(d) {
@@ -351,7 +345,7 @@ function initGenerators() {
 
 // ==== Update ====
 
-    function update(data, deferResize) {
+    function update(data, deferResize /*, triggeredNode, remainAtY, scrollTop*/) {
         
         var nodes = tree.nodes(data);
         var links = tree.links(nodes);
@@ -398,12 +392,23 @@ function initGenerators() {
             height: maxY - minY + 2 * (NODE_HEIGHT + PADDING)
         };
 
-        if (!deferResize || !mouseOver) { // TODO: refactor
-            resize();
-        }
+        // if (!deferResize || !mouseOver) { // TODO: refactor
+        //     resize();
+        // }
+        resize();
+        // if (triggeredNode) {
+        //     var offset = remainAtY - (minY - triggeredNode.y); 
+        //     svg.node().style.position = 'absolute';
+        //     svg.node().style.top = -offset + 'px';
+        //     console.log(offset);
+        //     setTimeout(function() {
+        //         svg.node().style.position = 'initial';
+        //         document.body.scrollTop = offset;
+        //     }, 0);
+        // }
 
         updateLinks(links);
-        updateNodes(nodes, data);
+        updateNodes(nodes, data, minY);
 
     }
 
@@ -424,7 +429,7 @@ function initGenerators() {
     }
 
 
-    function updateNodes(nodes, data) {
+    function updateNodes(nodes, data, minY) {
 
         var nodesSelection = canvas.select('g.nodes').selectAll('g.node').data(nodes, getId);
 
@@ -443,7 +448,7 @@ function initGenerators() {
             .attr('r', NODE_HEIGHT / 3.0)
             .on('click', function(datum) {
                 toggleChildren(datum);
-                update(data, true);
+                update(data, true, datum, minY - datum.y, document.body.scrollTop);
             });
 
         nodeGroup.append('svg:text')
@@ -494,11 +499,12 @@ function toggleChildren(datum) {
 function createCanvas(rootNode) {
 
     svg = d3.select(rootNode).append('svg:svg')
-        .attr("version", 1.1)
-        .attr("xmlns", "http://www.w3.org/2000/svg");
+        .attr('version', 1.1)
+        .attr('xmlns', 'http://www.w3.org/2000/svg');
     resizeSvgWidth();
 
     canvas = svg.append('svg:g').attr('class', 'canvas');
+        // .attr('transform', 'translate(' + padding + ',' + padding + ')');
 
     canvas.append('svg:g').attr('class', 'links');
     canvas.append('svg:g').attr('class', 'nodes');
@@ -529,8 +535,8 @@ function showAbbreviations(abbreviations) {
         style.type = 'text/css';
         style.innerHTML = selector + '{' + 
             Object.getOwnPropertyNames(properties).map(function(propName) {
-                return propName + ":" + properties[propName];
-            }).join(";") +
+                return propName + ':' + properties[propName];
+            }).join(';') +
         '}';
         document.getElementsByTagName('head')[0].appendChild(style);
     }
