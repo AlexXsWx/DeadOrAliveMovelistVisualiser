@@ -19,14 +19,13 @@ var canvas;
 var tree;
 var lineGenerator;
 
-
-var newRect = null;
-var mouseOver = false;
-var resizeTimeout = null;
+var limitsFinder;
 
 
 
 (function main(parentElement, rawData) {
+
+    limitsFinder = createLimitsFinder();
 
     var preparedData = prepareData(
         rawData.data,
@@ -35,12 +34,10 @@ var resizeTimeout = null;
 
     createCanvas(parentElement);
 
-    // bindDeferredResize();
-
     initGenerators();
     initStyles();
 
-    update(preparedData, false);
+    update(preparedData);
 
     rawData.meta && showAbbreviations(rawData.meta.abbreviations);
 
@@ -51,29 +48,33 @@ var resizeTimeout = null;
 // ==== Styles ====
 
     function initStyles() {
-
         initLinkStyles();
         initNodeStyles();
-
-        // addStyle('g.canvas', {
-        //     'transition': 'transform 0.5s'
-        // });
-
     }
 
+
     function initLinkStyles() {
+
         addStyle('path.link', {
             fill: 'none',
             stroke: '#ddd'
         });
+
     }
 
+
     function initNodeStyles() {
+
+        addStyle('.unclickable', { 'pointer-events': 'none' });
+
+        addStyle('g.canvas', { 'transition': 'transform 1s' });
+
         addStyle('g.node circle', {
             'fill': 'white',
             'stroke': '#777',
             'stroke-width': '2px'
         });
+
         addStyle('g.node.punch circle', { fill: '#ffff77', stroke: 'white' });
         addStyle('g.node.kick circle',  { fill: '#ff7777', stroke: 'white' });
         addStyle('g.node.hold circle',  { fill: '#77ff77', stroke: 'white' });
@@ -90,7 +91,6 @@ var resizeTimeout = null;
             // 'pointer-events': 'none'
         });
 
-        // addStyle('g.node text.final', { 'text-anchor': 'start' });
     }
 
 // ================
@@ -117,7 +117,11 @@ function createNodeGenerator() {
                 //     to:   undefined
                 // },
                 id: counter++,
-                value: null // TODO: rename to meta / moveInfo
+                value: null, // TODO: rename to meta / moveInfo
+                lastPosition: {
+                    x: undefined,
+                    y: undefined
+                }
             },
             // data filled by d3
             x: undefined,
@@ -242,42 +246,11 @@ function groupByType(parent, generateNode) {
 
 
 
-function resize() {
-    // TODO: use parent's size
-    canvas.attr('style', 'transform: translate(' + newRect.x + 'px,' + newRect.y + 'px)');
+function normalizeCanvas(offsetX, offsetY, totalWidth, totalHeight) {
+    canvas.attr('style', 'transform: translate(' + offsetX + 'px,' + offsetY + 'px)');
     svg
-        .attr('width',  Math.max(document.body.clientWidth, newRect.width))
-        // FIXME: hack -5 to remove vertical scroll bar
-        .attr('height', Math.max(document.body.clientHeight - 5, newRect.height));
-    newRect = null;
-
-    setTimeout(resizeSvgWidth, 0);
-}
-
-
-function resizeSvgWidth() {
-    svg.attr('width', document.body.clientWidth);
-}
-
-
-function bindDeferredResize() {
-
-    window.addEventListener('resize', resizeSvgWidth);
-
-    canvas.node().addEventListener('mouseover', function() {
-        mouseOver = true;
-        if (resizeTimeout != null) {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = null;
-        }
-    });
-
-    canvas.node().addEventListener('mouseleave', function() {
-        mouseOver = false;
-        if (newRect == null) return;
-        resizeTimeout = setTimeout(resize, RESIZE_TIMEOUT);
-    });
-
+        .attr('width',  totalWidth)
+        .attr('height', totalHeight);
 }
 
 
@@ -306,7 +279,7 @@ function initGenerators() {
 
     lineGenerator = function(datum, index) { 
         return line([datum.source, datum.target]);
-    }
+    };
 }
 
 
@@ -343,33 +316,69 @@ function initGenerators() {
 
 
 
+function backupPosition(datum) {
+    datum.fd3Data.lastPosition.x = datum.x;
+    datum.fd3Data.lastPosition.y = datum.y;
+}
+
+
+
+function swapXY(datum) {
+    var swap = datum.x;
+    datum.x = datum.y;
+    datum.y = swap;
+}
+
+
+
+function createLimitsFinder() {
+
+    return {
+
+        x: {
+            min: 0,
+            max: 0
+        },
+
+        y: {
+            min: 0,
+            max: 0
+        },
+
+        reset: function reset() {
+            this.x.min = 0;
+            this.x.max = 0;
+            this.y.min = 0;
+            this.y.max = 0;
+        },
+
+        considerDatum: function considerDatum(datum) {
+            this.x.max = Math.max(this.x.max, datum.x);
+            this.x.min = Math.min(this.x.min, datum.x);
+            this.y.max = Math.max(this.y.max, datum.y);
+            this.y.min = Math.min(this.y.min, datum.y);
+        }
+
+    };
+
+}
+
+
+
 // ==== Update ====
 
-    function update(data, deferResize /*, triggeredNode, remainAtY, scrollTop*/) {
+    function update(data, sourceNode) {
         
         var nodes = tree.nodes(data);
         var links = tree.links(nodes);
 
-        var minY = 0;
-        var maxY = 0;
-        var minX = 0;
-        var maxX = 0;
+        limitsFinder.reset();
 
         nodes.forEach(function(datum) {
 
-            // fixed distance between columns (since tree is turned 90deg CCW)
-            // datum.y = datum.depth * 75;
+            swapXY(datum); // turn 90deg CCW
 
-            // turn 90deg CCW
-            var swap = datum.x;
-            datum.x = datum.y;
-            datum.y = swap;
-
-            // find range
-            maxY = Math.max(maxY, datum.y);
-            minY = Math.min(minY, datum.y);
-            maxX = Math.max(maxX, datum.x);
-            minX = Math.min(minX, datum.x);
+            limitsFinder.considerDatum(datum);
 
             // reset scrollRange
             // datum.fd3Data.scrollRange.from = datum.y;
@@ -379,92 +388,126 @@ function initGenerators() {
 
         // fillScrollRange(data);
 
-        // nodes.forEach(function(datum) {
-        //     datum.y = datum.fd3Data.scrollRange.from;
-        // });
+        normalizeCanvas(
+            PADDING,
+            PADDING - limitsFinder.y.min,
+            PADDING + (limitsFinder.x.max - limitsFinder.x.min) + PADDING,
+            PADDING + (limitsFinder.y.max - limitsFinder.y.min) + PADDING
+        );
 
-        // canvas size
+        var animationDuration = sourceNode ? 1000 : 0;
 
-        newRect = {
-            x: PADDING,
-            y: PADDING - minY,
-            width:  maxX - minX + 2 * (NODE_WIDTH  + PADDING),
-            height: maxY - minY + 2 * (NODE_HEIGHT + PADDING)
+        var despawnPosition = sourceNode || nodes[0];
+        var spawnPosition = {
+            x: defined(despawnPosition.fd3Data.lastPosition.x, despawnPosition.x),
+            y: defined(despawnPosition.fd3Data.lastPosition.y, despawnPosition.y)
         };
 
-        // if (!deferResize || !mouseOver) { // TODO: refactor
-        //     resize();
-        // }
-        resize();
-        // if (triggeredNode) {
-        //     var offset = remainAtY - (minY - triggeredNode.y); 
-        //     svg.node().style.position = 'absolute';
-        //     svg.node().style.top = -offset + 'px';
-        //     console.log(offset);
-        //     setTimeout(function() {
-        //         svg.node().style.position = 'initial';
-        //         document.body.scrollTop = offset;
-        //     }, 0);
-        // }
+        updateLinks(links,       spawnPosition, despawnPosition, animationDuration);
+        updateNodes(nodes, data, spawnPosition, despawnPosition, animationDuration);
 
-        updateLinks(links);
-        updateNodes(nodes, data, minY);
+        nodes.forEach(backupPosition);
 
     }
 
 
-    function updateLinks(links) {
+    function updateLinks(links, spawnPosition, despawnPosition, animationDuration) {
 
         var linksSelection = canvas.select('g.links').selectAll('path.link')
             .data(links, function(d) { return getId(d.target); });
 
-        linksSelection.attr('d', lineGenerator);
+        // update existing nodes
+        linksSelection
+            .attr('opacity', 1)
+            .transition().duration(animationDuration)
+                .attr('d', lineGenerator);
 
-        linksSelection.enter().append('svg:path')
-            .attr('class', 'link')
-            .attr('d', lineGenerator);
+        // create new
+        var linksGroup = linksSelection
+            .enter().append('svg:path')
+                .attr('class', 'link')
+                .attr('opacity', 0)
+                .attr('d', lineGenerator({
+                    source: spawnPosition,
+                    target: spawnPosition
+                }));
 
-        linksSelection.exit().remove();
+        linksGroup.transition().duration(animationDuration)
+            .attr('d', lineGenerator)
+            .attr('opacity', 1);
+
+        // remove old
+        linksSelection.exit()
+            .transition().duration(animationDuration)
+                .attr('d', lineGenerator({
+                    source: despawnPosition,
+                    target: despawnPosition
+                }))
+                .attr('opacity', 0)
+                .remove();
 
     }
 
 
-    function updateNodes(nodes, data, minY) {
+    function updateNodes(nodes, data, spawnPosition, despawnPosition, animationDuration) {
 
         var nodesSelection = canvas.select('g.nodes').selectAll('g.node').data(nodes, getId);
 
-        nodesSelection.attr('transform', function(datum) {
-            return 'translate(' + datum.x + ',' + datum.y + ')';
-        });
+        // update existing nodes
+
+        nodesSelection
+            .classed('unclickable', false)
+            .transition().duration(animationDuration)
+                .attr('transform', function(datum) {
+                    return 'translate(' +
+                        datum.x + ',' +
+                        datum.y +
+                    ')';
+                })
+                .attr('opacity', 1);
+                
+
+        // create new
 
         var nodeGroup = nodesSelection.enter().append('svg:g')
             .attr('class', getNodeClass)
+            .attr('transform', 'translate(' +
+                spawnPosition.x + ',' +
+                spawnPosition.y +
+            ')')
+            .attr('opacity', 0)
+            .classed('unclickable', false);
+
+        nodeGroup.transition().duration(animationDuration)
             .attr('transform', function(datum) {
-                return 'translate(' + datum.x + ',' + datum.y + ')';
-            });
-        nodesSelection.exit().remove();
+                return 'translate(' +
+                    datum.x + ',' +
+                    datum.y +
+                ')'; 
+            })
+            .attr('opacity', 1);
 
         nodeGroup.append('svg:circle')
             .attr('r', NODE_HEIGHT / 3.0)
             .on('click', function(datum) {
                 toggleChildren(datum);
-                update(data, true, datum, minY - datum.y, document.body.scrollTop);
+                update(data, datum);
             });
 
         nodeGroup.append('svg:text')
-
-            // .attr('class', function(datum) {
-            //     return (datum.fd3Data.children.visible.length > 0) ? '' : 'final';
-            // })
-
-            // .attr('x', function(datum) {
-            //     return 0.5 * NODE_HEIGHT * (datum.fd3Data.children.visible.length > 0) ? -1 : 1;
-            // })
             .attr('x', -0.5 * NODE_HEIGHT)
-
             .text(function(datum) {
                 return datum.fd3Data.name || datum.fd3Data.value;
             });
+
+        // remove old
+        
+        nodesSelection.exit()
+            .classed('unclickable', true)
+            .transition().duration(animationDuration)
+                .attr('transform', 'translate(' + despawnPosition.x + ',' + despawnPosition.y + ')')
+                .attr('opacity', 0)
+                .remove();
 
     }
 
@@ -501,10 +544,8 @@ function createCanvas(rootNode) {
     svg = d3.select(rootNode).append('svg:svg')
         .attr('version', 1.1)
         .attr('xmlns', 'http://www.w3.org/2000/svg');
-    resizeSvgWidth();
 
     canvas = svg.append('svg:g').attr('class', 'canvas');
-        // .attr('transform', 'translate(' + padding + ',' + padding + ')');
 
     canvas.append('svg:g').attr('class', 'links');
     canvas.append('svg:g').attr('class', 'nodes');
@@ -544,6 +585,12 @@ function showAbbreviations(abbreviations) {
     function isObject(obj) {
         var type = typeof obj;
         return type === 'function' || type === 'object' && !!obj;
+    }
+
+    function defined(/* arguments */) {
+        for (i = 0; i < arguments.length; i++) {
+            if (arguments[i] !== undefined) return arguments[i];
+        }
     }
 
 // =================
