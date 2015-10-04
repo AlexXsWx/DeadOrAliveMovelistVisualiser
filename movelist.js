@@ -116,12 +116,27 @@ function createNodeGenerator() {
                     visible: [],
                     hidden:  []
                 },
+                scrollRange: {
+                    from: undefined,
+                    to:   undefined
+                },
                 id: counter++,
                 value: null // TODO: rename to meta / moveInfo
-            }
+            },
+            // data filled by d3
+            x: undefined,
+            y: undefined,
+            depth: undefined,
+            parent: undefined
         };
     }
     
+}
+
+
+
+function getVisibleChildren(datum) {
+    return datum.fd3Data.children.visible;
 }
 
 
@@ -273,9 +288,7 @@ function initGenerators() {
 
     tree.nodeSize([ NODE_HEIGHT, NODE_WIDTH ]); // turn 90deg CCW
 
-    tree.children(function(datum) {
-        return datum.fd3Data.children.visible;
-    });
+    tree.children(getVisibleChildren);
 
     // tree.size([
     //     HEIGHT - 2 * PADDING,
@@ -300,6 +313,38 @@ function initGenerators() {
     lineGenerator = function(datum, index) { 
         return line([datum.source, datum.target]);
     }
+}
+
+
+
+function fillScrollRange(data) {
+    
+    var childrenByDepth = [];
+
+    var newColumn = [ data ];
+
+    do {
+
+        childrenByDepth.push(newColumn);
+
+        var currentColumn = newColumn;
+        newColumn = [];
+
+        currentColumn.forEach(function(node) {
+            newColumn = newColumn.concat(getVisibleChildren(node));
+        });
+
+    } while (newColumn.length > 0);
+
+    for (var i = childrenByDepth.length - 1; i > 0; --i) {
+        var children = childrenByDepth[i];
+        children.forEach(function(child) {
+            var sr = child.parent.fd3Data.scrollRange;
+            sr.from = Math.min(sr.from, child.y);
+            sr.to   = Math.max(sr.to,   child.y);
+        });
+    }
+
 }
 
 
@@ -332,7 +377,13 @@ function initGenerators() {
             maxX = Math.max(maxX, datum.x);
             minX = Math.min(minX, datum.x);
 
+            // reset scrollRange
+            datum.fd3Data.scrollRange.from = datum.y;
+            datum.fd3Data.scrollRange.to   = datum.y;
+
         });
+
+        fillScrollRange(data);
 
         // canvas size
 
