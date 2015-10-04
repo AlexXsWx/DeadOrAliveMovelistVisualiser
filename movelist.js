@@ -25,24 +25,7 @@ var mouseOver = false;
 var resizeTimeout = null;
 
 
-(function() {
-
-    var preparedData = prepareJson(data.rig, 'rig');
-
-    main(
-        document.getElementById('content'),
-        preparedData
-    );
-
-    var table = d3.select('#abbreviations');
-
-    for (name in data.meta.abbreviations) {
-        var row = table.append('tr');
-        row.append('td').text(name);
-        row.append('td').text(data.meta.abbreviations[name]);
-    }
-
-}());
+main( document.getElementById('content'), data, 'rig' );
 
 
 
@@ -95,10 +78,56 @@ var resizeTimeout = null;
 
 
 
-function prepareJson(json, name, generateNode, categorize) {
+function createNodeGenerator() {
 
-    if (categorize === undefined) categorize = 1;
-    if (!generateNode) generateNode = createNodeGenerator();
+    var counter = 1;
+    return generateNode;
+
+    function generateNode(name) {
+        return {
+            name: name,
+            hiddenChildren: null,
+            children: null,
+            id: counter++,
+            value: null
+        };
+    }
+    
+}
+
+
+
+function main(parentElement, dataRoot, dataRootName) {
+
+    var data = prepareData(dataRoot[dataRootName], dataRootName);
+
+    createCanvas(parentElement);
+
+    bindDeferredResize();
+
+    initGenerators();
+    initStyles();
+
+    update(data, false);
+
+    data.meta && showAbbreviations(data.meta.abbreviations);
+
+}
+
+
+
+function prepareData(dataRoot, rootName) {
+    var generateNode = createNodeGenerator();
+    var preparedData = prepareJson(dataRoot, rootName, generateNode);
+    preparedData.children.concat(preparedData.hiddenChildren || []).forEach(function(stance) {
+        groupByType(stance, generateNode);
+    });
+    return preparedData;
+}
+
+
+
+function prepareJson(json, name, generateNode) {
 
     var result = generateNode(name);
 
@@ -113,61 +142,16 @@ function prepareJson(json, name, generateNode, categorize) {
 
         result.children = [];
 
-        if (categorize === 0) {
-
-            var categorized = {
-                'punches': [],
-                'kicks':   [],
-                'throws':  [],
-                'holds':   [],
-                'other':   []
+        propNames.forEach(function(propName) {
+            // if (!propName) return;
+            if (propName === 'meta') {
+                result.value = json[propName];
+            } else {
+                result.children.push(
+                    prepareJson(json[propName], propName, generateNode)
+                );
             }
-
-            propNames.forEach(function(propName) {
-
-                var wrapped = { name: propName, value: json[propName] };
-                var meta = wrapped.value.meta;
-
-                if (isObject(meta) && meta.type != undefined) {
-                    if (meta.type === 'special') {
-                        categorized['other'].push(wrapped);
-                    } else {
-                        console.error('Unsupported meta type: %s', meta.type);
-                    }
-                } else {
-                    if (RGX_PUNCH.test(propName)) { categorized[ 'punches' ].push(wrapped); } else
-                    if (RGX_KICK.test(propName))  { categorized[ 'kicks'   ].push(wrapped); } else
-                    if (RGX_HOLD.test(propName))  { categorized[ 'holds'   ].push(wrapped); } else
-                    if (RGX_THROW.test(propName)) { categorized[ 'throws'  ].push(wrapped); } else {
-                        categorized['other'].push(wrapped);
-                    }
-                }
-
-            });
-
-            for (key in categorized) {
-                if (categorized[key].length < 1) continue;
-                var child = generateNode('<' + key + '>');
-                child.hiddenChildren = categorized[key].map(function(raw) {
-                    return prepareJson(raw.value, raw.name, generateNode, -1);
-                });
-                result.children.push(child);
-            }
-
-        } else {
-
-            propNames.forEach(function(propName) {
-                // if (!propName) return;
-                if (propName === 'meta') {
-                    result.value = json[propName];
-                } else {
-                    result.children.push(
-                        prepareJson(json[propName], propName, generateNode, categorize - 1)
-                    );
-                }
-            });
-
-        }
+        });
 
     }
 
@@ -176,34 +160,47 @@ function prepareJson(json, name, generateNode, categorize) {
 
 
 
-function createNodeGenerator() {
+function groupByType(parent, generateNode) {
 
-    var counter = 1;
-    return generateNode;
+    var byType = {
+        'punches': [],
+        'kicks':   [],
+        'throws':  [],
+        'holds':   [],
+        'other':   []
+    }
 
-    function generateNode(name) {
-        return {
-            name: name,
-            hiddenChildren: null,
-            children: null,
-            id: counter++,
-            value: null
-        };
-    };
-}
+    parent.children.concat(parent.hiddenChildren || []).forEach(function(child) {
 
+       var meta = child.value;
 
+        if (isObject(meta) && meta.type != undefined) {
+            if (meta.type === 'special') {
+                byType['other'].push(child);
+            } else {
+                console.error('Unsupported meta type: %s', meta.type);
+            }
+        } else {
+            if (RGX_PUNCH.test(child.name)) { byType[ 'punches' ].push(child); } else
+            if (RGX_KICK.test(child.name))  { byType[ 'kicks'   ].push(child); } else
+            if (RGX_HOLD.test(child.name))  { byType[ 'holds'   ].push(child); } else
+            if (RGX_THROW.test(child.name)) { byType[ 'throws'  ].push(child); } else {
+                byType['other'].push(child);
+            }
+        }
 
-function main(rootNode, data) {
+    });
 
-    createCanvas(rootNode);
+    parent.hiddenChildren = parent.children.concat(parent.hiddenChildren || []);
+    parent.children = [];
 
-    bindDeferredResize();
-
-    initGenerators();
-    initStyles();
-
-    update(data, false);
+    for (type in byType) {
+        var children = byType[type];
+        if (children.length < 1) continue;
+        var child = generateNode('<' + type + '>');
+        child.hiddenChildren = children;
+        parent.children.push(child);
+    }
 
 }
 
@@ -430,6 +427,21 @@ function createCanvas(rootNode) {
     canvas.append('svg:g').attr('class', 'links');
     canvas.append('svg:g').attr('class', 'nodes');
 
+}
+
+
+
+function showAbbreviations(abbreviations) {
+
+    if (!abbreviations) return;
+
+    var table = d3.select('#abbreviations');
+
+    for (name in abbreviations) {
+        var row = table.append('tr');
+        row.append('td').text(name);
+        row.append('td').text(abbreviations[name]);
+    }
 }
 
 
