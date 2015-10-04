@@ -116,10 +116,10 @@ function createNodeGenerator() {
                     visible: [],
                     hidden:  []
                 },
-                scrollRange: {
-                    from: undefined,
-                    to:   undefined
-                },
+                // scrollRange: {
+                //     from: undefined,
+                //     to:   undefined
+                // },
                 id: counter++,
                 value: null // TODO: rename to meta / moveInfo
             },
@@ -137,6 +137,12 @@ function createNodeGenerator() {
 
 function getVisibleChildren(datum) {
     return datum.fd3Data.children.visible;
+}
+
+
+
+function getId(datum) {
+    return datum.fd3Data.id;
 }
 
 
@@ -276,12 +282,6 @@ function bindDeferredResize() {
 
 
 
-function idByDatum(datum) {
-    return datum.fd3Data.id;
-}
-
-
-
 function initGenerators() {
 
     tree = d3.layout.tree();
@@ -317,7 +317,7 @@ function initGenerators() {
 
 
 
-function fillScrollRange(data) {
+/*function fillScrollRange(data) {
     
     var childrenByDepth = [];
 
@@ -340,12 +340,12 @@ function fillScrollRange(data) {
         var children = childrenByDepth[i];
         children.forEach(function(child) {
             var sr = child.parent.fd3Data.scrollRange;
-            sr.from = Math.min(sr.from, child.y);
-            sr.to   = Math.max(sr.to,   child.y);
+            sr.from = Math.min(sr.from, child.fd3Data.scrollRange.from);
+            sr.to   = Math.max(sr.to,   child.fd3Data.scrollRange.to);
         });
     }
 
-}
+}*/
 
 
 
@@ -378,12 +378,16 @@ function fillScrollRange(data) {
             minX = Math.min(minX, datum.x);
 
             // reset scrollRange
-            datum.fd3Data.scrollRange.from = datum.y;
-            datum.fd3Data.scrollRange.to   = datum.y;
+            // datum.fd3Data.scrollRange.from = datum.y;
+            // datum.fd3Data.scrollRange.to   = datum.y;
 
         });
 
-        fillScrollRange(data);
+        // fillScrollRange(data);
+
+        // nodes.forEach(function(datum) {
+        //     datum.y = datum.fd3Data.scrollRange.from;
+        // });
 
         // canvas size
 
@@ -407,7 +411,7 @@ function fillScrollRange(data) {
     function updateLinks(links) {
 
         var linksSelection = canvas.select('g.links').selectAll('path.link')
-            .data(links, function(d) { return idByDatum(d.target); });
+            .data(links, function(d) { return getId(d.target); });
 
         linksSelection.attr('d', lineGenerator);
 
@@ -422,7 +426,7 @@ function fillScrollRange(data) {
 
     function updateNodes(nodes, data) {
 
-        var nodesSelection = canvas.select('g.nodes').selectAll('g.node').data(nodes, idByDatum);
+        var nodesSelection = canvas.select('g.nodes').selectAll('g.node').data(nodes, getId);
 
         nodesSelection.attr('transform', function(datum) {
             return 'translate(' + datum.x + ',' + datum.y + ')';
