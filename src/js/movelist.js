@@ -249,8 +249,9 @@ function groupByType(parent, generateNode) {
 function normalizeCanvas(offsetX, offsetY, totalWidth, totalHeight) {
     canvas.attr('style', 'transform: translate(' + offsetX + 'px,' + offsetY + 'px)');
     svg
-        .attr('width',  totalWidth)
-        .attr('height', totalHeight);
+        // FIXME
+        .attr('width',  Math.max(totalWidth,  document.body.clientWidth - 5))
+        .attr('height', Math.max(totalHeight, document.body.clientHeight - 5));
 }
 
 
