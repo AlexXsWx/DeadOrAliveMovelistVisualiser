@@ -1,7 +1,7 @@
 // http://techslides.com/save-svg-as-an-image
 
 var PADDING = 50;
-var NODE_WIDTH  = 100;
+var NODE_WIDTH  = 150;
 var NODE_HEIGHT = 25;
 
 var RESIZE_TIMEOUT = 500;
@@ -131,7 +131,7 @@ function createNodeGenerator() {
                 //     to:   undefined
                 // },
                 id: counter++,
-                value: null, // TODO: rename to meta / moveInfo
+                moveInfo: null,
                 lastPosition: {
                     x: undefined,
                     y: undefined
@@ -177,16 +177,19 @@ function d3fyJson(obj, name, generateNode) {
     var result = generateNode(name);
 
     if (!isObject(obj)) {
-        result.fd3Data.value = obj;
+        result.fd3Data.moveInfo = obj;
         return result;
     }
 
     var propNames = Object.getOwnPropertyNames(obj);
 
     propNames.forEach(function(propName) {
-        // if (!propName) return;
+        if (!propName) {
+            result.fd3Data.moveInfo = result.fd3Data.moveInfo || {};
+            result.fd3Data.moveInfo.endsWith = obj[propName];
+        } else
         if (propName === 'meta') {
-            result.fd3Data.value = obj[propName];
+            result.fd3Data.moveInfo = obj[propName];
         } else {
             var child = d3fyJson(obj[propName], propName, generateNode);
             result.fd3Data.children.all.push(child);
@@ -213,17 +216,17 @@ function groupByType(parent, generateNode) {
 
     parent.fd3Data.children.all.forEach(function(child) {
 
-       var meta = child.fd3Data.value;
+       var moveInfo = child.fd3Data.moveInfo;
 
-        if (isObject(meta) && meta.type != undefined) {
-            switch(meta.type) {
+        if (isObject(moveInfo) && moveInfo.type !== undefined) {
+            switch(moveInfo.type) {
                 case 'punch':   byType[ 'punches' ].push(child); break;
                 case 'kick':    byType[ 'kicks'   ].push(child); break;
                 case 'throw':   byType[ 'throws'  ].push(child); break;
                 case 'hold':    byType[ 'holds'   ].push(child); break;
                 case 'special': byType[ 'other'   ].push(child); break;
                 default:
-                    console.error('Unsupported meta type: %s', meta.type);
+                    console.error('Unsupported type: %s', moveInfo.type);
             }
         } else {
             if (RGX_PUNCH.test(child.fd3Data.name)) { byType[ 'punches' ].push(child); } else
@@ -557,11 +560,28 @@ function createLimitsFinder() {
 
         nodeGroup.append('svg:text')
             .attr('class', function(datum) {
-                return datum.fd3Data.children.all.length > 0 ? 'left' : 'right';
+                if (
+                    datum.fd3Data.children.all.length > 0 ||
+                    datum.fd3Data.moveInfo && datum.fd3Data.moveInfo.endsWith
+                ) {
+                    return 'left';
+                } else {
+                    return 'right';
+                }
             })
+            .classed('input', true)
             .text(function(datum) {
-                return datum.fd3Data.name || datum.fd3Data.value;
+                return datum.fd3Data.name; //  || datum.fd3Data.moveInfo;
             });
+
+        nodeGroup.filter(function(datum) {
+            return datum.fd3Data.moveInfo && datum.fd3Data.moveInfo.endsWith;
+        }).append('svg:text')
+            .classed('ending right', true)
+            .text(function(datum) {
+                return datum.fd3Data.moveInfo.endsWith;
+            });
+
 
         // remove old
         
@@ -580,7 +600,7 @@ function createLimitsFinder() {
 
 function getNodeClass(datum, index) {
     var classList = ['node'];
-    if (isObject(datum.fd3Data.value) && datum.fd3Data.value.type != undefined) {
+    if (isObject(datum.fd3Data.moveInfo) && datum.fd3Data.moveInfo.type !== undefined) {
 
     } else {
         var name = datum.fd3Data.name;
