@@ -268,48 +268,87 @@ function initGenerators() {
     //     return 1;
     // });
 
-    // lineGenerator = d3.svg.diagonal()
-    //     .projection(function(d) {
-    //         return [ d.y, d.x ];
-    //     });
+    lineGenerator = createTurnedDiagonalLineGenerator();
+    // lineGenerator = createStraightLineGenerator();
+    
+}
 
+
+
+function createTurnedDiagonalLineGenerator() {
+
+    return d3.svg.diagonal()
+
+        .source(function(obj) {
+            return {
+                x: obj.source.y,
+                y: obj.source.x
+            };
+        })
+
+        .target(function(obj) {
+            return {
+                x: obj.target.y,
+                y: obj.target.x
+            };
+        })
+
+        .projection(function(d) {
+            return [ d.y, d.x ];
+        });
+
+}
+
+
+
+function createStraightLineGenerator() {
     var line = d3.svg.line()
         .x(function(datum) { return datum.x; })
         .y(function(datum) { return datum.y; })
         .interpolate('linear');
 
-    lineGenerator = function(datum, index) { 
+    return function(datum, index) { 
         return line([datum.source, datum.target]);
     };
 }
 
 
 
-/*function fillScrollRange(data) {
-    
-    var childrenByDepth = [];
+function getChildrenMergedByDepth(root, childrenAccessor) {
 
-    var newColumn = [ data ];
+    var result = [];
+
+    var newColumn = [ root ];
 
     do {
 
-        childrenByDepth.push(newColumn);
+        result.push(newColumn);
 
         var currentColumn = newColumn;
         newColumn = [];
 
         currentColumn.forEach(function(node) {
-            newColumn = newColumn.concat(getVisibleChildren(node));
+            newColumn = newColumn.concat(childrenAccessor(node));
         });
 
     } while (newColumn.length > 0);
+
+    return result;
+
+}
+
+
+
+/*function fillScrollRange(data) {
+    
+    var childrenByDepth = getChildrenMergedByDepth(data, getVisibleChildren);
 
     for (var i = childrenByDepth.length - 1; i > 0; --i) {
         var children = childrenByDepth[i];
         children.forEach(function(child) {
             var sr = child.parent.fd3Data.scrollRange;
-            sr.from = Math.min(sr.from, child.fd3Data.scrollRange.from);
-            sr.to   = Math.max(sr.to,   child.fd3Data.scrollRange.to);
+            sr.from = Math.min(sr.from, child.y); // child.fd3Data.scrollRange.from);
+            sr.to   = Math.max(sr.to,   child.y); // child.fd3Data.scrollRange.to);
         });
     }
 
@@ -329,6 +368,13 @@ function swapXY(datum) {
     datum.x = datum.y;
     datum.y = swap;
 }
+
+
+
+// function resetScrollRangeForDatum(datum) {
+//     datum.fd3Data.scrollRange.from = datum.y;
+//     datum.fd3Data.scrollRange.to   = datum.y;
+// }
 
 
 
@@ -376,15 +422,9 @@ function createLimitsFinder() {
         limitsFinder.reset();
 
         nodes.forEach(function(datum) {
-
             swapXY(datum); // turn 90deg CCW
-
             limitsFinder.considerDatum(datum);
-
-            // reset scrollRange
-            // datum.fd3Data.scrollRange.from = datum.y;
-            // datum.fd3Data.scrollRange.to   = datum.y;
-
+            // resetScrollRangeForDatum(datum);
         });
 
         // fillScrollRange(data);
