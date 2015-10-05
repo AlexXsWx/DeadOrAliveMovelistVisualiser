@@ -116,11 +116,14 @@ function createNodeGenerator() {
     var counter = 1;
     return generateNode;
 
-    function generateNode(name) {
+    function generateNode(name, parent) {
         return {
             // hide info in the fuck-d3-data so it has its very own place and is not affected by d3
             fd3Data: {
+                parent: parent || null,
                 name: name, // todo: rename to input?
+                totalChildren: 0,
+                deepness: 0,
                 children: {
                     all:     [],
                     visible: [],
@@ -167,14 +170,28 @@ function prepareData(characterRawData, characterName) {
     preparedData.fd3Data.children.all.forEach(function(stance) {
         groupByType(stance, generateNode);
     });
+
+    var childrenByDepth = getChildrenMergedByDepth(preparedData, function getChildren(datum) {
+        return datum.fd3Data.children.all;
+    });
+    for (var i = childrenByDepth.length - 1; i > 0; --i) {
+        childrenByDepth[i].forEach(function(child) {
+            child.fd3Data.parent.fd3Data.totalChildren += 1 + child.fd3Data.children.all.length;
+            child.fd3Data.parent.fd3Data.deepness = Math.max(
+                child.fd3Data.parent.fd3Data.deepness,
+                child.fd3Data.deepness + 1
+            );
+        });
+    }
+
     return preparedData;
 }
 
 
 
-function d3fyJson(obj, name, generateNode) {
+function d3fyJson(obj, name, generateNode, parent) {
 
-    var result = generateNode(name);
+    var result = generateNode(name, parent);
 
     if (!isObject(obj)) {
         result.fd3Data.moveInfo = obj;
@@ -191,7 +208,7 @@ function d3fyJson(obj, name, generateNode) {
         if (propName === 'meta') {
             result.fd3Data.moveInfo = obj[propName];
         } else {
-            var child = d3fyJson(obj[propName], propName, generateNode);
+            var child = d3fyJson(obj[propName], propName, generateNode, result);
             result.fd3Data.children.all.push(child);
             result.fd3Data.children.visible.push(child);
         }
@@ -250,9 +267,13 @@ function groupByType(parent, generateNode) {
         var childrenOfType = byType[type];
         if (childrenOfType.length < 1) continue;
 
-        var groupingChild = generateNode('<' + type + '>');
+        var groupingChild = generateNode('<' + type + '>', parent);
         groupingChild.fd3Data.children.all = childrenOfType;
         groupingChild.fd3Data.children.hidden = childrenOfType;
+
+        childrenOfType.forEach(function(child) {
+            child.fd3Data.parent = groupingChild;
+        });
 
         parent.fd3Data.children.all.push(groupingChild);
         parent.fd3Data.children.visible.push(groupingChild);
@@ -488,7 +509,10 @@ function createLimitsFinder() {
                 .attr('d', lineGenerator({
                     source: spawnPosition,
                     target: spawnPosition
-                }));
+                }))
+                .attr('stroke-width', function(obj) {
+                    return 1 + Math.sqrt(obj.target.fd3Data.totalChildren);
+                });
 
         linksGroup.transition().duration(animationDuration)
             .attr('d', lineGenerator)
