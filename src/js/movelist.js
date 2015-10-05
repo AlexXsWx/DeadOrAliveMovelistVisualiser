@@ -75,6 +75,10 @@ var limitsFinder;
             'stroke-width': '2px'
         });
 
+        addStyle('g.node circle.container', {
+            'cursor': 'pointer'
+        });
+
         addStyle('g.node.punch circle', { fill: '#ffff77', stroke: 'white' });
         addStyle('g.node.kick circle',  { fill: '#ff7777', stroke: 'white' });
         addStyle('g.node.hold circle',  { fill: '#77ff77', stroke: 'white' });
@@ -84,11 +88,21 @@ var limitsFinder;
             'font-family': 'arial',
             // 'font-weight': 'bold',
             // 'font-style': 'italic',
-            'text-anchor': 'end', // 'middle',
+            'text-anchor': 'middle',
             'dominant-baseline': 'central',
             'fill': 'black',
             'text-shadow': '0 0 2px white'
             // 'pointer-events': 'none'
+        });
+
+        addStyle('g.node text.left', {
+            'text-anchor': 'end',
+            'transform': 'translate(' + (-0.5 * NODE_HEIGHT) + 'px,0)'
+        });
+
+        addStyle('g.node text.right', {
+            'text-anchor': 'start',
+            'transform': 'translate(' + 0.5 * NODE_HEIGHT + 'px,0)'
         });
 
     }
@@ -528,15 +542,23 @@ function createLimitsFinder() {
             })
             .attr('opacity', 1);
 
-        nodeGroup.append('svg:circle')
-            .attr('r', NODE_HEIGHT / 3.0)
+        var circleSelection = nodeGroup.append('svg:circle');
+        circleSelection.attr('r', NODE_HEIGHT / 3.0);
+
+        circleSelection
+            .filter(function(datum) {
+                return datum.fd3Data.children.all.length > 0;
+            })
+            .classed('container', true)
             .on('click', function(datum) {
                 toggleChildren(datum);
                 update(data, datum);
             });
 
         nodeGroup.append('svg:text')
-            .attr('x', -0.5 * NODE_HEIGHT)
+            .attr('class', function(datum) {
+                return datum.fd3Data.children.all.length > 0 ? 'left' : 'right';
+            })
             .text(function(datum) {
                 return datum.fd3Data.name || datum.fd3Data.value;
             });
