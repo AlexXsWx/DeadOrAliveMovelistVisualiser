@@ -145,7 +145,8 @@ function createNodeGenerator() {
             x: undefined,
             y: undefined,
             depth: undefined,
-            parent: undefined
+            parent: undefined,
+            children: undefined
         };
     }
     
@@ -199,7 +200,7 @@ function d3fyJson(obj, name, generateNode, parent) {
     var result = generateNode(name, parent);
 
     if (!isObject(obj)) {
-        result.fd3Data.moveInfo = obj;
+        console.error('Error: not an object:', obj);
         return result;
     }
 
