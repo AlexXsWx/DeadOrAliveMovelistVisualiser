@@ -124,6 +124,7 @@ function createNodeGenerator() {
                 name: name, // todo: rename to input?
                 totalChildren: 0,
                 deepness: 0,
+                branchesAfter: 0,
                 children: {
                     all:     [],
                     visible: [],
@@ -176,10 +177,14 @@ function prepareData(characterRawData, characterName) {
     });
     for (var i = childrenByDepth.length - 1; i > 0; --i) {
         childrenByDepth[i].forEach(function(child) {
-            child.fd3Data.parent.fd3Data.totalChildren += 1 + child.fd3Data.children.all.length;
-            child.fd3Data.parent.fd3Data.deepness = Math.max(
-                child.fd3Data.parent.fd3Data.deepness,
-                child.fd3Data.deepness + 1
+            var childData = child.fd3Data;
+            var parentData = childData.parent.fd3Data;
+            var childrenAmount = childData.children.all.length;
+            parentData.branchesAfter += Math.max(1, childData.branchesAfter);
+            parentData.totalChildren += 1 + childrenAmount;
+            parentData.deepness = Math.max(
+                parentData.deepness,
+                childData.deepness + 1
             );
         });
     }
@@ -511,7 +516,8 @@ function createLimitsFinder() {
                     target: spawnPosition
                 }))
                 .attr('stroke-width', function(obj) {
-                    return 1 + Math.sqrt(obj.target.fd3Data.totalChildren);
+                    // Simulating wires passing through node; using circle area formula
+                    return 2 * Math.sqrt((obj.target.fd3Data.branchesAfter + 1) / Math.PI);
                 });
 
         linksGroup.transition().duration(animationDuration)
@@ -595,7 +601,7 @@ function createLimitsFinder() {
             })
             .classed('input', true)
             .text(function(datum) {
-                return datum.fd3Data.name; //  || datum.fd3Data.moveInfo;
+                return datum.fd3Data.name;
             });
 
         nodeGroup.filter(function(datum) {
