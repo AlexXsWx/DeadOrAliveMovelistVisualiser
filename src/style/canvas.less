@@ -1,0 +1,47 @@
+@NODE_HEIGHT: 25px;
+
+.unclickable { pointer-events: none; }
+
+g.canvas { transition: transform 1s; }
+
+path.link {
+    fill: none;
+    stroke: #ddd;
+}
+
+g.node {
+
+    circle {
+        fill: white;
+        stroke: #777;
+        stroke-width: 2px;
+        &.container { cursor: pointer; }
+    }
+    &.punch circle { fill: #ff7; stroke: white; }
+    &.kick  circle { fill: #f77; stroke: white; }
+    &.hold  circle { fill: #7f7; stroke: white; }
+    &.throw circle { fill: #77f; stroke: white; }
+
+    text {
+
+        font-family: arial;
+        // font-weight: bold;
+        // font-style: italic;
+
+        fill: black;
+        text-shadow: 0 0 2px white;
+
+        text-anchor: middle;
+        dominant-baseline: central;
+
+        &.left {
+            text-anchor: end;
+            transform: translate(-0.5 * @NODE_HEIGHT, 0);
+        }
+
+        &.right {
+            text-anchor: start;
+            transform: translate(0.5 * @NODE_HEIGHT, 0);
+        }
+    }
+}

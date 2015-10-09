@@ -35,79 +35,12 @@ var limitsFinder;
     createCanvas(parentElement);
 
     initGenerators();
-    initStyles();
 
     update(preparedData);
 
     rawData.meta && showAbbreviations(rawData.meta.abbreviations);
 
 }(document.getElementById('content'), data));
-
-
-
-// ==== Styles ====
-
-    function initStyles() {
-        initLinkStyles();
-        initNodeStyles();
-    }
-
-
-    function initLinkStyles() {
-
-        addStyle('path.link', {
-            fill: 'none',
-            stroke: '#ddd'
-        });
-
-    }
-
-
-    function initNodeStyles() {
-
-        addStyle('.unclickable', { 'pointer-events': 'none' });
-
-        addStyle('g.canvas', { 'transition': 'transform 1s' });
-
-        addStyle('g.node circle', {
-            'fill': 'white',
-            'stroke': '#777',
-            'stroke-width': '2px'
-        });
-
-        addStyle('g.node circle.container', {
-            'cursor': 'pointer'
-        });
-
-        addStyle('g.node.punch circle', { fill: '#ffff77', stroke: 'white' });
-        addStyle('g.node.kick circle',  { fill: '#ff7777', stroke: 'white' });
-        addStyle('g.node.hold circle',  { fill: '#77ff77', stroke: 'white' });
-        addStyle('g.node.throw circle', { fill: '#7777ff', stroke: 'white' });
-
-        addStyle('g.node text', {
-            'font-family': 'arial',
-            // 'font-weight': 'bold',
-            // 'font-style': 'italic',
-            'text-anchor': 'middle',
-            'dominant-baseline': 'central',
-            'fill': 'black',
-            'text-shadow': '0 0 2px white'
-            // 'pointer-events': 'none'
-        });
-
-        addStyle('g.node text.left', {
-            'text-anchor': 'end',
-            'transform': 'translate(' + (-0.5 * NODE_HEIGHT) + 'px,0)'
-        });
-
-        addStyle('g.node text.right', {
-            'text-anchor': 'start',
-            'transform': 'translate(' + 0.5 * NODE_HEIGHT + 'px,0)'
-        });
-
-    }
-
-// ================
 
 
 
@@ -684,17 +617,6 @@ function showAbbreviations(abbreviations) {
 
 
 // ==== Helpers ====
-
-    function addStyle(selector, properties) {
-        var style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = selector + '{' + 
-            Object.getOwnPropertyNames(properties).map(function(propName) {
-                return propName + ':' + properties[propName];
-            }).join(';') +
-        '}';
-        document.getElementsByTagName('head')[0].appendChild(style);
-    }
 
     function isObject(obj) {
         var type = typeof obj;
