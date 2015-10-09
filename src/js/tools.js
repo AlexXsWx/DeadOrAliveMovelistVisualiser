@@ -1,8 +1,9 @@
 define('tools', function() {
 
     return {
-        isObject: isObject,
-        defined:  defined
+        isObject:     isObject,
+        defined:      defined,
+        copyKeysInto: copyKeysInto
     };
 
     function isObject(obj) {
@@ -14,6 +15,12 @@ define('tools', function() {
         for (i = 0; i < arguments.length; i++) {
             if (arguments[i] !== undefined) return arguments[i];
         }
+    }
+
+    function copyKeysInto(target, source) {
+        Object.getOwnPropertyNames(source).forEach(function(key) {
+            target[key] = source[key];
+        });
     }
 
 });

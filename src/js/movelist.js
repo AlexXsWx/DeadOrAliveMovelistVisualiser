@@ -1,26 +1,19 @@
-define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools', 'd3fyJson', 'tools'], function() {
+define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools', 'tools'], function() {
 
     var d3                  = requirejs('d3');
     var createNodeGenerator = requirejs('node');
     var createLimitsFinder  = requirejs('limitsFinder');
     var lineGenerators      = requirejs('lineGenerators');
     var treeTools           = requirejs('treeTools');
-    var d3fyJson            = requirejs('d3fyJson');
     var _                   = requirejs('tools');
 
-    
+
 
     var PADDING = 50;
     var NODE_WIDTH  = 150;
     var NODE_HEIGHT = 25;
 
     var RESIZE_TIMEOUT = 500;
-
-
-    var RGX_PUNCH = /^\d*p(?:\+k)?$/i;
-    var RGX_KICK  = /(?:h\+)?k$/i;
-    var RGX_HOLD  = /^\d+h$/i;
-    var RGX_THROW = /^\d*t$/i;
 
 
     var svg;
@@ -61,8 +54,11 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
     function prepareData(characterRawData, characterName) {
+
         nodeGenerator = createNodeGenerator();
-        var preparedData = d3fyJson(characterRawData, characterName, nodeGenerator.generate);
+
+        var preparedData = nodeGenerator.fromJson(characterRawData, characterName);
+
         preparedData.fd3Data.children.all.forEach(function(stance) {
             groupByType(stance, nodeGenerator.generate);
         });
@@ -100,28 +96,31 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             'throws':  [],
             'holds':   [],
             'other':   []
-        }
+        };
+
+        var categoryToType = {
+            'punch':   'punches',
+            'kick':    'kicks',
+            'throw':   'throws',
+            'hold':    'holds',
+            'special': 'other'
+        };
 
         parent.fd3Data.children.all.forEach(function(child) {
 
-           var moveInfo = child.fd3Data.moveInfo;
+            var moveInfo = child.fd3Data.moveInfo;
 
-            if (_.isObject(moveInfo) && moveInfo.type !== undefined) {
-                switch(moveInfo.type) {
-                    case 'punch':   byType[ 'punches' ].push(child); break;
-                    case 'kick':    byType[ 'kicks'   ].push(child); break;
-                    case 'throw':   byType[ 'throws'  ].push(child); break;
-                    case 'hold':    byType[ 'holds'   ].push(child); break;
-                    case 'special': byType[ 'other'   ].push(child); break;
-                    default:
-                        console.error('Unsupported type: %s', moveInfo.type);
-                }
-            } else {
-                if (RGX_PUNCH.test(child.fd3Data.name)) { byType[ 'punches' ].push(child); } else
-                if (RGX_KICK.test(child.fd3Data.name))  { byType[ 'kicks'   ].push(child); } else
-                if (RGX_HOLD.test(child.fd3Data.name))  { byType[ 'holds'   ].push(child); } else
-                if (RGX_THROW.test(child.fd3Data.name)) { byType[ 'throws'  ].push(child); } else {
-                    byType['other'].push(child);
+            var category = moveInfo.actionType;
+            if (category === 'strike') {
+                category = moveInfo.strikeType;
+            }
+
+            if (category) {
+                var type = categoryToType[category];
+                if (type) {
+                    byType[type].push(child);
+                } else {
+                    console.error('Could not find category for %O', child);
                 }
             }
 
@@ -277,33 +276,28 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             nodesSelection
                 .classed('unclickable', false)
                 .transition().duration(animationDuration)
-                    .attr('transform', function(datum) {
-                        return 'translate(' +
-                            datum.x + ',' +
-                            datum.y +
-                        ')';
-                    })
+                    .attr('transform', translate)
                     .attr('opacity', 1);
                     
 
             // create new
 
             var nodeGroup = nodesSelection.enter().append('svg:g')
-                .attr('class', getNodeClass)
-                .attr('transform', 'translate(' +
-                    spawnPosition.x + ',' +
-                    spawnPosition.y +
-                ')')
+                .attr('class', function(datum) {
+                    var moveInfo = datum.fd3Data.moveInfo;
+                    return (
+                        'node ' +
+                        (moveInfo.heightClass || '') + ' ' +
+                        (moveInfo.actionType  || '') + ' ' +
+                        (moveInfo.strikeType  || '')
+                    );
+                })
+                .attr('transform', translate(spawnPosition))
                 .attr('opacity', 0)
                 .classed('unclickable', false);
 
             nodeGroup.transition().duration(animationDuration)
-                .attr('transform', function(datum) {
-                    return 'translate(' +
-                        datum.x + ',' +
-                        datum.y +
-                    ')'; 
-                })
+                .attr('transform', translate)
                 .attr('opacity', 1);
 
             var circleSelection = nodeGroup.append('svg:circle');
@@ -315,7 +309,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
                 })
                 .classed('container', true)
                 .on('click', function(datum) {
-                    toggleChildren(datum);
+                    nodeGenerator.toggleVisibleChildren(datum);
                     update(data, datum);
                 });
 
@@ -323,7 +317,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
                 .attr('class', function(datum) {
                     if (
                         datum.fd3Data.children.all.length > 0 ||
-                        datum.fd3Data.moveInfo && datum.fd3Data.moveInfo.endsWith
+                        datum.fd3Data.moveInfo.endsWith
                     ) {
                         return 'left';
                     } else {
@@ -336,7 +330,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
                 });
 
             nodeGroup.filter(function(datum) {
-                return datum.fd3Data.moveInfo && datum.fd3Data.moveInfo.endsWith;
+                return datum.fd3Data.moveInfo.endsWith;
             }).append('svg:text')
                 .classed('ending right', true)
                 .text(function(datum) {
@@ -349,7 +343,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             nodesSelection.exit()
                 .classed('unclickable', true)
                 .transition().duration(animationDuration)
-                    .attr('transform', 'translate(' + despawnPosition.x + ',' + despawnPosition.y + ')')
+                    .attr('transform', translate(despawnPosition))
                     .attr('opacity', 0)
                     .remove();
 
@@ -359,26 +353,8 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
 
-    function getNodeClass(datum, index) {
-        var classList = ['node'];
-        if (_.isObject(datum.fd3Data.moveInfo) && datum.fd3Data.moveInfo.type !== undefined) {
-
-        } else {
-            var name = datum.fd3Data.name;
-            if (RGX_PUNCH.test(name)) { classList.push('punch'); } else
-            if (RGX_KICK.test(name))  { classList.push('kick');  } else
-            if (RGX_HOLD.test(name))  { classList.push('hold');  } else
-            if (RGX_THROW.test(name)) { classList.push('throw'); }
-        }
-        return classList.join(' ');
-    }
-
-
-
-    function toggleChildren(datum) {
-        var temp = datum.fd3Data.children.hidden;
-        datum.fd3Data.children.hidden = datum.fd3Data.children.visible; // FIXME: unique arrays?
-        datum.fd3Data.children.visible = temp;
+    function translate(position) {
+        return 'translate(' + position.x + ',' + position.y + ')';
     }
 
 

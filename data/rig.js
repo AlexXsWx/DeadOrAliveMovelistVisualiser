@@ -27,12 +27,12 @@ var data = {
             "P": {
                 "meta": {
                     "frames": [ 10, 2, 15 ],
-                    "type": "punch",
-                    "height": "high",
+                    "actionType": "strike",
+                    "strikeType": "punch",
+                    "heightClass": "high",
                     "damage": 10,
                     "reach": 1.34,
                     "followUp": [ 12, 23 ],
-                    "_type": "strike",
                     "advantage": {
                         "block": -2,
                         "hit": -2,
@@ -143,15 +143,15 @@ var data = {
 
             "P+K": { "K": {} },
             "6P+K": {
-                "meta": { "type": "special" },
+                "meta": { "actionType": "special" },
                 "": "[TLC]"
             },
             "4P+K": {
-                "meta": { "type": "special" },
+                "meta": { "actionType": "special" },
                 "": "[BND]"
             },
             "2P+K": {
-                "meta": { "type": "special" },
+                "meta": { "actionType": "special" },
                 "": "[BND]"
             },
             "1P+K": {},
@@ -199,7 +199,7 @@ var data = {
             "4K": {},
             "2K": {},
             "P+K": {
-                "meta": { "type": "special" },
+                "meta": { "actionType": "special" },
                 "": "[TLC]"
             },
             "H+K": {}
@@ -238,7 +238,7 @@ var data = {
             },
             "P+K": {},
             "6P+K": {
-                "meta": { "type": "special" },
+                "meta": { "actionType": "special" },
                 "": "[TLC]"
             },
             "H+K": {},
@@ -282,7 +282,7 @@ var data = {
             "K": {},
             "2K": {},
             "P+K": {
-                "meta": { "type": "special" },
+                "meta": { "actionType": "special" },
                 "": "[BND]"
             },
             "H+K": {}
