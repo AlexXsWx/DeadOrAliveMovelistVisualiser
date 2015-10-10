@@ -143,15 +143,15 @@ var data = {
 
             "P+K": { "K": {} },
             "6P+K": {
-                "meta": { "actionType": "special" },
+                "meta": { "actionType": "other" },
                 "": "[TLC]"
             },
             "4P+K": {
-                "meta": { "actionType": "special" },
+                "meta": { "actionType": "other" },
                 "": "[BND]"
             },
             "2P+K": {
-                "meta": { "actionType": "special" },
+                "meta": { "actionType": "other" },
                 "": "[BND]"
             },
             "1P+K": {},
@@ -199,7 +199,7 @@ var data = {
             "4K": {},
             "2K": {},
             "P+K": {
-                "meta": { "actionType": "special" },
+                "meta": { "actionType": "other" },
                 "": "[TLC]"
             },
             "H+K": {}
@@ -238,7 +238,7 @@ var data = {
             },
             "P+K": {},
             "6P+K": {
-                "meta": { "actionType": "special" },
+                "meta": { "actionType": "other" },
                 "": "[TLC]"
             },
             "H+K": {},
@@ -282,7 +282,7 @@ var data = {
             "K": {},
             "2K": {},
             "P+K": {
-                "meta": { "actionType": "special" },
+                "meta": { "actionType": "other" },
                 "": "[BND]"
             },
             "H+K": {}

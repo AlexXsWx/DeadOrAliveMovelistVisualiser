@@ -143,7 +143,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             'kick':    'kicks',
             'throw':   'throws',
             'hold':    'holds',
-            'special': 'other'
+            'other': 'other'
         };
 
         parent.fd3Data.children.all.forEach(function(child) {

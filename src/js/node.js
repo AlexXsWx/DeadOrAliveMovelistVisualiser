@@ -28,7 +28,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
             moveInfo: {
                 heightClass: undefined, // high / mid / low
-                actionType: undefined, // strike / throw / hold / special
+                actionType: undefined, // strike / throw / hold / ground attack / other
                 strikeType: undefined // 'punch' or 'kick'
                 // isJumpStrike: undefined, // bool
                 // isOffensiveHold: undefined // bool
@@ -111,7 +111,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
                 } else
                 if (propName === 'meta') {
                     _.copyKeysInto(moveInfo, root[propName]);
-                    if (moveInfo.actionType == 'special') {
+                    if (moveInfo.actionType != 'strike') {
                         moveInfo.strikeType = undefined;
                     }
                 } else {
@@ -136,7 +136,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
         if (RGX_KICK.test(name))  { moveInfo.actionType = 'strike'; moveInfo.strikeType = 'kick';  } else
         if (RGX_HOLD.test(name))  { moveInfo.actionType = 'hold';  } else
         if (RGX_THROW.test(name)) { moveInfo.actionType = 'throw'; } else {
-            // moveInfo.actionType = 'special';
+            // moveInfo.actionType = 'other';
         }
     }
 
