@@ -1,1 +1,15 @@
 http://techslides.com/save-svg-as-an-image
+
+to consider:
+    jacky's idle hold
+    alpha's idle crouch
+    rig's 3k6k4
+    bass' charge throw
+    guard break on full charge / PB only
+    christie's options out of jakeiho and double jakeiho
+    ayane's kick and delayed kick
+    ground/finishing attacks/throws (8P+K, 2T, 2H+K)
+    special wakeup attacks
+    hayabusa's 334k
+    kasumi's teleport on hit
+    lisa's attack using ropes

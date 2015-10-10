@@ -53,6 +53,46 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
 
+    function createCanvas(rootNode) {
+
+        svg = d3.select(rootNode).append('svg:svg')
+            .attr('version', 1.1)
+            .attr('xmlns', 'http://www.w3.org/2000/svg');
+
+        canvas = svg.append('svg:g').attr('class', 'canvas');
+
+        canvas.append('svg:g').attr('class', 'links');
+        canvas.append('svg:g').attr('class', 'nodes');
+
+    }
+
+
+
+    function normalizeCanvas(offsetX, offsetY, totalWidth, totalHeight) {
+        canvas.attr('style', 'transform: translate(' + offsetX + 'px,' + offsetY + 'px)');
+        svg
+            // FIXME
+            .attr('width',  Math.max(totalWidth,  document.body.clientWidth - 5))
+            .attr('height', Math.max(totalHeight, document.body.clientHeight - 5));
+    }
+
+
+
+    function showAbbreviations(abbreviations) {
+
+        if (!abbreviations) return;
+
+        var table = d3.select('#abbreviations');
+
+        for (name in abbreviations) {
+            var row = table.append('tr');
+            row.append('td').text(name);
+            row.append('td').text(abbreviations[name]);
+        }
+    }
+
+
+
     function prepareData(characterRawData, characterName) {
 
         nodeGenerator = createNodeGenerator();
@@ -150,16 +190,6 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
         }
 
-    }
-
-
-
-    function normalizeCanvas(offsetX, offsetY, totalWidth, totalHeight) {
-        canvas.attr('style', 'transform: translate(' + offsetX + 'px,' + offsetY + 'px)');
-        svg
-            // FIXME
-            .attr('width',  Math.max(totalWidth,  document.body.clientWidth - 5))
-            .attr('height', Math.max(totalHeight, document.body.clientHeight - 5));
     }
 
 
@@ -355,36 +385,6 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
     function translate(position) {
         return 'translate(' + position.x + ',' + position.y + ')';
-    }
-
-
-
-    function createCanvas(rootNode) {
-
-        svg = d3.select(rootNode).append('svg:svg')
-            .attr('version', 1.1)
-            .attr('xmlns', 'http://www.w3.org/2000/svg');
-
-        canvas = svg.append('svg:g').attr('class', 'canvas');
-
-        canvas.append('svg:g').attr('class', 'links');
-        canvas.append('svg:g').attr('class', 'nodes');
-
-    }
-
-
-
-    function showAbbreviations(abbreviations) {
-
-        if (!abbreviations) return;
-
-        var table = d3.select('#abbreviations');
-
-        for (name in abbreviations) {
-            var row = table.append('tr');
-            row.append('td').text(name);
-            row.append('td').text(abbreviations[name]);
-        }
     }
 
 });

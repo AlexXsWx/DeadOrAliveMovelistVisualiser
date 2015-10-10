@@ -7,6 +7,48 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
     return createNodeGenerator;
 
+
+    function createNode(id, name, parent) {
+
+        return {
+
+            id: id,
+            parent: parent || null,
+            children: {
+                all:     [],
+                visible: [],
+                hidden:  []
+            },
+
+            totalChildren: 0,
+            deepness: 0,
+            branchesAfter: 0,
+
+            name: name, // todo: rename to input?
+
+            moveInfo: {
+                heightClass: undefined, // high / mid / low
+                actionType: undefined, // strike / throw / hold / special
+                strikeType: undefined // 'punch' or 'kick'
+                // isJumpStrike: undefined, // bool
+                // isOffensiveHold: undefined // bool
+            },
+
+            lastPosition: {
+                x: undefined,
+                y: undefined
+            }
+
+            // scrollRange: {
+            //     from: undefined,
+            //     to:   undefined
+            // }
+
+        };
+
+    }
+
+
     function createNodeGenerator() {
 
         var counter = 1;
@@ -35,34 +77,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             return {
 
                 // hide info in the fuck-d3-data so it has its very own place and is not affected by d3
-                fd3Data: {
-                    parent: parent || null,
-                    name: name, // todo: rename to input?
-                    totalChildren: 0,
-                    deepness: 0,
-                    branchesAfter: 0,
-                    children: {
-                        all:     [],
-                        visible: [],
-                        hidden:  []
-                    },
-                    // scrollRange: {
-                    //     from: undefined,
-                    //     to:   undefined
-                    // },
-                    id: counter++,
-                    moveInfo: {
-                        heightClass: undefined, // high / mid / low
-                        actionType: undefined, // strike / throw / hold / special
-                        strikeType: undefined, // 'punch' or 'kick'
-                        isJumpStrike: undefined, // bool
-                        isOffensiveHold: undefined // bool
-                    },
-                    lastPosition: {
-                        x: undefined,
-                        y: undefined
-                    }
-                },
+                fd3Data: createNode(counter++, name, parent),
 
                 // data filled by d3
                 x: undefined,
