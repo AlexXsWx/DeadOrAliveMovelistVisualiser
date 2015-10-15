@@ -26,7 +26,9 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
     var nodeGenerator;
 
+    var selectedNode = null;
 
+    var data;
 
     return movelist;
 
@@ -34,18 +36,24 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
     function movelist(parentElement, rawData) {
 
+        bindEditor();
+
         limitsFinder = createLimitsFinder();
 
-        var preparedData = prepareData(
+        nodeGenerator = createNodeGenerator();
+
+        data = prepareData(
             rawData.data,
             rawData.meta.character
         );
+
+        // data = createNewData(nodeGenerator);
 
         createCanvas(parentElement);
 
         initGenerators();
 
-        update(preparedData);
+        update();
 
         rawData.meta && showAbbreviations(rawData.meta.abbreviations);
 
@@ -95,8 +103,6 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
     function prepareData(characterRawData, characterName) {
 
-        nodeGenerator = createNodeGenerator();
-
         var preparedData = nodeGenerator.fromJson(characterRawData, characterName);
 
         preparedData.fd3Data.children.all.forEach(function(stance) {
@@ -126,6 +132,23 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
 
+    function createNewData(nodeGenerator) {
+
+        var root = nodeGenerator.generate('root', null);
+
+        var newChildPlaceholder = nodeGenerator.generate('new', null);
+        newChildPlaceholder.fd3Data.isEditorElement = true;
+
+        newChildPlaceholder.fd3Data.parent = prepareData;
+        root.fd3Data.children.all.push(newChildPlaceholder);
+        root.fd3Data.children.visible.push(newChildPlaceholder);
+
+        return root;
+
+    }
+
+
+
     function groupByType(parent, generateNode) {
 
         // fill groups
@@ -139,10 +162,10 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
         };
 
         var categoryToType = {
-            'punch':   'punches',
-            'kick':    'kicks',
-            'throw':   'throws',
-            'hold':    'holds',
+            'punch': 'punches',
+            'kick':  'kicks',
+            'throw': 'throws',
+            'hold':  'holds',
             'other': 'other'
         };
 
@@ -214,7 +237,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
     // ==== Update ====
 
-        function update(data, sourceNode) {
+        function update(sourceNode) {
             
             var nodes = tree.nodes(data);
             var links = tree.links(nodes);
@@ -251,23 +274,32 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
         }
 
+        // ==== Links ====
 
-        function updateLinks(links, spawnPosition, despawnPosition, animationDuration) {
+            function updateLinks(links, spawnPosition, despawnPosition, animationDuration) {
 
-            var linksSelection = canvas.select('g.links').selectAll('path.link')
-                .data(links, function(d) {
-                    return nodeGenerator.getId(d.target);
-                });
+                var linksSelection = canvas.select('g.links').selectAll('path.link')
+                    .data(links, function(d) {
+                        return nodeGenerator.getId(d.target);
+                    });
 
-            // update existing nodes
-            linksSelection
-                .attr('opacity', 1)
-                .transition().duration(animationDuration)
-                    .attr('d', lineGenerator);
+                updateLink(linksSelection, animationDuration);
+                enterLink(linksSelection.enter(), spawnPosition, animationDuration);
+                exitLink(linksSelection.exit(), despawnPosition, animationDuration);
 
-            // create new
-            var linksGroup = linksSelection
-                .enter().append('svg:path')
+            }
+
+
+            function updateLink(selection, animationDuration) {
+                selection
+                    .attr('opacity', 1)
+                    .transition().duration(animationDuration)
+                        .attr('d', lineGenerator);
+            }
+
+
+            function enterLink(selection, spawnPosition, animationDuration) {
+                var linksGroup = selection.append('svg:path')
                     .attr('class', 'link')
                     .attr('opacity', 0)
                     .attr('d', lineGenerator({
@@ -279,107 +311,192 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
                         return 2 * Math.sqrt((obj.target.fd3Data.branchesAfter + 1) / Math.PI);
                     });
 
-            linksGroup.transition().duration(animationDuration)
-                .attr('d', lineGenerator)
-                .attr('opacity', 1);
-
-            // remove old
-            linksSelection.exit()
-                .transition().duration(animationDuration)
-                    .attr('d', lineGenerator({
-                        source: despawnPosition,
-                        target: despawnPosition
-                    }))
-                    .attr('opacity', 0)
-                    .remove();
-
-        }
-
-
-        function updateNodes(nodes, data, spawnPosition, despawnPosition, animationDuration) {
-
-            var nodesSelection = canvas.select('g.nodes').selectAll('g.node')
-                .data(nodes, nodeGenerator.getId);
-
-            // update existing nodes
-
-            nodesSelection
-                .classed('unclickable', false)
-                .transition().duration(animationDuration)
-                    .attr('transform', translate)
+                linksGroup.transition().duration(animationDuration)
+                    .attr('d', lineGenerator)
                     .attr('opacity', 1);
-                    
+            }
 
-            // create new
 
-            var nodeGroup = nodesSelection.enter().append('svg:g')
-                .attr('class', function(datum) {
-                    var moveInfo = datum.fd3Data.moveInfo;
-                    return (
-                        'node ' +
-                        (moveInfo.heightClass || '') + ' ' +
-                        (moveInfo.actionType  || '') + ' ' +
-                        (moveInfo.strikeType  || '')
-                    );
-                })
-                .attr('transform', translate(spawnPosition))
-                .attr('opacity', 0)
-                .classed('unclickable', false);
+            function exitLink(selection, despawnPosition, animationDuration) {
+                selection
+                    .transition().duration(animationDuration)
+                        .attr('d', lineGenerator({
+                            source: despawnPosition,
+                            target: despawnPosition
+                        }))
+                        .attr('opacity', 0)
+                        .remove();
+            }
 
-            nodeGroup.transition().duration(animationDuration)
-                .attr('transform', translate)
-                .attr('opacity', 1);
+        // ===============
 
-            var circleSelection = nodeGroup.append('svg:circle');
-            circleSelection.attr('r', NODE_HEIGHT / 3.0);
 
-            circleSelection
-                .filter(function(datum) {
-                    return datum.fd3Data.children.all.length > 0;
-                })
-                .classed('container', true)
-                .on('click', function(datum) {
-                    nodeGenerator.toggleVisibleChildren(datum);
-                    update(data, datum);
-                });
 
-            nodeGroup.append('svg:text')
-                .attr('class', function(datum) {
-                    if (
-                        datum.fd3Data.children.all.length > 0 ||
-                        datum.fd3Data.moveInfo.endsWith
-                    ) {
-                        return 'left';
-                    } else {
-                        return 'right';
-                    }
-                })
-                .classed('input', true)
-                .text(function(datum) {
-                    return datum.fd3Data.name;
-                });
+        // ==== Nodes ====
 
-            nodeGroup.filter(function(datum) {
-                return datum.fd3Data.moveInfo.endsWith;
-            }).append('svg:text')
-                .classed('ending right', true)
-                .text(function(datum) {
+            function updateNodes(nodes, data, spawnPosition, despawnPosition, animationDuration) {
+
+                var nodesSelection = canvas.select('g.nodes').selectAll('g.node')
+                    .data(nodes, nodeGenerator.getId);
+
+                updateNode(nodesSelection, animationDuration);
+                enterNode(nodesSelection.enter(), spawnPosition, animationDuration);
+                exitNode(nodesSelection.exit(), despawnPosition, animationDuration);
+
+            }
+
+
+            function updateNode(nodeSelection, animationDuration) {
+
+                nodeSelection
+                    .classed('unclickable', false)
+                    .transition().duration(animationDuration)
+                        .attr({
+                            'transform': translate,
+                            'opacity': 1
+                        });
+
+                nodeSelection.selectAll('text.input')
+                    .text(function(datum) {
+                        return datum.fd3Data.name || '<unnamed>';
+                    });
+
+            }
+
+
+            function enterNode(selEnter, spawnPosition, animationDuration) {
+
+                var nodeGroup = selEnter.append('svg:g');
+
+                nodeGroup.transition().duration(animationDuration)
+                    .attr({
+                        'transform': translate,
+                        'opacity': 1
+                    });
+
+                nodeGroup
+
+                    .attr({
+                        'transform': translate(spawnPosition),
+                        'opacity': 0
+                    })
+
+                    .each(function(datum) {
+
+                        var node = d3.select(this);
+
+                        var moveInfo = datum.fd3Data.moveInfo;
+                        var classes = {
+                            'node': true,
+                            'unclickable': false,
+                            'editor': datum.fd3Data.isEditorElement,
+                            'container': false
+                        };
+                        if (moveInfo.heightClass) classes[ moveInfo.heightClass ] = true;
+                        if (moveInfo.actionType)  classes[ moveInfo.actionType  ] = true;
+                        if (moveInfo.strikeType)  classes[ moveInfo.strikeType  ] = true;
+
+                        if (datum.fd3Data.children.all.length > 0) {
+
+                            classes['container'] = true;
+
+                            node.on('click', function(datum) {
+                                nodeGenerator.toggleVisibleChildren(datum);
+                                update(datum);
+                            });
+
+                        } else
+
+                        if (datum.fd3Data.isEditorElement) {
+
+                            node.on('click', function(datum) {
+                                if (selectedNode === this) {
+                                    selectNode(null);
+                                } else {
+                                    selectNode(this);
+                                }
+                            });
+
+                        }
+
+                        node.classed(classes);
+
+                    });
+
+                nodeGroup.append('svg:circle').attr('r', NODE_HEIGHT / 3.0);
+
+                nodeGroup.append('svg:text')
+                    .attr('class', function(datum) {
+                        if (
+                            datum.fd3Data.children.all.length > 0 ||
+                            datum.fd3Data.moveInfo.endsWith
+                        ) {
+                            return 'left';
+                        } else {
+                            return 'right';
+                        }
+                    })
+                    .classed('input', true)
+                    .text(function(datum) {
+                        return datum.fd3Data.name;
+                    });
+
+                nodeGroup.filter(function(datum) {
                     return datum.fd3Data.moveInfo.endsWith;
-                });
+                }).append('svg:text')
+                    .classed('ending right', true)
+                    .text(function(datum) {
+                        return datum.fd3Data.moveInfo.endsWith;
+                    });
+            }
 
 
-            // remove old
-            
-            nodesSelection.exit()
-                .classed('unclickable', true)
-                .transition().duration(animationDuration)
-                    .attr('transform', translate(despawnPosition))
-                    .attr('opacity', 0)
-                    .remove();
+            function exitNode(selExit, despawnPosition, animationDuration) {
+                selExit
+                    .classed('unclickable', true)
+                    .transition().duration(animationDuration)
+                        .attr('transform', translate(despawnPosition))
+                        .attr('opacity', 0)
+                        .remove();
+            }
 
-        }
+        // ===============
 
     // ================
+
+
+
+    function selectNode(node) {
+
+        if (selectedNode !== null) {
+            var selection = d3.select(selectedNode);
+            selection.classed('selection', false);
+            d3.select('#nodeName').node().value = '';
+            // todo: disable editor
+        }
+
+        selectedNode = node;
+
+        if (selectedNode !== null) {
+            var selection = d3.select(selectedNode);
+            selection.classed('selection', true);
+            d3.select('#nodeName').node().value = selection.datum().fd3Data.name;
+            // todo: enable editor
+        }
+
+    }
+
+
+
+    function bindEditor() {
+        d3.select('#nodeName').on('input', function() {
+            if (selectedNode !== null) {
+                var selection = d3.select(selectedNode);
+                selection.datum().fd3Data.name = this.value;
+                updateNode(selection, 0);
+            }
+        });
+    }
 
 
 

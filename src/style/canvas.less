@@ -15,8 +15,10 @@ g.node {
         fill: white;
         stroke: #777;
         stroke-width: 2px;
-        &.container { cursor: pointer; }
     }
+    &.container circle { cursor: pointer; }
+    &.selection circle { stroke-dasharray: 2; }
+
     &.punch circle { fill: #ff7; stroke: white; }
     &.kick  circle { fill: #f77; stroke: white; }
     &.hold  circle { fill: #7f7; stroke: white; }

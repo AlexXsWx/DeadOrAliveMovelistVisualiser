@@ -20,6 +20,8 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
                 hidden:  []
             },
 
+            isEditorElement: false,
+
             totalChildren: 0,
             deepness: 0,
             branchesAfter: 0,
@@ -29,9 +31,10 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             moveInfo: {
                 heightClass: undefined, // high / mid / low
                 actionType: undefined, // strike / throw / hold / ground attack / other
-                strikeType: undefined // 'punch' or 'kick'
+                strikeType: undefined, // 'punch' or 'kick'
                 // isJumpStrike: undefined, // bool
                 // isOffensiveHold: undefined // bool
+                endsWidth: undefined // stance
             },
 
             lastPosition: {
@@ -68,6 +71,8 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             backupPosition: backupPosition,
             swapXY: swapXY
             // resetScrollRangeForDatum: resetScrollRangeForDatum
+
+            // setRelation: setRelation
 
         };
 
@@ -194,6 +199,18 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     // function resetScrollRangeForDatum(datum) {
     //     datum.fd3Data.scrollRange.from = datum.y;
     //     datum.fd3Data.scrollRange.to   = datum.y;
+    // }
+
+    // function removeAllChildren(parent) {
+
+    // }
+
+    // function removeChild(parent, child) {
+
+    // }
+
+    // function setRelation(node, newParent) {
+
     // }
 
 });
