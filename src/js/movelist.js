@@ -133,18 +133,9 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
     function createNewData(nodeGenerator) {
-
         var root = nodeGenerator.generate('root', null);
-
-        var newChildPlaceholder = nodeGenerator.generate('new', null);
-        newChildPlaceholder.fd3Data.isEditorElement = true;
-
-        newChildPlaceholder.fd3Data.parent = prepareData;
-        root.fd3Data.children.all.push(newChildPlaceholder);
-        root.fd3Data.children.visible.push(newChildPlaceholder);
-
+        createEditorPlaceholder(root, true);
         return root;
-
     }
 
 
@@ -356,10 +347,27 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
                             'opacity': 1
                         });
 
-                nodeSelection.selectAll('text.input')
-                    .text(function(datum) {
-                        return datum.fd3Data.name || '<unnamed>';
-                    });
+            }
+
+
+            function updateNode2(node) {
+
+                var datum = node.datum();
+
+                node.select('text.input').text(datum.fd3Data.name || '<unnamed>');
+
+                var moveInfo = datum.fd3Data.moveInfo;
+                var classes = {
+                    'node': true,
+                    'unclickable': false,
+                    'editor': datum.fd3Data.isEditorElement,
+                    'container': datum.fd3Data.children.all.length > 0
+                };
+                // TODO: clear old move info specific classes
+                if (moveInfo.heightClass) classes[ moveInfo.heightClass ] = true;
+                if (moveInfo.actionType)  classes[ moveInfo.actionType  ] = true;
+                if (moveInfo.strikeType)  classes[ moveInfo.strikeType  ] = true;
+                node.classed(classes);
 
             }
 
@@ -385,41 +393,34 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
                         var node = d3.select(this);
 
-                        var moveInfo = datum.fd3Data.moveInfo;
-                        var classes = {
-                            'node': true,
-                            'unclickable': false,
-                            'editor': datum.fd3Data.isEditorElement,
-                            'container': false
-                        };
-                        if (moveInfo.heightClass) classes[ moveInfo.heightClass ] = true;
-                        if (moveInfo.actionType)  classes[ moveInfo.actionType  ] = true;
-                        if (moveInfo.strikeType)  classes[ moveInfo.strikeType  ] = true;
+                        updateNode2(node);
 
-                        if (datum.fd3Data.children.all.length > 0) {
+                        node.on('click', function(datum) {
 
-                            classes['container'] = true;
+                            if (datum.fd3Data.isEditorElement) {
 
-                            node.on('click', function(datum) {
-                                nodeGenerator.toggleVisibleChildren(datum);
-                                update(datum);
-                            });
+                                // TODO: optimize update call
 
-                        } else
+                                createEditorPlaceholder(datum.fd3Data.parent);
 
-                        if (datum.fd3Data.isEditorElement) {
+                                // turn node from placeholder to actual node
+                                datum.fd3Data.isEditorElement = false;
+                                createEditorPlaceholder(datum);
 
-                            node.on('click', function(datum) {
                                 if (selectedNode === this) {
                                     selectNode(null);
                                 } else {
                                     selectNode(this);
                                 }
-                            });
 
-                        }
+                            } else
 
-                        node.classed(classes);
+                            if (datum.fd3Data.children.all.length > 0) {
+                                nodeGenerator.toggleVisibleChildren(datum);
+                                update(datum);
+                            }
+
+                        });
 
                     });
 
@@ -466,6 +467,17 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
 
+    function createEditorPlaceholder(parent, dontUpdate) {
+        var newElement = nodeGenerator.generate('new', parent);
+        newElement.fd3Data.isEditorElement = true;
+        parent.fd3Data.children.all.push(newElement);
+        parent.fd3Data.children.visible.push(newElement);
+        !dontUpdate && update(parent);
+        return newElement;
+    }
+
+
+
     function selectNode(node) {
 
         if (selectedNode !== null) {
@@ -481,6 +493,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             var selection = d3.select(selectedNode);
             selection.classed('selection', true);
             d3.select('#nodeName').node().value = selection.datum().fd3Data.name;
+            d3.select('#nodeName').node().select();
             // todo: enable editor
         }
 
@@ -489,13 +502,28 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
     function bindEditor() {
+
         d3.select('#nodeName').on('input', function() {
             if (selectedNode !== null) {
                 var selection = d3.select(selectedNode);
-                selection.datum().fd3Data.name = this.value;
-                updateNode(selection, 0);
+                var data = selection.datum();
+                data.fd3Data.name = this.value;
+                // todo: update editor elements according to this change
+                nodeGenerator.fillMoveInfoFromInput(data);
+                updateNode2(selection);
             }
         });
+
+        d3.select('#deleteNode').on('click', function() {
+            if (selectedNode !== null) {
+                var selection = d3.select(selectedNode);
+                var data = selection.datum();
+                var parent = data.fd3Data.parent;
+                nodeGenerator.forgetChild(parent, data);
+                update(parent);
+            }
+        });
+
     }
 
 

@@ -62,10 +62,13 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
             generate: generateNode,
             // fillScrollRange: fillScrollRange,
+            fillMoveInfoFromInput: fillMoveInfoFromInput,
 
             getAllChildren: getAllChildren,
             getVisibleChildren: getVisibleChildren,
             getId: getId,
+
+            forgetChild: forgetChild,
 
             toggleVisibleChildren: toggleVisibleChildren,
             backupPosition: backupPosition,
@@ -212,5 +215,17 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     // function setRelation(node, newParent) {
 
     // }
+
+    function forgetChild(parentDatum, child) {
+        var parentChildren = parentDatum.fd3Data.children;
+        [
+            parentChildren.all,
+            parentChildren.visible,
+            parentChildren.hidden
+        ].forEach(function(children) {
+            var index = children.indexOf(child);
+            if (index >= 0) children.splice(index, 1);
+        });
+    }
 
 });
