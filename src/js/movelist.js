@@ -30,17 +30,19 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
     var nodeGenerator;
 
+    var previousSelection = null;
     var selectedNode = null;
+    var editMode = false;
 
     var data;
 
-    return movelist;
+    return init;
 
 
 
-    function movelist(parentElement, rawData) {
+    function init(parentElement, rawData) {
 
-        bindEditor();
+        initEditor();
 
         limitsFinder = createLimitsFinder();
 
@@ -61,6 +63,12 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
         rawData.meta && showAbbreviations(rawData.meta.abbreviations);
 
+    }
+
+
+
+    function createNewData(nodeGenerator) {
+        return nodeGenerator.generate('root', null);
     }
 
 
@@ -132,14 +140,6 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
         }
 
         return preparedData;
-    }
-
-
-
-    function createNewData(nodeGenerator) {
-        var root = nodeGenerator.generate('root', null);
-        createEditorPlaceholder(root, true);
-        return root;
     }
 
 
@@ -406,6 +406,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
                                     nodeGenerator.toggleVisibleChildren(datum);
                                     update(datum);
                                 }
+                                undoSelection();
                             });
                     });
 
@@ -452,6 +453,11 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             }
 
 
+            function translate(position) {
+                return 'translate(' + position.x + ',' + position.y + ')';
+            }
+
+
             function getToggleText(datum) {
                 var children = datum.fd3Data.children;
                 if (children.all.length === 0) {
@@ -473,8 +479,13 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
     function createEditorPlaceholder(parent, dontUpdate) {
         var newElement = nodeGenerator.generate('new', parent);
         newElement.fd3Data.isEditorElement = true;
-        parent.fd3Data.children.all.push(newElement);
-        parent.fd3Data.children.visible.push(newElement);
+        var children = parent.fd3Data.children;
+        children.all.push(newElement);
+        if (children.visible.length > 0 || children.hidden.length === 0) {
+            children.visible.push(newElement);
+        } else {
+            children.hidden.push(newElement);
+        }
         !dontUpdate && update(parent);
         return newElement;
     }
@@ -490,6 +501,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             // todo: disable editor
         }
 
+        previousSelection = selectedNode;
         if (this !== selectedNode) {
             selectedNode = this;
             var selection = d3.select(selectedNode);
@@ -505,11 +517,28 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
 
-    function bindEditor() {
+    function undoSelection() {
+        // selectNode.call(previousSelection);
+    }
+
+
+
+    function initEditor() {
+
+        editMode = d3.select('#editMode').node().checked;
+        d3.select('#editMode')
+            .on('change', function() {
+                editMode = this.checked;
+                editMode ? enterEditMode() : leaveEditMode();
+            });
+
+        if (editMode) enterEditMode();
 
         d3.select('#nodeName')
             .on('input', function() {
+
                 if (selectedNode !== null) {
+
                     var selection = d3.select(selectedNode);
                     var data = selection.datum();
                     data.fd3Data.name = this.value;
@@ -529,6 +558,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
                     }
                 }
+
             });
             // .on('keydown', function() {
             //     // todo: if enter - blur
@@ -551,8 +581,56 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
 
-    function translate(position) {
-        return 'translate(' + position.x + ',' + position.y + ')';
+    function enterEditMode() {
+
+        editMode = true;
+
+        // add new node placeholder to every node
+
+        // start from root
+        var nodesAtCurrentDepth = [data];
+        do {
+            var nodesAtNextDepth = [];
+            nodesAtCurrentDepth.forEach(function(node) {
+                Array.prototype.push.apply(
+                    nodesAtNextDepth,
+                    nodeGenerator.getAllChildren(node)
+                );
+                createEditorPlaceholder(node, true);
+            });
+            nodesAtCurrentDepth = nodesAtNextDepth;
+        } while (nodesAtCurrentDepth.length > 0);
+
+        update(data);
+
+    }
+
+
+
+    function leaveEditMode() {
+
+        editMode = false;
+
+        // remove new node placeholder from every node
+
+        // start from root
+        var nodesAtCurrentDepth = [data];
+        do {
+            var nodesAtNextDepth = [];
+            nodesAtCurrentDepth.forEach(function(node) {
+                Array.prototype.push.apply(
+                    nodesAtNextDepth,
+                    nodeGenerator.getAllChildren(node)
+                );
+                if (node.fd3Data.isEditorElement) {
+                    nodeGenerator.forgetChild(node.fd3Data.parent, node)
+                }
+            });
+            nodesAtCurrentDepth = nodesAtNextDepth;
+        } while (nodesAtCurrentDepth.length > 0);
+
+        update(data);
+
     }
 
 });

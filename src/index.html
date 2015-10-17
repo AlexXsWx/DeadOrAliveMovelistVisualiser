@@ -19,30 +19,30 @@
             <div id="menu">
                 <table id="settings">
                     <tr>
-                        <td><input type="checkbox" /></td>
-                        <td><label for="">Edit mode</label></td>
+                        <td><input id="editMode" type="checkbox" /></td>
+                        <td><label for="editMode">Edit mode</label></td>
                     </tr>
-                    <tr>
+                    <table id="editor">
+                        <tr>
+                            <td><label for="nodeName">name</label></td>
+                            <td><input id="nodeName" /></td>
+                        </tr>
+                        <tr><td><input id="deleteNode" type="button" value="delete" /></td></tr>
+                    </table>
+                    <!-- <tr>
                         <td><input id="smoothScroll" type="checkbox" disabled checked /></td>
                         <td><label for="smoothScroll">Smooth scroll</label></td>
-                    </tr>
-                    <tr>
+                    </tr> -->
+                    <!-- <tr>
                         <td colspan="2">
                             Group root nodes by<br />
-                            <input type="checkbox" />stance<br />
+                            <input type="checkbox" checked />stance<br />
                             <input type="checkbox" />type<br />
-                            <input type="checkbox" />strike type<br />
+                            <input type="checkbox" checked />strike type<br />
                         </td>
-                    </tr>
+                    </tr> -->
                 </table>
                 <table id="abbreviations"></table>
-                <table id="editor">
-                    <tr>
-                        <td><label for="nodeName">name</label></td>
-                        <td><input id="nodeName" /></td>
-                    </tr>
-                    <tr><td><input id="deleteNode" type="button" value="delete" /></td></tr>
-                </table>
             </div>
         </div>
 

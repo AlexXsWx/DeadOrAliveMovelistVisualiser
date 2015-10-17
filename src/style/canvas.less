@@ -11,13 +11,14 @@ path.link {
 
 g.node {
 
+    cursor: default;
+    &.container { cursor: pointer; }
+
     circle {
         fill: white;
         stroke: #777;
         stroke-width: 2px;
     }
-    &.container { cursor: pointer; }
-    &.selection circle { stroke-dasharray: 2; }
 
     &.punch circle { fill: #ff7; stroke: white; }
     &.kick  circle { fill: #f77; stroke: white; }
@@ -48,6 +49,16 @@ g.node {
         &.right {
             text-anchor: start;
             transform: translate(0.5 * @NODE_HEIGHT, 0);
+        }
+    }
+
+
+    &.selection {
+        // circle { stroke-dasharray: 2; }
+        text {
+            font-weight: bold;
+            fill: blue;
+            // fill: black;
         }
     }
 }
