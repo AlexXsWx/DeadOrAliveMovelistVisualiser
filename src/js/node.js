@@ -21,6 +21,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             },
 
             isEditorElement: false,
+            isGroupElement: false,
 
             totalChildren: 0,
             deepness: 0,

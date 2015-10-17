@@ -16,7 +16,7 @@ g.node {
         stroke: #777;
         stroke-width: 2px;
     }
-    &.container circle { cursor: pointer; }
+    &.container { cursor: pointer; }
     &.selection circle { stroke-dasharray: 2; }
 
     &.punch circle { fill: #ff7; stroke: white; }
@@ -25,6 +25,10 @@ g.node {
     &.throw circle { fill: #77f; stroke: white; }
 
     text {
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
 
         font-family: arial;
         // font-weight: bold;
