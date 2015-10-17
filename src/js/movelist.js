@@ -197,7 +197,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
             var groupingChild = generateNode('<' + type + '>', parent);
             groupingChild.fd3Data.children.all = childrenOfType;
-            groupingChild.fd3Data.children.hidden = childrenOfType;
+            groupingChild.fd3Data.children.hidden = groupingChild.fd3Data.children.all.slice(0);
 
             childrenOfType.forEach(function(child) {
                 child.fd3Data.parent = groupingChild;
@@ -476,18 +476,20 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
 
-    function createEditorPlaceholder(parent, dontUpdate) {
-        var newElement = nodeGenerator.generate('new', parent);
-        newElement.fd3Data.isEditorElement = true;
+    function addPlaceholderNode(parent) {
+
+        var placeholderNode = nodeGenerator.generate('new', parent);
+        placeholderNode.fd3Data.isEditorElement = true;
+
         var children = parent.fd3Data.children;
-        children.all.push(newElement);
+        children.all.push(placeholderNode);
         if (children.visible.length > 0 || children.hidden.length === 0) {
-            children.visible.push(newElement);
+            children.visible.push(placeholderNode);
         } else {
-            children.hidden.push(newElement);
+            children.hidden.push(placeholderNode);
         }
-        !dontUpdate && update(parent);
-        return newElement;
+
+        return placeholderNode;
     }
 
 
@@ -550,11 +552,13 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
                         // TODO: optimize update call
 
-                        createEditorPlaceholder(data.fd3Data.parent);
+                        addPlaceholderNode(data.fd3Data.parent);
+                        update(data.fd3Data.parent);
 
                         // turn node from placeholder to actual node
                         data.fd3Data.isEditorElement = false;
-                        createEditorPlaceholder(data);   
+                        addPlaceholderNode(data);
+                        update(data);
 
                     }
                 }
@@ -588,18 +592,18 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
         // add new node placeholder to every node
 
         // start from root
-        var nodesAtCurrentDepth = [data];
+        var nodesAtIteratedDepth = [data];
         do {
             var nodesAtNextDepth = [];
-            nodesAtCurrentDepth.forEach(function(node) {
+            nodesAtIteratedDepth.forEach(function(node) {
                 Array.prototype.push.apply(
                     nodesAtNextDepth,
                     nodeGenerator.getAllChildren(node)
                 );
-                createEditorPlaceholder(node, true);
+                addPlaceholderNode(node);
             });
-            nodesAtCurrentDepth = nodesAtNextDepth;
-        } while (nodesAtCurrentDepth.length > 0);
+            nodesAtIteratedDepth = nodesAtNextDepth;
+        } while (nodesAtIteratedDepth.length > 0);
 
         update(data);
 
@@ -614,10 +618,10 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
         // remove new node placeholder from every node
 
         // start from root
-        var nodesAtCurrentDepth = [data];
+        var nodesAtIteratedDepth = [data];
         do {
             var nodesAtNextDepth = [];
-            nodesAtCurrentDepth.forEach(function(node) {
+            nodesAtIteratedDepth.forEach(function(node) {
                 Array.prototype.push.apply(
                     nodesAtNextDepth,
                     nodeGenerator.getAllChildren(node)
@@ -626,10 +630,66 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
                     nodeGenerator.forgetChild(node.fd3Data.parent, node)
                 }
             });
-            nodesAtCurrentDepth = nodesAtNextDepth;
-        } while (nodesAtCurrentDepth.length > 0);
+            nodesAtIteratedDepth = nodesAtNextDepth;
+        } while (nodesAtIteratedDepth.length > 0);
 
         update(data);
+
+    }
+
+
+
+    function debugPrint(data) {
+
+        console.group(data);
+
+        var output = [];
+
+        var nodesAtIteratedDepth = [data];
+
+        do {
+
+            var nodesAtNextDepth = [];
+
+            nodesAtIteratedDepth.forEach(function(node) {
+
+                var children = node.fd3Data.children;
+
+                output.push({
+                    parentName: node.fd3Data.parent ? getIdName(node.fd3Data.parent) : '',
+                    id: node.fd3Data.id,
+                    name: node.fd3Data.name,
+                    allChildren: childNames(children.all),
+                    visibleChildren: childNames(children.visible),
+                    hiddenChildren: childNames(children.hidden),
+                    x: node.x,
+                    y: node.y,
+                    depth: node.depth,
+                    lastX: node.fd3Data.lastPosition.x,
+                    lastY: node.fd3Data.lastPosition.y
+                });
+
+                Array.prototype.push.apply(
+                    nodesAtNextDepth,
+                    nodeGenerator.getAllChildren(node)
+                );
+
+            });
+
+            nodesAtIteratedDepth = nodesAtNextDepth;
+
+        } while (nodesAtIteratedDepth.length > 0);
+
+        console.table(output);
+        console.groupEnd();
+
+        function getIdName(node) {
+            return node.fd3Data.id + '#' + node.fd3Data.name;
+        }
+
+        function childNames(children) {
+            return children.map(getIdName).join(',');
+        }
 
     }
 

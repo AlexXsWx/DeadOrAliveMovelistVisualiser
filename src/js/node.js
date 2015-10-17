@@ -68,6 +68,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             getAllChildren: getAllChildren,
             getVisibleChildren: getVisibleChildren,
             getId: getId,
+            getName: getName,
 
             forgetChild: forgetChild,
 
@@ -120,7 +121,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
                 } else
                 if (propName === 'meta') {
                     _.copyKeysInto(moveInfo, root[propName]);
-                    if (moveInfo.actionType != 'strike') {
+                    if (moveInfo.actionType !== 'strike') {
                         moveInfo.strikeType = undefined;
                     }
                 } else {
@@ -187,6 +188,10 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
     function getId(datum) {
         return datum.fd3Data.id;
+    }
+
+    function getName(datum) {
+        return datum.fd3Data.name;
     }
 
     function backupPosition(datum) {
