@@ -20,10 +20,7 @@ define(
         };
 
 
-        function initEditor(
-            dataRootRef, nodeGeneratorRef,
-            abbreviations
-        ) {
+        function initEditor(dataRootRef, nodeGeneratorRef, abbreviations) {
 
             dataRoot      = dataRootRef;
             nodeGenerator = nodeGeneratorRef;
@@ -85,6 +82,21 @@ define(
             d3.select( '#moveNodeUp'   ).on('click', function() { moveNodeBy.call(this, -1); });
             d3.select( '#moveNodeDown' ).on('click', function() { moveNodeBy.call(this,  1); });
 
+            d3.select('#addChild').on('click', function onClickAddChild() {
+
+                if (!selectedNode) return;
+
+                var datum = d3.select(selectedNode).datum();
+
+                var newNode = addPlaceholderNode(datum, false);
+                onNodeChanged.dispatch({
+                    added: [ newNode ]
+                });
+
+                // todo: focus on created node
+
+            });
+
             showAbbreviations(abbreviations);
 
         }
@@ -136,12 +148,12 @@ define(
             var newNodes = [];
             var node;
 
-            node = addPlaceholderNode(datum.fd3Data.parent);
+            node = addPlaceholderNode(datum.fd3Data.parent, true);
             newNodes.push(node);
 
             // turn node from placeholder to actual node
             datum.fd3Data.isEditorElement = false;
-            node = addPlaceholderNode(datum);
+            node = addPlaceholderNode(datum, true);
             newNodes.push(node);
 
             return newNodes;
@@ -166,7 +178,7 @@ define(
                         nodesAtNextDepth,
                         nodeGenerator.getAllChildren(node)
                     );
-                    var newNode = addPlaceholderNode(node);
+                    var newNode = addPlaceholderNode(node, true);
                     addedNodes.push(newNode);
                 });
                 nodesAtIteratedDepth = nodesAtNextDepth;
@@ -211,10 +223,10 @@ define(
         }
 
 
-        function addPlaceholderNode(parent) {
+        function addPlaceholderNode(parent, editorElement) {
 
             var placeholderNode = nodeGenerator.generate('new', parent);
-            placeholderNode.fd3Data.isEditorElement = true;
+            placeholderNode.fd3Data.isEditorElement = editorElement;
 
             var children = parent.fd3Data.children;
             children.all.push(placeholderNode);
