@@ -569,17 +569,37 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             // });
 
         d3.select('#deleteNode').on('click', function() {
-            if (selectedNode !== null) {
-                var selection = d3.select(selectedNode);
-                var data = selection.datum();
-                var parent = data.fd3Data.parent;
-                var isRootNode = !parent;
-                if (!data.fd3Data.isEditorElement && !isRootNode) {
-                    nodeGenerator.forgetChild(parent, data);
-                    update(parent);
-                }
+
+            if (!selectedNode) return;
+
+            var datum = d3.select(selectedNode).datum();
+            var parent = datum.fd3Data.parent;
+            if (!datum.fd3Data.isEditorElement && parent) {
+                nodeGenerator.forgetChild(parent, datum);
+                update(parent);
             }
+
         });
+
+        d3.select( '#moveUp'   ).on('click', function() { moveNodeBy.call(this, -1); });
+        d3.select( '#moveDown' ).on('click', function() { moveNodeBy.call(this,  1); });
+
+        function moveNodeBy(delta) {
+
+            if (!selectedNode) return;
+
+            var datum = d3.select(selectedNode).datum();
+            var parent = datum.fd3Data.parent;
+
+            if (!parent) return;
+
+            var pChildren = parent.fd3Data.children;
+            var changed = false;
+            if (moveArrayElement(pChildren.all,     datum, delta)) changed = true;
+            if (moveArrayElement(pChildren.visible, datum, delta)) changed = true;
+            changed && update(parent);
+
+        }
 
     }
 
@@ -691,6 +711,28 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             return children.map(getIdName).join(',');
         }
 
+    }
+
+
+
+    /**
+     * Moves `element` in `array` by `relativeOffset`
+     * Returns whether the moving happened or not
+     */
+    function moveArrayElement(array, element, relativeOffset) {
+        var index = array.indexOf(element);
+        if (index >= 0) {
+            var insertIndex = Math.min(
+                Math.max(index + relativeOffset, 0),
+                array.length - 1
+            );
+            if (insertIndex !== index) {
+                array.splice(index, 1);
+                array.splice(insertIndex, 0, element);
+                return true;
+            }
+        }
+        return false;
     }
 
 });
