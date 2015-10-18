@@ -19,6 +19,11 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
     var CHAR_HIDE   = String.fromCharCode(0x2212); // minus sign
     var CHAR_MIXED  = String.fromCharCode(0x00D7); // cross sign
 
+    var KEY_CODES = {
+        ENTER: 13,
+        ESC: 27
+    };
+
 
     var svg;
     var canvas;
@@ -42,7 +47,15 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
     function init(parentElement, rawData) {
 
+        createCanvas(parentElement);
+
         initEditor();
+        svg.on('click', function() { selectNode.call(null); });
+        d3.select(document.body).on('keydown', function() {
+            if (d3.event.keyCode === KEY_CODES.ESC) {
+                selectNode.call(null);
+            }
+        });
 
         limitsFinder = createLimitsFinder();
 
@@ -54,8 +67,6 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
         );
 
         // data = createNewData(nodeGenerator);
-
-        createCanvas(parentElement);
 
         initGenerators();
 
@@ -494,7 +505,9 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
 
 
+    /** Uses `this` */
     function selectNode() {
+        'use strict';
 
         if (selectedNode !== null) {
             var selection = d3.select(selectedNode);
@@ -506,14 +519,19 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
         previousSelection = selectedNode;
         if (this !== selectedNode) {
             selectedNode = this;
+        } else {
+            selectedNode = null;
+        }
+
+        if (selectedNode) {
             var selection = d3.select(selectedNode);
             selection.classed('selection', true);
             d3.select('#nodeName').node().value = selection.datum().fd3Data.name;
             d3.select('#nodeName').node().select();
             // todo: enable editor
-        } else {
-            selectedNode = null;
         }
+
+        d3.event.stopPropagation();
 
     }
 
@@ -537,6 +555,7 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
         if (editMode) enterEditMode();
 
         d3.select('#nodeName')
+
             .on('input', function() {
 
                 if (selectedNode !== null) {
@@ -563,10 +582,14 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
                     }
                 }
 
+            })
+
+            .on('keydown', function() {
+                switch (d3.event.keyCode) {
+                    case KEY_CODES.ENTER: this.blur();           break;
+                    case KEY_CODES.ESC:   selectNode.call(null); break;
+                }
             });
-            // .on('keydown', function() {
-            //     // todo: if enter - blur
-            // });
 
         d3.select('#deleteNode').on('click', function() {
 
@@ -595,8 +618,8 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
 
             var pChildren = parent.fd3Data.children;
             var changed = false;
-            if (moveArrayElement(pChildren.all,     datum, delta)) changed = true;
-            if (moveArrayElement(pChildren.visible, datum, delta)) changed = true;
+            if (_.moveArrayElement(pChildren.all,     datum, delta)) changed = true;
+            if (_.moveArrayElement(pChildren.visible, datum, delta)) changed = true;
             changed && update(parent);
 
         }
@@ -711,28 +734,6 @@ define('movelist', ['d3', 'node', 'limitsFinder', 'lineGenerators', 'treeTools',
             return children.map(getIdName).join(',');
         }
 
-    }
-
-
-
-    /**
-     * Moves `element` in `array` by `relativeOffset`
-     * Returns whether the moving happened or not
-     */
-    function moveArrayElement(array, element, relativeOffset) {
-        var index = array.indexOf(element);
-        if (index >= 0) {
-            var insertIndex = Math.min(
-                Math.max(index + relativeOffset, 0),
-                array.length - 1
-            );
-            if (insertIndex !== index) {
-                array.splice(index, 1);
-                array.splice(insertIndex, 0, element);
-                return true;
-            }
-        }
-        return false;
     }
 
 });
