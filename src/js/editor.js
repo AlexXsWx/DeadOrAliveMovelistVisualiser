@@ -11,15 +11,18 @@ define(
         var updateFunc;
         var updateNode2;
         var nodeGenerator;
-        var selectionManager;
         var dataRoot;
+        var selectedNode;
         
-        return { init: initEditor };
+        return {
+            init:              initEditor,
+            updateBySelection: updateBySelection
+        };
 
 
         function initEditor(
             update, updateNode2Ref,
-            dataRootRef, nodeGeneratorRef, selectionManagerRef,
+            dataRootRef, nodeGeneratorRef,
             abbreviations
         ) {
 
@@ -27,7 +30,6 @@ define(
             updateNode2      = updateNode2Ref;
             dataRoot         = dataRootRef;
             nodeGenerator    = nodeGeneratorRef;
-            selectionManager = selectionManagerRef;
 
             editModeEnabled = d3.select('#editMode').node().checked;
             d3.select('#editMode')
@@ -42,7 +44,6 @@ define(
 
                 .on('input', function() {
 
-                    var selectedNode = selectionManager.getSelectedNode();
                     if (!selectedNode) return;
 
                     var selection = d3.select(selectedNode);
@@ -63,7 +64,6 @@ define(
 
                 .on('input', function() {
 
-                    var selectedNode = selectionManager.getSelectedNode();
                     if (!selectedNode) return;
 
                     var selection = d3.select(selectedNode);
@@ -81,7 +81,6 @@ define(
 
             d3.select('#deleteNode').on('click', function() {
 
-                var selectedNode = selectionManager.getSelectedNode();
                 if (!selectedNode) return;
 
                 var datum = d3.select(selectedNode).datum();
@@ -103,7 +102,6 @@ define(
 
         function moveNodeBy(delta) {
 
-            var selectedNode = selectionManager.getSelectedNode();
             if (!selectedNode) return;
 
             var datum = d3.select(selectedNode).datum();
@@ -223,10 +221,31 @@ define(
                 case keyCodes.ENTER:
                     this.blur();
                     break;
-                case keyCodes.ESC:
-                    selectionManager.selectNode.call(null);
-                    break;
             }
+        }
+
+
+        function updateBySelection(selection, focus) {
+
+            d3.select('#nodeInput').node().value = '';
+            d3.select('#nodeContext').node().value = '';
+            // todo: disable editor
+
+            selectedNode = null;
+
+            if (selection.length === 0) return;
+            if (selection.length > 1) {
+                console.error('Error: selections with many elements not yet supported by editor');
+                return;
+            }
+            selectedNode = selection[0];
+
+            var datum = d3.select(selectedNode).datum();
+            d3.select('#nodeInput').node().value = datum.fd3Data.input;
+            focus && d3.select('#nodeInput').node().select();
+            d3.select('#nodeContext').node().value = datum.fd3Data.context.join(', ');
+            // todo: enable editor
+
         }
 
     }

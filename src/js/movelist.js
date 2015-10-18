@@ -78,9 +78,10 @@ define(
                     updateNode2,
                     data,
                     nodeGenerator,
-                    selectionManager,
                     rawData.meta && rawData.meta.abbreviations
                 );
+
+                selectionManager.onSelectionChanged.addListener(editor.updateBySelection);
 
                 limitsFinder = createLimitsFinder();
 

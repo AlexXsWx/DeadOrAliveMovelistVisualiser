@@ -2,25 +2,20 @@ define(
 
     'selection',
 
-    ['keyCodes'],
+    ['keyCodes', 'observer'],
 
-    function(keyCodes) {
+    function(keyCodes, createObserver) {
 
-        var previousSelection = null;
-        var selectedNode = null;
+        var selectionPrevious = null;
+        var selectionCurrent  = null;
 
-        // var onSelectionChanged = {
-        //     addListener: function(l) {
-
-        //     }
-        // }
+        var onSelectionChanged = createObserver();
 
         return {
-            getSelectedNode: function() { return selectedNode; },
-            init:            init,
-            selectNode:      selectNode,
-            undoSelection:   undoSelection
-            // onSelectionChanged: onSelectionChanged
+            init:               init,
+            selectNode:         selectNode,
+            undoSelection:      undoSelection,
+            onSelectionChanged: onSelectionChanged
         };
 
 
@@ -52,30 +47,23 @@ define(
         function selectNode(dontFocus) {
             'use strict';
 
-            if (selectedNode !== null) {
-                var selection = d3.select(selectedNode);
+            if (selectionCurrent !== null) {
+                var selection = d3.select(selectionCurrent);
                 selection.classed('selection', false);
             }
 
-            previousSelection = selectedNode;
-            if (this !== selectedNode) {
-                selectedNode = this;
+            selectionPrevious = selectionCurrent;
+            if (this !== selectionCurrent) {
+                selectionCurrent = this;
             } else {
-                selectedNode = null;
+                selectionCurrent = null;
             }
 
-            if (!selectedNode) {
-                d3.select('#nodeInput').node().value = '';
-                d3.select('#nodeContext').node().value = '';
-                // todo: disable editor
+            if (selectionCurrent) {
+                d3.select(selectionCurrent).classed('selection', true);
+                onSelectionChanged.dispatch([ selectionCurrent ], !dontFocus);
             } else {
-                var selection = d3.select(selectedNode);
-                selection.classed('selection', true);
-                var datum = selection.datum();
-                d3.select('#nodeInput').node().value = datum.fd3Data.input;
-                !dontFocus && d3.select('#nodeInput').node().select();
-                d3.select('#nodeContext').node().value = datum.fd3Data.context.join(', ');
-                // todo: enable editor
+                onSelectionChanged.dispatch([], !dontFocus);
             }
 
             d3.event.stopPropagation();
@@ -84,7 +72,8 @@ define(
 
 
         function undoSelection() {
-            // selectNode.call(previousSelection);
+            console.warn('Undo selection not yet implemented');
+            // selectNode.call(selectionPrevious);
         }
 
 
@@ -94,20 +83,23 @@ define(
 
 
         function selectFirstChild() {
-            // if (!selectedNode) return;
-            // var datum = d3.select(selectedNode).datum();
+            console.warn('Select first child not yet implemented');
+            // if (!selectionCurrent) return;
+            // var datum = d3.select(selectionCurrent).datum();
         }
 
 
         function selectParent() {
-            // if (!selectedNode) return;
-            // var datum = d3.select(selectedNode).datum();
+            console.warn('Select parent not yet implemented');
+            // if (!selectionCurrent) return;
+            // var datum = d3.select(selectionCurrent).datum();
         }
 
 
         function selectSibling(delta) {
-            // if (!selectedNode) return;
-            // var datum = d3.select(selectedNode).datum();
+            console.warn('Select sibling not yet implemented');
+            // if (!selectionCurrent) return;
+            // var datum = d3.select(selectionCurrent).datum();
         }
 
     }
