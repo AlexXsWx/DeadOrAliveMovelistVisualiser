@@ -15,41 +15,65 @@
 
     <body>
 
-        <div id="content">
-            <div id="menu">
-                <table id="settings">
-                    <tr>
-                        <td><input id="editMode" type="checkbox" /></td>
-                        <td><label for="editMode">Edit mode</label></td>
-                    </tr>
-                    <table id="editor">
-                        <tr>
-                            <td><label for="nodeName">Name:</label></td>
-                            <td><input id="nodeName" /></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <input id="moveUp"     type="button" value="move up" />
-                                <input id="deleteNode" type="button" value="delete" />
-                                <input id="moveDown"   type="button" value="move down" />
-                            </td>
-                        </tr>
-                    </table>
-                    <!-- <tr>
-                        <td><input id="smoothScroll" type="checkbox" disabled checked /></td>
-                        <td><label for="smoothScroll">Smooth scroll</label></td>
-                    </tr> -->
-                    <!-- <tr>
-                        <td colspan="2">
-                            Group root nodes by<br />
-                            <input type="checkbox" checked />stance<br />
-                            <input type="checkbox" />type<br />
-                            <input type="checkbox" checked />strike type<br />
-                        </td>
-                    </tr> -->
-                </table>
-                <table id="abbreviations"></table>
+        <div id="content"></div>
+
+        <div id="menu">
+
+            <table id="settings">
+
+                <tr>
+                    <td><input id="editMode" type="checkbox" /></td>
+                    <td><label for="editMode">Edit mode</label></td>
+                </tr>
+
+                <!-- <tr>
+                    <td><input id="smoothScroll" type="checkbox" disabled checked /></td>
+                    <td><label for="smoothScroll">Smooth scroll</label></td>
+                </tr> -->
+
+                <!-- <tr>
+                    <td colspan="2">
+                        Group root nodes by<br />
+                        <input type="checkbox" checked />stance<br />
+                        <input type="checkbox" />type<br />
+                        <input type="checkbox" />height<br />
+                        <input type="checkbox" checked />strike type<br />
+                    </td>
+                </tr> -->
+                
+            </table>
+
+            <table id="editor">
+                <tr title="Keys to perform the move">
+                    <td><label for="nodeInput">Input:</label></td>
+                    <td><input id="nodeInput" placeholder="e.g. '236P'"/></td>
+                </tr>
+                <tr title="Requirements to perform the move">
+                    <td><label for="nodeContext">Context:</label></td>
+                    <td><input id="nodeContext" placeholder="e.g. '[BT]' for back-turned"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input id="moveUp"     type="button" value="move up" />
+                        <input id="deleteNode" type="button" value="delete" />
+                        <input id="moveDown"   type="button" value="move down" />
+                    </td>
+                </tr>
+            </table>
+
+            <table id="root">
+                <tr title="character name">
+                    <td><label for="characterName">Character:</label></td>
+                    <td><input id="characterName" placeholder="e.g. 'Kasumi'"/></td>
+                </tr>
+            </table>
+
+            <div id="abbreviations">
+                Context abbreviations:
+                <table></table>
+                <input type="button" value="remove unused" />
             </div>
+
         </div>
 
     </body>

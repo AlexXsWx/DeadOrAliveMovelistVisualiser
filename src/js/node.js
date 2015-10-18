@@ -8,7 +8,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     return createNodeGenerator;
 
 
-    function createNode(id, name, parent) {
+    function createNode(id, input, parent) {
 
         return {
 
@@ -20,6 +20,8 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
                 hidden:  []
             },
 
+            // domNode: null,
+
             isEditorElement: false,
             // isGroupElement: false,
 
@@ -27,7 +29,8 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             deepness: 0,
             branchesAfter: 0,
 
-            name: name, // todo: rename to input?
+            input: input,
+            context: [],
 
             moveInfo: {
                 heightClass: undefined, // high / mid / low
@@ -61,6 +64,8 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
             fromJson: fromJson,
 
+            debugPrint: debugPrint,
+
             generate: generateNode,
             // fillScrollRange: fillScrollRange,
             fillMoveInfoFromInput: fillMoveInfoFromInput,
@@ -68,7 +73,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             getAllChildren: getAllChildren,
             getVisibleChildren: getVisibleChildren,
             getId: getId,
-            getName: getName,
+            getInput: getInput,
 
             forgetChild: forgetChild,
 
@@ -82,12 +87,12 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
         };
 
 
-        function generateNode(name, parent) {
+        function generateNode(input, parent) {
 
             return {
 
                 // hide info in the fuck-d3-data so it has its very own place and is not affected by d3
-                fd3Data: createNode(counter++, name, parent),
+                fd3Data: createNode(counter++, input, parent),
 
                 // data filled by d3
                 x: undefined,
@@ -100,9 +105,9 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
         }
 
 
-        function fromJson(root, name, parent) {
+        function fromJson(root, input, parent) {
 
-            var result = generateNode(name, parent);
+            var result = generateNode(input, parent);
 
             // todo - move up?
             if (!_.isObject(root)) {
@@ -140,12 +145,12 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
 
     function fillMoveInfoFromInput(datum) {
-        var name = datum.fd3Data.name;
+        var input = datum.fd3Data.input;
         var moveInfo = datum.fd3Data.moveInfo;
-        if (RGX_PUNCH.test(name)) { moveInfo.actionType = 'strike'; moveInfo.strikeType = 'punch'; } else
-        if (RGX_KICK.test(name))  { moveInfo.actionType = 'strike'; moveInfo.strikeType = 'kick';  } else
-        if (RGX_HOLD.test(name))  { moveInfo.actionType = 'hold';  } else
-        if (RGX_THROW.test(name)) { moveInfo.actionType = 'throw'; } else {
+        if (RGX_PUNCH.test(input)) { moveInfo.actionType = 'strike'; moveInfo.strikeType = 'punch'; } else
+        if (RGX_KICK.test(input))  { moveInfo.actionType = 'strike'; moveInfo.strikeType = 'kick';  } else
+        if (RGX_HOLD.test(input))  { moveInfo.actionType = 'hold';  } else
+        if (RGX_THROW.test(input)) { moveInfo.actionType = 'throw'; } else {
             // moveInfo.actionType = 'other';
         }
     }
@@ -190,8 +195,8 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
         return datum.fd3Data.id;
     }
 
-    function getName(datum) {
-        return datum.fd3Data.name;
+    function getInput(datum) {
+        return datum.fd3Data.input;
     }
 
     function backupPosition(datum) {
@@ -232,6 +237,60 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             var index = children.indexOf(child);
             if (index >= 0) children.splice(index, 1);
         });
+    }
+
+    function debugPrint(datum) {
+
+        console.group(datum);
+
+        var output = [];
+
+        var nodesAtIteratedDepth = [datum];
+
+        do {
+
+            var nodesAtNextDepth = [];
+
+            nodesAtIteratedDepth.forEach(function(node) {
+
+                var children = node.fd3Data.children;
+
+                output.push({
+                    parent: node.fd3Data.parent && getReadableId(node.fd3Data.parent),
+                    id:    getId(node),
+                    input: getInput(node),
+                    allChildren:     childReadabledIds(children.all),
+                    visibleChildren: childReadabledIds(children.visible),
+                    hiddenChildren:  childReadabledIds(children.hidden),
+                    x: node.x,
+                    y: node.y,
+                    depth: node.depth,
+                    lastX: node.fd3Data.lastPosition.x,
+                    lastY: node.fd3Data.lastPosition.y
+                });
+
+                Array.prototype.push.apply(
+                    nodesAtNextDepth,
+                    getAllChildren(node)
+                );
+
+            });
+
+            nodesAtIteratedDepth = nodesAtNextDepth;
+
+        } while (nodesAtIteratedDepth.length > 0);
+
+        console.table(output);
+        console.groupEnd();
+
+    }
+
+    function getReadableId(node) {
+        return node.fd3Data.id + '#' + node.fd3Data.input;
+    }
+
+    function childReadabledIds(children) {
+        return children.map(getReadableId).join(',');
     }
 
 });
