@@ -2,34 +2,31 @@ define(
 
     'editor',
 
-    ['d3', 'keyCodes', 'tools'],
+    [ 'd3', 'observer', 'keyCodes', 'tools' ],
 
-    function(d3, keyCodes, _) {
+    function(d3, createObserver, keyCodes, _) {
 
         var editModeEnabled = false;
 
-        var updateFunc;
-        var updateNode2;
         var nodeGenerator;
         var dataRoot;
         var selectedNode;
+        var onNodeChanged = createObserver();
         
         return {
             init:              initEditor,
-            updateBySelection: updateBySelection
+            updateBySelection: updateBySelection,
+            onNodeChanged:     onNodeChanged
         };
 
 
         function initEditor(
-            update, updateNode2Ref,
             dataRootRef, nodeGeneratorRef,
             abbreviations
         ) {
 
-            updateFunc       = update;
-            updateNode2      = updateNode2Ref;
-            dataRoot         = dataRootRef;
-            nodeGenerator    = nodeGeneratorRef;
+            dataRoot      = dataRootRef;
+            nodeGenerator = nodeGeneratorRef;
 
             editModeEnabled = d3.select('#editMode').node().checked;
             d3.select('#editMode')
@@ -42,44 +39,35 @@ define(
 
             d3.select('#nodeInput')
 
-                .on('input', function() {
-
-                    if (!selectedNode) return;
-
-                    var selection = d3.select(selectedNode);
-                    var data = selection.datum();
-
-                    data.fd3Data.input = this.value;
-                    // todo: update editor elements according to this change
-                    nodeGenerator.fillMoveInfoFromInput(data);
-                    updateNode2(selection);
-
-                    if (data.fd3Data.isEditorElement) onPlaceholderEdited(data);
-
+                .on('input', function onInputInput() {
+                    genericInputAction(
+                        this,
+                        function readInput(data) {
+                            data.fd3Data.input = this.value;
+                            // todo: update editor elements according to this change
+                            nodeGenerator.fillMoveInfoFromInput(data);
+                        }
+                    );
                 })
 
                 .on('keydown', onInputKeyDown);
 
             d3.select('#nodeContext')
 
-                .on('input', function() {
-
-                    if (!selectedNode) return;
-
-                    var selection = d3.select(selectedNode);
-                    var data = selection.datum();
-
-                    data.fd3Data.context = this.value.split(',').map(function(e) {
-                        return e.trim();
-                    });
-                    
-                    if (data.fd3Data.isEditorElement) onPlaceholderEdited(data);
-
+                .on('input', function onInputContext() {
+                    genericInputAction(
+                        this,
+                        function readContext(data) {
+                            data.fd3Data.context = this.value.split(',').map(function(e) {
+                                return e.trim();
+                            });
+                        }
+                    );
                 })
 
                 .on('keydown', onInputKeyDown);
 
-            d3.select('#deleteNode').on('click', function() {
+            d3.select('#deleteNode').on('click', function onClickDeleteNode() {
 
                 if (!selectedNode) return;
 
@@ -87,15 +75,40 @@ define(
                 var parent = datum.fd3Data.parent;
                 if (!datum.fd3Data.isEditorElement && parent) {
                     nodeGenerator.forgetChild(parent, datum);
-                    updateFunc(parent);
+                    onNodeChanged.dispatch({
+                        deleted: [ datum ]
+                    });
                 }
 
             });
 
-            d3.select( '#moveUp'   ).on('click', function() { moveNodeBy.call(this, -1); });
-            d3.select( '#moveDown' ).on('click', function() { moveNodeBy.call(this,  1); });
+            d3.select( '#moveNodeUp'   ).on('click', function() { moveNodeBy.call(this, -1); });
+            d3.select( '#moveNodeDown' ).on('click', function() { moveNodeBy.call(this,  1); });
 
             showAbbreviations(abbreviations);
+
+        }
+
+
+        function genericInputAction(input, concreteAction) {
+
+            if (!selectedNode) return;
+
+            var selection = d3.select(selectedNode);
+            var data = selection.datum();
+
+            concreteAction.call(input, data);
+
+            var update = {
+                changed: selection,
+                added: []
+            };
+
+            if (data.fd3Data.isEditorElement) {
+                update.added = onPlaceholderEdited(data);
+            }
+
+            onNodeChanged.dispatch(update);
 
         }
 
@@ -113,22 +126,25 @@ define(
             var changed = false;
             if (_.moveArrayElement(pChildren.all,     datum, delta)) changed = true;
             if (_.moveArrayElement(pChildren.visible, datum, delta)) changed = true;
-            changed && updateFunc(parent);
+            changed && onNodeChanged.dispatch({ moved: datum });
 
         }
 
 
         function onPlaceholderEdited(datum) {
 
-            // TODO: optimize update call
+            var newNodes = [];
+            var node;
 
-            addPlaceholderNode(datum.fd3Data.parent);
-            updateFunc(datum.fd3Data.parent);
+            node = addPlaceholderNode(datum.fd3Data.parent);
+            newNodes.push(node);
 
             // turn node from placeholder to actual node
             datum.fd3Data.isEditorElement = false;
-            addPlaceholderNode(datum);
-            updateFunc(datum);
+            node = addPlaceholderNode(datum);
+            newNodes.push(node);
+
+            return newNodes;
 
         }
 
@@ -139,6 +155,8 @@ define(
 
             // add new node placeholder to every node
 
+            var addedNodes = [];
+
             // start from root
             var nodesAtIteratedDepth = [dataRoot];
             do {
@@ -148,12 +166,15 @@ define(
                         nodesAtNextDepth,
                         nodeGenerator.getAllChildren(node)
                     );
-                    addPlaceholderNode(node);
+                    var newNode = addPlaceholderNode(node);
+                    addedNodes.push(newNode);
                 });
                 nodesAtIteratedDepth = nodesAtNextDepth;
             } while (nodesAtIteratedDepth.length > 0);
 
-            updateFunc();
+            onNodeChanged.dispatch({
+                added: addedNodes
+            });
 
         }
 
@@ -163,6 +184,8 @@ define(
             editModeEnabled = false;
 
             // remove new node placeholder from every node
+
+            var removedNodes = [];
 
             // start from root
             var nodesAtIteratedDepth = [dataRoot];
@@ -174,13 +197,16 @@ define(
                         nodeGenerator.getAllChildren(node)
                     );
                     if (node.fd3Data.isEditorElement) {
+                        removedNodes.push(node);
                         nodeGenerator.forgetChild(node.fd3Data.parent, node)
                     }
                 });
                 nodesAtIteratedDepth = nodesAtNextDepth;
             } while (nodesAtIteratedDepth.length > 0);
 
-            updateFunc();
+            onNodeChanged.dispatch({
+                deleted: removedNodes
+            });
 
         }
 
@@ -217,11 +243,7 @@ define(
 
 
         function onInputKeyDown() {
-            switch (d3.event.keyCode) {
-                case keyCodes.ENTER:
-                    this.blur();
-                    break;
-            }
+            if (d3.event.keyCode === keyCodes.ENTER) this.blur();
         }
 
 

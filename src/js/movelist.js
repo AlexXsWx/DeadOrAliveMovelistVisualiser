@@ -72,14 +72,11 @@ define(
                 // data = createNewData(nodeGenerator);
 
                 editor.init(
-                    function updateRef(arg) {
-                        update(arg || data);
-                    },
-                    updateNode2,
-                    data,
-                    nodeGenerator,
+                    data, nodeGenerator,
                     rawData.meta && rawData.meta.abbreviations
                 );
+
+                editor.onNodeChanged.addListener(onEditorChange);
 
                 selectionManager.onSelectionChanged.addListener(editor.updateBySelection);
 
@@ -227,6 +224,30 @@ define(
 
 
         // ==== Update ====
+
+            function onEditorChange(changes) {
+                if (changes.changed) {
+                    var domNode = changes.changed;
+                    updateNode2(domNode);
+                }
+                if (changes.deleted && changes.deleted.length > 0) {
+                    // changes.deleted.forEach(function(datum) {
+                    //     update(datum.fd3Data.parent);
+                    // });
+                    update(data);
+                }
+                if (changes.moved) {
+                    var datum = changes.moved;
+                    update(datum.fd3Data.parent);
+                }
+                if (changes.added && changes.added.length > 0) {
+                    // changes.added.forEach(function(datum) {
+                    //     update(datum.fd3Data.parent);
+                    // });
+                    update(data);
+                }
+            }
+
 
             function update(sourceNode) {
                 
