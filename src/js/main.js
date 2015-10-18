@@ -11,7 +11,7 @@ requirejs(
     // '../../data/rig',
     ['movelist', 'SmoothScroll'],
 
-    function(initMovelist, SmoothScroll) {
+    function(movelist, SmoothScroll) {
 
         // debugger;
 
@@ -23,7 +23,7 @@ requirejs(
             accelerationMax: 1,
         });
 
-        initMovelist(document.getElementById('content'), data);
+        movelist.init(document.getElementById('content'), data);
 
     }
 

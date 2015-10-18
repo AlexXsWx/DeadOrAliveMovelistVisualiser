@@ -2,22 +2,23 @@ define(
 
     'movelist',
 
-    [ 'd3', 'canvasManager', 'node', 'limitsFinder', 'lineGenerators', 'treeTools', 'tools' ],
+    [
+        'd3', 'lineGenerators',
+        'canvasManager',
+        'node', 'limitsFinder',
+        'selection', 'editor',
+        'treeTools', 'tools',
+        'keyCodes'
+    ],
 
-    function() {
-
-        // ==== Import ====
-
-            var d3                  = requirejs('d3');
-            var canvasManager       = requirejs('canvasManager');
-            var createNodeGenerator = requirejs('node');
-            var createLimitsFinder  = requirejs('limitsFinder');
-            var lineGenerators      = requirejs('lineGenerators');
-            var treeTools           = requirejs('treeTools');
-            var _                   = requirejs('tools');
-
-        // ================
-
+    function(
+        d3, lineGenerators,
+        canvasManager,
+        createNodeGenerator, createLimitsFinder,
+        selectionManager, editor,
+        treeTools, _,
+        keyCodes
+    ) {
 
         // ==== Constants ====
 
@@ -30,15 +31,6 @@ define(
             var CHAR_EXPAND = '+';
             var CHAR_HIDE   = String.fromCharCode(0x2212); // minus sign
             var CHAR_MIXED  = String.fromCharCode(0x00D7); // cross sign
-
-            var KEY_CODES = {
-                ENTER: 13,
-                ESC:   27,
-                RIGHT: 39,
-                LEFT:  38,
-                UP:    38,
-                DOWN:  40
-            };
 
         // ===================
 
@@ -54,16 +46,12 @@ define(
 
             var nodeGenerator;
 
-            var previousSelection = null;
-            var selectedNode = null;
-            var editMode = false;
-
             var data;
 
         // ===================
 
 
-        return init;
+        return { init: init };
 
 
         // ==== Init ====
@@ -72,10 +60,7 @@ define(
 
                 canvas = initCanvas(parentElement);
 
-                initEditor();
-                initSelection(canvas.svg.node());
-
-                limitsFinder = createLimitsFinder();
+                selectionManager.init(canvas.svg.node());
 
                 nodeGenerator = createNodeGenerator();
 
@@ -86,11 +71,22 @@ define(
 
                 // data = createNewData(nodeGenerator);
 
+                editor.init(
+                    function updateRef(arg) {
+                        update(arg || data);
+                    },
+                    updateNode2,
+                    data,
+                    nodeGenerator,
+                    selectionManager,
+                    rawData.meta && rawData.meta.abbreviations
+                );
+
+                limitsFinder = createLimitsFinder();
+
                 initGenerators();
 
                 update();
-
-                rawData.meta && showAbbreviations(rawData.meta.abbreviations);
 
             }
 
@@ -325,7 +321,6 @@ define(
             // ===============
 
 
-
             // ==== Nodes ====
 
                 function updateNodes(
@@ -403,13 +398,15 @@ define(
                             var node = d3.select(this);
                             updateNode2(node);
                             node
-                                .on('click', selectNode)
+                                .on('click', function() {
+                                    selectionManager.selectNode.call(this);
+                                })
                                 .on('dblclick', function(datum) {
                                     if (datum.fd3Data.children.all.length > 0) {
                                         nodeGenerator.toggleVisibleChildren(datum);
                                         update(datum);
                                     }
-                                    undoSelection();
+                                    selectionManager.undoSelection();
                                 });
                         });
 
@@ -472,265 +469,6 @@ define(
                 }
 
             // ===============
-
-        // ================
-
-
-        // ==== Selection ====
-
-            function initSelection(rootElement) {
-
-                d3.select(rootElement).on('click', function() {
-                    selectNode.call(null);
-                });
-
-                // d3.select(rootElement).on('mousedown', function() {
-                //     d3.event.stopPropagation();
-                //     d3.event.preventDefault();
-                // });
-
-                d3.select(document.body).on('keydown', function() {
-                    switch (d3.event.keyCode) {
-                        case KEY_CODES.ESC:   selectNothing();    break;
-                        case KEY_CODES.RIGHT: selectFirstChild(); break;
-                        case KEY_CODES.LEFT:  selectParent();     break;
-                        case KEY_CODES.UP:    selectSibling(-1);  break;
-                        case KEY_CODES.DOWN:  selectSibling(1);   break;
-                        // default:
-                        //     console.log('unused keycode', d3.event.keyCode);
-                    }
-                });
-
-            }
-
-            /** Uses `this` */
-            function selectNode(dontFocus) {
-                'use strict';
-
-                if (selectedNode !== null) {
-                    var selection = d3.select(selectedNode);
-                    selection.classed('selection', false);
-                    d3.select('#nodeInput').node().value = '';
-                    // todo: disable editor
-                }
-
-                previousSelection = selectedNode;
-                if (this !== selectedNode) {
-                    selectedNode = this;
-                } else {
-                    selectedNode = null;
-                }
-
-                if (selectedNode) {
-                    var selection = d3.select(selectedNode);
-                    selection.classed('selection', true);
-                    d3.select('#nodeInput').node().value = selection.datum().fd3Data.input;
-                    !dontFocus && d3.select('#nodeInput').node().select();
-                    // todo: enable editor
-                }
-
-                d3.event.stopPropagation();
-
-            }
-
-
-            function undoSelection() {
-                // selectNode.call(previousSelection);
-            }
-
-
-            function selectNothing() {
-                selectNode.call(null);
-            }
-
-
-            function selectFirstChild() {
-                // if (!selectedNode) return;
-                // var datum = d3.select(selectedNode).datum();
-            }
-
-
-            function selectParent() {
-                // if (!selectedNode) return;
-                // var datum = d3.select(selectedNode).datum();
-            }
-
-
-            function selectSibling(delta) {
-                // if (!selectedNode) return;
-                // var datum = d3.select(selectedNode).datum();
-            }
-
-        // ===================
-
-
-        // ==== Editor ====
-
-            function initEditor() {
-
-                editMode = d3.select('#editMode').node().checked;
-                d3.select('#editMode')
-                    .on('change', function() {
-                        editMode = this.checked;
-                        editMode ? enterEditMode() : leaveEditMode();
-                    });
-
-                if (editMode) enterEditMode();
-
-                d3.select('#nodeInput')
-
-                    .on('input', function() {
-
-                        if (selectedNode !== null) {
-
-                            var selection = d3.select(selectedNode);
-                            var data = selection.datum();
-                            data.fd3Data.input = this.value;
-                            // todo: update editor elements according to this change
-                            nodeGenerator.fillMoveInfoFromInput(data);
-                            updateNode2(selection);
-
-                            if (data.fd3Data.isEditorElement) {
-
-                                // TODO: optimize update call
-
-                                addPlaceholderNode(data.fd3Data.parent);
-                                update(data.fd3Data.parent);
-
-                                // turn node from placeholder to actual node
-                                data.fd3Data.isEditorElement = false;
-                                addPlaceholderNode(data);
-                                update(data);
-
-                            }
-                        }
-
-                    })
-
-                    .on('keydown', function() {
-                        switch (d3.event.keyCode) {
-                            case KEY_CODES.ENTER: this.blur();           break;
-                            case KEY_CODES.ESC:   selectNode.call(null); break;
-                        }
-                    });
-
-                d3.select('#deleteNode').on('click', function() {
-
-                    if (!selectedNode) return;
-
-                    var datum = d3.select(selectedNode).datum();
-                    var parent = datum.fd3Data.parent;
-                    if (!datum.fd3Data.isEditorElement && parent) {
-                        nodeGenerator.forgetChild(parent, datum);
-                        update(parent);
-                    }
-
-                });
-
-                d3.select( '#moveUp'   ).on('click', function() { moveNodeBy.call(this, -1); });
-                d3.select( '#moveDown' ).on('click', function() { moveNodeBy.call(this,  1); });
-
-                function moveNodeBy(delta) {
-
-                    if (!selectedNode) return;
-
-                    var datum = d3.select(selectedNode).datum();
-                    var parent = datum.fd3Data.parent;
-
-                    if (!parent) return;
-
-                    var pChildren = parent.fd3Data.children;
-                    var changed = false;
-                    if (_.moveArrayElement(pChildren.all,     datum, delta)) changed = true;
-                    if (_.moveArrayElement(pChildren.visible, datum, delta)) changed = true;
-                    changed && update(parent);
-
-                }
-
-            }
-
-
-            function enterEditMode() {
-
-                editMode = true;
-
-                // add new node placeholder to every node
-
-                // start from root
-                var nodesAtIteratedDepth = [data];
-                do {
-                    var nodesAtNextDepth = [];
-                    nodesAtIteratedDepth.forEach(function(node) {
-                        Array.prototype.push.apply(
-                            nodesAtNextDepth,
-                            nodeGenerator.getAllChildren(node)
-                        );
-                        addPlaceholderNode(node);
-                    });
-                    nodesAtIteratedDepth = nodesAtNextDepth;
-                } while (nodesAtIteratedDepth.length > 0);
-
-                update(data);
-
-            }
-
-
-            function leaveEditMode() {
-
-                editMode = false;
-
-                // remove new node placeholder from every node
-
-                // start from root
-                var nodesAtIteratedDepth = [data];
-                do {
-                    var nodesAtNextDepth = [];
-                    nodesAtIteratedDepth.forEach(function(node) {
-                        Array.prototype.push.apply(
-                            nodesAtNextDepth,
-                            nodeGenerator.getAllChildren(node)
-                        );
-                        if (node.fd3Data.isEditorElement) {
-                            nodeGenerator.forgetChild(node.fd3Data.parent, node)
-                        }
-                    });
-                    nodesAtIteratedDepth = nodesAtNextDepth;
-                } while (nodesAtIteratedDepth.length > 0);
-
-                update(data);
-
-            }
-
-
-            function addPlaceholderNode(parent) {
-
-                var placeholderNode = nodeGenerator.generate('new', parent);
-                placeholderNode.fd3Data.isEditorElement = true;
-
-                var children = parent.fd3Data.children;
-                children.all.push(placeholderNode);
-                if (children.visible.length > 0 || children.hidden.length === 0) {
-                    children.visible.push(placeholderNode);
-                } else {
-                    children.hidden.push(placeholderNode);
-                }
-
-                return placeholderNode;
-            }
-
-
-            function showAbbreviations(abbreviations) {
-
-                if (!abbreviations) return;
-
-                var table = d3.select('#abbreviations table');
-
-                for (name in abbreviations) {
-                    var row = table.append('tr');
-                    row.append('td').text(name);
-                    row.append('td').append('input').node().value = abbreviations[name];
-                }
-            }
 
         // ================
 
