@@ -12,6 +12,8 @@ define(
         
         return {
             init:              initEditor,
+            enterEditMode:     enterEditMode,
+            leaveEditMode:     leaveEditMode,
             updateBySelection: updateBySelection,
             showAbbreviations: showAbbreviations,
             onDataChanged:     onDataChanged
@@ -23,7 +25,7 @@ define(
             nodeGenerator = nodeGeneratorRef;
 
             bindListeners();
-            
+
         }
 
 

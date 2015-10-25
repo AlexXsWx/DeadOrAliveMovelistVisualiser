@@ -84,8 +84,7 @@ define(
 
 
             function onChangeEditMode() {
-                editModeEnabled = this.checked;
-                editModeEnabled ? enterEditMode(dataRoot) : leaveEditMode(dataRoot);
+                this.checked ? editor.enterEditMode(dataRoot) : editor.leaveEditMode(dataRoot);
             }
 
 
