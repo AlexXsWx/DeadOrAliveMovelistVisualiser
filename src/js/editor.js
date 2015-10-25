@@ -43,6 +43,10 @@ define(
                 .on('input',   function() { changeSelectedNodes(this, readContext); })
                 .on('keydown', onInputKeyDown);
 
+            d3.select('#nodeEnd')
+                .on('input',   function() { changeSelectedNodes(this, readEnd); })
+                .on('keydown', onInputKeyDown);
+
             d3.select('#addChild').on('click', onClickAddChild);
             d3.select('#deleteNode').on('click', onClickDeleteNode);
 
@@ -79,6 +83,18 @@ define(
             treeNode.fd3Data.context = newValue;
 
             return { changed: !_.arraysConsistOfSameStrings(oldValue, newValue) };
+
+        }
+
+
+        function readEnd(inputElement, treeNode) {
+
+            var newValue = inputElement.value;
+            var oldValue = treeNode.fd3Data.moveInfo.endsWith;
+
+            treeNode.fd3Data.moveInfo.endsWith = newValue || undefined;
+
+            return { changed: oldValue !== newValue };
 
         }
 
@@ -271,6 +287,7 @@ define(
 
             d3.select('#nodeInput').node().value = '';
             d3.select('#nodeContext').node().value = '';
+            d3.select('#nodeEnd').node().value = '';
             // todo: disable editor
 
             selectedSVGNode = null;
@@ -284,8 +301,10 @@ define(
 
             var datum = d3.select(selectedSVGNode).datum();
             d3.select('#nodeInput').node().value = datum.fd3Data.input;
-            focus && d3.select('#nodeInput').node().select();
             d3.select('#nodeContext').node().value = datum.fd3Data.context.join(', ');
+            d3.select('#nodeEnd').node().value = datum.fd3Data.moveInfo.endsWith || '';
+            
+            focus && d3.select('#nodeInput').node().select();
             // todo: enable editor
 
         }

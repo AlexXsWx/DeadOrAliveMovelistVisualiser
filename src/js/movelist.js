@@ -361,6 +361,14 @@ define(
                                 'opacity': 1
                             });
 
+                    nodeSelection.select('text.input')
+                        .attr('x', function(datum) {
+                            return (shouldDisplayInputAtLeft(datum) ? -1 : 1) * 0.5 * NODE_HEIGHT;
+                        })
+                        .attr('text-anchor', function(datum) {
+                            return shouldDisplayInputAtLeft(datum) ? 'end' : 'start';
+                        });
+
                     nodeSelection.select('text.toggle').text(getToggleText);
 
                 }
@@ -370,8 +378,16 @@ define(
 
                     var datum = d3SvgNode.datum();
 
-                    d3SvgNode.select('text.input').text(datum.fd3Data.input || '<unnamed>');
+                    d3SvgNode.select('text.input')
+                        .attr('x', function(datum) {
+                            return (shouldDisplayInputAtLeft(datum) ? -1 : 1) * 0.5 * NODE_HEIGHT;
+                        })
+                        .attr('text-anchor', function(datum) {
+                            return shouldDisplayInputAtLeft(datum) ? 'end' : 'start';
+                        })
+                        .text(datum.fd3Data.input || '<unnamed>');
                     d3SvgNode.select('text.toggle').text(getToggleText);
+                    d3SvgNode.select('text.ending').text(getEndStanceText);
 
                     var moveInfo = datum.fd3Data.moveInfo;
                     d3SvgNode.classed({
@@ -433,33 +449,28 @@ define(
                         });
 
                     nodeGroup.append('svg:circle').attr('r', NODE_HEIGHT / 3.0);
-                        
+
 
                     nodeGroup.append('svg:text')
-                        .attr('class', function(datum) {
-                            if (
-                                datum.fd3Data.children.all.length > 0 ||
-                                datum.fd3Data.moveInfo.endsWith
-                            ) {
-                                return 'left';
-                            } else {
-                                return 'right';
-                            }
+                        .classed({ 'input': true })
+                        .text(nodeGenerator.getInput)
+                        .attr('x', function(datum) {
+                            return (shouldDisplayInputAtLeft(datum) ? -1 : 1) * 0.5 * NODE_HEIGHT;
                         })
-                        .classed('input', true)
-                        .text(nodeGenerator.getInput);
+                        .attr('text-anchor', function(datum) {
+                            return shouldDisplayInputAtLeft(datum) ? 'end' : 'start';
+                        });
 
                     nodeGroup.append('svg:text')
                         .attr('class', 'toggle')
+                        .attr('text-anchor', 'middle')
                         .text(getToggleText);
 
-                    nodeGroup.filter(function(datum) {
-                        return datum.fd3Data.moveInfo.endsWith;
-                    }).append('svg:text')
-                        .classed('ending right', true)
-                        .text(function(datum) {
-                            return datum.fd3Data.moveInfo.endsWith;
-                        });
+                    nodeGroup.append('svg:text')
+                        .classed('ending', true)
+                        .attr('text-anchor', 'start')
+                        .attr('x', 0.5 * NODE_HEIGHT)
+                        .text(getEndStanceText);
                 }
 
 
@@ -470,6 +481,14 @@ define(
                             .attr('transform', translate(despawnPosition))
                             .attr('opacity', 0)
                             .remove();
+                }
+
+
+                function shouldDisplayInputAtLeft(datum) {
+                    return (
+                        datum.fd3Data.children.all.length > 0 ||
+                        datum.fd3Data.moveInfo.endsWith
+                    );
                 }
 
 
@@ -488,6 +507,13 @@ define(
                     if (hasVisible && !hasHidden)  return CHAR_HIDE;
                     if (hasHidden  && !hasVisible) return CHAR_EXPAND;
                     return CHAR_MIXED;
+                }
+
+
+                function getEndStanceText(datum) {
+                    var result = datum.fd3Data.moveInfo.endsWith;
+                    if (result) result = '[' + result + ']';
+                    return result || '';
                 }
 
             // ===============

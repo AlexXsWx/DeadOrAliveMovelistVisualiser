@@ -1,5 +1,3 @@
-@NODE_HEIGHT: 25px;
-
 .unclickable { pointer-events: none; }
 
 g.canvas { transition: transform 1s; }
@@ -26,39 +24,23 @@ g.node {
     &.throw circle { fill: #77f; stroke: white; }
 
     text {
-
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
 
         font-family: arial;
-        // font-weight: bold;
-        // font-style: italic;
 
         fill: black;
         text-shadow: 0 0 2px white;
 
-        text-anchor: middle;
         dominant-baseline: central;
-
-        &.left {
-            text-anchor: end;
-            transform: translate(-0.5 * @NODE_HEIGHT, 0);
-        }
-
-        &.right {
-            text-anchor: start;
-            transform: translate(0.5 * @NODE_HEIGHT, 0);
-        }
     }
 
 
     &.selection {
-        // circle { stroke-dasharray: 2; }
         text {
             font-weight: bold;
             fill: blue;
-            // fill: black;
         }
     }
 }
