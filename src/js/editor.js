@@ -10,13 +10,13 @@ define(
 
         var nodeGenerator;
         var dataRoot;
-        var selectedNode;
-        var onNodeChanged = createObserver();
+        var selectedSVGNode;
+        var onDataChanged = createObserver();
         
         return {
             init:              initEditor,
             updateBySelection: updateBySelection,
-            onNodeChanged:     onNodeChanged
+            onDataChanged:     onDataChanged
         };
 
 
@@ -25,94 +25,103 @@ define(
             dataRoot      = dataRootRef;
             nodeGenerator = nodeGeneratorRef;
 
-            editModeEnabled = d3.select('#editMode').node().checked;
-            d3.select('#editMode')
-                .on('change', function() {
-                    editModeEnabled = this.checked;
-                    editModeEnabled ? enterEditMode() : leaveEditMode();
-                });
-
-            if (editModeEnabled) enterEditMode();
-
-            d3.select('#nodeInput')
-
-                .on('input', function onInputInput() {
-                    genericInputAction(
-                        this,
-                        function readInput(data) {
-                            data.fd3Data.input = this.value;
-                            // todo: update editor elements according to this change
-                            nodeGenerator.fillMoveInfoFromInput(data);
-                        }
-                    );
-                })
-
-                .on('keydown', onInputKeyDown);
-
-            d3.select('#nodeContext')
-
-                .on('input', function onInputContext() {
-                    genericInputAction(
-                        this,
-                        function readContext(data) {
-                            data.fd3Data.context = this.value.split(',').map(function(e) {
-                                return e.trim();
-                            });
-                        }
-                    );
-                })
-
-                .on('keydown', onInputKeyDown);
-
-            d3.select('#deleteNode').on('click', function onClickDeleteNode() {
-
-                if (!selectedNode) return;
-
-                var datum = d3.select(selectedNode).datum();
-                var parent = datum.fd3Data.parent;
-                if (!datum.fd3Data.isEditorElement && parent) {
-                    nodeGenerator.forgetChild(parent, datum);
-                    onNodeChanged.dispatch({
-                        deleted: [ datum ]
-                    });
-                }
-
-            });
-
-            d3.select( '#moveNodeUp'   ).on('click', function() { moveNodeBy.call(this, -1); });
-            d3.select( '#moveNodeDown' ).on('click', function() { moveNodeBy.call(this,  1); });
-
-            d3.select('#addChild').on('click', function onClickAddChild() {
-
-                if (!selectedNode) return;
-
-                var datum = d3.select(selectedNode).datum();
-
-                var newNode = addPlaceholderNode(datum, false);
-                onNodeChanged.dispatch({
-                    added: [ newNode ]
-                });
-
-                // todo: focus on created node
-
-            });
-
+            bindListeners();
             showAbbreviations(abbreviations);
 
         }
 
 
-        function genericInputAction(input, concreteAction) {
+        function bindListeners() {
 
-            if (!selectedNode) return;
+            d3.select('#editMode').on('change', onChangeEditMode);
 
-            var selection = d3.select(selectedNode);
+            d3.select('#nodeInput')
+                .on('input',   function() { changeSelectedNodes(this, readInput); })
+                .on('keydown', onInputKeyDown);
+
+            d3.select('#nodeContext')
+                .on('input',   function() { changeSelectedNodes(this, readContext); })
+                .on('keydown', onInputKeyDown);
+
+            d3.select('#addChild').on('click', onClickAddChild);
+            d3.select('#deleteNode').on('click', onClickDeleteNode);
+
+            d3.select( '#moveNodeUp'   ).on('click', moveNodeBy.bind(null, -1));
+            d3.select( '#moveNodeDown' ).on('click', moveNodeBy.bind(null,  1));
+
+        }
+
+
+        function onChangeEditMode() {
+            editModeEnabled = this.checked;
+            editModeEnabled ? enterEditMode() : leaveEditMode();
+        }
+
+
+        function readInput(inputElement, treeNode) {
+
+            var oldValue = treeNode.fd3Data.input;
+            var newValue = inputElement.value;
+
+            treeNode.fd3Data.input = newValue;
+            // todo: update editor elements according to this change
+            nodeGenerator.guessMoveTypeByInput(treeNode);
+
+            return { changed: oldValue !== newValue };
+        }
+
+
+        function readContext(inputElement, treeNode) {
+
+            var newValue = inputElement.value.split(',').map(function(e) { return e.trim(); });
+            var oldValue = treeNode.fd3Data.context;
+
+            treeNode.fd3Data.context = newValue;
+
+            return { changed: !_.arraysConsistOfSameStrings(oldValue, newValue) };
+
+        }
+
+
+        function onClickDeleteNode() {
+
+            if (!selectedSVGNode) return;
+
+            var datum = d3.select(selectedSVGNode).datum();
+            var parent = datum.fd3Data.parent;
+            if (!datum.fd3Data.isEditorElement && parent) {
+                nodeGenerator.forgetChild(parent, datum);
+                onDataChanged.dispatch({ deleted: [ datum ] });
+            }
+
+        }
+
+
+        function onClickAddChild() {
+
+            if (!selectedSVGNode) return;
+
+            var datum = d3.select(selectedSVGNode).datum();
+
+            var newNode = addPlaceholderNode(datum, false);
+            onDataChanged.dispatch({ added: [ newNode ] });
+
+            // todo: focus on created node
+
+        }
+
+
+        function changeSelectedNodes(sourceHTMLElement, changeAction) {
+
+            if (!selectedSVGNode) return;
+
+            var selection = d3.select(selectedSVGNode);
             var data = selection.datum();
 
-            concreteAction.call(input, data);
+            var changes = changeAction(sourceHTMLElement, data);
 
             var update = {
-                changed: selection,
+                changed: changes.changed ? [selection] : [],
                 added: []
             };
 
@@ -120,16 +129,16 @@ define(
                 update.added = onPlaceholderEdited(data);
             }
 
-            onNodeChanged.dispatch(update);
+            onDataChanged.dispatch(update);
 
         }
 
 
         function moveNodeBy(delta) {
 
-            if (!selectedNode) return;
+            if (!selectedSVGNode) return;
 
-            var datum = d3.select(selectedNode).datum();
+            var datum = d3.select(selectedSVGNode).datum();
             var parent = datum.fd3Data.parent;
 
             if (!parent) return;
@@ -138,7 +147,7 @@ define(
             var changed = false;
             if (_.moveArrayElement(pChildren.all,     datum, delta)) changed = true;
             if (_.moveArrayElement(pChildren.visible, datum, delta)) changed = true;
-            changed && onNodeChanged.dispatch({ moved: datum });
+            changed && onDataChanged.dispatch({ moved: [ datum ] });
 
         }
 
@@ -169,24 +178,12 @@ define(
 
             var addedNodes = [];
 
-            // start from root
-            var nodesAtIteratedDepth = [dataRoot];
-            do {
-                var nodesAtNextDepth = [];
-                nodesAtIteratedDepth.forEach(function(node) {
-                    Array.prototype.push.apply(
-                        nodesAtNextDepth,
-                        nodeGenerator.getAllChildren(node)
-                    );
-                    var newNode = addPlaceholderNode(node, true);
-                    addedNodes.push(newNode);
-                });
-                nodesAtIteratedDepth = nodesAtNextDepth;
-            } while (nodesAtIteratedDepth.length > 0);
-
-            onNodeChanged.dispatch({
-                added: addedNodes
+            forAllCurrentChildren(dataRoot, nodeGenerator.getAllChildren, function(node) {
+                var newNode = addPlaceholderNode(node, true);
+                addedNodes.push(newNode);
             });
+
+            onDataChanged.dispatch({ added: addedNodes });
 
         }
 
@@ -199,26 +196,37 @@ define(
 
             var removedNodes = [];
 
-            // start from root
+            forAllCurrentChildren(dataRoot, nodeGenerator.getAllChildren, function(node) {
+                if (node.fd3Data.isEditorElement) {
+                    removedNodes.push(node);
+                    nodeGenerator.forgetChild(node.fd3Data.parent, node)
+                }
+            });
+
+            onDataChanged.dispatch({ deleted: removedNodes });
+
+        }
+
+
+        function forAllCurrentChildren(dataRoot, childrenAccessor, action) {
+
             var nodesAtIteratedDepth = [dataRoot];
+
             do {
+
                 var nodesAtNextDepth = [];
+
                 nodesAtIteratedDepth.forEach(function(node) {
                     Array.prototype.push.apply(
                         nodesAtNextDepth,
-                        nodeGenerator.getAllChildren(node)
+                        childrenAccessor(node)
                     );
-                    if (node.fd3Data.isEditorElement) {
-                        removedNodes.push(node);
-                        nodeGenerator.forgetChild(node.fd3Data.parent, node)
-                    }
+                    action(node);
                 });
-                nodesAtIteratedDepth = nodesAtNextDepth;
-            } while (nodesAtIteratedDepth.length > 0);
 
-            onNodeChanged.dispatch({
-                deleted: removedNodes
-            });
+                nodesAtIteratedDepth = nodesAtNextDepth;
+
+            } while (nodesAtIteratedDepth.length > 0);
 
         }
 
@@ -265,16 +273,16 @@ define(
             d3.select('#nodeContext').node().value = '';
             // todo: disable editor
 
-            selectedNode = null;
+            selectedSVGNode = null;
 
             if (selection.length === 0) return;
             if (selection.length > 1) {
                 console.error('Error: selections with many elements not yet supported by editor');
                 return;
             }
-            selectedNode = selection[0];
+            selectedSVGNode = selection[0];
 
-            var datum = d3.select(selectedNode).datum();
+            var datum = d3.select(selectedSVGNode).datum();
             d3.select('#nodeInput').node().value = datum.fd3Data.input;
             focus && d3.select('#nodeInput').node().select();
             d3.select('#nodeContext').node().value = datum.fd3Data.context.join(', ');

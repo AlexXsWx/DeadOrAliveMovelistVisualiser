@@ -46,7 +46,7 @@ define(
 
             var nodeGenerator;
 
-            var data;
+            var dataRoot;
 
         // ===================
 
@@ -64,19 +64,19 @@ define(
 
                 nodeGenerator = createNodeGenerator();
 
-                data = prepareData(
+                dataRoot = prepareData(
                     rawData.data,
                     rawData.meta.character
                 );
 
-                // data = createNewData(nodeGenerator);
+                // dataRoot = createNewData(nodeGenerator);
 
                 editor.init(
-                    data, nodeGenerator,
+                    dataRoot, nodeGenerator,
                     rawData.meta && rawData.meta.abbreviations
                 );
 
-                editor.onNodeChanged.addListener(onEditorChange);
+                editor.onDataChanged.addListener(onEditorChange);
 
                 selectionManager.onSelectionChanged.addListener(editor.updateBySelection);
 
@@ -226,32 +226,22 @@ define(
         // ==== Update ====
 
             function onEditorChange(changes) {
-                if (changes.changed) {
-                    var domNode = changes.changed;
-                    updateNode2(domNode);
-                }
-                if (changes.deleted && changes.deleted.length > 0) {
-                    // changes.deleted.forEach(function(datum) {
-                    //     update(datum.fd3Data.parent);
-                    // });
-                    update(data);
-                }
-                if (changes.moved) {
-                    var datum = changes.moved;
-                    update(datum.fd3Data.parent);
-                }
-                if (changes.added && changes.added.length > 0) {
-                    // changes.added.forEach(function(datum) {
-                    //     update(datum.fd3Data.parent);
-                    // });
-                    update(data);
+                changes.changed && changes.changed.forEach(function(d3SvgNode) {
+                    updateChangedNode(d3SvgNode);
+                });
+                if (
+                    changes.deleted && changes.deleted.length > 0 ||
+                    changes.moved   && changes.moved.length   > 0 ||
+                    changes.added   && changes.added.length   > 0
+                ) {
+                    update(dataRoot);
                 }
             }
 
 
             function update(sourceNode) {
                 
-                var nodes = tree.nodes(data);
+                var nodes = tree.nodes(dataRoot);
                 var links = tree.links(nodes);
 
                 limitsFinder.reset();
@@ -262,7 +252,7 @@ define(
                     // nodeGenerator.resetScrollRangeForDatum(datum);
                 });
 
-                // nodeGenerator.fillScrollRange(data);
+                // nodeGenerator.fillScrollRange(dataRoot);
 
                 canvas.normalize(
                     PADDING,
@@ -279,8 +269,8 @@ define(
                     y: _.defined(despawnPosition.fd3Data.lastPosition.y, despawnPosition.y)
                 };
 
-                updateLinks(links,       spawnPosition, despawnPosition, animationDuration);
-                updateNodes(nodes, data, spawnPosition, despawnPosition, animationDuration);
+                updateLinks(links,           spawnPosition, despawnPosition, animationDuration);
+                updateNodes(nodes, dataRoot, spawnPosition, despawnPosition, animationDuration);
 
                 nodes.forEach(nodeGenerator.backupPosition);
 
@@ -346,7 +336,7 @@ define(
             // ==== Nodes ====
 
                 function updateNodes(
-                    nodes, data,
+                    nodes, dataRoot,
                     spawnPosition, despawnPosition,
                     animationDuration
                 ) {
@@ -354,14 +344,14 @@ define(
                     var nodesSelection = canvas.canvas.select('g.nodes').selectAll('g.node')
                         .data(nodes, nodeGenerator.getId);
 
-                    updateNode(nodesSelection, animationDuration);
+                    updateNotChangedNode(nodesSelection, animationDuration);
                     enterNode(nodesSelection.enter(), spawnPosition, animationDuration);
                     exitNode(nodesSelection.exit(), despawnPosition, animationDuration);
 
                 }
 
 
-                function updateNode(nodeSelection, animationDuration) {
+                function updateNotChangedNode(nodeSelection, animationDuration) {
 
                     nodeSelection
                         .classed('unclickable', false)
@@ -376,25 +366,35 @@ define(
                 }
 
 
-                function updateNode2(node) {
+                function updateChangedNode(d3SvgNode) {
 
-                    var datum = node.datum();
+                    var datum = d3SvgNode.datum();
 
-                    node.select('text.input').text(datum.fd3Data.input || '<unnamed>');
-                    node.select('text.toggle').text(getToggleText);
+                    d3SvgNode.select('text.input').text(datum.fd3Data.input || '<unnamed>');
+                    d3SvgNode.select('text.toggle').text(getToggleText);
 
                     var moveInfo = datum.fd3Data.moveInfo;
-                    var classes = {
+                    d3SvgNode.classed({
+
                         'node': true,
                         'unclickable': false,
                         'editor': datum.fd3Data.isEditorElement,
-                        'container': datum.fd3Data.children.all.length > 0
-                    };
-                    // TODO: clear old move info specific classes
-                    if (moveInfo.heightClass) classes[ moveInfo.heightClass ] = true;
-                    if (moveInfo.actionType)  classes[ moveInfo.actionType  ] = true;
-                    if (moveInfo.strikeType)  classes[ moveInfo.strikeType  ] = true;
-                    node.classed(classes);
+                        'container': datum.fd3Data.children.all.length > 0,
+
+                        'high': moveInfo.heightClass === 'high',
+                        'mid':  moveInfo.heightClass === 'mid',
+                        'low':  moveInfo.heightClass === 'low',
+
+                        'strike':       moveInfo.actionType === 'strike',
+                        'throw':        moveInfo.actionType === 'throw',
+                        'hold':         moveInfo.actionType === 'hold',
+                        'groundAttack': moveInfo.actionType === 'ground attack',
+                        'other':        moveInfo.actionType === 'other',
+
+                        'punch': moveInfo.strikeType === 'punch',
+                        'kick':  moveInfo.strikeType === 'kick'
+
+                    });
 
                 }
 
@@ -418,7 +418,7 @@ define(
 
                         .each(function(datum) {
                             var node = d3.select(this);
-                            updateNode2(node);
+                            updateChangedNode(node);
                             node
                                 .on('click', function() {
                                     selectionManager.selectNode.call(this);

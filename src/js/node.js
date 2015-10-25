@@ -62,13 +62,13 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
         return {
 
-            fromJson: fromJson,
+            log: log,
 
-            debugPrint: debugPrint,
+            fromJson: fromJson,
 
             generate: generateNode,
             // fillScrollRange: fillScrollRange,
-            fillMoveInfoFromInput: fillMoveInfoFromInput,
+            guessMoveTypeByInput: guessMoveTypeByInput,
 
             getAllChildren: getAllChildren,
             getVisibleChildren: getVisibleChildren,
@@ -115,7 +115,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
                 return result;
             }
 
-            fillMoveInfoFromInput(result);
+            guessMoveTypeByInput(result);
 
             var propNames = Object.getOwnPropertyNames(root);
 
@@ -143,18 +143,29 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     }
 
 
-
-    function fillMoveInfoFromInput(datum) {
+    function guessMoveTypeByInput(datum) {
         var input = datum.fd3Data.input;
         var moveInfo = datum.fd3Data.moveInfo;
-        if (RGX_PUNCH.test(input)) { moveInfo.actionType = 'strike'; moveInfo.strikeType = 'punch'; } else
-        if (RGX_KICK.test(input))  { moveInfo.actionType = 'strike'; moveInfo.strikeType = 'kick';  } else
-        if (RGX_HOLD.test(input))  { moveInfo.actionType = 'hold';  } else
-        if (RGX_THROW.test(input)) { moveInfo.actionType = 'throw'; } else {
-            // moveInfo.actionType = 'other';
+        if (RGX_PUNCH.test(input)) {
+            moveInfo.actionType = 'strike';
+            moveInfo.strikeType = 'punch';
+        } else
+        if (RGX_KICK.test(input))  {
+            moveInfo.actionType = 'strike';
+            moveInfo.strikeType = 'kick';
+        } else
+        if (RGX_HOLD.test(input))  {
+            moveInfo.actionType = 'hold';
+            moveInfo.strikeType = undefined;
+         } else
+        if (RGX_THROW.test(input)) {
+            moveInfo.actionType = 'throw';
+            moveInfo.strikeType = undefined;
+        } else {
+            moveInfo.actionType = 'other';
+            moveInfo.strikeType = undefined;
         }
     }
-
 
 
     // function fillScrollRange(data) {
@@ -174,7 +185,6 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     //     }
 
     // }
-
 
 
     function getAllChildren(datum) {
@@ -239,7 +249,8 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
         });
     }
 
-    function debugPrint(datum) {
+
+    function log(datum) {
 
         console.group(datum);
 

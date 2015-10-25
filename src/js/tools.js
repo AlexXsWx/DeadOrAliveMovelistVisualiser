@@ -44,4 +44,15 @@ define('tools', function() {
         return false;
     }
 
+    function arraysConsistOfSameStrings(arrayA, arrayB) {
+        var mapA = {};
+        var mapB = {};
+        arrayA.forEach(function(string) { mapA[string] = true; });
+        arrayB.forEach(function(string) { mapB[string] = true; });
+        return !(
+            arrayA.some(function(element) { return !Object.hasOwnProperty(mapB, element); }) ||
+            arrayB.some(function(element) { return !Object.hasOwnProperty(mapA, element); })
+        );
+    }
+
 });

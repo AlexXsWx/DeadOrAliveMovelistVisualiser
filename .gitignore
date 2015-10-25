@@ -1,5 +1,8 @@
-dist
+.idea
 project.sublime-workspace
+
 *.min.js
 other/ignore
 src/style/*.css
+
+dist
