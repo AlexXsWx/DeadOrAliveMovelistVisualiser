@@ -6,7 +6,7 @@ define(
         'd3', 'lineGenerators',
         'canvasManager',
         'node', 'limitsFinder',
-        'selection', 'editor',
+        'selection', 'editor', 'ui',
         'treeTools', 'tools',
         'keyCodes'
     ],
@@ -14,8 +14,8 @@ define(
     function(
         d3, lineGenerators,
         canvasManager,
-        createNodeGenerator, createLimitsFinder,
-        selectionManager, editor,
+        node, createLimitsFinder,
+        selectionManager, editor, ui,
         treeTools, _,
         keyCodes
     ) {
@@ -39,14 +39,17 @@ define(
 
             var canvas;
 
-            var tree;
-            var lineGenerator;
+            var dataRoot;
+
+            var generators = {
+                d3: {
+                    tree: null,
+                    line: null
+                },
+                node: null
+            };
 
             var limitsFinder;
-
-            var nodeGenerator;
-
-            var dataRoot;
 
         // ===================
 
@@ -61,10 +64,10 @@ define(
                 canvas = initCanvas(parentElement);
                 selectionManager.init(canvas.svg.node());
 
-                nodeGenerator = createNodeGenerator();
-                dataRoot = createNewData(nodeGenerator);
+                generators.node = node.createGenerator();
+                dataRoot = createNewData();
 
-                editor.init(nodeGenerator);
+                editor.init(generators.node);
                 editor.onDataChanged.addListener(onEditorChange);
 
                 selectionManager.onSelectionChanged.addListener(editor.updateBySelection);
@@ -74,6 +77,59 @@ define(
                 initGenerators();
 
                 update();
+
+                bindUIActions();
+
+            }
+
+
+            function loadRawData(rawData) {
+
+                dataRoot = prepareData(
+                    rawData.data,
+                    rawData.meta.character
+                );
+
+                // todo: reset everything
+
+                ui.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
+                update();
+
+            }
+
+
+            function initCanvas(rootNode) {
+                var canvas = canvasManager.create(rootNode);
+                canvas.canvas.append('svg:g').attr('class', 'links');
+                canvas.canvas.append('svg:g').attr('class', 'nodes');
+                return canvas;
+            }
+
+
+            function initGenerators() {
+
+                var tree = d3.layout.tree();
+
+                tree.nodeSize([ NODE_HEIGHT, NODE_WIDTH ]); // turn 90deg CCW
+
+                tree.children(node.getVisibleChildren);
+
+                // tree.separation(function(a, b) {
+                //     return 1;
+                // });
+
+                generators.d3.tree = tree;
+
+                generators.d3.line = lineGenerators.createTurnedDiagonalLineGenerator();
+                
+            }
+
+        // ==============
+
+
+        // ==== UI ====
+
+            function bindUIActions() {
 
                 d3.select('#save').on('click',  onButtonSave);
                 d3.select('#load').on('change', onButtonLoad);
@@ -105,73 +161,32 @@ define(
                 reader.readAsText(file);
 
                 function onFileLoaded() {
-                    callback(this.result);
-                }
-
-                function callback(data) {
-
-                    var rawData = JSON.parse(data);
-
-                    dataRoot = prepareData(
-                        rawData.data,
-                        rawData.meta.character
-                    );
-
-                    // todo: reset everything
-
-                    editor.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
-                    update();
-
+                    loadRawData(JSON.parse(this.result));
                 }
 
             }
 
-
-            function initCanvas(rootNode) {
-                var canvas = canvasManager.create(rootNode);
-                canvas.canvas.append('svg:g').attr('class', 'links');
-                canvas.canvas.append('svg:g').attr('class', 'nodes');
-                return canvas;
-            }
-
-
-            function initGenerators() {
-
-                tree = d3.layout.tree();
-
-                tree.nodeSize([ NODE_HEIGHT, NODE_WIDTH ]); // turn 90deg CCW
-
-                tree.children(nodeGenerator.getVisibleChildren);
-
-                // tree.separation(function(a, b) {
-                //     return 1;
-                // });
-
-                lineGenerator = lineGenerators.createTurnedDiagonalLineGenerator();
-                
-            }
-
-        // ==============
+        // ============
 
 
         // ==== Data operations ====
 
-            function createNewData(nodeGenerator) {
-                return nodeGenerator.generate('new character', null);
+            function createNewData() {
+                return generators.node.generate('new character', null);
             }
 
 
             function prepareData(characterRawData, characterName) {
 
-                var preparedData = nodeGenerator.fromJson(characterRawData, characterName);
+                var preparedData = generators.node.fromJson(characterRawData, characterName);
 
                 preparedData.fd3Data.children.all.forEach(function(stance) {
-                    groupByType(stance, nodeGenerator.generate);
+                    groupByType(stance, generators.node.generate);
                 });
 
                 var childrenByDepth = treeTools.getChildrenMergedByDepth(
                     preparedData,
-                    nodeGenerator.getAllChildren
+                    node.getAllChildren
                 );
                 for (var i = childrenByDepth.length - 1; i > 0; --i) {
                     childrenByDepth[i].forEach(function(child) {
@@ -279,18 +294,18 @@ define(
 
             function update(sourceNode) {
                 
-                var nodes = tree.nodes(dataRoot);
-                var links = tree.links(nodes);
+                var nodes = generators.d3.tree.nodes(dataRoot);
+                var links = generators.d3.tree.links(nodes);
 
                 limitsFinder.reset();
 
                 nodes.forEach(function(datum) {
-                    nodeGenerator.swapXY(datum); // turn 90deg CCW
+                    node.swapXY(datum); // turn 90deg CCW
                     limitsFinder.considerDatum(datum);
-                    // nodeGenerator.resetScrollRangeForDatum(datum);
+                    // node.resetScrollRangeForDatum(datum);
                 });
 
-                // nodeGenerator.fillScrollRange(dataRoot);
+                // node.fillScrollRange(dataRoot);
 
                 canvas.normalize(
                     PADDING,
@@ -310,7 +325,7 @@ define(
                 updateLinks(links,           spawnPosition, despawnPosition, animationDuration);
                 updateNodes(nodes, dataRoot, spawnPosition, despawnPosition, animationDuration);
 
-                nodes.forEach(nodeGenerator.backupPosition);
+                nodes.forEach(node.backupPosition);
 
             }
 
@@ -320,7 +335,7 @@ define(
 
                     var linksSelection = canvas.canvas.select('g.links').selectAll('path.link')
                         .data(links, function(d) {
-                            return nodeGenerator.getId(d.target);
+                            return node.getId(d.target);
                         });
 
                     updateLink(linksSelection, animationDuration);
@@ -334,7 +349,7 @@ define(
                     selection
                         .attr('opacity', 1)
                         .transition().duration(animationDuration)
-                            .attr('d', lineGenerator);
+                            .attr('d', generators.d3.line);
                 }
 
 
@@ -342,7 +357,7 @@ define(
                     var linksGroup = selection.append('svg:path')
                         .attr('class', 'link')
                         .attr('opacity', 0)
-                        .attr('d', lineGenerator({
+                        .attr('d', generators.d3.line({
                             source: spawnPosition,
                             target: spawnPosition
                         }))
@@ -352,7 +367,7 @@ define(
                         });
 
                     linksGroup.transition().duration(animationDuration)
-                        .attr('d', lineGenerator)
+                        .attr('d', generators.d3.line)
                         .attr('opacity', 1);
                 }
 
@@ -360,7 +375,7 @@ define(
                 function exitLink(selection, despawnPosition, animationDuration) {
                     selection
                         .transition().duration(animationDuration)
-                            .attr('d', lineGenerator({
+                            .attr('d', generators.d3.line({
                                 source: despawnPosition,
                                 target: despawnPosition
                             }))
@@ -380,7 +395,7 @@ define(
                 ) {
 
                     var nodesSelection = canvas.canvas.select('g.nodes').selectAll('g.node')
-                        .data(nodes, nodeGenerator.getId);
+                        .data(nodes, node.getId);
 
                     updateNotChangedNode(nodesSelection, animationDuration);
                     enterNode(nodesSelection.enter(), spawnPosition, animationDuration);
@@ -432,7 +447,6 @@ define(
 
                         'node': true,
                         'unclickable': false,
-                        'editor': datum.fd3Data.isEditorElement,
                         'container': datum.fd3Data.children.all.length > 0,
 
                         'high': moveInfo.heightClass === 'high',
@@ -471,15 +485,15 @@ define(
                         })
 
                         .each(function(datum) {
-                            var node = d3.select(this);
-                            updateChangedNode(node);
-                            node
+                            var treeNode = d3.select(this);
+                            updateChangedNode(treeNode);
+                            treeNode
                                 .on('click', function() {
                                     selectionManager.selectNode.call(this);
                                 })
                                 .on('dblclick', function(datum) {
                                     if (datum.fd3Data.children.all.length > 0) {
-                                        nodeGenerator.toggleVisibleChildren(datum);
+                                        node.toggleVisibleChildren(datum);
                                         update(datum);
                                     }
                                     selectionManager.undoSelection();
@@ -491,7 +505,7 @@ define(
 
                     nodeGroup.append('svg:text')
                         .classed({ 'input': true })
-                        .text(nodeGenerator.getInput)
+                        .text(node.getInput)
                         .attr('x', function(datum) {
                             return (shouldDisplayInputAtLeft(datum) ? -1 : 1) * 0.5 * NODE_HEIGHT;
                         })

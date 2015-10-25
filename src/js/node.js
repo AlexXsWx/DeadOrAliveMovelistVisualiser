@@ -5,7 +5,30 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     var RGX_HOLD  = /^\d+h$/i;
     var RGX_THROW = /^\d*t$/i;
 
-    return createNodeGenerator;
+    return {
+
+        createGenerator: createGenerator,
+
+        log: log,
+
+        // fillScrollRange: fillScrollRange,
+        guessMoveTypeByInput: guessMoveTypeByInput,
+
+        getAllChildren: getAllChildren,
+        getVisibleChildren: getVisibleChildren,
+        getId: getId,
+        getInput: getInput,
+
+        forgetChild: forgetChild,
+
+        toggleVisibleChildren: toggleVisibleChildren,
+        backupPosition: backupPosition,
+        swapXY: swapXY
+        // resetScrollRangeForDatum: resetScrollRangeForDatum
+
+        // setRelation: setRelation
+        
+    };
 
 
     function createNode(id, input, parent) {
@@ -22,7 +45,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
             // domNode: null,
 
-            isEditorElement: false,
+            isEditorPlaceholder: false,
             // isGroupElement: false,
 
             totalChildren: 0,
@@ -38,7 +61,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
                 strikeType: undefined, // 'punch' or 'kick'
                 // isJumpStrike: undefined, // bool
                 // isOffensiveHold: undefined // bool
-                endsWidth: undefined // stance
+                endsWith: undefined // stance
             },
 
             lastPosition: {
@@ -56,38 +79,17 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     }
 
 
-    function createNodeGenerator() {
+    function createGenerator() {
 
         var counter = 1;
 
         return {
-
-            log: log,
-
             fromJson: fromJson,
-
-            generate: generateNode,
-            // fillScrollRange: fillScrollRange,
-            guessMoveTypeByInput: guessMoveTypeByInput,
-
-            getAllChildren: getAllChildren,
-            getVisibleChildren: getVisibleChildren,
-            getId: getId,
-            getInput: getInput,
-
-            forgetChild: forgetChild,
-
-            toggleVisibleChildren: toggleVisibleChildren,
-            backupPosition: backupPosition,
-            swapXY: swapXY
-            // resetScrollRangeForDatum: resetScrollRangeForDatum
-
-            // setRelation: setRelation
-
+            generate: generate,
         };
 
 
-        function generateNode(input, parent) {
+        function generate(input, parent) {
 
             return {
 
@@ -107,7 +109,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
         function fromJson(root, input, parent) {
 
-            var result = generateNode(input, parent);
+            var result = generate(input, parent);
 
             // todo - move up?
             if (!_.isObject(root)) {

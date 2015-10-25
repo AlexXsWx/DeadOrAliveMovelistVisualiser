@@ -2,9 +2,9 @@ define(
 
     'editor',
 
-    [ 'd3', 'observer', 'keyCodes', 'tools' ],
+    [ 'd3', 'observer', 'node', 'keyCodes', 'treeTools', 'tools' ],
 
-    function(d3, createObserver, keyCodes, _) {
+    function(d3, createObserver, node, keyCodes, treeTools, _) {
 
         var nodeGenerator;
         var selectedSVGNode;
@@ -15,7 +15,6 @@ define(
             enterEditMode:     enterEditMode,
             leaveEditMode:     leaveEditMode,
             updateBySelection: updateBySelection,
-            showAbbreviations: showAbbreviations,
             onDataChanged:     onDataChanged
         };
 
@@ -59,7 +58,7 @@ define(
 
             treeNode.fd3Data.input = newValue;
             // todo: update editor elements according to this change
-            nodeGenerator.guessMoveTypeByInput(treeNode);
+            node.guessMoveTypeByInput(treeNode);
 
             return { changed: oldValue !== newValue };
         }
@@ -95,8 +94,8 @@ define(
 
             var datum = d3.select(selectedSVGNode).datum();
             var parent = datum.fd3Data.parent;
-            if (!datum.fd3Data.isEditorElement && parent) {
-                nodeGenerator.forgetChild(parent, datum);
+            if (!datum.fd3Data.isEditorPlaceholder && parent) {
+                node.forgetChild(parent, datum);
                 onDataChanged.dispatch({ deleted: [ datum ] });
             }
 
@@ -131,7 +130,7 @@ define(
                 added: []
             };
 
-            if (data.fd3Data.isEditorElement) {
+            if (data.fd3Data.isEditorPlaceholder) {
                 update.added = onPlaceholderEdited(data);
             }
 
@@ -167,7 +166,7 @@ define(
             newNodes.push(node);
 
             // turn node from placeholder to actual node
-            datum.fd3Data.isEditorElement = false;
+            datum.fd3Data.isEditorPlaceholder = false;
             node = addPlaceholderNode(datum, true);
             newNodes.push(node);
 
@@ -182,8 +181,8 @@ define(
 
             var addedNodes = [];
 
-            forAllCurrentChildren(dataRoot, nodeGenerator.getAllChildren, function(node) {
-                var newNode = addPlaceholderNode(node, true);
+            treeTools.forAllCurrentChildren(dataRoot, node.getAllChildren, function(treeNode) {
+                var newNode = addPlaceholderNode(treeNode, true);
                 addedNodes.push(newNode);
             });
 
@@ -198,10 +197,10 @@ define(
 
             var removedNodes = [];
 
-            forAllCurrentChildren(dataRoot, nodeGenerator.getAllChildren, function(node) {
-                if (node.fd3Data.isEditorElement) {
-                    removedNodes.push(node);
-                    nodeGenerator.forgetChild(node.fd3Data.parent, node)
+            treeTools.forAllCurrentChildren(dataRoot, node.getAllChildren, function(treeNode) {
+                if (treeNode.fd3Data.isEditorPlaceholder) {
+                    removedNodes.push(treeNode);
+                    node.forgetChild(treeNode.fd3Data.parent, treeNode)
                 }
             });
 
@@ -210,33 +209,10 @@ define(
         }
 
 
-        function forAllCurrentChildren(dataRoot, childrenAccessor, action) {
-
-            var nodesAtIteratedDepth = [dataRoot];
-
-            do {
-
-                var nodesAtNextDepth = [];
-
-                nodesAtIteratedDepth.forEach(function(node) {
-                    Array.prototype.push.apply(
-                        nodesAtNextDepth,
-                        childrenAccessor(node)
-                    );
-                    action(node);
-                });
-
-                nodesAtIteratedDepth = nodesAtNextDepth;
-
-            } while (nodesAtIteratedDepth.length > 0);
-
-        }
-
-
         function addPlaceholderNode(parent, editorElement) {
 
             var placeholderNode = nodeGenerator.generate('new', parent);
-            placeholderNode.fd3Data.isEditorElement = editorElement;
+            placeholderNode.fd3Data.isEditorPlaceholder = editorElement;
 
             var children = parent.fd3Data.children;
             children.all.push(placeholderNode);
@@ -247,20 +223,6 @@ define(
             }
 
             return placeholderNode;
-        }
-
-
-        function showAbbreviations(abbreviations) {
-
-            if (!abbreviations) return;
-
-            var table = d3.select('#abbreviations table');
-
-            for (name in abbreviations) {
-                var row = table.append('tr');
-                row.append('td').text(name);
-                row.append('td').append('input').node().value = abbreviations[name];
-            }
         }
 
 

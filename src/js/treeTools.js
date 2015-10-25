@@ -1,29 +1,53 @@
 define('treeTools', function() {
 
     return {
-        getChildrenMergedByDepth: getChildrenMergedByDepth        
+        getChildrenMergedByDepth: getChildrenMergedByDepth,
+        forAllCurrentChildren:    forAllCurrentChildren
     };
 
-    function getChildrenMergedByDepth(root, childrenAccessor) {
+    function getChildrenMergedByDepth(dataRoot, childrenAccessor) {
 
         var result = [];
 
-        var newColumn = [ root ];
+        var nodesAtNextDepth = [ dataRoot ];
 
         do {
 
-            result.push(newColumn);
+            result.push(nodesAtNextDepth);
 
-            var currentColumn = newColumn;
-            newColumn = [];
+            var nodesAtIteratedDepth = nodesAtNextDepth;
+            nodesAtNextDepth = [];
 
-            currentColumn.forEach(function(node) {
-                newColumn = newColumn.concat(childrenAccessor(node));
+            nodesAtIteratedDepth.forEach(function(node) {
+                nodesAtNextDepth = nodesAtNextDepth.concat(childrenAccessor(node));
             });
 
-        } while (newColumn.length > 0);
+        } while (nodesAtNextDepth.length > 0);
 
         return result;
+
+    }
+
+    // TODO: rename; misleading 'current'
+    function forAllCurrentChildren(dataRoot, childrenAccessor, action) {
+
+        var nodesAtIteratedDepth = [dataRoot];
+
+        do {
+
+            var nodesAtNextDepth = [];
+
+            nodesAtIteratedDepth.forEach(function(node) {
+                Array.prototype.push.apply(
+                    nodesAtNextDepth,
+                    childrenAccessor(node)
+                );
+                action(node);
+            });
+
+            nodesAtIteratedDepth = nodesAtNextDepth;
+
+        } while (nodesAtIteratedDepth.length > 0);
 
     }
 
