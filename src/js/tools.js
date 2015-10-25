@@ -1,10 +1,11 @@
 define('tools', function() {
 
     return {
-        isObject:         isObject,
-        defined:          defined,
-        copyKeysInto:     copyKeysInto,
-        moveArrayElement: moveArrayElement
+        isObject:                   isObject,
+        defined:                    defined,
+        copyKeysInto:               copyKeysInto,
+        moveArrayElement:           moveArrayElement,
+        arraysConsistOfSameStrings: arraysConsistOfSameStrings
     };
 
     function isObject(obj) {
