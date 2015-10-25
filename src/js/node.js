@@ -9,6 +9,8 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
         createGenerator: createGenerator,
 
+        toJson: toJson,
+
         log: log,
 
         // fillScrollRange: fillScrollRange,
@@ -27,7 +29,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
         // resetScrollRangeForDatum: resetScrollRangeForDatum
 
         // setRelation: setRelation
-        
+
     };
 
 
@@ -142,6 +144,26 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
         }
         
+    }
+
+
+    function toJson(dataRoot) {
+
+        var result = {
+            meta: {
+                created: Date.now(),
+                character: dataRoot.fd3Data.input
+            },
+            data: {}
+        };
+
+        // var stances = getAllChildren(dataRoot);
+        // stances.forEach(function(stance) {
+        //     // result.data[stance] = 
+        // });
+
+        return result;
+
     }
 
 

@@ -133,6 +133,7 @@ define(
 
                 d3.select('#save').on('click',  onButtonSave);
                 d3.select('#load').on('change', onButtonLoad);
+                d3.select('#download').on('click', onDownload);
 
                 d3.select('#editMode').on('change', onChangeEditMode);
 
@@ -145,9 +146,16 @@ define(
 
 
             function onButtonSave() {
-                var w = window.open();
-                w.document.title = 'test.json';
-                w.document.write('Sorry, this feature not yet implemented');
+
+                var url = (
+                    "data:application/json;charset=utf8;base64," +
+                    window.btoa(JSON.stringify(node.toJson(dataRoot)))
+                );
+
+                d3.select('#download')
+                    .attr('download', dataRoot.fd3Data.input + '.json')
+                    .attr('href', url)
+                    .attr('hidden', null);
             }
 
 
@@ -164,6 +172,10 @@ define(
                     loadRawData(JSON.parse(this.result));
                 }
 
+            }
+
+            function onDownload() {
+                d3.select('#download').attr('hidden', true);
             }
 
         // ============
@@ -289,6 +301,8 @@ define(
                 ) {
                     update(dataRoot);
                 }
+                
+                d3.select('#download').attr('hidden', true);
             }
 
 
