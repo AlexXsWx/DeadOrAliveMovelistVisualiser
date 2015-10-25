@@ -6,34 +6,28 @@ define(
 
     function(d3, createObserver, keyCodes, _) {
 
-        var editModeEnabled = false;
-
         var nodeGenerator;
-        var dataRoot;
         var selectedSVGNode;
         var onDataChanged = createObserver();
         
         return {
             init:              initEditor,
             updateBySelection: updateBySelection,
+            showAbbreviations: showAbbreviations,
             onDataChanged:     onDataChanged
         };
 
 
-        function initEditor(dataRootRef, nodeGeneratorRef, abbreviations) {
+        function initEditor(nodeGeneratorRef) {
 
-            dataRoot      = dataRootRef;
             nodeGenerator = nodeGeneratorRef;
 
             bindListeners();
-            showAbbreviations(abbreviations);
-
+            
         }
 
 
         function bindListeners() {
-
-            d3.select('#editMode').on('change', onChangeEditMode);
 
             d3.select('#nodeInput')
                 .on('input',   function() { changeSelectedNodes(this, readInput); })
@@ -53,12 +47,6 @@ define(
             d3.select( '#moveNodeUp'   ).on('click', moveNodeBy.bind(null, -1));
             d3.select( '#moveNodeDown' ).on('click', moveNodeBy.bind(null,  1));
 
-        }
-
-
-        function onChangeEditMode() {
-            editModeEnabled = this.checked;
-            editModeEnabled ? enterEditMode() : leaveEditMode();
         }
 
 
@@ -186,9 +174,7 @@ define(
         }
 
 
-        function enterEditMode() {
-
-            editModeEnabled = true;
+        function enterEditMode(dataRoot) {
 
             // add new node placeholder to every node
 
@@ -204,9 +190,7 @@ define(
         }
 
 
-        function leaveEditMode() {
-
-            editModeEnabled = false;
+        function leaveEditMode(dataRoot) {
 
             // remove new node placeholder from every node
 
@@ -285,9 +269,9 @@ define(
 
         function updateBySelection(selection, focus) {
 
-            d3.select('#nodeInput').node().value = '';
-            d3.select('#nodeContext').node().value = '';
-            d3.select('#nodeEnd').node().value = '';
+            d3.select( '#nodeInput'   ).node().value = '';
+            d3.select( '#nodeContext' ).node().value = '';
+            d3.select( '#nodeEnd'     ).node().value = '';
             // todo: disable editor
 
             selectedSVGNode = null;
@@ -300,10 +284,10 @@ define(
             selectedSVGNode = selection[0];
 
             var datum = d3.select(selectedSVGNode).datum();
-            d3.select('#nodeInput').node().value = datum.fd3Data.input;
-            d3.select('#nodeContext').node().value = datum.fd3Data.context.join(', ');
-            d3.select('#nodeEnd').node().value = datum.fd3Data.moveInfo.endsWith || '';
-            
+            d3.select( '#nodeInput'   ).node().value = datum.fd3Data.input;
+            d3.select( '#nodeContext' ).node().value = datum.fd3Data.context.join(', ');
+            d3.select( '#nodeEnd'     ).node().value = datum.fd3Data.moveInfo.endsWith || '';
+
             focus && d3.select('#nodeInput').node().select();
             // todo: enable editor
 

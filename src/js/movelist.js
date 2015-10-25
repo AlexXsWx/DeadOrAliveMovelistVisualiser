@@ -56,26 +56,15 @@ define(
 
         // ==== Init ====
 
-            function init(parentElement, rawData) {
+            function init(parentElement) {
 
                 canvas = initCanvas(parentElement);
-
                 selectionManager.init(canvas.svg.node());
 
                 nodeGenerator = createNodeGenerator();
+                dataRoot = createNewData(nodeGenerator);
 
-                dataRoot = prepareData(
-                    rawData.data,
-                    rawData.meta.character
-                );
-
-                // dataRoot = createNewData(nodeGenerator);
-
-                editor.init(
-                    dataRoot, nodeGenerator,
-                    rawData.meta && rawData.meta.abbreviations
-                );
-
+                editor.init(nodeGenerator);
                 editor.onDataChanged.addListener(onEditorChange);
 
                 selectionManager.onSelectionChanged.addListener(editor.updateBySelection);
@@ -85,6 +74,56 @@ define(
                 initGenerators();
 
                 update();
+
+                d3.select('#save').on('click',  onButtonSave);
+                d3.select('#load').on('change', onButtonLoad);
+
+                d3.select('#editMode').on('change', onChangeEditMode);
+
+            }
+
+
+            function onChangeEditMode() {
+                editModeEnabled = this.checked;
+                editModeEnabled ? enterEditMode(dataRoot) : leaveEditMode(dataRoot);
+            }
+
+
+            function onButtonSave() {
+                var w = window.open();
+                w.document.title = 'test.json';
+                w.document.write('Sorry, this feature not yet implemented');
+            }
+
+
+            function onButtonLoad() {
+
+                var fileElement = this;
+                var file = fileElement.files[0];
+
+                var reader = new FileReader();
+                reader.addEventListener('load', onFileLoaded);
+                reader.readAsText(file);
+
+                function onFileLoaded() {
+                    callback(this.result);
+                }
+
+                function callback(data) {
+
+                    var rawData = JSON.parse(data);
+
+                    dataRoot = prepareData(
+                        rawData.data,
+                        rawData.meta.character
+                    );
+
+                    // todo: reset everything
+
+                    editor.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
+                    update();
+
+                }
 
             }
 
@@ -119,7 +158,7 @@ define(
         // ==== Data operations ====
 
             function createNewData(nodeGenerator) {
-                return nodeGenerator.generate('root', null);
+                return nodeGenerator.generate('new character', null);
             }
 
 

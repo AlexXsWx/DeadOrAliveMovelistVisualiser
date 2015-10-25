@@ -1,8 +1,8 @@
 define('canvasManager', ['d3'], function() {
 
-    return { create: createCanvas };
+    return { create: create };
 
-    function createCanvas(rootNode) {
+    function create(rootNode) {
 
         svg = d3.select(rootNode).append('svg:svg')
             .attr('version', 1.1)
