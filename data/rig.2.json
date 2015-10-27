@@ -1,0 +1,661 @@
+{
+	"created": 1445900153622,
+	"character": "rig",
+	"children": [
+		{
+			"name": "STD",
+			"children": [
+				{
+					"input": "P",
+					"children": [
+						{
+							"input": "P",
+							"children": [
+								{
+									"input": "4",
+									"endsWith": "TLC"
+								},
+								{
+									"input": "P",
+									"children": [
+										{
+											"input": "K",
+											"endsWith": "BND"
+										},
+										{
+											"input": "2K"
+										},
+										{
+											"input": "4K"
+										}
+									]
+								},
+								{
+									"input": "K",
+									"children": [
+										{
+											"input": "K",
+											"endsWith": "BND"
+										},
+										{
+											"input": "6K",
+											"children": [
+												{
+													"input": "4",
+													"endsWith": "BND"
+												}
+											]
+										},
+										{
+											"input": "2K"
+										}
+									]
+								},
+								{
+									"input": "2K",
+									"children": [
+										{
+											"input": "K"
+										}
+									]
+								}
+							]
+						},
+						{
+							"input": "K",
+							"children": [
+								{
+									"input": "K"
+								},
+								{
+									"input": "2K"
+								}
+							]
+						},
+						{
+							"input": "6P"
+						}
+					]
+				},
+				{
+					"input": "9P",
+					"children": [
+						{
+							"input": "P"
+						}
+					]
+				},
+				{
+					"input": "8P"
+				},
+				{
+					"input": "7P"
+				},
+				{
+					"input": "6P",
+					"children": [
+						{
+							"input": "P",
+							"endsWith": "BT"
+						},
+						{
+							"input": "K"
+						},
+						{
+							"input": "2K",
+							"endsWith": "BND",
+							"children": [
+								{
+									"input": "K",
+									"endsWith": "BND"
+								}
+							]
+						}
+					]
+				},
+				{
+					"input": "4P",
+					"children": [
+						{
+							"input": "P"
+						},
+						{
+							"input": "K"
+						}
+					]
+				},
+				{
+					"input": "3P"
+				},
+				{
+					"input": "2P"
+				},
+				{
+					"input": "1P",
+					"children": [
+						{
+							"input": "P"
+						}
+					]
+				},
+				{
+					"input": "66P"
+				},
+				{
+					"input": "K",
+					"endsWith": "BND",
+					"children": [
+						{
+							"input": "K",
+							"endsWith": "BND",
+							"children": [
+								{
+									"input": "4",
+									"endsWith": "TLC"
+								},
+								{
+									"input": "K",
+									"children": [
+										{
+											"input": "4",
+											"endsWith": "BND"
+										},
+										{
+											"input": "6K",
+											"children": [
+												{
+													"input": "4",
+													"endsWith": "BND"
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"input": "6K",
+							"children": [
+								{
+									"input": "K"
+								}
+							]
+						},
+						{
+							"input": "2K",
+							"endsWith": "BND",
+							"children": [
+								{
+									"input": "K",
+									"endsWith": "BND"
+								}
+							]
+						}
+					]
+				},
+				{
+					"input": "9K",
+					"endsWith": "BND"
+				},
+				{
+					"input": "8K",
+					"children": [
+						{
+							"input": "K"
+						}
+					]
+				},
+				{
+					"input": "7K",
+					"children": [
+						{
+							"input": "K",
+							"endsWith": "BT"
+						}
+					]
+				},
+				{
+					"input": "6K",
+					"children": [
+						{
+							"input": "K",
+							"children": [
+								{
+									"input": "4",
+									"endsWith": "TLC"
+								}
+							]
+						},
+						{
+							"input": "9K",
+							"endsWith": "BND"
+						}
+					]
+				},
+				{
+					"input": "4K",
+					"endsWith": "BND",
+					"children": [
+						{
+							"input": "K",
+							"endsWith": "BND"
+						}
+					]
+				},
+				{
+					"input": "3K",
+					"children": [
+						{
+							"input": "K",
+							"endsWith": "BND"
+						},
+						{
+							"input": "6K",
+							"children": [
+								{
+									"input": "4",
+									"endsWith": "BND"
+								}
+							]
+						},
+						{
+							"input": "2K",
+							"endsWith": "BND",
+							"children": [
+								{
+									"input": "K",
+									"endsWith": "BND"
+								}
+							]
+						}
+					]
+				},
+				{
+					"input": "2K",
+					"children": [
+						{
+							"input": "K"
+						},
+						{
+							"input": "2K"
+						}
+					]
+				},
+				{
+					"input": "1K",
+					"endsWith": "BND",
+					"children": [
+						{
+							"input": "K",
+							"endsWith": "BND"
+						}
+					]
+				},
+				{
+					"input": "66K"
+				},
+				{
+					"input": "44K",
+					"endsWith": "BT"
+				},
+				{
+					"input": "33K"
+				},
+				{
+					"input": "236K",
+					"endsWith": "BND"
+				},
+				{
+					"input": "214K"
+				},
+				{
+					"input": "P+K",
+					"children": [
+						{
+							"input": "K"
+						}
+					]
+				},
+				{
+					"input": "6P+K",
+					"actionType": "other",
+					"endsWith": "TLC"
+				},
+				{
+					"input": "4P+K",
+					"actionType": "other",
+					"endsWith": "BND"
+				},
+				{
+					"input": "2P+K",
+					"actionType": "other",
+					"endsWith": "BND"
+				},
+				{
+					"input": "1P+K"
+				},
+				{
+					"input": "H+K",
+					"children": [
+						{
+							"input": "K"
+						},
+						{
+							"input": "2K"
+						}
+					]
+				},
+				{
+					"input": "6H+K"
+				},
+				{
+					"input": "2H+K"
+				},
+				{
+					"input": "1H+K"
+				},
+				{
+					"input": "33H+K"
+				},
+				{
+					"input": "Ap"
+				},
+				{
+					"input": "6Ap"
+				},
+				{
+					"input": "T"
+				},
+				{
+					"input": "6T"
+				},
+				{
+					"input": "66T"
+				},
+				{
+					"input": "41236T"
+				},
+				{
+					"input": "2T"
+				},
+				{
+					"input": "7H"
+				},
+				{
+					"input": "6H"
+				},
+				{
+					"input": "4H"
+				},
+				{
+					"input": "1H"
+				},
+				{
+					"input": "46H"
+				},
+				{
+					"input": "P",
+					"context": ["BT"]
+				},
+				{
+					"input": "7P",
+					"context": ["BT"],
+					"endsWith": "BT"
+				},
+				{
+					"input": "4P",
+					"context": ["BT"]
+				},
+				{
+					"input": "2P",
+					"context": ["BT"]
+				},
+				{
+					"input": "K",
+					"context": ["BT"],
+					"children": [
+						{
+							"input": "K"
+						},
+						{
+							"input": "2K"
+						}
+					]
+				},
+				{
+					"input": "4K",
+					"context": ["BT"]
+				},
+				{
+					"input": "2K",
+					"context": ["BT"]
+				},
+				{
+					"input": "P+K",
+					"actionType": "other",
+					"context": ["BT"],
+					"endsWith": "TLC"
+				},
+				{
+					"input": "H+K",
+					"context": ["BT"]
+				}
+			]
+		},
+		{
+			"name": "SS",
+			"children": [
+				{
+					"input": "P"
+				},
+				{
+					"input": "K"
+				}
+			]
+		},
+		{
+			"name": "BND",
+			"children": [
+				{
+					"input": "P"
+				},
+				{
+					"input": "K",
+					"endsWith": "BND",
+					"children": [
+						{
+							"input": "K",
+							"endsWith": "BND",
+							"children": [
+								{
+									"input": "K",
+									"children": [
+										{
+											"input": "4",
+											"endsWith": "TLC"
+										}
+									]
+								},
+								{
+									"input": "6K"
+								}
+							]
+						}
+					]
+				},
+				{
+					"input": "8K"
+				},
+				{
+					"input": "7K"
+				},
+				{
+					"input": "6K",
+					"children": [
+						{
+							"input": "4",
+							"endsWith": "BND"
+						}
+					]
+				},
+				{
+					"input": "4K",
+					"endsWith": "BND",
+					"children": [
+						{
+							"input": "K",
+							"endsWith": "BND"
+						}
+					]
+				},
+				{
+					"input": "3K",
+					"children": [
+						{
+							"input": "4",
+							"endsWith": "BND"
+						},
+						{
+							"input": "6K",
+							"children": [
+								{
+									"input": "4",
+									"endsWith": "BND"
+								}
+							]
+						}
+					]
+				},
+				{
+					"input": "2K",
+					"endsWith": "BND",
+					"children": [
+						{
+							"input": "K",
+							"endsWith": "BND"
+						}
+					]
+				},
+				{
+					"input": "P+K"
+				},
+				{
+					"input": "6P+K",
+					"actionType": "other",
+					"endsWith": "TLC"
+				},
+				{
+					"input": "H+K"
+				},
+				{
+					"input": "6H+K",
+					"endsWith": "BND",
+					"children": [
+						{
+							"input": "K",
+							"endsWith": "BT"
+						}
+					]
+				},
+				{
+					"input": "4H+K"
+				},
+				{
+					"input": "2H+K"
+				},
+				{
+					"input": "T",
+					"endsWith": "BND"
+				},
+				{
+					"input": "H"
+				},
+				{
+					"input": "P",
+					"context": ["BT"]
+				},
+				{
+					"input": "4P",
+					"context": ["BT"]
+				},
+				{
+					"input": "2P",
+					"context": ["BT"]
+				},
+				{
+					"input": "K",
+					"context": ["BT"]
+				},
+				{
+					"input": "2K",
+					"context": ["BT"]
+				},
+				{
+					"input": "P+K",
+					"actionType": "other",
+					"context": ["BT"],
+					"endsWith": "BND"
+				},
+				{
+					"input": "H+K",
+					"context": ["BT"]
+				}
+			]
+		},
+		{
+			"name": "TLC",
+			"children": [
+				{
+					"input": "P"
+				},
+				{
+					"input": "K",
+					"children": [
+						{
+							"input": "K",
+							"children": [
+								{
+									"input": "K"
+								},
+								{
+									"input": "4K"
+								}
+							]
+						},
+						{
+							"input": "H+K"
+						}
+					]
+				},
+				{
+					"input": "6K",
+					"children": [
+						{
+							"input": "6K",
+							"children": [
+								{
+									"input": "6K"
+								},
+								{
+									"input": "K"
+								}
+							]
+						},
+						{
+							"input": "K"
+						}
+					]
+				},
+				{
+					"input": "2K"
+				},
+				{
+					"input": "H+K"
+				},
+				{
+					"input": "6H+K"
+				}
+			]
+		}
+	]
+}

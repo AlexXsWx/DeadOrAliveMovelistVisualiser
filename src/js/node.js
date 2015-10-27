@@ -1,11 +1,24 @@
 define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
-    var RGX_PUNCH = /^\d*p(?:\+k)?$/i;
-    var RGX_KICK  = /(?:h\+)?k$/i;
-    var RGX_HOLD  = /^\d+h$/i;
-    var RGX_THROW = /^\d*t$/i;
+    var RGX = {
+        PUNCH: /^\d*p(?:\+k)?$/i,
+        KICK:  /(?:h\+)?k$/i,
+        HOLD:  /^\d+h$/i,
+        THROW: /^\d*t$/i
+    };
+
+
+    var SPECIFIC_INFO_TYPE = {
+        ROOT:   'root',
+        STANCE: 'stance',
+        MOVE:   'move',
+        GROUP:  'group'
+    };
+
 
     return {
+
+        SPECIFIC_INFO_TYPE: SPECIFIC_INFO_TYPE,
 
         createGenerator: createGenerator,
 
@@ -31,6 +44,105 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
         // setRelation: setRelation
 
     };
+
+
+    function createGenericNode(id, parent) {
+
+        return {
+            id: id,
+            parent: parent || null,
+            children: []
+        };
+
+    }
+
+
+    function createD3TreeNode() {
+
+        return {
+            // data to be filled by d3 tree generator
+            x: undefined,
+            y: undefined,
+            depth: undefined,
+            parent: undefined,
+            children: undefined
+        };
+
+    }
+
+
+    function createVisualisationInfo() {
+
+        return {
+
+            visibleChildren: [],
+
+            totalChildren: 0,
+            deepness: 0,
+            branchesAfter: 0,
+
+            lastPosition: {
+                x: undefined,
+                y: undefined
+            }
+
+            // svgNode: null,
+            // svgIncomingLink: null,
+
+            // scrollRange: {
+            //     from: undefined,
+            //     to:   undefined
+            // }
+
+        };
+
+    }
+
+
+    function createRootSpecificInfo(characterName) {
+        return {
+            character: characterName,
+            version:   undefined,
+            timeSaved: undefined
+        };
+    }
+
+
+    function createStanceSpecificInfo() {
+        return {
+            abbreviation: undefined,
+            description: undefined,
+            endsWith: undefined
+        };
+    }
+
+
+    function createMoveSpecificInfo(input) {
+        return {
+            input: input,
+            context: undefined,
+            heightClass: undefined, // high / mid / low
+            actionType: undefined, // strike / throw / hold / ground attack / other
+            strikeType: undefined, // 'punch' or 'kick'
+            // isJumpStrike: undefined, // bool
+            // isOffensiveHold: undefined // bool
+            endsWith: undefined // stance
+        };
+    }
+
+
+    function createGroupSpecificInfo(name) {
+        return {
+            name: name
+        };
+    }
+
+
+    function createRootNode(characterName) {
+        return {
+
+        };
+    }
 
 
     function createNode(id, input, parent) {
@@ -87,6 +199,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
         return {
             fromJson: fromJson,
+            fromJson2: fromJson2,
             generate: generate,
         };
 
@@ -143,26 +256,81 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             return result;
 
         }
+
+
+        function fromJson2(root) {
+
+            var result = generate(root.character, null);
+            var children = root.children.map(function(stance) {
+                var stanceNode = generate(stance.name, result);
+                var stanceChildren = stance.children.map(function(child) {
+                    return parseChild(child, stanceNode);
+                });
+                stanceNode.fd3Data.children.all = stanceChildren;
+                stanceNode.fd3Data.children.visible = stanceNode.fd3Data.children.all.slice(0);
+                return stanceNode;
+            });
+
+            result.fd3Data.children.all = children;
+            result.fd3Data.children.visible = result.fd3Data.children.all.slice(0);
+
+            return result;
+
+            function parseChild(child, parent) {
+
+                var result = generate(child.input, parent);
+
+                guessMoveTypeByInput(result);
+                if (child.actionType && child.actionType !== 'strike') {
+                    result.fd3Data.moveInfo.strikeType = undefined;
+                }
+
+                if (child.context)  result.fd3Data.context = child.context;
+                if (child.endsWith) result.fd3Data.moveInfo.endsWith = child.endsWith;
+
+                if (child.children) {
+                    var children = child.children.map(function(child) {
+                        return parseChild(child, result);
+                    });
+                    result.fd3Data.children.all = children;
+                    result.fd3Data.children.visible = result.fd3Data.children.all.slice(0);
+                }
+                
+                return result;
+            }
+
+        }
         
     }
 
 
     function toJson(dataRoot) {
 
-        var result = {
-            meta: {
-                created: Date.now(),
-                character: dataRoot.fd3Data.input
-            },
-            data: {}
+        return {
+            created: Date.now(),
+            character: dataRoot.fd3Data.input,
+            children: getAllChildren(dataRoot).map(function(stance) {
+                return {
+                    name: stance.fd3Data.input,
+                    children: getAllChildren(stance).map(processChild)
+                };
+            })
         };
 
-        // var stances = getAllChildren(dataRoot);
-        // stances.forEach(function(stance) {
-        //     // result.data[stance] = 
-        // });
-
-        return result;
+        function processChild(dataNode) {
+            var childData = {};
+            childData.input = dataNode.fd3Data.input;
+            if (dataNode.fd3Data.moveInfo.endsWith) {
+                childData.endsWith = dataNode.fd3Data.moveInfo.endsWith;
+            }
+            var children = getAllChildren(dataNode);
+            if (children.length > 0) {
+                childData.children = children.map(function(dataNode) {
+                    return processChild(dataNode);
+                });
+            }
+            return childData;
+        }
 
     }
 
@@ -170,19 +338,19 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     function guessMoveTypeByInput(datum) {
         var input = datum.fd3Data.input;
         var moveInfo = datum.fd3Data.moveInfo;
-        if (RGX_PUNCH.test(input)) {
+        if (RGX.PUNCH.test(input)) {
             moveInfo.actionType = 'strike';
             moveInfo.strikeType = 'punch';
         } else
-        if (RGX_KICK.test(input))  {
+        if (RGX.KICK.test(input))  {
             moveInfo.actionType = 'strike';
             moveInfo.strikeType = 'kick';
         } else
-        if (RGX_HOLD.test(input))  {
+        if (RGX.HOLD.test(input))  {
             moveInfo.actionType = 'hold';
             moveInfo.strikeType = undefined;
          } else
-        if (RGX_THROW.test(input)) {
+        if (RGX.THROW.test(input)) {
             moveInfo.actionType = 'throw';
             moveInfo.strikeType = undefined;
         } else {

@@ -86,8 +86,9 @@ define(
             function loadRawData(rawData) {
 
                 dataRoot = prepareData(
-                    rawData.data,
-                    rawData.meta.character
+                    rawData
+                    // rawData.data,
+                    // rawData.meta.character
                 );
 
                 // todo: reset everything
@@ -149,13 +150,14 @@ define(
 
                 var url = (
                     "data:application/json;charset=utf8;base64," +
-                    window.btoa(JSON.stringify(node.toJson(dataRoot)))
+                    window.btoa(JSON.stringify(node.toJson(dataRoot), null, '  '))
                 );
 
                 d3.select('#download')
                     .attr('download', dataRoot.fd3Data.input + '.json')
                     .attr('href', url)
                     .attr('hidden', null);
+                    
             }
 
 
@@ -190,11 +192,11 @@ define(
 
             function prepareData(characterRawData, characterName) {
 
-                var preparedData = generators.node.fromJson(characterRawData, characterName);
+                var preparedData = generators.node.fromJson2(characterRawData, characterName);
 
-                preparedData.fd3Data.children.all.forEach(function(stance) {
-                    groupByType(stance, generators.node.generate);
-                });
+                // preparedData.fd3Data.children.all.forEach(function(stance) {
+                //     groupByType(stance, generators.node.generate);
+                // });
 
                 var childrenByDepth = treeTools.getChildrenMergedByDepth(
                     preparedData,
@@ -301,7 +303,7 @@ define(
                 ) {
                     update(dataRoot);
                 }
-                
+
                 d3.select('#download').attr('hidden', true);
             }
 

@@ -67,9 +67,9 @@ define(
         function readContext(inputElement, treeNode) {
 
             var newValue = inputElement.value.split(',').map(function(e) { return e.trim(); });
-            var oldValue = treeNode.fd3Data.context;
+            var oldValue = treeNode.fd3Data.context || [];
 
-            treeNode.fd3Data.context = newValue;
+            treeNode.fd3Data.context = newValue || undefined;
 
             return { changed: !_.arraysConsistOfSameStrings(oldValue, newValue) };
 
@@ -249,7 +249,7 @@ define(
 
             var datum = d3.select(selectedSVGNode).datum();
             d3.select( '#nodeInput'   ).node().value = datum.fd3Data.input;
-            d3.select( '#nodeContext' ).node().value = datum.fd3Data.context.join(', ');
+            d3.select( '#nodeContext' ).node().value = (datum.fd3Data.context || []).join(', ');
             d3.select( '#nodeEnd'     ).node().value = datum.fd3Data.moveInfo.endsWith || '';
 
             focus && d3.select('#nodeInput').node().select();
