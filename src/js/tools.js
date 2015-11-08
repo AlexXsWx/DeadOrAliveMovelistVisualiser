@@ -36,7 +36,7 @@ define('tools', function() {
                 Math.max(index + relativeOffset, 0),
                 array.length - 1
             );
-            if (insertIndex !== index) {
+            if (!isNaN(insertIndex) && insertIndex !== index) {
                 array.splice(index, 1);
                 array.splice(insertIndex, 0, element);
                 return true;

@@ -8,17 +8,7 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     };
 
 
-    var SPECIFIC_INFO_TYPE = {
-        ROOT:   'root',
-        STANCE: 'stance',
-        MOVE:   'move',
-        GROUP:  'group'
-    };
-
-
     return {
-
-        SPECIFIC_INFO_TYPE: SPECIFIC_INFO_TYPE,
 
         createGenerator: createGenerator,
 
@@ -26,123 +16,32 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
 
         log: log,
 
-        // fillScrollRange: fillScrollRange,
         guessMoveTypeByInput: guessMoveTypeByInput,
 
-        getAllChildren: getAllChildren,
+        setChildren:     setChildren,
+        addChild:        addChild,
+        addVisibleChild: addVisibleChild,
+        addHiddenChild:  addHiddenChild,
+
+        getAllChildren:     getAllChildren,
         getVisibleChildren: getVisibleChildren,
+        getHiddenChildren:  getHiddenChildren,
+
+        removeChild:       removeChild,
+        removeAllChildren: removeAllChildren,
+        
+        toggleVisibleChildren: toggleVisibleChildren,
+
         getId: getId,
         getInput: getInput,
 
-        forgetChild: forgetChild,
-
-        toggleVisibleChildren: toggleVisibleChildren,
         backupPosition: backupPosition,
         swapXY: swapXY
+
+        // fillScrollRange: fillScrollRange,
         // resetScrollRangeForDatum: resetScrollRangeForDatum
 
-        // setRelation: setRelation
-
     };
-
-
-    function createGenericNode(id, parent) {
-
-        return {
-            id: id,
-            parent: parent || null,
-            children: []
-        };
-
-    }
-
-
-    function createD3TreeNode() {
-
-        return {
-            // data to be filled by d3 tree generator
-            x: undefined,
-            y: undefined,
-            depth: undefined,
-            parent: undefined,
-            children: undefined
-        };
-
-    }
-
-
-    function createVisualisationInfo() {
-
-        return {
-
-            visibleChildren: [],
-
-            totalChildren: 0,
-            deepness: 0,
-            branchesAfter: 0,
-
-            lastPosition: {
-                x: undefined,
-                y: undefined
-            }
-
-            // svgNode: null,
-            // svgIncomingLink: null,
-
-            // scrollRange: {
-            //     from: undefined,
-            //     to:   undefined
-            // }
-
-        };
-
-    }
-
-
-    function createRootSpecificInfo(characterName) {
-        return {
-            character: characterName,
-            version:   undefined,
-            timeSaved: undefined
-        };
-    }
-
-
-    function createStanceSpecificInfo() {
-        return {
-            abbreviation: undefined,
-            description: undefined,
-            endsWith: undefined
-        };
-    }
-
-
-    function createMoveSpecificInfo(input) {
-        return {
-            input: input,
-            context: undefined,
-            heightClass: undefined, // high / mid / low
-            actionType: undefined, // strike / throw / hold / ground attack / other
-            strikeType: undefined, // 'punch' or 'kick'
-            // isJumpStrike: undefined, // bool
-            // isOffensiveHold: undefined // bool
-            endsWith: undefined // stance
-        };
-    }
-
-
-    function createGroupSpecificInfo(name) {
-        return {
-            name: name
-        };
-    }
-
-
-    function createRootNode(characterName) {
-        return {
-
-        };
-    }
 
 
     function createNode(id, input, parent) {
@@ -175,7 +74,10 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
                 strikeType: undefined, // 'punch' or 'kick'
                 // isJumpStrike: undefined, // bool
                 // isOffensiveHold: undefined // bool
-                endsWith: undefined // stance
+                // turns around
+                // turns opponent around
+                // swap positions
+                endsWith: undefined
             },
 
             lastPosition: {
@@ -200,7 +102,9 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
         return {
             fromJson: fromJson,
             fromJson2: fromJson2,
-            generate: generate,
+            generateRoot: generate,
+            generateGroup: generate,
+            generateNode: generate,
         };
 
 
@@ -323,6 +227,9 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
             if (dataNode.fd3Data.moveInfo.endsWith) {
                 childData.endsWith = dataNode.fd3Data.moveInfo.endsWith;
             }
+            if (dataNode.fd3Data.context && dataNode.fd3Data.context.length > 0) {
+                childData.context = dataNode.fd3Data.context;
+            }
             var children = getAllChildren(dataNode);
             if (children.length > 0) {
                 childData.children = children.map(function(dataNode) {
@@ -360,6 +267,179 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     }
 
 
+    // ==== Children ====
+
+        /** Does not update `parent` of its old children */
+        function setChildren(datum, newChildren) {
+
+            datum.fd3Data.children.all = newChildren;
+            datum.fd3Data.children.visible = datum.fd3Data.children.all.slice(0);
+            datum.fd3Data.children.hidden = [];
+
+            newChildren.forEach(function(child) {
+                child.fd3Data.parent = datum;
+            });
+
+        }
+
+        function addChild(datum, child) {
+            var children = datum.fd3Data.children;
+            if (
+                children.visible.length > 0 ||
+                children.hidden.length === 0
+            ) {
+                addVisibleChild(datum, child);
+            } else {
+                addHiddenChild(datum, child);
+            }
+        }
+
+        function addVisibleChild(datum, child) {
+            child.fd3Data.parent = datum;
+            var children = datum.fd3Data.children;
+            children.all.push(child);
+            children.visible.push(child);
+        }
+
+        function addHiddenChild(datum, child) {
+            child.fd3Data.parent = datum;
+            var children = datum.fd3Data.children;
+            children.all.push(child);
+            children.hidden.push(child);
+        }
+
+
+        function getAllChildren(datum) {
+            return datum.fd3Data.children.all;
+        }
+
+        function getVisibleChildren(datum) {
+            return datum.fd3Data.children.visible;
+        }
+
+        function getHiddenChildren(datum) {
+            return datum.fd3Data.children.hidden;
+        }
+
+
+        /** Does not update `parent` of its old children */
+        function removeChild(parentDatum, child) {
+            var parentChildren = parentDatum.fd3Data.children;
+            [
+                parentChildren.all,
+                parentChildren.visible,
+                parentChildren.hidden
+            ].forEach(function(children) {
+                var index = children.indexOf(child);
+                if (index >= 0) children.splice(index, 1);
+            });
+        }
+
+        /** Does not update `parent` of its old children */
+        function removeAllChildren(datum) {
+            datum.fd3Data.children.all     = [];
+            datum.fd3Data.children.visible = [];
+            datum.fd3Data.children.hidden  = [];
+        }
+
+
+        function toggleVisibleChildren(datum) {
+            var temp = datum.fd3Data.children.hidden;
+            datum.fd3Data.children.hidden = datum.fd3Data.children.visible; // FIXME: unique arrays?
+            datum.fd3Data.children.visible = temp;
+        }
+
+    // ==================
+
+
+    function getId(datum) {
+        return datum.fd3Data.id;
+    }
+
+
+    function getInput(datum) {
+        return datum.fd3Data.input;
+    }
+
+
+    function backupPosition(datum) {
+        datum.fd3Data.lastPosition.x = datum.x;
+        datum.fd3Data.lastPosition.y = datum.y;
+    }
+
+
+    function swapXY(datum) {
+        var swap = datum.x;
+        datum.x = datum.y;
+        datum.y = swap;
+    }
+
+
+    // ==== Logging ====
+
+        function log(datum) {
+
+            console.group(datum);
+
+            var output = [];
+
+            var nodesAtIteratedDepth = [datum];
+
+            do {
+
+                var nodesAtNextDepth = [];
+
+                nodesAtIteratedDepth.forEach(function(node) {
+
+                    var children = node.fd3Data.children;
+
+                    output.push({
+                        parent: node.fd3Data.parent && getReadableId(node.fd3Data.parent),
+                        id:    getId(node),
+                        input: getInput(node),
+                        allChildren:     childReadabledIds(children.all),
+                        visibleChildren: childReadabledIds(children.visible),
+                        hiddenChildren:  childReadabledIds(children.hidden),
+                        x: node.x,
+                        y: node.y,
+                        depth: node.depth,
+                        lastX: node.fd3Data.lastPosition.x,
+                        lastY: node.fd3Data.lastPosition.y
+                    });
+
+                    Array.prototype.push.apply(
+                        nodesAtNextDepth,
+                        getAllChildren(node)
+                    );
+
+                });
+
+                nodesAtIteratedDepth = nodesAtNextDepth;
+
+            } while (nodesAtIteratedDepth.length > 0);
+
+            console.table(output);
+            console.groupEnd();
+
+        }
+
+        function getReadableId(node) {
+            return node.fd3Data.id + '#' + node.fd3Data.input;
+        }
+
+        function childReadabledIds(children) {
+            return children.map(getReadableId).join(',');
+        }
+
+    // =================
+
+
+    // function resetScrollRangeForDatum(datum) {
+    //     datum.fd3Data.scrollRange.from = datum.y;
+    //     datum.fd3Data.scrollRange.to   = datum.y;
+    // }
+
+
     // function fillScrollRange(data) {
         
     //     var childrenByDepth = treeTools.getChildrenMergedByDepth(
@@ -377,123 +457,5 @@ define('node', ['treeTools', 'tools'], function(treeTools, _) {
     //     }
 
     // }
-
-
-    function getAllChildren(datum) {
-        return datum.fd3Data.children.all;
-    }
-
-    function getVisibleChildren(datum) {
-        return datum.fd3Data.children.visible;
-    }
-
-    function toggleVisibleChildren(datum) {
-        var temp = datum.fd3Data.children.hidden;
-        datum.fd3Data.children.hidden = datum.fd3Data.children.visible; // FIXME: unique arrays?
-        datum.fd3Data.children.visible = temp;
-    }
-
-    function getId(datum) {
-        return datum.fd3Data.id;
-    }
-
-    function getInput(datum) {
-        return datum.fd3Data.input;
-    }
-
-    function backupPosition(datum) {
-        datum.fd3Data.lastPosition.x = datum.x;
-        datum.fd3Data.lastPosition.y = datum.y;
-    }
-
-    function swapXY(datum) {
-        var swap = datum.x;
-        datum.x = datum.y;
-        datum.y = swap;
-    }
-
-    // function resetScrollRangeForDatum(datum) {
-    //     datum.fd3Data.scrollRange.from = datum.y;
-    //     datum.fd3Data.scrollRange.to   = datum.y;
-    // }
-
-    // function removeAllChildren(parent) {
-
-    // }
-
-    // function removeChild(parent, child) {
-
-    // }
-
-    // function setRelation(node, newParent) {
-
-    // }
-
-    function forgetChild(parentDatum, child) {
-        var parentChildren = parentDatum.fd3Data.children;
-        [
-            parentChildren.all,
-            parentChildren.visible,
-            parentChildren.hidden
-        ].forEach(function(children) {
-            var index = children.indexOf(child);
-            if (index >= 0) children.splice(index, 1);
-        });
-    }
-
-
-    function log(datum) {
-
-        console.group(datum);
-
-        var output = [];
-
-        var nodesAtIteratedDepth = [datum];
-
-        do {
-
-            var nodesAtNextDepth = [];
-
-            nodesAtIteratedDepth.forEach(function(node) {
-
-                var children = node.fd3Data.children;
-
-                output.push({
-                    parent: node.fd3Data.parent && getReadableId(node.fd3Data.parent),
-                    id:    getId(node),
-                    input: getInput(node),
-                    allChildren:     childReadabledIds(children.all),
-                    visibleChildren: childReadabledIds(children.visible),
-                    hiddenChildren:  childReadabledIds(children.hidden),
-                    x: node.x,
-                    y: node.y,
-                    depth: node.depth,
-                    lastX: node.fd3Data.lastPosition.x,
-                    lastY: node.fd3Data.lastPosition.y
-                });
-
-                Array.prototype.push.apply(
-                    nodesAtNextDepth,
-                    getAllChildren(node)
-                );
-
-            });
-
-            nodesAtIteratedDepth = nodesAtNextDepth;
-
-        } while (nodesAtIteratedDepth.length > 0);
-
-        console.table(output);
-        console.groupEnd();
-
-    }
-
-    function getReadableId(node) {
-        return node.fd3Data.id + '#' + node.fd3Data.input;
-    }
-
-    function childReadabledIds(children) {
-        return children.map(getReadableId).join(',');
-    }
 
 });

@@ -86,9 +86,9 @@ define(
             function loadRawData(rawData) {
 
                 dataRoot = prepareData(
-                    rawData
-                    // rawData.data,
-                    // rawData.meta.character
+                    rawData.data,
+                    rawData.meta.character
+                    // rawData
                 );
 
                 // todo: reset everything
@@ -186,27 +186,35 @@ define(
         // ==== Data operations ====
 
             function createNewData() {
-                return generators.node.generate('new character', null);
+                return generators.node.generateRoot('new character');
             }
 
 
             function prepareData(characterRawData, characterName) {
 
-                var preparedData = generators.node.fromJson2(characterRawData, characterName);
+                var preparedData = generators.node.fromJson(characterRawData, characterName);
+                restructureByType(preparedData);
 
-                // preparedData.fd3Data.children.all.forEach(function(stance) {
-                //     groupByType(stance, generators.node.generate);
-                // });
+                // var preparedData = generators.node.fromJson2(characterRawData, characterName);
+
+                prepareTreeVisualisationData(preparedData);
+                return preparedData;
+
+            }
+
+
+            function prepareTreeVisualisationData(data) {
 
                 var childrenByDepth = treeTools.getChildrenMergedByDepth(
-                    preparedData,
+                    data,
                     node.getAllChildren
                 );
+
                 for (var i = childrenByDepth.length - 1; i > 0; --i) {
                     childrenByDepth[i].forEach(function(child) {
                         var childData = child.fd3Data;
                         var parentData = childData.parent.fd3Data;
-                        var childrenAmount = childData.children.all.length;
+                        var childrenAmount = node.getAllChildren(child).length;
                         parentData.branchesAfter += Math.max(1, childData.branchesAfter);
                         parentData.totalChildren += 1 + childrenAmount;
                         parentData.deepness = Math.max(
@@ -216,11 +224,17 @@ define(
                     });
                 }
 
-                return preparedData;
             }
 
 
-            function groupByType(parent, generateNode) {
+            function restructureByType(data) {
+                node.getAllChildren(data).forEach(function(stance) {
+                    groupByType(stance);
+                });
+            }
+
+
+            function groupByType(parent) {
 
                 // fill groups
 
@@ -240,7 +254,7 @@ define(
                     'other': 'other'
                 };
 
-                parent.fd3Data.children.all.forEach(function(child) {
+                node.getAllChildren(parent).forEach(function(child) {
 
                     var moveInfo = child.fd3Data.moveInfo;
 
@@ -262,26 +276,18 @@ define(
 
                 // assign new children
 
-                parent.fd3Data.children.all     = [];
-                parent.fd3Data.children.visible = [];
-                parent.fd3Data.children.hidden  = [];
+                node.removeAllChildren(parent);
 
                 for (type in byType) {
 
                     var childrenOfType = byType[type];
                     if (childrenOfType.length < 1) continue;
 
-                    var groupingChild = generateNode('<' + type + '>', parent);
-                    var groupingChildChildren = groupingChild.fd3Data.children;
-                    groupingChildChildren.all = childrenOfType;
-                    groupingChildChildren.hidden = groupingChildChildren.all.slice(0);
+                    var groupingChild = generators.node.generateGroup('<' + type + '>');
+                    node.setChildren(groupingChild, childrenOfType);
+                    node.toggleVisibleChildren(groupingChild);
 
-                    childrenOfType.forEach(function(child) {
-                        child.fd3Data.parent = groupingChild;
-                    });
-
-                    parent.fd3Data.children.all.push(groupingChild);
-                    parent.fd3Data.children.visible.push(groupingChild);
+                    node.addVisibleChild(parent, groupingChild);
 
                 }
 
@@ -313,11 +319,11 @@ define(
                 var nodes = generators.d3.tree.nodes(dataRoot);
                 var links = generators.d3.tree.links(nodes);
 
-                limitsFinder.reset();
-
+                limitsFinder.invalidate();
+                
                 nodes.forEach(function(datum) {
                     node.swapXY(datum); // turn 90deg CCW
-                    limitsFinder.considerDatum(datum);
+                    limitsFinder.expandToContain(datum.x, datum.y);
                     // node.resetScrollRangeForDatum(datum);
                 });
 
@@ -463,7 +469,7 @@ define(
 
                         'node': true,
                         'unclickable': false,
-                        'container': datum.fd3Data.children.all.length > 0,
+                        'container': node.getAllChildren(datum).length > 0,
 
                         'high': moveInfo.heightClass === 'high',
                         'mid':  moveInfo.heightClass === 'mid',
@@ -508,7 +514,7 @@ define(
                                     selectionManager.selectNode.call(this);
                                 })
                                 .on('dblclick', function(datum) {
-                                    if (datum.fd3Data.children.all.length > 0) {
+                                    if (node.getAllChildren(datum).length > 0) {
                                         node.toggleVisibleChildren(datum);
                                         update(datum);
                                     }
@@ -554,7 +560,7 @@ define(
 
                 function shouldDisplayInputAtLeft(datum) {
                     return (
-                        datum.fd3Data.children.all.length > 0 ||
+                        node.getAllChildren(datum).length > 0 ||
                         datum.fd3Data.moveInfo.endsWith
                     );
                 }
@@ -566,15 +572,16 @@ define(
 
 
                 function getToggleText(datum) {
-                    var children = datum.fd3Data.children;
-                    if (children.all.length === 0) {
-                        return null;
-                    }
-                    var hasVisible = children.visible.length > 0;
-                    var hasHidden  = children.hidden.length  > 0;
+
+                    if (node.getAllChildren(datum).length === 0) return null;
+
+                    var hasVisible = node.getVisibleChildren (datum).length > 0;
+                    var hasHidden  = node.getHiddenChildren  (datum).length > 0;
                     if (hasVisible && !hasHidden)  return CHAR_HIDE;
                     if (hasHidden  && !hasVisible) return CHAR_EXPAND;
+
                     return CHAR_MIXED;
+
                 }
 
 

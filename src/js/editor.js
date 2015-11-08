@@ -95,7 +95,7 @@ define(
             var datum = d3.select(selectedSVGNode).datum();
             var parent = datum.fd3Data.parent;
             if (!datum.fd3Data.isEditorPlaceholder && parent) {
-                node.forgetChild(parent, datum);
+                node.removeChild(parent, datum);
                 onDataChanged.dispatch({ deleted: [ datum ] });
             }
 
@@ -148,10 +148,11 @@ define(
 
             if (!parent) return;
 
-            var pChildren = parent.fd3Data.children;
+            var allChildren     = node.getAllChildren(parent);
+            var visibleChildren = node.getVisibleChildren(parent);
             var changed = false;
-            if (_.moveArrayElement(pChildren.all,     datum, delta)) changed = true;
-            if (_.moveArrayElement(pChildren.visible, datum, delta)) changed = true;
+            if (_.moveArrayElement(allChildren,     datum, delta)) changed = true;
+            if (_.moveArrayElement(visibleChildren, datum, delta)) changed = true;
             changed && onDataChanged.dispatch({ moved: [ datum ] });
 
         }
@@ -200,7 +201,7 @@ define(
             treeTools.forAllCurrentChildren(dataRoot, node.getAllChildren, function(treeNode) {
                 if (treeNode.fd3Data.isEditorPlaceholder) {
                     removedNodes.push(treeNode);
-                    node.forgetChild(treeNode.fd3Data.parent, treeNode)
+                    node.removeChild(treeNode.fd3Data.parent, treeNode)
                 }
             });
 
@@ -210,18 +211,9 @@ define(
 
 
         function addPlaceholderNode(parent, editorElement) {
-
-            var placeholderNode = nodeGenerator.generate('new', parent);
+            var placeholderNode = nodeGenerator.generateNode('new');
             placeholderNode.fd3Data.isEditorPlaceholder = editorElement;
-
-            var children = parent.fd3Data.children;
-            children.all.push(placeholderNode);
-            if (children.visible.length > 0 || children.hidden.length === 0) {
-                children.visible.push(placeholderNode);
-            } else {
-                children.hidden.push(placeholderNode);
-            }
-
+            node.addChild(parent, placeholderNode);
             return placeholderNode;
         }
 

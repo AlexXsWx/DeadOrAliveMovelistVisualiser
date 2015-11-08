@@ -1,37 +1,48 @@
-define('limitsFinder', function() {
+define('limitsFinder', ['tools'], function(_) {
 
     return createLimitsFinder;
 
-    function createLimitsFinder() {
+    function createLimitsFinder(x, y) {
 
         return {
 
             x: {
-                min: 0,
-                max: 0
+                min: _.defined(x, NaN),
+                max: _.defined(x, NaN)
             },
 
             y: {
-                min: 0,
-                max: 0
+                min: _.defined(y, NaN),
+                max: _.defined(y, NaN)
             },
 
-            reset: function reset() {
-                this.x.min = 0;
-                this.x.max = 0;
-                this.y.min = 0;
-                this.y.max = 0;
-            },
-
-            considerDatum: function considerDatum(datum) {
-                this.x.max = Math.max(this.x.max, datum.x);
-                this.x.min = Math.min(this.x.min, datum.x);
-                this.y.max = Math.max(this.y.max, datum.y);
-                this.y.min = Math.min(this.y.min, datum.y);
-            }
+            invalidate:      invalidate,
+            collapseTo:      collapseTo,
+            expandToContain: expandToContain
 
         };
 
+    }
+
+    function invalidate() {
+        this.x.min = NaN;
+        this.x.max = NaN;
+        this.y.min = NaN;
+        this.y.max = NaN;
+    }
+
+    function collapseTo(x, y) {
+        this.x.min = x;
+        this.x.max = x;
+        this.y.min = y;
+        this.y.max = y;
+    }
+
+    function expandToContain(x, y) {
+        if (isNaN(this.x.max) || this.x.max < x) this.x.max = x;
+        if (isNaN(this.x.min) || this.x.min > x) this.x.min = x;
+        if (isNaN(this.y.max) || this.y.max < y) this.y.max = y;
+        if (isNaN(this.y.min) || this.y.min > y) this.y.min = y;
     }
 
 });
