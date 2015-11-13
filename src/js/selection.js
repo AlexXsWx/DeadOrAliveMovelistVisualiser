@@ -43,8 +43,7 @@ define(
         }
 
 
-        /** Uses `this` for easy use with d3 */
-        function selectNode(dontFocus) {
+        function selectNode(nodeView, optDontFocus) {
             'use strict';
 
             if (selectionCurrent !== null) {
@@ -53,17 +52,17 @@ define(
             }
 
             selectionPrevious = selectionCurrent;
-            if (this !== selectionCurrent) {
-                selectionCurrent = this;
+            if (nodeView !== selectionCurrent) {
+                selectionCurrent = nodeView;
             } else {
                 selectionCurrent = null;
             }
 
             if (selectionCurrent) {
                 d3.select(selectionCurrent).classed('selection', true);
-                onSelectionChanged.dispatch([ selectionCurrent ], !dontFocus);
+                onSelectionChanged.dispatch([ selectionCurrent ], !optDontFocus);
             } else {
-                onSelectionChanged.dispatch([], !dontFocus);
+                onSelectionChanged.dispatch([], !optDontFocus);
             }
 
             d3.event.stopPropagation();

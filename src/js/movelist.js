@@ -3,9 +3,10 @@ define(
     'movelist',
 
     [
-        'd3', 'lineGenerators',
+        'd3', 'lineGenerators', // TODO: capitals
         'canvasManager',
-        'node', 'limitsFinder',
+        'node', 'nodeSerializer',
+        'visualNode', 'limitsFinder',
         'selection', 'editor', 'ui',
         'treeTools', 'tools',
         'keyCodes'
@@ -14,7 +15,8 @@ define(
     function(
         d3, lineGenerators,
         canvasManager,
-        node, createLimitsFinder,
+        node, nodeSerializer,
+        visualNode, createLimitsFinder,
         selectionManager, editor, ui,
         treeTools, _,
         keyCodes
@@ -40,13 +42,14 @@ define(
             var canvas;
 
             var dataRoot;
+            var wrappedDataRoot;
 
             var generators = {
                 d3: {
                     tree: null,
                     line: null
                 },
-                node: null
+                visualNodes: null
             };
 
             var limitsFinder;
@@ -64,10 +67,9 @@ define(
                 canvas = initCanvas(parentElement);
                 selectionManager.init(canvas.svg.node());
 
-                generators.node = node.createGenerator();
-                dataRoot = createNewData();
+                generators.visualNodes = visualNode.createGenerators();
 
-                editor.init(generators.node);
+                editor.init(generators.visualNodes);
                 editor.onDataChanged.addListener(onEditorChange);
 
                 selectionManager.onSelectionChanged.addListener(editor.updateBySelection);
@@ -76,24 +78,21 @@ define(
 
                 initGenerators();
 
-                update();
+                loadData(node.createRootNode({ character: 'character name' }));
 
                 bindUIActions();
 
             }
 
 
-            function loadRawData(rawData) {
+            function loadData(data) {
 
-                dataRoot = prepareData(
-                    rawData.data,
-                    rawData.meta.character
-                    // rawData
-                );
+                dataRoot = data;
+                wrappedDataRoot = createWrappedData(dataRoot);
 
                 // todo: reset everything
 
-                ui.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
+                // ui.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
                 update();
 
             }
@@ -113,7 +112,7 @@ define(
 
                 tree.nodeSize([ NODE_HEIGHT, NODE_WIDTH ]); // turn 90deg CCW
 
-                tree.children(node.getVisibleChildren);
+                tree.children(visualNode.getVisibleChildren);
 
                 // tree.separation(function(a, b) {
                 //     return 1;
@@ -136,25 +135,33 @@ define(
                 d3.select('#load').on('change', onButtonLoad);
                 d3.select('#download').on('click', onDownload);
 
-                d3.select('#editMode').on('change', onChangeEditMode);
+                d3.select('#showPlaceholders').on('change', onChangeShowPlaceholders);
 
             }
 
 
-            function onChangeEditMode() {
-                this.checked ? editor.enterEditMode(dataRoot) : editor.leaveEditMode(dataRoot);
+            function onChangeShowPlaceholders() {
+                if (this.checked) {
+                    editor.addPlaceholders(wrappedDataRoot);
+                } else {
+                    editor.removePlaceholders(wrappedDataRoot);
+                }
             }
 
 
             function onButtonSave() {
 
+                var exportedJsonObj = nodeSerializer.exportJson(
+                    _.withoutFalsyProperties(dataRoot)
+                );
+
                 var url = (
                     "data:application/json;charset=utf8;base64," +
-                    window.btoa(JSON.stringify(node.toJson(dataRoot), null, '  '))
+                    window.btoa(JSON.stringify(exportedJsonObj, null, '  '))
                 );
 
                 d3.select('#download')
-                    .attr('download', dataRoot.fd3Data.input + '.json')
+                    .attr('download', (dataRoot.character || 'someCharacter') + '.json')
                     .attr('href', url)
                     .attr('hidden', null);
                     
@@ -171,7 +178,20 @@ define(
                 reader.readAsText(file);
 
                 function onFileLoaded() {
-                    loadRawData(JSON.parse(this.result));
+                    var parsedJson;
+                    try {
+                        parsedJson = JSON.parse(this.result);
+                    } catch (error) {
+                        alert('Error: Invalid JSON\n%O', error);
+                        return;
+                    }
+                    var importedDataRoot = nodeSerializer.importJson(parsedJson);
+                    if (!importedDataRoot) {
+                        alert('Failed to import json');
+                        return;
+                    }
+                    var dataRoot = node.createRootNode(importedDataRoot, true);
+                    loadData(dataRoot);
                 }
 
             }
@@ -185,41 +205,36 @@ define(
 
         // ==== Data operations ====
 
-            function createNewData() {
-                return generators.node.generateRoot('new character');
+            function createWrappedData(dataRoot) {
+
+                // restructureByType(dataRoot);
+
+                var wrappedDataRoot = visualNode.createWrappedData(
+                    dataRoot, generators.visualNodes
+                );
+
+                prepareTreeVisualisationData(wrappedDataRoot);
+                return wrappedDataRoot;
             }
 
 
-            function prepareData(characterRawData, characterName) {
-
-                var preparedData = generators.node.fromJson(characterRawData, characterName);
-                restructureByType(preparedData);
-
-                // var preparedData = generators.node.fromJson2(characterRawData, characterName);
-
-                prepareTreeVisualisationData(preparedData);
-                return preparedData;
-
-            }
-
-
-            function prepareTreeVisualisationData(data) {
+            function prepareTreeVisualisationData(wrappedDataRoot) {
 
                 var childrenByDepth = treeTools.getChildrenMergedByDepth(
-                    data,
-                    node.getAllChildren
+                    wrappedDataRoot,
+                    visualNode.getAllChildren
                 );
 
                 for (var i = childrenByDepth.length - 1; i > 0; --i) {
                     childrenByDepth[i].forEach(function(child) {
                         var childData = child.fd3Data;
-                        var parentData = childData.parent.fd3Data;
-                        var childrenAmount = node.getAllChildren(child).length;
-                        parentData.branchesAfter += Math.max(1, childData.branchesAfter);
-                        parentData.totalChildren += 1 + childrenAmount;
-                        parentData.deepness = Math.max(
-                            parentData.deepness,
-                            childData.deepness + 1
+                        var parentAppearance = childData.treeInfo.parent.fd3Data.appearance;
+                        var childrenAmount = visualNode.getAllChildren(child).length;
+                        parentAppearance.branchesAfter += Math.max(1, childData.appearance.branchesAfter);
+                        parentAppearance.totalChildren += 1 + childrenAmount;
+                        parentAppearance.deepness = Math.max(
+                            parentAppearance.deepness,
+                            childData.appearance.deepness + 1
                         );
                     });
                 }
@@ -227,8 +242,10 @@ define(
             }
 
 
+            /*
+
             function restructureByType(data) {
-                node.getAllChildren(data).forEach(function(stance) {
+                visualNode.getAllChildren(data).forEach(function(stance) {
                     groupByType(stance);
                 });
             }
@@ -254,7 +271,7 @@ define(
                     'other': 'other'
                 };
 
-                node.getAllChildren(parent).forEach(function(child) {
+                visualNode.getAllChildren(parent).forEach(function(child) {
 
                     var moveInfo = child.fd3Data.moveInfo;
 
@@ -276,22 +293,24 @@ define(
 
                 // assign new children
 
-                node.removeAllChildren(parent);
+                visualNode.removeAllChildren(parent);
 
                 for (type in byType) {
 
                     var childrenOfType = byType[type];
                     if (childrenOfType.length < 1) continue;
 
-                    var groupingChild = generators.node.generateGroup('<' + type + '>');
-                    node.setChildren(groupingChild, childrenOfType);
-                    node.toggleVisibleChildren(groupingChild);
+                    var groupingChild = generators.visualNodes.generateGroup('<' + type + '>');
+                    visualNode.setChildren(groupingChild, childrenOfType);
+                    visualNode.toggleVisibleChildren(groupingChild);
 
-                    node.addVisibleChild(parent, groupingChild);
+                    visualNode.addVisibleChild(parent, groupingChild);
 
                 }
 
             }
+
+            */
 
         // =========================
 
@@ -307,7 +326,7 @@ define(
                     changes.moved   && changes.moved.length   > 0 ||
                     changes.added   && changes.added.length   > 0
                 ) {
-                    update(dataRoot);
+                    update(wrappedDataRoot);
                 }
 
                 d3.select('#download').attr('hidden', true);
@@ -316,18 +335,18 @@ define(
 
             function update(sourceNode) {
                 
-                var nodes = generators.d3.tree.nodes(dataRoot);
+                var nodes = generators.d3.tree.nodes(wrappedDataRoot);
                 var links = generators.d3.tree.links(nodes);
 
                 limitsFinder.invalidate();
                 
-                nodes.forEach(function(datum) {
-                    node.swapXY(datum); // turn 90deg CCW
+                nodes.forEach(function preprocessTreeNodes(datum) {
+                    visualNode.swapXY(datum); // turn 90deg CCW
                     limitsFinder.expandToContain(datum.x, datum.y);
-                    // node.resetScrollRangeForDatum(datum);
+                    // visualNode.resetScrollRangeForDatum(datum);
                 });
 
-                // node.fillScrollRange(dataRoot);
+                // visualNode.fillScrollRange(wrappedDataRoot);
 
                 canvas.normalize(
                     PADDING,
@@ -340,14 +359,14 @@ define(
 
                 var despawnPosition = sourceNode || nodes[0];
                 var spawnPosition = {
-                    x: _.defined(despawnPosition.fd3Data.lastPosition.x, despawnPosition.x),
-                    y: _.defined(despawnPosition.fd3Data.lastPosition.y, despawnPosition.y)
+                    x: _.defined(despawnPosition.fd3Data.appearance.lastPosition.x, despawnPosition.x),
+                    y: _.defined(despawnPosition.fd3Data.appearance.lastPosition.y, despawnPosition.y)
                 };
 
-                updateLinks(links,           spawnPosition, despawnPosition, animationDuration);
-                updateNodes(nodes, dataRoot, spawnPosition, despawnPosition, animationDuration);
+                updateLinks(links, spawnPosition, despawnPosition, animationDuration);
+                updateNodes(nodes, spawnPosition, despawnPosition, animationDuration);
 
-                nodes.forEach(node.backupPosition);
+                nodes.forEach(visualNode.backupPosition);
 
             }
 
@@ -356,8 +375,8 @@ define(
                 function updateLinks(links, spawnPosition, despawnPosition, animationDuration) {
 
                     var linksSelection = canvas.canvas.select('g.links').selectAll('path.link')
-                        .data(links, function(d) {
-                            return node.getId(d.target);
+                        .data(links, function(datum) {
+                            return visualNode.getId(datum.target);
                         });
 
                     updateLink(linksSelection, animationDuration);
@@ -369,7 +388,7 @@ define(
 
                 function updateLink(selection, animationDuration) {
                     selection
-                        .attr('opacity', 1)
+                        .attr('opacity', 1) // reset animation if any
                         .transition().duration(animationDuration)
                             .attr('d', generators.d3.line);
                 }
@@ -384,8 +403,10 @@ define(
                             target: spawnPosition
                         }))
                         .attr('stroke-width', function(obj) {
-                            // Simulating wires passing through node; using circle area formula
-                            return 2 * Math.sqrt((obj.target.fd3Data.branchesAfter + 1) / Math.PI);
+                            // Mimic wires passing through node; using circle area formula
+                            return 2 * Math.sqrt(
+                                (obj.target.fd3Data.appearance.branchesAfter + 1) / Math.PI
+                            );
                         });
 
                     linksGroup.transition().duration(animationDuration)
@@ -411,13 +432,13 @@ define(
             // ==== Nodes ====
 
                 function updateNodes(
-                    nodes, dataRoot,
+                    nodes,
                     spawnPosition, despawnPosition,
                     animationDuration
                 ) {
 
                     var nodesSelection = canvas.canvas.select('g.nodes').selectAll('g.node')
-                        .data(nodes, node.getId);
+                        .data(nodes, visualNode.getId);
 
                     updateNotChangedNode(nodesSelection, animationDuration);
                     enterNode(nodesSelection.enter(), spawnPosition, animationDuration);
@@ -436,14 +457,6 @@ define(
                                 'opacity': 1
                             });
 
-                    nodeSelection.select('text.input')
-                        .attr('x', function(datum) {
-                            return (shouldDisplayInputAtLeft(datum) ? -1 : 1) * 0.5 * NODE_HEIGHT;
-                        })
-                        .attr('text-anchor', function(datum) {
-                            return shouldDisplayInputAtLeft(datum) ? 'end' : 'start';
-                        });
-
                     nodeSelection.select('text.toggle').text(getToggleText);
 
                 }
@@ -454,35 +467,31 @@ define(
                     var datum = d3SvgNode.datum();
 
                     d3SvgNode.select('text.input')
-                        .attr('x', function(datum) {
-                            return (shouldDisplayInputAtLeft(datum) ? -1 : 1) * 0.5 * NODE_HEIGHT;
-                        })
-                        .attr('text-anchor', function(datum) {
-                            return shouldDisplayInputAtLeft(datum) ? 'end' : 'start';
-                        })
-                        .text(datum.fd3Data.input || '<unnamed>');
+                        .attr('x', -0.5 * NODE_HEIGHT)
+                        .attr('text-anchor', 'end')
+                        .text(visualNode.getName(datum) || '<unnamed>');
                     d3SvgNode.select('text.toggle').text(getToggleText);
-                    d3SvgNode.select('text.ending').text(getEndStanceText);
+                    d3SvgNode.select('text.ending').text(visualNode.getEnding);
 
-                    var moveInfo = datum.fd3Data.moveInfo;
+                    // var moveInfo = datum.fd3Data.moveInfo;
                     d3SvgNode.classed({
 
                         'node': true,
                         'unclickable': false,
-                        'container': node.getAllChildren(datum).length > 0,
+                        'container': visualNode.getAllChildren(datum).length > 0
 
-                        'high': moveInfo.heightClass === 'high',
-                        'mid':  moveInfo.heightClass === 'mid',
-                        'low':  moveInfo.heightClass === 'low',
+                        // 'high': moveInfo.heightClass === 'high',
+                        // 'mid':  moveInfo.heightClass === 'mid',
+                        // 'low':  moveInfo.heightClass === 'low',
 
-                        'strike':       moveInfo.actionType === 'strike',
-                        'throw':        moveInfo.actionType === 'throw',
-                        'hold':         moveInfo.actionType === 'hold',
-                        'groundAttack': moveInfo.actionType === 'ground attack',
-                        'other':        moveInfo.actionType === 'other',
+                        // 'strike':       moveInfo.actionType === 'strike',
+                        // 'throw':        moveInfo.actionType === 'throw',
+                        // 'hold':         moveInfo.actionType === 'hold',
+                        // 'groundAttack': moveInfo.actionType === 'ground attack',
+                        // 'other':        moveInfo.actionType === 'other',
 
-                        'punch': moveInfo.strikeType === 'punch',
-                        'kick':  moveInfo.strikeType === 'kick'
+                        // 'punch': moveInfo.strikeType === 'punch',
+                        // 'kick':  moveInfo.strikeType === 'kick'
 
                     });
 
@@ -510,33 +519,21 @@ define(
                             var treeNode = d3.select(this);
                             updateChangedNode(treeNode);
                             treeNode
-                                .on('click', function() {
-                                    selectionManager.selectNode.call(this);
-                                })
-                                .on('dblclick', function(datum) {
-                                    if (node.getAllChildren(datum).length > 0) {
-                                        node.toggleVisibleChildren(datum);
-                                        update(datum);
-                                    }
-                                    selectionManager.undoSelection();
-                                });
+                                .on('click', onClickNodeView)
+                                .on('dblclick', onDoubleClickNodeView);
                         });
 
                     nodeGroup.append('svg:circle').attr('r', NODE_HEIGHT / 3.0);
 
 
                     nodeGroup.append('svg:text')
-                        .classed({ 'input': true })
-                        .text(node.getInput)
-                        .attr('x', function(datum) {
-                            return (shouldDisplayInputAtLeft(datum) ? -1 : 1) * 0.5 * NODE_HEIGHT;
-                        })
-                        .attr('text-anchor', function(datum) {
-                            return shouldDisplayInputAtLeft(datum) ? 'end' : 'start';
-                        });
+                        .classed('input', true)
+                        .attr('x', -0.5 * NODE_HEIGHT)
+                        .attr('text-anchor', 'end')
+                        .text(function(nodeView) { return nodeView.fd3Data.appearance.textLeft; });
 
                     nodeGroup.append('svg:text')
-                        .attr('class', 'toggle')
+                        .classed('toggle', true)
                         .attr('text-anchor', 'middle')
                         .text(getToggleText);
 
@@ -544,7 +541,7 @@ define(
                         .classed('ending', true)
                         .attr('text-anchor', 'start')
                         .attr('x', 0.5 * NODE_HEIGHT)
-                        .text(getEndStanceText);
+                        .text(function(nodeView) { return nodeView.fd3Data.appearance.textRight; });
                 }
 
 
@@ -558,14 +555,6 @@ define(
                 }
 
 
-                function shouldDisplayInputAtLeft(datum) {
-                    return (
-                        node.getAllChildren(datum).length > 0 ||
-                        datum.fd3Data.moveInfo.endsWith
-                    );
-                }
-
-
                 function translate(position) {
                     return 'translate(' + position.x + ',' + position.y + ')';
                 }
@@ -573,10 +562,10 @@ define(
 
                 function getToggleText(datum) {
 
-                    if (node.getAllChildren(datum).length === 0) return null;
+                    if (visualNode.getAllChildren(datum).length === 0) return null;
 
-                    var hasVisible = node.getVisibleChildren (datum).length > 0;
-                    var hasHidden  = node.getHiddenChildren  (datum).length > 0;
+                    var hasVisible = visualNode.hasVisibleChildren(datum);
+                    var hasHidden  = visualNode.hasHiddenChildren(datum);
                     if (hasVisible && !hasHidden)  return CHAR_HIDE;
                     if (hasHidden  && !hasVisible) return CHAR_EXPAND;
 
@@ -584,11 +573,16 @@ define(
 
                 }
 
+                function onClickNodeView() {
+                    selectionManager.selectNode(this);
+                }
 
-                function getEndStanceText(datum) {
-                    var result = datum.fd3Data.moveInfo.endsWith;
-                    if (result) result = '[' + result + ']';
-                    return result || '';
+                function onDoubleClickNodeView(datum) {
+                    if (visualNode.getAllChildren(datum).length > 0) {
+                        visualNode.toggleVisibleChildren(datum);
+                        update(datum);
+                    }
+                    selectionManager.undoSelection();
                 }
 
             // ===============

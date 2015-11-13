@@ -2,20 +2,20 @@ define(
 
     'editor',
 
-    [ 'd3', 'observer', 'node', 'keyCodes', 'treeTools', 'tools' ],
+    [ 'd3', 'observer', 'node', 'visualNode', 'keyCodes', 'treeTools', 'tools' ],
 
-    function(d3, createObserver, node, keyCodes, treeTools, _) {
+    function(d3, createObserver, node, visualNode, keyCodes, treeTools, _) {
 
         var nodeGenerator;
         var selectedSVGNode;
         var onDataChanged = createObserver();
-        
+
         return {
-            init:              initEditor,
-            enterEditMode:     enterEditMode,
-            leaveEditMode:     leaveEditMode,
-            updateBySelection: updateBySelection,
-            onDataChanged:     onDataChanged
+            init:               initEditor,
+            addPlaceholders:    addPlaceholders,
+            removePlaceholders: removePlaceholders,
+            updateBySelection:  updateBySelection,
+            onDataChanged:      onDataChanged
         };
 
 
@@ -30,15 +30,19 @@ define(
 
         function bindListeners() {
 
-            d3.select('#nodeInput')
+            d3.select('#editorMoveInput')
                 .on('input',   function() { changeSelectedNodes(this, readInput); })
                 .on('keydown', onInputKeyDown);
 
-            d3.select('#nodeContext')
+            d3.select('#editorMoveContext')
                 .on('input',   function() { changeSelectedNodes(this, readContext); })
                 .on('keydown', onInputKeyDown);
 
-            d3.select('#nodeEnd')
+            d3.select('#editorMoveFrameData')
+                .on('input',   function() { changeSelectedNodes(this, readFrameData); })
+                .on('keydown', onInputKeyDown);
+
+            d3.select('#editorMoveEnding')
                 .on('input',   function() { changeSelectedNodes(this, readEnd); })
                 .on('keydown', onInputKeyDown);
 
@@ -51,39 +55,88 @@ define(
         }
 
 
-        function readInput(inputElement, treeNode) {
+        function readInput(inputElement, nodeView) {
 
-            var oldValue = treeNode.fd3Data.input;
-            var newValue = inputElement.value;
+            var changed = false;
 
-            treeNode.fd3Data.input = newValue;
-            // todo: update editor elements according to this change
-            node.guessMoveTypeByInput(treeNode);
+            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            if (node.isMoveNode(nodeData)) {
 
-            return { changed: oldValue !== newValue };
+                var oldValue = nodeData.input;
+                var newValue = inputElement.value;
+
+                nodeData.input = newValue;
+                // todo: update editor elements according to this change
+                // node.guessMoveTypeByInput(nodeView);
+
+                changed = oldValue !== newValue;
+
+            }
+
+            return { changed: changed };
         }
 
 
-        function readContext(inputElement, treeNode) {
+        function readContext(inputElement, nodeView) {
 
-            var newValue = inputElement.value.split(',').map(function(e) { return e.trim(); });
-            var oldValue = treeNode.fd3Data.context || [];
+            var changed = false;
 
-            treeNode.fd3Data.context = newValue || undefined;
+            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            if (node.isMoveNode(nodeData)) {
 
-            return { changed: !_.arraysConsistOfSameStrings(oldValue, newValue) };
+                var newValue = inputElement.value.split(',').map(function(e) { return e.trim(); });
+                var oldValue = nodeData.context || [];
+
+                nodeData.context = newValue || undefined;
+
+                changed = !_.arraysConsistOfSameStrings(oldValue, newValue);
+
+            }
+
+            return { changed: changed };
 
         }
 
 
-        function readEnd(inputElement, treeNode) {
+        function readFrameData(inputElement, nodeView) {
 
-            var newValue = inputElement.value;
-            var oldValue = treeNode.fd3Data.moveInfo.endsWith;
+            var changed = false;
 
-            treeNode.fd3Data.moveInfo.endsWith = newValue || undefined;
+            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            if (node.isMoveNode(nodeData)) {
 
-            return { changed: oldValue !== newValue };
+                var numbers = inputElement.value.match(/\d+/g);
+                var newValue = numbers ? numbers.map(function(e) { return +e; }) : [];
+                var oldValue = nodeData.frameData || [];
+
+                nodeData.frameData = newValue || undefined;
+
+                changed = !_.arraysAreEqual(oldValue, newValue);
+
+            }
+
+            return { changed: changed };
+
+        }
+
+
+        function readEnd(inputElement, nodeView) {
+
+            var changed = false;
+
+            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            if (node.isMoveNode(nodeData)) {
+
+                var newValue = inputElement.value;
+                var oldValue = nodeData.endsWith;
+
+                nodeData.endsWith = newValue || undefined;
+
+                changed = oldValue !== newValue;
+
+            }
+
+            return { changed: changed };
 
         }
 
@@ -92,13 +145,51 @@ define(
 
             if (!selectedSVGNode) return;
 
-            var datum = d3.select(selectedSVGNode).datum();
-            var parent = datum.fd3Data.parent;
-            if (!datum.fd3Data.isEditorPlaceholder && parent) {
-                node.removeChild(parent, datum);
-                onDataChanged.dispatch({ deleted: [ datum ] });
+            var nodeView = d3.select(selectedSVGNode).datum();
+            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            var parentNodeView = nodeView.fd3Data.treeInfo.parent;
+
+            if (!nodeView.fd3Data.binding.isPlaceholder && parentNodeView) {
+
+                var firstParentData = findFirstParentData(nodeView);
+
+                if (firstParentData) {
+                    if (node.isRootNode(firstParentData)) {
+                        _.removeElement(firstParentData.stances, nodeData);
+                    } else
+                    if (node.isStanceNode(firstParentData)) {
+                        _.removeElement(firstParentData.moves, nodeData);
+                    } else
+                    if (node.isMoveNode(firstParentData)) {
+                        _.removeElement(firstParentData.followUps, nodeData);
+                    } else {
+                        console.warn(
+                            'Failed to remove %O: ' +
+                            'nearest parent with data of %O does not contain it',
+                            nodeData, parentNodeView
+                        );
+                    }
+                } else {
+                    console.warn('Couldn\'t find first parent data');
+                }
+
+                visualNode.removeChild(parentNodeView, nodeView);
+
+                onDataChanged.dispatch({ deleted: [ nodeView ] });
+
             }
 
+        }
+
+
+        function findFirstParentData(nodeView) {
+            var parentView = nodeView.fd3Data.treeInfo.parent;;
+            var result;
+            while (parentView && !result) {
+                result = parentView.fd3Data.binding.targetDataNode;
+                parentView = parentView.fd3Data.treeInfo.parent;
+            }
+            return result || null;
         }
 
 
@@ -106,9 +197,9 @@ define(
 
             if (!selectedSVGNode) return;
 
-            var datum = d3.select(selectedSVGNode).datum();
+            var nodeView = d3.select(selectedSVGNode).datum();
 
-            var newNode = addPlaceholderNode(datum, false);
+            var newNode = addPlaceholderNode(nodeView, false);
             onDataChanged.dispatch({ added: [ newNode ] });
 
             // todo: focus on created node
@@ -121,17 +212,17 @@ define(
             if (!selectedSVGNode) return;
 
             var selection = d3.select(selectedSVGNode);
-            var data = selection.datum();
+            var nodeView = selection.datum();
 
-            var changes = changeAction(sourceHTMLElement, data);
+            var changes = changeAction(sourceHTMLElement, nodeView);
 
             var update = {
                 changed: changes.changed ? [selection] : [],
                 added: []
             };
 
-            if (data.fd3Data.isEditorPlaceholder) {
-                update.added = onPlaceholderEdited(data);
+            if (nodeView.fd3Data.binding.isPlaceholder) {
+                update.added = onPlaceholderEdited(nodeView);
             }
 
             onDataChanged.dispatch(update);
@@ -141,48 +232,46 @@ define(
 
         function moveNodeBy(delta) {
 
-            if (!selectedSVGNode) return;
+            // if (!selectedSVGNode) return;
 
-            var datum = d3.select(selectedSVGNode).datum();
-            var parent = datum.fd3Data.parent;
+            // var nodeView = d3.select(selectedSVGNode).datum();
+            // var parent = nodeView.fd3Data.treeInfo.parent;
 
-            if (!parent) return;
+            // if (!parent) return;
 
-            var allChildren     = node.getAllChildren(parent);
-            var visibleChildren = node.getVisibleChildren(parent);
-            var changed = false;
-            if (_.moveArrayElement(allChildren,     datum, delta)) changed = true;
-            if (_.moveArrayElement(visibleChildren, datum, delta)) changed = true;
-            changed && onDataChanged.dispatch({ moved: [ datum ] });
+            // var allChildren     = visualNode.getAllChildren(parent);
+            // var visibleChildren = visualNode.getVisibleChildren(parent);
+            // var changed = false;
+            // if (_.moveArrayElement(allChildren,     nodeView, delta)) changed = true;
+            // if (_.moveArrayElement(visibleChildren, nodeView, delta)) changed = true;
+            // changed && onDataChanged.dispatch({ moved: [ nodeView ] });
 
         }
 
 
         function onPlaceholderEdited(datum) {
 
-            var newNodes = [];
-            var node;
+            // var newNodes = [];
+            // var node;
 
-            node = addPlaceholderNode(datum.fd3Data.parent, true);
-            newNodes.push(node);
+            // node = addPlaceholderNode(datum.fd3Data.treeInfo.parent, true);
+            // newNodes.push(node);
 
-            // turn node from placeholder to actual node
-            datum.fd3Data.isEditorPlaceholder = false;
-            node = addPlaceholderNode(datum, true);
-            newNodes.push(node);
+            // // turn node from placeholder to actual node
+            // datum.fd3Data.binding.isPlaceholder = false;
+            // node = addPlaceholderNode(datum, true);
+            // newNodes.push(node);
 
-            return newNodes;
+            // return newNodes;
 
         }
 
 
-        function enterEditMode(dataRoot) {
-
-            // add new node placeholder to every node
+        function addPlaceholders(dataRoot) {
 
             var addedNodes = [];
 
-            treeTools.forAllCurrentChildren(dataRoot, node.getAllChildren, function(treeNode) {
+            treeTools.forAllCurrentChildren(dataRoot, visualNode.getAllChildren, function(treeNode) {
                 var newNode = addPlaceholderNode(treeNode, true);
                 addedNodes.push(newNode);
             });
@@ -192,16 +281,14 @@ define(
         }
 
 
-        function leaveEditMode(dataRoot) {
-
-            // remove new node placeholder from every node
+        function removePlaceholders(dataRoot) {
 
             var removedNodes = [];
 
-            treeTools.forAllCurrentChildren(dataRoot, node.getAllChildren, function(treeNode) {
-                if (treeNode.fd3Data.isEditorPlaceholder) {
+            treeTools.forAllCurrentChildren(dataRoot, visualNode.getAllChildren, function(treeNode) {
+                if (treeNode.fd3Data.binding.isPlaceholder) {
                     removedNodes.push(treeNode);
-                    node.removeChild(treeNode.fd3Data.parent, treeNode)
+                    visualNode.removeChild(treeNode.fd3Data.treeInfo.parent, treeNode)
                 }
             });
 
@@ -210,10 +297,16 @@ define(
         }
 
 
-        function addPlaceholderNode(parent, editorElement) {
-            var placeholderNode = nodeGenerator.generateNode('new');
-            placeholderNode.fd3Data.isEditorPlaceholder = editorElement;
-            node.addChild(parent, placeholderNode);
+        function addPlaceholderNode(parent, isEditorElement) {
+            var placeholderNode;
+            var parentIsRoot = !parent.fd3Data.treeInfo.parent;
+            if (parentIsRoot) {
+                placeholderNode = nodeGenerator.generateGroup('new');
+            } else {
+                placeholderNode = nodeGenerator.generateNode('new');
+            }
+            placeholderNode.fd3Data.binding.isPlaceholder = isEditorElement;
+            visualNode.addChild(parent, placeholderNode);
             return placeholderNode;
         }
 
@@ -225,9 +318,10 @@ define(
 
         function updateBySelection(selection, focus) {
 
-            d3.select( '#nodeInput'   ).node().value = '';
-            d3.select( '#nodeContext' ).node().value = '';
-            d3.select( '#nodeEnd'     ).node().value = '';
+            d3.select( '#editorMoveInput'     ).node().value = '';
+            d3.select( '#editorMoveFrameData' ).node().value = '';
+            d3.select( '#editorMoveEnding'    ).node().value = '';
+            d3.select( '#editorMoveContext'   ).node().value = '';
             // todo: disable editor
 
             selectedSVGNode = null;
@@ -239,13 +333,17 @@ define(
             }
             selectedSVGNode = selection[0];
 
-            var datum = d3.select(selectedSVGNode).datum();
-            d3.select( '#nodeInput'   ).node().value = datum.fd3Data.input;
-            d3.select( '#nodeContext' ).node().value = (datum.fd3Data.context || []).join(', ');
-            d3.select( '#nodeEnd'     ).node().value = datum.fd3Data.moveInfo.endsWith || '';
+            var nodeView = d3.select(selectedSVGNode).datum();
+            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            if (nodeData && node.isMoveNode(nodeData)) {
+                d3.select( '#editorMoveInput'     ).node().value = nodeData.input;
+                d3.select( '#editorMoveFrameData' ).node().value = nodeData.frameData.join(' ');
+                d3.select( '#editorMoveEnding'    ).node().value = nodeData.endsWith || '';
+                d3.select( '#editorMoveContext'   ).node().value = nodeData.context.join(', ');
 
-            focus && d3.select('#nodeInput').node().select();
-            // todo: enable editor
+                focus && d3.select('#editorMoveInput').node().select();
+                // todo: enable editor
+            }
 
         }
 

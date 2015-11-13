@@ -25,8 +25,8 @@
             <table id="settings">
 
                 <tr>
-                    <td><input id="editMode" type="checkbox" /></td>
-                    <td><label for="editMode">Edit mode</label></td>
+                    <td><input id="showPlaceholders" type="checkbox" /></td>
+                    <td><label for="showPlaceholders">Show placeholders</label></td>
                 </tr>
 
                 <!-- <tr>
@@ -46,19 +46,61 @@
 
             </table>
 
-            <table id="editor">
-                <tr title="Keys to perform the move">
-                    <td><label for="nodeInput">Input:</label></td>
-                    <td><input id="nodeInput" placeholder="e.g. '236P'"/></td>
+            <table id="editorRoot">
+                <tr title="Character name - e.g. 'Kasumi' or 'Hayabusa'">
+                    <td><label for="editorRootCharacterName">Character:</label></td>
+                    <td><input id="editorRootCharacterName" placeholder="e.g. 'Kasumi'"/></td>
                 </tr>
-                <tr title="Requirements to perform the move">
-                    <td><label for="nodeContext">Context:</label></td>
-                    <td><input id="nodeContext" placeholder="e.g. 'BT' for back-turned"/></td>
+                <tr title="Game version - e.g. '1.04 steam'">
+                    <td><label for="editorRootGameVersion">Game version:</label></td>
+                    <td><input id="editorRootGameVersion" placeholder="e.g. '1.04 steam'"/></td>
                 </tr>
-                <tr title="Optional context move ends with">
-                    <td><label for="nodeEnd">Ending:</label></td>
-                    <td><input id="nodeEnd" placeholder="e.g. 'BT' for back-turned"/></td>
+                <tr title="Context abbreviations and descriptions">
+                    <td colspan="2">
+                        TODO: context abbreviations
+                        <input type="button" value="remove unused" />
+                    </td>
                 </tr>
+            </table>
+
+            <table id="editorStance">
+                <tr title="Stance abbreviation - e.g. 'BKH' for Helena's Bokuho">
+                    <td><label for="editorStanceAbbreviation">Abbreviation:</label></td>
+                    <td><input id="editorStanceAbbreviation" placeholder="e.g. 'BKH'"/></td>
+                </tr>
+                <tr title="Abbreviation description - e.g. 'Bokuho'">
+                    <td><label for="editorStanceDescription">Description:</label></td>
+                    <td><input id="editorStanceDescription" placeholder="e.g. 'Bokuho'"/></td>
+                </tr>
+                <tr title="Abbreviation of another stance if transits automatically">
+                    <td><label for="editorStanceEnding">Ending:</label></td>
+                    <td><input id="editorStanceEnding" placeholder="e.g. 'BND'"/></td>
+                </tr>
+            </table>
+
+            <table id="editorMove">
+                <tr title="Keys to perform the move - e.g. '236P'">
+                    <td><label for="editorMoveInput">Input:</label></td>
+                    <td><input id="editorMoveInput" placeholder="e.g. '236P'"/></td>
+                </tr>
+                <tr title="Frame data of the move - e.g. '11 (2) 15'">
+                    <td><label for="editorMoveFrameData">Frame data:</label></td>
+                    <td><input id="editorMoveFrameData" placeholder="e.g. '11 (2) 15'"/></td>
+                </tr>
+                <tr title="Move action steps - for most moves just one">
+                    <td colspan="2">TODO: action steps</td>
+                </tr>
+                <tr title="Abbreviation of a stance the move ends with - e.g. 'BND' for Rig's Bending stance">
+                    <td><label for="editorMoveEnding">Ending:</label></td>
+                    <td><input id="editorMoveEnding" placeholder="e.g. 'BND'"/></td>
+                </tr>
+                <tr title="Requirements to perform the move - e.g. 'BT' for back-turned">
+                    <td><label for="editorMoveContext">Context:</label></td>
+                    <td><input id="editorMoveContext" placeholder="e.g. 'BT' for back-turned"/></td>
+                </tr>
+            </table>
+
+            <table id="editorOther">
                 <tr><td colspan="2">
                     <input id="addChild"   type="button" value="add child" />
                     <input id="deleteNode" type="button" value="delete"    />
@@ -68,19 +110,6 @@
                     <input id="moveNodeDown" type="button" value="move down" />
                 </td></tr>
             </table>
-
-            <table id="root">
-                <tr title="character name">
-                    <td><label for="characterName">Character:</label></td>
-                    <td><input id="characterName" placeholder="e.g. 'Kasumi'"/></td>
-                </tr>
-            </table>
-
-            <div id="abbreviations">
-                Context abbreviations:
-                <table></table>
-                <input type="button" value="remove unused" />
-            </div>
 
         </div>
 
