@@ -6,35 +6,37 @@ define(
 
     function(d3, createObserver, node, visualNode, keyCodes, treeTools, _) {
 
-        var nodeGenerator;
-        var selectedSVGNode;
+        var nodeDataGenerator;
+        var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
         var onDataChanged = createObserver();
 
-        var commonEditorGroup = document.getElementById('editorOther');
-
-        var something = [
+        var editorGroups = [
 
             {
 
                 name: "root",
                 filter: function(data) { return data && node.isRootNode(data); },
-                selectedViews: [],
-                dataMask: createDataMask(),
-                // viewDataTempOverride: null,
+                matchingSelectedViews: [],
                 overrideCreator: node.createRootNode,
-                editorGroup: document.getElementById('editorRoot'),
+                domNode: $('editorRoot'),
 
                 focus: function() {
-                    d3.select('#editorRootCharacterName').node().select();
+                    $('editorRootCharacterName').select();
+                    return true;
+                },
+
+                bindListeners: function() {
+                    initInputElement('editorRootCharacterName', this, readCharacterName);
+                    initInputElement('editorRootGameVersion',   this, readGameVersion);
                 },
 
                 updateView: function() {
 
-                    var nodeView = this.selectedViews[0];
+                    var nodeView = this.matchingSelectedViews[0];
                     var nodeData = nodeView.fd3Data.binding.targetDataNode;
 
-                    d3.select( '#editorRootCharacterName' ).node().value = nodeData && nodeData.character || '';
-                    d3.select( '#editorRootGameVersion'   ).node().value = nodeData && nodeData.version   || '';
+                    $( 'editorRootCharacterName' ).value = nodeData && nodeData.character || '';
+                    $( 'editorRootGameVersion'   ).value = nodeData && nodeData.version   || '';
 
                 }
 
@@ -43,24 +45,29 @@ define(
             {
                 name: "stance",
                 filter: function(data) { return data && node.isStanceNode(data); },
-                selectedViews: [],
-                dataMask: createDataMask(),
-                // viewDataTempOverride: null,
+                matchingSelectedViews: [],
                 overrideCreator: node.createStanceNode,
-                editorGroup: document.getElementById('editorStance'),
+                domNode: $('editorStance'),
 
                 focus: function() {
-                    d3.select('#editorStanceAbbreviation').node().select();
+                    $('editorStanceAbbreviation').select();
+                    return true;
+                },
+
+                bindListeners: function() {
+                    initInputElement('editorStanceAbbreviation', this, readStanceAbbreviation);
+                    initInputElement('editorStanceDescription',  this, readStanceDescription);
+                    initInputElement('editorStanceEnding',       this, readStanceEnding);
                 },
 
                 updateView: function() {
 
-                    var nodeView = this.selectedViews[0];
+                    var nodeView = this.matchingSelectedViews[0];
                     var nodeData = nodeView.fd3Data.binding.targetDataNode;
 
-                    d3.select( '#editorStanceAbbreviation' ).node().value = nodeData && nodeData.abbreviation || '';
-                    d3.select( '#editorStanceDescription'  ).node().value = nodeData && nodeData.description  || '';
-                    d3.select( '#editorStanceEnding'       ).node().value = nodeData && nodeData.endsWith     || '';
+                    $( 'editorStanceAbbreviation' ).value = nodeData && nodeData.abbreviation || '';
+                    $( 'editorStanceDescription'  ).value = nodeData && nodeData.description  || '';
+                    $( 'editorStanceEnding'       ).value = nodeData && nodeData.endsWith     || '';
 
                 }
 
@@ -70,27 +77,56 @@ define(
 
                 name: "move",
                 filter: function(data) { return data && node.isMoveNode(data); },
-                selectedViews: [],
-                dataMask: createDataMask(),
-                // viewDataTempOverride: null,
+                matchingSelectedViews: [],
                 overrideCreator: node.createMoveNode,
-                editorGroup: document.getElementById('editorMove'),
+                domNode: $('editorMove'),
 
                 focus: function() {
-                    d3.select('#editorMoveInput').node().select();
+                    $('editorMoveInput').select();
+                    return true;
+                },
+
+                bindListeners: function() {
+                    initInputElement('editorMoveInput',     this, readMoveInput);
+                    initInputElement('editorMoveContext',   this, readMoveContext);
+                    initInputElement('editorMoveFrameData', this, readMoveFrameData);
+                    initInputElement('editorMoveEnding',    this, readMoveEnding);
                 },
 
                 updateView: function() {
 
-                    // FIXME: consider this.dataMask
+                    // FIXME: consider differences between matching nodes
 
-                    var nodeView = this.selectedViews[0];
+                    var nodeView = this.matchingSelectedViews[0];
                     var nodeData = nodeView.fd3Data.binding.targetDataNode;
 
-                    d3.select( '#editorMoveInput'     ).node().value = nodeData && nodeData.input               || '';
-                    d3.select( '#editorMoveFrameData' ).node().value = nodeData && nodeData.frameData.join(' ') || '';
-                    d3.select( '#editorMoveEnding'    ).node().value = nodeData && nodeData.endsWith            || '';
-                    d3.select( '#editorMoveContext'   ).node().value = nodeData && nodeData.context.join(', ')  || '';
+                    $( 'editorMoveInput'     ).value = nodeData && nodeData.input               || '';
+                    $( 'editorMoveFrameData' ).value = nodeData && nodeData.frameData.join(' ') || '';
+                    $( 'editorMoveEnding'    ).value = nodeData && nodeData.endsWith            || '';
+                    $( 'editorMoveContext'   ).value = nodeData && nodeData.context.join(', ')  || '';
+
+                }
+            },
+
+            {
+                name: "common",
+                filter: function(data) { return true; },
+                matchingSelectedViews: [],
+                overrideCreator: function() { return null; },
+                domNode: $('editorOther'),
+
+                focus: function() { return false; },
+                bindListeners: function() {
+
+                    initButtonElement( 'addChild',   onClickAddChild);
+                    initButtonElement( 'deleteNode', onClickDeleteNode);
+
+                    initButtonElement( 'moveNodeUp',   moveNodeBy.bind(null, -1));
+                    initButtonElement( 'moveNodeDown', moveNodeBy.bind(null,  1));
+
+                },
+
+                updateView: function() {
 
                 }
             }
@@ -106,64 +142,48 @@ define(
         };
 
 
-        function initEditor(nodeGeneratorRef) {
-
-            nodeGenerator = nodeGeneratorRef;
-
+        function initEditor(nodeDataGeneratorRef) {
+            nodeDataGenerator = nodeDataGeneratorRef;
             updateEditorDomGroups();
-
             bindListeners();
-
         }
 
 
         function bindListeners() {
-
-            // root
-            initInputElement('#editorRootCharacterName', something[0], readCharacterName);
-            initInputElement('#editorRootGameVersion',   something[0], readGameVersion);
-
-            // stance
-            initInputElement('#editorStanceAbbreviation', something[1], readStanceAbbreviation);
-            initInputElement('#editorStanceDescription',  something[1], readStanceDescription);
-            initInputElement('#editorStanceEnding',       something[1], readStanceEnding);
-
-            // move
-            initInputElement('#editorMoveInput',     something[2], readMoveInput);
-            initInputElement('#editorMoveContext',   something[2], readMoveContext);
-            initInputElement('#editorMoveFrameData', something[2], readMoveFrameData);
-            initInputElement('#editorMoveEnding',    something[2], readMoveEnding);
-
-            // common
-            
-            initButtonElement( '#addChild',   onClickAddChild);
-            initButtonElement( '#deleteNode', onClickDeleteNode);
-
-            initButtonElement( '#moveNodeUp',   moveNodeBy.bind(null, -1));
-            initButtonElement( '#moveNodeDown', moveNodeBy.bind(null,  1));
-
+            editorGroups.forEach(function(editorGroup) {
+                editorGroup.bindListeners();
+            });
         }
 
 
-        function initInputElement(id, somethingJ, action) {
-            d3.select(id)
-                .on('input',   function() { changeSelectedNodes(this, somethingJ.filter, action); })
-                .on('keydown', onInputKeyDown);
+        function initInputElement(id, editorGroup, action) {
+            var inputElement = $(id);
+            inputElement.addEventListener('input', function(event) {
+                changeSelectedNodes(this, editorGroup, action);
+            });
+            inputElement.addEventListener('keydown', onInputBlurIfEsc);
+        }
+
+
+        function onInputBlurIfEsc(event) {
+            if (event.keyCode === keyCodes.ENTER) this.blur();
         }
 
         function initButtonElement(id, action) {
-            d3.select(id).on('click', action);
+            $(id).addEventListener('click', function(event) {
+                action();
+            });
         }
 
 
-        function changeSelectedNodes(sourceHTMLElement, filter, changeAction) {
+        function changeSelectedNodes(sourceHTMLElement, editorGroup, changeAction) {
 
             if (!selectedSVGNode) return;
 
             var selection = d3.select(selectedSVGNode);
             var nodeView = selection.datum();
 
-            var changes = readCommon(sourceHTMLElement, filter, nodeView, changeAction);
+            var changes = readCommon(sourceHTMLElement, editorGroup.filter, nodeView, changeAction);
 
             var update = {
                 changed: changes.changed ? [selection] : [],
@@ -292,7 +312,7 @@ define(
 
             if (!selectedSVGNode) return;
 
-            var nodeView = d3.select(selectedSVGNode).datum();
+            var nodeView = getD3NodeView(selectedSVGNode);
             var nodeData = nodeView.fd3Data.binding.targetDataNode;
             var parentNodeView = nodeView.fd3Data.treeInfo.parent;
 
@@ -333,7 +353,7 @@ define(
 
             if (!selectedSVGNode) return;
 
-            var nodeView = d3.select(selectedSVGNode).datum();
+            var nodeView = getD3NodeView(selectedSVGNode);
 
             var newNode = addPlaceholderNode(nodeView, false);
             onDataChanged.dispatch({ added: [ newNode ] });
@@ -347,7 +367,7 @@ define(
 
             // if (!selectedSVGNode) return;
 
-            // var nodeView = d3.select(selectedSVGNode).datum();
+            // var nodeView = getD3NodeView(selectedSVGNode);
             // var parent = nodeView.fd3Data.treeInfo.parent;
 
             // if (!parent) return;
@@ -384,10 +404,14 @@ define(
 
             var addedNodes = [];
 
-            treeTools.forAllCurrentChildren(rootViewNode, visualNode.getAllChildren, function(treeNode) {
-                var newNode = addPlaceholderNode(treeNode, true);
-                addedNodes.push(newNode);
-            });
+            treeTools.forAllCurrentChildren(
+                rootViewNode, 
+                visualNode.getAllChildren, 
+                function(treeNode) {
+                    var newNode = addPlaceholderNode(treeNode, true);
+                    addedNodes.push(newNode);
+                }
+            );
 
             onDataChanged.dispatch({ added: addedNodes });
 
@@ -398,12 +422,16 @@ define(
 
             var removedNodes = [];
 
-            treeTools.forAllCurrentChildren(rootViewNode, visualNode.getAllChildren, function(treeNode) {
-                if (treeNode.fd3Data.binding.isPlaceholder) {
-                    removedNodes.push(treeNode);
-                    visualNode.removeChild(treeNode.fd3Data.treeInfo.parent, treeNode)
+            treeTools.forAllCurrentChildren(
+                rootViewNode, 
+                visualNode.getAllChildren, 
+                function(treeNode) {
+                    if (treeNode.fd3Data.binding.isPlaceholder) {
+                        removedNodes.push(treeNode);
+                        visualNode.removeChild(treeNode.fd3Data.treeInfo.parent, treeNode)
+                    }
                 }
-            });
+            );
 
             onDataChanged.dispatch({ deleted: removedNodes });
 
@@ -414,9 +442,9 @@ define(
             var placeholderNode;
             var parentIsRoot = !parent.fd3Data.treeInfo.parent;
             if (parentIsRoot) {
-                placeholderNode = nodeGenerator.generateGroup('new');
+                placeholderNode = nodeDataGenerator.generateGroup('new');
             } else {
-                placeholderNode = nodeGenerator.generateNode('new');
+                placeholderNode = nodeDataGenerator.generateNode('new');
             }
             placeholderNode.fd3Data.binding.isPlaceholder = isEditorElement;
             visualNode.addChild(parent, placeholderNode);
@@ -424,31 +452,25 @@ define(
         }
 
 
-        function onInputKeyDown() {
-            if (d3.event.keyCode === keyCodes.ENTER) this.blur();
-        }
+        function updateBySelection(selectedNodeViewDomElements, focus) {
 
-
-        function updateBySelection(selection, focus) {
-
-            selectedSVGNode = selection[0] || null; // FIXME - keep array of selected elements
+            // FIXME - keep array of selected elements
+            selectedSVGNode = selectedNodeViewDomElements[0] || null;
 
             // reset old selection
-            something.forEach(function(somethingJ) {
-                somethingJ.selectedViews = [];
-                dataMask = createDataMask();
+            editorGroups.forEach(function(editorGroup) {
+                editorGroup.matchingSelectedViews = [];
             });
 
             // update to new one
-            for (var i = 0; i < selection.length; ++i) {
-                var nodeView = d3.select(selection[i]).datum();
+            for (var i = 0; i < selectedNodeViewDomElements.length; ++i) {
+                var nodeView = getD3NodeView(selectedNodeViewDomElements[i]);
                 var nodeData = nodeView.fd3Data.binding.targetDataNode;
-                for (var j = 0; j < something.length; ++j) {
-                    var somethingJ = something[j];
-                    if (somethingJ.filter(nodeData))
+                for (var j = 0; j < editorGroups.length; ++j) {
+                    var editorGroup = editorGroups[j];
+                    if (editorGroup.filter(nodeData))
                     {
-                        somethingJ.selectedViews.push(nodeView);
-                        somethingJ.dataMask.restrictBy(nodeData);
+                        editorGroup.matchingSelectedViews.push(nodeView);
                     }
                 }
             }
@@ -460,28 +482,21 @@ define(
 
         function updateEditorDomGroups() {
 
-            var somethingIsSelected = false;
+            var focused = !focus;
 
-            something.forEach(function(somethingJ) {
+            editorGroups.forEach(function(editorGroup) {
 
-                if (somethingJ.selectedViews.length == 0) {
-                    _.hideDomElement(somethingJ.editorGroup);
+                if (editorGroup.matchingSelectedViews.length === 0) {
+                    _.hideDomElement(editorGroup.domNode);
                     return;
                 }
 
-                somethingIsSelected = true;
-                _.showDomElement(somethingJ.editorGroup);
+                _.showDomElement(editorGroup.domNode);
 
-                somethingJ.updateView();
-                if (focus) somethingJ.focus();
+                editorGroup.updateView();
+                if (!focused) focused = editorGroup.focus();
 
             });
-
-            if (somethingIsSelected > 0) {
-                _.showDomElement(commonEditorGroup);
-            } else {
-                _.hideDomElement(commonEditorGroup);
-            }
 
         }
 
@@ -512,6 +527,16 @@ define(
                 parentView = parentView.fd3Data.treeInfo.parent;
             }
             return result || null;
+        }
+
+
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+
+        function getD3NodeView(nodeViewDomElement) {
+            return d3.select(nodeViewDomElement).datum();
         }
 
     }

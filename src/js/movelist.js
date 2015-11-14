@@ -574,7 +574,8 @@ define(
                 }
 
                 function onClickNodeView() {
-                    selectionManager.selectNode(this);
+                    var nodeViewDomElement = this;
+                    selectionManager.selectNode(nodeViewDomElement);
                 }
 
                 function onDoubleClickNodeView(datum) {

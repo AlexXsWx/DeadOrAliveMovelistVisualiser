@@ -43,7 +43,7 @@ define(
         }
 
 
-        function selectNode(nodeView, optDontFocus) {
+        function selectNode(nodeViewDomElement, optDontFocus) {
             'use strict';
 
             if (selectionCurrent !== null) {
@@ -52,8 +52,8 @@ define(
             }
 
             selectionPrevious = selectionCurrent;
-            if (nodeView !== selectionCurrent) {
-                selectionCurrent = nodeView;
+            if (nodeViewDomElement !== selectionCurrent) {
+                selectionCurrent = nodeViewDomElement;
             } else {
                 selectionCurrent = null;
             }
