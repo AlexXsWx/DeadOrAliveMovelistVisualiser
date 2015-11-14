@@ -96,6 +96,7 @@ define(
             }
         ];
 
+
         return {
             init:               initEditor,
             addPlaceholders:    addPlaceholders,
@@ -116,41 +117,53 @@ define(
         }
 
 
+        function bindListeners() {
 
-        function initInputElement(id, action) {
+            // root
+            initInputElement('#editorRootCharacterName', something[0], readCharacterName);
+            initInputElement('#editorRootGameVersion',   something[0], readGameVersion);
+
+            // stance
+            initInputElement('#editorStanceAbbreviation', something[1], readStanceAbbreviation);
+            initInputElement('#editorStanceDescription',  something[1], readStanceDescription);
+            initInputElement('#editorStanceEnding',       something[1], readStanceEnding);
+
+            // move
+            initInputElement('#editorMoveInput',     something[2], readMoveInput);
+            initInputElement('#editorMoveContext',   something[2], readMoveContext);
+            initInputElement('#editorMoveFrameData', something[2], readMoveFrameData);
+            initInputElement('#editorMoveEnding',    something[2], readMoveEnding);
+
+            // common
+            
+            initButtonElement( '#addChild',   onClickAddChild);
+            initButtonElement( '#deleteNode', onClickDeleteNode);
+
+            initButtonElement( '#moveNodeUp',   moveNodeBy.bind(null, -1));
+            initButtonElement( '#moveNodeDown', moveNodeBy.bind(null,  1));
+
+        }
+
+
+        function initInputElement(id, somethingJ, action) {
             d3.select(id)
-                .on('input',   function() { changeSelectedNodes(this, action); })
+                .on('input',   function() { changeSelectedNodes(this, somethingJ.filter, action); })
                 .on('keydown', onInputKeyDown);
         }
 
-
-        function bindListeners() {
-
-            initInputElement('#editorRootCharacterName', readCharacterName);
-            initInputElement('#editorRootGameVersion',   readGameVersion);
-
-            initInputElement('#editorMoveInput',     readInput);
-            initInputElement('#editorMoveContext',   readContext);
-            initInputElement('#editorMoveFrameData', readFrameData);
-            initInputElement('#editorMoveEnding',    readEnd);
-
-            d3.select( '#addChild'   ).on('click', onClickAddChild);
-            d3.select( '#deleteNode' ).on('click', onClickDeleteNode);
-
-            d3.select( '#moveNodeUp'   ).on('click', moveNodeBy.bind(null, -1));
-            d3.select( '#moveNodeDown' ).on('click', moveNodeBy.bind(null,  1));
-
+        function initButtonElement(id, action) {
+            d3.select(id).on('click', action);
         }
 
 
-        function changeSelectedNodes(sourceHTMLElement, changeAction) {
+        function changeSelectedNodes(sourceHTMLElement, filter, changeAction) {
 
             if (!selectedSVGNode) return;
 
             var selection = d3.select(selectedSVGNode);
             var nodeView = selection.datum();
 
-            var changes = readCommon(sourceHTMLElement, nodeView, changeAction);
+            var changes = readCommon(sourceHTMLElement, filter, nodeView, changeAction);
 
             var update = {
                 changed: changes.changed ? [selection] : [],
@@ -166,12 +179,12 @@ define(
         }
 
 
-        function readCommon(inputElement, nodeView, uncommon) {
+        function readCommon(inputElement, filter, nodeView, uncommon) {
 
             var changed = false;
 
             var nodeData = nodeView.fd3Data.binding.targetDataNode;
-            if (node.isMoveNode(nodeData)) {
+            if (filter(nodeData)) {
                 changed = uncommon(inputElement.value, nodeData, nodeView);
             }
 
@@ -180,67 +193,99 @@ define(
         }
 
 
-        function readCharacterName(inputValue, nodeData, nodeView) {
-            var changed = nodeData.character === inputValue;
-            nodeData.character = inputValue;
-            return changed;
-        }
+        // ==== Readers ====
+
+            // ==== Root ====
+
+                function readCharacterName(inputValue, nodeData, nodeView) {
+                    var changed = nodeData.character !== inputValue;
+                    nodeData.character = inputValue;
+                    return changed;
+                }
 
 
-        function readGameVersion(inputValue, nodeData, nodeView) {
-            var changed = nodeData.version === inputValue;
-            nodeData.version = inputValue;
-            return changed;
-        }
+                function readGameVersion(inputValue, nodeData, nodeView) {
+                    var changed = nodeData.version !== inputValue;
+                    nodeData.version = inputValue;
+                    return changed;
+                }
+
+            // ==============
+
+            // ==== Stance ====
+
+                function readStanceAbbreviation(inputValue, nodeData, nodeView) {
+                    var changed = nodeData.abbreviation !== inputValue;
+                    nodeData.abbreviation = inputValue;
+                    return changed;
+                }
 
 
-        function readInput(inputValue, nodeData, nodeView) {
-            var changed = nodeData.input === inputValue;
-            nodeData.input = inputValue;
-            // todo: update editor elements according to this change
-            // node.guessMoveTypeByInput(nodeView);
-            return changed;
-        }
+                function readStanceDescription(inputValue, nodeData, nodeView) {
+                    var changed = nodeData.description !== inputValue;
+                    nodeData.description = inputValue;
+                    return changed;
+                }
 
 
-        function readContext(inputValue, nodeData, nodeView) {
+                function readStanceEnding(inputValue, nodeData, nodeView) {
+                    var changed = nodeData.endsWith !== inputValue;
+                    nodeData.endsWith = inputValue;
+                    return changed;
+                }
 
-            var newValue = inputValue.split(',').map(function(e) { return e.trim(); });
-            var oldValue = nodeData.context || [];
+            // ================
 
-            nodeData.context = newValue || undefined;
+            // ==== Move ====
 
-            return !_.arraysConsistOfSameStrings(oldValue, newValue);
-
-        }
-
-
-        function readFrameData(inputValue, nodeData, nodeView) {
-
-            var numbers = inputValue.match(/\d+/g);
-            var newValue = numbers ? numbers.map(function(e) { return +e; }) : [];
-            var oldValue = nodeData.frameData || [];
-
-            nodeData.frameData = newValue || undefined;
-
-            return !_.arraysAreEqual(oldValue, newValue);
-
-        }
+                function readMoveInput(inputValue, nodeData, nodeView) {
+                    var changed = nodeData.input !== inputValue;
+                    nodeData.input = inputValue;
+                    // todo: update editor elements according to this change
+                    // node.guessMoveTypeByInput(nodeView);
+                    return changed;
+                }
 
 
-        function readEnd(inputValue, nodeData, nodeView) {
+                function readMoveContext(inputValue, nodeData, nodeView) {
 
-            var newValue = inputValue;
-            var oldValue = nodeData.endsWith;
+                    var newValue = inputValue.split(',').map(function(e) { return e.trim(); });
+                    var oldValue = nodeData.context || [];
 
-            nodeData.endsWith = newValue || undefined;
+                    nodeData.context = newValue || undefined;
 
-            return oldValue !== newValue;
+                    return !_.arraysConsistOfSameStrings(oldValue, newValue);
 
-        }
+                }
 
 
+                function readMoveFrameData(inputValue, nodeData, nodeView) {
 
+                    var numbers = inputValue.match(/\d+/g);
+                    var newValue = numbers ? numbers.map(function(e) { return +e; }) : [];
+                    var oldValue = nodeData.frameData || [];
+
+                    nodeData.frameData = newValue || undefined;
+
+                    return !_.arraysAreEqual(oldValue, newValue);
+
+                }
+
+
+                function readMoveEnding(inputValue, nodeData, nodeView) {
+
+                    var newValue = inputValue;
+                    var oldValue = nodeData.endsWith;
+
+                    nodeData.endsWith = newValue || undefined;
+
+                    return oldValue !== newValue;
+
+                }
+
+            // ==============
+
+        // =================
 
 
         function onClickDeleteNode() {
