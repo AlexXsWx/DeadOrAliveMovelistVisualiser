@@ -10,8 +10,18 @@ define('tools', function() {
         copyKeysInto:               copyKeysInto,
         isNonEmptyArray:            isNonEmptyArray,
         moveArrayElement:           moveArrayElement,
-        arraysConsistOfSameStrings: arraysConsistOfSameStrings
+        arraysConsistOfSameStrings: arraysConsistOfSameStrings,
+        hideDomElement:             hideDomElement,
+        showDomElement:             showDomElement
     };
+
+    function hideDomElement(element) {
+        element.setAttribute('hidden', true);
+    }
+    
+    function showDomElement(element) {
+        element.removeAttribute('hidden');
+    }
 
     function arraysAreEqual(arrayA, arrayB) {
         if (arrayA.length != arrayB.length) return false;
