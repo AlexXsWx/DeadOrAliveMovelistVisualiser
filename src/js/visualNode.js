@@ -18,7 +18,7 @@ define(
 
             createGenerators: createGenerators,
 
-            createWrappedData: createWrappedData,
+            createViewFromData: createViewFromData,
 
             log: log,
 
@@ -65,7 +65,7 @@ define(
 
         function updateAppearanceByBoundNode(nodeView) {
             var appearance = nodeView.fd3Data.appearance;
-            var name   = getName(nodeView);
+            var name   = getName(nodeView) || '<unnamed>';
             var ending = getEnding(nodeView);
             if (ending || hasAnyChildren(nodeView)) {
                 appearance.textLeft = name;
@@ -77,7 +77,7 @@ define(
         }
 
 
-        function createWrappedData(dataRoot, generators) {
+        function createViewFromData(dataRoot, generators) {
 
             var wrappedDataRoot = generators.generateRoot();
             setChildren(wrappedDataRoot, dataRoot.stances.map(wrapStance));
@@ -396,7 +396,8 @@ define(
                 return targetNode.abbreviation;
             } else
             if (node.isMoveNode(targetNode)) {
-                return targetNode.input;
+                var context = targetNode.context.join(',');
+                return (context ? context + ':' : '') + targetNode.input;
             }
             console.error('Can\'t resolve name for node %O', datum);
         }

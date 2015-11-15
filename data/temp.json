@@ -1,0 +1,77 @@
+{
+  "header": {
+    "format": 3,
+    "timeSaved": 1447547761367
+  },
+  "body": {
+    "character": "rig",
+    "stances": [
+      {
+        "abbreviation": "SS",
+        "moves": [
+          {
+            "input": "P"
+          },
+          {
+            "input": "K"
+          }
+        ]
+      },
+      {
+        "abbreviation": "TLC",
+        "moves": [
+          {
+            "input": "P"
+          },
+          {
+            "input": "K",
+            "followUps": [
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "K"
+                  },
+                  {
+                    "input": "4K"
+                  }
+                ]
+              },
+              {
+                "input": "H+K"
+              }
+            ]
+          },
+          {
+            "input": "6K",
+            "followUps": [
+              {
+                "input": "6K",
+                "followUps": [
+                  {
+                    "input": "6K"
+                  },
+                  {
+                    "input": "K"
+                  }
+                ]
+              },
+              {
+                "input": "K"
+              }
+            ]
+          },
+          {
+            "input": "2K"
+          },
+          {
+            "input": "H+K"
+          },
+          {
+            "input": "6H+K"
+          }
+        ]
+      }
+    ]
+  }
+}

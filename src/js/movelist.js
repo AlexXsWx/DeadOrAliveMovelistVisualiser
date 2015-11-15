@@ -8,7 +8,7 @@ define(
         'node', 'nodeSerializer',
         'visualNode', 'limitsFinder',
         'selection', 'editor', 'ui',
-        'treeTools', 'tools',
+        'treeTools', 'tools', 'JsonFileReader',
         'keyCodes'
     ],
 
@@ -18,7 +18,7 @@ define(
         node, nodeSerializer,
         visualNode, createLimitsFinder,
         selectionManager, editor, ui,
-        treeTools, _,
+        treeTools, _, JsonFileReader,
         keyCodes
     ) {
 
@@ -29,6 +29,7 @@ define(
             var NODE_HEIGHT = 25;
 
             var RESIZE_TIMEOUT = 500;
+            var ANIMATION_DURATION = 1000
 
             var CHAR_EXPAND = '+';
             var CHAR_HIDE   = String.fromCharCode(0x2212); // minus sign
@@ -41,15 +42,15 @@ define(
 
             var canvas;
 
-            var dataRoot;
-            var wrappedDataRoot;
+            var rootNodeData;
+            var rootNodeView;
 
             var generators = {
                 d3: {
                     tree: null,
                     line: null
                 },
-                visualNodes: null
+                nodeViews: null
             };
 
             var limitsFinder;
@@ -67,9 +68,9 @@ define(
                 canvas = initCanvas(parentElement);
                 selectionManager.init(canvas.svg.node());
 
-                generators.visualNodes = visualNode.createGenerators();
+                generators.nodeViews = visualNode.createGenerators();
 
-                editor.init(generators.visualNodes);
+                editor.init(generators.nodeViews);
                 editor.onDataChanged.addListener(onEditorChange);
 
                 selectionManager.onSelectionChanged.addListener(editor.updateBySelection);
@@ -87,21 +88,21 @@ define(
 
             function loadData(data) {
 
-                dataRoot = data;
-                wrappedDataRoot = createWrappedData(dataRoot);
+                rootNodeData = data;
+                rootNodeView = createViewFromData(rootNodeData);
 
                 // todo: reset everything
 
                 // ui.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
-                update();
+                update(false);
 
             }
 
 
             function initCanvas(rootNode) {
                 var canvas = canvasManager.create(rootNode);
-                canvas.canvas.append('svg:g').attr('class', 'links');
-                canvas.canvas.append('svg:g').attr('class', 'nodes');
+                canvas.canvas.append('svg:g').classed('links', true);
+                canvas.canvas.append('svg:g').classed('nodes', true);
                 return canvas;
             }
 
@@ -132,7 +133,7 @@ define(
             function bindUIActions() {
 
                 d3.select('#save').on('click',  onButtonSave);
-                d3.select('#load').on('change', onButtonLoad);
+                d3.select('#load').on('change', onFileSelected);
                 d3.select('#download').on('click', onDownload);
 
                 d3.select('#showPlaceholders').on('change', onChangeShowPlaceholders);
@@ -142,9 +143,9 @@ define(
 
             function onChangeShowPlaceholders() {
                 if (this.checked) {
-                    editor.addPlaceholders(wrappedDataRoot);
+                    editor.addPlaceholders(rootNodeView);
                 } else {
-                    editor.removePlaceholders(wrappedDataRoot);
+                    editor.removePlaceholders(rootNodeView);
                 }
             }
 
@@ -152,7 +153,7 @@ define(
             function onButtonSave() {
 
                 var exportedJsonObj = nodeSerializer.exportJson(
-                    _.withoutFalsyProperties(dataRoot)
+                    _.withoutFalsyProperties(rootNodeData)
                 );
 
                 var url = (
@@ -161,39 +162,29 @@ define(
                 );
 
                 d3.select('#download')
-                    .attr('download', (dataRoot.character || 'someCharacter') + '.json')
+                    .attr('download', (rootNodeData.character || 'someCharacter') + '.json')
                     .attr('href', url)
                     .attr('hidden', null);
                     
             }
 
 
-            function onButtonLoad() {
-
+            function onFileSelected() {
                 var fileElement = this;
-                var file = fileElement.files[0];
-
-                var reader = new FileReader();
-                reader.addEventListener('load', onFileLoaded);
-                reader.readAsText(file);
-
-                function onFileLoaded() {
-                    var parsedJson;
-                    try {
-                        parsedJson = JSON.parse(this.result);
-                    } catch (error) {
-                        alert('Error: Invalid JSON\n%O', error);
-                        return;
+                JsonFileReader.readJson(fileElement.files[0]).then(
+                    function onSuccess(parsedJson) {
+                        var importedDataRoot = nodeSerializer.importJson(parsedJson);
+                        if (!importedDataRoot) {
+                            alert('Failed to import json');
+                            return;
+                        }
+                        var rootNodeData = node.createRootNode(importedDataRoot, true);
+                        loadData(rootNodeData);
+                    },
+                    function onFail(error) {
+                        alert('Error: Invalid JSON file\n%O', error);
                     }
-                    var importedDataRoot = nodeSerializer.importJson(parsedJson);
-                    if (!importedDataRoot) {
-                        alert('Failed to import json');
-                        return;
-                    }
-                    var dataRoot = node.createRootNode(importedDataRoot, true);
-                    loadData(dataRoot);
-                }
-
+                );
             }
 
             function onDownload() {
@@ -205,33 +196,43 @@ define(
 
         // ==== Data operations ====
 
-            function createWrappedData(dataRoot) {
+            function createViewFromData(rootNodeData) {
 
-                // restructureByType(dataRoot);
+                // restructureByType(rootNodeData);
 
-                var wrappedDataRoot = visualNode.createWrappedData(
-                    dataRoot, generators.visualNodes
+                var rootNodeView = visualNode.createViewFromData(
+                    rootNodeData, generators.nodeViews
                 );
 
-                prepareTreeVisualisationData(wrappedDataRoot);
-                return wrappedDataRoot;
+                setTreeInfoAppearanceData(rootNodeView);
+                return rootNodeView;
+
             }
 
 
-            function prepareTreeVisualisationData(wrappedDataRoot) {
+            function setTreeInfoAppearanceData(rootNodeView) {
 
                 var childrenByDepth = treeTools.getChildrenMergedByDepth(
-                    wrappedDataRoot,
-                    visualNode.getAllChildren
+                    rootNodeView, visualNode.getAllChildren
                 );
 
+                // reset
+                for (var i = childrenByDepth.length - 1; i >= 0; --i) {
+                    childrenByDepth[i].forEach(function(child) {
+                        var appearance = child.fd3Data.appearance;
+                        appearance.totalChildren = 0;
+                        appearance.deepness      = 0;
+                        appearance.branchesAfter = 0;
+                    });
+                }
+
+                // set new
                 for (var i = childrenByDepth.length - 1; i > 0; --i) {
                     childrenByDepth[i].forEach(function(child) {
                         var childData = child.fd3Data;
                         var parentAppearance = childData.treeInfo.parent.fd3Data.appearance;
-                        var childrenAmount = visualNode.getAllChildren(child).length;
                         parentAppearance.branchesAfter += Math.max(1, childData.appearance.branchesAfter);
-                        parentAppearance.totalChildren += 1 + childrenAmount;
+                        parentAppearance.totalChildren += 1 + visualNode.getAllChildren(child).length;
                         parentAppearance.deepness = Math.max(
                             parentAppearance.deepness,
                             childData.appearance.deepness + 1
@@ -300,7 +301,7 @@ define(
                     var childrenOfType = byType[type];
                     if (childrenOfType.length < 1) continue;
 
-                    var groupingChild = generators.visualNodes.generateGroup('<' + type + '>');
+                    var groupingChild = generators.nodeViews.generateGroup('<' + type + '>');
                     visualNode.setChildren(groupingChild, childrenOfType);
                     visualNode.toggleVisibleChildren(groupingChild);
 
@@ -318,24 +319,27 @@ define(
         // ==== Update ====
 
             function onEditorChange(changes) {
+
                 changes.changed && changes.changed.forEach(function(d3SvgNode) {
+                    visualNode.updateAppearanceByBoundNode(d3SvgNode.datum());
                     updateChangedNode(d3SvgNode);
                 });
-                if (
-                    changes.deleted && changes.deleted.length > 0 ||
-                    changes.moved   && changes.moved.length   > 0 ||
-                    changes.added   && changes.added.length   > 0
-                ) {
-                    update(wrappedDataRoot);
-                }
+
+                var deleted = _.isNonEmptyArray(changes.deleted);
+                var added   = _.isNonEmptyArray(changes.added);
+                var moved   = _.isNonEmptyArray(changes.moved);
+
+                if (deleted || added) setTreeInfoAppearanceData(rootNodeView);
+                if (deleted || added || moved) update(true);
 
                 d3.select('#download').attr('hidden', true);
+
             }
 
 
-            function update(sourceNode) {
+            function update(animate, optSourceNode) {
                 
-                var nodes = generators.d3.tree.nodes(wrappedDataRoot);
+                var nodes = generators.d3.tree.nodes(rootNodeView);
                 var links = generators.d3.tree.links(nodes);
 
                 limitsFinder.invalidate();
@@ -346,7 +350,7 @@ define(
                     // visualNode.resetScrollRangeForDatum(datum);
                 });
 
-                // visualNode.fillScrollRange(wrappedDataRoot);
+                // visualNode.fillScrollRange(rootNodeView);
 
                 canvas.normalize(
                     PADDING,
@@ -355,75 +359,90 @@ define(
                     PADDING + (limitsFinder.y.max - limitsFinder.y.min) + PADDING
                 );
 
-                var animationDuration = sourceNode ? 1000 : 0;
+                var animationDuration = animate ? ANIMATION_DURATION : 0;
 
-                var despawnPosition = sourceNode || nodes[0];
-                var spawnPosition = {
-                    x: _.defined(despawnPosition.fd3Data.appearance.lastPosition.x, despawnPosition.x),
-                    y: _.defined(despawnPosition.fd3Data.appearance.lastPosition.y, despawnPosition.y)
-                };
-
-                updateLinks(links, spawnPosition, despawnPosition, animationDuration);
-                updateNodes(nodes, spawnPosition, despawnPosition, animationDuration);
+                updateLinks(links, animationDuration, optSourceNode);
+                updateNodes(nodes, animationDuration, optSourceNode);
 
                 nodes.forEach(visualNode.backupPosition);
 
             }
 
+
             // ==== Links ====
 
-                function updateLinks(links, spawnPosition, despawnPosition, animationDuration) {
+                function updateLinks(links, animationDuration, optSourceNode) {
 
                     var linksSelection = canvas.canvas.select('g.links').selectAll('path.link')
-                        .data(links, function(datum) {
-                            return visualNode.getId(datum.target);
-                        });
+                        .data(links, getLinkId);
 
                     updateLink(linksSelection, animationDuration);
-                    enterLink(linksSelection.enter(), spawnPosition, animationDuration);
-                    exitLink(linksSelection.exit(), despawnPosition, animationDuration);
+                    enterLink(linksSelection.enter(), animationDuration, optSourceNode);
+                    exitLink(linksSelection.exit(),   animationDuration);
 
                 }
 
 
                 function updateLink(selection, animationDuration) {
                     selection
-                        .attr('opacity', 1) // reset animation if any
+                        .attr('stroke-width', linkThickness)
                         .transition().duration(animationDuration)
                             .attr('d', generators.d3.line);
                 }
 
 
-                function enterLink(selection, spawnPosition, animationDuration) {
+                function enterLink(selection, animationDuration, optSourceNode) {
+
                     var linksGroup = selection.append('svg:path')
-                        .attr('class', 'link')
+                        .classed('link', true)
+                        .attr('stroke-width', linkThickness)
                         .attr('opacity', 0)
-                        .attr('d', generators.d3.line({
-                            source: spawnPosition,
-                            target: spawnPosition
-                        }))
-                        .attr('stroke-width', function(obj) {
-                            // Mimic wires passing through node; using circle area formula
-                            return 2 * Math.sqrt(
-                                (obj.target.fd3Data.appearance.branchesAfter + 1) / Math.PI
-                            );
-                        });
+                        .attr(
+                            'd',
+                            optSourceNode
+                                ? collapsedLine(getLastPosition(optSourceNode))
+                                : getSpawnCollapsedLine
+                        );
 
                     linksGroup.transition().duration(animationDuration)
-                        .attr('d', generators.d3.line)
-                        .attr('opacity', 1);
+                        .attr('opacity', 1)
+                        .attr('d', generators.d3.line);
+
                 }
 
 
-                function exitLink(selection, despawnPosition, animationDuration) {
+                function exitLink(selection, animationDuration) {
                     selection
                         .transition().duration(animationDuration)
-                            .attr('d', generators.d3.line({
-                                source: despawnPosition,
-                                target: despawnPosition
-                            }))
                             .attr('opacity', 0)
+                            .attr('d', getDespawnCollapsedLine)
                             .remove();
+                }
+
+
+                function getLinkId(link) {
+                    return visualNode.getId(link.target);
+                }
+
+
+                function linkThickness(link) {
+                    var targetNodeView = link.target;
+                    // Mimic wires passing through node; using circle area formula
+                    var branchesAfter = targetNodeView.fd3Data.appearance.branchesAfter;
+                    return 2 * Math.sqrt((branchesAfter + 1) / Math.PI);
+                }
+
+
+                function getSpawnCollapsedLine(link) {
+                    return collapsedLine(getSpawnPosition(link.target));
+                }
+
+                function getDespawnCollapsedLine(link) {
+                    return collapsedLine(getDespawnPosition(link.target));
+                }
+
+                function collapsedLine(position) {
+                    return generators.d3.line({ source: position, target: position });
                 }
 
             // ===============
@@ -431,18 +450,14 @@ define(
 
             // ==== Nodes ====
 
-                function updateNodes(
-                    nodes,
-                    spawnPosition, despawnPosition,
-                    animationDuration
-                ) {
+                function updateNodes(nodes, animationDuration, optSourceNode) {
 
                     var nodesSelection = canvas.canvas.select('g.nodes').selectAll('g.node')
                         .data(nodes, visualNode.getId);
 
                     updateNotChangedNode(nodesSelection, animationDuration);
-                    enterNode(nodesSelection.enter(), spawnPosition, animationDuration);
-                    exitNode(nodesSelection.exit(), despawnPosition, animationDuration);
+                    enterNode(nodesSelection.enter(), animationDuration, optSourceNode);
+                    exitNode(nodesSelection.exit(),   animationDuration);
 
                 }
 
@@ -450,14 +465,14 @@ define(
                 function updateNotChangedNode(nodeSelection, animationDuration) {
 
                     nodeSelection
-                        .classed('unclickable', false)
+                        .classed('unclickable', false) // wtf?
                         .transition().duration(animationDuration)
                             .attr({
                                 'transform': translate,
                                 'opacity': 1
                             });
 
-                    nodeSelection.select('text.toggle').text(getToggleText);
+                    nodeSelection.select('text.toggle').text(getTextToggle);
 
                 }
 
@@ -466,19 +481,13 @@ define(
 
                     var datum = d3SvgNode.datum();
 
-                    d3SvgNode.select('text.input')
-                        .attr('x', -0.5 * NODE_HEIGHT)
-                        .attr('text-anchor', 'end')
-                        .text(visualNode.getName(datum) || '<unnamed>');
-                    d3SvgNode.select('text.toggle').text(getToggleText);
-                    d3SvgNode.select('text.ending').text(visualNode.getEnding);
+                    d3SvgNode.select( 'text.input'  ).text(getTextLeft);
+                    d3SvgNode.select( 'text.toggle' ).text(getTextToggle);
+                    d3SvgNode.select( 'text.ending' ).text(getTextRight);
 
                     // var moveInfo = datum.fd3Data.moveInfo;
                     d3SvgNode.classed({
-
-                        'node': true,
-                        'unclickable': false,
-                        'container': visualNode.getAllChildren(datum).length > 0
+                        'container': _.isNonEmptyArray(visualNode.getAllChildren(datum))
 
                         // 'high': moveInfo.heightClass === 'high',
                         // 'mid':  moveInfo.heightClass === 'mid',
@@ -498,7 +507,7 @@ define(
                 }
 
 
-                function enterNode(selEnter, spawnPosition, animationDuration) {
+                function enterNode(selEnter, animationDuration, optSourceNode) {
 
                     var nodeGroup = selEnter.append('svg:g');
 
@@ -511,67 +520,59 @@ define(
                     nodeGroup
 
                         .attr({
-                            'transform': translate(spawnPosition),
+                            'transform': (
+                                optSourceNode
+                                    ? translate(getLastPosition(optSourceNode))
+                                    : function(nodeView) {
+                                        return translate(getSpawnPosition(nodeView));
+                                    }
+                            ),
                             'opacity': 0
                         })
 
-                        .each(function(datum) {
-                            var treeNode = d3.select(this);
-                            updateChangedNode(treeNode);
-                            treeNode
-                                .on('click', onClickNodeView)
-                                .on('dblclick', onDoubleClickNodeView);
-                        });
+                        .classed({
+                            'node': true,
+                            'unclickable': false
+                        })
+
+                        .on('click', onClickNodeView)
+                        .on('dblclick', onDoubleClickNodeView);
+                        
 
                     nodeGroup.append('svg:circle').attr('r', NODE_HEIGHT / 3.0);
 
 
                     nodeGroup.append('svg:text')
                         .classed('input', true)
-                        .attr('x', -0.5 * NODE_HEIGHT)
                         .attr('text-anchor', 'end')
-                        .text(function(nodeView) { return nodeView.fd3Data.appearance.textLeft; });
+                        .attr('x', -0.5 * NODE_HEIGHT);
 
                     nodeGroup.append('svg:text')
                         .classed('toggle', true)
-                        .attr('text-anchor', 'middle')
-                        .text(getToggleText);
+                        .attr('text-anchor', 'middle');
 
                     nodeGroup.append('svg:text')
                         .classed('ending', true)
                         .attr('text-anchor', 'start')
-                        .attr('x', 0.5 * NODE_HEIGHT)
-                        .text(function(nodeView) { return nodeView.fd3Data.appearance.textRight; });
+                        .attr('x', 0.5 * NODE_HEIGHT);
+
+                    nodeGroup.each(function(datum) {
+                        updateChangedNode(d3.select(this));
+                    });
                 }
 
 
-                function exitNode(selExit, despawnPosition, animationDuration) {
+                function exitNode(selExit, animationDuration) {
                     selExit
                         .classed('unclickable', true)
                         .transition().duration(animationDuration)
-                            .attr('transform', translate(despawnPosition))
+                            .attr('transform', function(nodeView) {
+                                return translate(getDespawnPosition(nodeView));
+                            })
                             .attr('opacity', 0)
                             .remove();
                 }
 
-
-                function translate(position) {
-                    return 'translate(' + position.x + ',' + position.y + ')';
-                }
-
-
-                function getToggleText(datum) {
-
-                    if (visualNode.getAllChildren(datum).length === 0) return null;
-
-                    var hasVisible = visualNode.hasVisibleChildren(datum);
-                    var hasHidden  = visualNode.hasHiddenChildren(datum);
-                    if (hasVisible && !hasHidden)  return CHAR_HIDE;
-                    if (hasHidden  && !hasVisible) return CHAR_EXPAND;
-
-                    return CHAR_MIXED;
-
-                }
 
                 function onClickNodeView() {
                     var nodeViewDomElement = this;
@@ -579,14 +580,80 @@ define(
                 }
 
                 function onDoubleClickNodeView(datum) {
-                    if (visualNode.getAllChildren(datum).length > 0) {
+                    if (_.isNonEmptyArray(visualNode.getAllChildren(datum))) {
                         visualNode.toggleVisibleChildren(datum);
-                        update(datum);
+                        update(true, datum);
                     }
                     selectionManager.undoSelection();
                 }
 
+
+                function getTextLeft(nodeView) {
+                    return nodeView.fd3Data.appearance.textLeft;
+                }
+
+                function getTextToggle(nodeView) {
+
+                    if (!_.isNonEmptyArray(visualNode.getAllChildren(nodeView))) return null;
+
+                    var hasVisible = visualNode.hasVisibleChildren(nodeView);
+                    var hasHidden  = visualNode.hasHiddenChildren(nodeView);
+                    if (hasVisible && !hasHidden)  return CHAR_HIDE;
+                    if (hasHidden  && !hasVisible) return CHAR_EXPAND;
+
+                    return CHAR_MIXED;
+
+                }
+
+                function getTextRight(nodeView) {
+                    return nodeView.fd3Data.appearance.textRight;
+                }
+
+
+                function translate(position) {
+                    return 'translate(' + position.x + ',' + position.y + ')';
+                }
+
             // ===============
+
+
+            function getDespawnParent(nodeView) {
+                var current = nodeView;
+                var parent = nodeView.fd3Data.treeInfo.parent;
+                while (
+                    parent &&
+                    parent.fd3Data.treeInfo.children.visible.indexOf(current) >= 0
+                ) {
+                    current = parent;
+                    parent = current.fd3Data.treeInfo.parent;
+                }
+                return parent || current;
+            }
+
+
+            function getSpawnPosition(nodeView) {
+                return getLastPosition(nodeView.fd3Data.treeInfo.parent || nodeView);
+            }
+
+
+            function getDespawnPosition(nodeView) {
+                return getPosition(getDespawnParent(nodeView));
+            }
+
+
+            function getLastPosition(nodeView) {
+                return {
+                    x: _.defined(nodeView.fd3Data.appearance.lastPosition.x, nodeView.x),
+                    y: _.defined(nodeView.fd3Data.appearance.lastPosition.y, nodeView.y)
+                };
+            }
+
+            function getPosition(nodeView) {
+                return {
+                    x: nodeView.x,
+                    y: nodeView.y
+                };
+            }
 
         // ================
 
