@@ -124,6 +124,7 @@ define(
             },
 
             {
+
                 name: "common",
                 filter: function(data) { return true; },
                 matchingSelectedViews: [],
@@ -131,6 +132,7 @@ define(
                 domNode: $('editorOther'),
 
                 focus: function() { return false; },
+
                 bindListeners: function() {
 
                     initButtonElement( $('addChild'),   onClickAddChild);
@@ -142,6 +144,7 @@ define(
                 },
 
                 updateView: function() {}
+
             }
 
         ];
@@ -461,12 +464,7 @@ define(
 
                 function readMoveActionStepTracking(inputElement, nodeData, actionStepIndex) {
                     var actionStep = nodeData.actionSteps[actionStepIndex];
-                    var newValue;
-                    if (inputElement.indeterminate) {
-                        newValue = undefined;
-                    } else {
-                        newValue = inputElement.checked;
-                    }
+                    var newValue = inputElement.indeterminate ? undefined : inputElement.checked;
                     var changed = actionStep.isTracking !== newValue;
                     actionStep.isTracking = newValue;
                     return changed;
@@ -525,6 +523,8 @@ define(
             var nodeView = getD3NodeView(selectedSVGNode);
 
             var newNode = addPlaceholderNode(nodeView, false);
+            addNodeDataToParentData(newNode);
+
             onDataChanged.dispatch({ added: [ newNode ] });
 
             // todo: focus on created node
@@ -551,20 +551,43 @@ define(
         }
 
 
-        function onPlaceholderEdited(datum) {
+        function onPlaceholderEdited(nodeView) {
 
-            // var newNodes = [];
-            // var node;
+            var newNodes = [];
+            var placeholderNodeView;
 
-            // node = addPlaceholderNode(datum.fd3Data.treeInfo.parent, true);
-            // newNodes.push(node);
+            var parentView = nodeView.fd3Data.treeInfo.parent;
 
-            // // turn node from placeholder to actual node
-            // datum.fd3Data.binding.isPlaceholder = false;
-            // node = addPlaceholderNode(datum, true);
-            // newNodes.push(node);
+            placeholderNodeView = addPlaceholderNode(parentView, true);
+            newNodes.push(placeholderNodeView);
 
-            // return newNodes;
+            // turn node from placeholder to actual node
+
+            nodeView.fd3Data.binding.isPlaceholder = false;
+
+            addNodeDataToParentData(nodeView);
+
+            placeholderNodeView = addPlaceholderNode(nodeView, true);
+            newNodes.push(placeholderNodeView);
+
+            return newNodes;
+
+        }
+
+
+        function addNodeDataToParentData(nodeView) {
+
+            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            var parentData = findFirstParentData(nodeView);
+            if (node.isRootNode(parentData)) {
+                parentData.stances.push(nodeData);
+            } else
+            if (node.isStanceNode(parentData)) {
+                parentData.moves.push(nodeData);
+            } else
+            if (node.isMoveNode(parentData)) {
+                parentData.followUps.push(nodeData);
+            }
 
         }
 
@@ -611,9 +634,13 @@ define(
             var placeholderNode;
             var parentIsRoot = !parent.fd3Data.treeInfo.parent;
             if (parentIsRoot) {
-                placeholderNode = nodeDataGenerator.generateGroup('new');
+                placeholderNode = nodeDataGenerator.generateGroup();
+                var nodeData = node.createStanceNode();
+                visualNode.setBinding(placeholderNode, nodeData);
             } else {
-                placeholderNode = nodeDataGenerator.generateNode('new');
+                placeholderNode = nodeDataGenerator.generateNode();
+                var nodeData = node.createMoveNode();
+                visualNode.setBinding(placeholderNode, nodeData);
             }
             placeholderNode.fd3Data.binding.isPlaceholder = isEditorElement;
             visualNode.addChild(parent, placeholderNode);

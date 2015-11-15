@@ -79,7 +79,7 @@ define(
 
                 initGenerators();
 
-                loadData(node.createRootNode({ character: 'character name' }));
+                loadData(node.createRootNode());
 
                 bindUIActions();
 
@@ -171,7 +171,8 @@ define(
 
             function onFileSelected() {
                 var fileElement = this;
-                JsonFileReader.readJson(fileElement.files[0]).then(
+                var file = fileElement.files[0];
+                file && JsonFileReader.readJson(fileElement.files[0]).then(
                     function onSuccess(parsedJson) {
                         var importedDataRoot = nodeSerializer.importJson(parsedJson);
                         if (!importedDataRoot) {
@@ -535,6 +536,7 @@ define(
                             'unclickable': false
                         })
 
+                        .on('touchend', toggleChildren)
                         .on('click', onClickNodeView)
                         .on('dblclick', onDoubleClickNodeView);
                         
@@ -579,12 +581,16 @@ define(
                     selectionManager.selectNode(nodeViewDomElement);
                 }
 
-                function onDoubleClickNodeView(datum) {
-                    if (_.isNonEmptyArray(visualNode.getAllChildren(datum))) {
-                        visualNode.toggleVisibleChildren(datum);
-                        update(true, datum);
-                    }
+                function onDoubleClickNodeView(nodeView) {
+                    toggleChildren(nodeView);
                     selectionManager.undoSelection();
+                }
+
+                function toggleChildren(nodeView) {
+                    if (_.isNonEmptyArray(visualNode.getAllChildren(nodeView))) {
+                        visualNode.toggleVisibleChildren(nodeView);
+                        update(true, nodeView);
+                    }
                 }
 
 

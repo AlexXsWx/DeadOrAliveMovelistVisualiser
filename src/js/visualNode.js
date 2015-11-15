@@ -157,9 +157,9 @@ define(
             var counter = 1;
 
             return {
-                generateRoot: generate,
+                generateRoot:  generate,
                 generateGroup: generate,
-                generateNode: generate
+                generateNode:  generate
             };
 
 
@@ -386,18 +386,18 @@ define(
 
         function getName(datum) {
             var targetNode = datum.fd3Data.binding.targetDataNode;
-            if (!targetNode) {
-                return 'new?';
-            } else
             if (node.isRootNode(targetNode)) {
-                return targetNode.character;
+                return targetNode.character || 'character';
             } else
             if (node.isStanceNode(targetNode)) {
-                return targetNode.abbreviation;
+                return targetNode.abbreviation || 'stance';
             } else
             if (node.isMoveNode(targetNode)) {
+                var input = targetNode.input;
+                if (!input) return 'move';
                 var context = targetNode.context.join(',');
-                return (context ? context + ':' : '') + targetNode.input;
+                if (context) return context + ':' + input;
+                return input;
             }
             console.error('Can\'t resolve name for node %O', datum);
         }
