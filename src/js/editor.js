@@ -2,9 +2,9 @@ define(
 
     'editor',
 
-    [ 'd3', 'observer', 'node', 'visualNode', 'keyCodes', 'treeTools', 'tools' ],
+    [ 'd3', 'observer', 'node', 'visualNode', 'keyCodes', 'treeTools', 'tools', 'Strings' ],
 
-    function(d3, createObserver, node, visualNode, keyCodes, treeTools, _) {
+    function(d3, createObserver, node, visualNode, keyCodes, treeTools, _, Strings) {
 
         var nodeDataGenerator;
         var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
@@ -109,9 +109,15 @@ define(
 
                     var actionStepsParent = $('editorMoveActionSteps');
                     for (var i = 0; i < actionStepsParent.children.length; i += 3) {
-                        actionStepsParent.children[i    ].children[1].children[0].value   = nodeData && nodeData.actionSteps[i / 3].actionMask || '';
-                        actionStepsParent.children[i + 1].children[1].children[0].value   = nodeData && nodeData.actionSteps[i / 3].actionType || '';
-                        actionStepsParent.children[i + 2].children[1].children[0].checked = nodeData && nodeData.actionSteps[i / 3].isTracking || false;
+                        actionStepsParent.children[i    ].children[1].children[0].value = nodeData && nodeData.actionSteps[i / 3].actionMask || '';
+                        actionStepsParent.children[i + 1].children[1].children[0].value = nodeData && nodeData.actionSteps[i / 3].actionType || '';
+                        var checkbox = actionStepsParent.children[i + 2].children[1].children[0];
+                        if (!nodeData || nodeData.actionSteps[i / 3].isTracking === undefined) {
+                            checkbox.indeterminate = true;
+                            checkbox.checked = false;
+                        } else {
+                            checkbox.checked = nodeData.actionSteps[i / 3].isTracking;
+                        }
                     }
 
                 }
@@ -137,6 +143,7 @@ define(
 
                 updateView: function() {}
             }
+
         ];
 
 
@@ -154,55 +161,45 @@ define(
             actionStepsParent.innerHTML = '';
             var actionSteps = (nodeData.frameData.length - 1) / 2;
             for (var i = 0; i < actionSteps; ++i) {
-                createInputForMoveActionStep(editorGroup, actionStepsParent, nodeData.actionSteps[i]);
+                createInputForMoveActionStep(editorGroup, actionStepsParent, i);
             }
         }
 
-        function createInputForMoveActionStep(editorGroup, actionStepsParent, actionStep) {
+        function createInputForMoveActionStep(editorGroup, actionStepsParent, actionStepIndex) {
 
             var tr;
 
             tr = createTableInputRow(
-                'Mask', '', editorGroup,
-                function(inputElement, nodeData, nodeView) {
-                    return readMoveActionStepMask(inputElement, actionStep);
+                Strings('moveActionMask'), '', editorGroup,
+                function(inputElement, nodeData) {
+                    return readMoveActionStepMask(inputElement, nodeData, actionStepIndex);
                 },
                 {
-                    description: (
-                        'Action step mask. When available, specifies height classes ' +
-                        'of the action step, and optionally strike or hold types - ' +
-                        'punch or kick. Examples - high; low K; mid P mid K'
-                    ),
+                    description: Strings('moveActionMaskDescription'),
                     example: 'mid P'
                 }
             );
             actionStepsParent.appendChild(tr);
 
             tr = createTableInputRow(
-                'Type', '', editorGroup,
-                function(inputElement, nodeData, nodeView) {
-                    return readMoveActionStepType(inputElement, actionStep);
+                Strings('moveActionType'), '', editorGroup,
+                function(inputElement, nodeData) {
+                    return readMoveActionStepType(inputElement, nodeData, actionStepIndex);
                 },
                 {
-                    description: (
-                        'Action step type. Possible values are: strike; jump attack; ' +
-                        'grab for throw; OH grab; grab for hold; ground attack; other'
-                    ),
+                    description: Strings('moveActionTypeDescription'),
                     example: 'strike'
                 }
             );
             actionStepsParent.appendChild(tr);
 
             tr = createTableCheckboxRow(
-                'Tracking', false, editorGroup,
-                function(inputElement, nodeData, nodeView) {
-                    return readMoveActionStepTracking(inputElement, actionStep);
+                Strings('moveActionTracking'), false, editorGroup,
+                function(inputElement, nodeData) {
+                    return readMoveActionStepTracking(inputElement, nodeData, actionStepIndex);
                 },
                 {
-                    description: (
-                        'Whether the action step is tracking or not. Only tracking ' +
-                        'moves can hit opponent when they perform sidestep'
-                    )
+                    description: Strings('moveActionTrackingDescription')
                 }
             );
             actionStepsParent.appendChild(tr);
@@ -210,23 +207,24 @@ define(
         }
 
 
-        function createTableRow(leftChild, rightChild) {
+        function createTableRow(leftChildren, rightChildren) {
 
             var tr = document.createElement('tr');
 
             var tdLeft = document.createElement('td');
-            tdLeft.appendChild(leftChild);
+            leftChildren.forEach(function(leftChild) { tdLeft.appendChild(leftChild); });
             tr.appendChild(tdLeft);
 
             var tdRight = document.createElement('td');
-            tdRight.appendChild(rightChild);
+            rightChildren.forEach(function(rightChild) { tdRight.appendChild(rightChild); });
             tr.appendChild(tdRight);
 
             return tr;
+
         }
 
 
-        function createTableInputRow(name, value, editorGroup, action, hints) {
+        function createTableInputRow(name, value, editorGroup, changeAction, hints) {
 
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(name));
@@ -234,21 +232,21 @@ define(
             var input = document.createElement('input');
             input.value = value;
 
-            var tr = createTableRow(label, input);
+            var tr = createTableRow([label], [input]);
 
             if (hints.description) tr.setAttribute('title', hints.description);
             if (hints.example) input.setAttribute('placeholder', hints.example);
 
             label.addEventListener('click', function(event) { input.focus(); });
 
-            initInputElement(input, editorGroup, action);
+            initInputElement(input, editorGroup, changeAction);
 
             return tr;
 
         }
 
 
-        function createTableCheckboxRow(name, checked, editorGroup, action, hints) {
+        function createTableCheckboxRow(name, checked, editorGroup, changeAction, hints) {
 
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(name));
@@ -257,17 +255,26 @@ define(
             input.setAttribute('type', 'checkbox');
             input.checked = checked;
 
-            var tr = createTableRow(label, input);
+            var indeterminateButton = document.createElement('input');
+            indeterminateButton.setAttribute('type', 'button');
+            indeterminateButton.setAttribute('value', 'indeterminate');
+            indeterminateButton.setAttribute('title', Strings('indeterminateHint'));
+
+            var tr = createTableRow([label], [input, indeterminateButton]);
 
             if (hints.description) tr.setAttribute('title', hints.description);
 
-            // FIXME
-            // label.addEventListener('click', function(event) {
-            //     input.checked = !input.checked;
-            //     action.call(this); 
-            // });
+            var onChange = initCheckBoxElement(input, editorGroup, changeAction);
 
-            initCheckBoxElement(input, editorGroup, action);
+            indeterminateButton.addEventListener('click', function(event) {
+                input.indeterminate = true;
+                onChange.call(this);
+            });
+            label.addEventListener('click', function(event) {
+                input.indeterminate = false;
+                input.checked = !input.checked;
+                onChange.call(this); 
+            });
 
             return tr;
 
@@ -288,23 +295,29 @@ define(
         }
 
 
-        function initInputElement(inputElement, editorGroup, action) {
-            inputElement.addEventListener('input', function(event) {
-                changeSelectedNodes(this, editorGroup, action);
-            });
+        function initInputElement(inputElement, editorGroup, changeAction) {
+            inputElement.addEventListener('input', onInput);
             inputElement.addEventListener('keydown', onInputBlurIfEsc);
+            return onInput;
+            function onInput(event) {
+                changeSelectedNodes(this, editorGroup, changeAction);
+            }
         }
 
-        function initCheckBoxElement(checkboxElement, editorGroup, action) {
-            checkboxElement.addEventListener('change', function(event) {
-                changeSelectedNodes(this, editorGroup, action);
-            });
+        function initCheckBoxElement(checkboxElement, editorGroup, changeAction) {
+            checkboxElement.addEventListener('change', onChange);
+            return onChange;
+            function onChange(event) {
+                changeSelectedNodes(this, editorGroup, changeAction);
+            }
         }
 
-        function initButtonElement(buttonElement, action) {
-            buttonElement.addEventListener('click', function(event) {
-                action();
-            });
+        function initButtonElement(buttonElement, changeAction) {
+            buttonElement.addEventListener('click', onClick);
+            return onClick;
+            function onClick(event) {
+                changeAction();
+            }
         }
 
 
@@ -320,10 +333,15 @@ define(
             var selection = d3.select(selectedSVGNode);
             var nodeView = selection.datum();
 
-            var changes = readCommon(sourceHTMLElement, editorGroup.filter, nodeView, changeAction);
+            var changed = false;
+
+            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            // if (editorGroup.filter(nodeData)) { // no need?
+                changed = changeAction(sourceHTMLElement, nodeData);
+            // }
 
             var update = {
-                changed: changes.changed ? [selection] : [],
+                changed: changed ? [selection] : [],
                 added: []
             };
 
@@ -336,32 +354,18 @@ define(
         }
 
 
-        function readCommon(inputElement, filter, nodeView, uncommon) {
-
-            var changed = false;
-
-            var nodeData = nodeView.fd3Data.binding.targetDataNode;
-            if (filter(nodeData)) {
-                changed = uncommon(inputElement, nodeData, nodeView);
-            }
-
-            return { changed: changed };
-            
-        }
-
-
         // ==== Readers ====
 
             // ==== Root ====
 
-                function readCharacterName(inputElement, nodeData, nodeView) {
+                function readCharacterName(inputElement, nodeData) {
                     var changed = nodeData.character !== inputElement.value;
                     nodeData.character = inputElement.value;
                     return changed;
                 }
 
 
-                function readGameVersion(inputElement, nodeData, nodeView) {
+                function readGameVersion(inputElement, nodeData) {
                     var changed = nodeData.version !== inputElement.value;
                     nodeData.version = inputElement.value;
                     return changed;
@@ -371,21 +375,21 @@ define(
 
             // ==== Stance ====
 
-                function readStanceAbbreviation(inputElement, nodeData, nodeView) {
+                function readStanceAbbreviation(inputElement, nodeData) {
                     var changed = nodeData.abbreviation !== inputElement.value;
                     nodeData.abbreviation = inputElement.value;
                     return changed;
                 }
 
 
-                function readStanceDescription(inputElement, nodeData, nodeView) {
+                function readStanceDescription(inputElement, nodeData) {
                     var changed = nodeData.description !== inputElement.value;
                     nodeData.description = inputElement.value;
                     return changed;
                 }
 
 
-                function readStanceEnding(inputElement, nodeData, nodeView) {
+                function readStanceEnding(inputElement, nodeData) {
                     var changed = nodeData.endsWith !== inputElement.value;
                     nodeData.endsWith = inputElement.value;
                     return changed;
@@ -395,16 +399,14 @@ define(
 
             // ==== Move ====
 
-                function readMoveInput(inputElement, nodeData, nodeView) {
+                function readMoveInput(inputElement, nodeData) {
                     var changed = nodeData.input !== inputElement.value;
                     nodeData.input = inputElement.value;
-                    // todo: update editor elements according to this change
-                    // node.guessMoveTypeByInput(nodeView);
                     return changed;
                 }
 
 
-                function readMoveContext(inputElement, nodeData, nodeView) {
+                function readMoveContext(inputElement, nodeData) {
 
                     var newValue = inputElement.value.split(',').map(function(e) { return e.trim(); });
                     var oldValue = nodeData.context || [];
@@ -416,7 +418,7 @@ define(
                 }
 
 
-                function readMoveFrameData(inputElement, nodeData, nodeView) {
+                function readMoveFrameData(inputElement, nodeData) {
 
                     var numbers = inputElement.value.match(/\d+/g);
                     var newValue = numbers ? numbers.map(function(e) { return +e; }) : [];
@@ -429,7 +431,7 @@ define(
                 }
 
 
-                function readMoveEnding(inputElement, nodeData, nodeView) {
+                function readMoveEnding(inputElement, nodeData) {
 
                     var newValue = inputElement.value;
                     var oldValue = nodeData.endsWith;
@@ -441,23 +443,32 @@ define(
                 }
 
 
-                function readMoveActionStepMask(inputElement, actionStep) {
+                function readMoveActionStepMask(inputElement, nodeData, actionStepIndex) {
+                    var actionStep = nodeData.actionSteps[actionStepIndex];
                     var changed = actionStep.actionMask !== inputElement.value;
                     actionStep.actionMask = inputElement.value;
                     return changed;
                 }
 
 
-                function readMoveActionStepType(inputElement, actionStep) {
+                function readMoveActionStepType(inputElement, nodeData, actionStepIndex) {
+                    var actionStep = nodeData.actionSteps[actionStepIndex];
                     var changed = actionStep.actionType !== inputElement.value;
                     actionStep.actionType = inputElement.value;
                     return changed;
                 }
 
 
-                function readMoveActionStepTracking(inputElement, actionStep) {
-                    var changed = actionStep.isTracking !== inputElement.checked;
-                    actionStep.isTracking = inputElement.checked;
+                function readMoveActionStepTracking(inputElement, nodeData, actionStepIndex) {
+                    var actionStep = nodeData.actionSteps[actionStepIndex];
+                    var newValue;
+                    if (inputElement.indeterminate) {
+                        newValue = undefined;
+                    } else {
+                        newValue = inputElement.checked;
+                    }
+                    var changed = actionStep.isTracking !== newValue;
+                    actionStep.isTracking = newValue;
                     return changed;
                 }
 
@@ -655,24 +666,6 @@ define(
                 if (!focused) focused = editorGroup.focus();
 
             });
-
-        }
-
-
-        function createDataMask() {
-
-            var mask = true;
-
-            return { restrictBy: restrictBy };
-
-            function restrictBy(element) {
-                if (element === true || mask === false) return;
-                if (!_.isObject(mask)) {
-                    mask = false;
-                    return;
-                }
-                // etc...
-            }
 
         }
 
