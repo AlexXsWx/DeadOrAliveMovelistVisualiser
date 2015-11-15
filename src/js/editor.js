@@ -26,8 +26,8 @@ define(
                 },
 
                 bindListeners: function() {
-                    initInputElement('editorRootCharacterName', this, readCharacterName);
-                    initInputElement('editorRootGameVersion',   this, readGameVersion);
+                    initInputElement($('editorRootCharacterName'), this, readCharacterName);
+                    initInputElement($('editorRootGameVersion'),   this, readGameVersion);
                 },
 
                 updateView: function() {
@@ -55,9 +55,9 @@ define(
                 },
 
                 bindListeners: function() {
-                    initInputElement('editorStanceAbbreviation', this, readStanceAbbreviation);
-                    initInputElement('editorStanceDescription',  this, readStanceDescription);
-                    initInputElement('editorStanceEnding',       this, readStanceEnding);
+                    initInputElement($('editorStanceAbbreviation'), this, readStanceAbbreviation);
+                    initInputElement($('editorStanceDescription'),  this, readStanceDescription);
+                    initInputElement($('editorStanceEnding'),       this, readStanceEnding);
                 },
 
                 updateView: function() {
@@ -87,10 +87,10 @@ define(
                 },
 
                 bindListeners: function() {
-                    initInputElement('editorMoveInput',     this, readMoveInput);
-                    initInputElement('editorMoveContext',   this, readMoveContext);
-                    initInputElement('editorMoveFrameData', this, readMoveFrameData);
-                    initInputElement('editorMoveEnding',    this, readMoveEnding);
+                    initInputElement($('editorMoveInput'),     this, readMoveInput);
+                    initInputElement($('editorMoveContext'),   this, readMoveContext);
+                    initInputElement($('editorMoveFrameData'), this, readMoveFrameData);
+                    initInputElement($('editorMoveEnding'),    this, readMoveEnding);
                 },
 
                 updateView: function() {
@@ -100,10 +100,19 @@ define(
                     var nodeView = this.matchingSelectedViews[0];
                     var nodeData = nodeView.fd3Data.binding.targetDataNode;
 
+                    createInputForMoveActionSteps(this, nodeData);
+
                     $( 'editorMoveInput'     ).value = nodeData && nodeData.input               || '';
                     $( 'editorMoveFrameData' ).value = nodeData && nodeData.frameData.join(' ') || '';
                     $( 'editorMoveEnding'    ).value = nodeData && nodeData.endsWith            || '';
                     $( 'editorMoveContext'   ).value = nodeData && nodeData.context.join(', ')  || '';
+
+                    var actionStepsParent = $('editorMoveActionSteps');
+                    for (var i = 0; i < actionStepsParent.children.length; i += 3) {
+                        actionStepsParent.children[i    ].children[1].children[0].value   = nodeData && nodeData.actionSteps[i / 3].actionMask || '';
+                        actionStepsParent.children[i + 1].children[1].children[0].value   = nodeData && nodeData.actionSteps[i / 3].actionType || '';
+                        actionStepsParent.children[i + 2].children[1].children[0].checked = nodeData && nodeData.actionSteps[i / 3].isTracking || false;
+                    }
 
                 }
             },
@@ -118,17 +127,15 @@ define(
                 focus: function() { return false; },
                 bindListeners: function() {
 
-                    initButtonElement( 'addChild',   onClickAddChild);
-                    initButtonElement( 'deleteNode', onClickDeleteNode);
+                    initButtonElement( $('addChild'),   onClickAddChild);
+                    initButtonElement( $('deleteNode'), onClickDeleteNode);
 
-                    initButtonElement( 'moveNodeUp',   moveNodeBy.bind(null, -1));
-                    initButtonElement( 'moveNodeDown', moveNodeBy.bind(null,  1));
+                    initButtonElement( $('moveNodeUp'),   moveNodeBy.bind(null, -1));
+                    initButtonElement( $('moveNodeDown'), moveNodeBy.bind(null,  1));
 
                 },
 
-                updateView: function() {
-
-                }
+                updateView: function() {}
             }
         ];
 
@@ -140,6 +147,131 @@ define(
             updateBySelection:  updateBySelection,
             onDataChanged:      onDataChanged
         };
+
+
+        function createInputForMoveActionSteps(editorGroup, nodeData) {
+            var actionStepsParent = $('editorMoveActionSteps');
+            actionStepsParent.innerHTML = '';
+            var actionSteps = (nodeData.frameData.length - 1) / 2;
+            for (var i = 0; i < actionSteps; ++i) {
+                createInputForMoveActionStep(editorGroup, actionStepsParent, nodeData.actionSteps[i]);
+            }
+        }
+
+        function createInputForMoveActionStep(editorGroup, actionStepsParent, actionStep) {
+
+            var tr;
+
+            tr = createTableInputRow(
+                'Mask', '', editorGroup,
+                function(inputElement, nodeData, nodeView) {
+                    return readMoveActionStepMask(inputElement, actionStep);
+                },
+                {
+                    description: (
+                        'Action step mask. When available, specifies height classes ' +
+                        'of the action step, and optionally strike or hold types - ' +
+                        'punch or kick. Examples - high; low K; mid P mid K'
+                    ),
+                    example: 'mid P'
+                }
+            );
+            actionStepsParent.appendChild(tr);
+
+            tr = createTableInputRow(
+                'Type', '', editorGroup,
+                function(inputElement, nodeData, nodeView) {
+                    return readMoveActionStepType(inputElement, actionStep);
+                },
+                {
+                    description: (
+                        'Action step type. Possible values are: strike; jump attack; ' +
+                        'grab for throw; OH grab; grab for hold; ground attack; other'
+                    ),
+                    example: 'strike'
+                }
+            );
+            actionStepsParent.appendChild(tr);
+
+            tr = createTableCheckboxRow(
+                'Tracking', false, editorGroup,
+                function(inputElement, nodeData, nodeView) {
+                    return readMoveActionStepTracking(inputElement, actionStep);
+                },
+                {
+                    description: (
+                        'Whether the action step is tracking or not. Only tracking ' +
+                        'moves can hit opponent when they perform sidestep'
+                    )
+                }
+            );
+            actionStepsParent.appendChild(tr);
+
+        }
+
+
+        function createTableRow(leftChild, rightChild) {
+
+            var tr = document.createElement('tr');
+
+            var tdLeft = document.createElement('td');
+            tdLeft.appendChild(leftChild);
+            tr.appendChild(tdLeft);
+
+            var tdRight = document.createElement('td');
+            tdRight.appendChild(rightChild);
+            tr.appendChild(tdRight);
+
+            return tr;
+        }
+
+
+        function createTableInputRow(name, value, editorGroup, action, hints) {
+
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(name));
+
+            var input = document.createElement('input');
+            input.value = value;
+
+            var tr = createTableRow(label, input);
+
+            if (hints.description) tr.setAttribute('title', hints.description);
+            if (hints.example) input.setAttribute('placeholder', hints.example);
+
+            label.addEventListener('click', function(event) { input.focus(); });
+
+            initInputElement(input, editorGroup, action);
+
+            return tr;
+
+        }
+
+
+        function createTableCheckboxRow(name, checked, editorGroup, action, hints) {
+
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(name));
+
+            var input = document.createElement('input');
+            input.setAttribute('type', 'checkbox');
+            input.checked = checked;
+
+            var tr = createTableRow(label, input);
+
+            if (hints.description) tr.setAttribute('title', hints.description);
+
+            // FIXME
+            // label.addEventListener('click', function(event) {
+            //     input.checked = !input.checked;
+            //     action.call(this); 
+            // });
+
+            initCheckBoxElement(input, editorGroup, action);
+
+            return tr;
+
+        }
 
 
         function initEditor(nodeDataGeneratorRef) {
@@ -156,23 +288,28 @@ define(
         }
 
 
-        function initInputElement(id, editorGroup, action) {
-            var inputElement = $(id);
+        function initInputElement(inputElement, editorGroup, action) {
             inputElement.addEventListener('input', function(event) {
                 changeSelectedNodes(this, editorGroup, action);
             });
             inputElement.addEventListener('keydown', onInputBlurIfEsc);
         }
 
+        function initCheckBoxElement(checkboxElement, editorGroup, action) {
+            checkboxElement.addEventListener('change', function(event) {
+                changeSelectedNodes(this, editorGroup, action);
+            });
+        }
+
+        function initButtonElement(buttonElement, action) {
+            buttonElement.addEventListener('click', function(event) {
+                action();
+            });
+        }
+
 
         function onInputBlurIfEsc(event) {
             if (event.keyCode === keyCodes.ENTER) this.blur();
-        }
-
-        function initButtonElement(id, action) {
-            $(id).addEventListener('click', function(event) {
-                action();
-            });
         }
 
 
@@ -205,7 +342,7 @@ define(
 
             var nodeData = nodeView.fd3Data.binding.targetDataNode;
             if (filter(nodeData)) {
-                changed = uncommon(inputElement.value, nodeData, nodeView);
+                changed = uncommon(inputElement, nodeData, nodeView);
             }
 
             return { changed: changed };
@@ -217,16 +354,16 @@ define(
 
             // ==== Root ====
 
-                function readCharacterName(inputValue, nodeData, nodeView) {
-                    var changed = nodeData.character !== inputValue;
-                    nodeData.character = inputValue;
+                function readCharacterName(inputElement, nodeData, nodeView) {
+                    var changed = nodeData.character !== inputElement.value;
+                    nodeData.character = inputElement.value;
                     return changed;
                 }
 
 
-                function readGameVersion(inputValue, nodeData, nodeView) {
-                    var changed = nodeData.version !== inputValue;
-                    nodeData.version = inputValue;
+                function readGameVersion(inputElement, nodeData, nodeView) {
+                    var changed = nodeData.version !== inputElement.value;
+                    nodeData.version = inputElement.value;
                     return changed;
                 }
 
@@ -234,23 +371,23 @@ define(
 
             // ==== Stance ====
 
-                function readStanceAbbreviation(inputValue, nodeData, nodeView) {
-                    var changed = nodeData.abbreviation !== inputValue;
-                    nodeData.abbreviation = inputValue;
+                function readStanceAbbreviation(inputElement, nodeData, nodeView) {
+                    var changed = nodeData.abbreviation !== inputElement.value;
+                    nodeData.abbreviation = inputElement.value;
                     return changed;
                 }
 
 
-                function readStanceDescription(inputValue, nodeData, nodeView) {
-                    var changed = nodeData.description !== inputValue;
-                    nodeData.description = inputValue;
+                function readStanceDescription(inputElement, nodeData, nodeView) {
+                    var changed = nodeData.description !== inputElement.value;
+                    nodeData.description = inputElement.value;
                     return changed;
                 }
 
 
-                function readStanceEnding(inputValue, nodeData, nodeView) {
-                    var changed = nodeData.endsWith !== inputValue;
-                    nodeData.endsWith = inputValue;
+                function readStanceEnding(inputElement, nodeData, nodeView) {
+                    var changed = nodeData.endsWith !== inputElement.value;
+                    nodeData.endsWith = inputElement.value;
                     return changed;
                 }
 
@@ -258,18 +395,18 @@ define(
 
             // ==== Move ====
 
-                function readMoveInput(inputValue, nodeData, nodeView) {
-                    var changed = nodeData.input !== inputValue;
-                    nodeData.input = inputValue;
+                function readMoveInput(inputElement, nodeData, nodeView) {
+                    var changed = nodeData.input !== inputElement.value;
+                    nodeData.input = inputElement.value;
                     // todo: update editor elements according to this change
                     // node.guessMoveTypeByInput(nodeView);
                     return changed;
                 }
 
 
-                function readMoveContext(inputValue, nodeData, nodeView) {
+                function readMoveContext(inputElement, nodeData, nodeView) {
 
-                    var newValue = inputValue.split(',').map(function(e) { return e.trim(); });
+                    var newValue = inputElement.value.split(',').map(function(e) { return e.trim(); });
                     var oldValue = nodeData.context || [];
 
                     nodeData.context = newValue || undefined;
@@ -279,9 +416,9 @@ define(
                 }
 
 
-                function readMoveFrameData(inputValue, nodeData, nodeView) {
+                function readMoveFrameData(inputElement, nodeData, nodeView) {
 
-                    var numbers = inputValue.match(/\d+/g);
+                    var numbers = inputElement.value.match(/\d+/g);
                     var newValue = numbers ? numbers.map(function(e) { return +e; }) : [];
                     var oldValue = nodeData.frameData || [];
 
@@ -292,15 +429,36 @@ define(
                 }
 
 
-                function readMoveEnding(inputValue, nodeData, nodeView) {
+                function readMoveEnding(inputElement, nodeData, nodeView) {
 
-                    var newValue = inputValue;
+                    var newValue = inputElement.value;
                     var oldValue = nodeData.endsWith;
 
                     nodeData.endsWith = newValue || undefined;
 
                     return oldValue !== newValue;
 
+                }
+
+
+                function readMoveActionStepMask(inputElement, actionStep) {
+                    var changed = actionStep.actionMask !== inputElement.value;
+                    actionStep.actionMask = inputElement.value;
+                    return changed;
+                }
+
+
+                function readMoveActionStepType(inputElement, actionStep) {
+                    var changed = actionStep.actionType !== inputElement.value;
+                    actionStep.actionType = inputElement.value;
+                    return changed;
+                }
+
+
+                function readMoveActionStepTracking(inputElement, actionStep) {
+                    var changed = actionStep.isTracking !== inputElement.checked;
+                    actionStep.isTracking = inputElement.checked;
+                    return changed;
                 }
 
             // ==============

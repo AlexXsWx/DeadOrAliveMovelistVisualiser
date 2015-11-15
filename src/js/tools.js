@@ -28,7 +28,7 @@ define('tools', function() {
         for (var i = 0; i < arrayA.length; ++i) {
             if (arrayA[i] !== arrayB[i]) return false;
         }
-        return true;;
+        return true;
     }
 
     function removeElement(array, element) {
