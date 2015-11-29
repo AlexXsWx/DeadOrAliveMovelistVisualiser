@@ -91,7 +91,7 @@ define(
                 rootNodeData = data;
                 rootNodeView = createViewFromData(rootNodeData);
 
-                // todo: reset everything
+                // TODO: reset everything
 
                 // ui.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
                 update(false);
@@ -110,17 +110,13 @@ define(
             function initGenerators() {
 
                 var tree = d3.layout.tree();
-
                 tree.nodeSize([ NODE_HEIGHT, NODE_WIDTH ]); // turn 90deg CCW
-
                 tree.children(visualNode.getVisibleChildren);
-
                 // tree.separation(function(a, b) {
                 //     return 1;
                 // });
-
                 generators.d3.tree = tree;
-
+                
                 generators.d3.line = lineGenerators.createTurnedDiagonalLineGenerator();
                 
             }

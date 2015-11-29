@@ -14,23 +14,22 @@ define(
 
             {
 
-                name: "root",
-                filter: function(data) { return data && node.isRootNode(data); },
-                matchingSelectedViews: [],
-                overrideCreator: node.createRootNode,
+                name: 'root',
                 domNode: $('editorRoot'),
+                filter: function filterRoot(data) { return data && node.isRootNode(data); },
+                matchingSelectedViews: [],
 
-                focus: function() {
+                focus: function focusRoot() {
                     $('editorRootCharacterName').select();
                     return true;
                 },
 
-                bindListeners: function() {
+                bindListeners: function bindListenersRoot() {
                     initInputElement($('editorRootCharacterName'), this, readCharacterName);
                     initInputElement($('editorRootGameVersion'),   this, readGameVersion);
                 },
 
-                updateView: function() {
+                updateView: function updateViewRoot() {
 
                     var nodeView = this.matchingSelectedViews[0];
                     var nodeData = nodeView.fd3Data.binding.targetDataNode;
@@ -43,24 +42,24 @@ define(
             },
 
             {
-                name: "stance",
-                filter: function(data) { return data && node.isStanceNode(data); },
-                matchingSelectedViews: [],
-                overrideCreator: node.createStanceNode,
-                domNode: $('editorStance'),
 
-                focus: function() {
+                name: 'stance',
+                domNode: $('editorStance'),
+                filter: function filterStance(data) { return data && node.isStanceNode(data); },
+                matchingSelectedViews: [],
+
+                focus: function focusStance() {
                     $('editorStanceAbbreviation').select();
                     return true;
                 },
 
-                bindListeners: function() {
+                bindListeners: function bindListenersStance() {
                     initInputElement($('editorStanceAbbreviation'), this, readStanceAbbreviation);
                     initInputElement($('editorStanceDescription'),  this, readStanceDescription);
                     initInputElement($('editorStanceEnding'),       this, readStanceEnding);
                 },
 
-                updateView: function() {
+                updateView: function updateViewStance() {
 
                     var nodeView = this.matchingSelectedViews[0];
                     var nodeData = nodeView.fd3Data.binding.targetDataNode;
@@ -75,25 +74,24 @@ define(
 
             {
 
-                name: "move",
-                filter: function(data) { return data && node.isMoveNode(data); },
-                matchingSelectedViews: [],
-                overrideCreator: node.createMoveNode,
+                name: 'move',
                 domNode: $('editorMove'),
+                filter: function filterMove(data) { return data && node.isMoveNode(data); },
+                matchingSelectedViews: [],
 
-                focus: function() {
+                focus: function focusMove() {
                     $('editorMoveInput').select();
                     return true;
                 },
 
-                bindListeners: function() {
+                bindListeners: function bindListenersMove() {
                     initInputElement($('editorMoveInput'),     this, readMoveInput);
                     initInputElement($('editorMoveContext'),   this, readMoveContext);
                     initInputElement($('editorMoveFrameData'), this, readMoveFrameData);
                     initInputElement($('editorMoveEnding'),    this, readMoveEnding);
                 },
 
-                updateView: function() {
+                updateView: function updateViewMove() {
 
                     // FIXME: consider differences between matching nodes
 
@@ -125,15 +123,14 @@ define(
 
             {
 
-                name: "common",
-                filter: function(data) { return true; },
-                matchingSelectedViews: [],
-                overrideCreator: function() { return null; },
+                name: 'common',
                 domNode: $('editorOther'),
+                filter: function filterCommon(data) { return true; },
+                matchingSelectedViews: [],
 
-                focus: function() { return false; },
+                focus: function focusCommon() { return false; },
 
-                bindListeners: function() {
+                bindListeners: function bindListenersCommon() {
 
                     initButtonElement( $('addChild'),   onClickAddChild);
                     initButtonElement( $('deleteNode'), onClickDeleteNode);
@@ -143,7 +140,7 @@ define(
 
                 },
 
-                updateView: function() {}
+                updateView: function updateViewCommon() {}
 
             }
 
@@ -172,9 +169,11 @@ define(
 
             var tr;
 
+            var emptyValue = '';
+
             tr = createTableInputRow(
-                Strings('moveActionMask'), '', editorGroup,
-                function(inputElement, nodeData) {
+                Strings('moveActionMask'), emptyValue, editorGroup,
+                function onInput(inputElement, nodeData) {
                     return readMoveActionStepMask(inputElement, nodeData, actionStepIndex);
                 },
                 {
@@ -185,8 +184,8 @@ define(
             actionStepsParent.appendChild(tr);
 
             tr = createTableInputRow(
-                Strings('moveActionType'), '', editorGroup,
-                function(inputElement, nodeData) {
+                Strings('moveActionType'), emptyValue, editorGroup,
+                function onInput(inputElement, nodeData) {
                     return readMoveActionStepType(inputElement, nodeData, actionStepIndex);
                 },
                 {
@@ -198,7 +197,7 @@ define(
 
             tr = createTableCheckboxRow(
                 Strings('moveActionTracking'), false, editorGroup,
-                function(inputElement, nodeData) {
+                function onChange(inputElement, nodeData) {
                     return readMoveActionStepTracking(inputElement, nodeData, actionStepIndex);
                 },
                 {
@@ -227,7 +226,7 @@ define(
         }
 
 
-        function createTableInputRow(name, value, editorGroup, changeAction, hints) {
+        function createTableInputRow(name, value, editorGroup, changeAction, optHints) {
 
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(name));
@@ -237,8 +236,10 @@ define(
 
             var tr = createTableRow([label], [input]);
 
-            if (hints.description) tr.setAttribute('title', hints.description);
-            if (hints.example) input.setAttribute('placeholder', hints.example);
+            if (optHints) {
+                if (optHints.description) tr    .setAttribute('title',       optHints.description);
+                if (optHints.example)     input .setAttribute('placeholder', optHints.example);
+            }
 
             label.addEventListener('click', function(event) { input.focus(); });
 
@@ -488,15 +489,12 @@ define(
                 var firstParentData = findFirstParentData(nodeView);
 
                 if (firstParentData) {
-                    if (node.isRootNode(firstParentData)) {
-                        _.removeElement(firstParentData.stances, nodeData);
-                    } else
-                    if (node.isStanceNode(firstParentData)) {
-                        _.removeElement(firstParentData.moves, nodeData);
-                    } else
-                    if (node.isMoveNode(firstParentData)) {
-                        _.removeElement(firstParentData.followUps, nodeData);
-                    } else {
+                    var success = false;
+                    var children = node.getChildren(nodeData);
+                    if (children) {
+                        success = _.removeElement(children, nodeData);
+                    }
+                    if (!success) {
                         console.warn(
                             'Failed to remove %O: ' +
                             'nearest parent with data of %O does not contain it',
@@ -527,27 +525,33 @@ define(
 
             onDataChanged.dispatch({ added: [ newNode ] });
 
-            // todo: focus on created node
+            // TODO: focus on created node
 
         }
 
 
+        // TODO: consider multiselection
         function moveNodeBy(delta) {
 
-            // if (!selectedSVGNode) return;
+            if (!selectedSVGNode) return;
 
-            // var nodeView = getD3NodeView(selectedSVGNode);
-            // var parent = nodeView.fd3Data.treeInfo.parent;
+            var nodeView = getD3NodeView(selectedSVGNode);
+            var parentView = nodeView.fd3Data.treeInfo.parent;
 
-            // if (!parent) return;
+            if (!parentView) return;
 
-            // var allChildren     = visualNode.getAllChildren(parent);
-            // var visibleChildren = visualNode.getVisibleChildren(parent);
-            // var changed = false;
-            // if (_.moveArrayElement(allChildren,     nodeView, delta)) changed = true;
-            // if (_.moveArrayElement(visibleChildren, nodeView, delta)) changed = true;
-            // changed && onDataChanged.dispatch({ moved: [ nodeView ] });
+            var allChildren     = visualNode.getAllChildren(parentView);
+            var visibleChildren = visualNode.getVisibleChildren(parentView);
+            var changed = false;
+            if (_.moveArrayElement(allChildren,     nodeView, delta)) changed = true;
+            if (_.moveArrayElement(visibleChildren, nodeView, delta)) changed = true;
 
+            changed && onDataChanged.dispatch({ moved: [ nodeView ] });
+
+            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            var parentData = findFirstParentData(nodeView);
+            var children = node.getChildren(parentData);
+            if (children) _.moveArrayElement(children, nodeData, delta);
         }
 
 
@@ -576,19 +580,10 @@ define(
 
 
         function addNodeDataToParentData(nodeView) {
-
             var nodeData = nodeView.fd3Data.binding.targetDataNode;
             var parentData = findFirstParentData(nodeView);
-            if (node.isRootNode(parentData)) {
-                parentData.stances.push(nodeData);
-            } else
-            if (node.isStanceNode(parentData)) {
-                parentData.moves.push(nodeData);
-            } else
-            if (node.isMoveNode(parentData)) {
-                parentData.followUps.push(nodeData);
-            }
-
+            var children = node.getChildren(parentData);
+            if (children) children.push(nodeData);
         }
 
 

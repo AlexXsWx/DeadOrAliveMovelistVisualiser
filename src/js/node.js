@@ -6,9 +6,11 @@ define('node', ['tools'], function(_) {
         createStanceNode: createStanceNode,
         createMoveNode:   createMoveNode,
 
+        getChildren: getChildren,
+
         isRootNode:   isRootNode,
         isStanceNode: isStanceNode,
-        isMoveNode:   isMoveNode,
+        isMoveNode:   isMoveNode
 
     };
 
@@ -125,6 +127,14 @@ define('node', ['tools'], function(_) {
 
         });
 
+    }
+
+
+    function getChildren(node) {
+        if (isRootNode(node))   return node.stances;
+        if (isStanceNode(node)) return node.moves;
+        if (isMoveNode(node))   return node.followUps;
+        return null;
     }
 
 
