@@ -8,8 +8,7 @@ define(
         'node', 'nodeSerializer',
         'visualNode', 'limitsFinder',
         'selection', 'editor', 'ui',
-        'treeTools', 'tools', 'JsonFileReader',
-        'keyCodes'
+        'treeTools', 'tools', 'JsonFileReader'
     ],
 
     function(
@@ -18,8 +17,7 @@ define(
         node, nodeSerializer,
         visualNode, createLimitsFinder,
         selectionManager, editor, ui,
-        treeTools, _, JsonFileReader,
-        keyCodes
+        treeTools, _, JsonFileReader
     ) {
 
         // ==== Constants ====
@@ -53,6 +51,10 @@ define(
                 nodeViews: null
             };
 
+            var domCache = {
+                download: null
+            };
+
             var limitsFinder;
 
         // ===================
@@ -64,6 +66,8 @@ define(
         // ==== Init ====
 
             function init(parentElement) {
+
+                cacheDomElements();
 
                 canvas = initCanvas(parentElement);
                 selectionManager.init(canvas.svg.node());
@@ -83,6 +87,11 @@ define(
 
                 bindUIActions();
 
+            }
+
+
+            function cacheDomElements() {
+                domCache.download = document.getElementById('download');
             }
 
 
@@ -130,7 +139,7 @@ define(
 
                 d3.select('#save').on('click',  onButtonSave);
                 d3.select('#load').on('change', onFileSelected);
-                d3.select('#download').on('click', onDownload);
+                domCache.download.addEventListener('click', onDownload);
 
                 d3.select('#showPlaceholders').on('change', onChangeShowPlaceholders);
 
@@ -157,10 +166,9 @@ define(
                     window.btoa(JSON.stringify(exportedJsonObj, null, '  '))
                 );
 
-                d3.select('#download')
-                    .attr('download', (rootNodeData.character || 'someCharacter') + '.json')
-                    .attr('href', url)
-                    .attr('hidden', null);
+                domCache.download.download = (rootNodeData.character || 'someCharacter') + '.json';
+                domCache.download.href = url;
+                _.showDomElement(domCache.download);
                     
             }
 
@@ -185,7 +193,7 @@ define(
             }
 
             function onDownload() {
-                d3.select('#download').attr('hidden', true);
+                _.hideDomElement(domCache.download);
             }
 
         // ============
@@ -329,7 +337,7 @@ define(
                 if (deleted || added) setTreeInfoAppearanceData(rootNodeView);
                 if (deleted || added || moved) update(true);
 
-                d3.select('#download').attr('hidden', true);
+                _.hideDomElement(domCache.download);
 
             }
 

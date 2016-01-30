@@ -2,148 +2,31 @@ define(
 
     'editor',
 
-    [ 'd3', 'observer', 'node', 'visualNode', 'keyCodes', 'treeTools', 'tools', 'Strings' ],
+    [
+        'd3', 'observer', 'node', 'visualNode', 'treeTools', 'tools',
+        'editorGroups/editorGroupRootCreator',
+        'editorGroups/editorGroupStanceCreator',
+        'editorGroups/editorGroupMoveCreator',
+        'editorGroups/editorGroupCommonCreator'
+    ],
 
-    function(d3, createObserver, node, visualNode, keyCodes, treeTools, _, Strings) {
+    function(
+        d3, createObserver, node, visualNode, treeTools, _,
+        editorGroupRootCreator,
+        editorGroupStanceCreator,
+        editorGroupMoveCreator,
+        editorGroupCommonCreator
+    ) {
 
         var nodeDataGenerator;
         var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
         var onDataChanged = createObserver();
 
         var editorGroups = [
-
-            {
-
-                name: 'root',
-                domNode: $('editorRoot'),
-                filter: function filterRoot(data) { return data && node.isRootNode(data); },
-                matchingSelectedViews: [],
-
-                focus: function focusRoot() {
-                    $('editorRootCharacterName').select();
-                    return true;
-                },
-
-                bindListeners: function bindListenersRoot() {
-                    initInputElement($('editorRootCharacterName'), this, readCharacterName);
-                    initInputElement($('editorRootGameVersion'),   this, readGameVersion);
-                },
-
-                updateView: function updateViewRoot() {
-
-                    var nodeView = this.matchingSelectedViews[0];
-                    var nodeData = nodeView.fd3Data.binding.targetDataNode;
-
-                    $( 'editorRootCharacterName' ).value = nodeData && nodeData.character || '';
-                    $( 'editorRootGameVersion'   ).value = nodeData && nodeData.version   || '';
-
-                }
-
-            },
-
-            {
-
-                name: 'stance',
-                domNode: $('editorStance'),
-                filter: function filterStance(data) { return data && node.isStanceNode(data); },
-                matchingSelectedViews: [],
-
-                focus: function focusStance() {
-                    $('editorStanceAbbreviation').select();
-                    return true;
-                },
-
-                bindListeners: function bindListenersStance() {
-                    initInputElement($('editorStanceAbbreviation'), this, readStanceAbbreviation);
-                    initInputElement($('editorStanceDescription'),  this, readStanceDescription);
-                    initInputElement($('editorStanceEnding'),       this, readStanceEnding);
-                },
-
-                updateView: function updateViewStance() {
-
-                    var nodeView = this.matchingSelectedViews[0];
-                    var nodeData = nodeView.fd3Data.binding.targetDataNode;
-
-                    $( 'editorStanceAbbreviation' ).value = nodeData && nodeData.abbreviation || '';
-                    $( 'editorStanceDescription'  ).value = nodeData && nodeData.description  || '';
-                    $( 'editorStanceEnding'       ).value = nodeData && nodeData.endsWith     || '';
-
-                }
-
-            },
-
-            {
-
-                name: 'move',
-                domNode: $('editorMove'),
-                filter: function filterMove(data) { return data && node.isMoveNode(data); },
-                matchingSelectedViews: [],
-
-                focus: function focusMove() {
-                    $('editorMoveInput').select();
-                    return true;
-                },
-
-                bindListeners: function bindListenersMove() {
-                    initInputElement($('editorMoveInput'),     this, readMoveInput);
-                    initInputElement($('editorMoveContext'),   this, readMoveContext);
-                    initInputElement($('editorMoveFrameData'), this, readMoveFrameData);
-                    initInputElement($('editorMoveEnding'),    this, readMoveEnding);
-                },
-
-                updateView: function updateViewMove() {
-
-                    // FIXME: consider differences between matching nodes
-
-                    var nodeView = this.matchingSelectedViews[0];
-                    var nodeData = nodeView.fd3Data.binding.targetDataNode;
-
-                    createInputForMoveActionSteps(this, nodeData);
-
-                    $( 'editorMoveInput'     ).value = nodeData && nodeData.input               || '';
-                    $( 'editorMoveFrameData' ).value = nodeData && nodeData.frameData.join(' ') || '';
-                    $( 'editorMoveEnding'    ).value = nodeData && nodeData.endsWith            || '';
-                    $( 'editorMoveContext'   ).value = nodeData && nodeData.context.join(', ')  || '';
-
-                    var actionStepsParent = $('editorMoveActionSteps');
-                    for (var i = 0; i < actionStepsParent.children.length; i += 3) {
-                        actionStepsParent.children[i    ].children[1].children[0].value = nodeData && nodeData.actionSteps[i / 3].actionMask || '';
-                        actionStepsParent.children[i + 1].children[1].children[0].value = nodeData && nodeData.actionSteps[i / 3].actionType || '';
-                        var checkbox = actionStepsParent.children[i + 2].children[1].children[0];
-                        if (!nodeData || nodeData.actionSteps[i / 3].isTracking === undefined) {
-                            checkbox.indeterminate = true;
-                            checkbox.checked = false;
-                        } else {
-                            checkbox.checked = nodeData.actionSteps[i / 3].isTracking;
-                        }
-                    }
-
-                }
-            },
-
-            {
-
-                name: 'common',
-                domNode: $('editorOther'),
-                filter: function filterCommon(data) { return true; },
-                matchingSelectedViews: [],
-
-                focus: function focusCommon() { return false; },
-
-                bindListeners: function bindListenersCommon() {
-
-                    initButtonElement( $('addChild'),   onClickAddChild);
-                    initButtonElement( $('deleteNode'), onClickDeleteNode);
-
-                    initButtonElement( $('moveNodeUp'),   moveNodeBy.bind(null, -1));
-                    initButtonElement( $('moveNodeDown'), moveNodeBy.bind(null,  1));
-
-                },
-
-                updateView: function updateViewCommon() {}
-
-            }
-
+            editorGroupRootCreator.create(changeSelectedNodes),
+            editorGroupStanceCreator.create(changeSelectedNodes),
+            editorGroupMoveCreator.create(changeSelectedNodes),
+            editorGroupCommonCreator.create(onClickAddChild, onClickDeleteNode, moveNodeBy)
         ];
 
 
@@ -154,135 +37,6 @@ define(
             updateBySelection:  updateBySelection,
             onDataChanged:      onDataChanged
         };
-
-
-        function createInputForMoveActionSteps(editorGroup, nodeData) {
-            var actionStepsParent = $('editorMoveActionSteps');
-            actionStepsParent.innerHTML = '';
-            var actionSteps = (nodeData.frameData.length - 1) / 2;
-            for (var i = 0; i < actionSteps; ++i) {
-                createInputForMoveActionStep(editorGroup, actionStepsParent, i);
-            }
-        }
-
-        function createInputForMoveActionStep(editorGroup, actionStepsParent, actionStepIndex) {
-
-            var tr;
-
-            var emptyValue = '';
-
-            tr = createTableInputRow(
-                Strings('moveActionMask'), emptyValue, editorGroup,
-                function onInput(inputElement, nodeData) {
-                    return readMoveActionStepMask(inputElement, nodeData, actionStepIndex);
-                },
-                {
-                    description: Strings('moveActionMaskDescription'),
-                    example: 'mid P'
-                }
-            );
-            actionStepsParent.appendChild(tr);
-
-            tr = createTableInputRow(
-                Strings('moveActionType'), emptyValue, editorGroup,
-                function onInput(inputElement, nodeData) {
-                    return readMoveActionStepType(inputElement, nodeData, actionStepIndex);
-                },
-                {
-                    description: Strings('moveActionTypeDescription'),
-                    example: 'strike'
-                }
-            );
-            actionStepsParent.appendChild(tr);
-
-            tr = createTableCheckboxRow(
-                Strings('moveActionTracking'), false, editorGroup,
-                function onChange(inputElement, nodeData) {
-                    return readMoveActionStepTracking(inputElement, nodeData, actionStepIndex);
-                },
-                {
-                    description: Strings('moveActionTrackingDescription')
-                }
-            );
-            actionStepsParent.appendChild(tr);
-
-        }
-
-
-        function createTableRow(leftChildren, rightChildren) {
-
-            var tr = document.createElement('tr');
-
-            var tdLeft = document.createElement('td');
-            leftChildren.forEach(function(leftChild) { tdLeft.appendChild(leftChild); });
-            tr.appendChild(tdLeft);
-
-            var tdRight = document.createElement('td');
-            rightChildren.forEach(function(rightChild) { tdRight.appendChild(rightChild); });
-            tr.appendChild(tdRight);
-
-            return tr;
-
-        }
-
-
-        function createTableInputRow(name, value, editorGroup, changeAction, optHints) {
-
-            var label = document.createElement('label');
-            label.appendChild(document.createTextNode(name));
-
-            var input = document.createElement('input');
-            input.value = value;
-
-            var tr = createTableRow([label], [input]);
-
-            if (optHints) {
-                if (optHints.description) tr    .setAttribute('title',       optHints.description);
-                if (optHints.example)     input .setAttribute('placeholder', optHints.example);
-            }
-
-            label.addEventListener('click', function(event) { input.focus(); });
-
-            initInputElement(input, editorGroup, changeAction);
-
-            return tr;
-
-        }
-
-
-        function createTableCheckboxRow(name, checked, editorGroup, changeAction, hints) {
-
-            var label = document.createElement('label');
-            label.appendChild(document.createTextNode(name));
-
-            var input = document.createElement('input');
-            input.setAttribute('type', 'checkbox');
-            input.checked = checked;
-
-            var indeterminateButton = document.createElement('input');
-            indeterminateButton.setAttribute('type', 'button');
-            indeterminateButton.setAttribute('value', 'indeterminate');
-            indeterminateButton.setAttribute('title', Strings('indeterminateHint'));
-
-            var tr = createTableRow([label], [input, indeterminateButton]);
-
-            if (hints.description) tr.setAttribute('title', hints.description);
-
-            var onChange = initCheckBoxElement(input, editorGroup, changeAction);
-
-            indeterminateButton.addEventListener('click', function(event) {
-                input.indeterminate = true;
-                onChange.call(this);
-            });
-            label.addEventListener('click', function(event) {
-                input.indeterminate = false;
-                input.checked = !input.checked;
-                onChange.call(this); 
-            });
-
-            return tr;
-
-        }
 
 
         function initEditor(nodeDataGeneratorRef) {
@@ -296,37 +50,6 @@ define(
             editorGroups.forEach(function(editorGroup) {
                 editorGroup.bindListeners();
             });
-        }
-
-
-        function initInputElement(inputElement, editorGroup, changeAction) {
-            inputElement.addEventListener('input', onInput);
-            inputElement.addEventListener('keydown', onInputBlurIfEsc);
-            return onInput;
-            function onInput(event) {
-                changeSelectedNodes(this, editorGroup, changeAction);
-            }
-        }
-
-        function initCheckBoxElement(checkboxElement, editorGroup, changeAction) {
-            checkboxElement.addEventListener('change', onChange);
-            return onChange;
-            function onChange(event) {
-                changeSelectedNodes(this, editorGroup, changeAction);
-            }
-        }
-
-        function initButtonElement(buttonElement, changeAction) {
-            buttonElement.addEventListener('click', onClick);
-            return onClick;
-            function onClick(event) {
-                changeAction();
-            }
-        }
-
-
-        function onInputBlurIfEsc(event) {
-            if (event.keyCode === keyCodes.ENTER) this.blur();
         }
 
 
@@ -356,124 +79,6 @@ define(
             onDataChanged.dispatch(update);
 
         }
-
-
-        // ==== Readers ====
-
-            // ==== Root ====
-
-                function readCharacterName(inputElement, nodeData) {
-                    var changed = nodeData.character !== inputElement.value;
-                    nodeData.character = inputElement.value;
-                    return changed;
-                }
-
-
-                function readGameVersion(inputElement, nodeData) {
-                    var changed = nodeData.version !== inputElement.value;
-                    nodeData.version = inputElement.value;
-                    return changed;
-                }
-
-            // ==============
-
-            // ==== Stance ====
-
-                function readStanceAbbreviation(inputElement, nodeData) {
-                    var changed = nodeData.abbreviation !== inputElement.value;
-                    nodeData.abbreviation = inputElement.value;
-                    return changed;
-                }
-
-
-                function readStanceDescription(inputElement, nodeData) {
-                    var changed = nodeData.description !== inputElement.value;
-                    nodeData.description = inputElement.value;
-                    return changed;
-                }
-
-
-                function readStanceEnding(inputElement, nodeData) {
-                    var changed = nodeData.endsWith !== inputElement.value;
-                    nodeData.endsWith = inputElement.value;
-                    return changed;
-                }
-
-            // ================
-
-            // ==== Move ====
-
-                function readMoveInput(inputElement, nodeData) {
-                    var changed = nodeData.input !== inputElement.value;
-                    nodeData.input = inputElement.value;
-                    return changed;
-                }
-
-
-                function readMoveContext(inputElement, nodeData) {
-
-                    var newValue = inputElement.value.split(',').map(function(e) { return e.trim(); });
-                    var oldValue = nodeData.context || [];
-
-                    nodeData.context = newValue || undefined;
-
-                    return !_.arraysConsistOfSameStrings(oldValue, newValue);
-
-                }
-
-
-                function readMoveFrameData(inputElement, nodeData) {
-
-                    var numbers = inputElement.value.match(/\d+/g);
-                    var newValue = numbers ? numbers.map(function(e) { return +e; }) : [];
-                    var oldValue = nodeData.frameData || [];
-
-                    nodeData.frameData = newValue || undefined;
-
-                    return !_.arraysAreEqual(oldValue, newValue);
-
-                }
-
-
-                function readMoveEnding(inputElement, nodeData) {
-
-                    var newValue = inputElement.value;
-                    var oldValue = nodeData.endsWith;
-
-                    nodeData.endsWith = newValue || undefined;
-
-                    return oldValue !== newValue;
-
-                }
-
-
-                function readMoveActionStepMask(inputElement, nodeData, actionStepIndex) {
-                    var actionStep = nodeData.actionSteps[actionStepIndex];
-                    var changed = actionStep.actionMask !== inputElement.value;
-                    actionStep.actionMask = inputElement.value;
-                    return changed;
-                }
-
-
-                function readMoveActionStepType(inputElement, nodeData, actionStepIndex) {
-                    var actionStep = nodeData.actionSteps[actionStepIndex];
-                    var changed = actionStep.actionType !== inputElement.value;
-                    actionStep.actionType = inputElement.value;
-                    return changed;
-                }
-
-
-                function readMoveActionStepTracking(inputElement, nodeData, actionStepIndex) {
-                    var actionStep = nodeData.actionSteps[actionStepIndex];
-                    var newValue = inputElement.indeterminate ? undefined : inputElement.checked;
-                    var changed = actionStep.isTracking !== newValue;
-                    actionStep.isTracking = newValue;
-                    return changed;
-                }
-
-            // ==============
-
-        // =================
 
 
         function onClickDeleteNode() {
@@ -700,11 +305,6 @@ define(
                 parentView = parentView.fd3Data.treeInfo.parent;
             }
             return result || null;
-        }
-
-
-        function $(id) {
-            return document.getElementById(id);
         }
 
 

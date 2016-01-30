@@ -11,9 +11,14 @@ define('tools', function() {
         isNonEmptyArray:            isNonEmptyArray,
         moveArrayElement:           moveArrayElement,
         arraysConsistOfSameStrings: arraysConsistOfSameStrings,
+        getDomElement:              getDomElement,
         hideDomElement:             hideDomElement,
         showDomElement:             showDomElement
     };
+
+    function getDomElement(id) {
+        return document.getElementById(id);
+    }
 
     function hideDomElement(element) {
         element.setAttribute('hidden', true);

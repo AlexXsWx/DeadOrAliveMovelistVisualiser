@@ -4,7 +4,7 @@ define(
 
     ['node', 'treeTools', 'tools'],
 
-    function(node, treeTools, _) {
+    function NodeView(node, treeTools, _) {
 
         var RGX = {
             PUNCH: /^\d*p(?:\+k)?$/i,

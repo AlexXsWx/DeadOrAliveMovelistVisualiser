@@ -10,7 +10,7 @@ requirejs(
 
     ['movelist', 'SmoothScroll'],
 
-    function(movelist, SmoothScroll) {
+    function Main(movelist, SmoothScroll) {
 
         SmoothScroll({
             animationTime: 500, // 800

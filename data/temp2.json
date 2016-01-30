@@ -1,0 +1,99 @@
+{
+  "header": {
+    "format": 3,
+    "timeSaved": 1454166846739
+  },
+  "body": {
+    "character": "rig",
+    "stances": [
+      {
+        "abbreviation": "SS",
+        "moves": [
+          {
+            "input": "P"
+          },
+          {
+            "input": "K"
+          }
+        ]
+      },
+      {
+        "abbreviation": "TLC",
+        "moves": [
+          {
+            "input": "P",
+            "context": [
+              "BT"
+            ],
+            "endsWith": "BND"
+          },
+          {
+            "input": "K",
+            "followUps": [
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "K"
+                  },
+                  {
+                    "input": "4K"
+                  }
+                ]
+              },
+              {
+                "input": "H+K"
+              }
+            ]
+          },
+          {
+            "input": "6K",
+            "followUps": [
+              {
+                "input": "6K",
+                "followUps": [
+                  {
+                    "input": "6K"
+                  },
+                  {
+                    "input": "K"
+                  }
+                ]
+              },
+              {
+                "input": "K"
+              }
+            ]
+          },
+          {
+            "input": "2K"
+          },
+          {
+            "input": "H+K"
+          },
+          {
+            "input": "6H+K"
+          }
+        ]
+      },
+      {
+        "abbreviation": "asdf",
+        "moves": [
+          {
+            "input": "P",
+            "frameData": [
+              11,
+              2,
+              15
+            ],
+            "actionSteps": [
+              {
+                "isTracking": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
