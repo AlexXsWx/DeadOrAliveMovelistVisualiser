@@ -10,14 +10,14 @@ define(
 
         function create(changeNodes) {
 
-            var editorGroup = new EditorGroup(
+            var editorGroupRoot = new EditorGroup(
                 'root', _.getDomElement('editorRoot'), filter, focus, bindListeners, updateView
             );
 
             var characterName = _.getDomElement('editorRootCharacterName');
             var gameVersion   = _.getDomElement('editorRootGameVersion');
 
-            return editorGroup;
+            return editorGroupRoot;
 
             function filter(data) { return data && node.isRootNode(data); }
             
@@ -33,7 +33,11 @@ define(
 
             function updateView() {
 
-                var nodeView = this.matchingSelectedViews[0];
+                var editorGroup = this;
+
+                // FIXME: consider differences between matching nodes
+
+                var nodeView = editorGroup.matchingSelectedViews[0];
                 var nodeData = nodeView.fd3Data.binding.targetDataNode;
 
                 characterName.value = nodeData && nodeData.character || '';
@@ -45,12 +49,12 @@ define(
 
             function onCharacterNameInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroup, setCharacterNameFromInput);
+                changeNodes(inputElement, editorGroupRoot, setCharacterNameFromInput);
             }
 
             function onGameVersionInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroup, setGameVersionFromInput);
+                changeNodes(inputElement, editorGroupRoot, setGameVersionFromInput);
             }
 
             // readers

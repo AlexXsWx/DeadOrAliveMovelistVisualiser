@@ -10,11 +10,11 @@ define(
 
         function create(onAdd, onDelete, moveNodeBy) {
 
-            var editorGroup = new EditorGroup(
+            var editorGroupCommon = new EditorGroup(
                 'common', _.getDomElement('editorOther'), filter, focus, bindListeners, updateView
             );
 
-            return editorGroup;
+            return editorGroupCommon;
 
             function filter(data) { return true; }
 

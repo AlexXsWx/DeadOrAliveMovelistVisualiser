@@ -6,6 +6,9 @@ define('node', ['tools'], function Node(_) {
         createStanceNode: createStanceNode,
         createMoveNode:   createMoveNode,
 
+        createMoveActionStep: createMoveActionStep,
+        getActionStepsAmount: getActionStepsAmount,
+
         getChildren: getChildren,
 
         isRootNode:   isRootNode,
@@ -79,7 +82,11 @@ define('node', ['tools'], function Node(_) {
 
         });
 
-        for (var i = 0; i < result.actionSteps.length; ++i) {
+        var actionStepsAmount = Math.max(
+            result.actionSteps.length,
+            getActionStepsAmount(result.frameData)
+        );
+        for (var i = 0; i < actionStepsAmount; ++i) {
             result.actionSteps[i] = createMoveActionStep(result.actionSteps[i]);
         }
 
@@ -127,6 +134,11 @@ define('node', ['tools'], function Node(_) {
 
         });
 
+    }
+
+
+    function getActionStepsAmount(frameData) {
+        return Math.max(0, Math.ceil((frameData.length - 1) / 2));
     }
 
 

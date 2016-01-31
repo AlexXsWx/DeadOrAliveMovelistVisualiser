@@ -10,7 +10,7 @@ define(
 
         function create(changeNodes) {
 
-            var editorGroup = new EditorGroup(
+            var editorGroupMove = new EditorGroup(
                 'move', _.getDomElement('editorMove'), filter, focus, bindListeners, updateView
             );
 
@@ -20,7 +20,7 @@ define(
             var ending            = _.getDomElement('editorMoveEnding');
             var actionStepsParent = _.getDomElement('editorMoveActionSteps');
 
-            return editorGroup;
+            return editorGroupMove;
 
             function filter(data) { return data && node.isMoveNode(data); }
 
@@ -38,51 +38,70 @@ define(
 
             function updateView() {
 
+                var editorGroup = this;
+
                 // FIXME: consider differences between matching nodes
 
-                var nodeView = this.matchingSelectedViews[0];
+                var nodeView = editorGroup.matchingSelectedViews[0];
                 var nodeData = nodeView.fd3Data.binding.targetDataNode;
 
-                createInput(this, nodeData);
+                console.assert(!!nodeData, 'nodeData is not expected to be falsy');
+
+                var actionStepsAmount = Math.max(
+                    nodeData.actionSteps.length,
+                    node.getActionStepsAmount(nodeData.frameData)
+                );
+                resetActionStepsDOM(actionStepsAmount);
 
                 input.value     = nodeData && nodeData.input               || '';
                 frameData.value = nodeData && nodeData.frameData.join(' ') || '';
                 ending.value    = nodeData && nodeData.endsWith            || '';
                 context.value   = nodeData && nodeData.context.join(', ')  || '';
 
+                var row;
                 for (var i = 0; i < actionStepsParent.children.length; i += 3) {
-                    actionStepsParent.children[i    ].children[1].children[0].value = nodeData && nodeData.actionSteps[i / 3].actionMask || '';
-                    actionStepsParent.children[i + 1].children[1].children[0].value = nodeData && nodeData.actionSteps[i / 3].actionType || '';
-                    var checkbox = actionStepsParent.children[i + 2].children[1].children[0];
-                    if (!nodeData || nodeData.actionSteps[i / 3].isTracking === undefined) {
+
+                    var actionStep = nodeData && nodeData.actionSteps[i / 3] || null;
+
+                    row = actionStepsParent.children[i];
+                    row.children[1].children[0].value = nodeData && actionStep.actionMask || '';
+
+                    row = actionStepsParent.children[i + 1];
+                    row.children[1].children[0].value = nodeData && actionStep.actionType || '';
+
+                    row = actionStepsParent.children[i + 2];
+                    var checkbox = row.children[1].children[0];
+                    if (!nodeData || actionStep.isTracking === undefined) {
                         checkbox.indeterminate = true;
                         checkbox.checked = false;
                     } else {
-                        checkbox.checked = nodeData.actionSteps[i / 3].isTracking;
+                        checkbox.checked = actionStep.isTracking;
                     }
+
                 }
 
             }
 
-            function createInput(editorGroup, nodeData) {
+            //
+
+            function resetActionStepsDOM(actionStepsAmount) {
                 actionStepsParent.innerHTML = '';
-                var actionSteps = (nodeData.frameData.length - 1) / 2;
-                for (var i = 0; i < actionSteps; ++i) {
-                    createInputForMoveActionStep(editorGroup, actionStepsParent, i);
+                for (var i = 0; i < actionStepsAmount; ++i) {
+                    createActionStepDOM(actionStepsParent, i);
                 }
             }
 
-            function createInputForMoveActionStep(editorGroup, actionStepsParent, actionStepIndex) {
+            function createActionStepDOM(parent, actionStepIndex) {
 
                 var tr;
 
                 var emptyValue = '';
 
-                tr = createTableInputRow(
+                tr = createRowWithLabelAndInput(
                     Strings('moveActionMask'), emptyValue,
-                    function onActionStepsMaskInput(event) {
+                    function onActionStepMaskInput(event) {
                         var inputElement = this;
-                        changeNodes(inputElement, editorGroup, function(inputElement, nodeData) {
+                        changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
                             setActionStepMaskFromInput(inputElement, nodeData, actionStepIndex);
                         });
                     },
@@ -91,13 +110,13 @@ define(
                         example: 'mid P'
                     }
                 );
-                actionStepsParent.appendChild(tr);
+                parent.appendChild(tr);
 
-                tr = createTableInputRow(
+                tr = createRowWithLabelAndInput(
                     Strings('moveActionType'), emptyValue,
-                    function onActionStepsTypeInput(event) {
+                    function onActionStepTypeInput(event) {
                         var inputElement = this;
-                        changeNodes(inputElement, editorGroup, function(inputElement, nodeData) {
+                        changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
                             setActionStepTypeFromInput(inputElement, nodeData, actionStepIndex);
                         });
                     },
@@ -106,97 +125,21 @@ define(
                         example: 'strike'
                     }
                 );
-                actionStepsParent.appendChild(tr);
+                parent.appendChild(tr);
 
-                tr = createTableCheckboxRow(
+                tr = createRowWithLabelAndTristateCheckbox(
                     Strings('moveActionTracking'), false,
-                    function onActionStepsTrackingChange(event) {
+                    function onActionStepTrackingChange(event) {
                         var inputElement = this;
-                        changeNodes(inputElement, editorGroup, function(inputElement, nodeData) {
-                            setActionStepTrackingFromCheckbox(inputElement, nodeData, actionStepIndex);
+                        changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
+                            setActionStepTrackingFromCheckbox(
+                                inputElement, nodeData, actionStepIndex
+                            );
                         });
                     },
-                    {
-                        description: Strings('moveActionTrackingDescription')
-                    }
+                    { description: Strings('moveActionTrackingDescription') }
                 );
-                actionStepsParent.appendChild(tr);
-
-            }
-
-
-            function createTableRow(leftChildren, rightChildren) {
-
-                var tr = document.createElement('tr');
-
-                var tdLeft = document.createElement('td');
-                leftChildren.forEach(function(leftChild) { tdLeft.appendChild(leftChild); });
-                tr.appendChild(tdLeft);
-
-                var tdRight = document.createElement('td');
-                rightChildren.forEach(function(rightChild) { tdRight.appendChild(rightChild); });
-                tr.appendChild(tdRight);
-
-                return tr;
-
-            }
-
-
-            function createTableInputRow(name, value, onInput, optHints) {
-
-                var label = document.createElement('label');
-                label.appendChild(document.createTextNode(name));
-
-                var input = document.createElement('input');
-                input.value = value;
-
-                var tr = createTableRow([label], [input]);
-
-                if (optHints) {
-                    if (optHints.description) tr    .setAttribute('title',       optHints.description);
-                    if (optHints.example)     input .setAttribute('placeholder', optHints.example);
-                }
-
-                label.addEventListener('click', function(event) { input.focus(); });
-
-                editorTools.initInputElement(input, onInput);
-
-                return tr;
-
-            }
-
-
-            function createTableCheckboxRow(name, checked, changeAction, hints) {
-
-                var label = document.createElement('label');
-                label.appendChild(document.createTextNode(name));
-
-                var input = document.createElement('input');
-                input.setAttribute('type', 'checkbox');
-                input.checked = checked;
-
-                var indeterminateButton = document.createElement('input');
-                indeterminateButton.setAttribute('type', 'button');
-                indeterminateButton.setAttribute('value', 'indeterminate');
-                indeterminateButton.setAttribute('title', Strings('indeterminateHint'));
-
-                var tr = createTableRow([label], [input, indeterminateButton]);
-
-                if (hints.description) tr.setAttribute('title', hints.description);
-
-                input.addEventListener('change', changeAction);
-
-                indeterminateButton.addEventListener('click', function(event) {
-                    input.indeterminate = true;
-                    changeAction.call(this);
-                });
-                label.addEventListener('click', function(event) {
-                    input.indeterminate = false;
-                    input.checked = !input.checked;
-                    changeAction.call(this); 
-                });
-
-                return tr;
+                parent.appendChild(tr);
 
             }
 
@@ -206,19 +149,19 @@ define(
 
             function onInputInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroup, setInputFromInput);
+                changeNodes(inputElement, editorGroupMove, setInputFromInput);
             }
             function onContextInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroup, setContextFromInput);
+                changeNodes(inputElement, editorGroupMove, setContextFromInput);
             }
             function onFrameDataInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroup, setFrameDataFromInput);
+                changeNodes(inputElement, editorGroupMove, setFrameDataFromInput);
             }
             function onEndingInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroup, setEndingFromInput);
+                changeNodes(inputElement, editorGroupMove, setEndingFromInput);
             }
 
 
@@ -237,7 +180,7 @@ define(
                 var newValue = inputElement.value.split(',').map(mapTrim);
                 var oldValue = nodeData.context || [];
 
-                nodeData.context = newValue || undefined;
+                nodeData.context = newValue;
 
                 return !_.arraysConsistOfSameStrings(oldValue, newValue);
 
@@ -252,9 +195,27 @@ define(
                 var newValue = numbers ? numbers.map(mapStrToInt) : [];
                 var oldValue = nodeData.frameData || [];
 
-                nodeData.frameData = newValue || undefined;
+                nodeData.frameData = newValue;
 
-                return !_.arraysAreEqual(oldValue, newValue);
+                var changed = !_.arraysAreEqual(oldValue, newValue);
+
+                // FIXME: don't delete action step while user edits frame data
+                // FIXME: update dom to edit newly added action steps
+                var oldActionStepsAmount = nodeData.actionSteps.length;
+                var newActionStepsAmount = node.getActionStepsAmount(newValue);
+                // if (oldActionStepsAmount > newActionStepsAmount) {
+                //     changed = true;
+                //     nodeData.actionSteps.length = newActionStepsAmount;
+                // } else
+                if (oldActionStepsAmount < newActionStepsAmount)
+                {
+                    changed = true;
+                    for (var i = oldActionStepsAmount; i < newActionStepsAmount; ++i) {
+                        nodeData.actionSteps.push(node.createMoveActionStep());
+                    }
+                }
+
+                return changed;
 
             }
 
@@ -295,6 +256,83 @@ define(
                 var changed = actionStep.isTracking !== newValue;
                 actionStep.isTracking = newValue;
                 return changed;
+            }
+
+
+            // DOM helpers
+
+
+            function createRowWithLabelAndInput(name, value, onInput, hints) {
+
+                var label = document.createElement('label');
+                label.appendChild(document.createTextNode(name));
+
+                var input = document.createElement('input');
+                input.value = value;
+
+                var tr = createTableRow([label], [input]);
+
+                tr.setAttribute('title', hints.description);
+                input.setAttribute('placeholder', hints.example);
+
+                label.addEventListener('click', function(event) { input.focus(); });
+
+                editorTools.initInputElement(input, onInput);
+
+                return tr;
+
+            }
+
+
+            function createRowWithLabelAndTristateCheckbox(name, checked, onChange, hints) {
+
+                var label = document.createElement('label');
+                label.appendChild(document.createTextNode(name));
+
+                var input = document.createElement('input');
+                input.setAttribute('type', 'checkbox');
+                input.checked = checked;
+
+                var indeterminateButton = document.createElement('input');
+                indeterminateButton.setAttribute('type', 'button');
+                indeterminateButton.setAttribute('value', 'indeterminate');
+                indeterminateButton.setAttribute('title', Strings('indeterminateHint'));
+
+                var tr = createTableRow([label], [input, indeterminateButton]);
+
+                tr.setAttribute('title', hints.description);
+
+                input.addEventListener('change', onChange);
+
+                indeterminateButton.addEventListener('click', function(event) {
+                    input.indeterminate = true;
+                    onChange.call(this);
+                });
+                label.addEventListener('click', function(event) {
+                    input.indeterminate = false;
+                    input.checked = !input.checked;
+                    onChange.call(this); 
+                });
+
+                return tr;
+
+            }
+
+
+            function createTableRow(leftChildren, rightChildren) {
+
+                var tr = document.createElement('tr');
+
+                var tdLeft = document.createElement('td');
+                leftChildren.forEach(function(leftChild) { tdLeft.appendChild(leftChild); });
+                tr.appendChild(tdLeft);
+
+                var tdRight = document.createElement('td');
+                rightChildren.forEach(function(rightChild) { tdRight.appendChild(rightChild); });
+                tr.appendChild(tdRight);
+
+                return tr;
+
             }
 
         }

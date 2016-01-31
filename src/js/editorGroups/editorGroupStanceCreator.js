@@ -10,7 +10,7 @@ define(
 
         function create(changeNodes) {
 
-            var editorGroup = new EditorGroup(
+            var editorGroupStance = new EditorGroup(
                 'stance', _.getDomElement('editorStance'), filter, focus, bindListeners, updateView
             );
 
@@ -18,7 +18,7 @@ define(
             var description  = _.getDomElement('editorStanceDescription');
             var ending       = _.getDomElement('editorStanceEnding');
 
-            return editorGroup;
+            return editorGroupStance;
 
             function filter(data) { return data && node.isStanceNode(data); }
             
@@ -35,7 +35,11 @@ define(
 
             function updateView() {
 
-                var nodeView = this.matchingSelectedViews[0];
+                var editorGroup = this;
+
+                // FIXME: consider differences between matching nodes
+
+                var nodeView = editorGroup.matchingSelectedViews[0];
                 var nodeData = nodeView.fd3Data.binding.targetDataNode;
 
                 abbreviation.value = nodeData && nodeData.abbreviation || '';
@@ -48,17 +52,17 @@ define(
 
             function onAbbreviationInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroup, setStanceAbbreviationFromInput);
+                changeNodes(inputElement, editorGroupStance, setStanceAbbreviationFromInput);
             }
 
             function onDescriptionInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroup, setStanceDescriptionFromInput);
+                changeNodes(inputElement, editorGroupStance, setStanceDescriptionFromInput);
             }
 
             function onEndingInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroup, setStanceEndingFromInput);
+                changeNodes(inputElement, editorGroupStance, setStanceEndingFromInput);
             }
 
             // readers

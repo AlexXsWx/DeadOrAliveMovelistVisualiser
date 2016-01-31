@@ -1,11 +1,27 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1454166846739
+    "timeSaved": 1454242578092
   },
   "body": {
     "character": "rig",
     "stances": [
+      {
+        "abbreviation": "STD",
+        "moves": [
+          {
+            "input": "6H+K",
+            "followUps": [
+              {
+                "input": "P"
+              },
+              {
+                "input": "K"
+              }
+            ]
+          }
+        ]
+      },
       {
         "abbreviation": "SS",
         "moves": [
@@ -48,6 +64,18 @@
           },
           {
             "input": "6K",
+            "frameData": [
+              11,
+              2,
+              5
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
             "followUps": [
               {
                 "input": "6K",

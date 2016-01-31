@@ -102,6 +102,9 @@ define(
 
                 // TODO: reset everything
 
+
+                // FIXME: update editor (selected element changed)
+
                 // ui.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
                 update(false);
 
@@ -158,6 +161,7 @@ define(
             function onButtonSave() {
 
                 var exportedJsonObj = nodeSerializer.exportJson(
+                    // FIXME: this will move action step if previous is not filled
                     _.withoutFalsyProperties(rootNodeData)
                 );
 
