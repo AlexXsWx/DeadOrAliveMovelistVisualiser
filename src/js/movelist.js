@@ -6,7 +6,7 @@ define(
         'd3', 'lineGenerators', // TODO: capitals
         'canvasManager',
         'node', 'nodeSerializer',
-        'visualNode', 'limitsFinder',
+        'NodeView', 'limitsFinder',
         'selection', 'editor', 'ui',
         'treeTools', 'tools', 'JsonFileReader'
     ],
@@ -15,7 +15,7 @@ define(
         d3, lineGenerators,
         canvasManager,
         node, nodeSerializer,
-        visualNode, createLimitsFinder,
+        NodeView, createLimitsFinder,
         selectionManager, editor, ui,
         treeTools, _, JsonFileReader
     ) {
@@ -72,7 +72,7 @@ define(
                 canvas = initCanvas(parentElement);
                 selectionManager.init(canvas.svg.node());
 
-                generators.nodeViews = visualNode.createGenerators();
+                generators.nodeViews = NodeView.createGenerators();
 
                 editor.init(generators.nodeViews);
                 editor.onDataChanged.addListener(onEditorChange);
@@ -120,7 +120,7 @@ define(
 
                 var tree = d3.layout.tree();
                 tree.nodeSize([ NODE_HEIGHT, NODE_WIDTH ]); // turn 90deg CCW
-                tree.children(visualNode.getVisibleChildren);
+                tree.children(NodeView.getVisibleChildren);
                 // tree.separation(function(a, b) {
                 //     return 1;
                 // });
@@ -205,7 +205,7 @@ define(
 
                 // restructureByType(rootNodeData);
 
-                var rootNodeView = visualNode.createViewFromData(
+                var rootNodeView = NodeView.createViewFromData(
                     rootNodeData, generators.nodeViews
                 );
 
@@ -218,7 +218,7 @@ define(
             function setTreeInfoAppearanceData(rootNodeView) {
 
                 var childrenByDepth = treeTools.getChildrenMergedByDepth(
-                    rootNodeView, visualNode.getAllChildren
+                    rootNodeView, NodeView.getAllChildren
                 );
 
                 // reset
@@ -237,7 +237,7 @@ define(
                         var childData = child.fd3Data;
                         var parentAppearance = childData.treeInfo.parent.fd3Data.appearance;
                         parentAppearance.branchesAfter += Math.max(1, childData.appearance.branchesAfter);
-                        parentAppearance.totalChildren += 1 + visualNode.getAllChildren(child).length;
+                        parentAppearance.totalChildren += 1 + NodeView.getAllChildren(child).length;
                         parentAppearance.deepness = Math.max(
                             parentAppearance.deepness,
                             childData.appearance.deepness + 1
@@ -251,7 +251,7 @@ define(
             /*
 
             function restructureByType(data) {
-                visualNode.getAllChildren(data).forEach(function(stance) {
+                NodeView.getAllChildren(data).forEach(function(stance) {
                     groupByType(stance);
                 });
             }
@@ -277,7 +277,7 @@ define(
                     'other': 'other'
                 };
 
-                visualNode.getAllChildren(parent).forEach(function(child) {
+                NodeView.getAllChildren(parent).forEach(function(child) {
 
                     var moveInfo = child.fd3Data.moveInfo;
 
@@ -299,7 +299,7 @@ define(
 
                 // assign new children
 
-                visualNode.removeAllChildren(parent);
+                NodeView.removeAllChildren(parent);
 
                 for (type in byType) {
 
@@ -307,10 +307,10 @@ define(
                     if (childrenOfType.length < 1) continue;
 
                     var groupingChild = generators.nodeViews.generateGroup('<' + type + '>');
-                    visualNode.setChildren(groupingChild, childrenOfType);
-                    visualNode.toggleVisibleChildren(groupingChild);
+                    NodeView.setChildren(groupingChild, childrenOfType);
+                    NodeView.toggleVisibleChildren(groupingChild);
 
-                    visualNode.addVisibleChild(parent, groupingChild);
+                    NodeView.addVisibleChild(parent, groupingChild);
 
                 }
 
@@ -326,7 +326,7 @@ define(
             function onEditorChange(changes) {
 
                 changes.changed && changes.changed.forEach(function(d3SvgNode) {
-                    visualNode.updateAppearanceByBoundNode(d3SvgNode.datum());
+                    NodeView.updateAppearanceByBoundNode(d3SvgNode.datum());
                     updateChangedNode(d3SvgNode);
                 });
 
@@ -350,12 +350,12 @@ define(
                 limitsFinder.invalidate();
                 
                 nodes.forEach(function preprocessTreeNodes(datum) {
-                    visualNode.swapXY(datum); // turn 90deg CCW
+                    NodeView.swapXY(datum); // turn 90deg CCW
                     limitsFinder.expandToContain(datum.x, datum.y);
-                    // visualNode.resetScrollRangeForDatum(datum);
+                    // NodeView.resetScrollRangeForDatum(datum);
                 });
 
-                // visualNode.fillScrollRange(rootNodeView);
+                // NodeView.fillScrollRange(rootNodeView);
 
                 canvas.normalize(
                     PADDING,
@@ -369,7 +369,7 @@ define(
                 updateLinks(links, animationDuration, optSourceNode);
                 updateNodes(nodes, animationDuration, optSourceNode);
 
-                nodes.forEach(visualNode.backupPosition);
+                nodes.forEach(NodeView.backupPosition);
 
             }
 
@@ -426,7 +426,7 @@ define(
 
 
                 function getLinkId(link) {
-                    return visualNode.getId(link.target);
+                    return NodeView.getId(link.target);
                 }
 
 
@@ -458,7 +458,7 @@ define(
                 function updateNodes(nodes, animationDuration, optSourceNode) {
 
                     var nodesSelection = canvas.canvas.select('g.nodes').selectAll('g.node')
-                        .data(nodes, visualNode.getId);
+                        .data(nodes, NodeView.getId);
 
                     updateNotChangedNode(nodesSelection, animationDuration);
                     enterNode(nodesSelection.enter(), animationDuration, optSourceNode);
@@ -492,7 +492,7 @@ define(
 
                     // var moveInfo = datum.fd3Data.moveInfo;
                     d3SvgNode.classed({
-                        'container': _.isNonEmptyArray(visualNode.getAllChildren(datum))
+                        'container': _.isNonEmptyArray(NodeView.getAllChildren(datum))
 
                         // 'high': moveInfo.heightClass === 'high',
                         // 'mid':  moveInfo.heightClass === 'mid',
@@ -591,8 +591,8 @@ define(
                 }
 
                 function toggleChildren(nodeView) {
-                    if (_.isNonEmptyArray(visualNode.getAllChildren(nodeView))) {
-                        visualNode.toggleVisibleChildren(nodeView);
+                    if (_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) {
+                        NodeView.toggleVisibleChildren(nodeView);
                         update(true, nodeView);
                     }
                 }
@@ -604,10 +604,10 @@ define(
 
                 function getTextToggle(nodeView) {
 
-                    if (!_.isNonEmptyArray(visualNode.getAllChildren(nodeView))) return null;
+                    if (!_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) return null;
 
-                    var hasVisible = visualNode.hasVisibleChildren(nodeView);
-                    var hasHidden  = visualNode.hasHiddenChildren(nodeView);
+                    var hasVisible = NodeView.hasVisibleChildren(nodeView);
+                    var hasHidden  = NodeView.hasHiddenChildren(nodeView);
                     if (hasVisible && !hasHidden)  return CHAR_HIDE;
                     if (hasHidden  && !hasVisible) return CHAR_EXPAND;
 

@@ -1,6 +1,6 @@
 define(
 
-    'visualNode', // TODO: NodeView
+    'NodeView',
 
     ['node', 'treeTools', 'tools'],
 

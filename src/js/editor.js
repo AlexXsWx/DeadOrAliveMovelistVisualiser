@@ -3,7 +3,7 @@ define(
     'editor',
 
     [
-        'd3', 'observer', 'node', 'visualNode', 'treeTools', 'tools',
+        'd3', 'observer', 'node', 'NodeView', 'treeTools', 'tools',
         'editorGroups/editorGroupRootCreator',
         'editorGroups/editorGroupStanceCreator',
         'editorGroups/editorGroupMoveCreator',
@@ -11,7 +11,7 @@ define(
     ],
 
     function(
-        d3, createObserver, node, visualNode, treeTools, _,
+        d3, createObserver, node, NodeView, treeTools, _,
         editorGroupRootCreator,
         editorGroupStanceCreator,
         editorGroupMoveCreator,
@@ -110,7 +110,7 @@ define(
                     console.warn('Couldn\'t find first parent data');
                 }
 
-                visualNode.removeChild(parentNodeView, nodeView);
+                NodeView.removeChild(parentNodeView, nodeView);
 
                 onDataChanged.dispatch({ deleted: [ nodeView ] });
 
@@ -145,8 +145,8 @@ define(
 
             if (!parentView) return;
 
-            var allChildren     = visualNode.getAllChildren(parentView);
-            var visibleChildren = visualNode.getVisibleChildren(parentView);
+            var allChildren     = NodeView.getAllChildren(parentView);
+            var visibleChildren = NodeView.getVisibleChildren(parentView);
             var changed = false;
             if (_.moveArrayElement(allChildren,     nodeView, delta)) changed = true;
             if (_.moveArrayElement(visibleChildren, nodeView, delta)) changed = true;
@@ -198,7 +198,7 @@ define(
 
             treeTools.forAllCurrentChildren(
                 rootViewNode, 
-                visualNode.getAllChildren, 
+                NodeView.getAllChildren, 
                 function(treeNode) {
                     var newNode = addPlaceholderNode(treeNode, true);
                     addedNodes.push(newNode);
@@ -216,11 +216,11 @@ define(
 
             treeTools.forAllCurrentChildren(
                 rootViewNode, 
-                visualNode.getAllChildren, 
+                NodeView.getAllChildren, 
                 function(treeNode) {
                     if (treeNode.fd3Data.binding.isPlaceholder) {
                         removedNodes.push(treeNode);
-                        visualNode.removeChild(treeNode.fd3Data.treeInfo.parent, treeNode)
+                        NodeView.removeChild(treeNode.fd3Data.treeInfo.parent, treeNode)
                     }
                 }
             );
@@ -236,14 +236,14 @@ define(
             if (parentIsRoot) {
                 placeholderNode = nodeDataGenerator.generateGroup();
                 var nodeData = node.createStanceNode();
-                visualNode.setBinding(placeholderNode, nodeData);
+                NodeView.setBinding(placeholderNode, nodeData);
             } else {
                 placeholderNode = nodeDataGenerator.generateNode();
                 var nodeData = node.createMoveNode();
-                visualNode.setBinding(placeholderNode, nodeData);
+                NodeView.setBinding(placeholderNode, nodeData);
             }
             placeholderNode.fd3Data.binding.isPlaceholder = isEditorElement;
-            visualNode.addChild(parent, placeholderNode);
+            NodeView.addChild(parent, placeholderNode);
             return placeholderNode;
         }
 
@@ -283,14 +283,17 @@ define(
             editorGroups.forEach(function(editorGroup) {
 
                 if (editorGroup.matchingSelectedViews.length === 0) {
+
                     _.hideDomElement(editorGroup.domNode);
-                    return;
+
+                } else {
+
+                    _.showDomElement(editorGroup.domNode);
+
+                    editorGroup.updateView();
+                    if (!focused) focused = editorGroup.focus();
+
                 }
-
-                _.showDomElement(editorGroup.domNode);
-
-                editorGroup.updateView();
-                if (!focused) focused = editorGroup.focus();
 
             });
 
