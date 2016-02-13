@@ -22,7 +22,7 @@ define(
 
             log: log,
 
-            guessMoveTypeByInput: guessMoveTypeByInput,
+            // guessMoveTypeByInput: guessMoveTypeByInput,
 
             setChildren:     setChildren,
             addChild:        addChild,
@@ -200,29 +200,29 @@ define(
         }
 
 
-        function guessMoveTypeByInput(datum) {
-            var input = datum.fd3Data.input;
-            var moveInfo = datum.fd3Data.moveInfo;
-            if (RGX.PUNCH.test(input)) {
-                moveInfo.actionType = 'strike';
-                moveInfo.strikeType = 'punch';
-            } else
-            if (RGX.KICK.test(input))  {
-                moveInfo.actionType = 'strike';
-                moveInfo.strikeType = 'kick';
-            } else
-            if (RGX.HOLD.test(input))  {
-                moveInfo.actionType = 'hold';
-                moveInfo.strikeType = undefined;
-             } else
-            if (RGX.THROW.test(input)) {
-                moveInfo.actionType = 'throw';
-                moveInfo.strikeType = undefined;
-            } else {
-                moveInfo.actionType = 'other';
-                moveInfo.strikeType = undefined;
-            }
-        }
+        // function guessMoveTypeByInput(datum) {
+        //     var input = datum.fd3Data.input;
+        //     var moveInfo = datum.fd3Data.moveInfo;
+        //     if (RGX.PUNCH.test(input)) {
+        //         moveInfo.actionType = 'strike';
+        //         moveInfo.strikeType = 'punch';
+        //     } else
+        //     if (RGX.KICK.test(input))  {
+        //         moveInfo.actionType = 'strike';
+        //         moveInfo.strikeType = 'kick';
+        //     } else
+        //     if (RGX.HOLD.test(input))  {
+        //         moveInfo.actionType = 'hold';
+        //         moveInfo.strikeType = undefined;
+        //      } else
+        //     if (RGX.THROW.test(input)) {
+        //         moveInfo.actionType = 'throw';
+        //         moveInfo.strikeType = undefined;
+        //     } else {
+        //         moveInfo.actionType = 'other';
+        //         moveInfo.strikeType = undefined;
+        //     }
+        // }
 
 
 

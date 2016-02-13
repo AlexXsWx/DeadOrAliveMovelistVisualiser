@@ -132,6 +132,15 @@ define('node', ['tools'], function Node(_) {
 
             isTracking: undefined // bool
 
+            // stun on open stance
+            // stun on closed stance
+
+            // rig's 9p
+            // same on double use
+            // use on CBed opponent
+            // use on exceeding crirical damage
+            // same launch height for critical, counter and hi counter
+
         });
 
     }

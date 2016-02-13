@@ -494,24 +494,45 @@ define(
                     d3SvgNode.select( 'text.toggle' ).text(getTextToggle);
                     d3SvgNode.select( 'text.ending' ).text(getTextRight);
 
-                    // var moveInfo = datum.fd3Data.moveInfo;
-                    d3SvgNode.classed({
-                        'container': _.isNonEmptyArray(NodeView.getAllChildren(datum))
+                    var classes = {
+                        'container': _.isNonEmptyArray(NodeView.getAllChildren(datum)),
 
-                        // 'high': moveInfo.heightClass === 'high',
-                        // 'mid':  moveInfo.heightClass === 'mid',
-                        // 'low':  moveInfo.heightClass === 'low',
+                        'high': false,
+                        'mid':  false,
+                        'low':  false,
 
-                        // 'strike':       moveInfo.actionType === 'strike',
-                        // 'throw':        moveInfo.actionType === 'throw',
-                        // 'hold':         moveInfo.actionType === 'hold',
-                        // 'groundAttack': moveInfo.actionType === 'ground attack',
-                        // 'other':        moveInfo.actionType === 'other',
+                        'strike':       false,
+                        'throw':        false,
+                        'hold':         false,
+                        'groundAttack': false,
+                        'other':        false,
 
-                        // 'punch': moveInfo.strikeType === 'punch',
-                        // 'kick':  moveInfo.strikeType === 'kick'
+                        'punch': false,
+                        'kick':  false
+                    };
 
-                    });
+                    var nodeData = datum.fd3Data.binding.targetDataNode;
+
+                    if (nodeData && node.isMoveNode(nodeData)) {
+                        nodeData.actionSteps.forEach(function(actionStep) {
+
+                            if (/\bp\b/i.test(actionStep.actionMask)) classes['high'] = true;
+                            if (/\bk\b/i.test(actionStep.actionMask)) classes['kick'] = true;
+
+                            var type = actionStep.actionType;
+                            if (type === 'strike')       classes['strike']       = true;
+                            if (type === 'throw')        classes['throw']        = true;
+                            if (type === 'hold')         classes['hold']         = true;
+                            if (type === 'groundAttack') classes['groundAttack'] = true;
+                            if (type === 'other')        classes['other']        = true;
+
+                            if (/\bhigh\b/i.test(actionStep.actionMask)) classes['high'] = true;
+                            if (/\bmid\b/i.test(actionStep.actionMask))  classes['mid']  = true;
+                            if (/\blow\b/i.test(actionStep.actionMask))  classes['low']  = true;
+                        });
+                    }
+
+                    d3SvgNode.classed(classes);
 
                 }
 
