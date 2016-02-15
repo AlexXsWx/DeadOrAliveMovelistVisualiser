@@ -22,6 +22,22 @@ define('Strings', function() {
 
         'indeterminateHint': (
             'Reset checkbox back to default indeterminate / unspecified / unset state'
+        ),
+
+        'moveActionDamage': 'Damage',
+        'moveActionDamageDescription': (
+            'Action step damage'
+        ),
+
+        'moveActionCondition': 'Condition',
+        'moveActionConditionDescription': (
+            'Action step condition. Specifies what conditions are resulting the rest action step ' +
+            'data'
+        ),
+
+        'moveActionTags': 'Tags',
+        'moveActionTagsDescription': (
+            'Action step tags. Everything else that didn\'t fit in this form'
         )
 
     };
@@ -29,6 +45,10 @@ define('Strings', function() {
     return getString;
 
     function getString(id) {
+        if (!strings.hasOwnProperty(id)) {
+            console.error('Strings has no id %s', id);
+            return '%' + id + '%';
+        }
         return strings[id];
     }
 

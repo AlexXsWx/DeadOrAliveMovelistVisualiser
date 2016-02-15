@@ -516,8 +516,8 @@ define(
                     if (nodeData && node.isMoveNode(nodeData)) {
                         nodeData.actionSteps.forEach(function(actionStep) {
 
-                            if (/\bp\b/i.test(actionStep.actionMask)) classes['high'] = true;
-                            if (/\bk\b/i.test(actionStep.actionMask)) classes['kick'] = true;
+                            if (/\bp\b/i.test(actionStep.actionMask)) classes['punch'] = true;
+                            if (/\bk\b/i.test(actionStep.actionMask)) classes['kick']  = true;
 
                             var type = actionStep.actionType;
                             if (type === 'strike')       classes['strike']       = true;

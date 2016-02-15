@@ -46,7 +46,7 @@ define(
         function selectNode(nodeViewDomElement, optDontFocus) {
             'use strict';
 
-            console.log('%O', nodeViewDomElement);
+            console.log('now selected: %O', nodeViewDomElement);
 
             if (selectionCurrent !== null) {
                 var selection = d3.select(selectionCurrent);

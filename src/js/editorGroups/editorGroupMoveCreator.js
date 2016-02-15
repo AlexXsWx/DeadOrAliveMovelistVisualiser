@@ -59,7 +59,7 @@ define(
                 context.value   = nodeData && nodeData.context.join(', ')  || '';
 
                 var row;
-                for (var i = 0; i < actionStepsParent.children.length; i += 3) {
+                for (var i = 0; i < actionStepsParent.children.length; i += 4) {
 
                     var actionStep = nodeData && nodeData.actionSteps[i / 3] || null;
 
@@ -77,6 +77,15 @@ define(
                     } else {
                         checkbox.checked = actionStep.isTracking;
                     }
+
+                    row = actionStepsParent.children[i + 3];
+                    row.children[1].children[0].value = nodeData && actionStep.damage || '';
+                    
+                    // row = actionStepsParent.children[i + 3];
+                    // row.children[1].children[0].value = nodeData && actionStep.condition.join(', ') || '';
+
+                    // row = actionStepsParent.children[i + 4];
+                    // row.children[1].children[0].value = nodeData && actionStep.tags.join(', ') || '';
 
                 }
 
@@ -107,7 +116,7 @@ define(
                     },
                     {
                         description: Strings('moveActionMaskDescription'),
-                        example: 'mid P'
+                        example: 'e.g. mid P'
                     }
                 );
                 parent.appendChild(tr);
@@ -122,7 +131,7 @@ define(
                     },
                     {
                         description: Strings('moveActionTypeDescription'),
-                        example: 'strike'
+                        example: 'e.g. strike'
                     }
                 );
                 parent.appendChild(tr);
@@ -140,6 +149,51 @@ define(
                     { description: Strings('moveActionTrackingDescription') }
                 );
                 parent.appendChild(tr);
+
+                tr = createRowWithLabelAndInput(
+                    Strings('moveActionDamage'), emptyValue,
+                    function onActionStepDamageInput(event) {
+                        var inputElement = this;
+                        changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
+                            setActionStepDamageFromInput(inputElement, nodeData, actionStepIndex);
+                        });
+                    },
+                    {
+                        description: Strings('moveActionDamageDescription'),
+                        example: 'e.g. 18'
+                    }
+                );
+                parent.appendChild(tr);
+
+                // tr = createRowWithLabelAndInput(
+                //     Strings('moveActionCondition'), emptyValue,
+                //     function onActionStepConditionInput(event) {
+                //         var inputElement = this;
+                //         changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
+                //             setActionStepConditionFromInput(inputElement, nodeData, actionStepIndex);
+                //         });
+                //     },
+                //     {
+                //         description: Strings('moveActionConditionDescription'),
+                //         example: 'e.g. neutral/open, stun/open'
+                //     }
+                // );
+                // parent.appendChild(tr);
+
+                // tr = createRowWithLabelAndInput(
+                //     Strings('moveActionTags'), emptyValue,
+                //     function onActionStepTagsInput(event) {
+                //         var inputElement = this;
+                //         changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
+                //             setActionStepTagsFromInput(inputElement, nodeData, actionStepIndex);
+                //         });
+                //     },
+                //     {
+                //         description: Strings('moveActionTagsDescription'),
+                //         example: 'e.g. sit-down stun'
+                //     }
+                // );
+                // parent.appendChild(tr);
 
             }
 
@@ -257,6 +311,30 @@ define(
                 actionStep.isTracking = newValue;
                 return changed;
             }
+
+            function setActionStepDamageFromInput(inputElement, nodeData, actionStepIndex) {
+                var actionStep = nodeData.actionSteps[actionStepIndex];
+                var newDamage = parseInt(inputElement.value, 10);
+                var changed = actionStep.damage !== newDamage;
+                actionStep.damage = newDamage;
+                return changed;
+            }
+
+            // function setActionStepConditionFromInput(inputElement, nodeData, actionStepIndex) {
+            //     var actionStep = nodeData.actionSteps[actionStepIndex];
+            //     var newConditions = inputElement.value.split(/,\s*/);
+            //     var changed = _.arraysConsistOfSameStrings(actionStep.condition, newConditions);
+            //     actionStep.condition = newConditions;
+            //     return changed;
+            // }
+
+            // function setActionStepTagsFromInput(inputElement, nodeData, actionStepIndex) {
+            //     var actionStep = nodeData.actionSteps[actionStepIndex];
+            //     var newTags = inputElement.value.split(/,\s*/);
+            //     var changed = _.arraysConsistOfSameStrings(actionStep.tags, newTags);
+            //     actionStep.tags = newTags;
+            //     return changed;
+            // }
 
 
             // DOM helpers

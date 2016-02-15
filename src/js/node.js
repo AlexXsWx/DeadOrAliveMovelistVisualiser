@@ -74,10 +74,6 @@ define('node', ['tools'], function Node(_) {
             /** stance / context - like crounching after move or lying after taunt */
             endsWith: undefined,
 
-            // turnsOpponentAround: undefined, // bool
-            // turnsAround:         undefined, // bool
-            // swapsPositions:      undefined  // bool
-
             followUps: []
 
         });
@@ -130,10 +126,22 @@ define('node', ['tools'], function Node(_) {
              */
             actionType: undefined,
 
-            isTracking: undefined // bool
+            isTracking: undefined, // bool
 
-            // stun on open stance
-            // stun on closed stance
+            damage: undefined, // int
+
+            // condition-specific results
+            result: []
+
+        });
+
+    }
+
+
+    function createMoveActionStepResult(optSource) {
+        return _.defaults(optSource, {
+            // neutral, neutral/open, neutral/closed, stun, crouching, bt, etc
+            condition: [],
 
             // rig's 9p
             // same on double use
@@ -141,8 +149,14 @@ define('node', ['tools'], function Node(_) {
             // use on exceeding crirical damage
             // same launch height for critical, counter and hi counter
 
-        });
+            // tags
+            // turnsOpponentAround: undefined, // bool
+            // turnsAround:         undefined, // bool
+            // swapsPositions:      undefined  // bool
 
+            // launcher, sit-down stun, etc
+            tags: []
+        });
     }
 
 
