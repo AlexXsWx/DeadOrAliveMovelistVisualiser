@@ -8,9 +8,9 @@ requirejs.config({
 
 requirejs(
 
-    ['movelist', 'SmoothScroll'],
+    ['Movelist', 'SmoothScroll'],
 
-    function Main(movelist, SmoothScroll) {
+    function Main(Movelist, SmoothScroll) {
 
         SmoothScroll({
             animationTime: 500, // 800
@@ -20,7 +20,7 @@ requirejs(
             accelerationMax: 1,
         });
 
-        movelist.init(document.getElementById('content'));
+        Movelist.init(document.getElementById('content'));
 
     }
 

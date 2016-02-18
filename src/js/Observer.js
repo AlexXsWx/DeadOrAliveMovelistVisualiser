@@ -1,4 +1,4 @@
-define('observer', function() {
+define('Observer', function() {
 
     return createObserver;
 

@@ -1,4 +1,4 @@
-define('ui', ['d3'], function(d3) {
+define('UI', ['d3'], function(d3) {
    
     return {
         showAbbreviations: showAbbreviations

@@ -1,10 +1,10 @@
 define(
 
-    'editorGroups/editorGroupStanceCreator',
+    'EditorGroups/EditorGroupStanceCreator',
 
-    ['editorGroups/EditorGroup', 'editorGroups/editorTools', 'node', 'tools'],
+    ['EditorGroups/EditorGroup', 'EditorGroups/EditorTools', 'NodeFactory', 'Tools'],
 
-    function(EditorGroup, editorTools, node, _) {
+    function(EditorGroup, EditorTools, NodeFactory, _) {
 
         return { create: create };
 
@@ -20,7 +20,7 @@ define(
 
             return editorGroupStance;
 
-            function filter(data) { return data && node.isStanceNode(data); }
+            function filter(data) { return data && NodeFactory.isStanceNode(data); }
             
             function focus() {
                 abbreviation.select();
@@ -28,9 +28,9 @@ define(
             }
 
             function bindListeners() {
-                editorTools.initInputElement(abbreviation, onAbbreviationInput);
-                editorTools.initInputElement(description,  onDescriptionInput);
-                editorTools.initInputElement(ending,       onEndingInput);
+                EditorTools.initInputElement(abbreviation, onAbbreviationInput);
+                EditorTools.initInputElement(description,  onDescriptionInput);
+                EditorTools.initInputElement(ending,       onEndingInput);
             }
 
             function updateView() {

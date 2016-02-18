@@ -1,10 +1,10 @@
 define(
 
-    'editorGroups/editorGroupCommonCreator',
+    'EditorGroups/EditorGroupCommonCreator',
 
-    ['editorGroups/EditorGroup', 'editorGroups/editorTools', 'tools'],
+    ['EditorGroups/EditorGroup', 'EditorGroups/EditorTools', 'Tools'],
 
-    function(EditorGroup, editorTools, _) {
+    function(EditorGroup, EditorTools, _) {
 
         return { create: create };
 

@@ -1,4 +1,4 @@
-define('node', ['tools'], function Node(_) {
+define('NodeFactory', ['Tools'], function Node(_) {
 
     return {
 

@@ -1,4 +1,4 @@
-define('lineGenerators', ['d3'], function(d3) {
+define('LineGenerators', ['d3'], function(d3) {
 
     return {
         createTurnedDiagonalLineGenerator: createTurnedDiagonalLineGenerator,

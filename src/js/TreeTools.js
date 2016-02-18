@@ -1,4 +1,4 @@
-define('treeTools', function() {
+define('TreeTools', function() {
 
     return {
         getChildrenMergedByDepth: getChildrenMergedByDepth,

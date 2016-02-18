@@ -1,4 +1,4 @@
-define('canvasManager', ['d3'], function() {
+define('CanvasManager', ['d3'], function() {
 
     return { create: create };
 

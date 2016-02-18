@@ -1,10 +1,10 @@
 define(
 
-    'editorGroups/editorGroupRootCreator',
+    'EditorGroups/EditorGroupRootCreator',
 
-    ['editorGroups/EditorGroup', 'editorGroups/editorTools', 'node', 'tools'],
+    ['EditorGroups/EditorGroup', 'EditorGroups/EditorTools', 'NodeFactory', 'Tools'],
 
-    function(EditorGroup, editorTools, node, _) {
+    function(EditorGroup, EditorTools, NodeFactory, _) {
 
         return { create: create };
 
@@ -19,7 +19,7 @@ define(
 
             return editorGroupRoot;
 
-            function filter(data) { return data && node.isRootNode(data); }
+            function filter(data) { return data && NodeFactory.isRootNode(data); }
             
             function focus() {
                 characterName.select();
@@ -27,8 +27,8 @@ define(
             }
 
             function bindListeners() {
-                editorTools.initInputElement(characterName, onCharacterNameInput);
-                editorTools.initInputElement(gameVersion,   onGameVersionInput);
+                EditorTools.initInputElement(characterName, onCharacterNameInput);
+                EditorTools.initInputElement(gameVersion,   onGameVersionInput);
             }
 
             function updateView() {

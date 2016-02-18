@@ -1,10 +1,10 @@
 define(
 
-    'selection',
+    'SelectionManager',
 
-    ['keyCodes', 'observer'],
+    ['KeyCodes', 'Observer'],
 
-    function(keyCodes, createObserver) {
+    function(KeyCodes, createObserver) {
 
         var selectionPrevious = null;
         var selectionCurrent  = null;
@@ -30,11 +30,11 @@ define(
 
             d3.select(document.body).on('keydown', function() {
                 switch (d3.event.keyCode) {
-                    case keyCodes.ESC:   selectNothing();    break;
-                    case keyCodes.RIGHT: selectFirstChild(); break;
-                    case keyCodes.LEFT:  selectParent();     break;
-                    case keyCodes.UP:    selectSibling(-1);  break;
-                    case keyCodes.DOWN:  selectSibling(1);   break;
+                    case KeyCodes.ESC:   selectNothing();    break;
+                    case KeyCodes.RIGHT: selectFirstChild(); break;
+                    case KeyCodes.LEFT:  selectParent();     break;
+                    case KeyCodes.UP:    selectSibling(-1);  break;
+                    case KeyCodes.DOWN:  selectSibling(1);   break;
                     // default:
                     //     console.log('unused keycode', d3.event.keyCode);
                 }

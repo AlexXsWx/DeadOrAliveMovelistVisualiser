@@ -1,4 +1,4 @@
-define('nodeSerializer', ['tools'], function(_) {
+define('NodeSerializer', ['Tools'], function(_) {
 
     var CURRENT_FORMAT_VERSION = 3;
     

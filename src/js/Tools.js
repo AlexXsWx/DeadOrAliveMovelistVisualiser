@@ -1,4 +1,4 @@
-define('tools', function() {
+define('Tools', function() {
 
     return {
         isObject:                   isObject,

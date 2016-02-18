@@ -1,4 +1,4 @@
-define('editorGroups/EditorGroup', [], function() {
+define('EditorGroups/EditorGroup', [], function() {
 
     return EditorGroup;
 

@@ -1,4 +1,4 @@
-define('limitsFinder', ['tools'], function(_) {
+define('LimitsFinder', ['Tools'], function(_) {
 
     return createLimitsFinder;
 

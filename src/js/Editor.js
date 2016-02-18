@@ -1,21 +1,21 @@
 define(
 
-    'editor',
+    'Editor',
 
     [
-        'd3', 'observer', 'node', 'NodeView', 'treeTools', 'tools',
-        'editorGroups/editorGroupRootCreator',
-        'editorGroups/editorGroupStanceCreator',
-        'editorGroups/editorGroupMoveCreator',
-        'editorGroups/editorGroupCommonCreator'
+        'd3', 'Observer', 'NodeFactory', 'NodeView', 'TreeTools', 'Tools',
+        'EditorGroups/EditorGroupRootCreator',
+        'EditorGroups/EditorGroupStanceCreator',
+        'EditorGroups/EditorGroupMoveCreator',
+        'EditorGroups/EditorGroupCommonCreator'
     ],
 
     function(
-        d3, createObserver, node, NodeView, treeTools, _,
-        editorGroupRootCreator,
-        editorGroupStanceCreator,
-        editorGroupMoveCreator,
-        editorGroupCommonCreator
+        d3, createObserver, NodeFactory, NodeView, TreeTools, _,
+        EditorGroupRootCreator,
+        EditorGroupStanceCreator,
+        EditorGroupMoveCreator,
+        EditorGroupCommonCreator
     ) {
 
         var nodeDataGenerator;
@@ -23,10 +23,10 @@ define(
         var onDataChanged = createObserver();
 
         var editorGroups = [
-            editorGroupRootCreator.create(changeSelectedNodes),
-            editorGroupStanceCreator.create(changeSelectedNodes),
-            editorGroupMoveCreator.create(changeSelectedNodes),
-            editorGroupCommonCreator.create(onClickAddChild, onClickDeleteNode, moveNodeBy)
+            EditorGroupRootCreator.create(changeSelectedNodes),
+            EditorGroupStanceCreator.create(changeSelectedNodes),
+            EditorGroupMoveCreator.create(changeSelectedNodes),
+            EditorGroupCommonCreator.create(onClickAddChild, onClickDeleteNode, moveNodeBy)
         ];
 
 
@@ -95,7 +95,7 @@ define(
 
                 if (firstParentData) {
                     var success = false;
-                    var children = node.getChildren(nodeData);
+                    var children = NodeFactory.getChildren(nodeData);
                     if (children) {
                         success = _.removeElement(children, nodeData);
                     }
@@ -155,7 +155,7 @@ define(
 
             var nodeData = nodeView.fd3Data.binding.targetDataNode;
             var parentData = findFirstParentData(nodeView);
-            var children = node.getChildren(parentData);
+            var children = NodeFactory.getChildren(parentData);
             if (children) _.moveArrayElement(children, nodeData, delta);
         }
 
@@ -187,7 +187,7 @@ define(
         function addNodeDataToParentData(nodeView) {
             var nodeData = nodeView.fd3Data.binding.targetDataNode;
             var parentData = findFirstParentData(nodeView);
-            var children = node.getChildren(parentData);
+            var children = NodeFactory.getChildren(parentData);
             if (children) children.push(nodeData);
         }
 
@@ -196,7 +196,7 @@ define(
 
             var addedNodes = [];
 
-            treeTools.forAllCurrentChildren(
+            TreeTools.forAllCurrentChildren(
                 rootViewNode, 
                 NodeView.getAllChildren, 
                 function(treeNode) {
@@ -214,7 +214,7 @@ define(
 
             var removedNodes = [];
 
-            treeTools.forAllCurrentChildren(
+            TreeTools.forAllCurrentChildren(
                 rootViewNode, 
                 NodeView.getAllChildren, 
                 function(treeNode) {
@@ -235,11 +235,11 @@ define(
             var parentIsRoot = !parent.fd3Data.treeInfo.parent;
             if (parentIsRoot) {
                 placeholderNode = nodeDataGenerator.generateGroup();
-                var nodeData = node.createStanceNode();
+                var nodeData = NodeFactory.createStanceNode();
                 NodeView.setBinding(placeholderNode, nodeData);
             } else {
                 placeholderNode = nodeDataGenerator.generateNode();
-                var nodeData = node.createMoveNode();
+                var nodeData = NodeFactory.createMoveNode();
                 NodeView.setBinding(placeholderNode, nodeData);
             }
             placeholderNode.fd3Data.binding.isPlaceholder = isEditorElement;

@@ -1,23 +1,23 @@
 define(
 
-    'movelist',
+    'Movelist',
 
     [
-        'd3', 'lineGenerators', // TODO: capitals
-        'canvasManager',
-        'node', 'nodeSerializer',
-        'NodeView', 'limitsFinder',
-        'selection', 'editor', 'ui',
-        'treeTools', 'tools', 'JsonFileReader'
+        'd3', 'LineGenerators',
+        'CanvasManager',
+        'NodeFactory', 'NodeSerializer',
+        'NodeView', 'LimitsFinder',
+        'SelectionManager', 'Editor', 'UI',
+        'TreeTools', 'Tools', 'JsonFileReader'
     ],
 
     function(
-        d3, lineGenerators,
-        canvasManager,
-        node, nodeSerializer,
+        d3, LineGenerators,
+        CanvasManager,
+        NodeFactory, NodeSerializer,
         NodeView, createLimitsFinder,
-        selectionManager, editor, ui,
-        treeTools, _, JsonFileReader
+        SelectionManager, Editor, UI,
+        TreeTools, _, JsonFileReader
     ) {
 
         // ==== Constants ====
@@ -70,20 +70,20 @@ define(
                 cacheDomElements();
 
                 canvas = initCanvas(parentElement);
-                selectionManager.init(canvas.svg.node());
+                SelectionManager.init(canvas.svg.node());
 
                 generators.nodeViews = NodeView.createGenerators();
 
-                editor.init(generators.nodeViews);
-                editor.onDataChanged.addListener(onEditorChange);
+                Editor.init(generators.nodeViews);
+                Editor.onDataChanged.addListener(onEditorChange);
 
-                selectionManager.onSelectionChanged.addListener(editor.updateBySelection);
+                SelectionManager.onSelectionChanged.addListener(Editor.updateBySelection);
 
                 limitsFinder = createLimitsFinder();
 
                 initGenerators();
 
-                loadData(node.createRootNode());
+                loadData(NodeFactory.createRootNode());
 
                 bindUIActions();
 
@@ -105,14 +105,14 @@ define(
 
                 // FIXME: update editor (selected element changed)
 
-                // ui.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
+                // UI.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
                 update(false);
 
             }
 
 
             function initCanvas(rootNode) {
-                var canvas = canvasManager.create(rootNode);
+                var canvas = CanvasManager.create(rootNode);
                 canvas.canvas.append('svg:g').classed('links', true);
                 canvas.canvas.append('svg:g').classed('nodes', true);
                 return canvas;
@@ -129,7 +129,7 @@ define(
                 // });
                 generators.d3.tree = tree;
                 
-                generators.d3.line = lineGenerators.createTurnedDiagonalLineGenerator();
+                generators.d3.line = LineGenerators.createTurnedDiagonalLineGenerator();
                 
             }
 
@@ -151,16 +151,16 @@ define(
 
             function onChangeShowPlaceholders() {
                 if (this.checked) {
-                    editor.addPlaceholders(rootNodeView);
+                    Editor.addPlaceholders(rootNodeView);
                 } else {
-                    editor.removePlaceholders(rootNodeView);
+                    Editor.removePlaceholders(rootNodeView);
                 }
             }
 
 
             function onButtonSave() {
 
-                var exportedJsonObj = nodeSerializer.exportJson(
+                var exportedJsonObj = NodeSerializer.exportJson(
                     // FIXME: this will move action step if previous is not filled
                     _.withoutFalsyProperties(rootNodeData)
                 );
@@ -182,12 +182,12 @@ define(
                 var file = fileElement.files[0];
                 file && JsonFileReader.readJson(fileElement.files[0]).then(
                     function onSuccess(parsedJson) {
-                        var importedDataRoot = nodeSerializer.importJson(parsedJson);
+                        var importedDataRoot = NodeSerializer.importJson(parsedJson);
                         if (!importedDataRoot) {
                             alert('Failed to import json');
                             return;
                         }
-                        var rootNodeData = node.createRootNode(importedDataRoot, true);
+                        var rootNodeData = NodeFactory.createRootNode(importedDataRoot, true);
                         loadData(rootNodeData);
                     },
                     function onFail(error) {
@@ -221,7 +221,7 @@ define(
 
             function setTreeInfoAppearanceData(rootNodeView) {
 
-                var childrenByDepth = treeTools.getChildrenMergedByDepth(
+                var childrenByDepth = TreeTools.getChildrenMergedByDepth(
                     rootNodeView, NodeView.getAllChildren
                 );
 
@@ -436,7 +436,7 @@ define(
 
                 function linkThickness(link) {
                     var targetNodeView = link.target;
-                    // Mimic wires passing through node; using circle area formula
+                    // Mimic wires passing through the node; using circle area formula
                     var branchesAfter = targetNodeView.fd3Data.appearance.branchesAfter;
                     return 2 * Math.sqrt((branchesAfter + 1) / Math.PI);
                 }
@@ -513,7 +513,7 @@ define(
 
                     var nodeData = datum.fd3Data.binding.targetDataNode;
 
-                    if (nodeData && node.isMoveNode(nodeData)) {
+                    if (nodeData && NodeFactory.isMoveNode(nodeData)) {
                         nodeData.actionSteps.forEach(function(actionStep) {
 
                             if (/\bp\b/i.test(actionStep.actionMask)) classes['punch'] = true;
@@ -607,12 +607,12 @@ define(
 
                 function onClickNodeView() {
                     var nodeViewDomElement = this;
-                    selectionManager.selectNode(nodeViewDomElement);
+                    SelectionManager.selectNode(nodeViewDomElement);
                 }
 
                 function onDoubleClickNodeView(nodeView) {
                     toggleChildren(nodeView);
-                    selectionManager.undoSelection();
+                    SelectionManager.undoSelection();
                 }
 
                 function toggleChildren(nodeView) {

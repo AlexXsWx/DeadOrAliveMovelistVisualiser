@@ -1,10 +1,10 @@
 define(
 
-    'editorGroups/editorGroupMoveCreator',
+    'EditorGroups/EditorGroupMoveCreator',
 
-    ['editorGroups/EditorGroup', 'editorGroups/editorTools', 'node', 'Strings', 'tools'],
+    ['EditorGroups/EditorGroup', 'EditorGroups/EditorTools', 'NodeFactory', 'Strings', 'Tools'],
 
-    function(EditorGroup, editorTools, node, Strings, _) {
+    function(EditorGroup, EditorTools, NodeFactory, Strings, _) {
 
         return { create: create };
 
@@ -22,7 +22,7 @@ define(
 
             return editorGroupMove;
 
-            function filter(data) { return data && node.isMoveNode(data); }
+            function filter(data) { return data && NodeFactory.isMoveNode(data); }
 
             function focus() {
                 input.select();
@@ -30,10 +30,10 @@ define(
             }
 
             function bindListeners() {
-                editorTools.initInputElement(input,     onInputInput);
-                editorTools.initInputElement(context,   onContextInput);
-                editorTools.initInputElement(frameData, onFrameDataInput);
-                editorTools.initInputElement(ending,    onEndingInput);
+                EditorTools.initInputElement(input,     onInputInput);
+                EditorTools.initInputElement(context,   onContextInput);
+                EditorTools.initInputElement(frameData, onFrameDataInput);
+                EditorTools.initInputElement(ending,    onEndingInput);
             }
 
             function updateView() {
@@ -49,7 +49,7 @@ define(
 
                 var actionStepsAmount = Math.max(
                     nodeData.actionSteps.length,
-                    node.getActionStepsAmount(nodeData.frameData)
+                    NodeFactory.getActionStepsAmount(nodeData.frameData)
                 );
                 resetActionStepsDOM(actionStepsAmount);
 
@@ -256,7 +256,7 @@ define(
                 // FIXME: don't delete action step while user edits frame data
                 // FIXME: update dom to edit newly added action steps
                 var oldActionStepsAmount = nodeData.actionSteps.length;
-                var newActionStepsAmount = node.getActionStepsAmount(newValue);
+                var newActionStepsAmount = NodeFactory.getActionStepsAmount(newValue);
                 // if (oldActionStepsAmount > newActionStepsAmount) {
                 //     changed = true;
                 //     nodeData.actionSteps.length = newActionStepsAmount;
@@ -265,7 +265,7 @@ define(
                 {
                     changed = true;
                     for (var i = oldActionStepsAmount; i < newActionStepsAmount; ++i) {
-                        nodeData.actionSteps.push(node.createMoveActionStep());
+                        nodeData.actionSteps.push(NodeFactory.createMoveActionStep());
                     }
                 }
 
@@ -355,7 +355,7 @@ define(
 
                 label.addEventListener('click', function(event) { input.focus(); });
 
-                editorTools.initInputElement(input, onInput);
+                EditorTools.initInputElement(input, onInput);
 
                 return tr;
 

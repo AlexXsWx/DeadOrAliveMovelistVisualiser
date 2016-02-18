@@ -2,9 +2,9 @@ define(
 
     'NodeView',
 
-    ['node', 'treeTools', 'tools'],
+    ['NodeFactory', 'TreeTools', 'Tools'],
 
-    function NodeView(node, treeTools, _) {
+    function NodeView(NodeFactory, TreeTools, _) {
 
         var RGX = {
             PUNCH: /^\d*p(?:\+k)?$/i,
@@ -386,13 +386,13 @@ define(
 
         function getName(datum) {
             var targetNode = datum.fd3Data.binding.targetDataNode;
-            if (node.isRootNode(targetNode)) {
+            if (NodeFactory.isRootNode(targetNode)) {
                 return targetNode.character || 'character';
             } else
-            if (node.isStanceNode(targetNode)) {
+            if (NodeFactory.isStanceNode(targetNode)) {
                 return targetNode.abbreviation || 'stance';
             } else
-            if (node.isMoveNode(targetNode)) {
+            if (NodeFactory.isMoveNode(targetNode)) {
                 var input = targetNode.input;
                 if (!input) return 'move';
                 var context = targetNode.context.join(',');
@@ -406,8 +406,8 @@ define(
         function getEnding(nodeView) {
             var targetDataNode = nodeView.fd3Data.binding.targetDataNode;
             var result = targetDataNode && (
-                node.isStanceNode(targetDataNode) && targetDataNode.endsWith ||
-                node.isMoveNode(targetDataNode) && targetDataNode.endsWith
+                NodeFactory.isStanceNode(targetDataNode) && targetDataNode.endsWith ||
+                NodeFactory.isMoveNode(targetDataNode) && targetDataNode.endsWith
             );
             return result || null;
         }
@@ -421,7 +421,7 @@ define(
 
         // function fillScrollRange(data) {
             
-        //     var childrenByDepth = treeTools.getChildrenMergedByDepth(
+        //     var childrenByDepth = TreeTools.getChildrenMergedByDepth(
         //         data,
         //         getVisibleChildren
         //     );

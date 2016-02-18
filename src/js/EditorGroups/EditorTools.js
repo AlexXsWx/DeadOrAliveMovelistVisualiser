@@ -1,4 +1,4 @@
-define('editorGroups/editorTools', ['keyCodes'], function(keyCodes) {
+define('EditorGroups/EditorTools', ['KeyCodes'], function(KeyCodes) {
 
     return {
         initInputElement: initInputElement
@@ -10,7 +10,7 @@ define('editorGroups/editorTools', ['keyCodes'], function(keyCodes) {
     }
 
     function onInputBlurIfEsc(event) {
-        if (event.keyCode === keyCodes.ENTER) this.blur();
+        if (event.keyCode === KeyCodes.ENTER) this.blur();
     }
 
 });
