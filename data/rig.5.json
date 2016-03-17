@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1447556837274
+    "timeSaved": 1456430786073
   },
   "body": {
     "character": "rig",
@@ -43,7 +43,7 @@
                     "frameData": [
                       0,
                       0,
-                      9
+                      20
                     ],
                     "endsWith": "TLC"
                   },
@@ -82,6 +82,12 @@
                           22,
                           3,
                           25
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "low K",
+                            "actionType": "strike"
+                          }
                         ]
                       },
                       {
@@ -90,6 +96,12 @@
                           24,
                           3,
                           21
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "K",
+                            "actionType": "strike"
+                          }
                         ]
                       }
                     ]
@@ -97,7 +109,7 @@
                   {
                     "input": "K",
                     "frameData": [
-                      14,
+                      13,
                       3,
                       20
                     ],
@@ -114,6 +126,12 @@
                           3,
                           17
                         ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "K",
+                            "actionType": "strike"
+                          }
+                        ],
                         "endsWith": "BND"
                       },
                       {
@@ -122,6 +140,12 @@
                           19,
                           2,
                           21
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "K",
+                            "actionType": "strike"
+                          }
                         ],
                         "followUps": [
                           {
@@ -141,6 +165,12 @@
                           27,
                           2,
                           25
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "low K",
+                            "actionType": "strike"
+                          }
                         ]
                       }
                     ]
@@ -152,6 +182,12 @@
                       2,
                       23
                     ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike"
+                      }
+                    ],
                     "followUps": [
                       {
                         "input": "K",
@@ -159,6 +195,12 @@
                           17,
                           2,
                           28
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "K",
+                            "actionType": "strike"
+                          }
                         ]
                       }
                     ]
@@ -172,6 +214,12 @@
                   3,
                   21
                 ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike"
+                  }
+                ],
                 "followUps": [
                   {
                     "input": "K",
@@ -179,6 +227,12 @@
                       34,
                       3,
                       20
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike"
+                      }
                     ]
                   },
                   {
@@ -187,6 +241,12 @@
                       22,
                       3,
                       26
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike"
+                      }
                     ]
                   }
                 ]
@@ -194,43 +254,145 @@
               {
                 "input": "6P",
                 "frameData": [
-                  16,
+                  15,
                   3,
                   23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike"
+                  }
                 ]
               }
             ]
           },
           {
             "input": "9P",
+            "frameData": [
+              15,
+              2,
+              18
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike"
+              }
+            ],
             "followUps": [
               {
-                "input": "P"
+                "input": "P",
+                "frameData": [
+                  16,
+                  3,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike"
+                  }
+                ]
               }
             ]
           },
           {
-            "input": "8P"
+            "input": "8P",
+            "frameData": [
+              15,
+              3,
+              18
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike"
+              }
+            ]
           },
           {
-            "input": "7P"
+            "input": "7P",
+            "frameData": [
+              25,
+              3,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike"
+              }
+            ]
           },
           {
             "input": "6P",
+            "frameData": [
+              13,
+              3,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike"
+              }
+            ],
             "followUps": [
               {
                 "input": "P",
+                "frameData": [
+                  19,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike"
+                  }
+                ],
                 "endsWith": "BT"
               },
               {
-                "input": "K"
+                "input": "K",
+                "frameData": [
+                  15,
+                  2,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
               },
               {
                 "input": "2K",
+                "frameData": [
+                  20,
+                  2,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND",
                 "followUps": [
                   {
                     "input": "K",
+                    "frameData": [
+                      17,
+                      3,
+                      17
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ],
                     "endsWith": "BND"
                   }
                 ]
@@ -239,38 +401,140 @@
           },
           {
             "input": "4P",
+            "frameData": [
+              17,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike"
+              }
+            ],
             "followUps": [
               {
-                "input": "P"
+                "input": "P",
+                "frameData": [
+                  15,
+                  3,
+                  23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike"
+                  }
+                ]
               },
               {
-                "input": "K"
+                "input": "K",
+                "frameData": [
+                  20,
+                  2,
+                  6,
+                  2,
+                  22
+                ]
               }
             ]
           },
           {
-            "input": "3P"
+            "input": "3P",
+            "frameData": [
+              14,
+              2,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike"
+              }
+            ]
           },
           {
-            "input": "2P"
+            "input": "2P",
+            "frameData": [
+              13,
+              2,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike"
+              }
+            ]
           },
           {
             "input": "1P",
+            "frameData": [
+              20,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike"
+              }
+            ],
             "followUps": [
               {
-                "input": "P"
+                "input": "P",
+                "frameData": [
+                  19,
+                  3,
+                  23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P"
+                  }
+                ]
               }
             ]
           },
           {
-            "input": "66P"
+            "input": "66P",
+            "frameData": [
+              14,
+              3,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
+            ]
           },
           {
             "input": "K",
+            "frameData": [
+              13,
+              2,
+              6
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BND",
             "followUps": [
               {
                 "input": "K",
+                "frameData": [
+                  16,
+                  2,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND",
                 "followUps": [
                   {
@@ -279,6 +543,16 @@
                   },
                   {
                     "input": "K",
+                    "frameData": [
+                      23,
+                      3,
+                      21
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ],
                     "followUps": [
                       {
                         "input": "4",
@@ -286,6 +560,16 @@
                       },
                       {
                         "input": "6K",
+                        "frameData": [
+                          20,
+                          2,
+                          21
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "K"
+                          }
+                        ],
                         "followUps": [
                           {
                             "input": "4",
@@ -299,18 +583,58 @@
               },
               {
                 "input": "6K",
+                "frameData": [
+                  19,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "followUps": [
                   {
-                    "input": "K"
+                    "input": "K",
+                    "frameData": [
+                      21,
+                      3,
+                      22
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ]
                   }
                 ]
               },
               {
                 "input": "2K",
+                "frameData": [
+                  22,
+                  2,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND",
                 "followUps": [
                   {
                     "input": "K",
+                    "frameData": [
+                      17,
+                      3,
+                      17
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ],
                     "endsWith": "BND"
                   }
                 ]
@@ -319,30 +643,100 @@
           },
           {
             "input": "9K",
+            "frameData": [
+              20,
+              3,
+              17
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BND"
           },
           {
             "input": "8K",
+            "frameData": [
+              12,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
-                "input": "K"
+                "input": "K",
+                "frameData": [
+                  21,
+                  3,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
               }
             ]
           },
           {
             "input": "7K",
+            "frameData": [
+              24,
+              3,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
                 "input": "K",
+                "frameData": [
+                  19,
+                  2,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BT"
               }
             ]
           },
           {
             "input": "6K",
+            "frameData": [
+              13,
+              2,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
                 "input": "K",
+                "frameData": [
+                  13,
+                  2,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "followUps": [
                   {
                     "input": "4",
@@ -352,29 +746,89 @@
               },
               {
                 "input": "9K",
+                "frameData": [
+                  24,
+                  3,
+                  17
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND"
               }
             ]
           },
           {
             "input": "4K",
+            "frameData": [
+              14,
+              2,
+              9
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BND",
             "followUps": [
               {
                 "input": "K",
+                "frameData": [
+                  15,
+                  3,
+                  17
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND"
               }
             ]
           },
           {
             "input": "3K",
+            "frameData": [
+              16,
+              3,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
                 "input": "K",
+                "frameData": [
+                  15,
+                  3,
+                  17
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND"
               },
               {
                 "input": "6K",
+                "frameData": [
+                  19,
+                  2,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "followUps": [
                   {
                     "input": "4",
@@ -384,10 +838,30 @@
               },
               {
                 "input": "2K",
+                "frameData": [
+                  22,
+                  2,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND",
                 "followUps": [
                   {
                     "input": "K",
+                    "frameData": [
+                      17,
+                      3,
+                      17
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ],
                     "endsWith": "BND"
                   }
                 ]
@@ -396,47 +870,167 @@
           },
           {
             "input": "2K",
+            "frameData": [
+              18,
+              2,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
-                "input": "K"
+                "input": "K",
+                "frameData": [
+                  17,
+                  2,
+                  28
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
               },
               {
-                "input": "2K"
+                "input": "2K",
+                "frameData": [
+                  25,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
               }
             ]
           },
           {
             "input": "1K",
+            "frameData": [
+              17,
+              2,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BND",
             "followUps": [
               {
                 "input": "K",
+                "frameData": [
+                  17,
+                  3,
+                  17
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND"
               }
             ]
           },
           {
-            "input": "66K"
+            "input": "66K",
+            "frameData": [
+              19,
+              3,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
             "input": "44K",
+            "frameData": [
+              15,
+              2,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BT"
           },
           {
-            "input": "33K"
+            "input": "33K",
+            "frameData": [
+              16,
+              2,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
             "input": "236K",
+            "frameData": [
+              28,
+              6,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BND"
           },
           {
-            "input": "214K"
+            "input": "214K",
+            "frameData": [
+              25,
+              3,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
             "input": "P+K",
+            "frameData": [
+              20,
+              3,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
+            ],
             "followUps": [
               {
-                "input": "K"
+                "input": "K",
+                "frameData": [
+                  16,
+                  2,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
               }
             ]
           },
@@ -453,30 +1047,108 @@
             "endsWith": "BND"
           },
           {
-            "input": "1P+K"
-          },
-          {
-            "input": "H+K",
-            "followUps": [
+            "input": "1P+K",
+            "frameData": [
+              30,
+              2,
+              40
+            ],
+            "actionSteps": [
               {
-                "input": "K"
-              },
-              {
-                "input": "2K"
+                "actionMask": "mid K",
+                "actionType": "strike"
               }
             ]
           },
           {
-            "input": "6H+K"
+            "input": "H+K",
+            "frameData": [
+              18,
+              3,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  34,
+                  3,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  22,
+                  3,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
+              }
+            ]
           },
           {
-            "input": "2H+K"
+            "input": "6H+K",
+            "frameData": [
+              16,
+              2,
+              6,
+              2,
+              22
+            ]
           },
           {
-            "input": "1H+K"
+            "input": "2H+K",
+            "frameData": [
+              16,
+              2,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
-            "input": "33H+K"
+            "input": "1H+K",
+            "frameData": [
+              23,
+              2,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
+          },
+          {
+            "input": "33H+K",
+            "frameData": [
+              25,
+              4,
+              34
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
             "input": "Ap"
@@ -485,25 +1157,95 @@
             "input": "6Ap"
           },
           {
-            "input": "T"
+            "input": "T",
+            "frameData": [
+              5,
+              2,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw"
+              }
+            ]
           },
           {
-            "input": "6T"
+            "input": "6T",
+            "frameData": [
+              7,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw"
+              }
+            ]
           },
           {
-            "input": "66T"
+            "input": "66T",
+            "frameData": [
+              10,
+              2,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw"
+              }
+            ]
           },
           {
-            "input": "41236T"
+            "input": "41236T",
+            "frameData": [
+              12,
+              3,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw"
+              }
+            ]
           },
           {
-            "input": "2T"
+            "input": "2T",
+            "frameData": [
+              5,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw"
+              }
+            ]
           },
           {
-            "input": "7H"
+            "input": "7H",
+            "frameData": [
+              0,
+              18,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionType": "hold"
+              }
+            ]
           },
           {
-            "input": "6H"
+            "input": "6H",
+            "frameData": [
+              0,
+              18,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionType": "hold"
+              }
+            ]
           },
           {
             "input": "4H",
@@ -520,15 +1262,45 @@
             ]
           },
           {
-            "input": "1H"
+            "input": "1H",
+            "frameData": [
+              0,
+              18,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionType": "hold"
+              }
+            ]
           },
           {
-            "input": "46H"
+            "input": "46H",
+            "frameData": [
+              0,
+              18,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionType": "hold"
+              }
+            ]
           },
           {
             "input": "P",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              12,
+              2,
+              18
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
             ]
           },
           {
@@ -536,18 +1308,48 @@
             "context": [
               "BT"
             ],
+            "frameData": [
+              17,
+              2,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
+            ],
             "endsWith": "BT"
           },
           {
             "input": "4P",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              15,
+              3,
+              18
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
             ]
           },
           {
             "input": "2P",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              18,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
             ]
           },
           {
@@ -555,12 +1357,42 @@
             "context": [
               "BT"
             ],
+            "frameData": [
+              13,
+              3,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
-                "input": "K"
+                "input": "K",
+                "frameData": [
+                  34,
+                  3,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
               },
               {
-                "input": "2K"
+                "input": "2K",
+                "frameData": [
+                  22,
+                  3,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
               }
             ]
           },
@@ -568,12 +1400,32 @@
             "input": "4K",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              17,
+              3,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
             ]
           },
           {
             "input": "2K",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              16,
+              2,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
             ]
           },
           {
@@ -587,6 +1439,16 @@
             "input": "H+K",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              31,
+              4,
+              13
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
             ]
           }
         ]
@@ -595,10 +1457,32 @@
         "abbreviation": "SS",
         "moves": [
           {
-            "input": "P"
+            "input": "P",
+            "frameData": [
+              28,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
           },
           {
-            "input": "K"
+            "input": "K",
+            "frameData": [
+              25,
+              3,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           }
         ]
       },
@@ -606,18 +1490,38 @@
         "abbreviation": "BND",
         "moves": [
           {
-            "input": "P"
+            "input": "P",
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
+            ]
           },
           {
             "input": "K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BND",
             "followUps": [
               {
                 "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND",
                 "followUps": [
                   {
                     "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ],
                     "followUps": [
                       {
                         "input": "4",
@@ -626,20 +1530,40 @@
                     ]
                   },
                   {
-                    "input": "6K"
+                    "input": "6K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ]
                   }
                 ]
               }
             ]
           },
           {
-            "input": "8K"
+            "input": "8K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
-            "input": "7K"
+            "input": "7K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
             "input": "6K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
                 "input": "4",
@@ -649,16 +1573,31 @@
           },
           {
             "input": "4K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BND",
             "followUps": [
               {
                 "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND"
               }
             ]
           },
           {
             "input": "3K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
                 "input": "4",
@@ -666,6 +1605,11 @@
               },
               {
                 "input": "6K",
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "followUps": [
                   {
                     "input": "4",
@@ -677,42 +1621,87 @@
           },
           {
             "input": "2K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BND",
             "followUps": [
               {
                 "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BND"
               }
             ]
           },
           {
-            "input": "P+K"
+            "input": "P+K",
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
+            ]
           },
           {
             "input": "6P+K",
             "endsWith": "TLC"
           },
           {
-            "input": "H+K"
+            "input": "H+K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
             "input": "6H+K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "endsWith": "BND",
             "followUps": [
               {
                 "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "endsWith": "BT"
               }
             ]
           },
           {
-            "input": "4H+K"
+            "input": "4H+K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
-            "input": "2H+K"
+            "input": "2H+K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
             "input": "T",
+            "actionSteps": [
+              {
+                "actionType": "throw"
+              }
+            ],
             "endsWith": "BND"
           },
           {
@@ -722,30 +1711,55 @@
             "input": "P",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
             ]
           },
           {
             "input": "4P",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
             ]
           },
           {
             "input": "2P",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
             ]
           },
           {
             "input": "K",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
             ]
           },
           {
             "input": "2K",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
             ]
           },
           {
@@ -759,6 +1773,11 @@
             "input": "H+K",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
             ]
           }
         ]
@@ -767,54 +1786,124 @@
         "abbreviation": "TLC",
         "moves": [
           {
-            "input": "P"
+            "input": "P",
+            "actionSteps": [
+              {
+                "actionMask": "P"
+              }
+            ]
           },
           {
             "input": "K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
                 "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "followUps": [
                   {
-                    "input": "K"
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ]
                   },
                   {
-                    "input": "4K"
+                    "input": "4K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ]
                   }
                 ]
               },
               {
-                "input": "H+K"
+                "input": "H+K",
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
               }
             ]
           },
           {
             "input": "6K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ],
             "followUps": [
               {
                 "input": "6K",
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ],
                 "followUps": [
                   {
-                    "input": "6K"
+                    "input": "6K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ]
                   },
                   {
-                    "input": "K"
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "K"
+                      }
+                    ]
                   }
                 ]
               },
               {
-                "input": "K"
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "K"
+                  }
+                ]
               }
             ]
           },
           {
-            "input": "2K"
+            "input": "2K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
-            "input": "H+K"
+            "input": "H+K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           },
           {
-            "input": "6H+K"
+            "input": "6H+K",
+            "actionSteps": [
+              {
+                "actionMask": "K"
+              }
+            ]
           }
         ]
       }
