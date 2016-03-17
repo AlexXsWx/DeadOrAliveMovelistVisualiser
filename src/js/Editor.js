@@ -31,7 +31,7 @@ define(
 
 
         return {
-            init:               initEditor,
+            init:               init,
             addPlaceholders:    addPlaceholders,
             removePlaceholders: removePlaceholders,
             updateBySelection:  updateBySelection,
@@ -39,7 +39,7 @@ define(
         };
 
 
-        function initEditor(nodeDataGeneratorRef) {
+        function init(nodeDataGeneratorRef) {
             nodeDataGenerator = nodeDataGeneratorRef;
             updateEditorDomGroups();
             bindListeners();
@@ -53,7 +53,7 @@ define(
         }
 
 
-        function changeSelectedNodes(sourceHTMLElement, editorGroup, changeAction) {
+        function changeSelectedNodes(/*sourceHTMLElement,*/ editorGroup, changeAction) {
 
             if (!selectedSVGNode) return;
 
@@ -64,7 +64,7 @@ define(
 
             var nodeData = nodeView.fd3Data.binding.targetDataNode;
             // if (editorGroup.filter(nodeData)) { // no need?
-                changed = changeAction(sourceHTMLElement, nodeData);
+                changed = changeAction(/*sourceHTMLElement,*/ nodeData);
             // }
 
             var update = {

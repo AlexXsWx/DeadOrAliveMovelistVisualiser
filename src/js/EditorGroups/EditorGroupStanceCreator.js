@@ -2,9 +2,9 @@ define(
 
     'EditorGroups/EditorGroupStanceCreator',
 
-    ['EditorGroups/EditorGroup', 'EditorGroups/EditorTools', 'NodeFactory', 'Tools'],
+    ['EditorGroups/EditorGroup', 'Input/InputHelper', 'NodeFactory', 'Tools'],
 
-    function(EditorGroup, EditorTools, NodeFactory, _) {
+    function(EditorGroup, InputHelper, NodeFactory, _) {
 
         return { create: create };
 
@@ -28,9 +28,9 @@ define(
             }
 
             function bindListeners() {
-                EditorTools.initInputElement(abbreviation, onAbbreviationInput);
-                EditorTools.initInputElement(description,  onDescriptionInput);
-                EditorTools.initInputElement(ending,       onEndingInput);
+                InputHelper.initInputElement(abbreviation, onAbbreviationInput);
+                InputHelper.initInputElement(description,  onDescriptionInput);
+                InputHelper.initInputElement(ending,       onEndingInput);
             }
 
             function updateView() {
@@ -52,39 +52,48 @@ define(
 
             function onAbbreviationInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroupStance, setStanceAbbreviationFromInput);
+                var newValue = inputElement.value;
+                changeNodes(editorGroupStance, function(nodeData) {
+                    changeStanceAbbreviation(newValue, nodeData)
+                });
             }
 
             function onDescriptionInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroupStance, setStanceDescriptionFromInput);
+                var newValue = inputElement.value;
+                changeNodes(editorGroupStance, function(nodeData) {
+                    changeStanceDescription(newValue, nodeData)
+                });
             }
 
             function onEndingInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroupStance, setStanceEndingFromInput);
+                var newValue = inputElement.value;
+                changeNodes(editorGroupStance, function(nodeData) {
+                    changeStanceEnding(newValue, nodeData)
+                });
             }
 
             // readers
 
-            function setStanceAbbreviationFromInput(inputElement, nodeData) {
-                var changed = nodeData.abbreviation !== inputElement.value;
-                nodeData.abbreviation = inputElement.value;
-                return changed;
+            function changeStanceAbbreviation(newValue, nodeData) {
+                var oldValue = nodeData.abbreviation;
+                nodeData.abbreviation = newValue;
+                return oldValue !== newValue;
             }
 
 
-            function setStanceDescriptionFromInput(inputElement, nodeData) {
-                var changed = nodeData.description !== inputElement.value;
-                nodeData.description = inputElement.value;
-                return changed;
+            function changeStanceDescription(newValue, nodeData) {
+                var oldValue = nodeData.description;
+                nodeData.description = newValue;
+                return oldValue !== newValue;
             }
 
 
-            function setStanceEndingFromInput(inputElement, nodeData) {
-                var changed = nodeData.endsWith !== inputElement.value;
-                nodeData.endsWith = inputElement.value;
-                return changed;
+            function changeStanceEnding(newValue, nodeData) {
+                var oldValue = nodeData.endsWith;
+                nodeData.endsWith = newValue;
+                return oldValue !== newValue;
             }
 
         }

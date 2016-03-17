@@ -77,9 +77,9 @@ define(
         }
 
 
-        function createViewFromData(dataRoot, generators) {
+        function createViewFromData(dataRoot, nodeViewGenerators) {
 
-            var wrappedDataRoot = generators.generateRoot();
+            var wrappedDataRoot = nodeViewGenerators.generateRoot();
             setChildren(wrappedDataRoot, dataRoot.stances.map(wrapStance));
             setBinding(wrappedDataRoot, dataRoot);
 
@@ -89,7 +89,7 @@ define(
 
 
             function wrapStance(stance) {
-                var stanceNode = generators.generateGroup();
+                var stanceNode = nodeViewGenerators.generateGroup();
                 setChildren(stanceNode, stance.moves.map(wrapMove));
                 setBinding(stanceNode, stance);
                 return stanceNode;
@@ -97,7 +97,7 @@ define(
 
 
             function wrapMove(move) {
-                var moveNode = generators.generateNode();
+                var moveNode = nodeViewGenerators.generateNode();
                 if (_.isNonEmptyArray(move.followUps)) {
                     setChildren(moveNode, move.followUps.map(wrapMove));
                 }

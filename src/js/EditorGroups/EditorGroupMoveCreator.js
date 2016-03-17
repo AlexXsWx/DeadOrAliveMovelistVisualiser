@@ -2,9 +2,25 @@ define(
 
     'EditorGroups/EditorGroupMoveCreator',
 
-    ['EditorGroups/EditorGroup', 'EditorGroups/EditorTools', 'NodeFactory', 'Strings', 'Tools'],
+    [
+        'EditorGroups/EditorGroup',
+        'Input/InputHelper',
+        'UI/TableRowInput',
+        'UI/TableRowTristateCheckbox',
+        'NodeFactory',
+        'Strings',
+        'Tools'
+    ],
 
-    function(EditorGroup, EditorTools, NodeFactory, Strings, _) {
+    function(
+        EditorGroup,
+        InputHelper,
+        TableRowInput,
+        TableRowTristateCheckbox,
+        NodeFactory,
+        Strings,
+        _
+    ) {
 
         return { create: create };
 
@@ -30,10 +46,10 @@ define(
             }
 
             function bindListeners() {
-                EditorTools.initInputElement(input,     onInputInput);
-                EditorTools.initInputElement(context,   onContextInput);
-                EditorTools.initInputElement(frameData, onFrameDataInput);
-                EditorTools.initInputElement(ending,    onEndingInput);
+                InputHelper.initInputElement(input,     onInputInput);
+                InputHelper.initInputElement(context,   onContextInput);
+                InputHelper.initInputElement(frameData, onFrameDataInput);
+                InputHelper.initInputElement(ending,    onEndingInput);
             }
 
             function updateView() {
@@ -53,13 +69,23 @@ define(
                 );
                 resetActionStepsDOM(actionStepsAmount);
 
+                updateMoveInputs(nodeData);
+
+            }
+
+            function updateMoveInputs(nodeData) {
                 input.value     = nodeData && nodeData.input               || '';
                 frameData.value = nodeData && nodeData.frameData.join(' ') || '';
                 ending.value    = nodeData && nodeData.endsWith            || '';
                 context.value   = nodeData && nodeData.context.join(', ')  || '';
 
+                updateActionStepInputs(nodeData);
+            }
+
+            function updateActionStepInputs(nodeData) {
+
                 var row;
-                for (var i = 0; i < actionStepsParent.children.length; i += 4) {
+                for (var i = 0; i < actionStepsParent.children.length; i += 5) {
 
                     var actionStep = nodeData && nodeData.actionSteps[i / 3] || null;
 
@@ -87,7 +113,13 @@ define(
                     // row = actionStepsParent.children[i + 4];
                     // row.children[1].children[0].value = nodeData && actionStep.tags.join(', ') || '';
 
+                    updateActionStepResultInputs(nodeData, actionStepsParent.children[i + 4]);
+
                 }
+
+            }
+
+            function updateActionStepResultInputs(nodeData, domParent) {
 
             }
 
@@ -102,99 +134,97 @@ define(
 
             function createActionStepDOM(parent, actionStepIndex) {
 
-                var tr;
+                var maskInput = TableRowInput.create({
+                    name: Strings('moveActionMask'),
+                    description: Strings('moveActionMaskDescription'),
+                    placeholder: 'e.g. mid P',
+                    onInput: function onActionStepMaskInput(newValue) {
+                        changeNodes(editorGroupMove, function(nodeData) {
+                            return changeActionMask(newValue, nodeData, actionStepIndex);
+                        });
+                    }
+                });
+                parent.appendChild(maskInput.domRoot);
 
-                var emptyValue = '';
-
-                tr = createRowWithLabelAndInput(
-                    Strings('moveActionMask'), emptyValue,
-                    function onActionStepMaskInput(event) {
-                        var inputElement = this;
-                        changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
-                            setActionStepMaskFromInput(inputElement, nodeData, actionStepIndex);
+                var actionTypeInput = TableRowInput.create({
+                    name: Strings('moveActionType'),
+                    onInput: function onActionStepTypeInput(newValue) {
+                        changeNodes(editorGroupMove, function(nodeData) {
+                            return changeActionStepType(newValue, nodeData, actionStepIndex);
                         });
                     },
-                    {
-                        description: Strings('moveActionMaskDescription'),
-                        example: 'e.g. mid P'
-                    }
-                );
-                parent.appendChild(tr);
+                    description: Strings('moveActionTypeDescription'),
+                    placeholder: 'e.g. strike'
+                });
+                parent.appendChild(actionTypeInput.domRoot);
 
-                tr = createRowWithLabelAndInput(
-                    Strings('moveActionType'), emptyValue,
-                    function onActionStepTypeInput(event) {
-                        var inputElement = this;
-                        changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
-                            setActionStepTypeFromInput(inputElement, nodeData, actionStepIndex);
-                        });
-                    },
-                    {
-                        description: Strings('moveActionTypeDescription'),
-                        example: 'e.g. strike'
-                    }
-                );
-                parent.appendChild(tr);
-
-                tr = createRowWithLabelAndTristateCheckbox(
-                    Strings('moveActionTracking'), false,
-                    function onActionStepTrackingChange(event) {
-                        var inputElement = this;
-                        changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
-                            setActionStepTrackingFromCheckbox(
-                                inputElement, nodeData, actionStepIndex
+                var trackingInput = TableRowTristateCheckbox.create({
+                    name: Strings('moveActionTracking'),
+                    isIndeterminate: true,
+                    onChange: function onActionStepTrackingChange(isChecked, isIndeterminate) {
+                        changeNodes(editorGroupMove, function(nodeData) {
+                            return changeActionStepTracking(
+                                isChecked, isIndeterminate, nodeData, actionStepIndex
                             );
                         });
                     },
-                    { description: Strings('moveActionTrackingDescription') }
-                );
-                parent.appendChild(tr);
+                    description: Strings('moveActionTrackingDescription')
+                });
+                parent.appendChild(trackingInput.domRoot);
 
-                tr = createRowWithLabelAndInput(
-                    Strings('moveActionDamage'), emptyValue,
-                    function onActionStepDamageInput(event) {
-                        var inputElement = this;
-                        changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
-                            setActionStepDamageFromInput(inputElement, nodeData, actionStepIndex);
+                var damageInput = TableRowInput.create({
+                    name: Strings('moveActionDamage'),
+                    onInput: function onActionStepDamageInput(event) {
+                        changeNodes(editorGroupMove, function(nodeData) {
+                            return changeActionStepDamage(newValue, nodeData, actionStepIndex);
                         });
                     },
-                    {
-                        description: Strings('moveActionDamageDescription'),
-                        example: 'e.g. 18'
-                    }
-                );
+                    description: Strings('moveActionDamageDescription'),
+                    placeholder: 'e.g. 18'
+                });
+                parent.appendChild(damageInput.domRoot);
+
+                // var actionConditionInput = TableRowInput.create({
+                //     name: Strings('moveActionCondition'),
+                //     onInput: function onActionStepConditionInput(newValue) {
+                //         changeNodes(editorGroupMove, function(nodeData) {
+                //             return changeActionStepCondition(newValue, nodeData, actionStepIndex);
+                //         });
+                //     },
+                //     description: Strings('moveActionConditionDescription'),
+                //     placeholder: 'e.g. neutral/open, stun/open'
+                // });
+                // parent.appendChild(actionConditionInput.domRoot);
+
+                // var actionTagsInput = TableRowInput.create({
+                //     name: Strings('moveActionTags'),
+                //     onInput: function onActionStepTagsInput(newValue) {
+                //         changeNodes(editorGroupMove, function(nodeData) {
+                //             return changeActionStepTags(newValue, nodeData, actionStepIndex);
+                //         });
+                //     },
+                //     description: Strings('moveActionTagsDescription'),
+                //     placeholder: 'e.g. sit-down stun'
+                // });
+                // parent.appendChild(actionTagsInput.domRoot);
+
+                tr = _.createDomElement({
+                    tag: 'tr',
+                    attributes: { 'colspan': 2 },
+                    children: [ createActionStepResultDOM() ]
+                });
                 parent.appendChild(tr);
 
-                // tr = createRowWithLabelAndInput(
-                //     Strings('moveActionCondition'), emptyValue,
-                //     function onActionStepConditionInput(event) {
-                //         var inputElement = this;
-                //         changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
-                //             setActionStepConditionFromInput(inputElement, nodeData, actionStepIndex);
-                //         });
-                //     },
-                //     {
-                //         description: Strings('moveActionConditionDescription'),
-                //         example: 'e.g. neutral/open, stun/open'
-                //     }
-                // );
-                // parent.appendChild(tr);
+            }
 
-                // tr = createRowWithLabelAndInput(
-                //     Strings('moveActionTags'), emptyValue,
-                //     function onActionStepTagsInput(event) {
-                //         var inputElement = this;
-                //         changeNodes(inputElement, editorGroupMove, function(inputElement, nodeData) {
-                //             setActionStepTagsFromInput(inputElement, nodeData, actionStepIndex);
-                //         });
-                //     },
-                //     {
-                //         description: Strings('moveActionTagsDescription'),
-                //         example: 'e.g. sit-down stun'
-                //     }
-                // );
-                // parent.appendChild(tr);
 
+            function createActionStepResultDOM() {
+                return _.createDomElement({
+                    tag: 'table',
+                    children: [
+
+                    ]
+                });
             }
 
 
@@ -203,35 +233,47 @@ define(
 
             function onInputInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroupMove, setInputFromInput);
+                var newValue = inputElement.value;
+                changeNodes(editorGroupMove, function(nodeData) {
+                    return changeInput(newValue, nodeData);
+                });
             }
             function onContextInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroupMove, setContextFromInput);
+                var newValue = inputElement.value;
+                changeNodes(editorGroupMove, function(nodeData) {
+                    return changeContext(newValue, nodeData);
+                });
             }
             function onFrameDataInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroupMove, setFrameDataFromInput);
+                var newValue = inputElement.value;
+                changeNodes(editorGroupMove, function(nodeData) {
+                    return changeFrameData(newValue, nodeData);
+                });
             }
             function onEndingInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroupMove, setEndingFromInput);
+                var newValue = inputElement.value;
+                changeNodes(editorGroupMove, function(nodeData) {
+                    return changeEnding(newValue, nodeData);
+                });
             }
 
 
             // readers
 
 
-            function setInputFromInput(inputElement, nodeData) {
-                var changed = nodeData.input !== inputElement.value;
-                nodeData.input = inputElement.value;
-                return changed;
+            function changeInput(newValue, nodeData) {
+                var oldValue = nodeData.input;
+                nodeData.input = newValue;
+                return oldValue !== newValue;
             }
 
 
-            function setContextFromInput(inputElement, nodeData) {
+            function changeContext(newValueRaw, nodeData) {
 
-                var newValue = inputElement.value.split(',').map(mapTrim);
+                var newValue = newValueRaw.split(',').map(mapTrim);
                 var oldValue = nodeData.context || [];
 
                 nodeData.context = newValue;
@@ -243,9 +285,9 @@ define(
             function mapTrim(element, index, array) { return element.trim(); }
 
 
-            function setFrameDataFromInput(inputElement, nodeData) {
+            function changeFrameData(newValueRaw, nodeData) {
 
-                var numbers = inputElement.value.match(/\d+/g);
+                var numbers = newValueRaw.match(/\d+/g);
                 var newValue = numbers ? numbers.map(mapStrToInt) : [];
                 var oldValue = nodeData.frameData || [];
 
@@ -261,8 +303,7 @@ define(
                 //     changed = true;
                 //     nodeData.actionSteps.length = newActionStepsAmount;
                 // } else
-                if (oldActionStepsAmount < newActionStepsAmount)
-                {
+                if (oldActionStepsAmount < newActionStepsAmount) {
                     changed = true;
                     for (var i = oldActionStepsAmount; i < newActionStepsAmount; ++i) {
                         nodeData.actionSteps.push(NodeFactory.createMoveActionStep());
@@ -276,142 +317,60 @@ define(
             function mapStrToInt(element, index, array) { return +element; }
 
 
-            function setEndingFromInput(inputElement, nodeData) {
-
-                var newValue = inputElement.value;
+            function changeEnding(newValue, nodeData) {
                 var oldValue = nodeData.endsWith;
-
                 nodeData.endsWith = newValue || undefined;
-
                 return oldValue !== newValue;
-
             }
 
 
-            function setActionStepMaskFromInput(inputElement, nodeData, actionStepIndex) {
+            function changeActionMask(newValue, nodeData, actionStepIndex) {
                 var actionStep = nodeData.actionSteps[actionStepIndex];
-                var changed = actionStep.actionMask !== inputElement.value;
-                actionStep.actionMask = inputElement.value;
-                return changed;
+                var oldValue = actionStep.actionMask;
+                actionStep.actionMask = newValue;
+                return oldValue !== newValue;
             }
 
 
-            function setActionStepTypeFromInput(inputElement, nodeData, actionStepIndex) {
+            function changeActionStepType(newValue, nodeData, actionStepIndex) {
                 var actionStep = nodeData.actionSteps[actionStepIndex];
-                var changed = actionStep.actionType !== inputElement.value;
-                actionStep.actionType = inputElement.value;
-                return changed;
+                var oldValue = actionStep.actionType;
+                actionStep.actionType = newValue;
+                return oldValue !== newValue;
             }
 
 
-            function setActionStepTrackingFromCheckbox(inputElement, nodeData, actionStepIndex) {
+            function changeActionStepTracking(isChecked, isIndeterminate, nodeData, actionStepIndex) {
                 var actionStep = nodeData.actionSteps[actionStepIndex];
-                var newValue = inputElement.indeterminate ? undefined : inputElement.checked;
-                var changed = actionStep.isTracking !== newValue;
+                var newValue = isIndeterminate ? undefined : isChecked;
+                var oldValue = actionStep.isTracking;
                 actionStep.isTracking = newValue;
-                return changed;
+                return oldValue !== newValue;
             }
 
-            function setActionStepDamageFromInput(inputElement, nodeData, actionStepIndex) {
+            function changeActionStepDamage(newValue, nodeData, actionStepIndex) {
                 var actionStep = nodeData.actionSteps[actionStepIndex];
-                var newDamage = parseInt(inputElement.value, 10);
-                var changed = actionStep.damage !== newDamage;
+                var newDamage = parseInt(newValue, 10);
+                var oldValue = actionStep.damage;
                 actionStep.damage = newDamage;
-                return changed;
+                return oldValue !== newDamage;
             }
 
-            // function setActionStepConditionFromInput(inputElement, nodeData, actionStepIndex) {
+            // function changeActionStepCondition(newValue, nodeData, actionStepIndex) {
             //     var actionStep = nodeData.actionSteps[actionStepIndex];
-            //     var newConditions = inputElement.value.split(/,\s*/);
+            //     var newConditions = newValue.split(/,\s*/);
             //     var changed = _.arraysConsistOfSameStrings(actionStep.condition, newConditions);
             //     actionStep.condition = newConditions;
             //     return changed;
             // }
 
-            // function setActionStepTagsFromInput(inputElement, nodeData, actionStepIndex) {
+            // function changeActionStepTags(newValue, nodeData, actionStepIndex) {
             //     var actionStep = nodeData.actionSteps[actionStepIndex];
-            //     var newTags = inputElement.value.split(/,\s*/);
+            //     var newTags = newValue.split(/,\s*/);
             //     var changed = _.arraysConsistOfSameStrings(actionStep.tags, newTags);
             //     actionStep.tags = newTags;
             //     return changed;
             // }
-
-
-            // DOM helpers
-
-
-            function createRowWithLabelAndInput(name, value, onInput, hints) {
-
-                var label = document.createElement('label');
-                label.appendChild(document.createTextNode(name));
-
-                var input = document.createElement('input');
-                input.value = value;
-
-                var tr = createTableRow([label], [input]);
-
-                tr.setAttribute('title', hints.description);
-                input.setAttribute('placeholder', hints.example);
-
-                label.addEventListener('click', function(event) { input.focus(); });
-
-                EditorTools.initInputElement(input, onInput);
-
-                return tr;
-
-            }
-
-
-            function createRowWithLabelAndTristateCheckbox(name, checked, onChange, hints) {
-
-                var label = document.createElement('label');
-                label.appendChild(document.createTextNode(name));
-
-                var input = document.createElement('input');
-                input.setAttribute('type', 'checkbox');
-                input.checked = checked;
-
-                var indeterminateButton = document.createElement('input');
-                indeterminateButton.setAttribute('type', 'button');
-                indeterminateButton.setAttribute('value', 'indeterminate');
-                indeterminateButton.setAttribute('title', Strings('indeterminateHint'));
-
-                var tr = createTableRow([label], [input, indeterminateButton]);
-
-                tr.setAttribute('title', hints.description);
-
-                input.addEventListener('change', onChange);
-
-                indeterminateButton.addEventListener('click', function(event) {
-                    input.indeterminate = true;
-                    onChange.call(this);
-                });
-                label.addEventListener('click', function(event) {
-                    input.indeterminate = false;
-                    input.checked = !input.checked;
-                    onChange.call(this); 
-                });
-
-                return tr;
-
-            }
-
-
-            function createTableRow(leftChildren, rightChildren) {
-
-                var tr = document.createElement('tr');
-
-                var tdLeft = document.createElement('td');
-                leftChildren.forEach(function(leftChild) { tdLeft.appendChild(leftChild); });
-                tr.appendChild(tdLeft);
-
-                var tdRight = document.createElement('td');
-                rightChildren.forEach(function(rightChild) { tdRight.appendChild(rightChild); });
-                tr.appendChild(tdRight);
-
-                return tr;
-
-            }
 
         }
 

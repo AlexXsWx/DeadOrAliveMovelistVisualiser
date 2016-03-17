@@ -9,11 +9,14 @@ define('Tools', function() {
         removeElement:              removeElement,
         copyKeysInto:               copyKeysInto,
         isNonEmptyArray:            isNonEmptyArray,
+        isBool:                     isBool,
         moveArrayElement:           moveArrayElement,
         arraysConsistOfSameStrings: arraysConsistOfSameStrings,
         getDomElement:              getDomElement,
         hideDomElement:             hideDomElement,
-        showDomElement:             showDomElement
+        showDomElement:             showDomElement,
+        createDomElement:           createDomElement,
+        createTextNode:             createTextNode
     };
 
     function getDomElement(id) {
@@ -85,6 +88,8 @@ define('Tools', function() {
         Object.getOwnPropertyNames(target).forEach(function(propName) {
             target[propName] = defined(source[propName], target[propName]);
         });
+        // TODO: rename
+        // TODO: show warning if source has a key that target doesn't
         return target;
     }
 
@@ -99,6 +104,10 @@ define('Tools', function() {
 
     function isNonEmptyArray(obj) {
         return isArray(obj) && obj.length > 0;
+    }
+
+    function isBool(obj) {
+        return obj === true || obj === false;
     }
 
     function defined(/* arguments */) {
@@ -142,6 +151,47 @@ define('Tools', function() {
             arrayA.some(function(element) { return !Object.hasOwnProperty(mapB, element); }) ||
             arrayB.some(function(element) { return !Object.hasOwnProperty(mapA, element); })
         );
+    }
+
+    function createDomElement(options) {
+
+        var tag        = options.tag;
+        var attributes = options.attributes;
+        var children   = options.children;
+        var listeners  = options.listeners;
+
+        console.assert(!!tag, 'invalid tag');
+
+        var element = document.createElement(tag);
+
+        if (isObject(attributes)) {
+            for (attrName in attributes) {
+                if (attributes.hasOwnProperty(attrName) && attributes[attrName] !== undefined) {
+                    element.setAttribute(attrName, attributes[attrName]);
+                }
+            }
+        }
+
+        if (isArray(children)) {
+            for (var i = 0; i < children.length; ++i) {
+                element.appendChild(children[i]);
+            }
+        }
+
+        if (isObject(listeners)) {
+            for (key in listeners) {
+                if (listeners.hasOwnProperty(key) && listeners[key] !== undefined) {
+                    element.addEventListener(key, listeners[key]);
+                }
+            }
+        }
+
+        return element;
+
+    }
+
+    function createTextNode(textContent) {
+        return document.createTextNode(textContent);
     }
 
 });

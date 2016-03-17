@@ -99,7 +99,7 @@ define('NodeFactory', ['Tools'], function Node(_) {
 
     function createMoveActionStep(optSource) {
 
-        return _.defaults(optSource, {
+        var actionStep = _.defaults(optSource, {
 
             /**
                 Examples: 
@@ -112,6 +112,7 @@ define('NodeFactory', ['Tools'], function Node(_) {
                         mid
                         high k
                         mid P high P
+                        high low p (akira 9h)
              */
             actionMask: undefined,
 
@@ -134,6 +135,12 @@ define('NodeFactory', ['Tools'], function Node(_) {
             result: []
 
         });
+
+        for (var i = 0; i < actionStep.result.length; ++i) {
+            actionStep.result[i] = createMoveActionStepResult(actionStep.result[i]);
+        }
+
+        return actionStep;
 
     }
 

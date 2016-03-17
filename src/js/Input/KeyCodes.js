@@ -1,4 +1,4 @@
-define('KeyCodes', [], function() {
+define('Input/KeyCodes', [], function() {
     return {
         ENTER: 13,
         ESC:   27,

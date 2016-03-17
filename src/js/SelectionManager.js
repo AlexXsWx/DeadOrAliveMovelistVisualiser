@@ -2,7 +2,7 @@ define(
 
     'SelectionManager',
 
-    ['KeyCodes', 'Observer'],
+    ['Input/KeyCodes', 'Observer'],
 
     function(KeyCodes, createObserver) {
 

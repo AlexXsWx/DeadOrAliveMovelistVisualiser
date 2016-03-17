@@ -2,9 +2,9 @@ define(
 
     'EditorGroups/EditorGroupRootCreator',
 
-    ['EditorGroups/EditorGroup', 'EditorGroups/EditorTools', 'NodeFactory', 'Tools'],
+    ['EditorGroups/EditorGroup', 'Input/InputHelper', 'NodeFactory', 'Tools'],
 
-    function(EditorGroup, EditorTools, NodeFactory, _) {
+    function(EditorGroup, InputHelper, NodeFactory, _) {
 
         return { create: create };
 
@@ -27,8 +27,8 @@ define(
             }
 
             function bindListeners() {
-                EditorTools.initInputElement(characterName, onCharacterNameInput);
-                EditorTools.initInputElement(gameVersion,   onGameVersionInput);
+                InputHelper.initInputElement(characterName, onCharacterNameInput);
+                InputHelper.initInputElement(gameVersion,   onGameVersionInput);
             }
 
             function updateView() {
@@ -49,26 +49,32 @@ define(
 
             function onCharacterNameInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroupRoot, setCharacterNameFromInput);
+                var newValue = inputElement.value;
+                changeNodes(editorGroupRoot, function(nodeData) {
+                    changeCharacterName(newValue, nodeData);
+                });
             }
 
             function onGameVersionInput(event) {
                 var inputElement = this;
-                changeNodes(inputElement, editorGroupRoot, setGameVersionFromInput);
+                var newValue = inputElement.value;
+                changeNodes(editorGroupRoot, function(nodeData) {
+                    changeGameVersion(newValue, nodeData);
+                });
             }
 
             // readers
 
-            function setCharacterNameFromInput(inputElement, nodeData) {
-                var changed = nodeData.character !== inputElement.value;
-                nodeData.character = inputElement.value;
-                return changed;
+            function changeCharacterName(nevValue, nodeData) {
+                var oldValue = nodeData.character;
+                nodeData.character = newValue;
+                return oldValue !== newValue;
             }
 
-            function setGameVersionFromInput(inputElement, nodeData) {
-                var changed = nodeData.version !== inputElement.value;
-                nodeData.version = inputElement.value;
-                return changed;
+            function changeGameVersion(nevValue, nodeData) {
+                var oldValue = nodeData.version;
+                nodeData.version = newValue;
+                return oldValue !== newValue;
             }
 
         }
