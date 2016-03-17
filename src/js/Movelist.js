@@ -20,6 +20,8 @@ define(
         TreeTools, _, JsonFileReader
     ) {
 
+        var getDebugInfo; // = getTextDuration;
+
         // ==== Constants ====
 
             var PADDING = 50;
@@ -40,9 +42,6 @@ define(
 
             var canvas;
 
-            var rootNodeData;
-            var rootNodeView;
-
             var generators = {
                 d3: {
                     tree: null,
@@ -56,6 +55,9 @@ define(
             };
 
             var limitsFinder;
+
+            var rootNodeData;
+            var rootNodeView;
 
         // ===================
 
@@ -82,10 +84,9 @@ define(
                 limitsFinder = createLimitsFinder();
 
                 initGenerators();
+                bindUIActions();
 
                 loadData(NodeFactory.createRootNode());
-
-                bindUIActions();
 
             }
 
@@ -122,7 +123,8 @@ define(
             function initGenerators() {
 
                 var tree = d3.layout.tree();
-                tree.nodeSize([ NODE_HEIGHT, NODE_WIDTH ]); // turn 90deg CCW
+                var height = (getDebugInfo ? 1.5 : 1) * NODE_HEIGHT;
+                tree.nodeSize([ height, NODE_WIDTH ]); // turn 90deg CCW
                 tree.children(NodeView.getVisibleChildren);
                 // tree.separation(function(a, b) {
                 //     return 1;
@@ -178,22 +180,33 @@ define(
 
 
             function onFileSelected() {
+
                 var fileElement = this;
                 var file = fileElement.files[0];
+
                 file && JsonFileReader.readJson(fileElement.files[0]).then(
+
                     function onSuccess(parsedJson) {
+
+                        // minified
                         var importedDataRoot = NodeSerializer.importJson(parsedJson);
                         if (!importedDataRoot) {
                             alert('Failed to import json');
                             return;
                         }
+
+                        // extend minified to full
                         var rootNodeData = NodeFactory.createRootNode(importedDataRoot, true);
                         loadData(rootNodeData);
+
                     },
+
                     function onFail(error) {
                         alert('Error: Invalid JSON file\n%O', error);
                     }
+
                 );
+
             }
 
             function onDownload() {
@@ -213,13 +226,13 @@ define(
                     rootNodeData, generators.nodeViews
                 );
 
-                setTreeInfoAppearanceData(rootNodeView);
+                fillTreeInfoAppearanceData(rootNodeView);
                 return rootNodeView;
 
             }
 
 
-            function setTreeInfoAppearanceData(rootNodeView) {
+            function fillTreeInfoAppearanceData(rootNodeView) {
 
                 var childrenByDepth = TreeTools.getChildrenMergedByDepth(
                     rootNodeView, NodeView.getAllChildren
@@ -338,7 +351,7 @@ define(
                 var added   = _.isNonEmptyArray(changes.added);
                 var moved   = _.isNonEmptyArray(changes.moved);
 
-                if (deleted || added) setTreeInfoAppearanceData(rootNodeView);
+                if (deleted || added) fillTreeInfoAppearanceData(rootNodeView);
                 if (deleted || added || moved) update(true);
 
                 _.hideDomElement(domCache.download);
@@ -490,9 +503,10 @@ define(
 
                     var datum = d3SvgNode.datum();
 
-                    d3SvgNode.select( 'text.input'  ).text(getTextLeft);
-                    d3SvgNode.select( 'text.toggle' ).text(getTextToggle);
-                    d3SvgNode.select( 'text.ending' ).text(getTextRight);
+                    d3SvgNode.select( 'text.input'    ).text(getTextLeft);
+                    d3SvgNode.select( 'text.toggle'   ).text(getTextToggle);
+                    d3SvgNode.select( 'text.ending'   ).text(getTextRight);
+                    getDebugInfo && d3SvgNode.select( 'text.duration' ).text(getDebugInfo);
 
                     var classes = {
                         'container': _.isNonEmptyArray(NodeView.getAllChildren(datum)),
@@ -587,6 +601,11 @@ define(
                         .attr('text-anchor', 'start')
                         .attr('x', 0.5 * NODE_HEIGHT);
 
+                    nodeGroup.append('svg:text')
+                        .classed('duration', true)
+                        .attr('text-anchor', 'middle')
+                        .attr('y', 0.75 * NODE_HEIGHT);
+
                     nodeGroup.each(function(datum) {
                         updateChangedNode(d3.select(this));
                     });
@@ -642,6 +661,14 @@ define(
 
                 function getTextRight(nodeView) {
                     return nodeView.fd3Data.appearance.textRight;
+                }
+
+                function getTextDuration(nodeView) {
+                    var frameData = nodeView.fd3Data.binding.targetDataNode.frameData;
+                    if (!frameData) return '';
+                    return 's=' + frameData[0] + ' d=' + frameData.reduce(function(acc, curr) {
+                        return acc + curr;
+                    }, 0); // + ' // ' + frameData;
                 }
 
 
