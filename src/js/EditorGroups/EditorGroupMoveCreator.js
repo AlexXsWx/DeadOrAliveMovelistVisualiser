@@ -4,21 +4,17 @@ define(
 
     [
         'EditorGroups/EditorGroup',
+        'EditorGroups/MoveActionStep',
         'Input/InputHelper',
-        'UI/TableRowInput',
-        'UI/TableRowTristateCheckbox',
         'NodeFactory',
-        'Strings',
         'Tools'
     ],
 
     function(
         EditorGroup,
+        MoveActionStep,
         InputHelper,
-        TableRowInput,
-        TableRowTristateCheckbox,
         NodeFactory,
-        Strings,
         _
     ) {
 
@@ -35,6 +31,7 @@ define(
             var frameData         = _.getDomElement('editorMoveFrameData');
             var ending            = _.getDomElement('editorMoveEnding');
             var actionStepsParent = _.getDomElement('editorMoveActionSteps');
+            var actionStepInputs  = [];
 
             return editorGroupMove;
 
@@ -67,10 +64,28 @@ define(
                     nodeData.actionSteps.length,
                     NodeFactory.getActionStepsAmount(nodeData.frameData)
                 );
-                resetActionStepsDOM(actionStepsAmount);
+                recreateActionStepInputs(actionStepsAmount);
 
                 updateMoveInputs(nodeData);
 
+            }
+
+            function recreateActionStepInputs(actionStepsAmount) {
+                actionStepInputs = [];
+                actionStepsParent.innerHTML = '';
+                for (var i = 0; i < actionStepsAmount; ++i) {
+                    (function() {
+                        var actionStepIndex = i;
+                        var actionStepInput = MoveActionStep.create(changeActionStep);
+                        actionStepInputs[actionStepIndex] = actionStepInput;
+                        actionStepsParent.appendChild(actionStepInput.domRoot);
+                        function changeActionStep(changeActionStepProperty) {
+                            return changeNodes(editorGroupMove, function(nodeData) {
+                                return changeActionStepProperty(nodeData.actionSteps[actionStepIndex]);
+                            });
+                        }
+                    }());
+                }
             }
 
             function updateMoveInputs(nodeData) {
@@ -83,148 +98,10 @@ define(
             }
 
             function updateActionStepInputs(nodeData) {
-
-                var row;
-                for (var i = 0; i < actionStepsParent.children.length; i += 5) {
-
-                    var actionStep = nodeData && nodeData.actionSteps[i / 3] || null;
-
-                    row = actionStepsParent.children[i];
-                    row.children[1].children[0].value = nodeData && actionStep.actionMask || '';
-
-                    row = actionStepsParent.children[i + 1];
-                    row.children[1].children[0].value = nodeData && actionStep.actionType || '';
-
-                    row = actionStepsParent.children[i + 2];
-                    var checkbox = row.children[1].children[0];
-                    if (!nodeData || actionStep.isTracking === undefined) {
-                        checkbox.indeterminate = true;
-                        checkbox.checked = false;
-                    } else {
-                        checkbox.checked = actionStep.isTracking;
-                    }
-
-                    row = actionStepsParent.children[i + 3];
-                    row.children[1].children[0].value = nodeData && actionStep.damage || '';
-                    
-                    // row = actionStepsParent.children[i + 3];
-                    // row.children[1].children[0].value = nodeData && actionStep.condition.join(', ') || '';
-
-                    // row = actionStepsParent.children[i + 4];
-                    // row.children[1].children[0].value = nodeData && actionStep.tags.join(', ') || '';
-
-                    updateActionStepResultInputs(nodeData, actionStepsParent.children[i + 4]);
-
+                for (var i = 0; i < actionStepInputs.length; ++i) {
+                    var actionStep = nodeData && nodeData.actionSteps[i] || null;
+                    actionStepInputs[i].fillFromActionStep(actionStep);
                 }
-
-            }
-
-            function updateActionStepResultInputs(nodeData, domParent) {
-
-            }
-
-            //
-
-            function resetActionStepsDOM(actionStepsAmount) {
-                actionStepsParent.innerHTML = '';
-                for (var i = 0; i < actionStepsAmount; ++i) {
-                    createActionStepDOM(actionStepsParent, i);
-                }
-            }
-
-            function createActionStepDOM(parent, actionStepIndex) {
-
-                var maskInput = TableRowInput.create({
-                    name: Strings('moveActionMask'),
-                    description: Strings('moveActionMaskDescription'),
-                    placeholder: 'e.g. mid P',
-                    onInput: function onActionStepMaskInput(newValue) {
-                        changeNodes(editorGroupMove, function(nodeData) {
-                            return changeActionMask(newValue, nodeData, actionStepIndex);
-                        });
-                    }
-                });
-                parent.appendChild(maskInput.domRoot);
-
-                var actionTypeInput = TableRowInput.create({
-                    name: Strings('moveActionType'),
-                    onInput: function onActionStepTypeInput(newValue) {
-                        changeNodes(editorGroupMove, function(nodeData) {
-                            return changeActionStepType(newValue, nodeData, actionStepIndex);
-                        });
-                    },
-                    description: Strings('moveActionTypeDescription'),
-                    placeholder: 'e.g. strike'
-                });
-                parent.appendChild(actionTypeInput.domRoot);
-
-                var trackingInput = TableRowTristateCheckbox.create({
-                    name: Strings('moveActionTracking'),
-                    isIndeterminate: true,
-                    onChange: function onActionStepTrackingChange(isChecked, isIndeterminate) {
-                        changeNodes(editorGroupMove, function(nodeData) {
-                            return changeActionStepTracking(
-                                isChecked, isIndeterminate, nodeData, actionStepIndex
-                            );
-                        });
-                    },
-                    description: Strings('moveActionTrackingDescription')
-                });
-                parent.appendChild(trackingInput.domRoot);
-
-                var damageInput = TableRowInput.create({
-                    name: Strings('moveActionDamage'),
-                    onInput: function onActionStepDamageInput(event) {
-                        changeNodes(editorGroupMove, function(nodeData) {
-                            return changeActionStepDamage(newValue, nodeData, actionStepIndex);
-                        });
-                    },
-                    description: Strings('moveActionDamageDescription'),
-                    placeholder: 'e.g. 18'
-                });
-                parent.appendChild(damageInput.domRoot);
-
-                // var actionConditionInput = TableRowInput.create({
-                //     name: Strings('moveActionCondition'),
-                //     onInput: function onActionStepConditionInput(newValue) {
-                //         changeNodes(editorGroupMove, function(nodeData) {
-                //             return changeActionStepCondition(newValue, nodeData, actionStepIndex);
-                //         });
-                //     },
-                //     description: Strings('moveActionConditionDescription'),
-                //     placeholder: 'e.g. neutral/open, stun/open'
-                // });
-                // parent.appendChild(actionConditionInput.domRoot);
-
-                // var actionTagsInput = TableRowInput.create({
-                //     name: Strings('moveActionTags'),
-                //     onInput: function onActionStepTagsInput(newValue) {
-                //         changeNodes(editorGroupMove, function(nodeData) {
-                //             return changeActionStepTags(newValue, nodeData, actionStepIndex);
-                //         });
-                //     },
-                //     description: Strings('moveActionTagsDescription'),
-                //     placeholder: 'e.g. sit-down stun'
-                // });
-                // parent.appendChild(actionTagsInput.domRoot);
-
-                tr = _.createDomElement({
-                    tag: 'tr',
-                    attributes: { 'colspan': 2 },
-                    children: [ createActionStepResultDOM() ]
-                });
-                parent.appendChild(tr);
-
-            }
-
-
-            function createActionStepResultDOM() {
-                return _.createDomElement({
-                    tag: 'table',
-                    children: [
-
-                    ]
-                });
             }
 
 
@@ -238,6 +115,7 @@ define(
                     return changeInput(newValue, nodeData);
                 });
             }
+
             function onContextInput(event) {
                 var inputElement = this;
                 var newValue = inputElement.value;
@@ -245,6 +123,7 @@ define(
                     return changeContext(newValue, nodeData);
                 });
             }
+
             function onFrameDataInput(event) {
                 var inputElement = this;
                 var newValue = inputElement.value;
@@ -252,6 +131,7 @@ define(
                     return changeFrameData(newValue, nodeData);
                 });
             }
+
             function onEndingInput(event) {
                 var inputElement = this;
                 var newValue = inputElement.value;
@@ -281,8 +161,6 @@ define(
                 return !_.arraysConsistOfSameStrings(oldValue, newValue);
 
             }
-
-            function mapTrim(element, index, array) { return element.trim(); }
 
 
             function changeFrameData(newValueRaw, nodeData) {
@@ -314,8 +192,6 @@ define(
 
             }
 
-            function mapStrToInt(element, index, array) { return +element; }
-
 
             function changeEnding(newValue, nodeData) {
                 var oldValue = nodeData.endsWith;
@@ -324,53 +200,9 @@ define(
             }
 
 
-            function changeActionMask(newValue, nodeData, actionStepIndex) {
-                var actionStep = nodeData.actionSteps[actionStepIndex];
-                var oldValue = actionStep.actionMask;
-                actionStep.actionMask = newValue;
-                return oldValue !== newValue;
-            }
+            function mapTrim(element, index, array) { return element.trim(); }
 
-
-            function changeActionStepType(newValue, nodeData, actionStepIndex) {
-                var actionStep = nodeData.actionSteps[actionStepIndex];
-                var oldValue = actionStep.actionType;
-                actionStep.actionType = newValue;
-                return oldValue !== newValue;
-            }
-
-
-            function changeActionStepTracking(isChecked, isIndeterminate, nodeData, actionStepIndex) {
-                var actionStep = nodeData.actionSteps[actionStepIndex];
-                var newValue = isIndeterminate ? undefined : isChecked;
-                var oldValue = actionStep.isTracking;
-                actionStep.isTracking = newValue;
-                return oldValue !== newValue;
-            }
-
-            function changeActionStepDamage(newValue, nodeData, actionStepIndex) {
-                var actionStep = nodeData.actionSteps[actionStepIndex];
-                var newDamage = parseInt(newValue, 10);
-                var oldValue = actionStep.damage;
-                actionStep.damage = newDamage;
-                return oldValue !== newDamage;
-            }
-
-            // function changeActionStepCondition(newValue, nodeData, actionStepIndex) {
-            //     var actionStep = nodeData.actionSteps[actionStepIndex];
-            //     var newConditions = newValue.split(/,\s*/);
-            //     var changed = _.arraysConsistOfSameStrings(actionStep.condition, newConditions);
-            //     actionStep.condition = newConditions;
-            //     return changed;
-            // }
-
-            // function changeActionStepTags(newValue, nodeData, actionStepIndex) {
-            //     var actionStep = nodeData.actionSteps[actionStepIndex];
-            //     var newTags = newValue.split(/,\s*/);
-            //     var changed = _.arraysConsistOfSameStrings(actionStep.tags, newTags);
-            //     actionStep.tags = newTags;
-            //     return changed;
-            // }
+            function mapStrToInt(element, index, array) { return +element; }
 
         }
 
