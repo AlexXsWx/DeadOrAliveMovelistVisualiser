@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1458965535496
+    "timeSaved": 1458967793278
   },
   "body": {
     "character": "rig",
@@ -515,10 +515,11 @@
                     "results": [
                       {
                         "condition": [
-                          "neutral"
+                          "neutral",
+                          "crouch"
                         ],
                         "criticalHoldDelay": "6",
-                        "stunDurationMax": "26"
+                        "stunDurationMax": "30"
                       }
                     ]
                   }
@@ -536,7 +537,24 @@
             "actionSteps": [
               {
                 "actionMask": "P",
-                "actionType": "strike"
+                "actionType": "strike",
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": "14"
+                  },
+                  {
+                    "condition": [
+                      "counter",
+                      "hi-counter",
+                      "stun"
+                    ],
+                    "criticalHoldDelay": "14",
+                    "stunDurationMax": "61"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -550,7 +568,19 @@
                 "actionSteps": [
                   {
                     "actionMask": "P",
-                    "actionType": "strike"
+                    "actionType": "strike",
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral",
+                          "counter",
+                          "hi-counter",
+                          "stun"
+                        ],
+                        "criticalHoldDelay": "24",
+                        "stunDurationMax": "60"
+                      }
+                    ]
                   }
                 ]
               }
@@ -566,7 +596,19 @@
             "actionSteps": [
               {
                 "actionMask": "P",
-                "actionType": "strike"
+                "actionType": "strike",
+                "results": [
+                  {
+                    "condition": [
+                      "neutral",
+                      "counter",
+                      "hi-counter",
+                      "stun"
+                    ],
+                    "criticalHoldDelay": "24",
+                    "stunDurationMax": "60"
+                  }
+                ]
               }
             ]
           },
@@ -584,8 +626,15 @@
                 "results": [
                   {
                     "condition": [
-                      "neutral"
+                      "neutral",
+                      "counter",
+                      "hi-counter",
+                      "stun",
+                      "crouch"
                     ],
+                    "criticalHoldDelay": "44",
+                    "stunDurationMin": "42",
+                    "stunDurationMax": "50",
                     "tags": [
                       "sit-down stun"
                     ]
@@ -604,7 +653,25 @@
             "actionSteps": [
               {
                 "actionMask": "P",
-                "actionType": "strike"
+                "actionType": "strike",
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": "17"
+                  },
+                  {
+                    "condition": [
+                      "counter",
+                      "hi-counter",
+                      "stun",
+                      "crouch"
+                    ],
+                    "criticalHoldDelay": "6",
+                    "stunDurationMax": "49"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -618,7 +685,26 @@
                 "actionSteps": [
                   {
                     "actionMask": "P",
-                    "actionType": "strike"
+                    "actionType": "strike",
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "criticalHoldDelay": "6",
+                        "stunDurationMax": "30"
+                      },
+                      {
+                        "condition": [
+                          "counter",
+                          "hi-counter",
+                          "stun",
+                          "crouch"
+                        ],
+                        "criticalHoldDelay": "6",
+                        "stunDurationMax": "50"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BT"
@@ -632,7 +718,26 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "criticalHoldDelay": "14",
+                        "stunDurationMax": "41"
+                      },
+                      {
+                        "condition": [
+                          "counter",
+                          "hi-counter",
+                          "stun",
+                          "crouch"
+                        ],
+                        "criticalHoldDelay": "6",
+                        "stunDurationMax": "50"
+                      }
+                    ]
                   }
                 ]
               },
@@ -645,7 +750,25 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral",
+                          "crouch"
+                        ],
+                        "hitBlock": "18"
+                      },
+                      {
+                        "condition": [
+                          "counter",
+                          "hi-counter",
+                          "stun"
+                        ],
+                        "criticalHoldDelay": "6",
+                        "stunDurationMax": "50"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BND",
@@ -659,7 +782,19 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "K",
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral",
+                              "counter",
+                              "hi-counter",
+                              "stun"
+                            ],
+                            "criticalHoldDelay": "6",
+                            "stunDurationMax": "27"
+                          }
+                        ]
                       }
                     ],
                     "endsWith": "BND"
@@ -678,7 +813,31 @@
             "actionSteps": [
               {
                 "actionMask": "P",
-                "actionType": "strike"
+                "actionType": "strike",
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": "18"
+                  },
+                  {
+                    "condition": [
+                      "counter",
+                      "hi-counter",
+                      "stun"
+                    ],
+                    "criticalHoldDelay": "6",
+                    "stunDurationMax": "50"
+                  },
+                  {
+                    "condition": [
+                      "crouch"
+                    ],
+                    "criticalHoldDelay": "6",
+                    "stunDurationMax": "42"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -692,7 +851,17 @@
                 "actionSteps": [
                   {
                     "actionMask": "P",
-                    "actionType": "strike"
+                    "actionType": "strike",
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral",
+                          "crouch"
+                        ],
+                        "criticalHoldDelay": "6",
+                        "stunDurationMax": "30"
+                      }
+                    ]
                   }
                 ]
               },
@@ -718,7 +887,25 @@
             "actionSteps": [
               {
                 "actionMask": "P",
-                "actionType": "strike"
+                "actionType": "strike",
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": "21"
+                  },
+                  {
+                    "condition": [
+                      "counter",
+                      "hi-counter",
+                      "stun",
+                      "crouch"
+                    ],
+                    "criticalHoldDelay": "14",
+                    "stunDurationMax": "61"
+                  }
+                ]
               }
             ]
           },
@@ -732,7 +919,33 @@
             "actionSteps": [
               {
                 "actionMask": "P",
-                "actionType": "strike"
+                "actionType": "strike",
+                "results": [
+                  {
+                    "condition": [
+                      "neutral",
+                      "crouch"
+                    ],
+                    "hitBlock": "21"
+                  },
+                  {
+                    "condition": [
+                      "counter",
+                      "hi-counter",
+                      "stun",
+                      "overdamage"
+                    ],
+                    "criticalHoldDelay": "6",
+                    "stunDurationMax": "25"
+                  },
+                  {
+                    "condition": [
+                      "CB"
+                    ],
+                    "criticalHoldDelay": "6",
+                    "stunDurationMax": "30"
+                  }
+                ]
               }
             ]
           },
@@ -746,7 +959,25 @@
             "actionSteps": [
               {
                 "actionMask": "P",
-                "actionType": "strike"
+                "actionType": "strike",
+                "results": [
+                  {
+                    "condition": [
+                      "neutral",
+                      "crouch"
+                    ],
+                    "hitBlock": "19"
+                  },
+                  {
+                    "condition": [
+                      "counter",
+                      "hi-counter",
+                      "stun"
+                    ],
+                    "criticalHoldDelay": "6",
+                    "stunDurationMax": "39"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -759,7 +990,17 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "P"
+                    "actionMask": "P",
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral",
+                          "crouch"
+                        ],
+                        "criticalHoldDelay": "6",
+                        "stunDurationMax": "30"
+                      }
+                    ]
                   }
                 ]
               }
@@ -774,7 +1015,17 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "P",
+                "results": [
+                  {
+                    "condition": [
+                      "neutral",
+                      "crouch"
+                    ],
+                    "criticalHoldDelay": "6",
+                    "stunDurationMax": "30"
+                  }
+                ]
               }
             ]
           },
