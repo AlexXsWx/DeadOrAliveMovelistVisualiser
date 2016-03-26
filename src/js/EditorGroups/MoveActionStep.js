@@ -2,13 +2,22 @@ define(
     'EditorGroups/MoveActionStep',
 
     [
+        'NodeFactory',
+        'EditorGroups/MoveActionStepResult',
         'UI/TableRowInput',
         'UI/TableRowTristateCheckbox',
         'Strings',
         'Tools'
     ],
 
-    function(TableRowInput, TableRowTristateCheckbox, Strings, _) {
+    function(
+        NodeFactory,
+        MoveActionStepResult,
+        TableRowInput,
+        TableRowTristateCheckbox,
+        Strings,
+        _
+    ) {
 
         return { create: create };
 
@@ -82,7 +91,39 @@ define(
             //     placeholder: 'e.g. sit-down stun'
             // });
 
-            // var results;
+            var resultsParent = _.createDomElement({
+                tag: 'td',
+                attributes: { 'colspan': 2 }
+            });
+            var resultsParentWrapper = _.createDomElement({
+                tag: 'tr',
+                children: [ resultsParent ]
+            });
+            var results = [];
+
+            var btnAddResult = _.createDomElement({
+                tag: 'tr',
+                children: [
+                    _.createDomElement({
+                        tag: 'td',
+                        attributes: { 'colspan': 2 },
+                        children: [
+                            _.createDomElement({
+                                tag: 'input',
+                                attributes: {
+                                    'type': 'button',
+                                    'value': 'Add result'
+                                },
+                                listeners: {
+                                    'click': function(event) {
+                                        addResult();
+                                    }
+                                }
+                            })
+                        ]
+                    })
+                ]
+            });
 
             domRoot.appendChild(mask.domRoot);
             domRoot.appendChild(type.domRoot);
@@ -90,7 +131,8 @@ define(
             domRoot.appendChild(damage.domRoot);
             // domRoot.appendChild(condition.domRoot);
             // domRoot.appendChild(tags.domRoot);
-            // domRoot.appendChild(results.domRoot);
+            domRoot.appendChild(resultsParent);
+            domRoot.appendChild(btnAddResult);
 
             return {
                 domRoot: domRoot,
@@ -106,7 +148,8 @@ define(
                 damage.setValue('');
                 // condition.setValue('');
                 // tags.setValue('');
-                // results.setValue('');
+                resultsParent.innerHTML = '';
+                results = [];
             }
 
             function fillFromActionStep(actionStep) {
@@ -129,6 +172,48 @@ define(
                 damage.setValue(actionStep.damage || '');
                 // condition.setValue(actionStep.condition.join(', ') || '');
                 // tags.setValue(actionStep.tags.join(', ') || '');
+
+                resultsParent.innerHTML = '';
+                results = [];
+                for (var i = 0; i < actionStep.results.length; ++i) {
+                    var result = createResultInput();
+                    result.fillFromActionStepResult(actionStep.results[i]);
+                }
+            }
+
+            function createResultInput() {
+                var result = MoveActionStepResult.create(
+                    changeActionStepResult,
+                    onRemove
+                );
+                results.push(result);
+                resultsParent.appendChild(result.domRoot);
+                return result;
+                function changeActionStepResult(changer) {
+                    changeActionStep(function(actionStep) {
+                        var resultIndex = results.indexOf(result);
+                        return changer(actionStep.results[resultIndex]);
+                    });
+                }
+                function onRemove() {
+                    var resultIndex = results.indexOf(result);
+                    results.splice(resultIndex, 1);
+                    resultsParent.removeChild(result.domRoot);
+                    changeActionStep(function(actionStep) {
+                        actionStep.results.splice(resultIndex, 1);
+                        var changed = true;
+                        return changed;
+                    });
+                }
+            }
+
+            function addResult() {
+                createResultInput();
+                changeActionStep(function(actionStep) {
+                    actionStep.results.push(NodeFactory.createMoveActionStepResult());
+                    var changed = true;
+                    return changed;
+                });
             }
 
             function changeActionMask(newValue, actionStep) {

@@ -153,7 +153,7 @@ define(
 
             function changeContext(newValueRaw, nodeData) {
 
-                var newValue = newValueRaw.split(',').map(mapTrim);
+                var newValue = newValueRaw.split(/\s*,\s*/);
                 var oldValue = nodeData.context || [];
 
                 nodeData.context = newValue;
@@ -199,8 +199,6 @@ define(
                 return oldValue !== newValue;
             }
 
-
-            function mapTrim(element, index, array) { return element.trim(); }
 
             function mapStrToInt(element, index, array) { return +element; }
 

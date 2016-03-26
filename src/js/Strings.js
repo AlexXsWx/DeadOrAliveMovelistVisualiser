@@ -32,12 +32,24 @@ define('Strings', function() {
         'moveActionCondition': 'Condition',
         'moveActionConditionDescription': (
             'Action step condition. Specifies what conditions are resulting the rest action step ' +
-            'data'
+            'data, e.g. airborne; with wall behind'
         ),
 
         'moveActionTags': 'Tags',
         'moveActionTagsDescription': (
-            'Action step tags. Everything else that didn\'t fit in this form'
+            'Action step tags. Everything else that didn\'t fit in this form, e.g. Guard Break'
+        ),
+
+        'moveActionResultCondition': 'Condition',
+        'moveActionResultConditionDescription': (
+            'Action step result condition. Specifies what conditions are giving this result, ' +
+            'e.g. hi-counter'
+        ),
+
+        'moveActionResultTags': 'Tags',
+        'moveActionResultTagsDescription': (
+            'Action step result tags. Everything else that didn\'t fit in this form, ' +
+            'e.g. sit-down stun'
         )
 
     };

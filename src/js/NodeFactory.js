@@ -7,6 +7,7 @@ define('NodeFactory', ['Tools'], function Node(_) {
         createMoveNode:   createMoveNode,
 
         createMoveActionStep: createMoveActionStep,
+        createMoveActionStepResult: createMoveActionStepResult,
         getActionStepsAmount: getActionStepsAmount,
 
         getChildren: getChildren,
@@ -131,13 +132,16 @@ define('NodeFactory', ['Tools'], function Node(_) {
 
             damage: undefined, // int
 
+            // condition: undefined,
+            // tags: undefined,
+
             // condition-specific results
-            result: []
+            results: []
 
         });
 
-        for (var i = 0; i < actionStep.result.length; ++i) {
-            actionStep.result[i] = createMoveActionStepResult(actionStep.result[i]);
+        for (var i = 0; i < actionStep.results.length; ++i) {
+            actionStep.results[i] = createMoveActionStepResult(actionStep.results[i]);
         }
 
         return actionStep;
