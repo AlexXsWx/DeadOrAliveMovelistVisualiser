@@ -67,13 +67,8 @@ define(
             var appearance = nodeView.fd3Data.appearance;
             var name   = getName(nodeView) || '<unnamed>';
             var ending = getEnding(nodeView);
-            if (ending || hasAnyChildren(nodeView)) {
-                appearance.textLeft = name;
-                appearance.textRight = ending;
-            } else {
-                appearance.textLeft = null;
-                appearance.textRight = name;
-            }
+            appearance.textLeft = name;
+            appearance.textEnding = ending;
         }
 
 
@@ -124,7 +119,7 @@ define(
                 appearance: {
                     classes: [],
                     textLeft:  undefined,
-                    textRight: undefined,
+                    textEnding: undefined,
                     lastPosition: {
                         x: undefined,
                         y: undefined
@@ -265,6 +260,7 @@ define(
             }
 
 
+            // unused?
             function hasAnyChildren(datum) {
                 return hasVisibleChildren(datum) || hasHiddenChildren(datum);
             }

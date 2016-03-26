@@ -20,8 +20,6 @@ define(
         TreeTools, _, JsonFileReader
     ) {
 
-        var getDebugInfo; // = getTextDuration;
-
         // ==== Constants ====
 
             var PADDING = 50;
@@ -34,6 +32,16 @@ define(
             var CHAR_EXPAND = '+';
             var CHAR_HIDE   = String.fromCharCode(0x2212); // minus sign
             var CHAR_MIXED  = String.fromCharCode(0x00D7); // cross sign
+
+            var TEXT_GETTER_OPTIONS = [
+                getEmptyText,
+                getTextRight,
+                getTextDuration,
+                getEmptyText, // cooldown
+                getEmptyText, // advantage
+                getEmptyText, // stun depth
+                getEmptyText  // unhold duration
+            ];
 
         // ===================
 
@@ -51,13 +59,20 @@ define(
             };
 
             var domCache = {
-                download: null
+                download: null,
+                flipToRight: null
             };
 
             var limitsFinder;
 
             var rootNodeData;
             var rootNodeView;
+
+            var textGetters = {
+                top:    TEXT_GETTER_OPTIONS[0],
+                right:  TEXT_GETTER_OPTIONS[1],
+                bottom: TEXT_GETTER_OPTIONS[0]
+            };
 
         // ===================
 
@@ -92,7 +107,8 @@ define(
 
 
             function cacheDomElements() {
-                domCache.download = document.getElementById('download');
+                domCache.download    = _.getDomElement('download');
+                domCache.flipToRight = _.getDomElement('flipTextToRight');
             }
 
 
@@ -123,16 +139,22 @@ define(
             function initGenerators() {
 
                 var tree = d3.layout.tree();
-                var height = (getDebugInfo ? 1.5 : 1) * NODE_HEIGHT;
-                tree.nodeSize([ height, NODE_WIDTH ]); // turn 90deg CCW
+                generators.d3.tree = tree;
+                updateTreeNodeSize();
                 tree.children(NodeView.getVisibleChildren);
                 // tree.separation(function(a, b) {
                 //     return 1;
                 // });
-                generators.d3.tree = tree;
                 
                 generators.d3.line = LineGenerators.createTurnedDiagonalLineGenerator();
                 
+            }
+
+            function updateTreeNodeSize() {
+                var height = NODE_HEIGHT;
+                if (textGetters.top    != getEmptyText) height += 0.5 * NODE_HEIGHT;
+                if (textGetters.bottom != getEmptyText) height += 0.5 * NODE_HEIGHT;
+                generators.d3.tree.nodeSize([ height, NODE_WIDTH ]); // turn 90deg CCW
             }
 
         // ==============
@@ -147,6 +169,31 @@ define(
                 domCache.download.addEventListener('click', onDownload);
 
                 d3.select('#showPlaceholders').on('change', onChangeShowPlaceholders);
+
+                _.getDomElement('topTextOption').addEventListener('change', function(event) {
+                    var select = this;
+                    var selectedOptionValue = +select.selectedOptions[0].value;
+                    textGetters.top = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                    updateTreeNodeSize();
+                    update(true);
+                });
+                _.getDomElement('rightTextOption').addEventListener('change', function(event) {
+                    var select = this;
+                    var selectedOptionValue = +select.selectedOptions[0].value;
+                    textGetters.right = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                    update(true);
+                });
+                _.getDomElement('bottomTextOption').addEventListener('change', function(event) {
+                    var select = this;
+                    var selectedOptionValue = +select.selectedOptions[0].value;
+                    textGetters.bottom = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                    updateTreeNodeSize();
+                    update(true);
+                });
+
+                domCache.flipToRight.addEventListener('change', function(event) {
+                    update(false);
+                });
 
             }
 
@@ -494,7 +541,7 @@ define(
                                 'opacity': 1
                             });
 
-                    nodeSelection.select('text.toggle').text(getTextToggle);
+                    updateTexts(nodeSelection);
 
                 }
 
@@ -503,10 +550,7 @@ define(
 
                     var datum = d3SvgNode.datum();
 
-                    d3SvgNode.select( 'text.input'    ).text(getTextLeft);
-                    d3SvgNode.select( 'text.toggle'   ).text(getTextToggle);
-                    d3SvgNode.select( 'text.ending'   ).text(getTextRight);
-                    getDebugInfo && d3SvgNode.select( 'text.duration' ).text(getDebugInfo);
+                    updateTexts(d3SvgNode);
 
                     var classes = {
                         'container': _.isNonEmptyArray(NodeView.getAllChildren(datum)),
@@ -548,6 +592,15 @@ define(
 
                     d3SvgNode.classed(classes);
 
+                }
+
+
+                function updateTexts(selection) {
+                    selection.select( 'text.input'  ).text(getActualLeftText);
+                    selection.select( 'text.toggle' ).text(getTextToggle);
+                    selection.select( 'text.top'    ).text(textGetters.top);
+                    selection.select( 'text.ending' ).text(getActualRightText);
+                    selection.select( 'text.bottom' ).text(textGetters.bottom);
                 }
 
 
@@ -602,7 +655,12 @@ define(
                         .attr('x', 0.5 * NODE_HEIGHT);
 
                     nodeGroup.append('svg:text')
-                        .classed('duration', true)
+                        .classed('top', true)
+                        .attr('text-anchor', 'middle')
+                        .attr('y', -0.75 * NODE_HEIGHT);
+
+                    nodeGroup.append('svg:text')
+                        .classed('bottom', true)
                         .attr('text-anchor', 'middle')
                         .attr('y', 0.75 * NODE_HEIGHT);
 
@@ -646,6 +704,10 @@ define(
                     return nodeView.fd3Data.appearance.textLeft;
                 }
 
+                function getEmptyText(nodeView) {
+                    return '';
+                }
+
                 function getTextToggle(nodeView) {
 
                     if (!_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) return null;
@@ -660,7 +722,25 @@ define(
                 }
 
                 function getTextRight(nodeView) {
-                    return nodeView.fd3Data.appearance.textRight;
+                    return nodeView.fd3Data.appearance.textEnding;
+                }
+
+                function getActualLeftText(nodeView) {
+                    var leftText = getTextLeft(nodeView);
+                    if (!domCache.flipToRight.checked) {
+                        return leftText;
+                    }
+                    var rightText = textGetters.right(nodeView);
+                    return rightText ? leftText : '';
+                }
+
+                function getActualRightText(nodeView) {
+                    var rightText = textGetters.right(nodeView);
+                    if (!domCache.flipToRight.checked)
+                    {
+                        return rightText;
+                    }
+                    return rightText || getTextLeft(nodeView);
                 }
 
                 function getTextDuration(nodeView) {
