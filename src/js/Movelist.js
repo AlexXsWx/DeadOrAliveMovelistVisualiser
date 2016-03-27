@@ -6,16 +6,16 @@ define(
         'd3', 'LineGenerators',
         'CanvasManager',
         'NodeFactory', 'NodeSerializer',
-        'NodeView', 'LimitsFinder',
+        'NodeView', 'NodeView2', 'LimitsFinder',
         'SelectionManager', 'Editor', 'UI',
-        'TreeTools', 'Tools', 'JsonFileReader'
+        'TreeTools', 'Tools', 'JsonFileReader',
     ],
 
     function(
         d3, LineGenerators,
         CanvasManager,
         NodeFactory, NodeSerializer,
-        NodeView, createLimitsFinder,
+        NodeView, NodeView2, createLimitsFinder,
         SelectionManager, Editor, UI,
         TreeTools, _, JsonFileReader
     ) {
@@ -103,6 +103,20 @@ define(
 
                 loadData(NodeFactory.createRootNode());
 
+                // testNodeView2();
+
+            }
+
+
+            function testNodeView2() {
+                var nodeView2 = NodeView2.create(NODE_HEIGHT / 3.0);
+                canvas.svg.node().appendChild(nodeView2.wrapper);
+                nodeView2.setPosition(100, 100);
+                nodeView2.setRightText('p_right');
+                nodeView2.setLeftText('left_q');
+                nodeView2.setTopText('top__top');
+                nodeView2.setCenterText(CHAR_MIXED);
+                nodeView2.setBottomText('BOTTOM');
             }
 
 

@@ -48,3 +48,48 @@ g.node {
         }
     }
 }
+
+.node_circle {
+    fill: white;
+    stroke: #777;
+    stroke-width: 2px;
+}
+
+.node_text {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    font-family: arial;
+
+    // fill: black;
+}
+
+.text_white_shadow {
+    text-shadow: 0 0 2px white;   
+}
+
+.node_text_center {
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.node_text_left  {
+    dominant-baseline: middle;
+    text-anchor: end;
+}
+
+.node_text_right {
+    dominant-baseline: middle;
+    text-anchor: start;
+}
+
+.node_text_top {
+    text-anchor: middle;
+    dominant-baseline: text-after-edge;
+}
+
+.node_text_bottom {
+    text-anchor: middle;
+    dominant-baseline: text-before-edge; // hanging;
+}

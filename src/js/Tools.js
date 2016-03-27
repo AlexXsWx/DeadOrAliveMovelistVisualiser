@@ -16,7 +16,8 @@ define('Tools', function() {
         hideDomElement:             hideDomElement,
         showDomElement:             showDomElement,
         createDomElement:           createDomElement,
-        createTextNode:             createTextNode
+        createTextNode:             createTextNode,
+        createSvgElement:           createSvgElement
     };
 
     function getDomElement(id) {
@@ -154,15 +155,38 @@ define('Tools', function() {
     }
 
     function createDomElement(options) {
+        return createClassedElementWithAttributesChildrenAndListeners(
+            options, documentElementCreator
+        );
+    }
+
+    function createTextNode(textContent) {
+        return document.createTextNode(textContent);
+    }
+
+    function createSvgElement(options) {
+        return createClassedElementWithAttributesChildrenAndListeners(options, svgElementCreator);
+    }
+
+    function documentElementCreator(tag) {
+        return document.createElement(tag);
+    }
+
+    function svgElementCreator(tag) {
+        return document.createElementNS("http://www.w3.org/2000/svg", tag);
+    }
+
+    function createClassedElementWithAttributesChildrenAndListeners(options, elementCreator) {
 
         var tag        = options.tag;
         var attributes = options.attributes;
         var children   = options.children;
         var listeners  = options.listeners;
+        var classes    = options.classes;
 
         console.assert(!!tag, 'invalid tag');
 
-        var element = document.createElement(tag);
+        var element = elementCreator(tag);
 
         if (isObject(attributes)) {
             for (attrName in attributes) {
@@ -186,12 +210,14 @@ define('Tools', function() {
             }
         }
 
+        if (isArray(classes)) {
+            for (var i = 0; i < classes.length; ++i) {
+                element.classList.add(classes[i]);
+            }
+        }
+
         return element;
 
-    }
-
-    function createTextNode(textContent) {
-        return document.createTextNode(textContent);
     }
 
 });
