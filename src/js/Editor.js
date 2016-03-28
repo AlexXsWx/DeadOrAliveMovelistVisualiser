@@ -3,7 +3,7 @@ define(
     'Editor',
 
     [
-        'd3', 'Observer', 'NodeFactory', 'NodeView', 'TreeTools', 'Tools',
+        'Observer', 'NodeFactory', 'NodeView', 'TreeTools', 'Tools',
         'EditorGroups/EditorGroupRootCreator',
         'EditorGroups/EditorGroupStanceCreator',
         'EditorGroups/EditorGroupMoveCreator',
@@ -11,7 +11,7 @@ define(
     ],
 
     function(
-        d3, createObserver, NodeFactory, NodeView, TreeTools, _,
+        createObserver, NodeFactory, NodeView, TreeTools, _,
         EditorGroupRootCreator,
         EditorGroupStanceCreator,
         EditorGroupMoveCreator,
@@ -57,8 +57,7 @@ define(
 
             if (!selectedSVGNode) return;
 
-            var selection = d3.select(selectedSVGNode);
-            var nodeView = selection.datum();
+            var nodeView = selectedSVGNode.nodeView;
 
             var changed = false;
 
@@ -68,7 +67,7 @@ define(
             // }
 
             var update = {
-                changed: changed ? [selection] : [],
+                changed: changed ? [selectedSVGNode] : [],
                 added: []
             };
 
@@ -85,7 +84,7 @@ define(
 
             if (!selectedSVGNode) return;
 
-            var nodeView = getD3NodeView(selectedSVGNode);
+            var nodeView = selectedSVGNode.nodeView;
             var nodeData = nodeView.fd3Data.binding.targetDataNode;
             var parentNodeView = nodeView.fd3Data.treeInfo.parent;
 
@@ -123,7 +122,7 @@ define(
 
             if (!selectedSVGNode) return;
 
-            var nodeView = getD3NodeView(selectedSVGNode);
+            var nodeView = selectedSVGNode.nodeView;
 
             var newNode = addPlaceholderNode(nodeView, false);
             addNodeDataToParentData(newNode);
@@ -140,7 +139,7 @@ define(
 
             if (!selectedSVGNode) return;
 
-            var nodeView = getD3NodeView(selectedSVGNode);
+            var nodeView = selectedSVGNode.nodeView;
             var parentView = nodeView.fd3Data.treeInfo.parent;
 
             if (!parentView) return;
@@ -260,7 +259,7 @@ define(
 
             // update to new one
             for (var i = 0; i < selectedNodeViewDomElements.length; ++i) {
-                var nodeView = getD3NodeView(selectedNodeViewDomElements[i]);
+                var nodeView = selectedNodeViewDomElements[i].nodeView;
                 var nodeData = nodeView.fd3Data.binding.targetDataNode;
                 for (var j = 0; j < editorGroups.length; ++j) {
                     var editorGroup = editorGroups[j];
@@ -308,11 +307,6 @@ define(
                 parentView = parentView.fd3Data.treeInfo.parent;
             }
             return result || null;
-        }
-
-
-        function getD3NodeView(nodeViewDomElement) {
-            return d3.select(nodeViewDomElement).datum();
         }
 
     }

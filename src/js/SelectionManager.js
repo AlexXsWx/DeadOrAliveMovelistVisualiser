@@ -21,7 +21,9 @@ define(
 
         function init(rootElement) {
 
-            rootElement.addEventListener('click', function(event) { selectNode.call(null); });
+            rootElement.addEventListener('click', function(event) {
+                selectNode.call(null);
+            });
 
             // rootElement.addEventListener('mousedown', function(event) {
             //     event.stopPropagation();
@@ -46,7 +48,7 @@ define(
         function selectNode(nodeViewDomElement, optDontFocus) {
             'use strict';
 
-            if (selectionCurrent !== null) {
+            if (selectionCurrent) {
                 selectionCurrent.wrapper.classList.remove('selection');
             }
 
@@ -63,8 +65,6 @@ define(
             } else {
                 onSelectionChanged.dispatch([], !optDontFocus);
             }
-
-            d3.event.stopPropagation();
 
         }
 

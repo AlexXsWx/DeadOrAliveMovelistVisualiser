@@ -10,6 +10,24 @@ define('TreeTools', function TreeTools() {
 
         layoutChildren(root, 0, 0, null, null);
 
+        // var childrenMergedByDepth = getChildrenMergedByDepth(root, getChildren);
+
+        // for (var i = childrenMergedByDepth.length - 2; i >= 0; --i) {
+        //     var childrenAtCurrentDepth = childrenMergedByDepth[i];
+        //     for (var j = 0; j < childrenAtCurrentDepth.length; ++j) {
+        //         var child = childrenAtCurrentDepth[j]
+        //         var children = getChildren(child);
+        //         if (children.length > 1) {
+        //             var pos = child.getPosition();
+        //             setCoordinates(
+        //                 child,
+        //                 pos.x,
+        //                 0.5 * (children[0].getPosition().y + children[children.length - 1].getPosition().y)
+        //             );
+        //         }
+        //     }
+        // }
+
         function layoutChildren(element, x, y, parentX, parentY) {
 
             setCoordinates(element, x, y);

@@ -24,22 +24,8 @@ define(
             var NODE_WIDTH  = 150;
             var NODE_HEIGHT = 25;
 
-            var RESIZE_TIMEOUT = 500;
-            var ANIMATION_DURATION = 1000
-
-            var CHAR_EXPAND = '+';
-            var CHAR_HIDE   = String.fromCharCode(0x2212); // minus sign
-            var CHAR_MIXED  = String.fromCharCode(0x00D7); // cross sign
-
-            var TEXT_GETTER_OPTIONS = [
-                getEmptyText,
-                getTextRight,
-                getTextDuration,
-                getEmptyText, // cooldown
-                getEmptyText, // advantage
-                getEmptyText, // stun depth
-                getEmptyText  // unhold duration
-            ];
+            // var RESIZE_TIMEOUT = 500;
+            // var ANIMATION_DURATION = 1000
 
         // ===================
 
@@ -51,21 +37,12 @@ define(
 
             var nodeViewGenerator = null;
 
-            var domCache = {
-                download: null,
-                flipTextToRight: null
-            };
+            var domCache = { download: null };
 
             var limitsFinder;
 
             var rootNodeData;
             var rootNodeView;
-
-            var textGetters = {
-                top:    TEXT_GETTER_OPTIONS[0],
-                right:  TEXT_GETTER_OPTIONS[1],
-                bottom: TEXT_GETTER_OPTIONS[0]
-            };
 
         // ===================
 
@@ -83,6 +60,8 @@ define(
                 SelectionManager.init(canvas.svg);
 
                 nodeViewGenerator = NodeView.createGenerators();
+                NodeView2.onNodeClick.addListener(onClickNodeView);
+                NodeView2.onNodeToggleChildren.addListener(onDoubleClickNodeView);
 
                 Editor.init(nodeViewGenerator);
                 Editor.onDataChanged.addListener(onEditorChange);
@@ -100,8 +79,7 @@ define(
 
 
             function cacheDomElements() {
-                domCache.download        = _.getDomElement('download');
-                domCache.flipTextToRight = _.getDomElement('flipTextToRight');
+                domCache.download = _.getDomElement('download');
             }
 
 
@@ -111,7 +89,7 @@ define(
                 // TODO: reset everything
                 // FIXME: update editor (selected element changed)
                 // UI.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
-                update(false);
+                update();
             }
 
 
@@ -182,26 +160,28 @@ define(
                 _.getDomElement('topTextOption').addEventListener('change', function(event) {
                     var select = this;
                     var selectedOptionValue = +select.selectedOptions[0].value;
-                    textGetters.top = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                    NodeView2.setTopTextOption(selectedOptionValue || 0);
                     updateTreeNodeSize();
-                    update(true);
+                    update();
                 });
                 _.getDomElement('rightTextOption').addEventListener('change', function(event) {
                     var select = this;
                     var selectedOptionValue = +select.selectedOptions[0].value;
-                    textGetters.right = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
-                    update(true);
+                    NodeView2.setRightTextOption(selectedOptionValue || 0);
+                    update();
                 });
                 _.getDomElement('bottomTextOption').addEventListener('change', function(event) {
                     var select = this;
                     var selectedOptionValue = +select.selectedOptions[0].value;
-                    textGetters.bottom = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                    NodeView2.setBottomTextOption(selectedOptionValue || 0);
                     updateTreeNodeSize();
-                    update(true);
+                    update();
                 });
 
-                domCache.flipTextToRight.addEventListener('change', function(event) {
-                    update(false);
+                _.getDomElement('flipTextToRight').addEventListener('change', function(event) {
+                    var checkbox = this;
+                    NodeView2.setFlipTextToRight(checkbox.checked);
+                    update();
                 });
 
             }
@@ -284,17 +264,17 @@ define(
 
             function onEditorChange(changes) {
 
-                changes.changed && changes.changed.forEach(function(d3SvgNode) {
-                    NodeView.updateAppearanceByBoundNode(d3SvgNode.datum());
+                changes.changed && changes.changed.forEach(function(nodeView2) {
+                    NodeView.updateAppearanceByBoundNode(nodeView2.nodeView);
                 });
 
-                update(true);
+                update();
                 _.hideDomElement(domCache.download);
 
             }
 
 
-            function update(animate, optSourceNode) {
+            function update() {
 
                 limitsFinder.invalidate();
 
@@ -348,19 +328,13 @@ define(
                 var nodeView2 = nodeViews2[nodeView.fd3Data.treeInfo.id];
 
                 if (!nodeView2) {
-                    nodeView2 = NodeView2.create(NODE_HEIGHT / 3.0);
+                    nodeView2 = NodeView2.create(nodeView, NODE_HEIGHT / 3.0);
                     canvas.linksParent.appendChild(nodeView2.link);
                     canvas.nodesParent.appendChild(nodeView2.wrapper);
                     nodeViews2[nodeView.fd3Data.treeInfo.id] = nodeView2;
                 }
 
-                nodeView2.setLeftText   ( getActualLeftText(nodeView)  );
-                nodeView2.setCenterText ( getTextToggle(nodeView)      );
-                nodeView2.setTopText    ( textGetters.top(nodeView)    );
-                nodeView2.setRightText  ( getActualRightText(nodeView) );
-                nodeView2.setBottomText ( textGetters.bottom(nodeView) );
-
-                nodeView2.updateClassesByData(nodeView);
+                nodeView2.updateByData();
 
                 var appearance = nodeView.fd3Data.appearance
                 appearance.totalChildren = 0;
@@ -395,20 +369,19 @@ define(
                 return 2 * Math.sqrt((branchesAfter + 1) / Math.PI);
             }
 
-            function onClickNodeView() {
-                var nodeViewDomElement = this;
-                SelectionManager.selectNode(nodeViewDomElement);
+            function onClickNodeView(nodeView2) {
+                SelectionManager.selectNode(nodeView2);
             }
 
-            function onDoubleClickNodeView(nodeView) {
-                toggleChildren(nodeView);
+            function onDoubleClickNodeView(nodeView2) {
+                toggleChildren(nodeView2);
                 SelectionManager.undoSelection();
             }
 
             function toggleChildren(nodeView) {
                 if (_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) {
                     NodeView.toggleVisibleChildren(nodeView);
-                    update(true, nodeView);
+                    update();
                 }
             }
 
@@ -456,62 +429,6 @@ define(
             // }
 
         // =======================
-
-
-        // ==== Texts ====
-
-            function getActualLeftText(nodeView) {
-                var leftText = getTextLeft(nodeView);
-                if (!domCache.flipTextToRight.checked) {
-                    return leftText;
-                }
-                var rightText = textGetters.right(nodeView);
-                return rightText ? leftText : '';
-            }
-
-            function getActualRightText(nodeView) {
-                var rightText = textGetters.right(nodeView);
-                if (!domCache.flipTextToRight.checked)
-                {
-                    return rightText;
-                }
-                return rightText || getTextLeft(nodeView);
-            }
-
-            function getEmptyText(nodeView) {
-                return '';
-            }
-
-            function getTextLeft(nodeView) {
-                return nodeView.fd3Data.appearance.textLeft;
-            }
-
-            function getTextRight(nodeView) {
-                return nodeView.fd3Data.appearance.textEnding;
-            }
-
-            function getTextToggle(nodeView) {
-
-                if (!_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) return null;
-
-                var hasVisible = NodeView.hasVisibleChildren(nodeView);
-                var hasHidden  = NodeView.hasHiddenChildren(nodeView);
-                if (hasVisible && !hasHidden)  return CHAR_HIDE;
-                if (hasHidden  && !hasVisible) return CHAR_EXPAND;
-
-                return CHAR_MIXED;
-
-            }
-
-            function getTextDuration(nodeView) {
-                var frameData = nodeView.fd3Data.binding.targetDataNode.frameData;
-                if (!frameData) return '';
-                return 's=' + frameData[0] + ' d=' + frameData.reduce(function(acc, curr) {
-                    return acc + curr;
-                }, 0); // + ' // ' + frameData;
-            }
-
-        // ===============
 
     }
 
