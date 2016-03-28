@@ -1,4 +1,4 @@
-define('NodeView2', ['Tools'], function(_) {
+define('NodeView2', ['NodeView', 'NodeFactory', 'Tools'], function(NodeView, NodeFactory, _) {
     
     return { create: create };
 
@@ -19,19 +19,81 @@ define('NodeView2', ['Tools'], function(_) {
 
         return {
             wrapper:       wrapper,
+            link:          link,
             setPosition:   setPosition,
+            updateLink:    updateLink,
             setCenterText: setCenterText,
             setTopText:    setTopText,
             setBottomText: setBottomText,
             setLeftText:   setLeftText,
             setRightText:  setRightText,
+            updateClassesByData: updateClassesByData
         };
+
+        function updateClassesByData(datum) {
+
+            var classes = {
+                'container': _.isNonEmptyArray(NodeView.getAllChildren(datum)),
+
+                'high': false,
+                'mid':  false,
+                'low':  false,
+
+                'strike':       false,
+                'throw':        false,
+                'hold':         false,
+                'groundAttack': false,
+                'other':        false,
+
+                'punch': false,
+                'kick':  false
+            };
+
+            var nodeData = datum.fd3Data.binding.targetDataNode;
+
+            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                nodeData.actionSteps.forEach(function(actionStep) {
+
+                    if (/\bp\b/i.test(actionStep.actionMask)) classes['punch'] = true;
+                    if (/\bk\b/i.test(actionStep.actionMask)) classes['kick']  = true;
+
+                    var type = actionStep.actionType;
+                    if (type === 'strike')       classes['strike']       = true;
+                    if (type === 'throw')        classes['throw']        = true;
+                    if (type === 'hold')         classes['hold']         = true;
+                    if (type === 'groundAttack') classes['groundAttack'] = true;
+                    if (type === 'other')        classes['other']        = true;
+
+                    if (/\bhigh\b/i.test(actionStep.actionMask)) classes['high'] = true;
+                    if (/\bmid\b/i.test(actionStep.actionMask))  classes['mid']  = true;
+                    if (/\blow\b/i.test(actionStep.actionMask))  classes['low']  = true;
+                });
+            }
+
+            for (attr in classes) {
+                if (classes.hasOwnProperty(attr)) {
+                    if (classes[attr]) {
+                        wrapper.classList.add(attr);
+                    } else {
+                        wrapper.classList.remove(attr);
+                    }
+                }
+            }
+            
+        }
 
         function createDomNodes() {
 
-            // link = _.createSvgElement({ tag: 'path' });
+            link = _.createSvgElement({
+                tag: 'path',
+                classes: [ 'node_link' ]
+            });
             
-            wrapper = _.createSvgElement({ tag: 'g' });
+            wrapper = _.createSvgElement({
+                tag: 'g',
+                classes: [ 'node' ]
+            });
+
             circle = _.createSvgElement({
                 tag: 'circle',
                 classes: [ 'node_circle' ]
@@ -71,11 +133,15 @@ define('NodeView2', ['Tools'], function(_) {
             wrapper.appendChild(texts.right);
             wrapper.appendChild(texts.left);
 
+            // wrapper.addEventListener('touchend', toggleChildren);
+            // wrapper.addEventListener('click', onClickNodeView);
+            // wrapper.addEventListener('dblclick', onDoubleClickNodeView);
+
         }
 
         function resize(nodeSize) {
             var textPadding = 4;
-            circle.setAttribute('r', nodeSize/* / 3.0*/);
+            circle.setAttribute('r', nodeSize);
             texts.right.setAttribute('x',  (nodeSize + textPadding));
             texts.left.setAttribute('x', -(nodeSize + textPadding));
             texts.top.setAttribute('y', -(nodeSize + textPadding));
@@ -83,7 +149,12 @@ define('NodeView2', ['Tools'], function(_) {
         }
 
         function setPosition(x, y) {
-            wrapper.setAttribute('transform', 'translate(' + x +',' + y + ')');
+            wrapper.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+        }
+
+        function updateLink(sx, sy, tx, ty) {
+            link.setAttribute('stroke-width', '1');
+            link.setAttribute('d', 'M' + sx + ' ' + sy + ' L' + tx + ' ' + ty);
         }
 
         function setCenterText(value) {

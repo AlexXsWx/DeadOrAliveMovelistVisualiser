@@ -1,4 +1,4 @@
-define('UI', ['d3'], function(d3) {
+define('UI', ['Tools'], function(_) {
    
     return {
         showAbbreviations: showAbbreviations
@@ -9,12 +9,29 @@ define('UI', ['d3'], function(d3) {
 
         if (!abbreviations) return;
 
-        var table = d3.select('#abbreviations table');
+        var table = _.getDomElement('abbreviation').getElementsByTagName('table')[0];
 
         for (name in abbreviations) {
-            var row = table.append('tr');
-            row.append('td').text(name);
-            row.append('td').append('input').node().value = abbreviations[name];
+            table.appendChild(
+                _.createDomElement({
+                    tag: 'tr',
+                    children: [
+                        _.createDomElement({
+                            tag: 'td',
+                            children: [ _.createTextNode(name) ]
+                        }),
+                        _.createDomElement({
+                            tag: 'td',
+                            children: [
+                                _.createDomElement({
+                                    tag: 'input',
+                                    attributes: { 'value': abbreviations[name] }
+                                })
+                            ]
+                        })
+                    ]
+                })
+            );
         }
 
     }

@@ -1,29 +1,60 @@
-define('CanvasManager', ['d3'], function() {
+define('CanvasManager', ['Tools'], function(_) {
 
     return { create: create };
 
-    function create(rootNode) {
+    function create(rootNode, padding) {
 
-        svg = d3.select(rootNode).append('svg:svg')
-            .attr('version', 1.1)
-            .attr('xmlns', 'http://www.w3.org/2000/svg');
+        var canvas = _.createSvgElement({
+            tag: 'g',
+            classed: [ 'canvas' ]
+        });
 
-        canvas = svg.append('svg:g').attr('class', 'canvas');
+        var svg = _.createSvgElement({
+            tag: 'svg',
+            attributes: {
+                'version': 1.1,
+                'xmlns': 'http://www.w3.org/2000/svg'
+            },
+            children: [ canvas ]
+        });
+
+        var linksParent = _.createSvgElement({
+            tag: 'g',
+            classes: [ 'links' ]
+        });
+
+        var nodesParent = _.createSvgElement({
+            tag: 'g',
+            classes: [ 'nodes' ]
+        });
+
+        canvas.appendChild(linksParent);
+        canvas.appendChild(nodesParent);
+
+        rootNode.appendChild(svg);
 
         return {
             svg: svg,
             canvas: canvas,
+            linksParent: linksParent,
+            nodesParent: nodesParent,
             normalize: normalizeCanvas.bind(null, svg, canvas)
         };
 
-    }
-
-    function normalizeCanvas(svg, canvas, offsetX, offsetY, totalWidth, totalHeight) {
-        canvas.attr('style', 'transform: translate(' + offsetX + 'px,' + offsetY + 'px)');
-        svg
+        function normalizeCanvas(svg, canvas, offsetX, offsetY, totalWidth, totalHeight) {
+            canvas.setAttribute(
+                'style',
+                'transform: translate(' +
+                    (padding + offsetX) + 'px,' +
+                    (padding + offsetY) + 'px' +
+                ')'
+            );
             // FIXME
-            .attr('width',  Math.max(totalWidth,  document.body.clientWidth  - 5))
-            .attr('height', Math.max(totalHeight, document.body.clientHeight - 5));
+            var body = document.body;
+            svg.setAttribute('width',  Math.max(totalWidth  + 2 * padding, body.clientWidth  - 5));
+            svg.setAttribute('height', Math.max(totalHeight + 2 * padding, body.clientHeight - 5));
+        }
+
     }
 
-})
+});
