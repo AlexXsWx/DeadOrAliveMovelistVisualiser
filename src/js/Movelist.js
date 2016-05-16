@@ -64,7 +64,7 @@ define(
                 NodeView2.onNodeToggleChildren.addListener(onDoubleClickNodeView);
 
                 Editor.init(nodeViewGenerator);
-                Editor.onDataChanged.addListener(onEditorChange);
+                Editor.onDataChanged.addListener(onDataChange);
 
                 SelectionManager.onSelectionChanged.addListener(Editor.updateBySelection);
 
@@ -84,12 +84,26 @@ define(
 
 
             function loadData(data) {
+
+                destroyExistingNodes();
+
                 rootNodeData = data;
                 rootNodeView = NodeView.createViewFromData(rootNodeData, nodeViewGenerator);
                 // TODO: reset everything
                 // FIXME: update editor (selected element changed)
                 // UI.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
                 update();
+
+            }
+
+
+            function destroyExistingNodes() {
+                for (id in nodeViews2) {
+                    if (nodeViews2.hasOwnProperty(id)) {
+                        nodeViews2[id].destroy();
+                    }
+                }
+                nodeViews2 = {};
             }
 
 
@@ -265,7 +279,7 @@ define(
 
         // ==== Update ====
 
-            function onEditorChange(changes) {
+            function onDataChange(changes) {
 
                 changes.changed && changes.changed.forEach(function(nodeView2) {
                     NodeView.updateAppearanceByBoundNode(nodeView2.nodeView);
@@ -381,9 +395,13 @@ define(
                 SelectionManager.undoSelection();
             }
 
-            function toggleChildren(nodeView) {
-                if (_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) {
-                    NodeView.toggleVisibleChildren(nodeView);
+            function toggleChildren(nodeView2) {
+                if (_.isNonEmptyArray(NodeView.getAllChildren(nodeView2.nodeView))) {
+                    var idsBecomeHidden = NodeView.toggleVisibleChildren(nodeView2.nodeView, true);
+                    idsBecomeHidden.forEach(function(id) {
+                        nodeViews2[id].destroy();
+                        delete nodeViews2[id];
+                    });
                     update();
                 }
             }

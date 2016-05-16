@@ -20,6 +20,15 @@ define(
 
         var nodeDataGenerator;
         var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
+
+        /**
+         * Dispatches {
+         *     [added: Array<NodeView>],
+         *     [changed: Array<NodeView>],
+         *     [deleted: Array<NodeView>],
+         *     [moved: Array<NodeView>]
+         * }
+         */
         var onDataChanged = createObserver();
 
         var editorGroups = [

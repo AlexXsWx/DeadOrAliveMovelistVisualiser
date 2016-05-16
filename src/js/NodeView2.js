@@ -1,6 +1,6 @@
 define(
 
-    'NodeView2',
+    'NodeView2', // TODO: rename to NodeSvgView
 
     ['NodeView', 'NodeFactory', 'Observer', 'Tools'],
 
@@ -14,10 +14,10 @@ define(
             getEmptyText,
             getTextRight,
             getTextDuration,
-            getEmptyText, // cooldown
-            getEmptyText, // advantage
-            getEmptyText, // stun depth
-            getEmptyText  // unhold duration
+            getEmptyText, // TODO: cooldown
+            getEmptyText, // TODO: advantage
+            getEmptyText, // TODO: stun depth
+            getEmptyText  // TODO: unhold duration
         ];
 
         var textGetters = {
@@ -68,7 +68,8 @@ define(
                 setPosition:  setPosition,
                 getPosition:  getPosition,
                 updateLink:   updateLink,
-                updateByData: updateByData
+                updateByData: updateByData,
+                destroy:      destroy
             };
 
             return nodeView2;
@@ -76,6 +77,24 @@ define(
             function updateByData() {
                 updateTextsByData();
                 updateClassesByData();
+            }
+
+            function destroy() {
+                removeSvgNodeFromParent(link);
+                removeSvgNodeFromParent(wrapper);
+                link = null;
+                wrapper = null;
+                
+                circle = null;
+                texts.center = null;
+                texts.top = null;
+                texts.bottom = null;
+                texts.left = null;
+                texts.right = null;
+            }
+
+            function removeSvgNodeFromParent(svgNode) {
+                svgNode.parentElement.removeChild(svgNode);
             }
 
             function updateTextsByData() {

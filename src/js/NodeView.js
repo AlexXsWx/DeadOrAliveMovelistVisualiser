@@ -109,9 +109,12 @@ define(
 
                 treeInfo: {
                     id: id,
+                    /** NodeView */
                     parent: parent || null,
                     children: {
+                        /** Array<NodeView> */
                         visible: [],
+                        /** Array<NodeView> */
                         hidden:  []
                     }
                 },
@@ -304,11 +307,28 @@ define(
             }
 
 
-            function toggleVisibleChildren(datum) {
+            function toggleVisibleChildren(datum, optReturnIDsBecomeHidden) {
+
                 var children = datum.fd3Data.treeInfo.children;
                 var temp = children.hidden;
                 children.hidden = children.visible; // FIXME: unique arrays?
                 children.visible = temp;
+
+                if (!optReturnIDsBecomeHidden) return;
+
+                var idsBecomeHidden = [];
+                children.hidden.forEach(function(nodeView) {
+                    TreeTools.forAllCurrentChildren(
+                        nodeView,
+                        getVisibleChildren,
+                        function(nodeView) {
+                            idsBecomeHidden.push(nodeView.fd3Data.treeInfo.id);
+                        }
+                    );
+                });
+
+                return idsBecomeHidden;
+
             }
 
         // ==================
