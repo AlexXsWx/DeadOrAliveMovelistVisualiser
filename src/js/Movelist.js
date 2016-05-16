@@ -5,7 +5,7 @@ define(
     [
         'CanvasManager',
         'NodeFactory', 'NodeSerializer',
-        'NodeView', 'NodeView2', 'LimitsFinder',
+        'NodeView', 'NodeSvgView', 'LimitsFinder',
         'SelectionManager', 'Editor', 'UI',
         'TreeTools', 'Tools'
     ],
@@ -13,7 +13,7 @@ define(
     function Movelist(
         CanvasManager,
         NodeFactory, NodeSerializer,
-        NodeView, NodeView2, createLimitsFinder,
+        NodeView, NodeSvgView, createLimitsFinder,
         SelectionManager, Editor, UI,
         TreeTools, _, JsonFileReader
     ) {
@@ -33,7 +33,7 @@ define(
         // ==== Variables ====
 
             var canvas;
-            var nodeViews2 = {};
+            var visibleNodesSvgViews = {};
 
             var nodeViewGenerator = null;
 
@@ -60,8 +60,8 @@ define(
                 SelectionManager.init(canvas.svg);
 
                 nodeViewGenerator = NodeView.createGenerators();
-                NodeView2.onNodeClick.addListener(onClickNodeView);
-                NodeView2.onNodeToggleChildren.addListener(onDoubleClickNodeView);
+                NodeSvgView.onNodeClick.addListener(onClickNodeView);
+                NodeSvgView.onNodeToggleChildren.addListener(onDoubleClickNodeView);
 
                 Editor.init(nodeViewGenerator);
                 Editor.onDataChanged.addListener(onDataChange);
@@ -98,12 +98,12 @@ define(
 
 
             function destroyExistingNodes() {
-                for (id in nodeViews2) {
-                    if (nodeViews2.hasOwnProperty(id)) {
-                        nodeViews2[id].destroy();
+                for (id in visibleNodesSvgViews) {
+                    if (visibleNodesSvgViews.hasOwnProperty(id)) {
+                        visibleNodesSvgViews[id].destroy();
                     }
                 }
-                nodeViews2 = {};
+                visibleNodesSvgViews = {};
             }
 
 
@@ -177,27 +177,27 @@ define(
                 _.getDomElement('topTextOption').addEventListener('change', function(event) {
                     var select = this;
                     var selectedOptionValue = +select.selectedOptions[0].value;
-                    NodeView2.setTopTextOption(selectedOptionValue || 0);
+                    NodeSvgView.setTopTextOption(selectedOptionValue || 0);
                     updateTreeNodeSize();
                     update();
                 });
                 _.getDomElement('rightTextOption').addEventListener('change', function(event) {
                     var select = this;
                     var selectedOptionValue = +select.selectedOptions[0].value;
-                    NodeView2.setRightTextOption(selectedOptionValue || 0);
+                    NodeSvgView.setRightTextOption(selectedOptionValue || 0);
                     update();
                 });
                 _.getDomElement('bottomTextOption').addEventListener('change', function(event) {
                     var select = this;
                     var selectedOptionValue = +select.selectedOptions[0].value;
-                    NodeView2.setBottomTextOption(selectedOptionValue || 0);
+                    NodeSvgView.setBottomTextOption(selectedOptionValue || 0);
                     updateTreeNodeSize();
                     update();
                 });
 
                 _.getDomElement('flipTextToRight').addEventListener('change', function(event) {
                     var checkbox = this;
-                    NodeView2.setFlipTextToRight(checkbox.checked);
+                    NodeSvgView.setFlipTextToRight(checkbox.checked);
                     update();
                 });
 
@@ -281,8 +281,8 @@ define(
 
             function onDataChange(changes) {
 
-                changes.changed && changes.changed.forEach(function(nodeView2) {
-                    NodeView.updateAppearanceByBoundNode(nodeView2.nodeView);
+                changes.changed && changes.changed.forEach(function(nodeSvgView) {
+                    NodeView.updateAppearanceByBoundNode(nodeSvgView.nodeView);
                 });
 
                 update();
@@ -297,11 +297,23 @@ define(
 
                 // restructureByType(rootNodeData);
 
+                var currentlyVisibleIds = {};
+
                 TreeTools.forAllCurrentChildren(
                     rootNodeView,
                     NodeView.getVisibleChildren,
-                    updateNodeViewStep1
+                    function(nodeView) {
+                        updateNodeViewStep1(nodeView);
+                        currentlyVisibleIds[NodeView.getId(nodeView)] = true;
+                    }
                 );
+
+                Object.keys(visibleNodesSvgViews).forEach(function(id) {
+                    if (!currentlyVisibleIds.hasOwnProperty(id)) {
+                        visibleNodesSvgViews[id].destroy();
+                        delete visibleNodesSvgViews[id];
+                    }
+                });
 
                 var childrenByDepth = TreeTools.getChildrenMergedByDepth(
                     rootNodeView, NodeView.getAllChildren
@@ -342,16 +354,18 @@ define(
 
             function updateNodeViewStep1(nodeView) {
 
-                var nodeView2 = nodeViews2[nodeView.fd3Data.treeInfo.id];
+                var id = NodeView.getId(nodeView);
 
-                if (!nodeView2) {
-                    nodeView2 = NodeView2.create(nodeView, NODE_HEIGHT / 3.0);
-                    canvas.linksParent.appendChild(nodeView2.link);
-                    canvas.nodesParent.appendChild(nodeView2.wrapper);
-                    nodeViews2[nodeView.fd3Data.treeInfo.id] = nodeView2;
+                var nodeSvgView = visibleNodesSvgViews[id];
+
+                if (!nodeSvgView) {
+                    nodeSvgView = NodeSvgView.create(nodeView, NODE_HEIGHT / 3.0);
+                    canvas.linksParent.appendChild(nodeSvgView.link);
+                    canvas.nodesParent.appendChild(nodeSvgView.wrapper);
+                    visibleNodesSvgViews[id] = nodeSvgView;
                 }
 
-                nodeView2.updateByData();
+                nodeSvgView.updateByData();
 
                 var appearance = nodeView.fd3Data.appearance
                 appearance.totalChildren = 0;
@@ -368,13 +382,13 @@ define(
             }
 
             function updateNodeViewPosition(nodeView, x, y) {
-                nodeViews2[nodeView.fd3Data.treeInfo.id].setPosition(x, y);
+                visibleNodesSvgViews[NodeView.getId(nodeView)].setPosition(x, y);
                 limitsFinder.expandToContain(x, y);
                 // NodeView.resetScrollRangeForDatum(datum);
             }
 
             function positionNodeViewLink(nodeView, x, y, parentX, parentY) {
-                nodeViews2[nodeView.fd3Data.treeInfo.id].updateLink(
+                visibleNodesSvgViews[NodeView.getId(nodeView)].updateLink(
                     x, y, parentX, parentY
                 );
             }
@@ -386,22 +400,18 @@ define(
                 return 2 * Math.sqrt((branchesAfter + 1) / Math.PI);
             }
 
-            function onClickNodeView(nodeView2) {
-                SelectionManager.selectNode(nodeView2);
+            function onClickNodeView(nodeSvgView) {
+                SelectionManager.selectNode(nodeSvgView);
             }
 
-            function onDoubleClickNodeView(nodeView2) {
-                toggleChildren(nodeView2);
+            function onDoubleClickNodeView(nodeSvgView) {
+                toggleChildren(nodeSvgView);
                 SelectionManager.undoSelection();
             }
 
-            function toggleChildren(nodeView2) {
-                if (_.isNonEmptyArray(NodeView.getAllChildren(nodeView2.nodeView))) {
-                    var idsBecomeHidden = NodeView.toggleVisibleChildren(nodeView2.nodeView, true);
-                    idsBecomeHidden.forEach(function(id) {
-                        nodeViews2[id].destroy();
-                        delete nodeViews2[id];
-                    });
+            function toggleChildren(nodeSvgView) {
+                if (_.isNonEmptyArray(NodeView.getAllChildren(nodeSvgView.nodeView))) {
+                    NodeView.toggleVisibleChildren(nodeSvgView.nodeView);
                     update();
                 }
             }

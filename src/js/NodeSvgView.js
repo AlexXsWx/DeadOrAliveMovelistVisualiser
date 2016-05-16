@@ -1,10 +1,10 @@
 define(
 
-    'NodeView2', // TODO: rename to NodeSvgView
+    'NodeSvgView',
 
     ['NodeView', 'NodeFactory', 'Observer', 'Tools'],
 
-    function NodeView2(NodeView, NodeFactory, createObserver, _) {
+    function NodeSvgView(NodeView, NodeFactory, createObserver, _) {
 
         var CHAR_EXPAND = '+';
         var CHAR_HIDE   = String.fromCharCode(0x2212); // minus sign
@@ -61,7 +61,7 @@ define(
 
             createDomNodes();
 
-            var nodeView2 = {
+            var nodeSvgView = {
                 nodeView:     nodeView,
                 wrapper:      wrapper,
                 link:         link,
@@ -72,7 +72,7 @@ define(
                 destroy:      destroy
             };
 
-            return nodeView2;
+            return nodeSvgView;
 
             function updateByData() {
                 updateTextsByData();
@@ -84,7 +84,7 @@ define(
                 removeSvgNodeFromParent(wrapper);
                 link = null;
                 wrapper = null;
-                
+
                 circle = null;
                 texts.center = null;
                 texts.top = null;
@@ -220,12 +220,12 @@ define(
             }
 
             function onClick(event) {
-                onNodeClick.dispatch(nodeView2);
+                onNodeClick.dispatch(nodeSvgView);
                 event.stopPropagation();
             }
 
             function onDoubleClick(event) {
-                onNodeToggleChildren.dispatch(nodeView2);
+                onNodeToggleChildren.dispatch(nodeSvgView);
                 event.stopPropagation();
             }
 
