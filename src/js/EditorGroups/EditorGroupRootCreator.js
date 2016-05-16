@@ -65,13 +65,13 @@ define(
 
             // readers
 
-            function changeCharacterName(nevValue, nodeData) {
+            function changeCharacterName(newValue, nodeData) {
                 var oldValue = nodeData.character;
                 nodeData.character = newValue;
                 return oldValue !== newValue;
             }
 
-            function changeGameVersion(nevValue, nodeData) {
+            function changeGameVersion(newValue, nodeData) {
                 var oldValue = nodeData.version;
                 nodeData.version = newValue;
                 return oldValue !== newValue;

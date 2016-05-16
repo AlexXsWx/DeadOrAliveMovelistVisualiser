@@ -115,13 +115,16 @@ define(
                 function initLoadSaveUIActions() {
                     _.getDomElement('save').addEventListener('click',  onButtonSave);
                     _.getDomElement('load').addEventListener('change', onFilesLoaded);
-                    domCache.download.addEventListener('click', onDownload);
+                    // domCache.download.addEventListener('click', onDownload);
                 }
 
                 function onButtonSave(event) {
                     domCache.download.download = (rootNodeData.character || 'someCharacter') + '.json';
                     domCache.download.href = NodeSerializer.serializeToBase64Url(rootNodeData);
-                    _.showDomElement(domCache.download);
+                    // FIXME: may not be compatible with browsers other than chrome
+                    // A solution could be to use http://github.com/eligrey/FileSaver.js
+                    domCache.download.dispatchEvent(new MouseEvent('click'));
+                    // _.showDomElement(domCache.download);
                 }
 
                 function onFilesLoaded(event) {
@@ -130,9 +133,9 @@ define(
                     NodeSerializer.deserializeFromLocalFile(file, loadData);
                 }
 
-                function onDownload(event) {
-                    _.hideDomElement(domCache.download);
-                }
+                // function onDownload(event) {
+                //     _.hideDomElement(domCache.download);
+                // }
 
             // ===================
 
@@ -269,7 +272,7 @@ define(
                 });
 
                 update();
-                _.hideDomElement(domCache.download);
+                // _.hideDomElement(domCache.download);
 
             }
 

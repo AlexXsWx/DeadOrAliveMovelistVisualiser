@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1458967793278
+    "timeSaved": 1459188175522
   },
   "body": {
     "character": "rig",
@@ -1560,10 +1560,20 @@
           },
           {
             "input": "4P+K",
+            "frameData": [
+              0,
+              0,
+              18
+            ],
             "endsWith": "BND"
           },
           {
             "input": "2P+K",
+            "frameData": [
+              0,
+              0,
+              18
+            ],
             "endsWith": "BND"
           },
           {
@@ -2225,7 +2235,12 @@
             "endsWith": "BND"
           },
           {
-            "input": "H"
+            "input": "H",
+            "frameData": [
+              0,
+              0,
+              15
+            ]
           },
           {
             "input": "P",
