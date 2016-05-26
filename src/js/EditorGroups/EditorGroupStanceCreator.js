@@ -54,7 +54,7 @@ define(
                 var inputElement = this;
                 var newValue = inputElement.value;
                 changeNodes(editorGroupStance, function(nodeData) {
-                    changeStanceAbbreviation(newValue, nodeData)
+                    return changeStanceAbbreviation(newValue, nodeData)
                 });
             }
 
@@ -62,7 +62,7 @@ define(
                 var inputElement = this;
                 var newValue = inputElement.value;
                 changeNodes(editorGroupStance, function(nodeData) {
-                    changeStanceDescription(newValue, nodeData)
+                    return changeStanceDescription(newValue, nodeData)
                 });
             }
 
@@ -70,7 +70,7 @@ define(
                 var inputElement = this;
                 var newValue = inputElement.value;
                 changeNodes(editorGroupStance, function(nodeData) {
-                    changeStanceEnding(newValue, nodeData)
+                    return changeStanceEnding(newValue, nodeData)
                 });
             }
 

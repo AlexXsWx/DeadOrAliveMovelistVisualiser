@@ -51,7 +51,7 @@ define(
                 var inputElement = this;
                 var newValue = inputElement.value;
                 changeNodes(editorGroupRoot, function(nodeData) {
-                    changeCharacterName(newValue, nodeData);
+                    return changeCharacterName(newValue, nodeData);
                 });
             }
 
@@ -59,7 +59,7 @@ define(
                 var inputElement = this;
                 var newValue = inputElement.value;
                 changeNodes(editorGroupRoot, function(nodeData) {
-                    changeGameVersion(newValue, nodeData);
+                    return changeGameVersion(newValue, nodeData);
                 });
             }
 
