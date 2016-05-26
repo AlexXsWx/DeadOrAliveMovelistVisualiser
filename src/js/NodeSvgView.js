@@ -338,10 +338,18 @@ define(
 
             function getTextDuration(nodeView) {
                 var frameData = nodeView.fd3Data.binding.targetDataNode.frameData;
-                if (!frameData) return '';
-                return 's=' + frameData[0] + ' d=' + frameData.reduce(function(acc, curr) {
-                    return acc + curr;
-                }, 0); // + ' // ' + frameData;
+                if (!frameData || frameData.length === 0) return '';
+                var frames = +frameData[0] + 1;
+                var activeFrames = [];
+                for (var i = 1; i < frameData.length; i += 2) {
+                    var localFrames = +frameData[i];
+                    for (var j = 0; j < localFrames; ++j) {
+                        activeFrames.push(':' + (frames + j + 1));
+                    }
+                    frames += localFrames + (+frameData[i + 1]);
+                }
+                if (isNaN(frames)) debugger;
+                return activeFrames.join('') + ':/' + frames;
             }
 
         // ===============

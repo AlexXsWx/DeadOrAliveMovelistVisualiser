@@ -75,6 +75,66 @@ define(
 
                 loadData(NodeFactory.createRootNode());
 
+                window.findNodes = findNodes;
+
+            }
+
+
+            function findNodes(advantage, optPath) {
+                var path = optPath || [rootNodeData];
+                var result = [];
+                NodeFactory.getChildren(path[path.length - 1]).forEach(function(child) {
+                    var freeCancelAdvantage = -1;
+                    var followUpAdvantage = advantage;
+                    var fullPath = path.concat(child);
+                    var keepLooking = true;
+                    if (NodeFactory.isMoveNode(child)) {
+                        var frameData = child.frameData;
+                        if (frameData && frameData.length > 0) {
+                            var frames = 1;
+                            for (var i = 0; i < frameData.length - 1; i += 2) {
+                                frames += frameData[i];
+                                var activeFrames = frameData[i + 1];
+                                if (frames < advantage && advantage <= frames + activeFrames) {
+                                    if (!child.input.match(/(46|7|4|6|1)h/i)) {
+                                        result.push(fullPath);
+                                    }
+                                    keepLooking = false;
+                                }
+                                frames += activeFrames;
+                            }
+                            followUpAdvantage = advantage - frames;
+                            freeCancelAdvantage = followUpAdvantage - frameData[frameData.length - 1];
+                        } else {
+                            keepLooking = false;
+                        }
+                    }
+                    if (keepLooking) {
+                        if (followUpAdvantage > 0) {
+                            result = result.concat(findNodes(followUpAdvantage, fullPath));
+                        }
+                        if (freeCancelAdvantage > 0) {
+                            result = result.concat(findNodes(freeCancelAdvantage, fullPath.concat(rootNodeData)));
+                        }
+                    }
+                });
+                return result.map(function(path) {
+                    if (typeof path === 'string') return path;
+                    return path.reduce(function(acc, e) {
+                        if (NodeFactory.isRootNode(e)) {
+                            return acc;
+                        }
+                        if (NodeFactory.isStanceNode(e)) {
+                            return acc + ' [' + e.abbreviation + ']';
+                        }
+                        if (NodeFactory.isMoveNode(e)) {
+                            var input = e.input;
+                            var context = e.context.join(',');
+                            if (context) return acc + ' ' + context + ':' + input;
+                            return acc + ' ' + input;
+                        }
+                    }, '');
+                });
             }
 
 
