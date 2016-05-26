@@ -10,7 +10,8 @@ define(
         
         return {
             serializeToBase64Url: serializeToBase64Url,
-            deserializeFromLocalFile: deserializeFromLocalFile
+            deserializeFromLocalFile: deserializeFromLocalFile,
+            deserializeFromUrl: deserializeFromUrl
         };
 
         function serializeToBase64Url(rootNodeData) {
@@ -50,6 +51,32 @@ define(
 
             );
 
+        }
+
+        // TODO: clean up
+        function deserializeFromUrl(url, onDataReady) {
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    var parsedJson = {}
+                    try {
+                        parsedJson = JSON.parse(request.responseText);
+                    } catch (e) {
+                        console.error('Failed to parse JSON from "%s": %O', url, e);
+                        alert('Failed to load JSON: ', e);
+                    }
+                    var sparseData = importJson(parsedJson);
+                    if (!sparseData) {
+                        alert('Failed to import json');
+                        return;
+                    }
+
+                    var extendedData = NodeFactory.createRootNode(sparseData, true);
+                    onDataReady(extendedData);                    
+                }
+            };
+            request.open('GET', url, true);
+            request.send();
         }
 
         function exportJson(root) {

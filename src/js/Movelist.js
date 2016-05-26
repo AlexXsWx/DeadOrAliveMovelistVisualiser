@@ -83,6 +83,7 @@ define(
             }
 
 
+            // FIXME: move somewhere
             function findNodes(advantage, optPath) {
                 var path = optPath || [rootNodeData];
                 var result = [];
@@ -193,6 +194,7 @@ define(
                     _.getDomElement('save').addEventListener('click',  onButtonSave);
                     _.getDomElement('load').addEventListener('change', onFilesLoaded);
                     // domCache.download.addEventListener('click', onDownload);
+                    _.getDomElement('openUrl').addEventListener('click', onButtonOpenUrl);
                 }
 
                 function onButtonSave(event) {
@@ -213,6 +215,14 @@ define(
                 // function onDownload(event) {
                 //     _.hideDomElement(domCache.download);
                 // }
+
+                function onButtonOpenUrl(event) {
+                    var url = prompt(
+                        'Enter URL:',
+                        'https://raw.githubusercontent.com/AlexXsWx/DeadOrAliveMovelistVisualiser/splitting_data_and_view/data/rig.6.json'
+                    );
+                    NodeSerializer.deserializeFromUrl(url, loadData);
+                }
 
             // ===================
 
