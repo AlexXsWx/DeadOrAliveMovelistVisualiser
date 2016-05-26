@@ -22,8 +22,6 @@ define(
 
             log: log,
 
-            // guessMoveTypeByInput: guessMoveTypeByInput,
-
             setChildren:     setChildren,
             addChild:        addChild,
             addVisibleChild: addVisibleChild,
@@ -53,18 +51,18 @@ define(
             swapXY: swapXY
 
             // fillScrollRange: fillScrollRange,
-            // resetScrollRangeForDatum: resetScrollRangeForDatum
+            // resetScrollRange: resetScrollRange
 
         };
 
 
         function setBinding(nodeView, nodeData) {
-            nodeView.fd3Data.binding.targetDataNode = nodeData;
+            nodeView.binding.targetDataNode = nodeData;
             updateAppearanceByBoundNode(nodeView);
         }
 
         function updateAppearanceByBoundNode(nodeView) {
-            var appearance = nodeView.fd3Data.appearance;
+            var appearance = nodeView.appearance;
             var name   = getName(nodeView) || '<unnamed>';
             var ending = getEnding(nodeView);
             appearance.textLeft = name;
@@ -108,9 +106,11 @@ define(
             return {
 
                 treeInfo: {
+                    // Note - prefer using getter
                     id: id,
                     /** NodeView */
                     parent: parent || null,
+                    // Note - prefer using accessor methods
                     children: {
                         /** Array<NodeView> */
                         visible: [],
@@ -160,138 +160,95 @@ define(
                 generateNode:  generate
             };
 
-
             function generate(parent) {
-
-                return {
-
-                    /**
-                     * hide info in the fuck-d3-data so it has its very own place and is
-                     * not affected by d3
-                     */
-                    fd3Data: createVisualNode(counter++, parent || null),
-
-                    // data filled by d3
-                    x: undefined,
-                    y: undefined,
-                    depth: undefined,
-                    parent: undefined,
-                    children: undefined
-                };
-
+                return createVisualNode(counter++, parent || null);
             }
 
-            
         }
 
 
-        function backupPosition(datum) {
-            datum.fd3Data.appearance.lastPosition.x = datum.x;
-            datum.fd3Data.appearance.lastPosition.y = datum.y;
+        function backupPosition(nodeView) {
+            nodeView.appearance.lastPosition.x = nodeView.x;
+            nodeView.appearance.lastPosition.y = nodeView.y;
         }
 
 
-        function swapXY(datum) {
-            var swap = datum.x;
-            datum.x = datum.y;
-            datum.y = swap;
+        function swapXY(nodeView) {
+            var temp = nodeView.x;
+            nodeView.x = nodeView.y;
+            nodeView.y = temp;
         }
-
-
-        // function guessMoveTypeByInput(datum) {
-        //     var input = datum.fd3Data.input;
-        //     var moveInfo = datum.fd3Data.moveInfo;
-        //     if (RGX.PUNCH.test(input)) {
-        //         moveInfo.actionType = 'strike';
-        //         moveInfo.strikeType = 'punch';
-        //     } else
-        //     if (RGX.KICK.test(input))  {
-        //         moveInfo.actionType = 'strike';
-        //         moveInfo.strikeType = 'kick';
-        //     } else
-        //     if (RGX.HOLD.test(input))  {
-        //         moveInfo.actionType = 'hold';
-        //         moveInfo.strikeType = undefined;
-        //      } else
-        //     if (RGX.THROW.test(input)) {
-        //         moveInfo.actionType = 'throw';
-        //         moveInfo.strikeType = undefined;
-        //     } else {
-        //         moveInfo.actionType = 'other';
-        //         moveInfo.strikeType = undefined;
-        //     }
-        // }
 
 
 
         // ==== Children ====
 
             /** Does not update `parent` of its old children */
-            function setChildren(datum, newChildren) {
+            function setChildren(nodeView, newChildren) {
 
-                datum.fd3Data.treeInfo.children.visible = newChildren;
-                datum.fd3Data.treeInfo.children.hidden = [];
+                nodeView.treeInfo.children.visible = newChildren;
+                nodeView.treeInfo.children.hidden = [];
 
                 newChildren.forEach(function(child) {
-                    child.fd3Data.treeInfo.parent = datum;
+                    child.treeInfo.parent = nodeView;
                 });
 
             }
 
-            function addChild(datum, child) {
-                var children = datum.fd3Data.treeInfo.children;
+            function addChild(nodeView, child) {
+                var children = nodeView.treeInfo.children;
                 if (
                     children.visible.length > 0 ||
                     children.hidden.length === 0
                 ) {
-                    addVisibleChild(datum, child);
+                    addVisibleChild(nodeView, child);
                 } else {
-                    addHiddenChild(datum, child);
+                    addHiddenChild(nodeView, child);
                 }
             }
 
-            function addVisibleChild(datum, child) {
-                child.fd3Data.treeInfo.parent = datum;
-                var children = datum.fd3Data.treeInfo.children;
+            function addVisibleChild(nodeView, child) {
+                child.treeInfo.parent = nodeView;
+                var children = nodeView.treeInfo.children;
                 children.visible.push(child);
             }
 
-            function addHiddenChild(datum, child) {
-                child.fd3Data.treeInfo.parent = datum;
-                var children = datum.fd3Data.treeInfo.children;
+            function addHiddenChild(nodeView, child) {
+                child.treeInfo.parent = nodeView;
+                var children = nodeView.treeInfo.children;
                 children.hidden.push(child);
             }
 
 
             // unused?
-            function hasAnyChildren(datum) {
-                return hasVisibleChildren(datum) || hasHiddenChildren(datum);
+            function hasAnyChildren(nodeView) {
+                return hasVisibleChildren(nodeView) || hasHiddenChildren(nodeView);
             }
 
-            function hasVisibleChildren(datum) {
-                return getVisibleChildren(datum).length > 0;
+            function hasVisibleChildren(nodeView) {
+                return getVisibleChildren(nodeView).length > 0;
             }
 
-            function hasHiddenChildren(datum) {
-                return getHiddenChildren(datum).length > 0;
+            function hasHiddenChildren(nodeView) {
+                return getHiddenChildren(nodeView).length > 0;
             }
 
-            function getAllChildren(datum) {
-                return getVisibleChildren(datum).concat(getHiddenChildren(datum));
+            function getAllChildren(nodeView) {
+                return getVisibleChildren(nodeView).concat(getHiddenChildren(nodeView));
             }
 
-            function getVisibleChildren(datum) {
-                return datum.fd3Data.treeInfo.children.visible;
+            function getVisibleChildren(nodeView) {
+                return nodeView.treeInfo.children.visible;
             }
 
-            function getHiddenChildren(datum) {
-                return datum.fd3Data.treeInfo.children.hidden;
+            function getHiddenChildren(nodeView) {
+                return nodeView.treeInfo.children.hidden;
             }
 
 
             /** Does not update `parent` of its old children */
-            function removeChild(parentDatum, child) {
-                var parentChildren = parentDatum.fd3Data.treeInfo.children;
+            function removeChild(parentNodeView, child) {
+                var parentChildren = parentNodeView.treeInfo.children;
                 [
                     parentChildren.visible,
                     parentChildren.hidden
@@ -301,15 +258,15 @@ define(
             }
 
             /** Does not update `parent` of its old children */
-            function removeAllChildren(datum) {
-                datum.fd3Data.treeInfo.children.visible = [];
-                datum.fd3Data.treeInfo.children.hidden  = [];
+            function removeAllChildren(nodeView) {
+                nodeView.treeInfo.children.visible = [];
+                nodeView.treeInfo.children.hidden  = [];
             }
 
 
-            function toggleVisibleChildren(datum, optReturnIDsBecomeHidden) {
+            function toggleVisibleChildren(nodeView, optReturnIDsBecomeHidden) {
 
-                var children = datum.fd3Data.treeInfo.children;
+                var children = nodeView.treeInfo.children;
                 var temp = children.hidden;
                 children.hidden = children.visible; // FIXME: unique arrays?
                 children.visible = temp;
@@ -322,7 +279,7 @@ define(
                         nodeView,
                         getVisibleChildren,
                         function(nodeView) {
-                            idsBecomeHidden.push(nodeView.fd3Data.treeInfo.id);
+                            idsBecomeHidden.push(nodeView.treeInfo.id);
                         }
                     );
                 });
@@ -337,39 +294,40 @@ define(
 
         // ==== Logging ====
 
-            function log(datum) {
+            function log(nodeView) {
 
-                console.group(datum);
+                console.group(nodeView);
 
                 var output = [];
 
-                var nodesAtIteratedDepth = [datum];
+                var nodesAtIteratedDepth = [nodeView];
 
                 do {
 
                     var nodesAtNextDepth = [];
 
-                    nodesAtIteratedDepth.forEach(function(node) {
+                    nodesAtIteratedDepth.forEach(function(nodeView) {
 
-                        var treeInfo = node.fd3Data.treeInfo;
-                        var children = treeInfo.children;
+                        var parent = nodeView.treeInfo.parent;
+                        var visibleChildren = getVisibleChildren(nodeView);
+                        var hiddenChildren  = getHiddenChildren(nodeView);
 
                         output.push({
-                            parent: treeInfo.parent && getReadableId(treeInfo.parent),
-                            id:    getId(node),
-                            input: getName(node),
-                            visibleChildren: childReadabledIds(children.visible),
-                            hiddenChildren:  childReadabledIds(children.hidden),
-                            x: node.x,
-                            y: node.y,
-                            depth: node.depth,
-                            lastX: node.fd3Data.appearance.lastPosition.x,
-                            lastY: node.fd3Data.appearance.lastPosition.y
+                            parent: parent && getReadableId(parent),
+                            id:    getId(nodeView),
+                            input: getName(nodeView),
+                            visibleChildren: childReadableIds(visibleChildren),
+                            hiddenChildren:  childReadableIds(hiddenChildren),
+                            x: nodeView.x,
+                            y: nodeView.y,
+                            depth: nodeView.depth,
+                            lastX: nodeView.appearance.lastPosition.x,
+                            lastY: nodeView.appearance.lastPosition.y
                         });
 
                         Array.prototype.push.apply(
                             nodesAtNextDepth,
-                            getAllChildren(node)
+                            getAllChildren(nodeView)
                         );
 
                     });
@@ -383,11 +341,11 @@ define(
 
             }
 
-            function getReadableId(node) {
-                return getId(node) + '#' + getName(node);
+            function getReadableId(nodeView) {
+                return getId(nodeView) + '#' + getName(nodeView);
             }
 
-            function childReadabledIds(children) {
+            function childReadableIds(children) {
                 return children.map(getReadableId).join(',');
             }
 
@@ -395,13 +353,13 @@ define(
 
 
 
-        function getId(datum) {
-            return datum.fd3Data.treeInfo.id;
+        function getId(nodeView) {
+            return nodeView.treeInfo.id;
         }
 
 
-        function getName(datum) {
-            var targetNode = datum.fd3Data.binding.targetDataNode;
+        function getName(nodeView) {
+            var targetNode = nodeView.binding.targetDataNode;
             if (NodeFactory.isRootNode(targetNode)) {
                 return targetNode.character || 'character';
             } else
@@ -415,12 +373,12 @@ define(
                 if (context) return context + ':' + input;
                 return input;
             }
-            console.error('Can\'t resolve name for node %O', datum);
+            console.error('Can\'t resolve name for node %O', nodeView);
         }
 
 
         function getEnding(nodeView) {
-            var targetDataNode = nodeView.fd3Data.binding.targetDataNode;
+            var targetDataNode = nodeView.binding.targetDataNode;
             var result = targetDataNode && (
                 NodeFactory.isStanceNode(targetDataNode) && targetDataNode.endsWith ||
                 NodeFactory.isMoveNode(targetDataNode) && targetDataNode.endsWith
@@ -429,9 +387,9 @@ define(
         }
 
 
-        // function resetScrollRangeForDatum(datum) {
-        //     datum.fd3Data.appearance.scrollRange.from = datum.y;
-        //     datum.fd3Data.appearance.scrollRange.to   = datum.y;
+        // function resetScrollRange(nodeView) {
+        //     nodeView.appearance.scrollRange.from = nodeView.y;
+        //     nodeView.appearance.scrollRange.to   = nodeView.y;
         // }
 
 
@@ -445,8 +403,8 @@ define(
         //     for (var i = childrenByDepth.length - 1; i > 0; --i) {
         //         var children = childrenByDepth[i];
         //         children.forEach(function(child) {
-        //             var parentSr = child.treeInfo.parent.fd3Data.appearance.scrollRange;
-        //             var childSr = child.fd3Data.appearance.scrollRange;
+        //             var parentSr = child.treeInfo.parent.appearance.scrollRange;
+        //             var childSr = child.appearance.scrollRange;
         //             parentSr.from = Math.min(parentSr.from, child.y); // childSr.from);
         //             parentSr.to   = Math.max(parentSr.to,   child.y); // childSr.to);
         //         });

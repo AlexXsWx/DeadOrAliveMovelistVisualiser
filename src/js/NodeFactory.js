@@ -16,6 +16,8 @@ define('NodeFactory', ['Tools'], function Node(_) {
         isStanceNode: isStanceNode,
         isMoveNode:   isMoveNode
 
+        // guessMoveTypeByInput: guessMoveTypeByInput
+
     };
 
 
@@ -147,6 +149,31 @@ define('NodeFactory', ['Tools'], function Node(_) {
         return actionStep;
 
     }
+
+
+    // function guessMoveTypeByInput(node) {
+    //     var input = node.input;
+    //     var actionStep = node.actionSteps[0];
+    //     if (RGX.PUNCH.test(input)) {
+    //         actionStep.actionType = 'strike';
+    //         actionStep.actionMask = 'P';
+    //     } else
+    //     if (RGX.KICK.test(input))  {
+    //         actionStep.actionType = 'strike';
+    //         actionStep.actionMask = 'K';
+    //     } else
+    //     if (RGX.HOLD.test(input))  {
+    //         actionStep.actionType = 'hold';
+    //         actionStep.actionMask = undefined;
+    //      } else
+    //     if (RGX.THROW.test(input)) {
+    //         actionStep.actionType = 'throw';
+    //         actionStep.actionMask = undefined;
+    //     } else {
+    //         actionStep.actionType = 'other';
+    //         actionStep.actionMask = undefined;
+    //     }
+    // }
 
 
     function createMoveActionStepResult(optSource) {

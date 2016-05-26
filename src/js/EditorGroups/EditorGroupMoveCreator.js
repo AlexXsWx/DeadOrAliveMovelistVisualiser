@@ -83,7 +83,7 @@ define(
                 // FIXME: consider differences between matching nodes
 
                 var nodeView = editorGroup.matchingSelectedViews[0];
-                var nodeData = nodeView.fd3Data.binding.targetDataNode;
+                var nodeData = nodeView.binding.targetDataNode;
 
                 console.assert(!!nodeData, 'nodeData is not expected to be falsy');
 

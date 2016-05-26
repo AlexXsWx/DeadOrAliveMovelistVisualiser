@@ -124,7 +124,7 @@ define(
                     'kick':  false
                 };
 
-                var nodeData = nodeView.fd3Data.binding.targetDataNode;
+                var nodeData = nodeView.binding.targetDataNode;
 
                 if (nodeData && NodeFactory.isMoveNode(nodeData)) {
                     nodeData.actionSteps.forEach(function(actionStep) {
@@ -317,11 +317,11 @@ define(
             }
 
             function getTextLeft(nodeView) {
-                return nodeView.fd3Data.appearance.textLeft;
+                return nodeView.appearance.textLeft;
             }
 
             function getTextRight(nodeView) {
-                return nodeView.fd3Data.appearance.textEnding;
+                return nodeView.appearance.textEnding;
             }
 
             function getTextToggle(nodeView) {
@@ -338,7 +338,7 @@ define(
             }
 
             function getTextDuration(nodeView) {
-                var frameData = nodeView.fd3Data.binding.targetDataNode.frameData;
+                var frameData = nodeView.binding.targetDataNode.frameData;
                 if (!frameData || frameData.length === 0) return '';
                 var frames = +frameData[0] + 1;
                 var activeFrames = [];

@@ -300,7 +300,7 @@ define(
 
             //     NodeView.getAllChildren(parent).forEach(function(child) {
 
-            //         var moveInfo = child.fd3Data.moveInfo;
+            //         var moveInfo = child.moveInfo;
 
             //         var category = moveInfo.actionType;
             //         if (category === 'strike') {
@@ -383,13 +383,12 @@ define(
                 );
                 for (var i = childrenByDepth.length - 1; i > 0; --i) {
                     childrenByDepth[i].forEach(function(child) {
-                        var childData = child.fd3Data;
-                        var parentAppearance = childData.treeInfo.parent.fd3Data.appearance;
-                        parentAppearance.branchesAfter += Math.max(1, childData.appearance.branchesAfter);
+                        var parentAppearance = child.treeInfo.parent.appearance;
+                        parentAppearance.branchesAfter += Math.max(1, child.appearance.branchesAfter);
                         parentAppearance.totalChildren += 1 + NodeView.getAllChildren(child).length;
                         parentAppearance.deepness = Math.max(
                             parentAppearance.deepness,
-                            childData.appearance.deepness + 1
+                            child.appearance.deepness + 1
                         );
                     });
                 }
@@ -430,7 +429,7 @@ define(
 
                 nodeSvgView.updateByData();
 
-                var appearance = nodeView.fd3Data.appearance
+                var appearance = nodeView.appearance
                 appearance.totalChildren = 0;
                 appearance.deepness      = 0;
                 appearance.branchesAfter = 0;
@@ -447,7 +446,7 @@ define(
             function updateNodeViewPosition(nodeView, x, y) {
                 visibleNodesSvgViews[NodeView.getId(nodeView)].setPosition(x, y);
                 limitsFinder.expandToContain(x, y);
-                // NodeView.resetScrollRangeForDatum(datum);
+                // NodeView.resetScrollRange(nodeView);
             }
 
             function positionNodeViewLink(nodeView, x, y, parentX, parentY) {
@@ -459,7 +458,7 @@ define(
             function linkThickness(link) {
                 var targetNodeView = link.target;
                 // Mimic wires passing through the node; using circle area formula
-                var branchesAfter = targetNodeView.fd3Data.appearance.branchesAfter;
+                var branchesAfter = targetNodeView.appearance.branchesAfter;
                 return 2 * Math.sqrt((branchesAfter + 1) / Math.PI);
             }
 
@@ -486,10 +485,10 @@ define(
 
             function selectFirstChild(nodeSvgView) {
                 var nodeView = nodeSvgView.nodeView;
-                var children = nodeView.fd3Data.treeInfo.children.visible;
+                var children = NodeView.getVisibleChildren(nodeView);
                 if (children && children.length > 0) {
                     var firstChild = children[0];
-                    var childId = firstChild.fd3Data.treeInfo.id;
+                    var childId = NodeView.getId(firstChild);
                     if (visibleNodesSvgViews.hasOwnProperty(childId)) {
                         SelectionManager.selectNode(visibleNodesSvgViews[childId]);
                     }
@@ -498,27 +497,27 @@ define(
 
             function selectSibling(nodeSvgView, delta) {
                 var nodeView = nodeSvgView.nodeView;
-                var parent = nodeView.fd3Data.treeInfo.parent;
+                var parent = nodeView.treeInfo.parent;
                 if (!parent) return;
-                var children = parent.fd3Data.treeInfo.children.visible;
+                var children = NodeView.getVisibleChildren(parent);
                 var selfIndex = children.indexOf(nodeView);
                 console.assert(selfIndex >= 0, 'parent/children structure is broken');
                 if (selfIndex + delta < 0) {
-                    var parentId = parent.fd3Data.treeInfo.id;
+                    var parentId = NodeView.getId(parent);
                     if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
                         var parentNodeSvgView = visibleNodesSvgViews[parentId];
                         selectSibling(parentNodeSvgView, selfIndex + delta);
                     }
                 } else
                 if (selfIndex + delta > children.length - 1) {
-                    var parentId = parent.fd3Data.treeInfo.id;
+                    var parentId = NodeView.getId(parent);
                     if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
                         var parentNodeSvgView = visibleNodesSvgViews[parentId];
                         selectSibling(parentNodeSvgView, selfIndex + delta - (children.length - 1));
                     }
                 } else {
                     var child = children[selfIndex + delta];
-                    var childId = child.fd3Data.treeInfo.id;
+                    var childId = NodeView.getId(child);
                     if (visibleNodesSvgViews.hasOwnProperty(childId)) {
                         SelectionManager.selectNode(visibleNodesSvgViews[childId]);
                     }
@@ -527,9 +526,9 @@ define(
             
             function selectParent(nodeSvgView) {
                 var nodeView = nodeSvgView.nodeView;
-                var parent = nodeView.fd3Data.treeInfo.parent;
+                var parent = nodeView.treeInfo.parent;
                 if (!parent) return;
-                var parentId = parent.fd3Data.treeInfo.id;
+                var parentId = NodeView.getId(parent);
                 if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
                     SelectionManager.selectNode(visibleNodesSvgViews[parentId]);
                 }
@@ -542,20 +541,20 @@ define(
 
             // function getDespawnParent(nodeView) {
             //     var current = nodeView;
-            //     var parent = nodeView.fd3Data.treeInfo.parent;
+            //     var parent = nodeView.treeInfo.parent;
             //     while (
             //         parent &&
-            //         parent.fd3Data.treeInfo.children.visible.indexOf(current) >= 0
+            //         NodeView.getVisibleChildren(parent).indexOf(current) >= 0
             //     ) {
             //         current = parent;
-            //         parent = current.fd3Data.treeInfo.parent;
+            //         parent = current.treeInfo.parent;
             //     }
             //     return parent || current;
             // }
 
 
             // function getSpawnPosition(nodeView) {
-            //     return getLastPosition(nodeView.fd3Data.treeInfo.parent || nodeView);
+            //     return getLastPosition(nodeView.treeInfo.parent || nodeView);
             // }
 
 
@@ -566,8 +565,8 @@ define(
 
             // function getLastPosition(nodeView) {
             //     return {
-            //         x: _.defined(nodeView.fd3Data.appearance.lastPosition.x, nodeView.x),
-            //         y: _.defined(nodeView.fd3Data.appearance.lastPosition.y, nodeView.y)
+            //         x: _.defined(nodeView.appearance.lastPosition.x, nodeView.x),
+            //         y: _.defined(nodeView.appearance.lastPosition.y, nodeView.y)
             //     };
             // }
 

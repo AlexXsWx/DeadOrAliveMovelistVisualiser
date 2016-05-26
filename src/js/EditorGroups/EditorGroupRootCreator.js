@@ -38,7 +38,7 @@ define(
                 // FIXME: consider differences between matching nodes
 
                 var nodeView = editorGroup.matchingSelectedViews[0];
-                var nodeData = nodeView.fd3Data.binding.targetDataNode;
+                var nodeData = nodeView.binding.targetDataNode;
 
                 characterName.value = nodeData && nodeData.character || '';
                 gameVersion.value   = nodeData && nodeData.version   || '';

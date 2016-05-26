@@ -70,7 +70,7 @@ define(
 
             var changed = false;
 
-            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            var nodeData = nodeView.binding.targetDataNode;
             // if (editorGroup.filter(nodeData)) { // no need?
                 changed = changeAction(/*sourceHTMLElement,*/ nodeData);
             // }
@@ -80,7 +80,7 @@ define(
                 added: []
             };
 
-            if (nodeView.fd3Data.binding.isPlaceholder) {
+            if (nodeView.binding.isPlaceholder) {
                 update.added = onPlaceholderEdited(nodeView);
             }
 
@@ -94,10 +94,10 @@ define(
             if (!selectedSVGNode) return;
 
             var nodeView = selectedSVGNode.nodeView;
-            var nodeData = nodeView.fd3Data.binding.targetDataNode;
-            var parentNodeView = nodeView.fd3Data.treeInfo.parent;
+            var nodeData = nodeView.binding.targetDataNode;
+            var parentNodeView = nodeView.treeInfo.parent;
 
-            if (!nodeView.fd3Data.binding.isPlaceholder && parentNodeView) {
+            if (!nodeView.binding.isPlaceholder && parentNodeView) {
 
                 var firstParentData = findFirstParentData(nodeView);
 
@@ -149,7 +149,7 @@ define(
             if (!selectedSVGNode) return;
 
             var nodeView = selectedSVGNode.nodeView;
-            var parentView = nodeView.fd3Data.treeInfo.parent;
+            var parentView = nodeView.treeInfo.parent;
 
             if (!parentView) return;
 
@@ -161,7 +161,7 @@ define(
 
             changed && onDataChanged.dispatch({ moved: [ nodeView ] });
 
-            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            var nodeData = nodeView.binding.targetDataNode;
             var parentData = findFirstParentData(nodeView);
             var children = NodeFactory.getChildren(parentData);
             if (children) _.moveArrayElement(children, nodeData, delta);
@@ -173,14 +173,14 @@ define(
             var newNodes = [];
             var placeholderNodeView;
 
-            var parentView = nodeView.fd3Data.treeInfo.parent;
+            var parentView = nodeView.treeInfo.parent;
 
             placeholderNodeView = addPlaceholderNode(parentView, true);
             newNodes.push(placeholderNodeView);
 
             // turn node from placeholder to actual node
 
-            nodeView.fd3Data.binding.isPlaceholder = false;
+            nodeView.binding.isPlaceholder = false;
 
             addNodeDataToParentData(nodeView);
 
@@ -193,7 +193,7 @@ define(
 
 
         function addNodeDataToParentData(nodeView) {
-            var nodeData = nodeView.fd3Data.binding.targetDataNode;
+            var nodeData = nodeView.binding.targetDataNode;
             var parentData = findFirstParentData(nodeView);
             var children = NodeFactory.getChildren(parentData);
             if (children) children.push(nodeData);
@@ -226,9 +226,9 @@ define(
                 rootViewNode, 
                 NodeView.getAllChildren, 
                 function(treeNode) {
-                    if (treeNode.fd3Data.binding.isPlaceholder) {
+                    if (treeNode.binding.isPlaceholder) {
                         removedNodes.push(treeNode);
-                        NodeView.removeChild(treeNode.fd3Data.treeInfo.parent, treeNode)
+                        NodeView.removeChild(treeNode.treeInfo.parent, treeNode)
                     }
                 }
             );
@@ -240,7 +240,7 @@ define(
 
         function addPlaceholderNode(parent, isEditorElement) {
             var placeholderNode;
-            var parentIsRoot = !parent.fd3Data.treeInfo.parent;
+            var parentIsRoot = !parent.treeInfo.parent;
             if (parentIsRoot) {
                 placeholderNode = nodeDataGenerator.generateGroup();
                 var nodeData = NodeFactory.createStanceNode();
@@ -250,7 +250,7 @@ define(
                 var nodeData = NodeFactory.createMoveNode();
                 NodeView.setBinding(placeholderNode, nodeData);
             }
-            placeholderNode.fd3Data.binding.isPlaceholder = isEditorElement;
+            placeholderNode.binding.isPlaceholder = isEditorElement;
             NodeView.addChild(parent, placeholderNode);
             return placeholderNode;
         }
@@ -269,7 +269,7 @@ define(
             // update to new one
             for (var i = 0; i < selectedNodeViewDomElements.length; ++i) {
                 var nodeView = selectedNodeViewDomElements[i].nodeView;
-                var nodeData = nodeView.fd3Data.binding.targetDataNode;
+                var nodeData = nodeView.binding.targetDataNode;
                 for (var j = 0; j < editorGroups.length; ++j) {
                     var editorGroup = editorGroups[j];
                     if (editorGroup.filter(nodeData))
@@ -309,11 +309,11 @@ define(
 
 
         function findFirstParentData(nodeView) {
-            var parentView = nodeView.fd3Data.treeInfo.parent;
+            var parentView = nodeView.treeInfo.parent;
             var result;
             while (parentView && !result) {
-                result = parentView.fd3Data.binding.targetDataNode;
-                parentView = parentView.fd3Data.treeInfo.parent;
+                result = parentView.binding.targetDataNode;
+                parentView = parentView.treeInfo.parent;
             }
             return result || null;
         }
