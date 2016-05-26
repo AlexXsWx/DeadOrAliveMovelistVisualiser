@@ -133,11 +133,12 @@ define(
                         if (/\bk\b/i.test(actionStep.actionMask)) classes['kick']  = true;
 
                         var type = actionStep.actionType;
-                        if (type === 'strike')       classes['strike']       = true;
-                        if (type === 'throw')        classes['throw']        = true;
-                        if (type === 'hold')         classes['hold']         = true;
-                        if (type === 'groundAttack') classes['groundAttack'] = true;
-                        if (type === 'other')        classes['other']        = true;
+                        if (type === 'strike')        classes['strike']       = true;
+                        if (type === 'jump attack')   classes['jumpAttack']   = true;
+                        if (type === 'throw')         classes['throw']        = true;
+                        if (type === 'hold')          classes['hold']         = true;
+                        if (type === 'ground attack') classes['groundAttack'] = true;
+                        if (type === 'other')         classes['other']        = true;
 
                         if (/\bhigh\b/i.test(actionStep.actionMask)) classes['high'] = true;
                         if (/\bmid\b/i.test(actionStep.actionMask))  classes['mid']  = true;

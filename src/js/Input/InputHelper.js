@@ -4,17 +4,24 @@ define('Input/InputHelper', ['Input/KeyCodes'], function(KeyCodes) {
 
     return {
         initInputElement:      initInputElement,
-        onInputBlurIfEsc:      onInputBlurIfEsc,
+        handleEnterAndEsc:     handleEnterAndEsc,
         createKeyCodeListener: createKeyCodeListener
     };
 
     function initInputElement(inputElement, onInputCallback) {
         inputElement.addEventListener('input', onInputCallback);
-        inputElement.addEventListener('keydown', onInputBlurIfEsc);
+        inputElement.addEventListener('keydown', handleEnterAndEsc);
     }
 
-    function onInputBlurIfEsc(event) {
-        if (event.keyCode === KeyCodes.ENTER) this.blur();
+    function handleEnterAndEsc(event) {
+        if (event.keyCode === KeyCodes.ENTER) {
+            this.blur();
+        } else
+        if (event.keyCode === KeyCodes.ESC) {
+            this.blur();
+            // FIXME: one place to set up all esc handling flow
+            event.stopPropagation();
+        }
     }
 
     function createKeyCodeListener(keyCode, handleEvent) {

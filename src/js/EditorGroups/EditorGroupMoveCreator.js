@@ -18,6 +18,14 @@ define(
         _
     ) {
 
+        var inputEnum = {
+            input:     0,
+            context:   1,
+            frameData: 2,
+            ending:    3
+        };
+        var lastSelectedInput = -1;
+
         return { create: create };
 
         function create(changeNodes) {
@@ -26,6 +34,7 @@ define(
                 'move', _.getDomElement('editorMove'), filter, focus, bindListeners, updateView
             );
 
+            // FIXME: use same cancel-changes behavior for esc as in TableRowInput
             var input             = _.getDomElement('editorMoveInput');
             var context           = _.getDomElement('editorMoveContext');
             var frameData         = _.getDomElement('editorMoveFrameData');
@@ -38,15 +47,33 @@ define(
             function filter(data) { return data && NodeFactory.isMoveNode(data); }
 
             function focus() {
-                input.select();
+
+                if (!(actionStepInputs.length > 0 && actionStepInputs[0].focus())) {
+                    switch (lastSelectedInput) {
+                        case inputEnum.input:     input.select();     break;
+                        case inputEnum.context:   context.select();   break;
+                        case inputEnum.frameData: frameData.select(); break;
+                        case inputEnum.ending:    ending.select();    break;
+                    }
+                }
+
                 return true;
+
             }
 
             function bindListeners() {
-                InputHelper.initInputElement(input,     onInputInput);
-                InputHelper.initInputElement(context,   onContextInput);
-                InputHelper.initInputElement(frameData, onFrameDataInput);
-                InputHelper.initInputElement(ending,    onEndingInput);
+                initInputElement(input,     onInputInput,     inputEnum.input);
+                initInputElement(context,   onContextInput,   inputEnum.context);
+                initInputElement(frameData, onFrameDataInput, inputEnum.frameData);
+                initInputElement(ending,    onEndingInput,    inputEnum.ending);
+            }
+
+            function initInputElement(element, action, enumValue) {
+                InputHelper.initInputElement(element, action);
+                element.addEventListener('focus', function(event) {
+                    MoveActionStep.resetLastSelectedInput();
+                    lastSelected = enumValue;
+                });
             }
 
             function updateView() {

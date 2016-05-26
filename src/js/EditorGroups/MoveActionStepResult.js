@@ -9,7 +9,20 @@ define(
 
     function(TableRowInput, Strings, _) {
 
-        return { create: create };
+        var inputEnum = {
+            condition:         0,
+            hitBlock:          1,
+            criticalHoldDelay: 2,
+            stunDurationMin:   3,
+            stunDurationMax:   4,
+            tags:              5
+        };
+        var lastSelectedInput = -1;
+
+        return {
+            create: create,
+            resetLastSelectedInput: resetLastSelectedInput
+        };
 
         function create(changeActionStepResult, onRemove) {
 
@@ -46,6 +59,9 @@ define(
                         return changeCondition(newValue, actionStepResult);
                     });
                 },
+                onFocus: function(event) {
+                    lastSelectedInput = inputEnum.condition;
+                },
                 description: Strings('moveActionResultConditionDescription'),
                 placeholder: 'e.g. neutral/open, stun/open'
             });
@@ -56,6 +72,9 @@ define(
                     changeActionStepResult(function(actionStepResult) {
                         return changeHitBlock(newValue, actionStepResult);
                     });
+                },
+                onFocus: function(event) {
+                    lastSelectedInput = inputEnum.hitBlock;
                 },
                 description: 'cooldown + advantage + active frames after the one that hit',
                 placeholder: 'e.g. 15'
@@ -68,6 +87,9 @@ define(
                         return changeCriticalHoldDelay(newValue, actionStepResult);
                     });
                 },
+                onFocus: function(event) {
+                    lastSelectedInput = inputEnum.criticalHoldDelay;
+                },
                 description: 'First number in critical hold interval',
                 placeholder: 'e.g. 6'
             });
@@ -78,6 +100,9 @@ define(
                     changeActionStepResult(function(actionStepResult) {
                         return changeStunDurationMin(newValue, actionStepResult);
                     });
+                },
+                onFocus: function(event) {
+                    lastSelectedInput = inputEnum.stunDurationMin;
                 },
                 description: 'Second number in critical hold interval with stagger escape off',
                 placeholder: 'e.g. 60'
@@ -90,6 +115,9 @@ define(
                         return changeStunDurationMax(newValue, actionStepResult);
                     });
                 },
+                onFocus: function(event) {
+                    lastSelectedInput = inputEnum.stunDurationMax;
+                },
                 description: 'Second number in critical hold interval with stagger escape on',
                 placeholder: 'e.g. 50'
             });
@@ -100,6 +128,9 @@ define(
                     changeActionStepResult(function(actionStepResult) {
                         return changeTags(newValue, actionStepResult);
                     });
+                },
+                onFocus: function(event) {
+                    lastSelectedInput = inputEnum.tags;
                 },
                 description: Strings('moveActionResultTagsDescription'),
                 placeholder: 'e.g. sit-down stun'
@@ -116,7 +147,8 @@ define(
             return {
                 domRoot: domRoot,
                 clear: clear,
-                fillFromActionStepResult: fillFromActionStepResult
+                fillFromActionStepResult: fillFromActionStepResult,
+                focus: focus
             };
 
             function clear() {
@@ -142,6 +174,23 @@ define(
                 stunDurationMax.setValue(actionStepResult.stunDurationMax || '');
                 tags.setValue(actionStepResult.tags.join(', ') || '');
 
+            }
+
+            function focus() {
+
+                if (lastSelectedInput < 0) return false;
+
+                switch (lastSelectedInput) {
+                    case inputEnum.condition:         condition.focus();         break;
+                    case inputEnum.hitBlock:          hitBlock.focus();          break;
+                    case inputEnum.criticalHoldDelay: criticalHoldDelay.focus(); break;
+                    case inputEnum.stunDurationMin:   stunDurationMin.focus();   break;
+                    case inputEnum.stunDurationMax:   stunDurationMax.focus();   break;
+                    case inputEnum.tags:              tags.focus();              break;
+                }
+
+                return true;
+                
             }
 
             function changeCondition(newValue, actionStepResult) {
@@ -181,6 +230,10 @@ define(
                 actionStepResult.tags = newTags;
                 return changed;
             }
+        }
+
+        function resetLastSelectedInput() {
+            lastSelectedInput = -1;
         }
 
     }

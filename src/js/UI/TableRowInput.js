@@ -14,6 +14,7 @@ define(
             var description     = parameters.description;
             var placeholder     = parameters.placeholder;
             var onInput         = parameters.onInput         || nop;
+            var onFocus         = parameters.onFocus         || nop;
             var onBlurOrConfirm = parameters.onBlurOrConfirm || nop;
             var onEsc           = parameters.onEsc           || nop;
 
@@ -23,6 +24,7 @@ define(
                 listeners: {
                     'input':   inputListener,
                     'keydown': keyDownListener,
+                    'focus':   focusListener,
                     'blur':    blurListener // FIXME: does it happen twice on enter/escape?
                 }
             });
@@ -63,8 +65,10 @@ define(
                 if (event.keyCode === KeyCodes.ESC) {
                     // reset to last confirmed value
                     setValue(valueConfirmed);
+                    onInput(valueConfirmed)
                     blurInput();
                     onEsc();
+                    event.stopPropagation();
                 } else
                 if (event.keyCode === KeyCodes.ENTER) {
                     blurInput();
@@ -74,6 +78,11 @@ define(
 
             function inputListener(event) { onInput(getValue());   }
             function blurListener(event)  { handleBlurOrConfirm(); }
+
+            function focusListener(event) {
+                valueConfirmed = getValue();
+                onFocus();
+            }
 
             function handleBlurOrConfirm() {
                 valueConfirmed = getValue();

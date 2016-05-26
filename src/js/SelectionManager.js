@@ -10,12 +10,20 @@ define(
         var selectionCurrent  = null;
 
         var onSelectionChanged = createObserver();
+        var onSelectFirstChild = createObserver();
+        var onSelectSibling    = createObserver();
+        var onSelectParent     = createObserver();
+
+        var selectParentCallback;
 
         return {
             init:               init,
             selectNode:         selectNode,
             undoSelection:      undoSelection,
-            onSelectionChanged: onSelectionChanged
+            onSelectionChanged: onSelectionChanged,
+            onSelectFirstChild: onSelectFirstChild,
+            onSelectSibling:    onSelectSibling,
+            onSelectParent:     onSelectParent
         };
 
 
@@ -31,15 +39,29 @@ define(
             // });
 
             document.body.addEventListener('keydown', function(event) {
-                switch (event.keyCode) {
+                // TODO: cleanup a bit
+                var keyCode = event.keyCode;
+                if (document.activeElement instanceof HTMLInputElement) {
+                    var input = document.activeElement;
+                    if (input.type === 'text' && (
+                        keyCode === KeyCodes.LEFT  && input.selectionEnd > 0 ||
+                        keyCode === KeyCodes.RIGHT && input.selectionStart < input.value.length
+                    )) {
+                        return;
+                    }
+                }
+                var processed = true;
+                switch (keyCode) {
                     case KeyCodes.ESC:   selectNothing();    break;
                     case KeyCodes.RIGHT: selectFirstChild(); break;
                     case KeyCodes.LEFT:  selectParent();     break;
                     case KeyCodes.UP:    selectSibling(-1);  break;
                     case KeyCodes.DOWN:  selectSibling(1);   break;
-                    // default:
-                    //     console.log('unused keycode', event.keyCode);
+                    default:
+                        processed = false;
+                        // console.log('unused keycode', event.keyCode);
                 }
+                if (processed) event.preventDefault();
             });
 
         }
@@ -81,20 +103,17 @@ define(
 
 
         function selectFirstChild() {
-            console.warn('Select first child not yet implemented');
-            // if (!selectionCurrent) return;
+            if (selectionCurrent) onSelectFirstChild.dispatch(selectionCurrent);
         }
 
 
         function selectParent() {
-            console.warn('Select parent not yet implemented');
-            // if (!selectionCurrent) return;
+            if (selectionCurrent) onSelectParent.dispatch(selectionCurrent);
         }
 
 
         function selectSibling(delta) {
-            console.warn('Select sibling not yet implemented');
-            // if (!selectionCurrent) return;
+            if (selectionCurrent) onSelectSibling.dispatch(selectionCurrent, delta);
         }
 
     }

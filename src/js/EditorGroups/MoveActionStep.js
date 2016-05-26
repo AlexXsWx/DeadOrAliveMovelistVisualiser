@@ -19,7 +19,20 @@ define(
         _
     ) {
 
-        return { create: create };
+        var inputEnum = {
+            mask:     0,
+            type:     1,
+            tracking: 2,
+            damage:   3
+            // condition: 4,
+            // tags:      5
+        };
+        var lastSelectedInput = -1;
+
+        return {
+            create: create,
+            resetLastSelectedInput: resetLastSelectedInput
+        };
 
         function create(changeActionStep) {
 
@@ -33,6 +46,10 @@ define(
                     changeActionStep(function(actionStep) {
                         return changeActionMask(newValue, actionStep);
                     });
+                },
+                onFocus: function(event) {
+                    MoveActionStepResult.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.mask;
                 }
             });
 
@@ -42,6 +59,10 @@ define(
                     changeActionStep(function(actionStep) {
                         return changeActionStepType(newValue, actionStep);
                     });
+                },
+                onFocus: function(event) {
+                    MoveActionStepResult.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.type;
                 },
                 description: Strings('moveActionTypeDescription'),
                 placeholder: 'e.g. strike'
@@ -55,6 +76,10 @@ define(
                         return changeActionStepTracking(isChecked, isIndeterminate, actionStep);
                     });
                 },
+                onFocus: function(event) {
+                    MoveActionStepResult.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.tracking;
+                },
                 description: Strings('moveActionTrackingDescription')
             });
 
@@ -64,6 +89,10 @@ define(
                     changeActionStep(function(actionStep) {
                         return changeActionStepDamage(newValue, actionStep);
                     });
+                },
+                onFocus: function(event) {
+                    MoveActionStepResult.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.damage;
                 },
                 description: Strings('moveActionDamageDescription'),
                 placeholder: 'e.g. 18'
@@ -76,6 +105,10 @@ define(
             //             return changeActionStepCondition(newValue, actionStep);
             //         });
             //     },
+            //     onFocus: function(event) {
+            //         MoveActionStepResult.resetLastSelectedInput();
+            //         lastSelectedInput = inputEnum.condition;
+            //     },
             //     description: Strings('moveActionConditionDescription'),
             //     placeholder: 'e.g. neutral/open, stun/open'
             // });
@@ -86,6 +119,10 @@ define(
             //         changeActionStep(function(actionStep) {
             //             return changeActionStepTags(newValue, actionStep);
             //         });
+            //     },
+            //     onFocus: function(event) {
+            //         MoveActionStepResult.resetLastSelectedInput();
+            //         lastSelectedInput = inputEnum.tags;
             //     },
             //     description: Strings('moveActionTagsDescription'),
             //     placeholder: 'e.g. sit-down stun'
@@ -137,7 +174,8 @@ define(
             return {
                 domRoot: domRoot,
                 clear: clear,
-                fillFromActionStep: fillFromActionStep
+                fillFromActionStep: fillFromActionStep,
+                focus: focus
             };
 
             function clear() {
@@ -207,6 +245,25 @@ define(
                 }
             }
 
+            function focus() {
+
+                if (lastSelectedInput < 0) return false;
+
+                if (!(results.length > 0 && results[0].focus())) {
+                    switch (lastSelectedInput) {
+                        case inputEnum.mask:      mask.focus();      break;
+                        case inputEnum.type:      type.focus();      break;
+                        case inputEnum.tracking:  tracking.focus();  break;
+                        case inputEnum.damage:    damage.focus();    break;
+                        // case inputEnum.condition: condition.focus(); break;
+                        // case inputEnum.tags:      tags.focus();      break;
+                    }
+                }
+
+                return true;
+
+            }
+
             function addResult() {
                 createResultInput();
                 changeActionStep(function(actionStep) {
@@ -257,6 +314,10 @@ define(
             //     actionStep.tags = newTags;
             //     return changed;
             // }
+        }
+
+        function resetLastSelectedInput() {
+            lastSelectedInput = -1;
         }
 
     }

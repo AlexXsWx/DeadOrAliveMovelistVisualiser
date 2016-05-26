@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1463936907744
+    "timeSaved": 1464284484179
   },
   "body": {
     "character": "rig",
@@ -57,6 +57,7 @@
                   {
                     "actionMask": "high P",
                     "actionType": "strike",
+                    "isTracking": false,
                     "results": [
                       {
                         "condition": [
@@ -102,6 +103,7 @@
                       {
                         "actionMask": "high P",
                         "actionType": "strike",
+                        "isTracking": false,
                         "results": [
                           {
                             "condition": [
@@ -133,6 +135,7 @@
                           {
                             "actionMask": "high K",
                             "actionType": "strike",
+                            "isTracking": false,
                             "results": [
                               {
                                 "condition": [
@@ -166,6 +169,7 @@
                           {
                             "actionMask": "low K",
                             "actionType": "strike",
+                            "isTracking": true,
                             "results": [
                               {
                                 "condition": [
@@ -198,8 +202,9 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "K",
+                            "actionMask": "mid K",
                             "actionType": "strike",
+                            "isTracking": false,
                             "results": [
                               {
                                 "condition": [
@@ -236,7 +241,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "high K",
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false,
                         "results": [
                           {
                             "condition": [
@@ -267,8 +274,9 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "K",
+                            "actionMask": "high K",
                             "actionType": "strike",
+                            "isTracking": false,
                             "results": [
                               {
                                 "condition": [
@@ -293,8 +301,9 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "K",
+                            "actionMask": "mid K",
                             "actionType": "strike",
+                            "isTracking": true,
                             "results": [
                               {
                                 "condition": [
@@ -340,6 +349,7 @@
                           {
                             "actionMask": "low K",
                             "actionType": "strike",
+                            "isTracking": true,
                             "results": [
                               {
                                 "condition": [
@@ -373,6 +383,7 @@
                       {
                         "actionMask": "low K",
                         "actionType": "strike",
+                        "isTracking": false,
                         "results": [
                           {
                             "condition": [
@@ -407,8 +418,9 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "K",
+                            "actionMask": "mid K",
                             "actionType": "strike",
+                            "isTracking": false,
                             "results": [
                               {
                                 "condition": [
@@ -434,8 +446,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
+                    "actionMask": "high K",
                     "actionType": "strike",
+                    "isTracking": true,
                     "results": [
                       {
                         "condition": [
@@ -460,8 +473,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K",
-                        "actionType": "strike"
+                        "actionMask": "high K",
+                        "actionType": "jump attack",
+                        "isTracking": true
                       }
                     ]
                   },
@@ -476,6 +490,7 @@
                       {
                         "actionMask": "low K",
                         "actionType": "strike",
+                        "isTracking": true,
                         "results": [
                           {
                             "condition": [
@@ -510,8 +525,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "P",
+                    "actionMask": "mid P",
                     "actionType": "strike",
+                    "isTracking": false,
                     "results": [
                       {
                         "condition": [
@@ -536,8 +552,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P",
+                "actionMask": "high P",
                 "actionType": "strike",
+                "isTracking": false,
                 "results": [
                   {
                     "condition": [
@@ -567,8 +584,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "P",
+                    "actionMask": "high P",
                     "actionType": "strike",
+                    "isTracking": false,
                     "results": [
                       {
                         "condition": [
@@ -595,8 +613,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P",
+                "actionMask": "high P",
                 "actionType": "strike",
+                "isTracking": false,
                 "results": [
                   {
                     "condition": [
@@ -621,8 +640,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P",
+                "actionMask": "mid P",
                 "actionType": "strike",
+                "isTracking": false,
                 "results": [
                   {
                     "condition": [
@@ -652,8 +672,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P",
+                "actionMask": "mid P",
                 "actionType": "strike",
+                "isTracking": false,
                 "results": [
                   {
                     "condition": [
@@ -684,8 +705,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "P",
+                    "actionMask": "mid P",
                     "actionType": "strike",
+                    "isTracking": false,
                     "results": [
                       {
                         "condition": [
@@ -718,7 +740,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
+                    "actionMask": "mid K",
+                    "isTracking": false,
                     "results": [
                       {
                         "condition": [
@@ -750,7 +773,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": false,
                     "results": [
                       {
                         "condition": [
@@ -782,7 +807,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K",
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false,
                         "results": [
                           {
                             "condition": [
@@ -812,8 +839,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P",
+                "actionMask": "mid P",
                 "actionType": "strike",
+                "isTracking": true,
                 "results": [
                   {
                     "condition": [
@@ -850,8 +878,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "P",
+                    "actionMask": "mid P",
                     "actionType": "strike",
+                    "isTracking": false,
                     "results": [
                       {
                         "condition": [
@@ -873,6 +902,18 @@
                   6,
                   2,
                   22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "jump attack",
+                    "isTracking": false
+                  },
+                  {
+                    "actionMask": "high K",
+                    "actionType": "jump attack",
+                    "isTracking": false
+                  }
                 ]
               }
             ]
@@ -886,8 +927,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P",
+                "actionMask": "mid P",
                 "actionType": "strike",
+                "isTracking": false,
                 "results": [
                   {
                     "condition": [
@@ -918,8 +960,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P",
+                "actionMask": "low P",
                 "actionType": "strike",
+                "isTracking": false,
                 "results": [
                   {
                     "condition": [
@@ -958,8 +1001,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P",
+                "actionMask": "low P",
                 "actionType": "strike",
+                "isTracking": true,
                 "results": [
                   {
                     "condition": [
@@ -990,7 +1034,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "P",
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
                     "results": [
                       {
                         "condition": [
@@ -1015,7 +1061,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P",
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
                 "results": [
                   {
                     "condition": [
@@ -1038,7 +1086,8 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "K",
+                "actionType": "strike"
               }
             ],
             "endsWith": "BND",
@@ -1052,7 +1101,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "actionType": "strike"
                   }
                 ],
                 "endsWith": "BND",
@@ -1075,7 +1125,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "K",
+                        "actionType": "strike"
                       }
                     ],
                     "followUps": [
@@ -1092,7 +1143,8 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "K"
+                            "actionMask": "K",
+                            "actionType": "strike"
                           }
                         ],
                         "followUps": [
@@ -1115,7 +1167,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "actionType": "strike"
                   }
                 ],
                 "followUps": [
@@ -1128,7 +1181,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "K",
+                        "actionType": "strike"
                       }
                     ]
                   }
@@ -1143,7 +1197,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "actionType": "strike"
                   }
                 ],
                 "endsWith": "BND",
@@ -1157,7 +1212,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "K",
+                        "actionType": "strike"
                       }
                     ],
                     "endsWith": "BND"
@@ -1175,7 +1231,8 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "K",
+                "actionType": "strike"
               }
             ],
             "endsWith": "BND"
@@ -1189,7 +1246,8 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "K",
+                "actionType": "strike"
               }
             ],
             "followUps": [
@@ -1202,7 +1260,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "actionType": "strike"
                   }
                 ]
               }
@@ -1217,7 +1276,8 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "K",
+                "actionType": "strike"
               }
             ],
             "followUps": [
@@ -1230,7 +1290,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "actionType": "strike"
                   }
                 ],
                 "endsWith": "BT"
@@ -1246,7 +1307,8 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "K",
+                "actionType": "strike"
               }
             ],
             "followUps": [
@@ -1259,12 +1321,18 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "actionType": "strike"
                   }
                 ],
                 "followUps": [
                   {
                     "input": "4",
+                    "frameData": [
+                      0,
+                      0,
+                      30
+                    ],
                     "endsWith": "TLC"
                   }
                 ]
@@ -1278,7 +1346,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "actionType": "strike"
                   }
                 ],
                 "endsWith": "BND"
@@ -1294,7 +1363,8 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "K",
+                "actionType": "strike"
               }
             ],
             "endsWith": "BND",
@@ -1308,7 +1378,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "actionType": "strike"
                   }
                 ],
                 "endsWith": "BND"
@@ -1324,7 +1395,8 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "K",
+                "actionType": "strike"
               }
             ],
             "followUps": [
@@ -1337,7 +1409,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "K",
+                    "actionType": "strike"
                   }
                 ],
                 "endsWith": "BND"

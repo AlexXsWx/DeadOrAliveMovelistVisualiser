@@ -67,6 +67,9 @@ define(
                 Editor.onDataChanged.addListener(onDataChange);
 
                 SelectionManager.onSelectionChanged.addListener(Editor.updateBySelection);
+                SelectionManager.onSelectFirstChild.addListener(selectFirstChild);
+                SelectionManager.onSelectSibling.addListener(selectSibling);
+                SelectionManager.onSelectParent.addListener(selectParent);
 
                 limitsFinder = createLimitsFinder();
 
@@ -466,7 +469,7 @@ define(
 
             function onDoubleClickNodeView(nodeSvgView) {
                 toggleChildren(nodeSvgView);
-                SelectionManager.undoSelection();
+                // SelectionManager.undoSelection();
             }
 
             function toggleChildren(nodeSvgView) {
@@ -477,6 +480,62 @@ define(
             }
 
         // ================
+
+
+        // ==== Selection ====
+
+            function selectFirstChild(nodeSvgView) {
+                var nodeView = nodeSvgView.nodeView;
+                var children = nodeView.fd3Data.treeInfo.children.visible;
+                if (children && children.length > 0) {
+                    var firstChild = children[0];
+                    var childId = firstChild.fd3Data.treeInfo.id;
+                    if (visibleNodesSvgViews.hasOwnProperty(childId)) {
+                        SelectionManager.selectNode(visibleNodesSvgViews[childId]);
+                    }
+                }
+            }
+
+            function selectSibling(nodeSvgView, delta) {
+                var nodeView = nodeSvgView.nodeView;
+                var parent = nodeView.fd3Data.treeInfo.parent;
+                if (!parent) return;
+                var children = parent.fd3Data.treeInfo.children.visible;
+                var selfIndex = children.indexOf(nodeView);
+                console.assert(selfIndex >= 0, 'parent/children structure is broken');
+                if (selfIndex + delta < 0) {
+                    var parentId = parent.fd3Data.treeInfo.id;
+                    if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
+                        var parentNodeSvgView = visibleNodesSvgViews[parentId];
+                        selectSibling(parentNodeSvgView, selfIndex + delta);
+                    }
+                } else
+                if (selfIndex + delta > children.length - 1) {
+                    var parentId = parent.fd3Data.treeInfo.id;
+                    if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
+                        var parentNodeSvgView = visibleNodesSvgViews[parentId];
+                        selectSibling(parentNodeSvgView, selfIndex + delta - (children.length - 1));
+                    }
+                } else {
+                    var child = children[selfIndex + delta];
+                    var childId = child.fd3Data.treeInfo.id;
+                    if (visibleNodesSvgViews.hasOwnProperty(childId)) {
+                        SelectionManager.selectNode(visibleNodesSvgViews[childId]);
+                    }
+                }
+            }
+            
+            function selectParent(nodeSvgView) {
+                var nodeView = nodeSvgView.nodeView;
+                var parent = nodeView.fd3Data.treeInfo.parent;
+                if (!parent) return;
+                var parentId = parent.fd3Data.treeInfo.id;
+                if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
+                    SelectionManager.selectNode(visibleNodesSvgViews[parentId]);
+                }
+            }
+
+        // ===================
 
 
         // ==== Spawn/despawn ====

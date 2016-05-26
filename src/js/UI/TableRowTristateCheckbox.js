@@ -14,12 +14,14 @@ define(
             var isIndeterminate = !!parameters.isIndeterminate;
             var description     = parameters.description;
             var onChange        = parameters.onChange;
+            var onFocus         = parameters.onFocus;
 
             var input = _.createDomElement({
                 tag: 'input',
                 attributes: { 'type': 'checkbox' },
                 listeners: {
-                    'change': function changeListener(event) { callOnChange(); }
+                    'change': function changeListener(event) { callOnChange(); },
+                    'focus': onFocus
                 }
             });
             input.indeterminate = isIndeterminate;
