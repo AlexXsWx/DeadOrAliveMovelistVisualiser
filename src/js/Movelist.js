@@ -78,6 +78,9 @@ define(
 
                 loadData(NodeFactory.createRootNode());
 
+                _.hideDomElement(_.getDomElement('loading'));
+                _.hideDomElement(_.getDomElement('overlay'));
+
             }
 
 
@@ -125,7 +128,7 @@ define(
                 initLoadSaveUIActions();
                 initEditorUIActions();
                 initTextUIActions();
-                _.getDomElement('filter').addEventListener('click', onButtonFilter);
+                initFilter();
             }
 
             // ==== Save/load ====
@@ -216,10 +219,15 @@ define(
 
             }
 
+            function initFilter() {
+                _.getDomElement('filter').addEventListener('click', onButtonFilter);
+                _.getDomElement('closeFilterResult').addEventListener('click', onButtonCloseFilterResult);
+            }
+
             function onButtonFilter() {
                 var advantage = +prompt('Advantage (frames):');
                 if (advantage) {
-                    alert(Filter.findNodes(rootNodeData, advantage, function(nodeData) {
+                    var result = Filter.findNodes(rootNodeData, advantage, function(nodeData) {
                         var input = nodeData.input;
                         if (input.match(/(46|7|4|6|1)h/i) || input.match(/t/i)) {
                             return false;
@@ -234,8 +242,17 @@ define(
                             }
                         }
                         return true;
-                    }));
+                    });
+                    // alert(result);
+                    _.getDomElement('filterOuptut').innerHTML = result;
+                    _.showDomElement(_.getDomElement('overlay'));
+                    _.showDomElement(_.getDomElement('popupFilterResult'));
                 }
+            }
+
+            function onButtonCloseFilterResult() {
+                _.hideDomElement(_.getDomElement('overlay'));
+                _.hideDomElement(_.getDomElement('popupFilterResult'));
             }
 
         // ============

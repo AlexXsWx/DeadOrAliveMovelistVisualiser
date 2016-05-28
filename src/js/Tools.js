@@ -25,11 +25,11 @@ define('Tools', function() {
     }
 
     function hideDomElement(element) {
-        element.setAttribute('hidden', true);
+        element.classList.add('hidden');
     }
     
     function showDomElement(element) {
-        element.removeAttribute('hidden');
+        element.classList.remove('hidden');
     }
 
     function arraysAreEqual(arrayA, arrayB) {

@@ -1,4 +1,7 @@
-html { height: 100%; }
+html {
+    font-family: arial;
+    height: 100%;
+}
 
 body {
     margin: 0;
@@ -22,4 +25,71 @@ body {
     right: 0;
     top: 0;
     background-color: rgba(255, 255, 255, 0.75);
+}
+
+#overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    // align-content: center;
+}
+
+#loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background: #777;
+    span {
+        color: white;
+        font-size: 48px;
+        align-self: center;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.clickThrough {
+    pointer-events: none !important;
+    & > * {
+        pointer-events: initial;
+    }
+}
+
+// filter
+
+#popupFilterResult {
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    // background: rgba(0, 0, 0, 0.25);
+
+    & > div {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        overflow: auto;
+        & > div {
+            border: 1px solid black;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 5px black;
+            padding: 5px;
+            align-self: flex-start;
+        }
+    }
+
+}
+
+#filterOuptut {
+    margin: 0;
 }
