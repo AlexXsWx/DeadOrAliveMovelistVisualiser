@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1464284484179
+    "timeSaved": 1464396237837
   },
   "body": {
     "character": "rig",
@@ -1086,8 +1086,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K",
-                "actionType": "strike"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "endsWith": "BND",
@@ -1101,8 +1102,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
-                    "actionType": "strike"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND",
@@ -1125,8 +1127,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K",
-                        "actionType": "strike"
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": true
                       }
                     ],
                     "followUps": [
@@ -1143,8 +1146,9 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "K",
-                            "actionType": "strike"
+                            "actionMask": "mid K",
+                            "actionType": "strike",
+                            "isTracking": true
                           }
                         ],
                         "followUps": [
@@ -1167,8 +1171,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
-                    "actionType": "strike"
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "followUps": [
@@ -1181,8 +1186,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K",
-                        "actionType": "strike"
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false
                       }
                     ]
                   }
@@ -1197,8 +1203,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
-                    "actionType": "strike"
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND",
@@ -1212,8 +1219,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K",
-                        "actionType": "strike"
+                        "actionMask": "high K",
+                        "actionType": "strike",
+                        "isTracking": false
                       }
                     ],
                     "endsWith": "BND"
@@ -1231,8 +1239,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K",
-                "actionType": "strike"
+                "actionMask": "high K",
+                "actionType": "jump attack",
+                "isTracking": false
               }
             ],
             "endsWith": "BND"
@@ -1246,8 +1255,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K",
-                "actionType": "strike"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -1260,8 +1270,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
-                    "actionType": "strike"
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ]
               }
@@ -1276,8 +1287,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K",
-                "actionType": "strike"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -1290,8 +1302,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
-                    "actionType": "strike"
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BT"
@@ -1307,8 +1320,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K",
-                "actionType": "strike"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -1321,8 +1335,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
-                    "actionType": "strike"
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "followUps": [
@@ -1346,8 +1361,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
-                    "actionType": "strike"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND"
@@ -1363,8 +1379,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K",
-                "actionType": "strike"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "endsWith": "BND",
@@ -1378,8 +1395,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
-                    "actionType": "strike"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND"
@@ -1395,8 +1413,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K",
-                "actionType": "strike"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -1409,8 +1428,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
-                    "actionType": "strike"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND"
@@ -1424,7 +1444,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": true
                   }
                 ],
                 "followUps": [
@@ -1443,7 +1465,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND",
@@ -1457,7 +1481,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "high K",
+                        "actionType": "strike",
+                        "isTracking": false
                       }
                     ],
                     "endsWith": "BND"
@@ -1475,7 +1501,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -1488,7 +1516,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ]
               },
@@ -1501,7 +1531,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": true
                   }
                 ]
               }
@@ -1516,7 +1548,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "endsWith": "BND",
@@ -1530,7 +1564,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND"
@@ -1546,7 +1582,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -1559,7 +1597,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "endsWith": "BT"
@@ -1573,7 +1613,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -1586,7 +1628,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "jump attack",
+                "isTracking": false
               }
             ],
             "endsWith": "BND"
@@ -1600,7 +1644,8 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike"
               }
             ]
           },
@@ -1613,7 +1658,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -1626,7 +1673,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ]
               }
@@ -1669,7 +1718,8 @@
             "actionSteps": [
               {
                 "actionMask": "mid K",
-                "actionType": "strike"
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -1682,7 +1732,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ],
             "followUps": [
@@ -1695,7 +1747,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true
                   }
                 ]
               },
@@ -1708,7 +1762,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": true
                   }
                 ]
               }
@@ -1722,6 +1778,18 @@
               6,
               2,
               22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false
+              },
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false
+              }
             ]
           },
           {
@@ -1733,7 +1801,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -1746,7 +1816,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -1759,7 +1831,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -1922,7 +1996,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -1938,7 +2014,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "endsWith": "BT"
@@ -1955,7 +2033,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -1971,7 +2051,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -1987,7 +2069,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ],
             "followUps": [
@@ -2000,7 +2084,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true
                   }
                 ]
               },
@@ -2013,7 +2099,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": true
                   }
                 ]
               }
@@ -2031,7 +2119,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -2047,7 +2137,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2075,7 +2167,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           }
@@ -2108,7 +2202,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           }
@@ -2126,7 +2222,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -2139,7 +2237,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "endsWith": "BND",
@@ -2153,7 +2253,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND",
@@ -2167,7 +2269,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "high K",
+                        "actionType": "strike",
+                        "isTracking": true
                       }
                     ],
                     "followUps": [
@@ -2191,7 +2295,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false
                       }
                     ]
                   }
@@ -2208,7 +2314,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -2221,7 +2329,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -2234,7 +2344,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -2253,7 +2365,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "endsWith": "BND",
@@ -2267,7 +2381,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND"
@@ -2283,7 +2399,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ],
             "followUps": [
@@ -2300,7 +2418,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": true
                   }
                 ],
                 "followUps": [
@@ -2321,7 +2441,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "endsWith": "BND",
@@ -2335,7 +2457,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BND"
@@ -2351,7 +2475,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -2373,7 +2499,41 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  34,
+                  3,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  22,
+                  3,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ]
               }
             ]
           },
@@ -2388,7 +2548,14 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false
+              },
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
               }
             ],
             "endsWith": "BND",
@@ -2402,7 +2569,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "BT"
@@ -2418,7 +2587,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2431,7 +2602,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2444,7 +2617,8 @@
             ],
             "actionSteps": [
               {
-                "actionType": "throw"
+                "actionType": "throw",
+                "isTracking": true
               }
             ],
             "endsWith": "BND"
@@ -2464,7 +2638,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false
               }
             ]
           },
@@ -2475,7 +2651,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2486,7 +2664,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2497,7 +2677,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2508,7 +2690,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2526,7 +2710,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           }
@@ -2539,7 +2725,9 @@
             "input": "P",
             "actionSteps": [
               {
-                "actionMask": "P"
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2547,7 +2735,9 @@
             "input": "K",
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ],
             "followUps": [
@@ -2560,7 +2750,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "jump attack",
+                    "isTracking": true
                   }
                 ],
                 "followUps": [
@@ -2573,7 +2765,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "high K",
+                        "actionType": "jump attack",
+                        "isTracking": true
                       }
                     ]
                   },
@@ -2586,7 +2780,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "mid K",
+                        "actionType": "jump attack",
+                        "isTracking": false
                       }
                     ]
                   }
@@ -2601,7 +2797,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "jump attack",
+                    "isTracking": true
                   }
                 ]
               }
@@ -2611,7 +2809,9 @@
             "input": "6K",
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ],
             "followUps": [
@@ -2624,7 +2824,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true
                   }
                 ],
                 "followUps": [
@@ -2637,7 +2839,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "high K",
+                        "actionType": "strike",
+                        "isTracking": true
                       }
                     ]
                   },
@@ -2650,7 +2854,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "K"
+                        "actionMask": "high K",
+                        "actionType": "jump attack",
+                        "isTracking": true
                       }
                     ]
                   }
@@ -2665,7 +2871,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K"
+                    "actionMask": "high K",
+                    "actionType": "jump attack",
+                    "isTracking": true
                   }
                 ]
               }
@@ -2675,7 +2883,9 @@
             "input": "2K",
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2683,7 +2893,9 @@
             "input": "H+K",
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -2691,7 +2903,9 @@
             "input": "6H+K",
             "actionSteps": [
               {
-                "actionMask": "K"
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           }

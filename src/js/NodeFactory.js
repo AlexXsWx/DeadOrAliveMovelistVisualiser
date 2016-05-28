@@ -119,6 +119,7 @@ define('NodeFactory', ['Tools'], function Node(_) {
              */
             actionMask: undefined,
 
+            // FIXME: jump attack as the one that got different hold vs the one that can't be OH'ed
             /**
                 strike
                 jump attack
