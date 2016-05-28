@@ -21,7 +21,7 @@ define('Strings', function() {
         ),
 
         'indeterminateHint': (
-            'Reset checkbox back to default indeterminate / unspecified / unset state'
+            'Reset checkbox back to not specified value'
         ),
 
         'moveActionDamage': 'Damage',

@@ -39,7 +39,8 @@ define(
                                 tag: 'input',
                                 attributes: {
                                     'type': 'button',
-                                    'value': 'Remove result'
+                                    'value': 'Remove result',
+                                    'title': 'Remove this action step result'
                                 },
                                 listeners: {
                                     'click': function(event) {
@@ -136,13 +137,13 @@ define(
                 placeholder: 'e.g. sit-down stun'
             });
 
-            domRoot.appendChild(btnRemove);
             domRoot.appendChild(condition.domRoot);
             domRoot.appendChild(hitBlock.domRoot);
             domRoot.appendChild(criticalHoldDelay.domRoot);
             domRoot.appendChild(stunDurationMin.domRoot);
             domRoot.appendChild(stunDurationMax.domRoot);
             domRoot.appendChild(tags.domRoot);
+            domRoot.appendChild(btnRemove);
 
             return {
                 domRoot: domRoot,

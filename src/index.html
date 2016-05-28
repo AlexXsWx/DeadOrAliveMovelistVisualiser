@@ -19,158 +19,201 @@
 
         <div id="menu">
 
-            <input id="save" type="button" value="Save" /><a id="download" hidden>Click to save</a><br>
-            <input id="openUrl" type="button" value="Open URL" />
-            <input id="load" type="file" /><br>
-            <input id="filter" type="button" value="Filter" /><br>
+            <fieldset>
+                <legend> Load / Save </legend>
+                <div class="fieldsetContent">
+                    <label>Load from local file:</label><br />
+                    <input id="load" type="file" /><br />
+                    <input id="openUrl" type="button" value="Load from URL" />
+                    <input id="save" type="button" value="Save to local file" /><br />
+                    <a id="download" class="hidden">Click to save</a>
+                </div>
+            </fieldset>
 
-            <table id="settings">
+            <fieldset>
 
-                <tr>
-                    <td><input id="showPlaceholders" type="checkbox" /></td>
-                    <td><label for="showPlaceholders">Show placeholders</label></td>
-                </tr>
+                <legend> Appearance </legend>
 
-                <tr>
-                    <td>Top</td>
-                    <td>
-                        <select id="topTextOption">
-                            <option value="0" selected>None</option>
-                            <option value="1">Ending</option>
-                            <option value="2">Active frames</option>
-                            <option value="3">Cooldown</option>
-                            <option value="4">Advantage</option>
-                            <option value="5">Stun depth</option>
-                            <option value="6">Unhold duration</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Right</td>
-                    <td>
-                        <select id="rightTextOption">
-                            <option value="0">None</option>
-                            <option value="1" selected>Ending</option>
-                            <option value="2">Active frames</option>
-                            <option value="3">Cooldown</option>
-                            <option value="4">Advantage</option>
-                            <option value="5">Stun depth</option>
-                            <option value="6">Unhold duration</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Bottom</td>
-                    <td>
-                        <select id="bottomTextOption">
-                            <option value="0" selected>None</option>
-                            <option value="1">Ending</option>
-                            <option value="2">Active frames</option>
-                            <option value="3">Cooldown</option>
-                            <option value="4">Advantage</option>
-                            <option value="5">Stun depth</option>
-                            <option value="6">Unhold duration</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input id="flipTextToRight" type="checkbox" checked /></td>
-                    <td><label for="flipTextToRight">Flip to right when empty</label></td>
-                </tr>
+                <table id="settings" class="fieldsetContent">
 
-                <!-- <tr>
-                    <td><input id="smoothScroll" type="checkbox" disabled checked /></td>
-                    <td><label for="smoothScroll">Smooth scroll</label></td>
-                </tr> -->
+                    <tr>
+                        <td><input id="flipTextToRight" type="checkbox" checked /></td>
+                        <td><label for="flipTextToRight">Prefer labeling at right</label></td>
+                    </tr>
 
-                <!-- <tr>
-                    <td colspan="2">
-                        Group root nodes by<br />
-                        <input type="checkbox" checked />stance<br />
-                        <input type="checkbox" />type<br />
-                        <input type="checkbox" />height<br />
-                        <input type="checkbox" checked />strike type<br />
-                    </td>
-                </tr> -->
+                    <tr><td colspan="2"><label>Additional info:</label></td></tr>
+                    <tr>
+                        <td><label>Top</label></td>
+                        <td>
+                            <select id="topTextOption">
+                                <option value="0" selected>None</option>
+                                <option value="1">Ending</option>
+                                <option value="2">Active frames</option>
+                                <option value="3">Cooldown</option>
+                                <option value="4">Advantage</option>
+                                <option value="5">Stun depth</option>
+                                <option value="6">Unhold duration</option>
+                            </select>
+                        </td>
+                    </tr>
 
-            </table>
+                    <tr>
+                        <td><label>Right</label></td>
+                        <td>
+                            <select id="rightTextOption">
+                                <option value="0">None</option>
+                                <option value="1" selected>Ending</option>
+                                <option value="2">Active frames</option>
+                                <option value="3">Cooldown</option>
+                                <option value="4">Advantage</option>
+                                <option value="5">Stun depth</option>
+                                <option value="6">Unhold duration</option>
+                            </select>
+                        </td>
+                    </tr>
 
-            <table id="editorRoot" hidden>
-                <tr title="Character name - e.g. 'Kasumi' or 'Hayabusa'">
-                    <td><label for="editorRootCharacterName">Character:</label></td>
-                    <td><input id="editorRootCharacterName" placeholder="e.g. 'Kasumi'"/></td>
-                </tr>
-                <tr title="Game version - e.g. '1.04 steam'">
-                    <td><label for="editorRootGameVersion">Game version:</label></td>
-                    <td><input id="editorRootGameVersion" placeholder="e.g. '1.04 steam'"/></td>
-                </tr>
-                <tr title="Context abbreviations and descriptions">
-                    <td colspan="2">
-                        TODO: context abbreviations
-                        <input type="button" value="remove unused" />
-                    </td>
-                </tr>
-            </table>
+                    <tr>
+                        <td><label>Bottom</label></td>
+                        <td>
+                            <select id="bottomTextOption">
+                                <option value="0" selected>None</option>
+                                <option value="1">Ending</option>
+                                <option value="2">Active frames</option>
+                                <option value="3">Cooldown</option>
+                                <option value="4">Advantage</option>
+                                <option value="5">Stun depth</option>
+                                <option value="6">Unhold duration</option>
+                            </select>
+                        </td>
+                    </tr>
 
-            <table id="editorStance" hidden>
-                <tr title="Stance abbreviation - e.g. 'BKH' for Helena's Bokuho">
-                    <td><label for="editorStanceAbbreviation">Abbreviation:</label></td>
-                    <td><input id="editorStanceAbbreviation" placeholder="e.g. 'BKH'"/></td>
-                </tr>
-                <tr title="Abbreviation description - e.g. 'Bokuho'">
-                    <td><label for="editorStanceDescription">Description:</label></td>
-                    <td><input id="editorStanceDescription" placeholder="e.g. 'Bokuho'"/></td>
-                </tr>
-                <tr title="Abbreviation of another stance if transits automatically">
-                    <td><label for="editorStanceEnding">Ending:</label></td>
-                    <td><input id="editorStanceEnding" placeholder="e.g. 'BND'"/></td>
-                </tr>
-            </table>
+                    <!-- <tr>
+                        <td><input id="smoothScroll" type="checkbox" disabled checked /></td>
+                        <td><label for="smoothScroll">Smooth scroll</label></td>
+                    </tr> -->
 
-            <table id="editorMove" hidden>
-                <tr title="Keys to perform the move - e.g. '236P'">
-                    <td><label for="editorMoveInput">Input:</label></td>
-                    <td><input id="editorMoveInput" placeholder="e.g. '236P'"/></td>
-                </tr>
-                <tr title="Frame data of the move - e.g. '11 (2) 15'">
-                    <td><label for="editorMoveFrameData">Frame data:</label></td>
-                    <td><input id="editorMoveFrameData" placeholder="e.g. '11 (2) 15'"/></td>
-                </tr>
-                <tr title="Move action steps - for most moves just one">
-                    <td colspan="2"><table id="editorMoveActionSteps"></table></td>
-                </tr>
-                <tr title="Abbreviation of a stance the move ends with - e.g. 'BND' for Rig's Bending stance">
-                    <td><label for="editorMoveEnding">Ending:</label></td>
-                    <td><input id="editorMoveEnding" placeholder="e.g. 'BND'"/></td>
-                </tr>
-                <tr title="Requirements to perform the move - e.g. 'BT' for back-turned">
-                    <td><label for="editorMoveContext">Context:</label></td>
-                    <td><input id="editorMoveContext" placeholder="e.g. 'BT' for back-turned"/></td>
-                </tr>
-            </table>
+                    <!-- <tr>
+                        <td colspan="2">
+                            Group root nodes by<br />
+                            <input type="checkbox" checked />stance<br />
+                            <input type="checkbox" />type<br />
+                            <input type="checkbox" />height<br />
+                            <input type="checkbox" checked />strike type<br />
+                        </td>
+                    </tr> -->
 
-            <table id="editorOther" hidden>
-                <tr><td colspan="2">
-                    <input id="addChild"   type="button" value="add child" />
-                    <input id="deleteNode" type="button" value="delete"    />
-                </td></tr>
-                <tr><td colspan="2">
-                    <input id="moveNodeUp"   type="button" value="move up"   />
-                    <input id="moveNodeDown" type="button" value="move down" />
-                </td></tr>
-            </table>
+                    <tr>
+                        <td><input id="showPlaceholders" type="checkbox" /></td>
+                        <td><label for="showPlaceholders">Show placeholders</label></td>
+                    </tr>
+
+                </table>
+
+            </fieldset>
+
+            <fieldset>
+
+                <legend> Node data </legend>
+
+                <div class="fieldsetContent">
+
+                    <table id="editorOther" class="hidden">
+                        <tr><td colspan="2">
+                            <input id="addChild"   type="button" value="Add child"  />
+                            <input id="deleteNode" type="button" value="Delete selected node" />
+                        </td></tr>
+                        <tr><td colspan="2">
+                            <label>Move:</label>
+                            <input id="moveNodeUp"   type="button" value="Up"   />
+                            <input id="moveNodeDown" type="button" value="Down" />
+                        </td></tr>
+                    </table>
+
+                    <table id="editorRoot" class="hidden">
+                        <tr title="Character name - e.g. 'Kasumi' or 'Hayabusa'">
+                            <td><label for="editorRootCharacterName">Character:</label></td>
+                            <td><input id="editorRootCharacterName" placeholder="e.g. 'Kasumi'"/></td>
+                        </tr>
+                        <tr title="Game version - e.g. '1.04 steam'">
+                            <td><label for="editorRootGameVersion">Game version:</label></td>
+                            <td><input id="editorRootGameVersion" placeholder="e.g. '1.04 steam'"/></td>
+                        </tr>
+                        <!-- <tr title="Context abbreviations and descriptions">
+                            <td colspan="2">
+                                TODO: context abbreviations
+                                <input type="button" value="remove unused" />
+                            </td>
+                        </tr> -->
+                    </table>
+
+                    <table id="editorStance" class="hidden">
+                        <tr title="Stance abbreviation - e.g. 'BKH' for Helena's Bokuho">
+                            <td><label for="editorStanceAbbreviation">Abbreviation:</label></td>
+                            <td><input id="editorStanceAbbreviation" placeholder="e.g. 'BKH'"/></td>
+                        </tr>
+                        <tr title="Abbreviation description - e.g. 'Bokuho'">
+                            <td><label for="editorStanceDescription">Description:</label></td>
+                            <td><input id="editorStanceDescription" placeholder="e.g. 'Bokuho'"/></td>
+                        </tr>
+                        <tr title="Abbreviation of another stance if transits automatically">
+                            <td><label for="editorStanceEnding">Ending:</label></td>
+                            <td><input id="editorStanceEnding" placeholder="e.g. 'BND'"/></td>
+                        </tr>
+                    </table>
+
+                    <table id="editorMove" class="hidden">
+                        <tr title="Keys to perform the move - e.g. '236P'">
+                            <td><label for="editorMoveInput">Input:</label></td>
+                            <td><input id="editorMoveInput" placeholder="e.g. '236P'"/></td>
+                        </tr>
+                        <tr title="Frame data of the move - e.g. '11 (2) 15'">
+                            <td><label for="editorMoveFrameData">Frame data:</label></td>
+                            <td><input id="editorMoveFrameData" placeholder="e.g. '11 (2) 15'"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <label title="Move action steps - for most moves just one">Action steps:</label>
+                                <table id="editorMoveActionSteps"></table>
+                            </td>
+                        </tr>
+                        <tr title="Abbreviation of a stance the move ends with - e.g. 'BND' for Rig's Bending stance">
+                            <td><label for="editorMoveEnding">Ending:</label></td>
+                            <td><input id="editorMoveEnding" placeholder="e.g. 'BND'"/></td>
+                        </tr>
+                        <tr title="Requirements to perform the move - e.g. 'BT' for back-turned">
+                            <td><label for="editorMoveContext">Context:</label></td>
+                            <td><input id="editorMoveContext" placeholder="e.g. 'BT' for back-turned"/></td>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset>
+                <legend> Analysis </legend>
+                <div class="fieldsetContent">
+                    <input id="filter" type="button" value="Find moves to forcetech" /><br />
+                </div>
+            </fieldset>
 
         </div>
 
-        <div id="loading"><span>Loading...</span></div>
-        <div id="popupFilterResult" class="clickThrough hidden">
-            <div>
+        <!-- ==== Overlays ==== -->
+
+            <div id="loading">
+                <span>Loading bunch of script files<br>through a slow service...</span>
+            </div>
+            <div id="popupFilterResult" class="clickThrough hidden">
                 <div>
-                    <input id="closeFilterResult" type="button" value="Close" />
-                    <pre id="filterOuptut"></pre>
+                    <div>
+                        <input id="closeFilterResult" type="button" value="Close" />
+                        <pre id="filterOuptut"></pre>
+                    </div>
                 </div>
             </div>
-        </div>
+
+        <!-- /================= -->
 
     </body>
 

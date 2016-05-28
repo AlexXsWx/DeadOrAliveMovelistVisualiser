@@ -128,6 +128,22 @@ define(
             //     placeholder: 'e.g. sit-down stun'
             // });
 
+            var resultsTitle = _.createDomElement({
+                tag: 'tr',
+                children: [
+                    _.createDomElement({
+                        tag: 'td',
+                        attributes: { 'colspan': 2 },
+                        children: [
+                            _.createDomElement({
+                                tag: 'label',
+                                children: [ _.createTextNode('Action step results:') ]
+                            })
+                        ]
+                    })
+                ]
+            })
+
             var resultsParent = _.createDomElement({
                 tag: 'td',
                 attributes: { 'colspan': 2 }
@@ -149,7 +165,10 @@ define(
                                 tag: 'input',
                                 attributes: {
                                     'type': 'button',
-                                    'value': 'Add result'
+                                    'value': 'Add result for the action step',
+                                    'title': (
+                                        'Tell what active frames do, hitblock / stun / launcher etc'
+                                    )
                                 },
                                 listeners: {
                                     'click': function(event) {
@@ -168,6 +187,7 @@ define(
             domRoot.appendChild(damage.domRoot);
             // domRoot.appendChild(condition.domRoot);
             // domRoot.appendChild(tags.domRoot);
+            domRoot.appendChild(resultsTitle);
             domRoot.appendChild(resultsParent);
             domRoot.appendChild(btnAddResult);
 

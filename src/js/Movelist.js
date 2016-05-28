@@ -124,10 +124,21 @@ define(
         // ==== UI ====
 
             function bindUIActions() {
+                initFieldSetToggleCollapse();
                 initLoadSaveUIActions();
                 initEditorUIActions();
                 initTextUIActions();
                 initFilter();
+            }
+
+            function initFieldSetToggleCollapse() {
+                var fieldsets = document.querySelectorAll('#menu > fieldset');
+                Array.prototype.forEach.call(fieldsets, function(fieldset) {
+                    var legend = fieldset.querySelector('legend');
+                    legend.addEventListener('click', function(event) {
+                        fieldset.classList.toggle('collapsed');
+                    });
+                });
             }
 
             // ==== Save/load ====
@@ -177,6 +188,9 @@ define(
                 }
 
                 function onChangeShowPlaceholders(event) {
+
+                    SelectionManager.selectNode(null);
+
                     var checkbox = this;
                     if (checkbox.checked) {
                         Editor.addPlaceholders(rootNodeView);
@@ -224,7 +238,7 @@ define(
             }
 
             function onButtonFilter() {
-                var advantage = +prompt('Advantage (frames):');
+                var advantage = +prompt('Your advantage (frames):');
                 if (advantage) {
                     var result = Filter.findNodes(rootNodeData, advantage, function(nodeData) {
                         var input = nodeData.input;
@@ -243,7 +257,7 @@ define(
                         return true;
                     });
                     // alert(result);
-                    _.getDomElement('filterOuptut').innerHTML = result;
+                    _.getDomElement('filterOuptut').innerHTML = advantage + 'f:\n' + result;
                     _.showDomElement(_.getDomElement('popupFilterResult'));
                 }
             }

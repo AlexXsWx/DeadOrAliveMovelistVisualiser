@@ -30,7 +30,7 @@ define(
         function init(rootElement) {
 
             rootElement.addEventListener('click', function(event) {
-                selectNode.call(null);
+                selectNode(null);
             });
 
             // rootElement.addEventListener('mousedown', function(event) {
