@@ -51,8 +51,8 @@ define('CanvasManager', ['Tools'], function(_) {
             );
             // FIXME
             var body = document.body;
-            svg.setAttribute('width',  Math.max(totalWidth  + 2 * padding, body.clientWidth  - 5));
-            svg.setAttribute('height', Math.max(totalHeight + 2 * padding, body.clientHeight - 5));
+            svg.setAttribute('width',  Math.max(totalWidth  + 2 * padding, body.clientWidth  - 20));
+            svg.setAttribute('height', Math.max(totalHeight + 2 * padding, body.clientHeight - 20));
         }
 
     }

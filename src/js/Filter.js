@@ -46,7 +46,6 @@ define(
                     }
                 } else
                 if (NodeFactory.isStanceNode(child)) {
-                    debugger;
                     // FIXME: consider stance's endsWith
                     if (child.abbreviation !== stance) {
                         keepLooking = false;

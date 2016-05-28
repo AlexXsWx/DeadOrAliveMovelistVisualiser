@@ -79,7 +79,6 @@ define(
                 loadData(NodeFactory.createRootNode());
 
                 _.hideDomElement(_.getDomElement('loading'));
-                _.hideDomElement(_.getDomElement('overlay'));
 
             }
 
@@ -245,13 +244,11 @@ define(
                     });
                     // alert(result);
                     _.getDomElement('filterOuptut').innerHTML = result;
-                    _.showDomElement(_.getDomElement('overlay'));
                     _.showDomElement(_.getDomElement('popupFilterResult'));
                 }
             }
 
             function onButtonCloseFilterResult() {
-                _.hideDomElement(_.getDomElement('overlay'));
                 _.hideDomElement(_.getDomElement('popupFilterResult'));
             }
 

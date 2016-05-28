@@ -349,7 +349,7 @@ define(
                     }
                     frames += localFrames + (+frameData[i + 1]);
                 }
-                if (isNaN(frames)) debugger;
+                console.assert(!isNaN(frames), 'Frames are NaN');
                 return activeFrames.join('') + ':/' + frames;
             }
 

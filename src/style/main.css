@@ -1,3 +1,12 @@
+.hidden {
+  display: none !important;
+}
+.clickThrough {
+  pointer-events: none !important;
+}
+.clickThrough > * {
+  pointer-events: initial;
+}
 html {
   font-family: arial;
   height: 100%;
@@ -31,6 +40,9 @@ body {
   justify-content: center;
 }
 #loading {
+  position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -42,27 +54,19 @@ body {
   font-size: 48px;
   align-self: center;
 }
-.hidden {
-  display: none !important;
-}
-.clickThrough {
-  pointer-events: none !important;
-}
-.clickThrough > * {
-  pointer-events: initial;
-}
 #popupFilterResult {
+  position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: flex-end;
 }
 #popupFilterResult > div {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
+  max-height: 100%;
   overflow: auto;
+  padding-left: 5px;
 }
 #popupFilterResult > div > div {
   border: 1px solid black;
@@ -70,8 +74,7 @@ body {
   border-radius: 5px;
   box-shadow: 0 0 5px black;
   padding: 5px;
-  align-self: flex-start;
 }
-#filterOuptut {
+#popupFilterResult > div > div pre {
   margin: 0;
 }
