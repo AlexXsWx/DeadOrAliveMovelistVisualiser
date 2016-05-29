@@ -277,7 +277,7 @@ define(
             }
 
             function onButtonFilter() {
-                var advantage = +prompt('Your advantage (frames):');
+                var advantage = +prompt('Your advantage (frames): e.g. "51"');
                 if (advantage) {
                     var result = Filter.findNodes(rootNodeData, advantage, function(nodeData) {
                         var input = nodeData.input;
