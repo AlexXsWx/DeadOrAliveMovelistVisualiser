@@ -310,14 +310,14 @@ define(
 
         // ==== Data operations ====
 
-            // function restructureByType(data) {
-            //     NodeView.getAllChildren(data).forEach(function(stance) {
-            //         groupByType(stance);
+            // function restructureByType(rootNodeView) {
+            //     NodeView.getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
+            //         groupByType(stanceNodeView);
             //     });
             // }
 
 
-            // function groupByType(parent) {
+            // function groupByType(parentNodeView) {
 
             //     // fill groups
 
@@ -337,21 +337,23 @@ define(
             //         'other': 'other'
             //     };
 
-            //     NodeView.getAllChildren(parent).forEach(function(child) {
+            //     NodeView.getAllChildren(parentNodeView).forEach(function(childNodeView) {
 
-            //         var moveInfo = child.moveInfo;
+            //         var actionSteps = childNodeView.binding.targetDataNode.actionSteps;
 
-            //         var category = moveInfo.actionType;
-            //         if (category === 'strike') {
-            //             category = moveInfo.strikeType;
-            //         }
+            //         var category = (Math.random() > 0.5) ? 'punches' : 'kicks';
+
+            //         // var category = moveInfo.actionType;
+            //         // if (category === 'strike') {
+            //         //     category = moveInfo.strikeType;
+            //         // }
 
             //         if (category) {
             //             var type = categoryToType[category];
             //             if (type) {
-            //                 byType[type].push(child);
+            //                 byType[type].push(childNodeView);
             //             } else {
-            //                 console.error('Could not find category for %O', child);
+            //                 console.error('Could not find category for %O', childNodeView);
             //             }
             //         }
 
@@ -359,7 +361,7 @@ define(
 
             //     // assign new children
 
-            //     NodeView.removeAllChildren(parent);
+            //     NodeView.removeAllChildren(parentNodeView);
 
             //     for (type in byType) {
 
@@ -370,7 +372,7 @@ define(
             //         NodeView.setChildren(groupingChild, childrenOfType);
             //         NodeView.toggleVisibleChildren(groupingChild);
 
-            //         NodeView.addVisibleChild(parent, groupingChild);
+            //         NodeView.addVisibleChild(parentNodeView, groupingChild);
 
             //     }
 
@@ -397,7 +399,7 @@ define(
 
                 limitsFinder.invalidate();
 
-                // restructureByType(rootNodeData);
+                // restructureByType(rootNodeView);
 
                 var currentlyVisibleIds = {};
 
@@ -422,7 +424,7 @@ define(
                 );
                 for (var i = childrenByDepth.length - 1; i > 0; --i) {
                     childrenByDepth[i].forEach(function(child) {
-                        var parentAppearance = child.treeInfo.parent.appearance;
+                        var parentAppearance = NodeView.getParentView(child).appearance;
                         parentAppearance.branchesAfter += Math.max(1, child.appearance.branchesAfter);
                         parentAppearance.totalChildren += 1 + NodeView.getAllChildren(child).length;
                         parentAppearance.deepness = Math.max(
@@ -531,7 +533,7 @@ define(
 
             function selectSibling(nodeSvgView, delta) {
                 var nodeView = nodeSvgView.nodeView;
-                var parent = nodeView.treeInfo.parent;
+                var parent = NodeView.getParentView(nodeView);
                 if (!parent) return;
                 var children = NodeView.getVisibleChildren(parent);
                 var selfIndex = children.indexOf(nodeView);
@@ -560,7 +562,7 @@ define(
             
             function selectParent(nodeSvgView) {
                 var nodeView = nodeSvgView.nodeView;
-                var parent = nodeView.treeInfo.parent;
+                var parent = NodeView.getParentView(nodeView);
                 if (!parent) return;
                 var parentId = NodeView.getId(parent);
                 if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
@@ -575,20 +577,20 @@ define(
 
             // function getDespawnParent(nodeView) {
             //     var current = nodeView;
-            //     var parent = nodeView.treeInfo.parent;
+            //     var parent = NodeView.getParentView(nodeView);
             //     while (
             //         parent &&
             //         NodeView.getVisibleChildren(parent).indexOf(current) >= 0
             //     ) {
             //         current = parent;
-            //         parent = current.treeInfo.parent;
+            //         parent = NodeView.getParentView(current);
             //     }
             //     return parent || current;
             // }
 
 
             // function getSpawnPosition(nodeView) {
-            //     return getLastPosition(nodeView.treeInfo.parent || nodeView);
+            //     return getLastPosition(NodeView.getParentView(nodeView) || nodeView);
             // }
 
 

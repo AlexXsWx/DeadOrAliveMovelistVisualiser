@@ -95,11 +95,11 @@ define(
 
             var nodeView = selectedSVGNode.nodeView;
             var nodeData = nodeView.binding.targetDataNode;
-            var parentNodeView = nodeView.treeInfo.parent;
+            var parentNodeView = NodeView.getParentView(nodeView);
 
             if (!nodeView.binding.isPlaceholder && parentNodeView) {
 
-                var firstParentData = findFirstParentData(nodeView);
+                var firstParentData = NodeView.getParentDataView(nodeView);
 
                 if (firstParentData) {
                     var success = false;
@@ -149,7 +149,7 @@ define(
             if (!selectedSVGNode) return;
 
             var nodeView = selectedSVGNode.nodeView;
-            var parentView = nodeView.treeInfo.parent;
+            var parentView = NodeView.getParentView(nodeView);
 
             if (!parentView) return;
 
@@ -162,7 +162,7 @@ define(
             changed && onDataChanged.dispatch({ moved: [ nodeView ] });
 
             var nodeData = nodeView.binding.targetDataNode;
-            var parentData = findFirstParentData(nodeView);
+            var parentData = NodeView.getParentDataView(nodeView);
             var children = NodeFactory.getChildren(parentData);
             if (children) _.moveArrayElement(children, nodeData, delta);
         }
@@ -173,7 +173,7 @@ define(
             var newNodes = [];
             var placeholderNodeView;
 
-            var parentView = nodeView.treeInfo.parent;
+            var parentView = NodeView.getParentView(nodeView);
 
             placeholderNodeView = addPlaceholderNode(parentView, true);
             newNodes.push(placeholderNodeView);
@@ -194,7 +194,7 @@ define(
 
         function addNodeDataToParentData(nodeView) {
             var nodeData = nodeView.binding.targetDataNode;
-            var parentData = findFirstParentData(nodeView);
+            var parentData = NodeView.getParentDataView(nodeView);
             var children = NodeFactory.getChildren(parentData);
             if (children) children.push(nodeData);
         }
@@ -228,7 +228,7 @@ define(
                 function(treeNode) {
                     if (treeNode.binding.isPlaceholder) {
                         removedNodes.push(treeNode);
-                        NodeView.removeChild(treeNode.treeInfo.parent, treeNode)
+                        NodeView.removeChild(NodeView.getParentView(treeNode), treeNode)
                     }
                 }
             );
@@ -240,7 +240,7 @@ define(
 
         function addPlaceholderNode(parent, isEditorElement) {
             var placeholderNode;
-            var parentIsRoot = !parent.treeInfo.parent;
+            var parentIsRoot = !NodeView.getParentView(parent);
             if (parentIsRoot) {
                 placeholderNode = nodeDataGenerator.generateGroup();
                 var nodeData = NodeFactory.createStanceNode();
@@ -305,17 +305,6 @@ define(
 
             });
 
-        }
-
-
-        function findFirstParentData(nodeView) {
-            var parentView = nodeView.treeInfo.parent;
-            var result;
-            while (parentView && !result) {
-                result = parentView.binding.targetDataNode;
-                parentView = parentView.treeInfo.parent;
-            }
-            return result || null;
         }
 
     }

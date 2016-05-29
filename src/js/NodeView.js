@@ -22,6 +22,9 @@ define(
 
             log: log,
 
+            getParentView:     getParentView,
+            getParentDataView: getParentDataView,
+
             setChildren:     setChildren,
             addChild:        addChild,
             addVisibleChild: addVisibleChild,
@@ -180,6 +183,23 @@ define(
         }
 
 
+        /** Can return grouping node views as well */
+        function getParentView(nodeView) {
+            return nodeView.treeInfo.parent || null;
+        }
+
+
+        /** Skip grouping node views */
+        function getParentDataView(nodeView) {
+            var parentNodeView = nodeView;
+            var result = null;
+            while (parentNodeView && !result) {
+                var parentNodeView = getParentView(parentNodeView);
+                result = parentNodeView.binding.targetDataNode || null;
+            }
+            return result;
+        }
+
 
         // ==== Children ====
 
@@ -308,7 +328,7 @@ define(
 
                     nodesAtIteratedDepth.forEach(function(nodeView) {
 
-                        var parent = nodeView.treeInfo.parent;
+                        var parent = getParentView(nodeView);
                         var visibleChildren = getVisibleChildren(nodeView);
                         var hiddenChildren  = getHiddenChildren(nodeView);
 
@@ -403,7 +423,7 @@ define(
         //     for (var i = childrenByDepth.length - 1; i > 0; --i) {
         //         var children = childrenByDepth[i];
         //         children.forEach(function(child) {
-        //             var parentSr = child.treeInfo.parent.appearance.scrollRange;
+        //             var parentSr = getParentView(child).appearance.scrollRange;
         //             var childSr = child.appearance.scrollRange;
         //             parentSr.from = Math.min(parentSr.from, child.y); // childSr.from);
         //             parentSr.to   = Math.max(parentSr.to,   child.y); // childSr.to);
