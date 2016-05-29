@@ -2,7 +2,7 @@
   pointer-events: none;
 }
 g.canvas {
-  transition: transform 1s;
+  transition: transform 500ms;
 }
 path.link {
   fill: none;

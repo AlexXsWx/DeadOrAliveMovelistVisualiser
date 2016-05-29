@@ -10,6 +10,8 @@ define(
         var CHAR_HIDE   = String.fromCharCode(0x2212); // minus sign
         var CHAR_MIXED  = String.fromCharCode(0x00D7); // cross sign
 
+        var TRANSITION_DURATION = 500; // ms
+
         var TEXT_GETTER_OPTIONS = [
             getEmptyText,
             getTextRight,
@@ -54,23 +56,48 @@ define(
                 right:  null
             };
 
-            var position = {
-                x: undefined,
-                y: undefined
-            };
+            // ==== Animation ====
+
+                var positionTarget = {
+                    x: undefined,
+                    y: undefined
+                };
+
+                var positionStart = {
+                    x: undefined,
+                    y: undefined
+                };
+
+                var positionParentTarget = {
+                    x: undefined,
+                    y: undefined
+                };
+
+                var positionParentStart = {
+                    x: undefined,
+                    y: undefined
+                };
+
+                var opacityStart  = 1;
+                var opacityTarget = 1;
+
+                var transitionStart = undefined;
+                var animationFrameRequest = null;
+
+            // ===================
 
             createDomNodes();
 
             var nodeSvgView = {
-                nodeView:            nodeView,
-                wrapper:             wrapper,
-                link:                link,
-                setPosition:         setPosition,
-                getPosition:         getPosition,
-                updateLink:          updateLink,
-                updateLinkThickness: updateLinkThickness,
-                updateByData:        updateByData,
-                destroy:             destroy
+                nodeView:             nodeView,
+                wrapper:              wrapper,
+                link:                 link,
+                animate:              animate,
+                getPositionTarget:    getPositionTarget,
+                getPositionStart:     getPositionStart,
+                updateLinkThickness:  updateLinkThickness,
+                updateByData:         updateByData,
+                destroy:              destroy
             };
 
             return nodeSvgView;
@@ -81,7 +108,32 @@ define(
                 updateLinkThickness();
             }
 
-            function destroy() {
+            function destroy(optX, optY) {
+                wrapper.classList.add('unclickable');
+                link.classList.add('unclickable');
+                if (optX !== undefined && optY !== undefined) {
+                    destroyAnimated(optX, optY);
+                } else {
+                    destroyNotAnimated();
+                }
+            }
+
+            function destroyAnimated(x, y) {
+                if (animationFrameRequest !== null) {
+                    window.cancelAnimationFrame(animationFrameRequest);
+                    animationFrameRequest = null;
+                }
+                animate(x, y, x, y, 0);
+                setTimeout(destroyNotAnimated, TRANSITION_DURATION);
+            }
+
+            function destroyNotAnimated() {
+
+                if (animationFrameRequest !== null) {
+                    window.cancelAnimationFrame(animationFrameRequest);
+                    animationFrameRequest = null;
+                }
+
                 removeSvgNodeFromParent(link);
                 removeSvgNodeFromParent(wrapper);
                 link = null;
@@ -241,14 +293,99 @@ define(
                 texts.bottom.setAttribute('y',  (nodeSize + textPadding));
             }
 
-            function setPosition(x, y) {
-                position.x = x;
-                position.y = y;
-                wrapper.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+            // ==== Animation ====
+
+                function updateAnimationState(x, y, linkStartX, linkStartY, opacity) {
+                    wrapper.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+                    updateLink(x, y, linkStartX, linkStartY);
+                    wrapper.setAttribute('opacity', opacity);
+                    link.setAttribute('opacity', opacity);
+                }
+
+                function animate(x, y, linkStartX, linkStartY, opacity) {
+
+                    if (
+                        positionTarget.x === undefined ||
+                        positionTarget.y === undefined ||
+                        positionParentTarget.x === undefined ||
+                        positionParentTarget.y === undefined
+                    ) {
+                        positionTarget.x = x;
+                        positionTarget.y = y;
+                        positionParentTarget.x = linkStartX;
+                        positionParentTarget.y = linkStartY;
+                        updateAnimationState(x, y, linkStartX, linkStartY, opacity);
+                        return;
+                    }
+
+                    var oldProgress = easeTransition(getTransitionProgress());
+
+                    if (positionStart.x === undefined || positionStart.y === undefined) {
+                        positionStart.x = positionTarget.x;
+                        positionStart.y = positionTarget.y;
+                    } else {
+                        positionStart.x = _.lerp(positionStart.x, positionTarget.x, oldProgress);
+                        positionStart.y = _.lerp(positionStart.y, positionTarget.y, oldProgress);
+                    }
+                    positionTarget.x = x;
+                    positionTarget.y = y;
+
+                    if (positionParentStart.x === undefined || positionParentStart.y === undefined) {
+                        positionParentStart.x = positionParentTarget.x;
+                        positionParentStart.y = positionParentTarget.y;
+                    } else {
+                        positionParentStart.x = _.lerp(positionParentStart.x, positionParentTarget.x, oldProgress);
+                        positionParentStart.y = _.lerp(positionParentStart.y, positionParentTarget.y, oldProgress);
+                    }
+                    positionParentTarget.x = linkStartX;
+                    positionParentTarget.y = linkStartY;
+
+                    opacityStart = _.lerp(opacityStart, opacityTarget, oldProgress);
+                    opacityTarget = opacity;
+
+                    transitionStart = Date.now();
+
+                    if (animationFrameRequest !== null) window.cancelAnimationFrame(animationFrameRequest);
+                    animationFrameRequest = window.requestAnimationFrame(moveToTargetPosition);
+                    
+                }
+
+                function moveToTargetPosition() {
+                    var progress = getTransitionProgress();
+                    var eased = easeTransition(progress);
+                    updateAnimationState(
+                        _.lerp(positionStart.x, positionTarget.x, eased),
+                        _.lerp(positionStart.y, positionTarget.y, eased),
+                        _.lerp(positionParentStart.x, positionParentTarget.x, eased),
+                        _.lerp(positionParentStart.y, positionParentTarget.y, eased),
+                        _.lerp(opacityStart, opacityTarget, eased)
+                    );
+                    if (transitionStart + TRANSITION_DURATION > Date.now()) {
+                        animationFrameRequest = window.requestAnimationFrame(moveToTargetPosition);
+                    }
+                }
+
+                function getTransitionProgress() {
+                    if (!transitionStart) return 1;
+                    return Math.min(1, (Date.now() - transitionStart) / TRANSITION_DURATION);
+                }
+
+                function easeTransition(progress) {
+                    return Math.sin(Math.PI / 2 * progress);
+                }
+
+            // ===================
+
+            function getPositionStart() {
+                console.assert(
+                    positionStart.x !== undefined && positionStart.y !== undefined,
+                    'position start is not initialized'
+                );
+                return positionStart;
             }
 
-            function getPosition() {
-                return position;
+            function getPositionTarget() {
+                return positionTarget;
             }
 
             function updateLink(sx, sy, tx, ty) {

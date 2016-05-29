@@ -19,7 +19,8 @@ define('Tools', function() {
         createTextNode:             createTextNode,
         createSvgElement:           createSvgElement,
         setTextContent:             setTextContent,
-        removeAllChildren:          removeAllChildren
+        removeAllChildren:          removeAllChildren,
+        lerp:                       lerp
     };
 
     function getDomElement(id) {
@@ -229,6 +230,10 @@ define('Tools', function() {
     function setTextContent(domElement, text) {
         removeAllChildren(domElement);
         domElement.appendChild(createTextNode(text));
+    }
+
+    function lerp(start, target, weight) {
+        return start * (1 - weight) + target * weight;
     }
 
 });

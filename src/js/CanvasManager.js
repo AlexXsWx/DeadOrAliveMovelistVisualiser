@@ -6,7 +6,7 @@ define('CanvasManager', ['Tools'], function(_) {
 
         var canvas = _.createSvgElement({
             tag: 'g',
-            classed: [ 'canvas' ]
+            classes: [ 'canvas' ]
         });
 
         var svg = _.createSvgElement({

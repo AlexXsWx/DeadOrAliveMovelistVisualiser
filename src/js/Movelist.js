@@ -228,8 +228,10 @@ define(
 
                 function onButtonOpenUrl(optEvent) {
                     var url = prompt(
-                        'Enter URL:',
-                        'https://raw.githubusercontent.com/AlexXsWx/DeadOrAliveMovelistVisualiser/splitting_data_and_view/data/rig.6.json'
+                        'Enter URL:', (
+                            'http://raw.githubusercontent.com/AlexXsWx/' + 
+                            'DeadOrAliveMovelistVisualiser/splitting_data_and_view/data/rig.6.json'
+                        )
                     );
                     NodeSerializer.deserializeFromUrl(url, loadData);
                 }
@@ -412,7 +414,8 @@ define(
 
                 limitsFinder.invalidate();
 
-                var currentlyVisibleIds = {};
+                var idsVisibleBeforeUpdate = {};
+                var idsSvgVisibleBeforeUpdate = {};
 
                 TreeTools.forAllCurrentChildren(
                     rootNodeView,
@@ -424,16 +427,13 @@ define(
                     rootNodeView,
                     NodeView.getVisibleChildren,
                     function rememberCurrentlyVisibleNodes(nodeView) {
-                        currentlyVisibleIds[NodeView.getId(nodeView)] = true;
+                        var id = NodeView.getId(nodeView);
+                        idsVisibleBeforeUpdate[id] = true;
+                        if (visibleNodesSvgViews.hasOwnProperty(id)) {
+                            idsSvgVisibleBeforeUpdate[id] = true;
+                        }
                     }
                 );
-
-                Object.keys(visibleNodesSvgViews).forEach(function removeHidedSvgNodeViews(id) {
-                    if (!currentlyVisibleIds.hasOwnProperty(id)) {
-                        visibleNodesSvgViews[id].destroy();
-                        delete visibleNodesSvgViews[id];
-                    }
-                });
 
                 var childrenByDepth = TreeTools.getChildrenMergedByDepth(
                     rootNodeView, NodeView.getAllChildren
@@ -447,9 +447,36 @@ define(
                     NodeView.getId,
                     NodeView.getVisibleChildren,
                     getNodeViewSize,
-                    updateNodeViewAndSetPosition,
-                    positionNodeViewLink
+                    function(nodeView, x, y, parentX, parentY) {
+                        updateNodeViewAndSetCoordinates(
+                            nodeView, x, y, parentX, parentY, idsSvgVisibleBeforeUpdate
+                        );
+                    }
                 );
+
+                var nodeSvgViewsToHide = [];
+                Object.keys(visibleNodesSvgViews).forEach(
+                    function removeHidedSvgNodeViews(id) {
+                        if (!idsVisibleBeforeUpdate.hasOwnProperty(id)) {
+                            nodeSvgViewsToHide.push(visibleNodesSvgViews[id]);
+                            delete visibleNodesSvgViews[id];
+                        }
+                    }
+                );
+
+                nodeSvgViewsToHide.forEach(function(nodeSvgView) {
+                    var parentView = NodeView.getParentView(nodeSvgView.nodeView);
+                    while (parentView) {
+                        var parentId = NodeView.getId(parentView);
+                        if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
+                            var parentSvgView = visibleNodesSvgViews[parentId];
+                            var position = parentSvgView.getPositionTarget();
+                            nodeSvgView.destroy(position.x, position.y);
+                            return;
+                        }
+                        parentView = NodeView.getParentView(parentView);
+                    }
+                });
 
                 // NodeView.fillScrollRange(rootNodeView);
 
@@ -488,30 +515,39 @@ define(
                 };
             }
 
-            function updateNodeViewAndSetPosition(nodeView, x, y) {
+            function updateNodeViewAndSetCoordinates(
+                nodeView, x, y, parentX, parentY, idsSvgVisibleBeforeUpdate
+            ) {
 
                 var id = NodeView.getId(nodeView);
                 var nodeSvgView = visibleNodesSvgViews[id];
 
                 if (!nodeSvgView) {
+
                     nodeSvgView = NodeSvgView.create(nodeView, NODE_HEIGHT / 3.0);
                     canvas.linksParent.appendChild(nodeSvgView.link);
                     canvas.nodesParent.appendChild(nodeSvgView.wrapper);
                     visibleNodesSvgViews[id] = nodeSvgView;
+
+                    var parentView = NodeView.getParentView(nodeSvgView.nodeView);
+                    while (parentView) {
+                        var parentId = NodeView.getId(parentView);
+                        if (idsSvgVisibleBeforeUpdate.hasOwnProperty(parentId)) {
+                            var parentSvgView = visibleNodesSvgViews[parentId];
+                            var position = parentSvgView.getPositionStart();
+                            nodeSvgView.animate(position.x, position.y, position.x, position.y, 0);
+                            break;
+                        }
+                        parentView = NodeView.getParentView(parentView);
+                    }
                 }
 
                 nodeSvgView.updateByData();
-                nodeSvgView.setPosition(x, y);
+                nodeSvgView.animate(x, y, parentX, parentY, 1);
 
                 limitsFinder.expandToContain(x, y);
                 // NodeView.resetScrollRange(nodeView);
                 
-            }
-
-            function positionNodeViewLink(nodeView, x, y, parentX, parentY) {
-                var id = NodeView.getId(nodeView);
-                var nodeSvgView = visibleNodesSvgViews[id];
-                nodeSvgView.updateLink(x, y, parentX, parentY);
             }
 
             function onClickNodeView(nodeSvgView) {
@@ -611,7 +647,7 @@ define(
 
 
             // function getDespawnPosition(nodeView) {
-            //     return getPosition(getDespawnParent(nodeView));
+            //     return getPositionTarget(getDespawnParent(nodeView));
             // }
 
 
@@ -622,7 +658,7 @@ define(
             //     };
             // }
 
-            // function getPosition(nodeView) {
+            // function getPositionTarget(nodeView) {
             //     return {
             //         x: nodeView.x,
             //         y: nodeView.y

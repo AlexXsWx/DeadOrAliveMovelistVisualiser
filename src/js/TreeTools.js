@@ -8,7 +8,7 @@ define('TreeTools', ['d3'], function TreeTools(d3) {
     };
 
     // FIXME: get rid of d3...
-    function layoutTreeWithD3(root, getId, getChildren, getChildSize, setCoordinates, setLink) {
+    function layoutTreeWithD3(root, getId, getChildren, getChildSize, setCoordinates) {
 
         var treeGenerator = d3.layout.tree();
         var rootSize = getChildSize(root);
@@ -25,9 +25,10 @@ define('TreeTools', ['d3'], function TreeTools(d3) {
             datum.y = datum.x;
             datum.x = swap;
 
-            setCoordinates(originalsById[datum.id], datum.x, datum.y);
             if (datum.parent) {
-                setLink(originalsById[datum.id], datum.x, datum.y, datum.parent.x, datum.parent.y);
+                setCoordinates(originalsById[datum.id], datum.x, datum.y, datum.parent.x, datum.parent.y);
+            } else {
+                setCoordinates(originalsById[datum.id], datum.x, datum.y, datum.x, datum.y);
             }
 
         });
@@ -57,11 +58,11 @@ define('TreeTools', ['d3'], function TreeTools(d3) {
         //         var child = childrenAtCurrentDepth[j]
         //         var children = getChildren(child);
         //         if (children.length > 1) {
-        //             var pos = child.getPosition();
+        //             var pos = child.getPositionTarget();
         //             setCoordinates(
         //                 child,
         //                 pos.x,
-        //                 0.5 * (children[0].getPosition().y + children[children.length - 1].getPosition().y)
+        //                 0.5 * (children[0].getPositionTarget().y + children[children.length - 1].getPositionTarget().y)
         //             );
         //         }
         //     }
