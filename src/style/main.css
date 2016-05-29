@@ -124,11 +124,13 @@ body {
 #popupWelcome > h2 {
   text-align: center;
 }
+#popupWelcome > table tr > td {
+  padding-bottom: 10px;
+}
 #popupWelcome > table tr > td:first-child {
-  width: 100px;
   text-align: right;
   vertical-align: top;
-  padding-bottom: 10px;
+  width: 100px;
 }
 #about {
   margin-top: 5px;
