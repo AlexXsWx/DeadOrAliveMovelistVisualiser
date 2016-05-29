@@ -17,7 +17,9 @@ define('Tools', function() {
         showDomElement:             showDomElement,
         createDomElement:           createDomElement,
         createTextNode:             createTextNode,
-        createSvgElement:           createSvgElement
+        createSvgElement:           createSvgElement,
+        setTextContent:             setTextContent,
+        removeAllChildren:          removeAllChildren
     };
 
     function getDomElement(id) {
@@ -218,6 +220,15 @@ define('Tools', function() {
 
         return element;
 
+    }
+
+    function removeAllChildren(domElement) {
+        domElement.innerHTML = '';
+    }
+
+    function setTextContent(domElement, text) {
+        removeAllChildren(domElement);
+        domElement.appendChild(createTextNode(text));
     }
 
 });

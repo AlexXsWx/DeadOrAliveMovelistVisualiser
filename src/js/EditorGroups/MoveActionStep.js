@@ -206,7 +206,7 @@ define(
                 damage.setValue('');
                 // condition.setValue('');
                 // tags.setValue('');
-                resultsParent.innerHTML = '';
+                _.removeAllChildren(resultsParent);
                 results = [];
             }
 
@@ -231,7 +231,7 @@ define(
                 // condition.setValue(actionStep.condition.join(', ') || '');
                 // tags.setValue(actionStep.tags.join(', ') || '');
 
-                resultsParent.innerHTML = '';
+                _.removeAllChildren(resultsParent);
                 results = [];
                 for (var i = 0; i < actionStep.results.length; ++i) {
                     var result = createResultInput();

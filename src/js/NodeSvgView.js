@@ -95,16 +95,16 @@ define(
                 texts.right = null;
             }
 
-            function removeSvgNodeFromParent(svgNode) {
-                svgNode.parentElement.removeChild(svgNode);
+            function removeSvgNodeFromParent(svgNodeView) {
+                svgNodeView.parentElement.removeChild(svgNodeView);
             }
 
             function updateTextsByData() {
-                setLeftText   ( getActualLeftText(nodeView)  );
-                setCenterText ( getTextToggle(nodeView)      );
-                setTopText    ( textGetters.top(nodeView)    );
-                setRightText  ( getActualRightText(nodeView) );
-                setBottomText ( textGetters.bottom(nodeView) );
+                _.setTextContent(texts.left,   getActualLeftText(nodeView));
+                _.setTextContent(texts.center, getTextToggle(nodeView));
+                _.setTextContent(texts.right,  getActualRightText(nodeView));
+                _.setTextContent(texts.top,    textGetters.top(nodeView));
+                _.setTextContent(texts.bottom, textGetters.bottom(nodeView));
             }
 
             function updateClassesByData() {
@@ -267,26 +267,6 @@ define(
                 link.setAttribute('stroke-width', result);
             }
 
-            function setCenterText(value) {
-                texts.center.innerHTML = value;
-            }
-
-            function setTopText(value) {
-                texts.top.innerHTML = value;
-            }
-
-            function setBottomText(value) {
-                texts.bottom.innerHTML = value;
-            }
-
-            function setLeftText(value) {
-                texts.left.innerHTML = value;
-            }
-
-            function setRightText(value) {
-                texts.right.innerHTML = value;
-            }
-
         }
 
         function setFlipTextToRight(value) {
@@ -330,16 +310,16 @@ define(
             }
 
             function getTextLeft(nodeView) {
-                return nodeView.appearance.textLeft;
+                return NodeView.getName(nodeView) || '<unnamed>';
             }
 
             function getTextRight(nodeView) {
-                return nodeView.appearance.textEnding;
+                return NodeView.getEnding(nodeView);
             }
 
             function getTextToggle(nodeView) {
 
-                if (!_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) return null;
+                if (!_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) return '';
 
                 var hasVisible = NodeView.hasVisibleChildren(nodeView);
                 var hasHidden  = NodeView.hasHiddenChildren(nodeView);

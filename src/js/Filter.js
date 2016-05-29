@@ -78,23 +78,16 @@ define(
         }
 
         function filterResultsToString(results) {
-            return results.filter(function(path) {
-                return path.length > 0;
-            }).map(function(path) {
+            // FIXME: add comma on free cancel
+            return results.filter(
+                function(path) { return path.length > 0; }
+            ).map(function(path) {
                 if (typeof path === 'string') return path;
-                return path.filter(function(nodeData) {
-                    return NodeFactory.isMoveNode(nodeData);
-                }).map(function(nodeData) {
-                    // if (NodeFactory.isStanceNode(nodeData)) {
-                    //     return '[' + nodeData.abbreviation + ']';
-                    // }
-                    // if (NodeFactory.isMoveNode(nodeData)) {
-                        var input = nodeData.input;
-                        var context = nodeData.context.join(',');
-                        if (context) context + ':' + input;
-                        return input;
-                    // }
-                }).join(' ');
+                return path.filter(
+                    function(nodeData) { return NodeFactory.isMoveNode(nodeData); }
+                ).map(
+                    function(nodeData) { return NodeFactory.toString(nodeData); }
+                ).join(' ');
             }).join('\n');
         }
 

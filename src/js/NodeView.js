@@ -43,15 +43,16 @@ define(
             
             toggleVisibleChildren: toggleVisibleChildren,
 
-            setBinding:                  setBinding,
-            updateAppearanceByBoundNode: updateAppearanceByBoundNode,
+            setBinding: setBinding,
 
             getId: getId,
             getName: getName,
             getEnding: getEnding,
 
             backupPosition: backupPosition,
-            swapXY: swapXY
+
+            isPlaceholder:      isPlaceholder,
+            isGroupingNodeView: isGroupingNodeView
 
             // fillScrollRange: fillScrollRange,
             // resetScrollRange: resetScrollRange
@@ -61,15 +62,6 @@ define(
 
         function setBinding(nodeView, nodeData) {
             nodeView.binding.targetDataNode = nodeData;
-            updateAppearanceByBoundNode(nodeView);
-        }
-
-        function updateAppearanceByBoundNode(nodeView) {
-            var appearance = nodeView.appearance;
-            var name   = getName(nodeView) || '<unnamed>';
-            var ending = getEnding(nodeView);
-            appearance.textLeft = name;
-            appearance.textEnding = ending;
         }
 
 
@@ -111,7 +103,7 @@ define(
                 treeInfo: {
                     // Note - prefer using getter
                     id: id,
-                    /** NodeView */
+                    /** NodeView - prefer using getter */
                     parent: parent || null,
                     // Note - prefer using accessor methods
                     children: {
@@ -124,8 +116,6 @@ define(
 
                 appearance: {
                     classes: [],
-                    textLeft:  undefined,
-                    textEnding: undefined,
                     lastPosition: {
                         x: undefined,
                         y: undefined
@@ -140,11 +130,10 @@ define(
                 },
 
                 binding: {
-                    targetDataNodeType: undefined, // root / stance / move
                     isPlaceholder: undefined, // bool
-                    targetDataNode: null
-                    // svgNode: null,
-                    // svgIncomingLink: null,
+                    targetDataNode: null,
+                    groupName: undefined // string
+                    // svgNodeView: null
                 }
 
             };
@@ -176,12 +165,6 @@ define(
         }
 
 
-        function swapXY(nodeView) {
-            var temp = nodeView.x;
-            nodeView.x = nodeView.y;
-            nodeView.y = temp;
-        }
-
 
         /** Can return grouping node views as well */
         function getParentView(nodeView) {
@@ -203,7 +186,7 @@ define(
 
         // ==== Children ====
 
-            /** Does not update `parent` of its old children */
+            /** Does not update `parent` of children it dumps away */
             function setChildren(nodeView, newChildren) {
 
                 nodeView.treeInfo.children.visible = newChildren;
@@ -380,20 +363,7 @@ define(
 
         function getName(nodeView) {
             var targetNode = nodeView.binding.targetDataNode;
-            if (NodeFactory.isRootNode(targetNode)) {
-                return targetNode.character || 'character';
-            } else
-            if (NodeFactory.isStanceNode(targetNode)) {
-                return targetNode.abbreviation || 'stance';
-            } else
-            if (NodeFactory.isMoveNode(targetNode)) {
-                var input = targetNode.input;
-                if (!input) return 'move';
-                var context = targetNode.context.join(',');
-                if (context) return context + ':' + input;
-                return input;
-            }
-            console.error('Can\'t resolve name for node %O', nodeView);
+            return targetNode ? NodeFactory.toString(targetNode) : nodeView.binding.groupName;
         }
 
 
@@ -401,9 +371,18 @@ define(
             var targetDataNode = nodeView.binding.targetDataNode;
             var result = targetDataNode && (
                 NodeFactory.isStanceNode(targetDataNode) && targetDataNode.endsWith ||
-                NodeFactory.isMoveNode(targetDataNode) && targetDataNode.endsWith
+                NodeFactory.isMoveNode(targetDataNode)   && targetDataNode.endsWith
             );
             return result || null;
+        }
+
+
+        function isPlaceholder(nodeView) {
+            return nodeView.binding.isPlaceholder;
+        }
+
+        function isGroupingNodeView(nodeView) {
+            return !nodeView.binding.targetDataNode;
         }
 
 

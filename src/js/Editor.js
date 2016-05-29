@@ -80,7 +80,7 @@ define(
                 added: []
             };
 
-            if (nodeView.binding.isPlaceholder) {
+            if (NodeView.isPlaceholder(nodeView)) {
                 update.added = onPlaceholderEdited(nodeView);
             }
 
@@ -97,7 +97,7 @@ define(
             var nodeData = nodeView.binding.targetDataNode;
             var parentNodeView = NodeView.getParentView(nodeView);
 
-            if (!nodeView.binding.isPlaceholder && parentNodeView) {
+            if (!NodeView.isPlaceholder(nodeView) && parentNodeView) {
 
                 var firstParentData = NodeView.getParentDataView(nodeView);
 
@@ -159,7 +159,11 @@ define(
             if (_.moveArrayElement(allChildren,     nodeView, delta)) changed = true;
             if (_.moveArrayElement(visibleChildren, nodeView, delta)) changed = true;
 
-            changed && onDataChanged.dispatch({ moved: [ nodeView ] });
+            if (!changed) return;
+
+            onDataChanged.dispatch({ moved: [ nodeView ] });
+
+            if (NodeView.isGroupingNodeView(nodeView)) return;
 
             var nodeData = nodeView.binding.targetDataNode;
             var parentData = NodeView.getParentDataView(nodeView);
@@ -207,8 +211,8 @@ define(
             TreeTools.forAllCurrentChildren(
                 rootViewNode, 
                 NodeView.getAllChildren, 
-                function(treeNode) {
-                    var newNode = addPlaceholderNode(treeNode, true);
+                function(nodeView) {
+                    var newNode = addPlaceholderNode(nodeView, true);
                     addedNodes.push(newNode);
                 }
             );
@@ -225,10 +229,10 @@ define(
             TreeTools.forAllCurrentChildren(
                 rootViewNode, 
                 NodeView.getAllChildren, 
-                function(treeNode) {
-                    if (treeNode.binding.isPlaceholder) {
-                        removedNodes.push(treeNode);
-                        NodeView.removeChild(NodeView.getParentView(treeNode), treeNode)
+                function(nodeView) {
+                    if (NodeView.isPlaceholder(nodeView)) {
+                        removedNodes.push(nodeView);
+                        NodeView.removeChild(NodeView.getParentView(nodeView), nodeView)
                     }
                 }
             );

@@ -99,7 +99,7 @@ define(
 
             function recreateActionStepInputs(actionStepsAmount) {
                 actionStepInputs = [];
-                actionStepsParent.innerHTML = '';
+                _.removeAllChildren(actionStepsParent);
                 for (var i = 0; i < actionStepsAmount; ++i) {
                     (function() {
                         var actionStepIndex = i;

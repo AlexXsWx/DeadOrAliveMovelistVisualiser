@@ -14,7 +14,14 @@ define('NodeFactory', ['Tools'], function Node(_) {
 
         isRootNode:   isRootNode,
         isStanceNode: isStanceNode,
-        isMoveNode:   isMoveNode
+        isMoveNode:   isMoveNode,
+
+        toString: toString,
+
+        isMovePunch: isMovePunch,
+        isMoveKick:  isMoveKick,
+        isMoveThrow: isMoveThrow,
+        isMoveHold:  isMoveHold
 
         // guessMoveTypeByInput: guessMoveTypeByInput
 
@@ -245,6 +252,24 @@ define('NodeFactory', ['Tools'], function Node(_) {
     }
 
 
+    function toString(node) {
+        if (isRootNode(node)) {
+            return node.character || 'character';
+        } else
+        if (isStanceNode(node)) {
+            return node.abbreviation || 'stance';
+        } else
+        if (isMoveNode(node)) {
+            var input = node.input;
+            if (!input) return 'move';
+            var context = node.context.join(',');
+            if (context) return context + ':' + input;
+            return input;
+        }
+        console.error('Can\'t represent node %O with a string', node);
+    }
+
+
     function isRootNode(node) {
         return node.hasOwnProperty('character');
     }
@@ -255,6 +280,43 @@ define('NodeFactory', ['Tools'], function Node(_) {
 
     function isMoveNode(node) {
         return node.hasOwnProperty('input');
+    }
+
+    function isMovePunch(node) {
+        return node.actionSteps.some(function(actionStep) {
+            if (!actionStep.actionMask || !actionStep.actionType) return false;
+            return (actionStep.actionMask.search('P') >= 0 && (
+                actionStep.actionType.search('strike') >= 0 ||
+                actionStep.actionType.search('attack') >= 0
+            ));
+        });
+    }
+
+    function isMoveKick(node) {
+        return node.actionSteps.some(function(actionStep) {
+            if (!actionStep.actionMask || !actionStep.actionType) return false;
+            return (actionStep.actionMask.search('K') >= 0 && (
+                actionStep.actionType.search('strike') >= 0 ||
+                actionStep.actionType.search('attack') >= 0
+            ));
+        });
+    }
+
+    function isMoveThrow(node) {
+        return node.actionSteps.some(function(actionStep) {
+            if (!actionStep.actionType) return false;
+            return (
+                actionStep.actionType.search('grab') >= 0 ||
+                actionStep.actionType.search('throw') >= 0 ||
+                actionStep.actionType.search('offensive') >= 0
+            );
+        });
+    }
+
+    function isMoveHold(node) {
+        return node.actionSteps.some(function(actionStep) {
+            return actionStep.actionType && actionStep.actionType.search('hold') >= 0;
+        });
     }
 
 });
