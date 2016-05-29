@@ -197,13 +197,53 @@
                 </div>
             </fieldset>
 
+            <input id="about" type="button" value="About" />
+
         </div>
 
         <!-- ==== Overlays ==== -->
 
-            <div id="loading">
-                <span>Loading bunch of script files<br>through a slow service...</span>
+            <div id="popupWelcomeOverlay">
+                <div id="popupWelcome">
+                    <h2>DOA Character Move List Visualiser</h2><br />
+                    <table>
+                        <tr>
+                            <td><b>Warning:</b></td>
+                            <td>There is no CTRL+Z, so save often.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Usage hints:</b></td>
+                            <td>
+                                Double click on a node to toggle its children;<br />
+                                Placeholders are great way to start with new data;<br />
+                                You can use arrow keys to select neighbour nodes.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Warning:</b></td>
+                            <td>This is work in progress. Future versions are likely to be incompatible with current data format, so don't bother too much with filling all the properties.<br />Also, there are bugs to be found</td>
+                        </tr>
+                        <tr>
+                            <td><b>Warning:</b></td>
+                            <td>It was only tested in Google Chrome</td>
+                        </tr>
+                        <tr>
+                            <td colspan = "2" style="text-align: center;">
+                                <br />
+                                <input id="showWelcomePopupOnStart" type="checkbox" checked/>
+                                <label for="showWelcomePopupOnStart">Show this popup on start</label>
+                                <br /><br />
+                                <input id="closeWelcomePopup" type="Button" value="OK (Close)" />
+                                <input id="loadExample" type="Button" value="Load Example" />
+                                <a href="http://github.com/AlexXsWx/DeadOrAliveMovelistVisualiser">Source files</a>
+                                <br /><br />
+                            </td>
+                        </tr>
+                    </table>
+                    <subscript>by AlexXsWx</subscript>
+                </div>
             </div>
+
             <div id="popupFilterResult" class="clickThrough hidden">
                 <div>
                     <div>
@@ -211,6 +251,10 @@
                         <pre id="filterOuptut"></pre>
                     </div>
                 </div>
+            </div>
+
+            <div id="loading">
+                <span>Loading bunch of the script files<br />through a slow service...</span>
             </div>
 
         <!-- /================= -->

@@ -102,3 +102,35 @@ body {
 #menu > fieldset.collapsed > .fieldsetContent {
   display: none;
 }
+#popupWelcomeOverlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+}
+#popupWelcome {
+  background: white;
+  box-shadow: 0 0 10px black;
+  border: 2px solid black;
+  border-radius: 10px;
+  align-self: center;
+  width: 50%;
+  padding: 20px;
+}
+#popupWelcome > h2 {
+  text-align: center;
+}
+#popupWelcome > table tr > td:first-child {
+  width: 100px;
+  text-align: right;
+  vertical-align: top;
+  padding-bottom: 10px;
+}
+#about {
+  margin-top: 5px;
+  float: right;
+}

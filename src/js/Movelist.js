@@ -37,7 +37,11 @@ define(
 
             var nodeViewGenerator = null;
 
-            var domCache = { download: null };
+            var domCache = {
+                download: null,
+                popupWelcome: null,
+                showWelcomePopupOnStart: null
+            };
 
             var limitsFinder;
 
@@ -78,13 +82,15 @@ define(
 
                 loadData(NodeFactory.createRootNode());
 
-                _.hideDomElement(_.getDomElement('loading'));
+                initUI();
 
             }
 
 
             function cacheDomElements() {
                 domCache.download = _.getDomElement('download');
+                domCache.popupWelcome = _.getDomElement('popupWelcomeOverlay');
+                domCache.showWelcomePopupOnStart = _.getDomElement('showWelcomePopupOnStart');
             }
 
 
@@ -122,6 +128,39 @@ define(
 
 
         // ==== UI ====
+
+            function initUI() {
+
+                _.hideDomElement(_.getDomElement('loading'));
+
+                _.getDomElement('about').addEventListener('click', showWelcomePopup);
+                domCache.popupWelcome.addEventListener('click', hideWelcomePopup);
+                _.getDomElement('closeWelcomePopup').addEventListener('click', hideWelcomePopup);
+                _.getDomElement('popupWelcome').addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
+                _.getDomElement('loadExample').addEventListener('click', function(event) {
+                    hideWelcomePopup();
+                    onButtonOpenUrl();
+                });
+
+                if (localStorage && localStorage.hasOwnProperty('showWelcomePopupOnStart')) {
+                    domCache.showWelcomePopupOnStart.checked = +localStorage.showWelcomePopupOnStart;
+                }
+
+                if (!domCache.showWelcomePopupOnStart.checked) {
+                    hideWelcomePopup();
+                }
+
+            }
+
+            function showWelcomePopup(optEvent) {
+                _.showDomElement(domCache.popupWelcome);
+            }
+            function hideWelcomePopup(optEvent) {
+                localStorage.showWelcomePopupOnStart = +domCache.showWelcomePopupOnStart.checked;
+                _.hideDomElement(domCache.popupWelcome);
+            }
 
             function bindUIActions() {
                 initFieldSetToggleCollapse();
@@ -169,7 +208,7 @@ define(
                 //     _.hideDomElement(domCache.download);
                 // }
 
-                function onButtonOpenUrl(event) {
+                function onButtonOpenUrl(optEvent) {
                     var url = prompt(
                         'Enter URL:',
                         'https://raw.githubusercontent.com/AlexXsWx/DeadOrAliveMovelistVisualiser/splitting_data_and_view/data/rig.6.json'
