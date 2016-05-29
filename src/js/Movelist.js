@@ -219,8 +219,8 @@ define(
                 function onButtonOpenUrl(optEvent) {
                     var url = prompt(
                         'Enter URL:', (
-                            'https://raw.githubusercontent.com/AlexXsWx/' + 
-                            'DeadOrAliveMovelistVisualiser/splitting_data_and_view/data/rig.6.json'
+                            'https://raw.githubusercontent.com/AlexXsWx/' +
+                            'DeadOrAliveMovelistVisualiser/master/data/rig.6.json'
                         )
                     );
                     NodeSerializer.deserializeFromUrl(url, loadData);
