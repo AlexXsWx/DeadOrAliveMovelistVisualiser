@@ -2,9 +2,9 @@ define(
 
     'NodeSvgView',
 
-    ['NodeView', 'NodeFactory', 'Observer', 'Tools'],
+    ['NodeView', 'NodeFactory', 'Observer', 'Tools', 'SvgTools'],
 
-    function NodeSvgView(NodeView, NodeFactory, createObserver, _) {
+    function NodeSvgView(NodeView, NodeFactory, createObserver, _, SvgTools) {
 
         var CHAR_EXPAND = '+';
         var CHAR_HIDE   = String.fromCharCode(0x2212); // minus sign
@@ -62,14 +62,15 @@ define(
             createDomNodes();
 
             var nodeSvgView = {
-                nodeView:     nodeView,
-                wrapper:      wrapper,
-                link:         link,
-                setPosition:  setPosition,
-                getPosition:  getPosition,
-                updateLink:   updateLink,
-                updateByData: updateByData,
-                destroy:      destroy
+                nodeView:            nodeView,
+                wrapper:             wrapper,
+                link:                link,
+                setPosition:         setPosition,
+                getPosition:         getPosition,
+                updateLink:          updateLink,
+                updateLinkThickness: updateLinkThickness,
+                updateByData:        updateByData,
+                destroy:             destroy
             };
 
             return nodeSvgView;
@@ -77,6 +78,7 @@ define(
             function updateByData() {
                 updateTextsByData();
                 updateClassesByData();
+                updateLinkThickness();
             }
 
             function destroy() {
@@ -250,8 +252,19 @@ define(
             }
 
             function updateLink(sx, sy, tx, ty) {
-                link.setAttribute('stroke-width', '1');
-                link.setAttribute('d', 'M' + sx + ' ' + sy + ' L' + tx + ' ' + ty);
+                link.setAttribute('d', SvgTools.pathSmoothedHorizontal(sx, sy, tx, ty));
+            }
+
+            // TODO: optimize
+            function updateLinkThickness() {
+                var branchesAfter = nodeView.appearance.branchesAfter;
+                // Mimic wires passing through the node; using circle area formula
+                var width = 2 * Math.sqrt((branchesAfter + 1) / Math.PI);
+                var minWidth = 2 * Math.sqrt(1 / Math.PI);
+                var result = width / minWidth;
+                var scale = 1.5;
+                result = 1 + (result - 1) * scale;
+                link.setAttribute('stroke-width', result);
             }
 
             function setCenterText(value) {

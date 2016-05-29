@@ -393,12 +393,13 @@ define(
                     });
                 }
 
-                TreeTools.layoutTree(
+                TreeTools.layoutTreeWithD3(
                     rootNodeView,
+                    NodeView.getId,
                     NodeView.getVisibleChildren,
                     getNodeViewSize,
                     updateNodeViewPosition,
-                    positionNodeViewLink
+                    positionNodeViewLinkAndUpdateThickness
                 );
 
                 // NodeView.fillScrollRange(rootNodeView);
@@ -449,17 +450,11 @@ define(
                 // NodeView.resetScrollRange(nodeView);
             }
 
-            function positionNodeViewLink(nodeView, x, y, parentX, parentY) {
-                visibleNodesSvgViews[NodeView.getId(nodeView)].updateLink(
-                    x, y, parentX, parentY
-                );
-            }
-
-            function linkThickness(link) {
-                var targetNodeView = link.target;
-                // Mimic wires passing through the node; using circle area formula
-                var branchesAfter = targetNodeView.appearance.branchesAfter;
-                return 2 * Math.sqrt((branchesAfter + 1) / Math.PI);
+            function positionNodeViewLinkAndUpdateThickness(nodeView, x, y, parentX, parentY) {
+                var id = NodeView.getId(nodeView);
+                var nodeSvgView = visibleNodesSvgViews[id];
+                nodeSvgView.updateLink(x, y, parentX, parentY);
+                nodeSvgView.updateLinkThickness();
             }
 
             function onClickNodeView(nodeSvgView) {

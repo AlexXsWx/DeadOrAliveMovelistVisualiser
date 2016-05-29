@@ -1,10 +1,49 @@
-define('TreeTools', function TreeTools() {
+define('TreeTools', ['d3'], function TreeTools(d3) {
 
     return {
         layoutTree:               layoutTree,
+        layoutTreeWithD3:         layoutTreeWithD3,
         getChildrenMergedByDepth: getChildrenMergedByDepth,
         forAllCurrentChildren:    forAllCurrentChildren
     };
+
+    // FIXME: get rid of d3...
+    function layoutTreeWithD3(root, getId, getChildren, getChildSize, setCoordinates, setLink) {
+
+        var treeGenerator = d3.layout.tree();
+        var rootSize = getChildSize(root);
+        treeGenerator.nodeSize([rootSize.height, rootSize.width]);
+
+        var originalsById = {};
+        var fakeRootDatum = fakeNode(root, getId, getChildren, originalsById);
+
+        var nodes = treeGenerator.nodes(fakeRootDatum);
+
+        forAllCurrentChildren(fakeRootDatum, function(e) { return e.children; }, function(datum) {
+
+            var swap = datum.y;
+            datum.y = datum.x;
+            datum.x = swap;
+
+            setCoordinates(originalsById[datum.id], datum.x, datum.y);
+            if (datum.parent) {
+                setLink(originalsById[datum.id], datum.x, datum.y, datum.parent.x, datum.parent.y);
+            }
+
+        });
+
+        function fakeNode(datum, getId, getChildren, originalsById) {
+            var result = {
+                id: getId(datum),
+                children: getChildren(datum).map(function(child) {
+                    return fakeNode(child, getId, getChildren, originalsById);
+                })
+            };
+            originalsById[result.id] = datum;
+            return result;
+        }
+
+    }
 
     function layoutTree(root, getChildren, getChildSize, setCoordinates, setLink) {
 
