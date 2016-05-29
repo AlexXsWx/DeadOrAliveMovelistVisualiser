@@ -24,9 +24,6 @@ define(
             var NODE_WIDTH  = 150;
             var NODE_HEIGHT = 25;
 
-            // var RESIZE_TIMEOUT = 500;
-            // var ANIMATION_DURATION = 1000
-
         // ===================
 
 
@@ -77,7 +74,6 @@ define(
 
                 limitsFinder = createLimitsFinder();
 
-                updateTreeNodeSize();
                 bindUIActions();
 
                 loadData(createEmptyData());
@@ -135,12 +131,6 @@ define(
                 visibleNodesSvgViews = {};
             }
 
-
-            function updateTreeNodeSize() {
-                // var height = NODE_HEIGHT;
-                // if (textGetters.top    != getEmptyText) height += 0.5 * NODE_HEIGHT;
-                // if (textGetters.bottom != getEmptyText) height += 0.5 * NODE_HEIGHT;
-            }
 
         // ==============
 
@@ -266,7 +256,6 @@ define(
                     var select = this;
                     var selectedOptionValue = +select.selectedOptions[0].value;
                     NodeSvgView.setTopTextOption(selectedOptionValue || 0);
-                    updateTreeNodeSize();
                     update();
                 });
                 _.getDomElement('rightTextOption').addEventListener('change', function(event) {
@@ -279,7 +268,6 @@ define(
                     var select = this;
                     var selectedOptionValue = +select.selectedOptions[0].value;
                     NodeSvgView.setBottomTextOption(selectedOptionValue || 0);
-                    updateTreeNodeSize();
                     update();
                 });
 
@@ -315,7 +303,6 @@ define(
                         }
                         return true;
                     });
-                    // alert(result);
                     _.setTextContent(_.getDomElement('filterOuptut'), advantage + 'f:\n' + result);
                     _.showDomElement(_.getDomElement('popupFilterResult'));
                 }
@@ -486,8 +473,6 @@ define(
                     limitsFinder.y.max - limitsFinder.y.min
                 );
 
-                // nodes.forEach(NodeView.backupPosition);
-
             }
 
 
@@ -509,6 +494,9 @@ define(
             }
 
             function getNodeViewSize(nodeView) {
+                // var height = NODE_HEIGHT;
+                // if (textGetters.top    != getEmptyText) height += 0.5 * NODE_HEIGHT;
+                // if (textGetters.bottom != getEmptyText) height += 0.5 * NODE_HEIGHT;
                 return {
                     width:  NODE_WIDTH,
                     height: NODE_HEIGHT
@@ -556,7 +544,7 @@ define(
 
             function onDoubleClickNodeView(nodeSvgView) {
                 toggleChildren(nodeSvgView);
-                // SelectionManager.undoSelection();
+                SelectionManager.undoSelection();
             }
 
             function toggleChildren(nodeSvgView) {
@@ -623,49 +611,6 @@ define(
             }
 
         // ===================
-
-
-        // ==== Spawn/despawn ====
-
-            // function getDespawnParent(nodeView) {
-            //     var current = nodeView;
-            //     var parent = NodeView.getParentView(nodeView);
-            //     while (
-            //         parent &&
-            //         NodeView.getVisibleChildren(parent).indexOf(current) >= 0
-            //     ) {
-            //         current = parent;
-            //         parent = NodeView.getParentView(current);
-            //     }
-            //     return parent || current;
-            // }
-
-
-            // function getSpawnPosition(nodeView) {
-            //     return getLastPosition(NodeView.getParentView(nodeView) || nodeView);
-            // }
-
-
-            // function getDespawnPosition(nodeView) {
-            //     return getPositionTarget(getDespawnParent(nodeView));
-            // }
-
-
-            // function getLastPosition(nodeView) {
-            //     return {
-            //         x: _.defined(nodeView.appearance.lastPosition.x, nodeView.x),
-            //         y: _.defined(nodeView.appearance.lastPosition.y, nodeView.y)
-            //     };
-            // }
-
-            // function getPositionTarget(nodeView) {
-            //     return {
-            //         x: nodeView.x,
-            //         y: nodeView.y
-            //     };
-            // }
-
-        // =======================
 
     }
 

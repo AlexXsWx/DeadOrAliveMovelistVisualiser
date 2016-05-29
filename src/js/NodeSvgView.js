@@ -451,7 +451,7 @@ define(
             }
 
             function getTextRight(nodeView) {
-                return NodeView.getEnding(nodeView);
+                return NodeView.getEnding(nodeView) || '';
             }
 
             function getTextToggle(nodeView) {
@@ -468,7 +468,9 @@ define(
             }
 
             function getTextDuration(nodeView) {
-                var frameData = nodeView.binding.targetDataNode.frameData;
+                var nodeData = nodeView.binding.targetDataNode;
+                if (!nodeData) return '';
+                var frameData = nodeData.frameData;
                 if (!frameData || frameData.length === 0) return '';
                 var frames = +frameData[0] + 1;
                 var activeFrames = [];

@@ -49,8 +49,6 @@ define(
             getName: getName,
             getEnding: getEnding,
 
-            backupPosition: backupPosition,
-
             isPlaceholder:      isPlaceholder,
             isGroupingNodeView: isGroupingNodeView
 
@@ -116,10 +114,6 @@ define(
 
                 appearance: {
                     classes: [],
-                    lastPosition: {
-                        x: undefined,
-                        y: undefined
-                    },
                     // scrollRange: {
                     //     from: undefined,
                     //     to:   undefined
@@ -156,12 +150,6 @@ define(
                 return createVisualNode(counter++, parent || null);
             }
 
-        }
-
-
-        function backupPosition(nodeView) {
-            nodeView.appearance.lastPosition.x = nodeView.x;
-            nodeView.appearance.lastPosition.y = nodeView.y;
         }
 
 
@@ -323,9 +311,7 @@ define(
                             hiddenChildren:  childReadableIds(hiddenChildren),
                             x: nodeView.x,
                             y: nodeView.y,
-                            depth: nodeView.depth,
-                            lastX: nodeView.appearance.lastPosition.x,
-                            lastY: nodeView.appearance.lastPosition.y
+                            depth: nodeView.depth
                         });
 
                         Array.prototype.push.apply(
