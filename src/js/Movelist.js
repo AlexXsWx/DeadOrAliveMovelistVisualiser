@@ -229,7 +229,7 @@ define(
                 function onButtonOpenUrl(optEvent) {
                     var url = prompt(
                         'Enter URL:', (
-                            'http://raw.githubusercontent.com/AlexXsWx/' + 
+                            'https://raw.githubusercontent.com/AlexXsWx/' + 
                             'DeadOrAliveMovelistVisualiser/splitting_data_and_view/data/rig.6.json'
                         )
                     );
