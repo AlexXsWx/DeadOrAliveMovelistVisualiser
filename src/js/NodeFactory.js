@@ -1,4 +1,4 @@
-define('NodeFactory', ['Tools'], function Node(_) {
+define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
     return {
 
@@ -21,7 +21,9 @@ define('NodeFactory', ['Tools'], function Node(_) {
         isMovePunch: isMovePunch,
         isMoveKick:  isMoveKick,
         isMoveThrow: isMoveThrow,
-        isMoveHold:  isMoveHold
+        isMoveHold:  isMoveHold,
+
+        getActionStepSummary: getActionStepSummary
 
         // guessMoveTypeByInput: guessMoveTypeByInput
 
@@ -35,6 +37,7 @@ define('NodeFactory', ['Tools'], function Node(_) {
             version:   undefined,
             abbreviations: {},
             stances: []
+            // TODO: comment
         });
 
         if (optValidateChildren) {
@@ -77,6 +80,7 @@ define('NodeFactory', ['Tools'], function Node(_) {
             /** gen fu - having hat; zack - having teletubie outfit; etc */
             context: [],
 
+            // TODO: make first element to be Array<Int> for charge attacks
             frameData: [], // Array<Int>
 
             actionSteps: [ createMoveActionStep() ],
@@ -117,12 +121,14 @@ define('NodeFactory', ['Tools'], function Node(_) {
                         mid P
                         mid P mid K
                         mid k high p
+                        ground mid K
                     for hold:
                         high
                         mid
                         high k
                         mid P high P
                         high low p (akira 9h)
+                TODO: if parsed, store as Int
              */
             actionMask: undefined,
 
@@ -143,7 +149,7 @@ define('NodeFactory', ['Tools'], function Node(_) {
             damage: undefined, // int
 
             // condition: undefined,
-            // tags: undefined,
+            tags: [],
 
             // condition-specific results
             results: []
@@ -282,41 +288,69 @@ define('NodeFactory', ['Tools'], function Node(_) {
         return node.hasOwnProperty('input');
     }
 
-    function isMovePunch(node) {
-        return node.actionSteps.some(function(actionStep) {
-            if (!actionStep.actionMask || !actionStep.actionType) return false;
-            return (actionStep.actionMask.search('P') >= 0 && (
-                actionStep.actionType.search('strike') >= 0 ||
-                actionStep.actionType.search('attack') >= 0
-            ));
-        });
+    function isMovePunch(node) { return node.actionSteps.some(isActionStepPunch); }
+    function isMoveKick(node)  { return node.actionSteps.some(isActionStepKick);  }
+    function isMoveThrow(node) { return node.actionSteps.some(isActionStepThrow); }
+    function isMoveHold(node)  { return node.actionSteps.some(isActionStepHold);  }
+
+    function isActionStepPunch(actionStep) {
+        if (!actionStep.actionMask || !actionStep.actionType) return false;
+        var actionType = actionStep.actionType.toLowerCase();
+        return (actionStep.actionMask.toLowerCase().search('p') >= 0 && (
+            actionType.search('strike') >= 0 ||
+            actionType.search('attack') >= 0
+        ));
     }
 
-    function isMoveKick(node) {
-        return node.actionSteps.some(function(actionStep) {
-            if (!actionStep.actionMask || !actionStep.actionType) return false;
-            return (actionStep.actionMask.search('K') >= 0 && (
-                actionStep.actionType.search('strike') >= 0 ||
-                actionStep.actionType.search('attack') >= 0
-            ));
-        });
+    function isActionStepKick(actionStep) {
+        if (!actionStep.actionMask || !actionStep.actionType) return false;
+        var actionType = actionStep.actionType.toLowerCase();
+        return (actionStep.actionMask.toLowerCase().search('k') >= 0 && (
+            actionType.search('strike') >= 0 ||
+            actionType.search('attack') >= 0
+        ));
     }
 
-    function isMoveThrow(node) {
-        return node.actionSteps.some(function(actionStep) {
-            if (!actionStep.actionType) return false;
-            return (
-                actionStep.actionType.search('grab') >= 0 ||
-                actionStep.actionType.search('throw') >= 0 ||
-                actionStep.actionType.search('offensive') >= 0
-            );
-        });
+    function isActionStepThrow(actionStep) {
+        if (!actionStep.actionType) return false;
+        var actionType = actionStep.actionType.toLowerCase();
+        return (
+            actionType.search('grab') >= 0 ||
+            actionType.search('throw') >= 0 ||
+            actionType.search('offensive') >= 0
+        );
     }
 
-    function isMoveHold(node) {
-        return node.actionSteps.some(function(actionStep) {
-            return actionStep.actionType && actionStep.actionType.search('hold') >= 0;
-        });
+    function isActionStepHold(actionStep) {
+        return actionStep.actionType && actionStep.actionType.search('hold') >= 0;
+    }
+
+    function getActionStepSummary(actionStep) {
+
+        var result = '';
+
+        if (actionStep.isTracking !== undefined) result += actionStep.isTracking ? 't' : 'd';
+        if (actionStep.actionMask !== undefined) {
+            result += summarizeActionStepMask(actionStep.actionMask)
+        }
+        if (isActionStepThrow(actionStep)) result += 'g'; // for Grab
+        if (isActionStepHold(actionStep))  result += 'c'; // for Counter-hold
+
+        return result;
+
+    }
+
+    function summarizeActionStepMask(actionStepMask) {
+        var result = '';
+        var lowCased = actionStepMask.toLowerCase();
+        if (lowCased.search('jump')         >= 0) result += 'j';
+        if (lowCased.search('high')         >= 0) result += 'h';
+        if (lowCased.search('mid')          >= 0) result += 'm';
+        if (lowCased.search('low')          >= 0) result += 'l';
+        if (lowCased.search('ground')       >= 0) result += 'f'; // for Floor
+        if (lowCased.search(/\bp(?:unch)?/) >= 0) result += 'p';
+        if (lowCased.search(/\bk(?:ick)?/)  >= 0) result += 'k';
+        return result;
     }
 
 });

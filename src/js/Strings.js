@@ -50,7 +50,24 @@ define('Strings', function() {
         'moveActionResultTagsDescription': (
             'Action step result tags. Everything else that didn\'t fit in this form, ' +
             'e.g. sit-down stun'
-        )
+        ),
+
+        'moveActionSummary': 'Summary',
+        'moveActionSummaryDescription': (
+            'Mask, Type and Tracking\n' +
+            'Available letters:\n' +
+            '   T for tracking\n' +
+            '   D for direct (opposite to tracking)\n' +
+            '   J for jump attack\n' +
+            '   H/M/L for high/mid/low\n' +
+            '   F for ground attack (f for Floor)\n' +
+            '   P for punch\n' +
+            '   K for kick\n' +
+            '   G for grab (throw)\n' +
+            '   C for counter-hold\n' +
+            'Examples: "dhp", "lg", "mhpc"'
+        ),
+        'moveActionSummaryPlaceholder': 'e.g. "tlk" for tracking low kick'
 
     };
 

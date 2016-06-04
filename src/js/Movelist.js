@@ -74,9 +74,9 @@ define(
 
                 limitsFinder = createLimitsFinder();
 
-                bindUIActions();
-
                 loadData(createEmptyData());
+
+                bindUIActions();
 
                 initUI();
 
@@ -231,12 +231,12 @@ define(
             // ==== Editor ====
 
                 function initEditorUIActions() {
-                    _.getDomElement('showPlaceholders').addEventListener(
-                        'change', onChangeShowPlaceholders
-                    );
+                    var showPlaceholders = _.getDomElement('showPlaceholders');
+                    showPlaceholders.addEventListener('change', onChangeShowPlaceholders);
+                    onChangeShowPlaceholders.call(showPlaceholders, null);
                 }
 
-                function onChangeShowPlaceholders(event) {
+                function onChangeShowPlaceholders(optEvent) {
 
                     SelectionManager.selectNode(null);
 

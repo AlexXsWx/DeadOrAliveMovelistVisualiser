@@ -10,7 +10,7 @@ define(
         'Tools'
     ],
 
-    function(
+    function EditorGroupMoveCreator(
         EditorGroup,
         MoveActionStep,
         InputHelper,
@@ -24,7 +24,7 @@ define(
             frameData: 2,
             ending:    3
         };
-        var lastSelectedInput = -1;
+        var lastSelectedInput = inputEnum.input;
 
         return { create: create };
 
@@ -173,7 +173,7 @@ define(
 
             function changeInput(newValue, nodeData) {
                 var oldValue = nodeData.input;
-                nodeData.input = newValue;
+                nodeData.input = newValue.trim();
                 return oldValue !== newValue;
             }
 

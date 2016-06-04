@@ -1,4 +1,5 @@
 define(
+
     'EditorGroups/MoveActionStep',
 
     [
@@ -10,7 +11,7 @@ define(
         'Tools'
     ],
 
-    function(
+    function MoveActionStep(
         NodeFactory,
         MoveActionStepResult,
         TableRowInput,
@@ -20,12 +21,13 @@ define(
     ) {
 
         var inputEnum = {
-            mask:     0,
-            type:     1,
-            tracking: 2,
-            damage:   3
-            // condition: 4,
-            // tags:      5
+            summary:  0,
+            mask:     1,
+            type:     2,
+            tracking: 3,
+            damage:   4,
+            tags:     5
+            // condition: 6,
         };
         var lastSelectedInput = -1;
 
@@ -37,6 +39,21 @@ define(
         function create(changeActionStep) {
 
             var domRoot = _.createDomElement({ tag: 'table' });
+
+            var summary = TableRowInput.create({
+                name: Strings('moveActionSummary'),
+                description: Strings('moveActionSummaryDescription'),
+                placeholder: Strings('moveActionSummaryPlaceholder'),
+                onInput: function onActionStepMaskInput(newValue) {
+                    changeActionStep(function(actionStep) {
+                        return changeActionSummary(newValue, actionStep);
+                    });
+                },
+                onFocus: function(event) {
+                    MoveActionStepResult.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.summary;
+                }
+            });
 
             var mask = TableRowInput.create({
                 name: Strings('moveActionMask'),
@@ -98,6 +115,21 @@ define(
                 placeholder: 'e.g. 18'
             });
 
+            var tags = TableRowInput.create({
+                name: Strings('moveActionTags'),
+                onInput: function onActionStepTagsInput(newValue) {
+                    changeActionStep(function(actionStep) {
+                        return changeActionStepTags(newValue, actionStep);
+                    });
+                },
+                onFocus: function(event) {
+                    MoveActionStepResult.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.tags;
+                },
+                description: Strings('moveActionTagsDescription'),
+                placeholder: 'e.g. ground attack'
+            });
+
             // var condition = TableRowInput.create({
             //     name: Strings('moveActionCondition'),
             //     onInput: function onActionStepConditionInput(newValue) {
@@ -111,21 +143,6 @@ define(
             //     },
             //     description: Strings('moveActionConditionDescription'),
             //     placeholder: 'e.g. neutral/open, stun/open'
-            // });
-
-            // var tags = TableRowInput.create({
-            //     name: Strings('moveActionTags'),
-            //     onInput: function onActionStepTagsInput(newValue) {
-            //         changeActionStep(function(actionStep) {
-            //             return changeActionStepTags(newValue, actionStep);
-            //         });
-            //     },
-            //     onFocus: function(event) {
-            //         MoveActionStepResult.resetLastSelectedInput();
-            //         lastSelectedInput = inputEnum.tags;
-            //     },
-            //     description: Strings('moveActionTagsDescription'),
-            //     placeholder: 'e.g. sit-down stun'
             // });
 
             var resultsTitle = _.createDomElement({
@@ -181,12 +198,13 @@ define(
                 ]
             });
 
+            domRoot.appendChild(summary.domRoot);
             domRoot.appendChild(mask.domRoot);
             domRoot.appendChild(type.domRoot);
             domRoot.appendChild(tracking.domRoot);
             domRoot.appendChild(damage.domRoot);
+            domRoot.appendChild(tags.domRoot);
             // domRoot.appendChild(condition.domRoot);
-            // domRoot.appendChild(tags.domRoot);
             domRoot.appendChild(resultsTitle);
             domRoot.appendChild(resultsParent);
             domRoot.appendChild(btnAddResult);
@@ -199,22 +217,26 @@ define(
             };
 
             function clear() {
+                summary.setValue('');
                 mask.setValue('');
                 type.setValue('');
                 tracking.setIsChecked(false);
                 tracking.setIsIndeterminate(true);
                 damage.setValue('');
+                tags.setValue('');
                 // condition.setValue('');
-                // tags.setValue('');
                 _.removeAllChildren(resultsParent);
                 results = [];
             }
 
             function fillFromActionStep(actionStep) {
+
                 if (!actionStep) {
                     clear();
                     return;
                 }
+
+                summary.setValue(NodeFactory.getActionStepSummary(actionStep));
 
                 mask.setValue(actionStep.actionMask || '');
                 type.setValue(actionStep.actionType || '');
@@ -228,8 +250,8 @@ define(
                 }
 
                 damage.setValue(actionStep.damage || '');
+                tags.setValue(actionStep.tags.join(', ') || '');
                 // condition.setValue(actionStep.condition.join(', ') || '');
-                // tags.setValue(actionStep.tags.join(', ') || '');
 
                 _.removeAllChildren(resultsParent);
                 results = [];
@@ -237,6 +259,7 @@ define(
                     var result = createResultInput();
                     result.fillFromActionStepResult(actionStep.results[i]);
                 }
+
             }
 
             function createResultInput() {
@@ -271,12 +294,13 @@ define(
 
                 if (!(results.length > 0 && results[0].focus())) {
                     switch (lastSelectedInput) {
+                        case inputEnum.summary:   summary.focus();   break;
                         case inputEnum.mask:      mask.focus();      break;
                         case inputEnum.type:      type.focus();      break;
                         case inputEnum.tracking:  tracking.focus();  break;
                         case inputEnum.damage:    damage.focus();    break;
+                        case inputEnum.tags:      tags.focus();      break;
                         // case inputEnum.condition: condition.focus(); break;
-                        // case inputEnum.tags:      tags.focus();      break;
                     }
                 }
 
@@ -292,13 +316,69 @@ define(
                     return changed;
                 });
             }
+        }
+
+        // ==== Readers ====
+
+            function changeActionSummary(newValue, actionStep) {
+
+                var changed = false;
+
+                var lowCased = newValue.toLowerCase();
+
+                // mask
+
+                var mask = [];
+                if (lowCased.search('h') >= 0) mask.push('high');
+                if (lowCased.search('m') >= 0) mask.push('mid');
+                if (lowCased.search('l') >= 0) mask.push('low');
+                if (lowCased.search('f') >= 0) mask.push('ground'); // for Floor
+                if (lowCased.search('p') >= 0) mask.push('P');
+                if (lowCased.search('k') >= 0) mask.push('K');
+                changed = changeActionMask(mask.join(' '), actionStep) || changed;
+
+                // tracking
+
+                var tracking = undefined;
+                if (lowCased.search('d') >= 0) {
+                    tracking = false;
+                } else
+                if (lowCased.search('t') >= 0) {
+                    tracking = true;
+                }
+
+                changed = changeActionStepTracking(
+                    tracking, tracking === undefined, actionStep
+                ) || changed;
+
+                // type
+
+                var type = 'other';
+                if (lowCased.search('g') >= 0) {
+                    type = 'throw';
+                } else
+                if (lowCased.search('c') >= 0) {
+                    type = 'hold';
+                } else
+                if (lowCased.search(/[pk]/) >= 0) {
+                    if (lowCased.search('j') >= 0) {
+                        type = 'jump attack';
+                    } else {
+                        type = 'strike';
+                    }
+                }
+
+                changed = changeActionStepType(type, actionStep) || changed;
+
+                return changed;
+
+            }
 
             function changeActionMask(newValue, actionStep) {
                 var oldValue = actionStep.actionMask;
                 actionStep.actionMask = newValue;
                 return oldValue !== newValue;
             }
-
 
             function changeActionStepType(newValue, actionStep) {
                 var oldValue = actionStep.actionType;
@@ -321,6 +401,13 @@ define(
                 return oldValue !== newDamage;
             }
 
+            function changeActionStepTags(newValue, actionStep) {
+                var newTags = newValue.split(/,\s*/);
+                var changed = _.arraysConsistOfSameStrings(actionStep.tags, newTags);
+                actionStep.tags = newTags;
+                return changed;
+            }
+
             // function changeActionStepCondition(newValue, actionStep) {
             //     var newConditions = newValue.split(/,\s*/);
             //     var changed = _.arraysConsistOfSameStrings(actionStep.condition, newConditions);
@@ -328,13 +415,7 @@ define(
             //     return changed;
             // }
 
-            // function changeActionStepTags(newValue, actionStep) {
-            //     var newTags = newValue.split(/,\s*/);
-            //     var changed = _.arraysConsistOfSameStrings(actionStep.tags, newTags);
-            //     actionStep.tags = newTags;
-            //     return changed;
-            // }
-        }
+        // =================
 
         function resetLastSelectedInput() {
             lastSelectedInput = -1;
