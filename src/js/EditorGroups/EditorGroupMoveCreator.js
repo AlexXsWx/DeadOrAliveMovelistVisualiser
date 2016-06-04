@@ -108,7 +108,10 @@ define(
                         actionStepsParent.appendChild(actionStepInput.domRoot);
                         function changeActionStep(changeActionStepProperty) {
                             return changeNodes(editorGroupMove, function(nodeData) {
-                                return changeActionStepProperty(nodeData.actionSteps[actionStepIndex]);
+                                var actionStep = nodeData.actionSteps[actionStepIndex];
+                                var changed = changeActionStepProperty(actionStep);
+                                if (changed) actionStepInput.fillFromActionStep(actionStep);
+                                return changed;
                             });
                         }
                     }());

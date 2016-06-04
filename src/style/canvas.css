@@ -14,26 +14,42 @@ g.node {
 g.node.container {
   cursor: pointer;
 }
-g.node circle {
+g.node .node_circle {
   fill: white;
   stroke: #777;
   stroke-width: 2px;
 }
-g.node.punch circle {
+g.node.punch .node_circle {
   fill: #ff7;
   stroke: white;
 }
-g.node.kick circle {
+g.node.kick .node_circle {
   fill: #f77;
   stroke: white;
 }
-g.node.hold circle {
+g.node.hold .node_circle {
   fill: #7f7;
   stroke: white;
 }
-g.node.throw circle {
+g.node.throw .node_circle {
   fill: #77f;
   stroke: white;
+}
+g.node .node_mask_high,
+g.node .node_mask_mid,
+g.node .node_mask_low {
+  display: none;
+  fill: none;
+  stroke: black;
+}
+g.node.high .node_mask_high {
+  display: initial;
+}
+g.node.mid .node_mask_mid {
+  display: initial;
+}
+g.node.low .node_mask_low {
+  display: initial;
 }
 g.node text {
   -webkit-user-select: none;

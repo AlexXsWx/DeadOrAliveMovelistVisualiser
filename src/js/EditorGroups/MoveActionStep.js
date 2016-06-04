@@ -329,6 +329,7 @@ define(
                 // mask
 
                 var mask = [];
+                // FIXME: order is important!
                 if (lowCased.search('h') >= 0) mask.push('high');
                 if (lowCased.search('m') >= 0) mask.push('mid');
                 if (lowCased.search('l') >= 0) mask.push('low');

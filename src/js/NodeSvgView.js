@@ -48,6 +48,9 @@ define(
             var link;
             var wrapper;
             var circle;
+            var maskHigh;
+            var maskMid;
+            var maskLow;
             var texts = {
                 center: null,
                 top:    null,
@@ -229,6 +232,21 @@ define(
                     }
                 });
 
+                maskHigh = _.createSvgElement({
+                    tag: 'polyline',
+                    classes: [ 'node_mask_high' ]
+                });
+
+                maskMid = _.createSvgElement({
+                    tag: 'polyline',
+                    classes: [ 'node_mask_mid' ]
+                });
+
+                maskLow = _.createSvgElement({
+                    tag: 'polyline',
+                    classes: [ 'node_mask_low' ]
+                });
+
                 circle = _.createSvgElement({
                     tag: 'circle',
                     classes: [ 'node_circle' ]
@@ -262,6 +280,9 @@ define(
                 resize(NODE_HEIGHT);
 
                 wrapper.appendChild(circle);
+                wrapper.appendChild(maskHigh);
+                wrapper.appendChild(maskMid);
+                wrapper.appendChild(maskLow);
                 wrapper.appendChild(texts.bottom);
                 wrapper.appendChild(texts.center);
                 wrapper.appendChild(texts.top);
@@ -287,10 +308,24 @@ define(
             function resize(nodeSize) {
                 var textPadding = 4;
                 circle.setAttribute('r', nodeSize);
-                texts.right.setAttribute('x',  (nodeSize + textPadding));
-                texts.left.setAttribute('x', -(nodeSize + textPadding));
-                texts.top.setAttribute('y', -(nodeSize + textPadding));
-                texts.bottom.setAttribute('y',  (nodeSize + textPadding));
+
+                var offset = nodeSize + textPadding;
+                texts.right.setAttribute('x', offset);
+                texts.left.setAttribute('x', -offset);
+                texts.top.setAttribute('y', -offset);
+                texts.bottom.setAttribute('y', offset);
+
+                var shape = '-2,3 2,0 -2,-3';
+                var width = 1.5;
+                maskHigh.setAttribute('points', shape);
+                maskMid.setAttribute('points',  shape);
+                maskLow.setAttribute('points',  shape);
+                maskHigh.setAttribute('stroke-width', width);
+                maskMid.setAttribute('stroke-width', width);
+                maskLow.setAttribute('stroke-width', width);
+                maskHigh.setAttribute('transform', 'rotate(-45) translate(' + nodeSize + ',0)');
+                maskMid.setAttribute('transform', 'translate(' + nodeSize + ',0)');
+                maskLow.setAttribute('transform', 'rotate(45) translate(' + nodeSize + ',0)');
             }
 
             // ==== Animation ====

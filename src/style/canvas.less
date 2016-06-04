@@ -12,16 +12,25 @@ g.node {
     cursor: default;
     &.container { cursor: pointer; }
 
-    circle {
+    .node_circle {
         fill: white;
         stroke: #777;
         stroke-width: 2px;
     }
 
-    &.punch circle { fill: #ff7; stroke: white; }
-    &.kick  circle { fill: #f77; stroke: white; }
-    &.hold  circle { fill: #7f7; stroke: white; }
-    &.throw circle { fill: #77f; stroke: white; }
+    &.punch .node_circle { fill: #ff7; stroke: white; }
+    &.kick  .node_circle { fill: #f77; stroke: white; }
+    &.hold  .node_circle { fill: #7f7; stroke: white; }
+    &.throw .node_circle { fill: #77f; stroke: white; }
+
+    .node_mask_high, .node_mask_mid, .node_mask_low {
+        display: none;
+        fill: none;
+        stroke: black;
+    }
+    &.high .node_mask_high { display: initial; }
+    &.mid  .node_mask_mid  { display: initial; }
+    &.low  .node_mask_low  { display: initial; }
 
     text {
         -webkit-user-select: none;

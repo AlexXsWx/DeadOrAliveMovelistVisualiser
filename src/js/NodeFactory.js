@@ -330,6 +330,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         var result = '';
 
         if (actionStep.isTracking !== undefined) result += actionStep.isTracking ? 't' : 'd';
+        if (actionStep.actionType && actionStep.actionType.search('jump') >= 0) result += 'j';
         if (actionStep.actionMask !== undefined) {
             result += summarizeActionStepMask(actionStep.actionMask)
         }
@@ -343,7 +344,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
     function summarizeActionStepMask(actionStepMask) {
         var result = '';
         var lowCased = actionStepMask.toLowerCase();
-        if (lowCased.search('jump')         >= 0) result += 'j';
+        // FIXME: order is important!
         if (lowCased.search('high')         >= 0) result += 'h';
         if (lowCased.search('mid')          >= 0) result += 'm';
         if (lowCased.search('low')          >= 0) result += 'l';
