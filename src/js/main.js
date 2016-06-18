@@ -8,19 +8,39 @@ requirejs.config({
 
 requirejs(
 
-    ['Movelist', 'SmoothScroll'],
+    ['Movelist', 'SmoothScroll', 'Tools'],
 
-    function Main(Movelist, SmoothScroll) {
+    function Main(Movelist, SmoothScroll, _) {
 
-        SmoothScroll({
-            animationTime: 500, // 800
-            stepSize: 100, // 80
-            pulseScale: 8,
-            accelerationDelta: 10, // 20
-            accelerationMax: 1,
-        });
+        init();
 
-        Movelist.init(document.getElementById('content'));
+        function init() {
+            initSmoothScroll();
+            Movelist.init(document.getElementById('content'));
+        }
+
+        function initSmoothScroll() {
+
+            SmoothScroll({
+                animationTime: 500, // 800
+                stepSize: 100, // 80
+                pulseScale: 8,
+                accelerationDelta: 10, // 20
+                accelerationMax: 1,
+            });
+
+            _.getDomElement('smoothScroll').addEventListener('change', function(event) {
+                var checkbox = this;
+                if (checkbox.checked) {
+                    // TODO: uncomment once SmoothScroll is updated
+                    // SmoothScroll.start();
+                } else {
+                    SmoothScroll.destroy();
+                    checkbox.setAttribute('disabled', true);
+                }
+            });
+
+        }
 
     }
 
