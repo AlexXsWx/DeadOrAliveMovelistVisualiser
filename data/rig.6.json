@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1464545797697
+    "timeSaved": 1466263498336
   },
   "body": {
     "character": "rig",
@@ -41,6 +41,12 @@
                       "counter"
                     ],
                     "hitBlock": "16"
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "14"
                   }
                 ]
               }
@@ -2334,7 +2340,15 @@
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "23"
+                  }
+                ]
               }
             ]
           },

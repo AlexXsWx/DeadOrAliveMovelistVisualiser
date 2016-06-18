@@ -16,8 +16,8 @@ define(
             getEmptyText,
             getTextRight,
             getTextDuration,
-            getEmptyText, // TODO: cooldown
-            getEmptyText, // TODO: advantage
+            getCooldown,
+            getSafety,
             getEmptyText, // TODO: stun depth
             getEmptyText  // TODO: unhold duration
         ];
@@ -32,7 +32,7 @@ define(
 
         var onNodeClick          = createObserver();
         var onNodeToggleChildren = createObserver();
-        
+
         return {
             create:               create,
             onNodeClick:          onNodeClick,
@@ -212,7 +212,7 @@ define(
                         }
                     }
                 }
-                
+
             }
 
             function createDomNodes() {
@@ -221,7 +221,7 @@ define(
                     tag: 'path',
                     classes: [ 'node_link' ]
                 });
-                
+
                 wrapper = _.createSvgElement({
                     tag: 'g',
                     classes: [ 'node' ],
@@ -382,7 +382,7 @@ define(
 
                     if (animationFrameRequest !== null) window.cancelAnimationFrame(animationFrameRequest);
                     animationFrameRequest = window.requestAnimationFrame(moveToTargetPosition);
-                    
+
                 }
 
                 function moveToTargetPosition() {
@@ -518,6 +518,41 @@ define(
                 }
                 console.assert(!isNaN(frames), 'Frames are NaN');
                 return activeFrames.join('') + ':/' + frames;
+            }
+
+            function getCooldown(nodeView) {
+                var nodeData = nodeView.binding.targetDataNode;
+                if (!nodeData) return '';
+                var frameData = nodeData.frameData;
+                if (!frameData || frameData.length === 0) return '';
+                var cooldown = frameData[frameData.length - 1];
+                var cooldownRange = frameData[frameData.length - 2] - 1;
+                return cooldown + '-' + (cooldown + cooldownRange);
+            }
+
+            function getSafety(nodeView) {
+                var nodeData = nodeView.binding.targetDataNode;
+                if (!nodeData) return '';
+                var frameData = nodeData.frameData;
+                if (!frameData || frameData.length === 0) return '';
+                var cooldown = frameData[frameData.length - 1];
+                var cooldownRange = frameData[frameData.length - 2] - 1;
+                var actionSteps = nodeData.actionSteps;
+                if (!actionSteps || actionSteps.length === 0) return '';
+                for (var i = actionSteps.length - 1; i >= 0; --i) {
+                    var results = actionSteps[i].results;
+                    if (!results) continue;
+                    for (var j = 0; j < results.length; ++j) {
+                        for (var k = 0; k < results[j].condition.length; ++k) {
+                            if (results[j].condition[k].search(/block|guard/i) >= 0) {
+                                var blockStun = +results[j].hitBlock;
+                                if (isNaN(blockStun) || !isFinite(blockStun)) continue;
+                                var baseSafety = blockStun - cooldown;
+                                return  (baseSafety - cooldownRange) + '..' + baseSafety;
+                            }
+                        }
+                    }
+                }
             }
 
         // ===============

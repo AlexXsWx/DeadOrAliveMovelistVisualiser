@@ -47,7 +47,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         }
 
         return result;
-        
+
     }
 
 
@@ -107,7 +107,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         }
 
         return result;
-        
+
     }
 
 
@@ -116,7 +116,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         var actionStep = _.defaults(optSource, {
 
             /**
-                Examples: 
+                Examples:
                     for attack:
                         mid P
                         mid P mid K
@@ -219,8 +219,8 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             // 6k on counter gives +13
             // and crit hold interval says 14-36
             // 1 + 22 = 23 + 13 = 36
-            // 
- 
+            //
+
             // first number in critical hold interval
             criticalHoldDelay: undefined,
             // second number in critical hold interval with stagger escape off

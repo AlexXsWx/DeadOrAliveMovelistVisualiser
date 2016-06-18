@@ -41,7 +41,7 @@ define(
                     listeners: {
                         'click': function(event) {
                             toggleChildren();
-                        } 
+                        }
                     }
                 })
             ]);
@@ -49,7 +49,7 @@ define(
             var row2 = _.createMergedRow(2, [
                 _.createDomElement({
                     tag: 'label',
-                    children: [ _.createTextNode('Move:') ]
+                    children: [ _.createTextNode('Move: ') ]
                 }),
                 _.createDomElement({
                     tag: 'input',
@@ -68,6 +68,10 @@ define(
                     listeners: { 'click': moveNodeBy.bind(null,  1) }
                 })
             ]);
+
+            row0.classList.add('columnRight');
+            row1.classList.add('columnRight');
+            row2.classList.add('columnRight');
 
             editorGroupCommon.domRoot.appendChild(row0);
             editorGroupCommon.domRoot.appendChild(row1);

@@ -17,7 +17,7 @@
 
         <div id="content"></div>
 
-        <div id="menu">
+        <div id="menu" class="columnRight">
 
             <fieldset>
                 <legend> Load / Save movelist </legend>
@@ -34,86 +34,98 @@
 
                 <legend> Appearance </legend>
 
-                <table id="settings" class="fieldsetContent">
+                <div class="fieldsetContent columnRight">
 
-                    <tr>
-                        <td><input id="smoothScroll" type="checkbox" checked /></td>
-                        <td><label for="smoothScroll">Smooth scroll</label></td>
-                    </tr>
+                    <table>
 
-                    <tr>
-                        <td><input id="flipTextToRight" type="checkbox" checked /></td>
-                        <td><label for="flipTextToRight">Prefer labeling at right</label></td>
-                    </tr>
+                        <tr>
+                            <td><input id="smoothScroll" type="checkbox" checked /></td>
+                            <td><label for="smoothScroll">Smooth scroll</label></td>
+                        </tr>
 
-                    <tr><td colspan="2"><label>Show additional info:</label></td></tr>
-                    <tr>
-                        <td><label>Top</label></td>
-                        <td>
-                            <select id="topTextOption">
-                                <option value="0" selected>None</option>
-                                <option value="1">Ending</option>
-                                <option value="2">Active frames</option>
-                                <!-- <option value="3">Cooldown</option>
-                                <option value="4">Advantage</option>
-                                <option value="5">Stun depth</option>
-                                <option value="6">Unhold duration</option> -->
-                            </select>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><input id="flipTextToRight" type="checkbox" checked /></td>
+                            <td><label for="flipTextToRight">Prefer labeling at right</label></td>
+                        </tr>
 
-                    <tr>
-                        <td><label>Right</label></td>
-                        <td>
-                            <select id="rightTextOption">
-                                <option value="0">None</option>
-                                <option value="1" selected>Ending</option>
-                                <option value="2">Active frames</option>
-                                <!-- <option value="3">Cooldown</option>
-                                <option value="4">Advantage</option>
-                                <option value="5">Stun depth</option>
-                                <option value="6">Unhold duration</option> -->
-                            </select>
-                        </td>
-                    </tr>
+                    </table>
 
-                    <tr>
-                        <td><label>Bottom</label></td>
-                        <td>
-                            <select id="bottomTextOption">
-                                <option value="0" selected>None</option>
-                                <option value="1">Ending</option>
-                                <option value="2">Active frames</option>
-                                <!-- <option value="3">Cooldown</option>
-                                <option value="4">Advantage</option>
-                                <option value="5">Stun depth</option>
-                                <option value="6">Unhold duration</option> -->
-                            </select>
-                        </td>
-                    </tr>
+                    <table>
 
-                    <!-- <tr>
-                        <td colspan="2">
-                            Group root nodes by<br />
-                            <input type="checkbox" checked />stance<br />
-                            <input type="checkbox" />type<br />
-                            <input type="checkbox" />height<br />
-                            <input type="checkbox" checked />strike type<br />
-                        </td>
-                    </tr> -->
+                        <tr><td colspan="2"><label>Show additional info:</label></td></tr>
+                        <tr>
+                            <td><label>Top</label></td>
+                            <td>
+                                <select id="topTextOption">
+                                    <option value="0" selected>None</option>
+                                    <option value="1">Ending</option>
+                                    <option value="2">Active frames</option>
+                                    <option value="3">Cooldown</option>
+                                    <option value="4">Safety</option>
+                                    <!-- <option value="5">Stun depth</option>
+                                    <option value="6">Unhold duration</option> -->
+                                </select>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td><input id="showPlaceholders" type="checkbox" checked /></td>
-                        <td><label for="showPlaceholders">Show placeholders</label></td>
-                    </tr>
+                        <tr>
+                            <td><label>Right</label></td>
+                            <td>
+                                <select id="rightTextOption">
+                                    <option value="0">None</option>
+                                    <option value="1" selected>Ending</option>
+                                    <option value="2">Active frames</option>
+                                    <option value="3">Cooldown</option>
+                                    <option value="4">Safety</option>
+                                    <!-- <option value="5">Stun depth</option>
+                                    <option value="6">Unhold duration</option> -->
+                                </select>
+                            </td>
+                        </tr>
 
-                </table>
+                        <tr>
+                            <td><label>Bottom</label></td>
+                            <td>
+                                <select id="bottomTextOption">
+                                    <option value="0" selected>None</option>
+                                    <option value="1">Ending</option>
+                                    <option value="2">Active frames</option>
+                                    <option value="3">Cooldown</option>
+                                    <option value="4">Safety</option>
+                                    <!-- <option value="5">Stun depth</option>
+                                    <option value="6">Unhold duration</option> -->
+                                </select>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <table>
+
+                        <!-- <tr>
+                            <td colspan="2">
+                                Group root nodes by<br />
+                                <input type="checkbox" checked />stance<br />
+                                <input type="checkbox" />type<br />
+                                <input type="checkbox" />height<br />
+                                <input type="checkbox" checked />strike type<br />
+                            </td>
+                        </tr> -->
+
+                        <tr>
+                            <td><input id="showPlaceholders" type="checkbox" checked /></td>
+                            <td><label for="showPlaceholders">Show placeholders</label></td>
+                        </tr>
+
+                    </table>
+
+                </div>
 
             </fieldset>
 
             <fieldset>
                 <legend> Node data </legend>
-                <div class="fieldsetContent" id="editorsParent"></div>
+                <div class="fieldsetContent columnRight" id="editorsParent"></div>
             </fieldset>
 
             <fieldset>
@@ -135,7 +147,7 @@
                     <table>
                         <tr>
                             <td><b>Warning:</b></td>
-                            <td>There is no CTRL+Z, so save often.</td>
+                            <td>There is no <pre style="display: inline">CTRL+Z</pre>, so save often.</td>
                         </tr>
                         <tr>
                             <td><b>Usage hints:</b></td>

@@ -18,45 +18,6 @@ body {
   bottom: 0;
   right: 0;
   left: 0;
-  /*display: flex;*/
-  /*justify-content: center;*/
-}
-/*#content {
-    align-self: center;
-}*/
-#menu {
-  position: fixed;
-  right: 0;
-  top: 0;
-  background-color: rgba(255, 255, 255, 0.75);
-  max-height: 100%;
-  overflow: auto;
-  border-radius: 0 0 0 10px;
-}
-#overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-}
-#loading {
-  cursor: default;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  background: #777;
-}
-#loading span {
-  color: white;
-  font-size: 48px;
-  align-self: center;
 }
 #popupFilterResult {
   position: fixed;
@@ -82,25 +43,50 @@ body {
 #popupFilterResult > div > div pre {
   margin: 3px;
 }
-#menu > fieldset {
+#menu {
+  position: fixed;
+  right: 0;
+  top: 0;
+  max-height: 100%;
+  overflow: auto;
+}
+#menu tr > td:first-child:not([colspan]) {
+  text-align: right;
+}
+#menu fieldset {
   border-radius: 5px 0 0 5px;
   margin-top: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
 }
-#menu > fieldset legend {
+#menu fieldset legend {
+  background-color: rgba(255, 255, 255, 0.75);
+  text-align: right;
   cursor: pointer;
 }
-#menu > fieldset legend::before {
+#menu fieldset legend::after {
   content: '[ - ]';
 }
-#menu > fieldset.collapsed {
+#menu fieldset.collapsed {
   border: none;
   height: 0;
 }
-#menu > fieldset.collapsed > legend::before {
+#menu fieldset.collapsed > legend::after {
   content: '[ + ]';
 }
-#menu > fieldset.collapsed > .fieldsetContent {
+#menu fieldset.collapsed > .fieldsetContent {
   display: none;
+}
+#menu #about {
+  margin-top: 5px;
+}
+#overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 #popupWelcomeOverlay {
   position: fixed;
@@ -132,7 +118,19 @@ body {
   vertical-align: top;
   width: 100px;
 }
-#about {
-  margin-top: 5px;
-  float: right;
+#loading {
+  cursor: default;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background: #777;
+}
+#loading span {
+  color: white;
+  font-size: 48px;
+  align-self: center;
 }

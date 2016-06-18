@@ -10,6 +10,7 @@ define('Tools', function() {
         copyKeysInto:                          copyKeysInto,
         isNonEmptyArray:                       isNonEmptyArray,
         isBool:                                isBool,
+        isNumber:                              isNumber,
         moveArrayElement:                      moveArrayElement,
         arraysConsistOfSameStrings:            arraysConsistOfSameStrings,
         getDomElement:                         getDomElement,
@@ -32,7 +33,7 @@ define('Tools', function() {
     function hideDomElement(element) {
         element.classList.add('hidden');
     }
-    
+
     function showDomElement(element) {
         element.classList.remove('hidden');
     }
@@ -114,6 +115,10 @@ define('Tools', function() {
 
     function isBool(obj) {
         return obj === true || obj === false;
+    }
+
+    function isNumber(obj) {
+        return typeof obj === 'number';
     }
 
     function defined(/* arguments */) {

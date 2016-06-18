@@ -34,10 +34,10 @@ define(
 
 
         var editorGroups = [
+            EditorGroupCommonCreator.create(onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren),
             EditorGroupRootCreator.create(changeSelectedNodes),
             EditorGroupStanceCreator.create(changeSelectedNodes),
-            EditorGroupMoveCreator.create(changeSelectedNodes),
-            EditorGroupCommonCreator.create(onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren)
+            EditorGroupMoveCreator.create(changeSelectedNodes)
         ];
 
         var editorsParent = _.getDomElement('editorsParent');

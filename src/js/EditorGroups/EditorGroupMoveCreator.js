@@ -69,9 +69,9 @@ define(
             var actionStepsParentRow = _.createMergedRow(2, [
                 _.createDomElement({
                     tag: 'label',
-                    attributes: { 'title': Strings('moveActionSteps') },
+                    attributes: { 'title': Strings('moveActionStepsDescription') },
                     children: [
-                        _.createTextNode(Strings('moveActionStepsDescription'))
+                        _.createTextNode(Strings('moveActionSteps'))
                     ]
                 }),
                 actionStepsParent
