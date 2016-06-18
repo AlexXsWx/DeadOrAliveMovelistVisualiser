@@ -1,10 +1,51 @@
-define('Strings', function() {
+define('Strings', function Strings() {
 
     var strings = {
 
+        'characterName': 'Character:',
+        'characterNameDescription': 'Character name - e.g. "Kasumi" or "Hayabusa"',
+        'characterNamePlaceholder': 'e.g. "Kasumi"',
+
+        'gameVersion': 'Game version:',
+        'gameVersionDescription': 'Game version - e.g. "1.04 steam"',
+        'gameVersionPlaceholder': 'e.g. "1.04 steam"',
+
+        'stanceAbbreviation': 'Abbreviation:',
+        'stanceAbbreviationDescription': 'Stance abbreviation - e.g. "BKH" for Helena\'s Bokuho',
+        'stanceAbbreviationPlaceholder': 'e.g. "BKH"',
+
+        'stanceDescription': 'Description:',
+        'stanceDescriptionDescription': 'Abbreviation description - e.g. "Bokuho"',
+        'stanceDescriptionPlaceholder': 'e.g. "Bokuho"',
+
+        'stanceEnding': 'Ending:',
+        'stanceEndingDescription': 'Abbreviation of another stance if transits automatically',
+        'stanceEndingPlaceholder': 'e.g. "BND"',
+
+        'moveInput': 'Input:',
+        'moveInputDescription': 'Keys to perform the move - e.g. "236P"',
+        'moveInputPlaceholder': 'e.g. "236P"',
+
+        'moveFrameData': 'Frame data:',
+        'moveFrameDataDescription': 'Frame data of the move - e.g. "11 (2) 15"',
+        'moveFrameDataPlaceholder': 'e.g. "11 (2) 15"',
+
+        'moveActionSteps': 'Action steps:',
+        'moveActionStepsDescription': 'Move action steps - for most moves just one',
+
+        'moveEnding': 'Ending:',
+        'moveEndingDescription': (
+            'Abbreviation of a stance the move ends with - e.g. "BND" for Rig\'s Bending stance'
+        ),
+        'moveEndingPlaceholder': 'e.g. "BND"',
+
+        'moveContext': 'Context:',
+        'moveContextDescription': 'Requirements to perform the move - e.g. "BT" for back-turned',
+        'moveContextPlaceholder': 'e.g. "BT" for back-turned"',
+
         'moveActionMask': 'Mask',
         'moveActionMaskDescription': (
-            'Action step mask. When available, specifies height classes of the action step, and ' +
+            'Action step mask. When available, specifies height classes of the action step, and\n' +
             'optionally strike or hold types - punch or kick. Examples - high; low K; mid P mid K'
         ),
 
@@ -16,7 +57,7 @@ define('Strings', function() {
 
         'moveActionTracking': 'Tracking',
         'moveActionTrackingDescription': (
-            'Whether the action step is tracking or not. Only tracking moves can hit opponent ' +
+            'Whether the action step is tracking or not. Only tracking moves can hit opponent\n' +
             'when they perform sidestep'
         ),
 
@@ -31,8 +72,9 @@ define('Strings', function() {
 
         'moveActionCondition': 'Condition',
         'moveActionConditionDescription': (
-            'Action step condition. Specifies what conditions are resulting the rest action step ' +
-            'data, e.g. airborne; with wall behind'
+            'Action step condition.\n' +
+            'Specifies what conditions are resulting the rest action step data\n' +
+            'e.g. airborne; with wall behind'
         ),
 
         'moveActionTags': 'Tags',
@@ -42,7 +84,7 @@ define('Strings', function() {
 
         'moveActionResultCondition': 'Condition',
         'moveActionResultConditionDescription': (
-            'Action step result condition. Specifies what conditions are giving this result, ' +
+            'Action step result condition. Specifies what conditions are giving this result,\n' +
             'e.g. hi-counter'
         ),
 

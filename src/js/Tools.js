@@ -1,26 +1,28 @@
 define('Tools', function() {
 
     return {
-        isObject:                   isObject,
-        defined:                    defined,
-        defaults:                   defaults,
-        withoutFalsyProperties:     withoutFalsyProperties,
-        arraysAreEqual:             arraysAreEqual,
-        removeElement:              removeElement,
-        copyKeysInto:               copyKeysInto,
-        isNonEmptyArray:            isNonEmptyArray,
-        isBool:                     isBool,
-        moveArrayElement:           moveArrayElement,
-        arraysConsistOfSameStrings: arraysConsistOfSameStrings,
-        getDomElement:              getDomElement,
-        hideDomElement:             hideDomElement,
-        showDomElement:             showDomElement,
-        createDomElement:           createDomElement,
-        createTextNode:             createTextNode,
-        createSvgElement:           createSvgElement,
-        setTextContent:             setTextContent,
-        removeAllChildren:          removeAllChildren,
-        lerp:                       lerp
+        isObject:                              isObject,
+        defined:                               defined,
+        defaults:                              defaults,
+        withoutFalsyProperties:                withoutFalsyProperties,
+        arraysAreEqual:                        arraysAreEqual,
+        removeElement:                         removeElement,
+        copyKeysInto:                          copyKeysInto,
+        isNonEmptyArray:                       isNonEmptyArray,
+        isBool:                                isBool,
+        moveArrayElement:                      moveArrayElement,
+        arraysConsistOfSameStrings:            arraysConsistOfSameStrings,
+        getDomElement:                         getDomElement,
+        hideDomElement:                        hideDomElement,
+        showDomElement:                        showDomElement,
+        createDomElement:                      createDomElement,
+        createTextNode:                        createTextNode,
+        createSvgElement:                      createSvgElement,
+        applyAttributesClassesAndAddListeners: applyAttributesClassesAndAddListeners,
+        createMergedRow:                       createMergedRow,
+        setTextContent:                        setTextContent,
+        removeAllChildren:                     removeAllChildren,
+        lerp:                                  lerp
     };
 
     function getDomElement(id) {
@@ -191,17 +193,33 @@ define('Tools', function() {
 
         var element = elementCreator(tag);
 
+        if (isArray(children)) {
+            for (var i = 0; i < children.length; ++i) {
+                element.appendChild(children[i]);
+            }
+        }
+
+        applyAttributesClassesAndAddListeners(element, {
+           attributes: attributes,
+           listeners:  listeners,
+           classes:    classes
+        });
+
+        return element;
+
+    }
+
+    function applyAttributesClassesAndAddListeners(element, options) {
+
+        var attributes = options.attributes;
+        var listeners  = options.listeners;
+        var classes    = options.classes;
+
         if (isObject(attributes)) {
             for (attrName in attributes) {
                 if (attributes.hasOwnProperty(attrName) && attributes[attrName] !== undefined) {
                     element.setAttribute(attrName, attributes[attrName]);
                 }
-            }
-        }
-
-        if (isArray(children)) {
-            for (var i = 0; i < children.length; ++i) {
-                element.appendChild(children[i]);
             }
         }
 
@@ -219,8 +237,19 @@ define('Tools', function() {
             }
         }
 
-        return element;
+    }
 
+    function createMergedRow(colspan, children) {
+        return createDomElement({
+            tag: 'tr',
+            children: [
+                createDomElement({
+                    tag: 'td',
+                    attributes: { 'colspan': colspan },
+                    children: children
+                })
+            ]
+        });
     }
 
     function removeAllChildren(domElement) {
@@ -233,7 +262,7 @@ define('Tools', function() {
     }
 
     function lerp(start, target, weight) {
-        return start * (1 - weight) + target * weight;
+        return start * (1.0 - weight) + target * weight;
     }
 
 });

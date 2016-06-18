@@ -20,6 +20,7 @@ define(
 
         var nodeDataGenerator;
         var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
+        var toggleChildrenRef; // FIXME: find a better way to pass this func
 
         /**
          * Dispatches {
@@ -31,12 +32,19 @@ define(
          */
         var onDataChanged = createObserver();
 
+
         var editorGroups = [
             EditorGroupRootCreator.create(changeSelectedNodes),
             EditorGroupStanceCreator.create(changeSelectedNodes),
             EditorGroupMoveCreator.create(changeSelectedNodes),
-            EditorGroupCommonCreator.create(onClickAddChild, onClickDeleteNode, moveNodeBy)
+            EditorGroupCommonCreator.create(onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren)
         ];
+
+        var editorsParent = _.getDomElement('editorsParent');
+        editorGroups.forEach(function(editorGroup) {
+            _.hideDomElement(editorGroup.domRoot);
+            editorsParent.appendChild(editorGroup.domRoot);
+        });
 
 
         return {
@@ -48,17 +56,15 @@ define(
         };
 
 
-        function init(nodeDataGeneratorRef) {
+        function init(nodeDataGeneratorRef, argToggleChildrenRef) {
             nodeDataGenerator = nodeDataGeneratorRef;
+            toggleChildrenRef = argToggleChildrenRef;
             updateEditorDomGroups();
-            bindListeners();
         }
 
 
-        function bindListeners() {
-            editorGroups.forEach(function(editorGroup) {
-                editorGroup.bindListeners();
-            });
+        function toggleChildren() {
+            if (selectedSVGNode) toggleChildrenRef(selectedSVGNode);
         }
 
 
@@ -173,6 +179,7 @@ define(
             var parentData = NodeView.getParentDataView(nodeView);
             var children = NodeFactory.getChildren(parentData);
             if (children) _.moveArrayElement(children, nodeData, delta);
+
         }
 
 
@@ -213,8 +220,8 @@ define(
             var addedNodes = [];
 
             TreeTools.forAllCurrentChildren(
-                rootViewNode, 
-                NodeView.getAllChildren, 
+                rootViewNode,
+                NodeView.getAllChildren,
                 function(nodeView) {
                     var newNode = addPlaceholderNode(nodeView, true);
                     addedNodes.push(newNode);
@@ -231,8 +238,8 @@ define(
             var removedNodes = [];
 
             TreeTools.forAllCurrentChildren(
-                rootViewNode, 
-                NodeView.getAllChildren, 
+                rootViewNode,
+                NodeView.getAllChildren,
                 function(nodeView) {
                     if (NodeView.isPlaceholder(nodeView)) {
                         removedNodes.push(nodeView);
@@ -301,11 +308,11 @@ define(
 
                 if (editorGroup.matchingSelectedViews.length === 0) {
 
-                    _.hideDomElement(editorGroup.domNode);
+                    _.hideDomElement(editorGroup.domRoot);
 
                 } else {
 
-                    _.showDomElement(editorGroup.domNode);
+                    _.showDomElement(editorGroup.domRoot);
 
                     editorGroup.updateView();
                     if (!focused) focused = editorGroup.focus();

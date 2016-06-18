@@ -7,7 +7,7 @@ define(
         'Tools'
     ],
 
-    function(TableRowInput, Strings, _) {
+    function MoveActionStepResult(TableRowInput, Strings, _) {
 
         var inputEnum = {
             condition:         0,
@@ -28,30 +28,21 @@ define(
 
             var domRoot = _.createDomElement({ tag: 'table' });
 
-            var btnRemove = _.createDomElement({
-                tag: 'tr',
-                children: [
-                    _.createDomElement({
-                        tag: 'td',
-                        attributes: { 'colspan': 2 },
-                        children: [
-                            _.createDomElement({
-                                tag: 'input',
-                                attributes: {
-                                    'type': 'button',
-                                    'value': 'Remove result',
-                                    'title': 'Remove this action step result'
-                                },
-                                listeners: {
-                                    'click': function(event) {
-                                        onRemove();
-                                    }
-                                }
-                            })
-                        ]
-                    })
-                ]
-            });
+            var btnRemove = _.createMergedRow(2, [
+                _.createDomElement({
+                    tag: 'input',
+                    attributes: {
+                        'type': 'button',
+                        'value': 'Remove result',
+                        'title': 'Remove this action step result'
+                    },
+                    listeners: {
+                        'click': function(event) {
+                            onRemove();
+                        }
+                    }
+                })
+            ]);
 
             var condition = TableRowInput.create({
                 name: Strings('moveActionResultCondition'),

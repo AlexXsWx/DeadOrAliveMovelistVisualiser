@@ -4,15 +4,74 @@ define(
 
     ['EditorGroups/EditorGroup', 'Tools'],
 
-    function(EditorGroup,  _) {
+    function EditorGroupCommonCreator(EditorGroup,  _) {
 
         return { create: create };
 
-        function create(onAdd, onDelete, moveNodeBy) {
+        function create(onAdd, onDelete, moveNodeBy, toggleChildren) {
 
-            var editorGroupCommon = new EditorGroup(
-                'common', _.getDomElement('editorOther'), filter, focus, bindListeners, updateView
-            );
+            var editorGroupCommon = new EditorGroup('common', filter, focus, updateView);
+
+            var row0 = _.createMergedRow(2, [
+                _.createDomElement({
+                    tag: 'input',
+                    attributes: {
+                        'type': 'button',
+                        'value': 'Add child'
+                    },
+                    listeners: { 'click': onAdd }
+                }),
+                _.createDomElement({
+                    tag: 'input',
+                    attributes: {
+                        'type': 'button',
+                        'value': 'Delete selected node'
+                    },
+                    listeners: { 'click': onDelete }
+                }),
+            ]);
+
+            var row1 = _.createMergedRow(2, [
+                _.createDomElement({
+                    tag: 'input',
+                    attributes: {
+                        'type': 'button',
+                        'value': 'Toggle Children'
+                    },
+                    listeners: {
+                        'click': function(event) {
+                            toggleChildren();
+                        } 
+                    }
+                })
+            ]);
+
+            var row2 = _.createMergedRow(2, [
+                _.createDomElement({
+                    tag: 'label',
+                    children: [ _.createTextNode('Move:') ]
+                }),
+                _.createDomElement({
+                    tag: 'input',
+                    attributes: {
+                        'type': 'button',
+                        'value': 'Up'
+                    },
+                    listeners: { 'click': moveNodeBy.bind(null, -1) }
+                }),
+                _.createDomElement({
+                    tag: 'input',
+                    attributes: {
+                        'type': 'button',
+                        'value': 'Down'
+                    },
+                    listeners: { 'click': moveNodeBy.bind(null,  1) }
+                })
+            ]);
+
+            editorGroupCommon.domRoot.appendChild(row0);
+            editorGroupCommon.domRoot.appendChild(row1);
+            editorGroupCommon.domRoot.appendChild(row2);
 
             return editorGroupCommon;
 
@@ -20,23 +79,7 @@ define(
 
             function focus() { return false; }
 
-            function bindListeners() {
-
-                addClickListener(_.getDomElement('addChild'),   onAdd);
-                addClickListener(_.getDomElement('deleteNode'), onDelete);
-
-                addClickListener(_.getDomElement('moveNodeUp'),   moveNodeBy.bind(null, -1));
-                addClickListener(_.getDomElement('moveNodeDown'), moveNodeBy.bind(null,  1));
-
-            }
-
             function updateView() {}
-
-            //
-
-            function addClickListener(buttonElement, action) {
-                buttonElement.addEventListener('click', action);
-            }
 
         }
 

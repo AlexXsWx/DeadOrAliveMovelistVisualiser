@@ -20,7 +20,7 @@
         <div id="menu">
 
             <fieldset>
-                <legend> Load / Save </legend>
+                <legend> Load / Save movelist </legend>
                 <div class="fieldsetContent">
                     <label>Load from local file:</label><br />
                     <input id="load" type="file" /><br />
@@ -112,85 +112,8 @@
             </fieldset>
 
             <fieldset>
-
                 <legend> Node data </legend>
-
-                <div class="fieldsetContent">
-
-                    <table id="editorOther" class="hidden">
-                        <tr><td colspan="2">
-                            <input id="addChild"   type="button" value="Add child"  />
-                            <input id="deleteNode" type="button" value="Delete selected node" />
-                        </td></tr>
-                        <tr><td colspan="2">
-                            <input id="toggleChildren" type="button" value="Toggle Children" />
-                        </td></tr>
-                        <tr><td colspan="2">
-                            <label>Move:</label>
-                            <input id="moveNodeUp"   type="button" value="Up"   />
-                            <input id="moveNodeDown" type="button" value="Down" />
-                        </td></tr>
-                    </table>
-
-                    <table id="editorRoot" class="hidden">
-                        <tr title="Character name - e.g. 'Kasumi' or 'Hayabusa'">
-                            <td><label for="editorRootCharacterName">Character:</label></td>
-                            <td><input id="editorRootCharacterName" placeholder="e.g. 'Kasumi'"/></td>
-                        </tr>
-                        <tr title="Game version - e.g. '1.04 steam'">
-                            <td><label for="editorRootGameVersion">Game version:</label></td>
-                            <td><input id="editorRootGameVersion" placeholder="e.g. '1.04 steam'"/></td>
-                        </tr>
-                        <!-- <tr title="Context abbreviations and descriptions">
-                            <td colspan="2">
-                                TODO: context abbreviations
-                                <input type="button" value="remove unused" />
-                            </td>
-                        </tr> -->
-                    </table>
-
-                    <table id="editorStance" class="hidden">
-                        <tr title="Stance abbreviation - e.g. 'BKH' for Helena's Bokuho">
-                            <td><label for="editorStanceAbbreviation">Abbreviation:</label></td>
-                            <td><input id="editorStanceAbbreviation" placeholder="e.g. 'BKH'"/></td>
-                        </tr>
-                        <tr title="Abbreviation description - e.g. 'Bokuho'">
-                            <td><label for="editorStanceDescription">Description:</label></td>
-                            <td><input id="editorStanceDescription" placeholder="e.g. 'Bokuho'"/></td>
-                        </tr>
-                        <tr title="Abbreviation of another stance if transits automatically">
-                            <td><label for="editorStanceEnding">Ending:</label></td>
-                            <td><input id="editorStanceEnding" placeholder="e.g. 'BND'"/></td>
-                        </tr>
-                    </table>
-
-                    <table id="editorMove" class="hidden">
-                        <tr title="Keys to perform the move - e.g. '236P'">
-                            <td><label for="editorMoveInput">Input:</label></td>
-                            <td><input id="editorMoveInput" placeholder="e.g. '236P'"/></td>
-                        </tr>
-                        <tr title="Frame data of the move - e.g. '11 (2) 15'">
-                            <td><label for="editorMoveFrameData">Frame data:</label></td>
-                            <td><input id="editorMoveFrameData" placeholder="e.g. '11 (2) 15'"/></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <label title="Move action steps - for most moves just one">Action steps:</label>
-                                <table id="editorMoveActionSteps"></table>
-                            </td>
-                        </tr>
-                        <tr title="Abbreviation of a stance the move ends with - e.g. 'BND' for Rig's Bending stance">
-                            <td><label for="editorMoveEnding">Ending:</label></td>
-                            <td><input id="editorMoveEnding" placeholder="e.g. 'BND'"/></td>
-                        </tr>
-                        <tr title="Requirements to perform the move - e.g. 'BT' for back-turned">
-                            <td><label for="editorMoveContext">Context:</label></td>
-                            <td><input id="editorMoveContext" placeholder="e.g. 'BT' for back-turned"/></td>
-                        </tr>
-                    </table>
-
-                </div>
-
+                <div class="fieldsetContent" id="editorsParent"></div>
             </fieldset>
 
             <fieldset>

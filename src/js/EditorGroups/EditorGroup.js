@@ -1,15 +1,14 @@
-define('EditorGroups/EditorGroup', [], function() {
+define('EditorGroups/EditorGroup', ['Tools'], function(_) {
 
     return EditorGroup;
 
-    function EditorGroup(name, domNode, filter, focus, bindListeners, updateView) {
+    function EditorGroup(name, filter, focus, updateView) {
         this.name = name;
-        this.domNode = domNode;
         this.filter = filter;
         this.matchingSelectedViews = [];
         this.focus = focus;
-        this.bindListeners = bindListeners;
         this.updateView = updateView;
+        this.domRoot = _.createDomElement({ tag: 'table' });
     }
 
 });

@@ -145,21 +145,12 @@ define(
             //     placeholder: 'e.g. neutral/open, stun/open'
             // });
 
-            var resultsTitle = _.createDomElement({
-                tag: 'tr',
-                children: [
-                    _.createDomElement({
-                        tag: 'td',
-                        attributes: { 'colspan': 2 },
-                        children: [
-                            _.createDomElement({
-                                tag: 'label',
-                                children: [ _.createTextNode('Action step results:') ]
-                            })
-                        ]
-                    })
-                ]
-            })
+            var resultsTitle = _.createMergedRow(2, [
+                _.createDomElement({
+                    tag: 'label',
+                    children: [ _.createTextNode('Action step results:') ]
+                })
+            ]);
 
             var resultsParent = _.createDomElement({
                 tag: 'td',
@@ -171,32 +162,21 @@ define(
             });
             var results = [];
 
-            var btnAddResult = _.createDomElement({
-                tag: 'tr',
-                children: [
-                    _.createDomElement({
-                        tag: 'td',
-                        attributes: { 'colspan': 2 },
-                        children: [
-                            _.createDomElement({
-                                tag: 'input',
-                                attributes: {
-                                    'type': 'button',
-                                    'value': 'Add result for the action step',
-                                    'title': (
-                                        'Tell what active frames do, hitblock / stun / launcher etc'
-                                    )
-                                },
-                                listeners: {
-                                    'click': function(event) {
-                                        addResult();
-                                    }
-                                }
-                            })
-                        ]
-                    })
-                ]
-            });
+            var btnAddResult = _.createMergedRow(2, [
+                _.createDomElement({
+                    tag: 'input',
+                    attributes: {
+                        'type': 'button',
+                        'value': 'Add result for the action step',
+                        'title': 'Tell what active frames do, hitblock / stun / launcher etc'
+                    },
+                    listeners: {
+                        'click': function(event) {
+                            addResult();
+                        }
+                    }
+                })
+            ]);
 
             domRoot.appendChild(summary.domRoot);
             domRoot.appendChild(mask.domRoot);
@@ -206,7 +186,7 @@ define(
             domRoot.appendChild(tags.domRoot);
             // domRoot.appendChild(condition.domRoot);
             domRoot.appendChild(resultsTitle);
-            domRoot.appendChild(resultsParent);
+            domRoot.appendChild(resultsParentWrapper);
             domRoot.appendChild(btnAddResult);
 
             return {

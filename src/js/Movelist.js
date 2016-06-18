@@ -64,7 +64,7 @@ define(
                 NodeSvgView.onNodeClick.addListener(onClickNodeView);
                 NodeSvgView.onNodeToggleChildren.addListener(onDoubleClickNodeView);
 
-                Editor.init(nodeViewGenerator);
+                Editor.init(nodeViewGenerator, toggleChildren);
                 Editor.onDataChanged.addListener(onDataChange);
 
                 SelectionManager.onSelectionChanged.addListener(Editor.updateBySelection);
@@ -234,11 +234,6 @@ define(
                     var showPlaceholders = _.getDomElement('showPlaceholders');
                     showPlaceholders.addEventListener('change', onChangeShowPlaceholders);
                     onChangeShowPlaceholders.call(showPlaceholders, null);
-
-                    _.getDomElement('toggleChildren').addEventListener('click', function(event) {
-                        var selection = SelectionManager.getCurrentSelection();
-                        if (selection != null) toggleChildren(selection);
-                    });
                 }
 
                 function onChangeShowPlaceholders(optEvent) {
@@ -540,7 +535,7 @@ define(
 
                 limitsFinder.expandToContain(x, y);
                 // NodeView.resetScrollRange(nodeView);
-                
+
             }
 
             function onClickNodeView(nodeSvgView) {
@@ -604,7 +599,7 @@ define(
                     }
                 }
             }
-            
+
             function selectParent(nodeSvgView) {
                 var nodeView = nodeSvgView.nodeView;
                 var parent = NodeView.getParentView(nodeView);

@@ -5,16 +5,18 @@ define(
     [
         'EditorGroups/EditorGroup',
         'EditorGroups/MoveActionStep',
-        'Input/InputHelper',
+        'UI/TableRowInput',
         'NodeFactory',
+        'Strings',
         'Tools'
     ],
 
     function EditorGroupMoveCreator(
         EditorGroup,
         MoveActionStep,
-        InputHelper,
+        TableRowInput,
         NodeFactory,
+        Strings,
         _
     ) {
 
@@ -30,50 +32,115 @@ define(
 
         function create(changeNodes) {
 
-            var editorGroupMove = new EditorGroup(
-                'move', _.getDomElement('editorMove'), filter, focus, bindListeners, updateView
-            );
+            var editorGroupMove = new EditorGroup('move', filter, focus, updateView);
 
-            // FIXME: use same cancel-changes behavior for esc as in TableRowInput
-            var input             = _.getDomElement('editorMoveInput');
-            var context           = _.getDomElement('editorMoveContext');
-            var frameData         = _.getDomElement('editorMoveFrameData');
-            var ending            = _.getDomElement('editorMoveEnding');
-            var actionStepsParent = _.getDomElement('editorMoveActionSteps');
-            var actionStepInputs  = [];
+            var input = TableRowInput.create({
+                name: Strings('moveInput'),
+                description: Strings('moveInputDescription'),
+                placeholder: Strings('moveInputPlaceholder'),
+                onInput: function onMoveInputInput(newValue) {
+                    changeNodes(editorGroupMove, function(nodeData) {
+                        return changeInput(newValue, nodeData);
+                    });
+                },
+                onFocus: function onMoveInputFocus(event) {
+                    MoveActionStep.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.input;
+                }
+            });
+
+            var frameData = TableRowInput.create({
+                name: Strings('moveFrameData'),
+                description: Strings('moveFrameDataDescription'),
+                placeholder: Strings('moveFrameDataPlaceholder'),
+                onInput: function onMoveFrameDataInput(newValue) {
+                    changeNodes(editorGroupMove, function(nodeData) {
+                        return changeFrameData(newValue, nodeData);
+                    });
+                },
+                onFocus: function onMoveFrameDataFocus(event) {
+                    MoveActionStep.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.frameData;
+                }
+            });
+
+            var actionStepsParent = _.createDomElement({ tag: 'table' });
+
+            var actionStepsParentRow = _.createMergedRow(2, [
+                _.createDomElement({
+                    tag: 'label',
+                    attributes: { 'title': Strings('moveActionSteps') },
+                    children: [
+                        _.createTextNode(Strings('moveActionStepsDescription'))
+                    ]
+                }),
+                actionStepsParent
+            ]);
+
+            var ending = TableRowInput.create({
+                name: Strings('moveEnding'),
+                description: Strings('moveEndingDescription'),
+                placeholder: Strings('moveEndingPlaceholder'),
+                onInput: function onMoveEndingInput(newValue) {
+                    changeNodes(editorGroupMove, function(nodeData) {
+                        return changeEnding(newValue, nodeData);
+                    });
+                },
+                onFocus: function onMoveEndingFocus(event) {
+                    MoveActionStep.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.ending;
+                }
+            });
+
+            var context = TableRowInput.create({
+                name: Strings('moveContext'),
+                description: Strings('moveContextDescription'),
+                placeholder: Strings('moveContextPlaceholder'),
+                onInput: function onMoveContextInput(newValue) {
+                    changeNodes(editorGroupMove, function(nodeData) {
+                        return changeContext(newValue, nodeData);
+                    });
+                },
+                onFocus: function onMoveContextFocus(event) {
+                    MoveActionStep.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.context;
+                }
+            });
+
+            editorGroupMove.domRoot.appendChild(input.domRoot);
+            editorGroupMove.domRoot.appendChild(frameData.domRoot);
+            editorGroupMove.domRoot.appendChild(actionStepsParentRow);
+            editorGroupMove.domRoot.appendChild(ending.domRoot);
+            editorGroupMove.domRoot.appendChild(context.domRoot);
+
+            var actionStepInputs = [];
 
             return editorGroupMove;
 
             function filter(data) { return data && NodeFactory.isMoveNode(data); }
 
+            function clear() {
+                input.setValue('');
+                frameData.setValue('');
+                ending.setValue('');
+                context.setValue('');
+                _.removeAllChildren(actionStepsParent);
+                actionStepInputs = [];
+            }
+
             function focus() {
 
                 if (!(actionStepInputs.length > 0 && actionStepInputs[0].focus())) {
                     switch (lastSelectedInput) {
-                        case inputEnum.input:     input.select();     break;
-                        case inputEnum.context:   context.select();   break;
-                        case inputEnum.frameData: frameData.select(); break;
-                        case inputEnum.ending:    ending.select();    break;
+                        case inputEnum.input:     input.focus();     break;
+                        case inputEnum.context:   context.focus();   break;
+                        case inputEnum.frameData: frameData.focus(); break;
+                        case inputEnum.ending:    ending.focus();    break;
                     }
                 }
 
                 return true;
 
-            }
-
-            function bindListeners() {
-                initInputElement(input,     onInputInput,     inputEnum.input);
-                initInputElement(context,   onContextInput,   inputEnum.context);
-                initInputElement(frameData, onFrameDataInput, inputEnum.frameData);
-                initInputElement(ending,    onEndingInput,    inputEnum.ending);
-            }
-
-            function initInputElement(element, action, enumValue) {
-                InputHelper.initInputElement(element, action);
-                element.addEventListener('focus', function(event) {
-                    MoveActionStep.resetLastSelectedInput();
-                    lastSelected = enumValue;
-                });
             }
 
             function updateView() {
@@ -86,6 +153,11 @@ define(
                 var nodeData = nodeView.binding.targetDataNode;
 
                 console.assert(!!nodeData, 'nodeData is not expected to be falsy');
+
+                if (!nodeData) {
+                    clear();
+                    return;
+                }
 
                 var actionStepsAmount = Math.max(
                     nodeData.actionSteps.length,
@@ -119,10 +191,10 @@ define(
             }
 
             function updateMoveInputs(nodeData) {
-                input.value     = nodeData && nodeData.input               || '';
-                frameData.value = nodeData && nodeData.frameData.join(' ') || '';
-                ending.value    = nodeData && nodeData.endsWith            || '';
-                context.value   = nodeData && nodeData.context.join(', ')  || '';
+                input.setValue(nodeData.input || '');
+                frameData.setValue(nodeData.frameData.join(' ') || '');
+                ending.setValue(nodeData.endsWith || '');
+                context.setValue(nodeData.context.join(', ') || '');
 
                 updateActionStepInputs(nodeData);
             }
@@ -132,42 +204,6 @@ define(
                     var actionStep = nodeData && nodeData.actionSteps[i] || null;
                     actionStepInputs[i].fillFromActionStep(actionStep);
                 }
-            }
-
-
-            // FIXME
-
-
-            function onInputInput(event) {
-                var inputElement = this;
-                var newValue = inputElement.value;
-                changeNodes(editorGroupMove, function(nodeData) {
-                    return changeInput(newValue, nodeData);
-                });
-            }
-
-            function onContextInput(event) {
-                var inputElement = this;
-                var newValue = inputElement.value;
-                changeNodes(editorGroupMove, function(nodeData) {
-                    return changeContext(newValue, nodeData);
-                });
-            }
-
-            function onFrameDataInput(event) {
-                var inputElement = this;
-                var newValue = inputElement.value;
-                changeNodes(editorGroupMove, function(nodeData) {
-                    return changeFrameData(newValue, nodeData);
-                });
-            }
-
-            function onEndingInput(event) {
-                var inputElement = this;
-                var newValue = inputElement.value;
-                changeNodes(editorGroupMove, function(nodeData) {
-                    return changeEnding(newValue, nodeData);
-                });
             }
 
 
