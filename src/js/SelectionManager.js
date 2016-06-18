@@ -17,13 +17,14 @@ define(
         var selectParentCallback;
 
         return {
-            init:               init,
-            selectNode:         selectNode,
-            undoSelection:      undoSelection,
-            onSelectionChanged: onSelectionChanged,
-            onSelectFirstChild: onSelectFirstChild,
-            onSelectSibling:    onSelectSibling,
-            onSelectParent:     onSelectParent
+            init:                init,
+            selectNode:          selectNode,
+            undoSelection:       undoSelection,
+            getCurrentSelection: getCurrentSelection,
+            onSelectionChanged:  onSelectionChanged,
+            onSelectFirstChild:  onSelectFirstChild,
+            onSelectSibling:     onSelectSibling,
+            onSelectParent:      onSelectParent
         };
 
 
@@ -94,6 +95,11 @@ define(
         function undoSelection() {
             console.warn('Undo selection not yet implemented');
             // selectNode.call(selectionPrevious);
+        }
+
+
+        function getCurrentSelection() {
+            return selectionCurrent;
         }
 
 

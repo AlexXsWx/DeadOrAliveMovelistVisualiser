@@ -234,6 +234,11 @@ define(
                     var showPlaceholders = _.getDomElement('showPlaceholders');
                     showPlaceholders.addEventListener('change', onChangeShowPlaceholders);
                     onChangeShowPlaceholders.call(showPlaceholders, null);
+
+                    _.getDomElement('toggleChildren').addEventListener('click', function(event) {
+                        var selection = SelectionManager.getCurrentSelection();
+                        if (selection != null) toggleChildren(selection);
+                    });
                 }
 
                 function onChangeShowPlaceholders(optEvent) {
