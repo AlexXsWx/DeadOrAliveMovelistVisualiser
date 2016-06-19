@@ -38,10 +38,11 @@ define('CanvasManager', ['Tools'], function(_) {
             canvas: canvas,
             linksParent: linksParent,
             nodesParent: nodesParent,
-            normalize: normalizeCanvas.bind(null, svg, canvas)
+            normalize: normalize
         };
 
-        function normalizeCanvas(svg, canvas, offsetX, offsetY, totalWidth, totalHeight) {
+        function normalize(offsetX, offsetY, totalWidth, totalHeight) {
+
             canvas.setAttribute(
                 'style',
                 'transform: translate(' +
@@ -49,10 +50,25 @@ define('CanvasManager', ['Tools'], function(_) {
                     (padding + offsetY) + 'px' +
                 ')'
             );
+
             // FIXME
             var body = document.body;
-            svg.setAttribute('width',  Math.max(totalWidth  + 2 * padding, body.clientWidth  - 20));
-            svg.setAttribute('height', Math.max(totalHeight + 2 * padding, body.clientHeight - 20));
+
+            var width  = totalWidth  + 2 * padding;
+            var height = totalHeight + 2 * padding;
+
+            // I hate CSS...
+            var menuTheoreticMaxWidth = 375;
+            width += menuTheoreticMaxWidth;
+
+            // Keep it screen size to avoid culling when svg animates shrinking
+            var scrollBarSize = 20;
+            width  = Math.max(body.clientWidth  - scrollBarSize, width);
+            height = Math.max(body.clientHeight - scrollBarSize, height);
+
+            svg.setAttribute('width',  width);
+            svg.setAttribute('height', height);
+
         }
 
     }

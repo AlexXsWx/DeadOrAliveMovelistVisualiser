@@ -7,13 +7,13 @@ define('LimitsFinder', ['Tools'], function(_) {
         return {
 
             x: {
-                min: _.defined(x, NaN),
-                max: _.defined(x, NaN)
+                min: _.defined(x, null),
+                max: _.defined(x, null)
             },
 
             y: {
-                min: _.defined(y, NaN),
-                max: _.defined(y, NaN)
+                min: _.defined(y, null),
+                max: _.defined(y, null)
             },
 
             invalidate:      invalidate,
@@ -25,10 +25,10 @@ define('LimitsFinder', ['Tools'], function(_) {
     }
 
     function invalidate() {
-        this.x.min = NaN;
-        this.x.max = NaN;
-        this.y.min = NaN;
-        this.y.max = NaN;
+        this.x.min = null;
+        this.x.max = null;
+        this.y.min = null;
+        this.y.max = null;
     }
 
     function collapseTo(x, y) {
@@ -39,10 +39,10 @@ define('LimitsFinder', ['Tools'], function(_) {
     }
 
     function expandToContain(x, y) {
-        if (isNaN(this.x.max) || this.x.max < x) this.x.max = x;
-        if (isNaN(this.x.min) || this.x.min > x) this.x.min = x;
-        if (isNaN(this.y.max) || this.y.max < y) this.y.max = y;
-        if (isNaN(this.y.min) || this.y.min > y) this.y.min = y;
+        if (this.x.max === null || this.x.max < x) this.x.max = x;
+        if (this.x.min === null || this.x.min > x) this.x.min = x;
+        if (this.y.max === null || this.y.max < y) this.y.max = y;
+        if (this.y.min === null || this.y.min > y) this.y.min = y;
     }
 
 });

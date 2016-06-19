@@ -67,6 +67,7 @@ body {
   content: '[ - ]';
 }
 #menu fieldset.collapsed {
+  background-color: initial;
   border: none;
   height: 0;
 }
