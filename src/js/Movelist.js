@@ -7,7 +7,7 @@ define(
         'NodeFactory', 'NodeSerializer',
         'NodeView', 'NodeSvgView', 'LimitsFinder',
         'SelectionManager', 'Editor', 'UI', 'Analyser',
-        'TreeTools', 'Tools'
+        'Input/KeyCodes', 'TreeTools', 'Tools'
     ],
 
     function Movelist(
@@ -15,7 +15,7 @@ define(
         NodeFactory, NodeSerializer,
         NodeView, NodeSvgView, createLimitsFinder,
         SelectionManager, Editor, UI, Analyser,
-        TreeTools, _
+        KeyCodes, TreeTools, _
     ) {
 
         // ==== Constants ====
@@ -155,6 +155,9 @@ define(
 
             function initUI() {
 
+                // Disable Ctrl+Z since it can modify hidden inputs and so break logic
+                disableUndo();
+
                 _.hideDomElement(_.getDomElement('loading'));
 
                 _.getDomElement('about').addEventListener('click', showWelcomePopup);
@@ -167,10 +170,18 @@ define(
                     domCache.showWelcomePopupOnStart.checked = +localStorage.showWelcomePopupOnStart;
                 }
 
-                if (!domCache.showWelcomePopupOnStart.checked) {
-                    hideWelcomePopup();
-                }
+                if (!domCache.showWelcomePopupOnStart.checked) hideWelcomePopup();
 
+            }
+
+            function disableUndo() {
+                // FIXME: this doesn't disable RMB - undo
+                window.addEventListener('keydown', function(event) {
+                    if ((event.ctrlKey || event.metaKey) && event.keyCode === KeyCodes.Z) {
+                        event.preventDefault();
+                        alert('[Ctrl]+[Z] is disabled since it can break the program');
+                    }
+                });
             }
 
             function onClickStopPropagation(event) {

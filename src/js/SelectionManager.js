@@ -39,7 +39,8 @@ define(
             //     event.preventDefault();
             // });
 
-            document.body.addEventListener('keydown', function(event) {
+            // FIXME: don't reference window in this class
+            window.addEventListener('keydown', function(event) {
                 // TODO: cleanup a bit
                 var keyCode = event.keyCode;
                 if (document.activeElement instanceof HTMLInputElement) {

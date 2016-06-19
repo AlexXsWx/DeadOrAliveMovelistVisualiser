@@ -1,5 +1,5 @@
 define('UI', ['Tools'], function(_) {
-   
+
     return {
         showAbbreviations: showAbbreviations
     };

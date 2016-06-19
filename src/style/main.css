@@ -119,6 +119,9 @@ body {
   vertical-align: top;
   width: 100px;
 }
+#popupWelcome pre {
+  display: inline;
+}
 #loading {
   cursor: default;
   position: fixed;

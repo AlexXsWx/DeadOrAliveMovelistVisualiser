@@ -58,8 +58,12 @@ define(
             function getValue()         { return input.value;     }
             function setValue(newValue) { input.value = newValue; }
 
-            function focusInput() { input.focus(); }
-            function blurInput()  { input.blur();  }
+            function focusInput() {
+                input.focus();
+                // Select entire value to keep easy arrow keys navigation between nodes
+                input.setSelectionRange(0, input.value.length);
+            }
+            function blurInput() { input.blur(); }
 
             function keyDownListener(event) {
                 if (event.keyCode === KeyCodes.ESC) {
