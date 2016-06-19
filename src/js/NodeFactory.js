@@ -293,7 +293,10 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
         var result = [];
 
-        if (node.context && node.context.length > 0) result.push(node.context.join(',') + ':');
+        if (node.context && node.context.length > 0) {
+            var context = node.context.join(',').trim();
+            if (context) result.push(context + ':');
+        };
 
         result.push(node.input);
 

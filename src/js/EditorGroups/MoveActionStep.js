@@ -40,6 +40,7 @@ define(
 
             var domRoot = _.createDomElement({ tag: 'table' });
 
+            // FIXME: Esc is bugged
             var summary = TableRowInput.create({
                 name: Strings('moveActionSummary'),
                 description: Strings('moveActionSummaryDescription'),

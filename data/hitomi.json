@@ -1,0 +1,839 @@
+{
+  "header": {
+    "format": 3,
+    "timeSaved": 1466370777186
+  },
+  "body": {
+    "character": "Hitomi",
+    "version": "1.06 steam",
+    "stances": [
+      {
+        "abbreviation": "STD",
+        "description": "Standing",
+        "moves": [
+          {
+            "input": "P",
+            "frameData": [
+              10,
+              2,
+              13
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  9,
+                  2,
+                  16
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "(P)",
+                    "frameData": [
+                      16,
+                      2,
+                      26
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike"
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "P",
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "2K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "low K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "4P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike"
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "P",
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike"
+                              }
+                            ],
+                            "followUps": [
+                              {
+                                "input": "(P)",
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "strike"
+                                  }
+                                ]
+                              },
+                              {
+                                "input": "K",
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "high K",
+                                    "actionType": "strike"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike"
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "K",
+                            "actionSteps": [
+                              {
+                                "actionMask": "high K",
+                                "actionType": "strike"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "2K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "low K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "6P",
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "P+K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "(P)",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "low K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "9P",
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "8P",
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "low K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "2K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "low K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "7P",
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ]
+              },
+              {
+                "input": "P+K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "(P)",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "6P",
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4P",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "(P)",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3P",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2P",
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "1P",
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "66P",
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "actionSteps": [
+                  {
+                    "actionMask": "low K",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "46P",
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "33P",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "236P",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "214P",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "SS",
+        "description": "Sidestep",
+        "endsWith": "STD",
+        "moves": [
+          {
+            "input": "P",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

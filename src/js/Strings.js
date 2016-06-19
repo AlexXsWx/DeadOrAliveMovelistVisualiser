@@ -28,7 +28,7 @@ define('Strings', function Strings() {
             '  context (optional)\n' +
             '  input\n' +
             '  1st action step summary (optional)\n' +
-            'Examples: "33K dmk", "OBT,OCr: 2T tlg"'
+            'Examples: "p hp", "33K dmk", "OBT,OCr: 2T tlg"'
         ),
         'moveSummaryPlaceholder': '(<Ctx>:) <Input> (<AS sum.>)',
 

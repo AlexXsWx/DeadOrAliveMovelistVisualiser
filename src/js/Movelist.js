@@ -236,7 +236,9 @@ define(
                 }
 
                 function onButtonSave(event) {
-                    domCache.download.download = (rootNodeData.character || 'someCharacter') + '.json';
+                    domCache.download.download = (
+                        rootNodeData.character.toLowerCase() || 'someCharacter'
+                    ) + '.json';
                     domCache.download.href = NodeSerializer.serializeToBase64Url(rootNodeData);
                     // FIXME: may not be compatible with browsers other than chrome
                     // A solution could be to use http://github.com/eligrey/FileSaver.js
@@ -261,7 +263,7 @@ define(
                             'DeadOrAliveMovelistVisualiser/master/data/rig.6.json'
                         )
                     );
-                    NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
+                    if (url) NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
                 }
 
                 function onDataDeserialized(data) {
@@ -386,6 +388,15 @@ define(
                     limitsFinder.x.max - limitsFinder.x.min,
                     limitsFinder.y.max - limitsFinder.y.min
                 );
+
+                var currentlySelectedNode = SelectionManager.getCurrentSelection();
+                if (currentlySelectedNode) {
+                    canvas.scrollToSvgNodeViewIfNeeded(
+                        currentlySelectedNode,
+                        limitsFinder.y.min,
+                        PADDING
+                    );
+                }
 
             }
 

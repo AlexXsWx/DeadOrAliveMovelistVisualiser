@@ -35,6 +35,7 @@ define(
 
             var editorGroupMove = new EditorGroup('move', filter, focus, updateView);
 
+            // FIXME: Esc is bugged
             var summary = TableRowInput.create({
                 name: Strings('moveSummary'),
                 description: Strings('moveSummaryDescription'),
@@ -215,7 +216,7 @@ define(
             }
 
             function updateMoveInputs(nodeData) {
-                updateMoveSummaryInputValue(nodeData);
+                updateMoveSummaryInputValue(nodeData, true);
                 input.setValue(nodeData.input || '');
                 frameData.setValue(nodeData.frameData.join(' ') || '');
                 ending.setValue(nodeData.endsWith || '');
@@ -277,7 +278,7 @@ define(
 
             function changeInput(newValue, nodeData) {
                 var oldValue = nodeData.input;
-                nodeData.input = newValue.trim();
+                nodeData.input = newValue.trim().toUpperCase().replace(/AP/g, 'Ap');
                 return oldValue !== newValue;
             }
 

@@ -1,5 +1,7 @@
 define('CanvasManager', ['Tools'], function(_) {
 
+    var SCROLLBAR_SIZE = 20;
+
     return { create: create };
 
     function create(rootNode, padding) {
@@ -63,9 +65,8 @@ define('CanvasManager', ['Tools'], function(_) {
             width += menuTheoreticMaxWidth;
 
             // Keep it screen size to avoid culling when svg animates shrinking
-            var scrollBarSize = 20;
-            width  = Math.max(body.clientWidth  - scrollBarSize, width);
-            height = Math.max(body.clientHeight - scrollBarSize, height);
+            width  = Math.max(body.clientWidth  - SCROLLBAR_SIZE, width);
+            height = Math.max(body.clientHeight - SCROLLBAR_SIZE, height);
 
             svg.setAttribute('width',  width);
             svg.setAttribute('height', height);
@@ -81,8 +82,8 @@ define('CanvasManager', ['Tools'], function(_) {
             if (body.scrollTop + padding > nodeCenterDocumentY) {
                 body.scrollTop = nodeCenterDocumentY - padding;
             } else
-            if (body.scrollTop + body.clientHeight - padding < nodeCenterDocumentY) {
-                body.scrollTop = nodeCenterDocumentY - (body.clientHeight - padding);
+            if (body.scrollTop + body.clientHeight - padding - SCROLLBAR_SIZE < nodeCenterDocumentY) {
+                body.scrollTop = nodeCenterDocumentY - (body.clientHeight - padding - SCROLLBAR_SIZE);
             }
         }
 

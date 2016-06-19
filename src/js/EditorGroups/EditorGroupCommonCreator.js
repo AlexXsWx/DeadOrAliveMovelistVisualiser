@@ -17,7 +17,7 @@ define(
                     tag: 'input',
                     attributes: {
                         'type': 'button',
-                        'value': 'Add child'
+                        'value': 'Add child (+)'
                     },
                     listeners: { 'click': onAdd }
                 }),
@@ -36,7 +36,7 @@ define(
                     tag: 'input',
                     attributes: {
                         'type': 'button',
-                        'value': 'Toggle Children'
+                        'value': 'Toggle Children' // TODO: spacebar
                     },
                     listeners: {
                         'click': function(event) {

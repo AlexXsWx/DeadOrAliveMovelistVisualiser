@@ -43,7 +43,7 @@ define(
             window.addEventListener('keydown', function(event) {
                 // TODO: cleanup a bit
                 var keyCode = event.keyCode;
-                if (document.activeElement instanceof HTMLInputElement) {
+                if (!event.ctrlKey && document.activeElement instanceof HTMLInputElement) {
                     var input = document.activeElement;
                     if (input.type === 'text' && (
                         keyCode === KeyCodes.LEFT  && input.selectionEnd > 0 ||
@@ -109,9 +109,10 @@ define(
         }
 
 
+        // TODO: select mid child?
         function selectFirstChild(nodeSvgView) {
 
-            if (!nodeSvgView) return;
+            if (!nodeSvgView) return; // FIXME: select root
 
             var visibleNodesSvgViews = getVisibleNodesSvgViews();
 
@@ -134,9 +135,10 @@ define(
         }
 
 
+        // TODO: Don't go level up, change parent but keep depth instead?
         function selectSibling(nodeSvgView, delta) {
 
-            if (!nodeSvgView) return;
+            if (!nodeSvgView) return; // FIXME: select root
 
             var visibleNodesSvgViews = getVisibleNodesSvgViews();
 
@@ -165,14 +167,16 @@ define(
                 if (visibleNodesSvgViews.hasOwnProperty(childId)) {
                     selectNode(visibleNodesSvgViews[childId]);
                 }
+                // TODO: else - create placeholder?
             }
 
         }
 
 
+        // TODO: Select nearest node at left instead of parent?
         function selectParent(nodeSvgView) {
 
-            if (!nodeSvgView) return;
+            if (!nodeSvgView) return; // FIXME: select root
 
             var visibleNodesSvgViews = getVisibleNodesSvgViews();
 

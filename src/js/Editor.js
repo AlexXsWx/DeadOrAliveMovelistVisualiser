@@ -7,7 +7,8 @@ define(
         'EditorGroups/EditorGroupRootCreator',
         'EditorGroups/EditorGroupStanceCreator',
         'EditorGroups/EditorGroupMoveCreator',
-        'EditorGroups/EditorGroupCommonCreator'
+        'EditorGroups/EditorGroupCommonCreator',
+        'Input/KeyCodes'
     ],
 
     function(
@@ -15,7 +16,8 @@ define(
         EditorGroupRootCreator,
         EditorGroupStanceCreator,
         EditorGroupMoveCreator,
-        EditorGroupCommonCreator
+        EditorGroupCommonCreator,
+        KeyCodes
     ) {
 
         var nodeDataGenerator;
@@ -51,7 +53,7 @@ define(
 
         return {
             init:               init,
-            focus:              focus,
+            focus:              focus, // TODO: focus on f2/enter
             reset:              reset,
             addPlaceholders:    addPlaceholders,
             removePlaceholders: removePlaceholders,
@@ -65,6 +67,17 @@ define(
             toggleChildrenRef = argToggleChildrenRef;
             selectNodeRef     = argSelectNodeRef;
             updateEditorDomGroups();
+
+            // FIXME: this doesn't belong here
+            window.addEventListener('keydown', function(event) {
+                if (
+                    (event.keyCode === KeyCodes.PLUS || event.keyCode === KeyCodes.NUM_PLUS) &&
+                    !(document.activeElement instanceof HTMLInputElement)
+                ) {
+                    onClickAddChild();
+                    event.preventDefault();
+                }
+            });
         }
 
 

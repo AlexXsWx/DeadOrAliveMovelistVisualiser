@@ -1,0 +1,703 @@
+{
+  "header": {
+    "format": 3,
+    "timeSaved": 1465057278199
+  },
+  "body": {
+    "character": "Lisa",
+    "stances": [
+      {
+        "abbreviation": "STD",
+        "description": "Standing",
+        "moves": [
+          {
+            "input": "P",
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike",
+                        "isTracking": true
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P+K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "H",
+                            "actionSteps": [
+                              {
+                                "actionType": "other"
+                              }
+                            ],
+                            "followUps": [
+                              {
+                                "input": "P+K",
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "jump attack",
+                                    "isTracking": false
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "followUps": [
+                      {
+                        "input": "6",
+                        "endsWith": "RUN"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K"
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "K",
+                    "followUps": [
+                      {
+                        "input": "4"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "9P",
+            "followUps": [
+              {
+                "input": "P"
+              },
+              {
+                "input": "K"
+              },
+              {
+                "input": "P+K",
+                "followUps": [
+                  {
+                    "input": "H",
+                    "followUps": [
+                      {
+                        "input": "P+K"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "T"
+              }
+            ]
+          },
+          {
+            "input": "8P"
+          },
+          {
+            "input": "7P"
+          },
+          {
+            "input": "6P",
+            "followUps": [
+              {
+                "input": "P",
+                "followUps": [
+                  {
+                    "input": "P"
+                  }
+                ]
+              },
+              {
+                "input": "4P",
+                "followUps": [
+                  {
+                    "input": "P"
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "4"
+                  }
+                ]
+              },
+              {
+                "input": "8K",
+                "followUps": [
+                  {
+                    "input": "K"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4P",
+            "followUps": [
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "K"
+                  },
+                  {
+                    "input": "2K"
+                  }
+                ]
+              },
+              {
+                "input": "6K"
+              }
+            ]
+          },
+          {
+            "input": "3P",
+            "followUps": [
+              {
+                "input": "P"
+              }
+            ]
+          },
+          {
+            "input": "2P"
+          },
+          {
+            "input": "1P",
+            "followUps": [
+              {
+                "input": "P"
+              }
+            ]
+          },
+          {
+            "input": "1P",
+            "followUps": [
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "K",
+                    "followUps": [
+                      {
+                        "input": "K"
+                      },
+                      {
+                        "input": "2K"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "66P",
+            "followUps": [
+              {
+                "input": "P"
+              },
+              {
+                "input": "K"
+              }
+            ]
+          },
+          {
+            "input": "33P"
+          },
+          {
+            "input": "236P"
+          },
+          {
+            "input": "K",
+            "followUps": [
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "P",
+                    "followUps": [
+                      {
+                        "input": "P"
+                      },
+                      {
+                        "input": "P+K",
+                        "followUps": [
+                          {
+                            "input": "H",
+                            "followUps": [
+                              {
+                                "input": "P+K"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "followUps": [
+                      {
+                        "input": "P"
+                      },
+                      {
+                        "input": "K"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6K"
+                  }
+                ]
+              },
+              {
+                "input": "6K",
+                "followUps": [
+                  {
+                    "input": "4"
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "followUps": [
+                  {
+                    "input": "K",
+                    "followUps": [
+                      {
+                        "input": "K"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "9K",
+            "followUps": [
+              {
+                "input": "P"
+              },
+              {
+                "input": "K"
+              },
+              {
+                "input": "T"
+              }
+            ]
+          },
+          {
+            "input": "8K",
+            "followUps": [
+              {
+                "input": "K"
+              }
+            ]
+          },
+          {
+            "input": "7K",
+            "followUps": [
+              {
+                "input": "6",
+                "endsWith": "RUN"
+              },
+              {
+                "input": "P",
+                "followUps": [
+                  {
+                    "input": "H",
+                    "followUps": [
+                      {
+                        "input": "P+K"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K"
+              },
+              {
+                "input": "T"
+              }
+            ]
+          },
+          {
+            "input": "6K",
+            "followUps": [
+              {
+                "input": "K"
+              },
+              {
+                "input": "2K"
+              }
+            ]
+          },
+          {
+            "input": "4K",
+            "followUps": [
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "K"
+                  },
+                  {
+                    "input": "2K"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3K",
+            "followUps": [
+              {
+                "input": "4"
+              }
+            ]
+          },
+          {
+            "input": "2K",
+            "followUps": [
+              {
+                "input": "P",
+                "followUps": [
+                  {
+                    "input": "K"
+                  },
+                  {
+                    "input": "6K"
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "4"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "1K",
+            "followUps": [
+              {
+                "input": "K",
+                "followUps": [
+                  {
+                    "input": "P",
+                    "followUps": [
+                      {
+                        "input": "P"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K"
+                  }
+                ]
+              },
+              {
+                "input": "2K"
+              }
+            ]
+          },
+          {
+            "input": "66K",
+            "followUps": [
+              {
+                "input": "6"
+              }
+            ]
+          },
+          {
+            "input": "33K"
+          },
+          {
+            "input": "236K"
+          },
+          {
+            "input": "P+K"
+          },
+          {
+            "input": "4P+K"
+          },
+          {
+            "input": "H+K"
+          },
+          {
+            "input": "6H+K"
+          },
+          {
+            "input": "4H+K",
+            "followUps": [
+              {
+                "input": "6"
+              }
+            ]
+          },
+          {
+            "input": "2H+K"
+          },
+          {
+            "input": "1H+K",
+            "followUps": [
+              {
+                "input": "6"
+              }
+            ]
+          },
+          {
+            "input": "214H+K"
+          },
+          {
+            "input": "T"
+          },
+          {
+            "input": "6T"
+          },
+          {
+            "input": "4T"
+          },
+          {
+            "input": "64T"
+          },
+          {
+            "input": "44T"
+          },
+          {
+            "input": "214T",
+            "followUps": [
+              {
+                "input": "6T",
+                "followUps": [
+                  {
+                    "input": "8T"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "41236T",
+            "followUps": [
+              {
+                "input": "46T",
+                "followUps": [
+                  {
+                    "input": "6987412T"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "T",
+            "context": [
+              "BT"
+            ]
+          },
+          {
+            "input": "2T"
+          },
+          {
+            "input": "6T",
+            "context": [
+              "OBT"
+            ]
+          },
+          {
+            "input": "41236T",
+            "context": [
+              "OBT"
+            ]
+          },
+          {
+            "input": "8T"
+          },
+          {
+            "input": "66T"
+          },
+          {
+            "input": "236T"
+          },
+          {
+            "input": "3T",
+            "followUps": [
+              {
+                "input": "T"
+              }
+            ]
+          },
+          {
+            "input": "8T",
+            "context": [
+              "BT"
+            ]
+          },
+          {
+            "input": "6T",
+            "context": [
+              "BT"
+            ]
+          },
+          {
+            "input": "66T",
+            "context": [
+              "OBT"
+            ]
+          },
+          {
+            "input": "6T",
+            "context": [
+              "BT",
+              "OBT"
+            ]
+          },
+          {
+            "input": "7H"
+          },
+          {
+            "input": "4H"
+          },
+          {
+            "input": "6H"
+          },
+          {
+            "input": "1H"
+          },
+          {
+            "input": "7P",
+            "context": [
+              "BT"
+            ]
+          },
+          {
+            "input": "7K",
+            "context": [
+              "BT"
+            ]
+          },
+          {
+            "input": "P+K",
+            "context": [
+              "BT"
+            ],
+            "followUps": [
+              {
+                "input": "H",
+                "followUps": [
+                  {
+                    "input": "P+K"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4P+K",
+            "context": [
+              "BT"
+            ]
+          },
+          {
+            "input": "H+K",
+            "endsWith": "BT"
+          },
+          {
+            "input": "2K",
+            "context": [
+              "OGND"
+            ]
+          },
+          {
+            "input": "8P+K",
+            "context": [
+              "OGND"
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "SS",
+        "moves": [
+          {
+            "input": "P"
+          },
+          {
+            "input": "K"
+          },
+          {
+            "input": "P+K"
+          }
+        ]
+      },
+      {
+        "abbreviation": "RUN",
+        "moves": [
+          {
+            "input": "P"
+          },
+          {
+            "input": "H+K"
+          },
+          {
+            "input": "T"
+          }
+        ]
+      }
+    ]
+  }
+}
