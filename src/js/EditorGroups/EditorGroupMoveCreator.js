@@ -21,12 +21,13 @@ define(
     ) {
 
         var inputEnum = {
-            input:     0,
-            context:   1,
-            frameData: 2,
-            ending:    3
+            summary:   0,
+            input:     1,
+            context:   2,
+            frameData: 3,
+            ending:    4
         };
-        var lastSelectedInput = inputEnum.input;
+        var lastSelectedInput = inputEnum.summary;
 
         return { create: create };
 
@@ -34,13 +35,30 @@ define(
 
             var editorGroupMove = new EditorGroup('move', filter, focus, updateView);
 
+            var summary = TableRowInput.create({
+                name: Strings('moveSummary'),
+                description: Strings('moveSummaryDescription'),
+                placeholder: Strings('moveSummaryPlaceholder'),
+                onInput: function onMoveSummaryInput(newValue) {
+                    changeNodes(editorGroupMove, function(nodeData) {
+                        return changeSummary(newValue, nodeData);
+                    });
+                },
+                onFocus: function onMoveSummaryFocus(event) {
+                    MoveActionStep.resetLastSelectedInput();
+                    lastSelectedInput = inputEnum.summary;
+                }
+            });
+
             var input = TableRowInput.create({
                 name: Strings('moveInput'),
                 description: Strings('moveInputDescription'),
                 placeholder: Strings('moveInputPlaceholder'),
                 onInput: function onMoveInputInput(newValue) {
                     changeNodes(editorGroupMove, function(nodeData) {
-                        return changeInput(newValue, nodeData);
+                        var changed = changeInput(newValue, nodeData);
+                        updateMoveSummaryInputValue(nodeData);
+                        return changed;
                     });
                 },
                 onFocus: function onMoveInputFocus(event) {
@@ -98,7 +116,9 @@ define(
                 placeholder: Strings('moveContextPlaceholder'),
                 onInput: function onMoveContextInput(newValue) {
                     changeNodes(editorGroupMove, function(nodeData) {
-                        return changeContext(newValue, nodeData);
+                        var changed = changeContext(newValue, nodeData);
+                        updateMoveSummaryInputValue(nodeData);
+                        return changed;
                     });
                 },
                 onFocus: function onMoveContextFocus(event) {
@@ -107,11 +127,12 @@ define(
                 }
             });
 
+            editorGroupMove.domRoot.appendChild(summary.domRoot);
+            editorGroupMove.domRoot.appendChild(context.domRoot);
             editorGroupMove.domRoot.appendChild(input.domRoot);
+            editorGroupMove.domRoot.appendChild(ending.domRoot);
             editorGroupMove.domRoot.appendChild(frameData.domRoot);
             editorGroupMove.domRoot.appendChild(actionStepsParentRow);
-            editorGroupMove.domRoot.appendChild(ending.domRoot);
-            editorGroupMove.domRoot.appendChild(context.domRoot);
 
             var actionStepInputs = [];
 
@@ -120,6 +141,7 @@ define(
             function filter(data) { return data && NodeFactory.isMoveNode(data); }
 
             function clear() {
+                summary.setValue('');
                 input.setValue('');
                 frameData.setValue('');
                 ending.setValue('');
@@ -132,6 +154,7 @@ define(
 
                 if (!(actionStepInputs.length > 0 && actionStepInputs[0].focus())) {
                     switch (lastSelectedInput) {
+                        case inputEnum.summary:   summary.focus();   break;
                         case inputEnum.input:     input.focus();     break;
                         case inputEnum.context:   context.focus();   break;
                         case inputEnum.frameData: frameData.focus(); break;
@@ -183,6 +206,7 @@ define(
                                 var actionStep = nodeData.actionSteps[actionStepIndex];
                                 var changed = changeActionStepProperty(actionStep);
                                 if (changed) actionStepInput.fillFromActionStep(actionStep);
+                                updateMoveSummaryInputValue(nodeData);
                                 return changed;
                             });
                         }
@@ -191,6 +215,7 @@ define(
             }
 
             function updateMoveInputs(nodeData) {
+                updateMoveSummaryInputValue(nodeData);
                 input.setValue(nodeData.input || '');
                 frameData.setValue(nodeData.frameData.join(' ') || '');
                 ending.setValue(nodeData.endsWith || '');
@@ -206,8 +231,48 @@ define(
                 }
             }
 
+            function updateMoveSummaryInputValue(nodeData, optForceUpdate) {
+                if (optForceUpdate || document.activeElement !== summary.input) {
+                    summary.setValue(NodeFactory.getMoveSummary(nodeData));
+                }
+            }
+
 
             // readers
+
+
+            function changeSummary(newValue, nodeData) {
+
+                var rest = newValue.trim();
+                var parts = rest.split(':');
+                if (parts.length > 1) {
+                    context.setValue(parts[0], true);
+                    rest = parts[1].trim();
+                } else {
+                    context.setValue('', true);
+                }
+
+                var inputData = rest;
+                var actionStepSummary = '';
+                parts = rest.split(' ');
+                if (parts.length > 1) {
+                    inputData = parts.slice(0, parts.length - 1).join(' ');
+                    actionStepSummary = parts[parts.length - 1];
+                }
+
+                input.setValue(inputData, true);
+
+                if (actionStepSummary) {
+                    console.assert(nodeData.actionSteps.length > 0, 'move has no actions steps');
+                    actionStepInputs[0].changeActionSummary(
+                        actionStepSummary,
+                        nodeData.actionSteps[0]
+                    );
+                }
+
+                return false;
+
+            }
 
 
             function changeInput(newValue, nodeData) {

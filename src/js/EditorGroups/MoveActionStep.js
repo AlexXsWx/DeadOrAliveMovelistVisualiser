@@ -61,7 +61,9 @@ define(
                 placeholder: 'e.g. mid P',
                 onInput: function onActionStepMaskInput(newValue) {
                     changeActionStep(function(actionStep) {
-                        return changeActionMask(newValue, actionStep);
+                        var changed = changeActionMask(newValue, actionStep);
+                        updateActionStepSummaryInputValue(actionStep);
+                        return changed;
                     });
                 },
                 onFocus: function(event) {
@@ -74,7 +76,9 @@ define(
                 name: Strings('moveActionType'),
                 onInput: function onActionStepTypeInput(newValue) {
                     changeActionStep(function(actionStep) {
-                        return changeActionStepType(newValue, actionStep);
+                        var changed = changeActionStepType(newValue, actionStep);
+                        updateActionStepSummaryInputValue(actionStep);
+                        return changed;
                     });
                 },
                 onFocus: function(event) {
@@ -90,7 +94,9 @@ define(
                 isIndeterminate: true,
                 onChange: function onActionStepTrackingChange(isChecked, isIndeterminate) {
                     changeActionStep(function(actionStep) {
-                        return changeActionStepTracking(isChecked, isIndeterminate, actionStep);
+                        var changed = changeActionStepTracking(isChecked, isIndeterminate, actionStep);
+                        updateActionStepSummaryInputValue(actionStep);
+                        return changed;
                     });
                 },
                 onFocus: function(event) {
@@ -193,7 +199,8 @@ define(
                 domRoot: domRoot,
                 clear: clear,
                 fillFromActionStep: fillFromActionStep,
-                focus: focus
+                focus: focus,
+                changeActionSummary: changeActionSummary
             };
 
             function clear() {
@@ -216,7 +223,7 @@ define(
                     return;
                 }
 
-                summary.setValue(NodeFactory.getActionStepSummary(actionStep));
+                updateActionStepSummaryInputValue(actionStep);
 
                 mask.setValue(actionStep.actionMask || '');
                 type.setValue(actionStep.actionType || '');
@@ -296,64 +303,74 @@ define(
                     return changed;
                 });
             }
-        }
 
-        // ==== Readers ====
+            function updateActionStepSummaryInputValue(actionStep, optForceUpdate) {
+                if (optForceUpdate || document.activeElement !== summary.input) {
+                    summary.setValue(NodeFactory.getActionStepSummary(actionStep));
+                }
+            }
 
             function changeActionSummary(newValue, actionStep) {
-
-                var changed = false;
 
                 var lowCased = newValue.toLowerCase();
 
                 // mask
 
-                var mask = [];
+                var maskValue = [];
                 // FIXME: order is important!
-                if (lowCased.search('h') >= 0) mask.push('high');
-                if (lowCased.search('m') >= 0) mask.push('mid');
-                if (lowCased.search('l') >= 0) mask.push('low');
-                if (lowCased.search('f') >= 0) mask.push('ground'); // for Floor
-                if (lowCased.search('p') >= 0) mask.push('P');
-                if (lowCased.search('k') >= 0) mask.push('K');
-                changed = changeActionMask(mask.join(' '), actionStep) || changed;
+                if (lowCased.search('h') >= 0) maskValue.push('high');
+                if (lowCased.search('m') >= 0) maskValue.push('mid');
+                if (lowCased.search('l') >= 0) maskValue.push('low');
+                if (lowCased.search('f') >= 0) maskValue.push('ground'); // for Floor
+                if (lowCased.search('p') >= 0) maskValue.push('P');
+                if (lowCased.search('k') >= 0) maskValue.push('K');
+
+                mask.setValue(maskValue.join(' '), true);
 
                 // tracking
 
-                var tracking = undefined;
+                var trackingValue = undefined;
                 if (lowCased.search('d') >= 0) {
-                    tracking = false;
+                    trackingValue = false;
                 } else
                 if (lowCased.search('t') >= 0) {
-                    tracking = true;
+                    trackingValue = true;
                 }
 
-                changed = changeActionStepTracking(
-                    tracking, tracking === undefined, actionStep
-                ) || changed;
+                if (trackingValue === undefined) {
+                    tracking.setIsChecked(false, false);
+                    tracking.setIsIndeterminate(true, true);
+                } else {
+                    tracking.setIsIndeterminate(false, false);
+                    tracking.setIsChecked(trackingValue, true);
+                }
 
                 // type
 
-                var type = 'other';
+                var typeValue = 'other';
                 if (lowCased.search('g') >= 0) {
-                    type = 'throw';
+                    typeValue = 'throw';
                 } else
                 if (lowCased.search('c') >= 0) {
-                    type = 'hold';
+                    typeValue = 'hold';
                 } else
                 if (lowCased.search(/[pk]/) >= 0) {
                     if (lowCased.search('j') >= 0) {
-                        type = 'jump attack';
+                        typeValue = 'jump attack';
                     } else {
-                        type = 'strike';
+                        typeValue = 'strike';
                     }
                 }
 
-                changed = changeActionStepType(type, actionStep) || changed;
+                type.setValue(typeValue, true);
 
-                return changed;
+                return false;
 
             }
+
+        }
+
+        // ==== Readers ====
 
             function changeActionMask(newValue, actionStep) {
                 var oldValue = actionStep.actionMask;

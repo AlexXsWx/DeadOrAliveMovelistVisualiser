@@ -2,44 +2,54 @@ define('Strings', function Strings() {
 
     var strings = {
 
-        'characterName': 'Character:',
+        'characterName': 'Character',
         'characterNameDescription': 'Character name - e.g. "Kasumi" or "Hayabusa"',
         'characterNamePlaceholder': 'e.g. "Kasumi"',
 
-        'gameVersion': 'Game version:',
+        'gameVersion': 'Game version',
         'gameVersionDescription': 'Game version - e.g. "1.04 steam"',
         'gameVersionPlaceholder': 'e.g. "1.04 steam"',
 
-        'stanceAbbreviation': 'Abbreviation:',
+        'stanceAbbreviation': 'Abbreviation',
         'stanceAbbreviationDescription': 'Stance abbreviation - e.g. "BKH" for Helena\'s Bokuho',
         'stanceAbbreviationPlaceholder': 'e.g. "BKH"',
 
-        'stanceDescription': 'Description:',
+        'stanceDescription': 'Description',
         'stanceDescriptionDescription': 'Abbreviation description - e.g. "Bokuho"',
         'stanceDescriptionPlaceholder': 'e.g. "Bokuho"',
 
-        'stanceEnding': 'Ending:',
+        'stanceEnding': 'Ending',
         'stanceEndingDescription': 'Abbreviation of another stance if transits automatically',
         'stanceEndingPlaceholder': 'e.g. "BND"',
 
-        'moveInput': 'Input:',
+        'moveSummary': 'Summary',
+        'moveSummaryDescription': (
+            'Move summary - one place to fill following:\n' +
+            '  context (optional)\n' +
+            '  input\n' +
+            '  1st action step summary (optional)\n' +
+            'Examples: "33K dmk", "OBT,OCr: 2T tlg"'
+        ),
+        'moveSummaryPlaceholder': '(<Ctx>:) <Input> (<AS sum.>)',
+
+        'moveInput': 'Input',
         'moveInputDescription': 'Keys to perform the move - e.g. "236P"',
         'moveInputPlaceholder': 'e.g. "236P"',
 
-        'moveFrameData': 'Frame data:',
+        'moveFrameData': 'Frame data',
         'moveFrameDataDescription': 'Frame data of the move - e.g. "11 (2) 15"',
         'moveFrameDataPlaceholder': 'e.g. "11 (2) 15"',
 
-        'moveActionSteps': 'Action steps:',
+        'moveActionSteps': 'Action steps',
         'moveActionStepsDescription': 'Move action steps - for most moves just one',
 
-        'moveEnding': 'Ending:',
+        'moveEnding': 'Ending',
         'moveEndingDescription': (
             'Abbreviation of a stance the move ends with - e.g. "BND" for Rig\'s Bending stance'
         ),
         'moveEndingPlaceholder': 'e.g. "BND"',
 
-        'moveContext': 'Context:',
+        'moveContext': 'Context',
         'moveContextDescription': 'Requirements to perform the move - e.g. "BT" for back-turned',
         'moveContextPlaceholder': 'e.g. "BT" for back-turned"',
 

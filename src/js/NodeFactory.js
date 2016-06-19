@@ -23,6 +23,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         isMoveThrow: isMoveThrow,
         isMoveHold:  isMoveHold,
 
+        getMoveSummary:       getMoveSummary,
         getActionStepSummary: getActionStepSummary
 
         // guessMoveTypeByInput: guessMoveTypeByInput
@@ -286,6 +287,22 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
     function isMoveNode(node) {
         return node.hasOwnProperty('input');
+    }
+
+    function getMoveSummary(node) {
+
+        var result = [];
+
+        if (node.context && node.context.length > 0) result.push(node.context.join(',') + ':');
+
+        result.push(node.input);
+
+        if (node.actionSteps && node.actionSteps.length > 0) {
+            result.push(getActionStepSummary(node.actionSteps[0]));
+        }
+
+        return result.join(' ').trim();
+
     }
 
     function isMovePunch(node) { return node.actionSteps.some(isActionStepPunch); }

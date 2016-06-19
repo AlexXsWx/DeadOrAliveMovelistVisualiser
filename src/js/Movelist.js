@@ -18,6 +18,11 @@ define(
         KeyCodes, TreeTools, _
     ) {
 
+        // fixme: realtime group reassigning
+
+        // automatic + by (hk)
+        // fixme: guess action type/mask for just created nodes
+
         // ==== Constants ====
 
             var PADDING = 50;
@@ -108,11 +113,12 @@ define(
             }
 
 
-            function loadData(data, resetShowPlaceholders) {
+            function loadData(data, reset) {
 
-                if (resetShowPlaceholders) {
+                if (reset) {
                     // don't dispatch
                     domCache.showPlaceholders.checked = false;
+                    Editor.reset();
                 }
 
                 destroyExistingNodes();
@@ -199,6 +205,7 @@ define(
             function hideWelcomePopup(optEvent) {
                 localStorage.showWelcomePopupOnStart = +domCache.showWelcomePopupOnStart.checked;
                 _.hideDomElement(domCache.popupWelcome);
+                Editor.focus();
             }
 
             function bindUIActions() {

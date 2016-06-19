@@ -23,7 +23,8 @@ define('Tools', function() {
         createMergedRow:                       createMergedRow,
         setTextContent:                        setTextContent,
         removeAllChildren:                     removeAllChildren,
-        lerp:                                  lerp
+        lerp:                                  lerp,
+        dispatchInputEvent:                    dispatchInputEvent
     };
 
     function getDomElement(id) {
@@ -270,6 +271,11 @@ define('Tools', function() {
 
     function lerp(start, target, weight) {
         return start * (1.0 - weight) + target * weight;
+    }
+
+    // FIXME: may not be compatible with browsers other than chrome
+    function dispatchInputEvent(inputElement, eventName) {
+        inputElement.dispatchEvent(new Event(eventName, { bubbles: false, cancelable: true }));
     }
 
 });

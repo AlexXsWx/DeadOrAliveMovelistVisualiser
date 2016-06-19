@@ -49,20 +49,30 @@ define(
 
             return {
                 domRoot:  tr,
+                input:    input,
                 getValue: getValue,
                 setValue: setValue,
                 focus:    focusInput,
                 blur:     blurInput
             };
 
-            function getValue()         { return input.value;     }
-            function setValue(newValue) { input.value = newValue; }
+            function getValue() {
+                return input.value;
+            }
+
+            function setValue(newValue, optDispatchInputEvent) {
+                input.value = newValue;
+                if (optDispatchInputEvent) {
+                    _.dispatchInputEvent(input, 'input');
+                }
+            }
 
             function focusInput() {
                 input.focus();
                 // Select entire value to keep easy arrow keys navigation between nodes
                 input.setSelectionRange(0, input.value.length);
             }
+
             function blurInput() { input.blur(); }
 
             function keyDownListener(event) {

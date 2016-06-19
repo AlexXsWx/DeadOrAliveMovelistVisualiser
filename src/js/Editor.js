@@ -51,6 +51,8 @@ define(
 
         return {
             init:               init,
+            focus:              focus,
+            reset:              reset,
             addPlaceholders:    addPlaceholders,
             removePlaceholders: removePlaceholders,
             updateBySelection:  updateBySelection,
@@ -283,7 +285,7 @@ define(
         }
 
 
-        function updateBySelection(selectedNodeViewDomElements, focus) {
+        function updateBySelection(selectedNodeViewDomElements, doFocus) {
 
             // FIXME - keep array of selected elements
             selectedSVGNode = selectedNodeViewDomElements[0] || null;
@@ -307,32 +309,48 @@ define(
                 }
             }
 
-            updateEditorDomGroups();
+            updateEditorDomGroups(doFocus);
 
         }
 
 
-        function updateEditorDomGroups() {
-
-            var focused = !focus;
+        function updateEditorDomGroups(doFocus) {
 
             editorGroups.forEach(function(editorGroup) {
-
                 if (editorGroup.matchingSelectedViews.length === 0) {
-
                     _.hideDomElement(editorGroup.domRoot);
-
                 } else {
-
                     _.showDomElement(editorGroup.domRoot);
-
                     editorGroup.updateView();
-                    if (!focused) focused = editorGroup.focus();
-
                 }
-
             });
 
+            if (doFocus) focus();
+
+        }
+
+
+        function focus() {
+
+            for (var i = 0; i < editorGroups.length; ++i) {
+                if (
+                    editorGroups[i].matchingSelectedViews.length !== 0 &&
+                    editorGroups[i].focus()
+                ) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+
+        // FIXME: find a better way than partial copy of `updateEditorDomGroups`
+        function reset() {
+            editorGroups.forEach(function(editorGroup) {
+                _.hideDomElement(editorGroup.domRoot);
+            });
         }
 
     }

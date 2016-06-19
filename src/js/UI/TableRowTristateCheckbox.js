@@ -74,10 +74,22 @@ define(
                 blur:               blurInput
             };
 
-            function getIsChecked()               { return input.checked;           }
-            function getIsIndeterminate()         { return input.indeterminate;     }
-            function setIsChecked(newValue)       { input.checked       = newValue; }
-            function setIsIndeterminate(newValue) { input.indeterminate = newValue; }
+            function getIsChecked()       { return input.checked;       }
+            function getIsIndeterminate() { return input.indeterminate; }
+
+            function setIsIndeterminate(newValue, optDispatchChangeEvent) {
+                input.indeterminate = newValue;
+                if (optDispatchChangeEvent) {
+                    _.dispatchInputEvent(input, 'change');
+                }
+            }
+
+            function setIsChecked(newValue, optDispatchChangeEvent) {
+                input.checked = newValue;
+                if (optDispatchChangeEvent) {
+                    _.dispatchInputEvent(input, 'change');
+                }
+            }
 
             function focusInput() { input.focus(); }
             function blurInput()  { input.blur();  }
