@@ -2,17 +2,17 @@ define(
 
     'SelectionManager',
 
-    ['Input/KeyCodes', 'Observer'],
+    ['NodeView', 'Input/KeyCodes', 'Observer'],
 
-    function(KeyCodes, createObserver) {
+    function SelectionManager(NodeView, KeyCodes, createObserver) {
 
         var selectionPrevious = null;
         var selectionCurrent  = null;
 
         var onSelectionChanged = createObserver();
-        var onSelectFirstChild = createObserver();
-        var onSelectSibling    = createObserver();
-        var onSelectParent     = createObserver();
+
+        var getVisibleNodesSvgViews;
+        var toggleChildren;
 
         var selectParentCallback;
 
@@ -21,14 +21,14 @@ define(
             selectNode:          selectNode,
             undoSelection:       undoSelection,
             getCurrentSelection: getCurrentSelection,
-            onSelectionChanged:  onSelectionChanged,
-            onSelectFirstChild:  onSelectFirstChild,
-            onSelectSibling:     onSelectSibling,
-            onSelectParent:      onSelectParent
+            onSelectionChanged:  onSelectionChanged
         };
 
 
-        function init(rootElement) {
+        function init(rootElement, getVisibleNodesSvgViewsRef, toggleChildrenRef) {
+
+            getVisibleNodesSvgViews = getVisibleNodesSvgViewsRef;
+            toggleChildren = toggleChildrenRef;
 
             rootElement.addEventListener('click', function(event) {
                 selectNode(null);
@@ -53,11 +53,11 @@ define(
                 }
                 var processed = true;
                 switch (keyCode) {
-                    case KeyCodes.ESC:   selectNothing();    break;
-                    case KeyCodes.RIGHT: selectFirstChild(); break;
-                    case KeyCodes.LEFT:  selectParent();     break;
-                    case KeyCodes.UP:    selectSibling(-1);  break;
-                    case KeyCodes.DOWN:  selectSibling(1);   break;
+                    case KeyCodes.ESC:   selectNothing(); break;
+                    case KeyCodes.RIGHT: selectFirstChild(selectionCurrent);   break;
+                    case KeyCodes.LEFT:  selectParent(selectionCurrent);       break;
+                    case KeyCodes.UP:    selectSibling(selectionCurrent, -1);  break;
+                    case KeyCodes.DOWN:  selectSibling(selectionCurrent, 1);   break;
                     default:
                         processed = false;
                         // console.log('unused keycode', event.keyCode);
@@ -108,18 +108,81 @@ define(
         }
 
 
-        function selectFirstChild() {
-            if (selectionCurrent) onSelectFirstChild.dispatch(selectionCurrent);
+        function selectFirstChild(nodeSvgView) {
+
+            if (!nodeSvgView) return;
+
+            var visibleNodesSvgViews = getVisibleNodesSvgViews();
+
+            var nodeView = nodeSvgView.nodeView;
+            var children = NodeView.getVisibleChildren(nodeView);
+            if (children && children.length > 0) {
+                var firstChild = children[0];
+                var childId = NodeView.getId(firstChild);
+                if (visibleNodesSvgViews.hasOwnProperty(childId)) {
+                    selectNode(visibleNodesSvgViews[childId]);
+                }
+            } else {
+                // FIXME: this doesn't belong here
+                children = NodeView.getHiddenChildren(nodeView);
+                if (children && children.length > 0) {
+                    toggleChildren(nodeSvgView);
+                }
+            }
+
         }
 
 
-        function selectParent() {
-            if (selectionCurrent) onSelectParent.dispatch(selectionCurrent);
+        function selectSibling(nodeSvgView, delta) {
+
+            if (!nodeSvgView) return;
+
+            var visibleNodesSvgViews = getVisibleNodesSvgViews();
+
+            var nodeView = nodeSvgView.nodeView;
+            var parent = NodeView.getParentView(nodeView);
+            if (!parent) return;
+            var children = NodeView.getVisibleChildren(parent);
+            var selfIndex = children.indexOf(nodeView);
+            console.assert(selfIndex >= 0, 'parent/children structure is broken');
+            if (selfIndex + delta < 0) {
+                var parentId = NodeView.getId(parent);
+                if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
+                    var parentNodeSvgView = visibleNodesSvgViews[parentId];
+                    selectSibling(parentNodeSvgView, selfIndex + delta);
+                }
+            } else
+            if (selfIndex + delta > children.length - 1) {
+                var parentId = NodeView.getId(parent);
+                if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
+                    var parentNodeSvgView = visibleNodesSvgViews[parentId];
+                    selectSibling(parentNodeSvgView, selfIndex + delta - (children.length - 1));
+                }
+            } else {
+                var child = children[selfIndex + delta];
+                var childId = NodeView.getId(child);
+                if (visibleNodesSvgViews.hasOwnProperty(childId)) {
+                    selectNode(visibleNodesSvgViews[childId]);
+                }
+            }
+
         }
 
 
-        function selectSibling(delta) {
-            if (selectionCurrent) onSelectSibling.dispatch(selectionCurrent, delta);
+        function selectParent(nodeSvgView) {
+
+            if (!nodeSvgView) return;
+
+            var visibleNodesSvgViews = getVisibleNodesSvgViews();
+
+            var nodeView = nodeSvgView.nodeView;
+            var parent = NodeView.getParentView(nodeView);
+            if (!parent) return;
+            var parentId = NodeView.getId(parent);
+            if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
+                selectNode(visibleNodesSvgViews[parentId]);
+            }
+
         }
 
     }

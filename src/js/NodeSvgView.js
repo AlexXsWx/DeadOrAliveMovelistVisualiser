@@ -2,24 +2,20 @@ define(
 
     'NodeSvgView',
 
-    ['NodeView', 'NodeFactory', 'Observer', 'Tools', 'SvgTools'],
+    ['NodeView', 'NodeFactory', 'NodeSvgViewTexts', 'Observer', 'Tools', 'SvgTools'],
 
-    function NodeSvgView(NodeView, NodeFactory, createObserver, _, SvgTools) {
-
-        var CHAR_EXPAND = '+';
-        var CHAR_HIDE   = String.fromCharCode(0x2212); // minus sign
-        var CHAR_MIXED  = String.fromCharCode(0x00D7); // cross sign
+    function NodeSvgView(NodeView, NodeFactory, NodeSvgViewTexts, createObserver, _, SvgTools) {
 
         var TRANSITION_DURATION = 500; // ms
 
         var TEXT_GETTER_OPTIONS = [
-            getEmptyText,
-            getTextRight,
-            getTextDuration,
-            getCooldown,
-            getSafety,
-            getEmptyText, // TODO: stun depth
-            getEmptyText  // TODO: unhold duration
+            NodeSvgViewTexts.getEmptyText,
+            NodeSvgViewTexts.getTextRight,
+            NodeSvgViewTexts.getTextDuration,
+            NodeSvgViewTexts.getCooldown,
+            NodeSvgViewTexts.getSafety,
+            NodeSvgViewTexts.getEmptyText, // TODO: stun depth
+            NodeSvgViewTexts.getEmptyText  // TODO: unhold duration
         ];
 
         var textGetters = {
@@ -34,14 +30,40 @@ define(
         var onNodeToggleChildren = createObserver();
 
         return {
+            init:                 init,
             create:               create,
             onNodeClick:          onNodeClick,
-            onNodeToggleChildren: onNodeToggleChildren,
-            setFlipTextToRight:   setFlipTextToRight,
-            setRightTextOption:   setRightTextOption,
-            setTopTextOption:     setTopTextOption,
-            setBottomTextOption:  setBottomTextOption
+            onNodeToggleChildren: onNodeToggleChildren
         };
+
+        function init(updateRef) {
+
+            _.getDomElement('topTextOption').addEventListener('change', function(event) {
+                var select = this;
+                var selectedOptionValue = +select.selectedOptions[0].value;
+                textGetters.top = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                updateRef();
+            });
+            _.getDomElement('rightTextOption').addEventListener('change', function(event) {
+                var select = this;
+                var selectedOptionValue = +select.selectedOptions[0].value;
+                textGetters.right = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                updateRef();
+            });
+            _.getDomElement('bottomTextOption').addEventListener('change', function(event) {
+                var select = this;
+                var selectedOptionValue = +select.selectedOptions[0].value;
+                textGetters.bottom = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                updateRef();
+            });
+
+            _.getDomElement('flipTextToRight').addEventListener('change', function(event) {
+                var checkbox = this;
+                flipTextToRight = checkbox.checked;
+                updateRef();
+            });
+
+        }
 
         function create(nodeView, NODE_HEIGHT) {
 
@@ -61,26 +83,10 @@ define(
 
             // ==== Animation ====
 
-                var positionTarget = {
-                    x: undefined,
-                    y: undefined
-                };
-
-                var positionStart = {
-                    x: undefined,
-                    y: undefined
-                };
-
-                var positionParentTarget = {
-                    x: undefined,
-                    y: undefined
-                };
-
-                var positionParentStart = {
-                    x: undefined,
-                    y: undefined
-                };
-
+                var positionTarget = createVectorXY();
+                var positionStart  = createVectorXY();
+                var positionParentTarget = createVectorXY();
+                var positionParentStart  = createVectorXY();
                 var opacityStart  = 1;
                 var opacityTarget = 1;
 
@@ -106,6 +112,9 @@ define(
             return nodeSvgView;
 
             function updateByData() {
+                if (!NodeView.isPlaceholder(nodeView)) {
+                    circle.removeAttribute('stroke-dasharray');
+                }
                 updateTextsByData();
                 updateClassesByData();
                 updateLinkThickness();
@@ -156,10 +165,28 @@ define(
 
             function updateTextsByData() {
                 _.setTextContent(texts.left,   getActualLeftText(nodeView));
-                _.setTextContent(texts.center, getTextToggle(nodeView));
+                _.setTextContent(texts.center, NodeSvgViewTexts.getTextToggle(nodeView));
                 _.setTextContent(texts.right,  getActualRightText(nodeView));
                 _.setTextContent(texts.top,    textGetters.top(nodeView));
                 _.setTextContent(texts.bottom, textGetters.bottom(nodeView));
+            }
+
+            function getActualLeftText(nodeView) {
+                var leftText = NodeSvgViewTexts.getTextLeft(nodeView);
+                if (!flipTextToRight) {
+                    return leftText;
+                }
+                var rightText = textGetters.right(nodeView);
+                return rightText ? leftText : '';
+            }
+
+            function getActualRightText(nodeView) {
+                var rightText = textGetters.right(nodeView);
+                if (!flipTextToRight)
+                {
+                    return rightText;
+                }
+                return rightText || NodeSvgViewTexts.getTextLeft(nodeView);
             }
 
             function updateClassesByData() {
@@ -217,10 +244,7 @@ define(
 
             function createDomNodes() {
 
-                link = _.createSvgElement({
-                    tag: 'path',
-                    classes: [ 'node_link' ]
-                });
+                link = createSvgElementClassed('path', ['node_link']);
 
                 wrapper = _.createSvgElement({
                     tag: 'g',
@@ -232,50 +256,22 @@ define(
                     }
                 });
 
-                maskHigh = _.createSvgElement({
-                    tag: 'polyline',
-                    classes: [ 'node_mask_high' ]
-                });
-
-                maskMid = _.createSvgElement({
-                    tag: 'polyline',
-                    classes: [ 'node_mask_mid' ]
-                });
-
-                maskLow = _.createSvgElement({
-                    tag: 'polyline',
-                    classes: [ 'node_mask_low' ]
-                });
+                maskHigh = createSvgElementClassed('polyline', [ 'node_mask_high' ]);
+                maskMid  = createSvgElementClassed('polyline', [ 'node_mask_mid'  ]);
+                maskLow  = createSvgElementClassed('polyline', [ 'node_mask_low'  ]);
 
                 circle = _.createSvgElement({
                     tag: 'circle',
+                    // FIXME: CSS "stroke-dasharray: 2 2;"
+                    attributes: { 'stroke-dasharray': '2,2' },
                     classes: [ 'node_circle' ]
                 });
 
-                texts.center = _.createSvgElement({
-                    tag: 'text',
-                    classes: [ 'node_text', 'node_text_center' ]
-                });
-
-                texts.right = _.createSvgElement({
-                    tag: 'text',
-                    classes: [ 'node_text', 'node_text_right' ]
-                });
-
-                texts.left = _.createSvgElement({
-                    tag: 'text',
-                    classes: [ 'node_text', 'node_text_left' ]
-                });
-
-                texts.top = _.createSvgElement({
-                    tag: 'text',
-                    classes: [ 'node_text', 'node_text_top' ]
-                });
-
-                texts.bottom = _.createSvgElement({
-                    tag: 'text',
-                    classes: [ 'node_text', 'node_text_bottom' ]
-                });
+                texts.center = createSvgElementClassed('text', [ 'node_text', 'node_text_center' ]);
+                texts.right  = createSvgElementClassed('text', [ 'node_text', 'node_text_right'  ]);
+                texts.left   = createSvgElementClassed('text', [ 'node_text', 'node_text_left'   ]);
+                texts.top    = createSvgElementClassed('text', [ 'node_text', 'node_text_top'    ]);
+                texts.bottom = createSvgElementClassed('text', [ 'node_text', 'node_text_bottom' ]);
 
                 resize(NODE_HEIGHT);
 
@@ -441,121 +437,21 @@ define(
 
         }
 
-        function setFlipTextToRight(value) {
-            flipTextToRight = value;
+        // Helpers
+
+        function createVectorXY() {
+            return {
+                x: undefined,
+                y: undefined
+            };
         }
 
-        function setRightTextOption(optionIndex) {
-            textGetters.right = TEXT_GETTER_OPTIONS[optionIndex];
+        function createSvgElementClassed(tag, classes) {
+            return _.createSvgElement({
+                tag: tag,
+                classes: classes
+            });
         }
-
-        function setTopTextOption(optionIndex) {
-            textGetters.top = TEXT_GETTER_OPTIONS[optionIndex];
-        }
-
-        function setBottomTextOption(optionIndex) {
-            textGetters.bottom = TEXT_GETTER_OPTIONS[optionIndex];
-        }
-
-        // ==== Texts ====
-
-            function getActualLeftText(nodeView) {
-                var leftText = getTextLeft(nodeView);
-                if (!flipTextToRight) {
-                    return leftText;
-                }
-                var rightText = textGetters.right(nodeView);
-                return rightText ? leftText : '';
-            }
-
-            function getActualRightText(nodeView) {
-                var rightText = textGetters.right(nodeView);
-                if (!flipTextToRight)
-                {
-                    return rightText;
-                }
-                return rightText || getTextLeft(nodeView);
-            }
-
-            function getEmptyText(nodeView) {
-                return '';
-            }
-
-            function getTextLeft(nodeView) {
-                return NodeView.getName(nodeView) || '<unnamed>';
-            }
-
-            function getTextRight(nodeView) {
-                return NodeView.getEnding(nodeView) || '';
-            }
-
-            function getTextToggle(nodeView) {
-
-                if (!_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) return '';
-
-                var hasVisible = NodeView.hasVisibleChildren(nodeView);
-                var hasHidden  = NodeView.hasHiddenChildren(nodeView);
-                if (hasVisible && !hasHidden)  return CHAR_HIDE;
-                if (hasHidden  && !hasVisible) return CHAR_EXPAND;
-
-                return CHAR_MIXED;
-
-            }
-
-            function getTextDuration(nodeView) {
-                var nodeData = nodeView.binding.targetDataNode;
-                if (!nodeData) return '';
-                var frameData = nodeData.frameData;
-                if (!frameData || frameData.length === 0) return '';
-                var frames = +frameData[0] + 1;
-                var activeFrames = [];
-                for (var i = 1; i < frameData.length; i += 2) {
-                    var localFrames = +frameData[i];
-                    for (var j = 0; j < localFrames; ++j) {
-                        activeFrames.push(':' + (frames + j + 1));
-                    }
-                    frames += localFrames + (+frameData[i + 1]);
-                }
-                console.assert(!isNaN(frames), 'Frames are NaN');
-                return activeFrames.join('') + ':/' + frames;
-            }
-
-            function getCooldown(nodeView) {
-                var nodeData = nodeView.binding.targetDataNode;
-                if (!nodeData) return '';
-                var frameData = nodeData.frameData;
-                if (!frameData || frameData.length === 0) return '';
-                var cooldown = frameData[frameData.length - 1];
-                var cooldownRange = frameData[frameData.length - 2] - 1;
-                return cooldown + '-' + (cooldown + cooldownRange);
-            }
-
-            function getSafety(nodeView) {
-                var nodeData = nodeView.binding.targetDataNode;
-                if (!nodeData) return '';
-                var frameData = nodeData.frameData;
-                if (!frameData || frameData.length === 0) return '';
-                var cooldown = frameData[frameData.length - 1];
-                var cooldownRange = frameData[frameData.length - 2] - 1;
-                var actionSteps = nodeData.actionSteps;
-                if (!actionSteps || actionSteps.length === 0) return '';
-                for (var i = actionSteps.length - 1; i >= 0; --i) {
-                    var results = actionSteps[i].results;
-                    if (!results) continue;
-                    for (var j = 0; j < results.length; ++j) {
-                        for (var k = 0; k < results[j].condition.length; ++k) {
-                            if (results[j].condition[k].search(/block|guard/i) >= 0) {
-                                var blockStun = +results[j].hitBlock;
-                                if (isNaN(blockStun) || !isFinite(blockStun)) continue;
-                                var baseSafety = blockStun - cooldown;
-                                return  (baseSafety - cooldownRange) + '..' + baseSafety;
-                            }
-                        }
-                    }
-                }
-            }
-
-        // ===============
 
     }
 

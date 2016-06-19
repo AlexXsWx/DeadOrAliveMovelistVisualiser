@@ -6,8 +6,10 @@ define(
 
     function NodeSerializer(NodeFactory, JsonFileReader, _) {
 
+        // FIXME: no alerts
+
         var CURRENT_FORMAT_VERSION = 3;
-        
+
         return {
             serializeToBase64Url: serializeToBase64Url,
             deserializeFromLocalFile: deserializeFromLocalFile,
@@ -72,7 +74,7 @@ define(
                     }
 
                     var extendedData = NodeFactory.createRootNode(sparseData, true);
-                    onDataReady(extendedData);                    
+                    onDataReady(extendedData);
                 }
             };
             request.open('GET', url, true);
@@ -104,7 +106,7 @@ define(
 
             if (!_.isObject(jsonData.body)) {
                 console.log('Invalid data');
-                return null;   
+                return null;
             }
 
             return jsonData.body;

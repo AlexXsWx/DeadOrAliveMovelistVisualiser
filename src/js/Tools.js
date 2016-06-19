@@ -27,7 +27,9 @@ define('Tools', function() {
     };
 
     function getDomElement(id) {
-        return document.getElementById(id);
+        var result = document.getElementById(id);
+        console.assert(!!result, 'element #"' + id + '" not found');
+        return result;
     }
 
     function hideDomElement(element) {

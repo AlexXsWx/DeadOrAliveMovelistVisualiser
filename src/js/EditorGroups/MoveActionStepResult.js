@@ -182,7 +182,7 @@ define(
                 }
 
                 return true;
-                
+
             }
 
             function changeCondition(newValue, actionStepResult) {

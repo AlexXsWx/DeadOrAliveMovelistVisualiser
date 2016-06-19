@@ -4,17 +4,17 @@ define(
 
     [
         'CanvasManager',
-        'NodeFactory', 'NodeSerializer', 'Filter',
+        'NodeFactory', 'NodeSerializer',
         'NodeView', 'NodeSvgView', 'LimitsFinder',
-        'SelectionManager', 'Editor', 'UI',
+        'SelectionManager', 'Editor', 'UI', 'Analyser',
         'TreeTools', 'Tools'
     ],
 
     function Movelist(
         CanvasManager,
-        NodeFactory, NodeSerializer, Filter,
+        NodeFactory, NodeSerializer,
         NodeView, NodeSvgView, createLimitsFinder,
-        SelectionManager, Editor, UI,
+        SelectionManager, Editor, UI, Analyser,
         TreeTools, _
     ) {
 
@@ -37,7 +37,8 @@ define(
             var domCache = {
                 download: null,
                 popupWelcome: null,
-                showWelcomePopupOnStart: null
+                showWelcomePopupOnStart: null,
+                showPlaceholders: null
             };
 
             var limitsFinder;
@@ -58,30 +59,32 @@ define(
                 cacheDomElements();
 
                 canvas = CanvasManager.create(parentElement, PADDING);
-                SelectionManager.init(canvas.svg);
+                SelectionManager.init(canvas.svg, function getVisibleNodesSvgView() {
+                    return visibleNodesSvgViews;
+                }, toggleChildren);
 
                 nodeViewGenerator = NodeView.createGenerators();
                 NodeSvgView.onNodeClick.addListener(onClickNodeView);
                 NodeSvgView.onNodeToggleChildren.addListener(onDoubleClickNodeView);
 
-                Editor.init(nodeViewGenerator, toggleChildren);
+                Editor.init(nodeViewGenerator, toggleChildren, selectNodeView);
                 Editor.onDataChanged.addListener(onDataChange);
 
-                SelectionManager.onSelectionChanged.addListener(Editor.updateBySelection);
-                SelectionManager.onSelectFirstChild.addListener(selectFirstChild);
-                SelectionManager.onSelectSibling.addListener(selectSibling);
-                SelectionManager.onSelectParent.addListener(selectParent);
-
+                SelectionManager.onSelectionChanged.addListener(onSelectionChanged);
                 limitsFinder = createLimitsFinder();
-
-                loadData(createEmptyData());
-
+                loadData(createEmptyData(), false);
                 bindUIActions();
-
                 initUI();
+                selectNodeView(rootNodeView);
 
-                SelectionManager.selectNode(visibleNodesSvgViews[NodeView.getId(rootNodeView)]);
+            }
 
+
+            function onSelectionChanged(nodeSvgViews, focus) {
+                Editor.updateBySelection(nodeSvgViews, focus);
+                if (nodeSvgViews && nodeSvgViews.length > 0) {
+                    canvas.scrollToSvgNodeViewIfNeeded(nodeSvgViews[0], limitsFinder.y.min, PADDING);
+                }
             }
 
 
@@ -89,6 +92,7 @@ define(
                 domCache.download = _.getDomElement('download');
                 domCache.popupWelcome = _.getDomElement('popupWelcomeOverlay');
                 domCache.showWelcomePopupOnStart = _.getDomElement('showWelcomePopupOnStart');
+                domCache.showPlaceholders = _.getDomElement('showPlaceholders');
             }
 
 
@@ -104,7 +108,12 @@ define(
             }
 
 
-            function loadData(data) {
+            function loadData(data, resetShowPlaceholders) {
+
+                if (resetShowPlaceholders) {
+                    // don't dispatch
+                    domCache.showPlaceholders.checked = false;
+                }
 
                 destroyExistingNodes();
 
@@ -119,6 +128,13 @@ define(
 
                 update();
 
+            }
+
+
+            function restructureByType(rootNodeView) {
+                NodeView.getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
+                    NodeView.groupByType(stanceNodeView, nodeViewGenerator);
+                });
             }
 
 
@@ -144,13 +160,8 @@ define(
                 _.getDomElement('about').addEventListener('click', showWelcomePopup);
                 domCache.popupWelcome.addEventListener('click', hideWelcomePopup);
                 _.getDomElement('closeWelcomePopup').addEventListener('click', hideWelcomePopup);
-                _.getDomElement('popupWelcome').addEventListener('click', function(event) {
-                    event.stopPropagation();
-                });
-                _.getDomElement('loadExample').addEventListener('click', function(event) {
-                    hideWelcomePopup();
-                    onButtonOpenUrl();
-                });
+                _.getDomElement('popupWelcome').addEventListener('click', onClickStopPropagation);
+                _.getDomElement('loadExample').addEventListener('click', onLoadExampleClicked);
 
                 if (localStorage && localStorage.hasOwnProperty('showWelcomePopupOnStart')) {
                     domCache.showWelcomePopupOnStart.checked = +localStorage.showWelcomePopupOnStart;
@@ -160,6 +171,15 @@ define(
                     hideWelcomePopup();
                 }
 
+            }
+
+            function onClickStopPropagation(event) {
+                event.stopPropagation();
+            }
+
+            function onLoadExampleClicked(optEvent) {
+                hideWelcomePopup();
+                onButtonOpenUrl();
             }
 
             function showWelcomePopup(optEvent) {
@@ -174,7 +194,7 @@ define(
                 initFieldSetToggleCollapse();
                 initLoadSaveUIActions();
                 initEditorUIActions();
-                initTextUIActions();
+                NodeSvgView.init(update);
                 initFilter();
             }
 
@@ -209,7 +229,7 @@ define(
                 function onFilesLoaded(event) {
                     var fileElement = this;
                     var file = fileElement.files[0];
-                    NodeSerializer.deserializeFromLocalFile(file, loadData);
+                    NodeSerializer.deserializeFromLocalFile(file, onDataDeserialized);
                 }
 
                 // function onDownload(event) {
@@ -223,7 +243,11 @@ define(
                             'DeadOrAliveMovelistVisualiser/master/data/rig.6.json'
                         )
                     );
-                    NodeSerializer.deserializeFromUrl(url, loadData);
+                    NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
+                }
+
+                function onDataDeserialized(data) {
+                    loadData(data, true);
                 }
 
             // ===================
@@ -231,9 +255,8 @@ define(
             // ==== Editor ====
 
                 function initEditorUIActions() {
-                    var showPlaceholders = _.getDomElement('showPlaceholders');
-                    showPlaceholders.addEventListener('change', onChangeShowPlaceholders);
-                    onChangeShowPlaceholders.call(showPlaceholders, null);
+                    domCache.showPlaceholders.addEventListener('change', onChangeShowPlaceholders);
+                    onChangeShowPlaceholders.call(domCache.showPlaceholders, null);
                 }
 
                 function onChangeShowPlaceholders(optEvent) {
@@ -250,143 +273,16 @@ define(
 
             // ================
 
-            function initTextUIActions() {
-
-                _.getDomElement('topTextOption').addEventListener('change', function(event) {
-                    var select = this;
-                    var selectedOptionValue = +select.selectedOptions[0].value;
-                    NodeSvgView.setTopTextOption(selectedOptionValue || 0);
-                    update();
-                });
-                _.getDomElement('rightTextOption').addEventListener('change', function(event) {
-                    var select = this;
-                    var selectedOptionValue = +select.selectedOptions[0].value;
-                    NodeSvgView.setRightTextOption(selectedOptionValue || 0);
-                    update();
-                });
-                _.getDomElement('bottomTextOption').addEventListener('change', function(event) {
-                    var select = this;
-                    var selectedOptionValue = +select.selectedOptions[0].value;
-                    NodeSvgView.setBottomTextOption(selectedOptionValue || 0);
-                    update();
-                });
-
-                _.getDomElement('flipTextToRight').addEventListener('change', function(event) {
-                    var checkbox = this;
-                    NodeSvgView.setFlipTextToRight(checkbox.checked);
-                    update();
-                });
-
-            }
-
             function initFilter() {
+                Analyser.init();
                 _.getDomElement('filter').addEventListener('click', onButtonFilter);
-                _.getDomElement('closeFilterResult').addEventListener('click', onButtonCloseFilterResult);
             }
 
-            function onButtonFilter() {
-                var advantage = +prompt('Your advantage (frames): e.g. "51"');
-                if (advantage) {
-                    var result = Filter.findNodes(rootNodeData, advantage, function(nodeData) {
-                        var input = nodeData.input;
-                        if (input.match(/(46|7|4|6|1)h/i) || input.match(/t/i)) {
-                            return false;
-                        }
-                        for (var i = 0; i < nodeData.actionSteps.length; ++i) {
-                            var actionMask = nodeData.actionSteps[i].actionMask;
-                            if (
-                                !actionMask ||
-                                actionMask.search('high') >= 0
-                            ) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    });
-                    _.setTextContent(_.getDomElement('filterOuptut'), advantage + 'f:\n' + result);
-                    _.showDomElement(_.getDomElement('popupFilterResult'));
-                }
-            }
-
-            function onButtonCloseFilterResult() {
-                _.hideDomElement(_.getDomElement('popupFilterResult'));
+            function onButtonFilter(optEvent) {
+                Analyser.findForceTechMoves(rootNodeData);
             }
 
         // ============
-
-
-        // ==== Data operations ====
-
-            function restructureByType(rootNodeView) {
-                NodeView.getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
-                    groupByType(stanceNodeView);
-                });
-            }
-
-
-            function groupByType(parentNodeView) {
-
-                var allChildrenNodeViews = NodeView.getAllChildren(parentNodeView);
-
-                // fill groups
-
-                var byType = {
-                    'punches': [],
-                    'kicks':   [],
-                    'throws':  [],
-                    'holds':   [],
-                    'other':   []
-                };
-
-                for (var i = 0; i < allChildrenNodeViews.length; ++i) {
-
-                    var childNodeView = allChildrenNodeViews[i];
-
-                    // If it is a group already, kill it but keep its children
-                    if (NodeView.isGroupingNodeView(childNodeView)) {
-                        allChildrenNodeViews = allChildrenNodeViews.concat(
-                            NodeView.getAllChildren(childNodeView)
-                        );
-                        NodeView.removeChild(parentNodeView, childNodeView);
-                        continue;
-                    }
-
-                    var type;
-                    var nodeData = childNodeView.binding.targetDataNode;
-                    switch(true) {
-                        case NodeFactory.isMovePunch(nodeData): type = 'punches'; break;
-                        case NodeFactory.isMoveKick(nodeData):  type = 'kicks';   break;
-                        case NodeFactory.isMoveThrow(nodeData): type = 'throws';  break;
-                        case NodeFactory.isMoveHold(nodeData):  type = 'holds';   break;
-                        default: type = 'other';
-                    }
-
-                    byType[type].push(childNodeView);
-                    NodeView.removeChild(parentNodeView, childNodeView);
-
-                }
-
-                // assign new children
-
-                // NodeView.removeAllChildren(parentNodeView);
-
-                for (type in byType) {
-
-                    var childrenOfType = byType[type];
-                    if (childrenOfType.length < 1) continue;
-
-                    var groupingChild = nodeViewGenerator.generateGroup();
-                    groupingChild.binding.groupName = '<' + type + '>';
-                    NodeView.setChildren(groupingChild, childrenOfType);
-                    NodeView.toggleVisibleChildren(groupingChild);
-
-                    NodeView.addVisibleChild(parentNodeView, groupingChild);
-
-                }
-
-            }
-
-        // =========================
 
 
         // ==== Update ====
@@ -538,6 +434,10 @@ define(
 
             }
 
+            function selectNodeView(nodeView) {
+                SelectionManager.selectNode(visibleNodesSvgViews[NodeView.getId(nodeView)]);
+            }
+
             function onClickNodeView(nodeSvgView) {
                 SelectionManager.selectNode(nodeSvgView);
             }
@@ -555,62 +455,6 @@ define(
             }
 
         // ================
-
-
-        // ==== Selection ====
-
-            function selectFirstChild(nodeSvgView) {
-                var nodeView = nodeSvgView.nodeView;
-                var children = NodeView.getVisibleChildren(nodeView);
-                if (children && children.length > 0) {
-                    var firstChild = children[0];
-                    var childId = NodeView.getId(firstChild);
-                    if (visibleNodesSvgViews.hasOwnProperty(childId)) {
-                        SelectionManager.selectNode(visibleNodesSvgViews[childId]);
-                    }
-                }
-            }
-
-            function selectSibling(nodeSvgView, delta) {
-                var nodeView = nodeSvgView.nodeView;
-                var parent = NodeView.getParentView(nodeView);
-                if (!parent) return;
-                var children = NodeView.getVisibleChildren(parent);
-                var selfIndex = children.indexOf(nodeView);
-                console.assert(selfIndex >= 0, 'parent/children structure is broken');
-                if (selfIndex + delta < 0) {
-                    var parentId = NodeView.getId(parent);
-                    if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
-                        var parentNodeSvgView = visibleNodesSvgViews[parentId];
-                        selectSibling(parentNodeSvgView, selfIndex + delta);
-                    }
-                } else
-                if (selfIndex + delta > children.length - 1) {
-                    var parentId = NodeView.getId(parent);
-                    if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
-                        var parentNodeSvgView = visibleNodesSvgViews[parentId];
-                        selectSibling(parentNodeSvgView, selfIndex + delta - (children.length - 1));
-                    }
-                } else {
-                    var child = children[selfIndex + delta];
-                    var childId = NodeView.getId(child);
-                    if (visibleNodesSvgViews.hasOwnProperty(childId)) {
-                        SelectionManager.selectNode(visibleNodesSvgViews[childId]);
-                    }
-                }
-            }
-
-            function selectParent(nodeSvgView) {
-                var nodeView = nodeSvgView.nodeView;
-                var parent = NodeView.getParentView(nodeView);
-                if (!parent) return;
-                var parentId = NodeView.getId(parent);
-                if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
-                    SelectionManager.selectNode(visibleNodesSvgViews[parentId]);
-                }
-            }
-
-        // ===================
 
     }
 

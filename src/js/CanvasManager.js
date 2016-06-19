@@ -38,7 +38,8 @@ define('CanvasManager', ['Tools'], function(_) {
             canvas: canvas,
             linksParent: linksParent,
             nodesParent: nodesParent,
-            normalize: normalize
+            normalize: normalize,
+            scrollToSvgNodeViewIfNeeded: scrollToSvgNodeViewIfNeeded
         };
 
         function normalize(offsetX, offsetY, totalWidth, totalHeight) {
@@ -51,7 +52,7 @@ define('CanvasManager', ['Tools'], function(_) {
                 ')'
             );
 
-            // FIXME
+            // FIXME: don't reference document
             var body = document.body;
 
             var width  = totalWidth  + 2 * padding;
@@ -69,6 +70,20 @@ define('CanvasManager', ['Tools'], function(_) {
             svg.setAttribute('width',  width);
             svg.setAttribute('height', height);
 
+        }
+
+        function scrollToSvgNodeViewIfNeeded(nodeSvgView, offsetY) {
+            // TODO: animate
+            var nodeRootRelativeY = nodeSvgView.getPositionTarget().y;
+            var nodeCenterDocumentY = nodeRootRelativeY - offsetY + padding;
+            // FIXME: don't reference document
+            var body = document.body;
+            if (body.scrollTop + padding > nodeCenterDocumentY) {
+                body.scrollTop = nodeCenterDocumentY - padding;
+            } else
+            if (body.scrollTop + body.clientHeight - padding < nodeCenterDocumentY) {
+                body.scrollTop = nodeCenterDocumentY - (body.clientHeight - padding);
+            }
         }
 
     }

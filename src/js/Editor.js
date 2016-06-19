@@ -20,7 +20,9 @@ define(
 
         var nodeDataGenerator;
         var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
-        var toggleChildrenRef; // FIXME: find a better way to pass this func
+        // FIXME: find a better way to pass this func
+        var toggleChildrenRef;
+        var selectNodeRef;
 
         /**
          * Dispatches {
@@ -56,9 +58,10 @@ define(
         };
 
 
-        function init(nodeDataGeneratorRef, argToggleChildrenRef) {
+        function init(nodeDataGeneratorRef, argToggleChildrenRef, argSelectNodeRef) {
             nodeDataGenerator = nodeDataGeneratorRef;
             toggleChildrenRef = argToggleChildrenRef;
+            selectNodeRef     = argSelectNodeRef;
             updateEditorDomGroups();
         }
 
@@ -104,6 +107,7 @@ define(
             var parentNodeView = NodeView.getParentView(nodeView);
 
             if (
+                // TODO: or allow deleting placeholders?..
                 !NodeView.isPlaceholder(nodeView) &&
                 !NodeView.isGroupingNodeView(nodeView) &&
                 parentNodeView
@@ -143,12 +147,20 @@ define(
 
             var nodeView = selectedSVGNode.nodeView;
 
+            // FIXME: make new node a true placeholder
             var newNode = addPlaceholderNode(nodeView, false);
             addNodeDataToParentData(newNode);
 
+            if (NodeView.isPlaceholder(nodeView)) {
+                onPlaceholderEdited(nodeView);
+            }
+
             onDataChanged.dispatch({ added: [ newNode ] });
 
-            // TODO: focus on created node
+            selectNodeRef(newNode);
+
+            // FIMXE: if not a true placeholder and in edit mode, add placeholder to the new node
+            // addPlaceholders(newNode);
 
         }
 

@@ -1,5 +1,5 @@
 define('JsonFileReader', [], function() {
-    
+
     return { readJson: readJson };
 
     function readJson(file) {
@@ -14,7 +14,7 @@ define('JsonFileReader', [], function() {
                     parsedJson = JSON.parse(this.result);
                 } catch (error) {
                     reject(error);
-                    return;    
+                    return;
                 }
                 resolve(parsedJson);
             }

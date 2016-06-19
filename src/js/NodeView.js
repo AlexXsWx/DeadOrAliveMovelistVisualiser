@@ -16,6 +16,8 @@ define(
 
         return {
 
+            groupByType: groupByType,
+
             createGenerators: createGenerators,
 
             createViewFromData: createViewFromData,
@@ -40,7 +42,7 @@ define(
 
             removeChild:       removeChild,
             removeAllChildren: removeAllChildren,
-            
+
             toggleVisibleChildren: toggleVisibleChildren,
 
             setBinding: setBinding,
@@ -56,6 +58,69 @@ define(
             // resetScrollRange: resetScrollRange
 
         };
+
+
+        function groupByType(rootNodeView, nodeViewGenerator) {
+
+            var allChildrenNodeViews = getAllChildren(rootNodeView);
+
+            // fill groups
+
+            var byType = {
+                'punches': [],
+                'kicks':   [],
+                'throws':  [],
+                'holds':   [],
+                'other':   []
+            };
+
+            for (var i = 0; i < allChildrenNodeViews.length; ++i) {
+
+                var childNodeView = allChildrenNodeViews[i];
+
+                // If it is a group already, kill it but keep its children
+                if (isGroupingNodeView(childNodeView)) {
+                    allChildrenNodeViews = allChildrenNodeViews.concat(
+                        getAllChildren(childNodeView)
+                    );
+                    removeChild(rootNodeView, childNodeView);
+                    continue;
+                }
+
+                var type;
+                var nodeData = childNodeView.binding.targetDataNode;
+                switch(true) {
+                    case NodeFactory.isMovePunch(nodeData): type = 'punches'; break;
+                    case NodeFactory.isMoveKick(nodeData):  type = 'kicks';   break;
+                    case NodeFactory.isMoveThrow(nodeData): type = 'throws';  break;
+                    case NodeFactory.isMoveHold(nodeData):  type = 'holds';   break;
+                    default: type = 'other';
+                }
+
+                byType[type].push(childNodeView);
+                removeChild(rootNodeView, childNodeView);
+
+            }
+
+            // assign new children
+
+            // removeAllChildren(rootNodeView);
+
+            for (type in byType) {
+
+                var childrenOfType = byType[type];
+                if (childrenOfType.length < 1) continue;
+
+                var groupingChild = nodeViewGenerator.generateGroup();
+                groupingChild.binding.groupName = '<' + type + '>';
+                setChildren(groupingChild, childrenOfType);
+                toggleVisibleChildren(groupingChild);
+
+                addVisibleChild(rootNodeView, groupingChild);
+
+            }
+
+        }
 
 
         function setBinding(nodeView, nodeData) {
@@ -379,7 +444,7 @@ define(
 
 
         // function fillScrollRange(data) {
-            
+
         //     var childrenByDepth = TreeTools.getChildrenMergedByDepth(
         //         data,
         //         getVisibleChildren

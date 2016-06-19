@@ -32,7 +32,7 @@ define(
                             var activeFrames = frameData[i + 1];
                             if (frames < advantage && advantage <= frames + activeFrames) {
                                 if (filter(child)) {
-                                    result.push(fullPath);   
+                                    result.push(fullPath);
                                 }
                                 keepLooking = false;
                             }
