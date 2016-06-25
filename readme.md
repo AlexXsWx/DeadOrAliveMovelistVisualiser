@@ -1,7 +1,6 @@
 [Try it out](https://rawgit.com/AlexXsWx/DeadOrAliveMovelistVisualiser/master/src/index.html)
 
-This tool is designed to write down movelist of a Dead or Alive 5 character in a well-structured way, so that it can be visualized for easier memorizing, and filtered to quickly find specific moves (e.g. all tracking moves, all moves with ground attack property etc) or setups (listing all combos that would land on specific frame).
-
+This tool is designed to write down movelist of a Dead or Alive 5 character in a well-structured way, so that it can be visualized for easier memorizing, and filtered to quickly find specific moves (e.g. all tracking moves, all moves with ground attack property etc) or setups (listing all combos that would land on specific frame).  
 Due to complexity of some cases, this tool isn't planned to reconstruct the fighting mechanic in every single detail, although it will tend to do so.
 
 Contributions are welcome.

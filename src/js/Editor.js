@@ -312,7 +312,6 @@ define(
             for (var i = 0; i < selectedNodeViewDomElements.length; ++i) {
                 var nodeView = selectedNodeViewDomElements[i].nodeView;
                 var nodeData = nodeView.binding.targetDataNode;
-                if (!nodeData) continue;
                 for (var j = 0; j < editorGroups.length; ++j) {
                     var editorGroup = editorGroups[j];
                     if (editorGroup.filter(nodeData))
