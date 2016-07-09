@@ -154,11 +154,9 @@ define(
 
 
             function destroyExistingNodes() {
-                for (id in visibleNodesSvgViews) {
-                    if (visibleNodesSvgViews.hasOwnProperty(id)) {
-                        visibleNodesSvgViews[id].destroy();
-                    }
-                }
+                _.forEachOwnProperty(visibleNodesSvgViews, function(key, value) {
+                    value.destroy();
+                });
                 visibleNodesSvgViews = {};
             }
 

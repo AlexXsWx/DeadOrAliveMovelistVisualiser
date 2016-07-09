@@ -24,7 +24,8 @@ define('Tools', function() {
         setTextContent:                        setTextContent,
         removeAllChildren:                     removeAllChildren,
         lerp:                                  lerp,
-        dispatchInputEvent:                    dispatchInputEvent
+        dispatchInputEvent:                    dispatchInputEvent,
+        forEachOwnProperty:                    forEachOwnProperty
     };
 
     function getDomElement(id) {
@@ -223,21 +224,13 @@ define('Tools', function() {
         var listeners  = options.listeners;
         var classes    = options.classes;
 
-        if (isObject(attributes)) {
-            for (attrName in attributes) {
-                if (attributes.hasOwnProperty(attrName) && attributes[attrName] !== undefined) {
-                    element.setAttribute(attrName, attributes[attrName]);
-                }
-            }
-        }
+        isObject(attributes) && forEachOwnProperty(attributes, function(attribute, value) {
+            if (value !== undefined) element.setAttribute(attribute, value);
+        });
 
-        if (isObject(listeners)) {
-            for (key in listeners) {
-                if (listeners.hasOwnProperty(key) && listeners[key] !== undefined) {
-                    element.addEventListener(key, listeners[key]);
-                }
-            }
-        }
+        isObject(listeners) && forEachOwnProperty(listeners, function(key, value) {
+            if (value !== undefined) element.addEventListener(key, value);
+        });
 
         if (isArray(classes)) {
             for (var i = 0; i < classes.length; ++i) {
@@ -276,6 +269,14 @@ define('Tools', function() {
     // FIXME: may not be compatible with browsers other than chrome
     function dispatchInputEvent(inputElement, eventName) {
         inputElement.dispatchEvent(new Event(eventName, { bubbles: false, cancelable: true }));
+    }
+
+    function forEachOwnProperty(object, action) {
+        for (key in object) {
+            if (object.hasOwnProperty(key)) {
+                action(key, object[key]);
+            }
+        }
     }
 
 });

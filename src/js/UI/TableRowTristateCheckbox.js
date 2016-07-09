@@ -71,8 +71,14 @@ define(
                 setIsChecked:       setIsChecked,
                 setIsIndeterminate: setIsIndeterminate,
                 focus:              focusInput,
-                blur:               blurInput
+                blur:               blurInput,
+                clear:              clear
             };
+
+            function clear() {
+                setIsChecked(false);
+                setIsIndeterminate(true);
+            }
 
             function getIsChecked()       { return input.checked;       }
             function getIsIndeterminate() { return input.indeterminate; }

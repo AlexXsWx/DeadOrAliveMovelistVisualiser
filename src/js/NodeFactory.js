@@ -127,6 +127,9 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
         var actionStep = _.defaults(optSource, {
 
+            // Brad's 66k, Alpha-152's 66p
+            // condition: [],
+
             /**
                 Examples:
                     for attack:

@@ -4,7 +4,7 @@ define(
 
     [
         'EditorGroups/EditorGroup',
-        'EditorGroups/MoveActionStep',
+        'EditorGroups/MoveActionStepOld',
         'UI/TableRowInput',
         'NodeFactory',
         'Strings',
@@ -13,7 +13,7 @@ define(
 
     function EditorGroupMoveCreator(
         EditorGroup,
-        MoveActionStep,
+        MoveActionStepOld,
         TableRowInput,
         NodeFactory,
         Strings,
@@ -46,7 +46,7 @@ define(
                     });
                 },
                 onFocus: function onMoveSummaryFocus(event) {
-                    MoveActionStep.resetLastSelectedInput();
+                    MoveActionStepOld.resetLastSelectedInput();
                     lastSelectedInput = inputEnum.summary;
                 }
             });
@@ -63,7 +63,7 @@ define(
                     });
                 },
                 onFocus: function onMoveInputFocus(event) {
-                    MoveActionStep.resetLastSelectedInput();
+                    MoveActionStepOld.resetLastSelectedInput();
                     lastSelectedInput = inputEnum.input;
                 }
             });
@@ -78,7 +78,7 @@ define(
                     });
                 },
                 onFocus: function onMoveFrameDataFocus(event) {
-                    MoveActionStep.resetLastSelectedInput();
+                    MoveActionStepOld.resetLastSelectedInput();
                     lastSelectedInput = inputEnum.frameData;
                 }
             });
@@ -106,7 +106,7 @@ define(
                     });
                 },
                 onFocus: function onMoveEndingFocus(event) {
-                    MoveActionStep.resetLastSelectedInput();
+                    MoveActionStepOld.resetLastSelectedInput();
                     lastSelectedInput = inputEnum.ending;
                 }
             });
@@ -123,7 +123,7 @@ define(
                     });
                 },
                 onFocus: function onMoveContextFocus(event) {
-                    MoveActionStep.resetLastSelectedInput();
+                    MoveActionStepOld.resetLastSelectedInput();
                     lastSelectedInput = inputEnum.context;
                 }
             });
@@ -199,7 +199,7 @@ define(
                 for (var i = 0; i < actionStepsAmount; ++i) {
                     (function() {
                         var actionStepIndex = i;
-                        var actionStepInput = MoveActionStep.create(changeActionStep);
+                        var actionStepInput = MoveActionStepOld.create(changeActionStep);
                         actionStepInputs[actionStepIndex] = actionStepInput;
                         actionStepsParent.appendChild(actionStepInput.domRoot);
                         function changeActionStep(changeActionStepProperty) {

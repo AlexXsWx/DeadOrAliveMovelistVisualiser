@@ -250,15 +250,13 @@ define(
 
                 }
 
-                for (attr in classes) {
-                    if (classes.hasOwnProperty(attr)) {
-                        if (classes[attr]) {
-                            wrapper.classList.add(attr);
-                        } else {
-                            wrapper.classList.remove(attr);
-                        }
+                _.forEachOwnProperty(classes, function(key, value) {
+                    if (value) {
+                        wrapper.classList.add(key);
+                    } else {
+                        wrapper.classList.remove(key);
                     }
-                }
+                });
 
             }
 

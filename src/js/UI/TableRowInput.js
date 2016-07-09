@@ -9,14 +9,15 @@ define(
 
         function create(parameters) {
 
+            // Sort of an API for the argument
             var name            = parameters.name;
             var valueConfirmed  = parameters.value || '';
             var description     = parameters.description;
             var placeholder     = parameters.placeholder;
-            var onInput         = parameters.onInput         || nop;
-            var onFocus         = parameters.onFocus         || nop;
-            var onBlurOrConfirm = parameters.onBlurOrConfirm || nop;
-            var onEsc           = parameters.onEsc           || nop;
+            var onInput         = parameters.onInput;
+            var onFocus         = parameters.onFocus;
+            var onBlurOrConfirm = parameters.onBlurOrConfirm;
+            var onEsc           = parameters.onEsc;
 
             var input = _.createDomElement({
                 tag: 'input',
@@ -53,8 +54,13 @@ define(
                 getValue: getValue,
                 setValue: setValue,
                 focus:    focusInput,
-                blur:     blurInput
+                blur:     blurInput,
+                clear:    clear
             };
+
+            function clear() {
+                setValue('');
+            }
 
             function getValue() {
                 return input.value;
@@ -79,9 +85,9 @@ define(
                 if (event.keyCode === KeyCodes.ESC) {
                     // reset to last confirmed value
                     setValue(valueConfirmed);
-                    onInput(valueConfirmed)
+                    onInput && onInput(valueConfirmed);
                     blurInput();
-                    onEsc();
+                    onEsc && onEsc();
                     event.stopPropagation();
                 } else
                 if (event.keyCode === KeyCodes.ENTER) {
@@ -90,22 +96,20 @@ define(
                 }
             }
 
-            function inputListener(event) { onInput(getValue());   }
+            function inputListener(event) { onInput && onInput(getValue()); }
             function blurListener(event)  { handleBlurOrConfirm(); }
 
             function focusListener(event) {
                 valueConfirmed = getValue();
-                onFocus();
+                onFocus && onFocus();
             }
 
             function handleBlurOrConfirm() {
                 valueConfirmed = getValue();
-                onBlurOrConfirm();
+                onBlurOrConfirm && onBlurOrConfirm();
             }
 
         }
-
-        function nop() {}
 
     }
 
