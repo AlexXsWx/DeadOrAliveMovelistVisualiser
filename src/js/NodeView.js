@@ -43,7 +43,9 @@ define(
             removeChild:       removeChild,
             removeAllChildren: removeAllChildren,
 
+            showChild:             showChild,
             toggleVisibleChildren: toggleVisibleChildren,
+            hideAllChildren:       hideAllChildren,
 
             setBinding: setBinding,
 
@@ -114,7 +116,7 @@ define(
                 var groupingChild = nodeViewGenerator.generateGroup();
                 groupingChild.binding.groupName = '<' + type + '>';
                 setChildren(groupingChild, childrenOfType);
-                toggleVisibleChildren(groupingChild);
+                hideAllChildren(groupingChild);
 
                 addVisibleChild(rootNodeView, groupingChild);
 
@@ -276,7 +278,6 @@ define(
             }
 
 
-            // unused?
             function hasAnyChildren(nodeView) {
                 return hasVisibleChildren(nodeView) || hasHiddenChildren(nodeView);
             }
@@ -320,7 +321,34 @@ define(
             }
 
 
+            function showChild(nodeView, childView) {
+                var children = nodeView.treeInfo.children;
+                var index = children.hidden.indexOf(childView);
+                if (index >= 0) {
+                    children.visible = children.visible.concat(
+                        children.hidden.splice(index, 1)
+                    );
+                }
+            }
+
+
+            function hideAllChildren(nodeView, optReturnIDsBecomeHidden) {
+                var children = nodeView.treeInfo.children;
+                children.hidden = children.hidden.concat(children.visible);
+                children.visible = [];
+                if (optReturnIDsBecomeHidden) {
+                    console.error(
+                        'optReturnIDsBecomeHidden is not implemented for hideAllChildren'
+                    );
+                }
+            }
+
+
             function toggleVisibleChildren(nodeView, optReturnIDsBecomeHidden) {
+
+                if (hasVisibleChildren(nodeView)) {
+                    return hideAllChildren(nodeView, optReturnIDsBecomeHidden);
+                }
 
                 var children = nodeView.treeInfo.children;
                 var temp = children.hidden;

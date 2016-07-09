@@ -314,8 +314,7 @@ define(
                 var nodeData = nodeView.binding.targetDataNode;
                 for (var j = 0; j < editorGroups.length; ++j) {
                     var editorGroup = editorGroups[j];
-                    if (editorGroup.filter(nodeData))
-                    {
+                    if (editorGroup.filter(nodeData)) {
                         editorGroup.matchingSelectedViews.push(nodeView);
                     }
                 }

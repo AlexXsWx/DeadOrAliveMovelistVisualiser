@@ -23,6 +23,17 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         isMoveThrow: isMoveThrow,
         isMoveHold:  isMoveHold,
 
+        isActionStepPunch:        isActionStepPunch,
+        isActionStepKick:         isActionStepKick,
+        isActionStepThrow:        isActionStepThrow,
+        isActionStepHold:         isActionStepHold,
+        isActionStepJumpAttack:   isActionStepJumpAttack,
+        isActionStepGroundAttack: isActionStepGroundAttack,
+        isActionStepOther:        isActionStepOther,
+        isActionStepHigh:         isActionStepHigh,
+        isActionStepMid:          isActionStepMid,
+        isActionStepLow:          isActionStepLow,
+
         getMoveSummary:       getMoveSummary,
         getActionStepSummary: getActionStepSummary
 
@@ -341,8 +352,17 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         );
     }
 
-    function isActionStepHold(actionStep) {
-        return actionStep.actionType && actionStep.actionType.search('hold') >= 0;
+    function isActionStepHold(actionStep)         { return checkActionStepTypeForWord(actionStep, 'hold');   }
+    function isActionStepJumpAttack(actionStep)   { return checkActionStepTypeForWord(actionStep, 'jump');   }
+    function isActionStepGroundAttack(actionStep) { return checkActionStepTypeForWord(actionStep, 'ground'); }
+    function isActionStepOther(actionStep)        { return checkActionStepTypeForWord(actionStep, 'other');  }
+
+    function isActionStepHigh(actionStep) { return /\bhigh\b/i.test(actionStep.actionMask); }
+    function isActionStepMid(actionStep)  { return /\bmid\b/i.test(actionStep.actionMask);  }
+    function isActionStepLow(actionStep)  { return /\blow\b/i.test(actionStep.actionMask);  }
+
+    function checkActionStepTypeForWord(actionStep, word) {
+        return actionStep.actionType && actionStep.actionType.toLowerCase().search(word) >= 0;
     }
 
     function getActionStepSummary(actionStep) {
@@ -350,7 +370,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         var result = '';
 
         if (actionStep.isTracking !== undefined) result += actionStep.isTracking ? 't' : 'd';
-        if (actionStep.actionType && actionStep.actionType.search('jump') >= 0) result += 'j';
+        if (isActionStepJumpAttack(actionStep)) result += 'j';
         if (actionStep.actionMask !== undefined) {
             result += summarizeActionStepMask(actionStep.actionMask)
         }

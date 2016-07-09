@@ -6,7 +6,26 @@ define(
 
     function Filter(NodeFactory) {
 
-        return { findNodes: findNodes };
+        return {
+            isTrackingMidKickNode: isTrackingMidKickNode,
+            findNodes: findNodes
+        };
+
+        function isTrackingMidKickNode(nodeData) {
+            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                for (var i = 0; i < nodeData.actionSteps.length; ++i) {
+                    var actionStep = nodeData.actionSteps[i];
+                    if (
+                        actionStep.isTracking &&
+                        NodeFactory.isActionStepKick(actionStep) &&
+                        NodeFactory.isActionStepMid(actionStep)
+                    ) {
+                        return true;
+                    }
+                }
+            }
+            return false
+        }
 
         function findNodes(rootNodeData, advantage, filter, optPath, optStance) {
 

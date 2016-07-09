@@ -35,21 +35,10 @@ g.node.throw .node_circle {
   fill: #77f;
   stroke: white;
 }
-g.node .node_mask_high,
-g.node .node_mask_mid,
-g.node .node_mask_low {
-  display: none;
+g.node .node_mask_height_indicator {
+  stroke-width: 1.5px;
   fill: none;
   stroke: black;
-}
-g.node.high .node_mask_high {
-  display: initial;
-}
-g.node.mid .node_mask_mid {
-  display: initial;
-}
-g.node.low .node_mask_low {
-  display: initial;
 }
 g.node text {
   -webkit-user-select: none;

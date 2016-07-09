@@ -6,7 +6,7 @@ define(
         'CanvasManager',
         'NodeFactory', 'NodeSerializer',
         'NodeView', 'NodeSvgView', 'LimitsFinder',
-        'SelectionManager', 'Editor', 'UI', 'Analyser',
+        'SelectionManager', 'Editor', 'UI', 'Analyser', 'Filter',
         'Input/KeyCodes', 'TreeTools', 'Tools'
     ],
 
@@ -14,7 +14,7 @@ define(
         CanvasManager,
         NodeFactory, NodeSerializer,
         NodeView, NodeSvgView, createLimitsFinder,
-        SelectionManager, Editor, UI, Analyser,
+        SelectionManager, Editor, UI, Analyser, Filter,
         KeyCodes, TreeTools, _
     ) {
 
@@ -53,6 +53,11 @@ define(
 
         // ===================
 
+        var EXAMPLE_URL = (
+            'https://raw.githubusercontent.com/AlexXsWx/' +
+            'DeadOrAliveMovelistVisualiser/master/data/rig.6.json'
+        );
+
 
         return { init: init };
 
@@ -82,6 +87,10 @@ define(
                 initUI();
                 selectNodeView(rootNodeView);
 
+                // FIXME
+                if (window.location.hash.toLowerCase() === '#example') {
+                    NodeSerializer.deserializeFromUrl(EXAMPLE_URL, onDataDeserialized);
+                }
             }
 
 
@@ -257,12 +266,7 @@ define(
                 // }
 
                 function onButtonOpenUrl(optEvent) {
-                    var url = prompt(
-                        'Enter URL:', (
-                            'https://raw.githubusercontent.com/AlexXsWx/' +
-                            'DeadOrAliveMovelistVisualiser/master/data/rig.6.json'
-                        )
-                    );
+                    var url = prompt('Enter URL:', EXAMPLE_URL);
                     if (url) NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
                 }
 
@@ -296,6 +300,21 @@ define(
             function initFilter() {
                 Analyser.init();
                 _.getDomElement('filter').addEventListener('click', onButtonFilter);
+                _.getDomElement('showTrackingMidKicks').addEventListener('click',
+                    function showTrackingMidKicks(optEvent) {
+                        var matchingNodeViews = [];
+                        TreeTools.forAllCurrentChildren(
+                            rootNodeView,
+                            NodeView.getAllChildren,
+                            function filterForTrackingMidKicks(nodeView) {
+                                if (Filter.isTrackingMidKickNode(nodeView.binding.targetDataNode)) {
+                                    matchingNodeViews.push(nodeView);
+                                }
+                            }
+                        );
+                        if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
+                    }
+                );
             }
 
             function onButtonFilter(optEvent) {
@@ -484,6 +503,34 @@ define(
             }
 
         // ================
+
+
+        function showOnlyNodes(nodeViewsToShow) {
+
+            TreeTools.forAllCurrentChildren(
+                rootNodeView, NodeView.getAllChildren, NodeView.hideAllChildren
+            );
+
+            var childrenByDepth = TreeTools.getChildrenMergedByDepth(
+                rootNodeView, NodeView.getAllChildren
+            );
+
+            for (var i = childrenByDepth.length - 1; i > 0; --i) {
+                var childrenAtDepth = childrenByDepth[i];
+                for (var j = 0; j < childrenAtDepth.length; ++j) {
+                    var nodeView = childrenAtDepth[j];
+                    if (
+                        NodeView.getVisibleChildren(nodeView).length > 0 ||
+                        nodeViewsToShow.indexOf(nodeView) >= 0
+                    ) {
+                        NodeView.showChild(NodeView.getParentView(nodeView), nodeView);
+                    }
+                }
+            }
+
+            update();
+
+        }
 
     }
 

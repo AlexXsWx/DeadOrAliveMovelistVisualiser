@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1466263498336
+    "timeSaved": 1468083300989
   },
   "body": {
     "character": "rig",
@@ -747,6 +747,7 @@
                 "actionSteps": [
                   {
                     "actionMask": "mid K",
+                    "actionType": "strike",
                     "isTracking": false,
                     "results": [
                       {

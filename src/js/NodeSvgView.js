@@ -6,7 +6,16 @@ define(
 
     function NodeSvgView(NodeView, NodeFactory, NodeSvgViewTexts, createObserver, _, SvgTools) {
 
+        var HEIGHT_MASK_SHAPE = '-2,3 2,0 -2,-3';
+
         var TRANSITION_DURATION = 500; // ms
+
+        var HEIGHT_INDICATOR_TYPE = {
+            none:       0,
+            tracking:   1,
+            direct:     2,
+            notDefined: 3
+        };
 
         var TEXT_GETTER_OPTIONS = [
             NodeSvgViewTexts.getEmptyText,
@@ -70,9 +79,11 @@ define(
             var link;
             var wrapper;
             var circle;
-            var maskHigh;
-            var maskMid;
-            var maskLow;
+            var heightIndicators = {
+                high: null,
+                middle: null,
+                bottom: null
+            };
             var texts = {
                 center: null,
                 top:    null,
@@ -94,6 +105,8 @@ define(
                 var animationFrameRequest = null;
 
             // ===================
+
+            var nodeSize = 0;
 
             createDomNodes();
 
@@ -117,6 +130,7 @@ define(
                 }
                 updateTextsByData();
                 updateClassesByData();
+                updateHeightIndicators();
                 updateLinkThickness();
             }
 
@@ -157,6 +171,7 @@ define(
                 texts.bottom = null;
                 texts.left = null;
                 texts.right = null;
+
             }
 
             function removeSvgNodeFromParent(svgNodeView) {
@@ -182,8 +197,7 @@ define(
 
             function getActualRightText(nodeView) {
                 var rightText = textGetters.right(nodeView);
-                if (!flipTextToRight)
-                {
+                if (!flipTextToRight) {
                     return rightText;
                 }
                 return rightText || NodeSvgViewTexts.getTextLeft(nodeView);
@@ -192,7 +206,7 @@ define(
             function updateClassesByData() {
 
                 var classes = {
-                    'container': _.isNonEmptyArray(NodeView.getAllChildren(nodeView)),
+                    'container': NodeView.hasAnyChildren(nodeView),
 
                     'high': false,
                     'mid':  false,
@@ -208,26 +222,32 @@ define(
                     'kick':  false
                 };
 
+                function mark(name) { classes[name] = true; }
+
                 var nodeData = nodeView.binding.targetDataNode;
 
                 if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+
+                    var isPunch = NodeFactory.isMovePunch(nodeData);
+                    var isKick  = NodeFactory.isMoveKick(nodeData);
+
+                    if (isPunch) mark('punch');
+                    if (isKick)  mark('kick');
+                    if (isPunch || isKick) mark('strike');
+
+                    if (NodeFactory.isMoveThrow(nodeData)) mark('throw');
+                    // FIXME: sabaki - parry & attack
+                    if (NodeFactory.isMoveHold(nodeData)) mark('hold');
+
                     nodeData.actionSteps.forEach(function(actionStep) {
-
-                        if (/\bp\b/i.test(actionStep.actionMask)) classes['punch'] = true;
-                        if (/\bk\b/i.test(actionStep.actionMask)) classes['kick']  = true;
-
-                        var type = actionStep.actionType;
-                        if (type === 'strike')        classes['strike']       = true;
-                        if (type === 'jump attack')   classes['jumpAttack']   = true;
-                        if (type === 'throw')         classes['throw']        = true;
-                        if (type === 'hold')          classes['hold']         = true;
-                        if (type === 'ground attack') classes['groundAttack'] = true;
-                        if (type === 'other')         classes['other']        = true;
-
-                        if (/\bhigh\b/i.test(actionStep.actionMask)) classes['high'] = true;
-                        if (/\bmid\b/i.test(actionStep.actionMask))  classes['mid']  = true;
-                        if (/\blow\b/i.test(actionStep.actionMask))  classes['low']  = true;
+                        if (NodeFactory.isActionStepJumpAttack(actionStep))   mark('jumpAttack');
+                        if (NodeFactory.isActionStepGroundAttack(actionStep)) mark('groundAttack');
+                        if (NodeFactory.isActionStepOther(actionStep))        mark('other');
+                        if (NodeFactory.isActionStepHigh(actionStep))         mark('high');
+                        if (NodeFactory.isActionStepMid(actionStep))          mark('mid');
+                        if (NodeFactory.isActionStepLow(actionStep))          mark('low');
                     });
+
                 }
 
                 for (attr in classes) {
@@ -241,6 +261,61 @@ define(
                 }
 
             }
+
+
+            function updateHeightIndicators() {
+
+                var highType = HEIGHT_INDICATOR_TYPE.none;
+                var midType  = HEIGHT_INDICATOR_TYPE.none;
+                var lowType  = HEIGHT_INDICATOR_TYPE.none;
+
+                var nodeData = nodeView.binding.targetDataNode;
+                if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+
+                    nodeData.actionSteps.forEach(function(actionStep) {
+
+                        var type = HEIGHT_INDICATOR_TYPE.notDefined;
+                        if (actionStep.isTracking !== undefined) {
+                            if (actionStep.isTracking) {
+                                type = HEIGHT_INDICATOR_TYPE.tracking;
+                            } else {
+                                type = HEIGHT_INDICATOR_TYPE.direct;
+                            }
+                        }
+
+                        if (NodeFactory.isActionStepHigh(actionStep)) highType = type;
+                        if (NodeFactory.isActionStepMid(actionStep))  midType  = type;
+                        if (NodeFactory.isActionStepLow(actionStep))  lowType  = type;
+
+                    });
+
+                }
+
+                heightIndicators.high = updateHeightIndicator(heightIndicators.high, -45, highType);
+                heightIndicators.mid  = updateHeightIndicator(heightIndicators.mid,    0, midType);
+                heightIndicators.low  = updateHeightIndicator(heightIndicators.low,   45, lowType);
+
+            }
+
+            function updateHeightIndicator(indicator, angle, type) {
+                var result = indicator;
+                if (type === HEIGHT_INDICATOR_TYPE.none) {
+                    if (result) {
+                        result.parentNode.removeChild(result);
+                        result = null;
+                    }
+                } else {
+                    if (!result) {
+                        result = createHeightIndicator();
+                        wrapper.insertBefore(result, circle.nextSibling);
+                    }
+                    updateHeightIndicatorTransform(
+                        result, angle, type === HEIGHT_INDICATOR_TYPE.tracking
+                    );
+                }
+                return result;
+            }
+
 
             function createDomNodes() {
 
@@ -256,10 +331,6 @@ define(
                     }
                 });
 
-                maskHigh = createSvgElementClassed('polyline', [ 'node_mask_high' ]);
-                maskMid  = createSvgElementClassed('polyline', [ 'node_mask_mid'  ]);
-                maskLow  = createSvgElementClassed('polyline', [ 'node_mask_low'  ]);
-
                 circle = _.createSvgElement({
                     tag: 'circle',
                     // FIXME: CSS "stroke-dasharray: 2 2;"
@@ -273,17 +344,15 @@ define(
                 texts.top    = createSvgElementClassed('text', [ 'node_text', 'node_text_top'    ]);
                 texts.bottom = createSvgElementClassed('text', [ 'node_text', 'node_text_bottom' ]);
 
-                resize(NODE_HEIGHT);
-
                 wrapper.appendChild(circle);
-                wrapper.appendChild(maskHigh);
-                wrapper.appendChild(maskMid);
-                wrapper.appendChild(maskLow);
+                // ... Place for height indicators ...
                 wrapper.appendChild(texts.bottom);
                 wrapper.appendChild(texts.center);
                 wrapper.appendChild(texts.top);
                 wrapper.appendChild(texts.right);
                 wrapper.appendChild(texts.left);
+
+                resize(NODE_HEIGHT);
 
                 // wrapper.addEventListener('touchend', toggleChildren);
                 // wrapper.addEventListener('click', onClickNodeView);
@@ -301,7 +370,10 @@ define(
                 event.stopPropagation();
             }
 
-            function resize(nodeSize) {
+            function resize(newNodeSize) {
+
+                nodeSize = newNodeSize;
+
                 var textPadding = 4;
                 circle.setAttribute('r', nodeSize);
 
@@ -311,17 +383,20 @@ define(
                 texts.top.setAttribute('y', -offset);
                 texts.bottom.setAttribute('y', offset);
 
-                var shape = '-2,3 2,0 -2,-3';
-                var width = 1.5;
-                maskHigh.setAttribute('points', shape);
-                maskMid.setAttribute('points',  shape);
-                maskLow.setAttribute('points',  shape);
-                maskHigh.setAttribute('stroke-width', width);
-                maskMid.setAttribute('stroke-width', width);
-                maskLow.setAttribute('stroke-width', width);
-                maskHigh.setAttribute('transform', 'rotate(-45) translate(' + nodeSize + ',0)');
-                maskMid.setAttribute('transform', 'translate(' + nodeSize + ',0)');
-                maskLow.setAttribute('transform', 'rotate(45) translate(' + nodeSize + ',0)');
+                updateHeightIndicators();
+
+            }
+
+            function createHeightIndicator() {
+                var result = createSvgElementClassed('polyline', [ 'node_mask_height_indicator' ]);
+                result.setAttribute('points', HEIGHT_MASK_SHAPE);
+                return result;
+            }
+
+            function updateHeightIndicatorTransform(indicator, angle, flip) {
+                var transform = 'rotate(' + angle + ') translate(' + nodeSize + ',0)';
+                if (flip) transform = transform + ' scale(-1,1)';
+                indicator.setAttribute('transform', transform);
             }
 
             // ==== Animation ====
@@ -361,12 +436,13 @@ define(
                     positionTarget.x = x;
                     positionTarget.y = y;
 
-                    if (positionParentStart.x === undefined || positionParentStart.y === undefined) {
-                        positionParentStart.x = positionParentTarget.x;
-                        positionParentStart.y = positionParentTarget.y;
+                    var posParSt = positionParentStart;
+                    if (posParSt.x === undefined || posParSt.y === undefined) {
+                        posParSt.x = positionParentTarget.x;
+                        posParSt.y = positionParentTarget.y;
                     } else {
-                        positionParentStart.x = _.lerp(positionParentStart.x, positionParentTarget.x, oldProgress);
-                        positionParentStart.y = _.lerp(positionParentStart.y, positionParentTarget.y, oldProgress);
+                        posParSt.x = _.lerp(posParSt.x, positionParentTarget.x, oldProgress);
+                        posParSt.y = _.lerp(posParSt.y, positionParentTarget.y, oldProgress);
                     }
                     positionParentTarget.x = linkStartX;
                     positionParentTarget.y = linkStartY;
@@ -376,7 +452,9 @@ define(
 
                     transitionStart = Date.now();
 
-                    if (animationFrameRequest !== null) window.cancelAnimationFrame(animationFrameRequest);
+                    if (animationFrameRequest !== null) {
+                        window.cancelAnimationFrame(animationFrameRequest);
+                    }
                     animationFrameRequest = window.requestAnimationFrame(moveToTargetPosition);
 
                 }

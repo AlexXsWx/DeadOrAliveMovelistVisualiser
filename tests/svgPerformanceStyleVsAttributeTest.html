@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html>
+
+    <head>
+        <style>
+            html, body {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+            .fillAFA { fill: #afa; }
+            .red    { background-color: #afa; }
+            .yellow { background-color: #ffa; }
+        </style>
+    </head>
+
+    <body>
+
+        <svg></svg>
+
+        <script>
+
+            var CIRCLES_AMOUNT = 10000;
+            var CIRCLE_RADIUS = 5;
+            var PADDING = 20;
+            var SPACING = 2 * CIRCLE_RADIUS;
+
+            var svg = document.getElementsByTagName('svg')[0];
+            var group = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+            svg.appendChild(group);
+
+            var circles = [];
+
+            var x = PADDING;
+            var y = PADDING;
+            for (var i = 0; i < CIRCLES_AMOUNT; ++i) {
+                var circle = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+                circle.setAttribute('r', CIRCLE_RADIUS);
+                circle.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+                x += SPACING;
+                if (x + CIRCLE_RADIUS >= svg.clientWidth) {
+                    x = PADDING;
+                    y += SPACING;
+                }
+
+                // this
+                // circle.classList.add('fillAFA');
+
+                // vs this
+                circle.setAttribute('fill', '#afa');
+
+                circles.push(circle);
+                group.appendChild(circle);
+            }
+
+
+            // requestAnimationFrame(forceRedraw);
+
+            // function forceRedraw() {
+            //     group.setAttribute('transform', 'scale(' + (Date.now() % 10000 / 10000) + ')');
+            //     requestAnimationFrame(forceRedraw);
+            // }
+
+        </script>
+
+    </body>
+
+<html>

@@ -23,14 +23,11 @@ g.node {
     &.hold  .node_circle { fill: #7f7; stroke: white; }
     &.throw .node_circle { fill: #77f; stroke: white; }
 
-    .node_mask_high, .node_mask_mid, .node_mask_low {
-        display: none;
+    .node_mask_height_indicator {
+        stroke-width: 1.5px;
         fill: none;
         stroke: black;
     }
-    &.high .node_mask_high { display: initial; }
-    &.mid  .node_mask_mid  { display: initial; }
-    &.low  .node_mask_low  { display: initial; }
 
     text {
         -webkit-user-select: none;
