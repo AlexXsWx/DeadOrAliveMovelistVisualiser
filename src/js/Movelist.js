@@ -298,9 +298,32 @@ define(
             // ================
 
             function initFilter() {
+
                 Analyser.init();
+
                 _.getDomElement('filter').addEventListener('click', onButtonFilter);
-                _.getDomElement('showTrackingMidKicks').addEventListener('click',
+
+                _.getDomElement('filterShowTracking').addEventListener('click',
+                    function showTrackingMoves(optEvent) {
+                        var matchingNodeViews = [];
+                        TreeTools.forAllCurrentChildren(
+                            rootNodeView,
+                            NodeView.getAllChildren,
+                            function filterForTrackingMidKicks(nodeView) {
+                                var nodeData = nodeView.binding.targetDataNode;
+                                if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                                    var someTracking = nodeData.actionSteps.some(
+                                        function(actionStep) { return actionStep.isTracking; }
+                                    );
+                                    if (someTracking) matchingNodeViews.push(nodeView);
+                                }
+                            }
+                        );
+                        if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
+                    }
+                );
+
+                _.getDomElement('filterShowTrackingMidKicks').addEventListener('click',
                     function showTrackingMidKicks(optEvent) {
                         var matchingNodeViews = [];
                         TreeTools.forAllCurrentChildren(
@@ -315,6 +338,7 @@ define(
                         if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
                     }
                 );
+
             }
 
             function onButtonFilter(optEvent) {
