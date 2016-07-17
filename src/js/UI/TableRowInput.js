@@ -66,11 +66,11 @@ define(
                 return input.value;
             }
 
-            function setValue(newValue, optDispatchInputEvent) {
+            function setValue(newValue/*, optDispatchInputEvent*/) {
                 input.value = newValue;
-                if (optDispatchInputEvent) {
-                    _.dispatchInputEvent(input, 'input');
-                }
+                // if (optDispatchInputEvent) {
+                //     _.dispatchInputEvent(input, 'input');
+                // }
             }
 
             function focusInput() {

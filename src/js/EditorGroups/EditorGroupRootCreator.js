@@ -24,7 +24,8 @@ define(
                     description: Strings('characterNameDescription'),
                     placeholderText: Strings('characterNamePlaceholder'),
                     fill: characterNameToText,
-                    parameterModifier: changeCharacterName
+                    parameterModifier: changeCharacterName,
+                    focused: true
                 }, {
                     id: 'gameVersion',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,

@@ -106,6 +106,9 @@ define(
                 update.added = onPlaceholderEdited(nodeView);
             }
 
+            // Update input values, as summary inputs can change other inputs and vice versa
+            if (changed) updateEditorDomGroups(false);
+
             onDataChanged.dispatch(update);
 
         }
@@ -355,7 +358,7 @@ define(
         }
 
 
-        // FIXME: find a better way than partial copy of `updateEditorDomGroups`
+        // TODO: find a better way than partial copy of `updateEditorDomGroups`
         function reset() {
             editorGroups.forEach(function(editorGroup) {
                 _.hideDomElement(editorGroup.domRoot);

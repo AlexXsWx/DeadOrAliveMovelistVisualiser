@@ -146,6 +146,8 @@ define(
 
             function changeActionSummary(newValue, actionStep) {
 
+                var changed = false;
+
                 var lowCased = newValue.toLowerCase();
 
                 // mask
@@ -159,7 +161,7 @@ define(
                 if (lowCased.search('p') >= 0) maskValue.push('P');
                 if (lowCased.search('k') >= 0) maskValue.push('K');
 
-                editorGroup.fillTextInput(reusedInputIds.mask, maskValue.join(' '));
+                changed = changeActionMask(maskValue.join(' '), actionStep) || changed;
 
                 // tracking
 
@@ -172,9 +174,9 @@ define(
                 }
 
                 if (trackingValue === undefined) {
-                    editorGroup.fillCheckbox(reusedInputIds.tracking, false, true);
+                    changed = changeActionStepTracking(false, true, actionStep) || changed;
                 } else {
-                    editorGroup.fillCheckbox(reusedInputIds.tracking, trackingValue, false);
+                    changed = changeActionStepTracking(trackingValue, false, actionStep) || changed;
                 }
 
                 // type
@@ -194,9 +196,9 @@ define(
                     }
                 }
 
-                editorGroup.fillTextInput(reusedInputIds.type, typeValue);
+                changed = changeActionStepType(typeValue, actionStep) || changed;
 
-                return false;
+                return changed;
 
             }
 

@@ -83,18 +83,18 @@ define(
             function getIsChecked()       { return input.checked;       }
             function getIsIndeterminate() { return input.indeterminate; }
 
-            function setIsIndeterminate(newValue, optDispatchChangeEvent) {
+            function setIsIndeterminate(newValue/*, optDispatchChangeEvent*/) {
                 input.indeterminate = newValue;
-                if (optDispatchChangeEvent) {
-                    _.dispatchInputEvent(input, 'change');
-                }
+                // if (optDispatchChangeEvent) {
+                //     _.dispatchInputEvent(input, 'change');
+                // }
             }
 
-            function setIsChecked(newValue, optDispatchChangeEvent) {
+            function setIsChecked(newValue/*, optDispatchChangeEvent*/) {
                 input.checked = newValue;
-                if (optDispatchChangeEvent) {
-                    _.dispatchInputEvent(input, 'change');
-                }
+                // if (optDispatchChangeEvent) {
+                //     _.dispatchInputEvent(input, 'change');
+                // }
             }
 
             function focusInput() { input.focus(); }

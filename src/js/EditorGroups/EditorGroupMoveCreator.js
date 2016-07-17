@@ -39,7 +39,7 @@ define(
                     placeholderText: Strings('moveSummaryPlaceholder'),
                     fill: summaryToText,
                     parameterModifier: changeSummary,
-                    // isSummary: True
+                    focused: true
                 }, {
                     id: reusedInputIds.context,
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
@@ -47,8 +47,7 @@ define(
                     description: Strings('moveContextDescription'),
                     placeholderText: Strings('moveContextPlaceholder'),
                     fill: contextToText,
-                    parameterModifier: changeContext,
-                    // optIncludedInSummaries: { 'summary': updateMoveSummaryInputValue }
+                    parameterModifier: changeContext
                 }, {
                     id: reusedInputIds.input,
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
@@ -56,8 +55,7 @@ define(
                     description: Strings('moveInputDescription'),
                     placeholderText: Strings('moveInputPlaceholder'),
                     fill: inputToText,
-                    parameterModifier: changeInput,
-                    // optIncludedInSummaries: { 'summary': updateMoveSummaryInputValue }
+                    parameterModifier: changeInput
                 }, {
                     id: 'ending',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
@@ -124,48 +122,19 @@ define(
 
             }
 
-            // function recreateActionStepInputs(actionStepsAmount) {
-            //     actionStepInputs = [];
-            //     _.removeAllChildren(actionStepsParent);
-            //     for (var i = 0; i < actionStepsAmount; ++i) {
-            //         (function() {
-            //             var actionStepIndex = i;
-            //             var actionStepInput = MoveActionStep.create(changeActionStep);
-            //             actionStepInputs[actionStepIndex] = actionStepInput;
-            //             actionStepsParent.appendChild(actionStepInput.domRoot);
-            //             function changeActionStep(changeActionStepProperty) {
-            //                 return selectedNodesModifier(editorGroupMove, function(nodeData) {
-            //                     var actionStep = nodeData.actionSteps[actionStepIndex];
-            //                     var changed = changeActionStepProperty(actionStep);
-            //                     if (changed) actionStepInput.fill(actionStep);
-            //                     updateMoveSummaryInputValue(nodeData);
-            //                     return changed;
-            //                 });
-            //             }
-            //         }());
-            //     }
-            // }
-
-            // function updateMoveSummaryInputValue(nodeData, optForceUpdate) {
-            //     if (optForceUpdate || document.activeElement !== summary.input) {
-            //         summary.setValue(NodeFactory.getMoveSummary(nodeData));
-            //     }
-            // }
-
-
-            // readers
-
 
             function summaryToText(nodeData) { return NodeFactory.getMoveSummary(nodeData); }
             function changeSummary(newValue, nodeData) {
 
+                var changed = false;
+
                 var rest = newValue.trim();
                 var parts = rest.split(':');
                 if (parts.length > 1) {
-                    editorGroupMove2.fillTextInput(reusedInputIds.context, parts[0]);
+                    changed = changeContext(parts[0], nodeData) || changed;
                     rest = parts[1].trim();
                 } else {
-                    editorGroupMove2.fillTextInput(reusedInputIds.context, '');
+                    changed = changeContext('', nodeData) || changed;
                 }
 
                 var inputData = rest;
@@ -176,17 +145,17 @@ define(
                     actionStepSummary = parts[parts.length - 1];
                 }
 
-                editorGroupMove2.fillTextInput(reusedInputIds.input, inputData);
+                changed = changeInput(inputData, nodeData) || changed;
 
                 if (actionStepSummary) {
                     console.assert(nodeData.actionSteps.length > 0, 'move has no actions steps');
-                    editorGroupMove2.getFirstChildrenEditor().extension.changeActionSummary(
+                    changed = editorGroupMove2.getFirstChildrenEditor().extension.changeActionSummary(
                         actionStepSummary,
                         nodeData.actionSteps[0]
-                    );
+                    ) || changed;
                 }
 
-                return false;
+                return changed;
 
             }
 
@@ -221,24 +190,7 @@ define(
 
                 nodeData.frameData = newValue;
 
-                var changed = !_.arraysAreEqual(oldValue, newValue);
-
-                // FIXME: don't delete action step while user edits frame data
-                // FIXME: update dom to edit newly added action steps
-                var oldActionStepsAmount = nodeData.actionSteps.length;
-                var newActionStepsAmount = NodeFactory.getActionStepsAmount(newValue);
-                // if (oldActionStepsAmount > newActionStepsAmount) {
-                //     changed = true;
-                //     nodeData.actionSteps.length = newActionStepsAmount;
-                // } else
-                if (oldActionStepsAmount < newActionStepsAmount) {
-                    changed = true;
-                    for (var i = oldActionStepsAmount; i < newActionStepsAmount; ++i) {
-                        nodeData.actionSteps.push(NodeFactory.createMoveActionStep());
-                    }
-                }
-
-                return changed;
+                return !_.arraysAreEqual(oldValue, newValue);
 
             }
 

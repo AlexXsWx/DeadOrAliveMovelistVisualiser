@@ -8,7 +8,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
         createMoveActionStep: createMoveActionStep,
         createMoveActionStepResult: createMoveActionStepResult,
-        getActionStepsAmount: getActionStepsAmount,
+        // getActionStepsAmount: getActionStepsAmount,
 
         getChildren: getChildren,
 
@@ -95,7 +95,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             // TODO: make first element to be Array<Int> for charge attacks
             frameData: [], // Array<Int>
 
-            actionSteps: [ createMoveActionStep() ],
+            actionSteps: [ undefined ],
 
             /** stance / context - like crounching after move or lying after taunt */
             endsWith: undefined,
@@ -104,11 +104,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
         });
 
-        var actionStepsAmount = Math.max(
-            result.actionSteps.length,
-            getActionStepsAmount(result.frameData)
-        );
-        for (var i = 0; i < actionStepsAmount; ++i) {
+        for (var i = 0; i < result.actionSteps.length; ++i) {
             result.actionSteps[i] = createMoveActionStep(result.actionSteps[i]);
         }
 
@@ -167,7 +163,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             tags: [],
 
             // condition-specific results
-            results: []
+            results: [ undefined ]
 
         });
 
@@ -260,9 +256,9 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
     }
 
 
-    function getActionStepsAmount(frameData) {
-        return Math.max(0, Math.ceil((frameData.length - 1) / 2));
-    }
+    // function getActionStepsAmount(frameData) {
+    //     return Math.max(0, Math.ceil((frameData.length - 1) / 2));
+    // }
 
 
     function getChildren(node) {

@@ -24,7 +24,8 @@ define(
                     description: Strings('stanceAbbreviationDescription'),
                     placeholderText: Strings('stanceAbbreviationPlaceholder'),
                     fill: abbreviationToText,
-                    parameterModifier: changeStanceAbbreviation
+                    parameterModifier: changeStanceAbbreviation,
+                    focused: true
                 }, {
                     id: 'description',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,

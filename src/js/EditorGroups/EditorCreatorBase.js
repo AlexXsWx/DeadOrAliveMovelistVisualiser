@@ -48,10 +48,7 @@ define(
             var childrenEditors = []; // or keep undefined for when without children?
             var editorInputs = {};
             var editorInputFillers = {};
-
-            if (!lastSelectedInputIdPerEditorGroupId.hasOwnProperty(editorGroupId)) {
-                lastSelectedInputIdPerEditorGroupId[editorGroupId] = '';
-            }
+            var editorInputChangers = {};
 
             editorInputsDescription.forEach(function(editorInputDescription, index) {
 
@@ -64,9 +61,10 @@ define(
                 var filler                   = editorInputDescription.fill;
                 var nodeDataParameterChanger = editorInputDescription.parameterModifier;
                 var onClick                  = editorInputDescription.onClick; // button only
-                // var includedInSummaries = editorInputDescription.includedInSummaries;
+                var focused                  = editorInputDescription.focused;
 
                 if (filler !== undefined) editorInputFillers[editorInputId] = filler;
+                if (focused) setDefaultFocus(editorInputId);
 
                 var tableRow = null;
 
@@ -99,30 +97,19 @@ define(
 
                 if (tableRow) {
                     editorInputs[editorInputId] = tableRow;
+                    editorInputChangers[editorInputId] = nodeDataParameterChanger;
                     domRoot.appendChild(tableRow.domRoot);
                 }
 
                 function textInputHandler(newValue) {
-                    changeSelectedNodesByAction(function baseTextChanger(/* arguments */) {
-                        var args = [newValue];
-                        for (var i = 0; i < arguments.length; ++i) args.push(arguments[i]);
-                        var changed = nodeDataParameterChanger.apply(null, args);
-                        // includedInSummaries.forEach(function(id) {
-                        //     editorInputs[id]
-                        // });
-                        return changed;
+                    changeSelectedNodesByAction(function baseTextChanger(nodeSubData) {
+                        return nodeDataParameterChanger(newValue, nodeSubData);
                     });
                 }
 
                 function checkboxChangeHandler(isChecked, isIndeterminate) {
-                    changeSelectedNodesByAction(function baseCheckboxChanger(/* arguments */) {
-                        var args = [isChecked, isIndeterminate];
-                        for (var i = 0; i < arguments.length; ++i) args.push(arguments[i]);
-                        var changed = nodeDataParameterChanger.apply(null, args);
-                        // includedInSummaries.forEach(function(id) {
-                        //     editorInputs[id]
-                        // });
-                        return changed;
+                    changeSelectedNodesByAction(function baseCheckboxChanger(nodeSubData) {
+                        return nodeDataParameterChanger(isChecked, isIndeterminate, nodeSubData);
                     });
                 }
 
@@ -132,6 +119,8 @@ define(
                 }
 
             });
+
+            setDefaultFocus('');
 
             if (canHaveChildrenEditors) {
 
@@ -169,11 +158,15 @@ define(
                 clear: clear,
                 fill: fill,
                 focus: focus,
-                fillTextInput: fillTextInput,
-                fillCheckbox:  fillCheckbox,
                 extension: editorExtension,
                 getFirstChildrenEditor: getFirstChildrenEditor
             };
+
+            function setDefaultFocus(inputId) {
+                if (!lastSelectedInputIdPerEditorGroupId.hasOwnProperty(editorGroupId)) {
+                    lastSelectedInputIdPerEditorGroupId[editorGroupId] = inputId;
+                }
+            }
 
             function getFirstChildrenEditor() {
                 return childrenEditors[0];
@@ -197,8 +190,6 @@ define(
                     clear();
                     return;
                 }
-
-                // TODO: update summaries
 
                 _.forEachOwnProperty(editorInputs, function(editorInputId, editorInput) {
 
@@ -231,11 +222,25 @@ define(
                 });
 
                 if (canHaveChildrenEditors) {
-                    clearChildrenEditorGroups();
-                    getChildrenDataArray(data).forEach(function(childData) {
-                        var editor = addChildEditorGroup();
-                        editor.fill(childData);
-                    });
+                    var childrenData = getChildrenDataArray(data);
+                    // remove old editors
+                    if (childrenEditors.length > childrenData.length) {
+                        var removedEditors = childrenEditors.splice(
+                            childrenData.length,
+                            childrenEditors.length - childrenData.length
+                        );
+                        for (var i = 0; i < removedEditors.length; ++i) {
+                            childrenEditorsParent.removeChild(removedEditors[i].domRoot);
+                        }
+                    }
+                    // add new editors
+                    for (var i = childrenEditors.length; i < childrenData.length; ++i) {
+                        addChildEditorGroup();
+                    }
+                    // fill
+                    for (var i = 0; i < childrenData.length; ++i) {
+                        childrenEditors[i].fill(childrenData[i]);
+                    }
                 }
             }
 
@@ -295,21 +300,6 @@ define(
                     return true;
                 }
                 return false;
-            }
-
-            function fillTextInput(editorInputId, value) {
-                editorInputs[editorInputId].setValue(value, true);
-            }
-
-            function fillCheckbox(editorInputId, isChecked, isIndeterminate) {
-                var input = editorInputs[editorInputId];
-                if (isIndeterminate) {
-                    input.setIsChecked(isChecked, false);
-                    input.setIsIndeterminate(true, true);
-                } else {
-                    input.setIsIndeterminate(false, false);
-                    input.setIsChecked(isChecked, true);
-                }
             }
 
         }
