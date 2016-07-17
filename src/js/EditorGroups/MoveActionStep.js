@@ -1,31 +1,35 @@
 define(
 
-    'EditorGroups/MoveActionStepNew',
+    'EditorGroups/MoveActionStep',
 
     [
         'NodeFactory',
+        'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStepResult',
-        'UI/TableRowInput',
-        'UI/TableRowTristateCheckbox',
         'Strings',
         'Tools'
     ],
 
-    function MoveActionStepNew(
+    function MoveActionStep(
         NodeFactory,
+        EditorCreatorBase,
         MoveActionStepResult,
-        TableRowInput,
-        TableRowTristateCheckbox,
         Strings,
         _
     ) {
 
+        var editorGroupId = 'moveActionStep';
+
         return {
+            id: editorGroupId,
             create: create,
-            resetLastSelectedInput: resetLastSelectedInput
+            // FIXME: remove
+            resetLastSelectedInput: function resetLastSelectedInput() {
+                EditorCreatorBase.resetLastSelectedInputForId(editorGroupId);
+            }
         };
 
-        function create(changeActionStep) {
+        function create(selectedNodesActionStepModifier, removeFunc) {
 
             var reusedInputIds = {
                 mask:     'mask',
@@ -35,244 +39,219 @@ define(
 
             var inputs = [
                 {
+                    id: 'remove',
+                    inputType: EditorCreatorBase.INPUT_TYPES.button,
+                    label: 'Remove action step',
+                    description: 'Remove this action step',
+                    onClick: removeFunc
+                }, {
                     // FIXME: Esc is bugged
                     id: 'summary',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: Strings('moveActionSummary'),
+                    label: Strings('moveActionSummary'),
                     description: Strings('moveActionSummaryDescription'),
                     placeholderText: Strings('moveActionSummaryPlaceholder'), // only for type=text
                     fill: actionStepToSummaryText,
-                    changeAction: changeActionSummary,
-                    isSummary: true
+                    parameterModifier: changeActionSummary
+                    // isSummary: true
                 }, {
                     id: reusedInputIds.mask,
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: Strings('moveActionMask'),
+                    label: Strings('moveActionMask'),
                     description: Strings('moveActionMaskDescription'),
                     placeholderText: 'e.g. mid P',
                     fill: actionStepToMaskText,
-                    changeAction: changeActionMask,
-                    optIncludedInSummaries: { 'summary': changeActionSummary }
+                    parameterModifier: changeActionMask
+                    // optIncludedInSummaries: { 'summary': changeActionSummary }
                 }, {
                     id: reusedInputIds.type,
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: Strings('moveActionType'),
+                    label: Strings('moveActionType'),
                     description: Strings('moveActionTypeDescription'),
                     placeholderText: 'e.g. strike',
                     fill: actionStepToTypeText,
-                    changeAction: changeActionStepType,
-                    optIncludedInSummaries: { 'summary': changeActionSummary }
+                    parameterModifier: changeActionStepType
+                    // optIncludedInSummaries: { 'summary': changeActionSummary }
                 }, {
                     id: reusedInputIds.tracking,
                     inputType: EditorCreatorBase.INPUT_TYPES.checkbox,
-                    name: Strings('moveActionTracking'),
+                    label: Strings('moveActionTracking'),
                     description: Strings('moveActionTrackingDescription'),
                     fill: actionStepToTrackingChecked,
-                    changeAction: changeActionStepTracking,
-                    optIncludedInSummaries: { 'summary': changeActionSummary }
+                    parameterModifier: changeActionStepTracking
+                    // optIncludedInSummaries: { 'summary': changeActionSummary }
                 }, {
                     id: 'damage',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: Strings('moveActionDamage'),
+                    label: Strings('moveActionDamage'),
                     description: Strings('moveActionDamageDescription'),
                     placeholderText: 'e.g. 18',
                     fill: actionStepToDamageText,
-                    changeAction: changeActionStepDamage
+                    parameterModifier: changeActionStepDamage
                 }, {
                     id: 'tags',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: Strings('moveActionTags'),
+                    label: Strings('moveActionTags'),
                     description: Strings('moveActionTagsDescription'),
                     placeholderText: 'e.g. ground attack',
                     fill: actionStepToTagsText,
-                    changeAction: changeActionStepTags
+                    parameterModifier: changeActionStepTags
                 }// , {
                 //     id: 'condition',
                 //     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                //     name: Strings('moveActionCondition'),
+                //     label: Strings('moveActionCondition'),
                 //     description: Strings('moveActionConditionDescription'),
                 //     placeholderText: 'e.g. neutral/open, stun/open',
                 //     fill: actionStepToConditionText,
-                //     changeAction: changeActionStepCondition
+                //     parameterModifier: changeActionStepCondition
                 // }
             ];
 
-            var editorGroup = EditorCreatorBase.create({
+            var editorGroup = EditorCreatorBase.createEditorCreator({
+                id: editorGroupId,
                 inputs: inputs,
-                changer: changeActionStep,
+                selectedNodesModifier: selectedNodesActionStepModifier,
                 childrenStuff: {
-                    focusReset: MoveActionStepResult.resetLastSelectedInput,
+
                     name: 'Action step results:',
                     addButtonValue: 'Add result for the action step',
                     addButtonDescription: 'Tell what active frames do, hitblock / stun / launcher etc',
-                    childrenCreator: createResultInput,
-                    childrenDataCreator: function() {
-                        actionStep.results.push(NodeFactory.createMoveActionStepResult());
-                        var changed = true;
-                        return changed;
+
+                    focusReset: function() {
+                        EditorCreatorBase.resetLastSelectedInputForId(MoveActionStepResult.id);
+                        // FIXME: reset all rest editors in the branch
+                    },
+
+                    getChildrenArray: function(actionStep) { return actionStep.results; },
+                    childrenDataCreator: function() { return NodeFactory.createMoveActionStepResult(); },
+                    childEditorCreator: function(changeSelectedNodesSubDataByAction, removeFunc) {
+                        return MoveActionStepResult.create(
+                            changeSelectedNodesSubDataByAction,
+                            removeFunc
+                        );
                     }
+
+                },
+                optExtension: {
+                    changeActionSummary: changeActionSummary
                 }
             });
 
             return editorGroup;
 
-            function createResultInput() {
 
-                var result = MoveActionStepResult.create(
-                    changeActionStepResult,
-                    onRemove
-                );
-                results.push(result);
-                resultsParent.appendChild(result.domRoot);
-
-                return result;
-
-                function changeActionStepResult(changer) {
-                    changeActionStep(function(actionStep) {
-                        var resultIndex = results.indexOf(result);
-                        return changer(actionStep.results[resultIndex]);
-                    });
-                }
-
-                function onRemove() {
-                    var resultIndex = results.indexOf(result);
-                    results.splice(resultIndex, 1);
-                    resultsParent.removeChild(result.domRoot);
-                    changeActionStep(function(actionStep) {
-                        actionStep.results.splice(resultIndex, 1);
-                        var changed = true;
-                        return changed;
-                    });
-                }
-
+            function actionStepToSummaryText(actionStep) {
+                return NodeFactory.getActionStepSummary(actionStep);
             }
 
+            function changeActionSummary(newValue, actionStep) {
 
-            function addResult() {
-                createResultInput();
-                changeActionStep(function(actionStep) {
-                    actionStep.results.push(NodeFactory.createMoveActionStepResult());
-                    var changed = true;
-                    return changed;
-                });
-            }
+                var lowCased = newValue.toLowerCase();
 
-            function updateActionStepSummaryInputValue(actionStep, optForceUpdate) {
-                if (optForceUpdate || document.activeElement !== summary.input) {
-                    summary.setValue(actionStepToSummaryText(actionStep));
+                // mask
+
+                var maskValue = [];
+                // FIXME: order is important!
+                if (lowCased.search('h') >= 0) maskValue.push('high');
+                if (lowCased.search('m') >= 0) maskValue.push('mid');
+                if (lowCased.search('l') >= 0) maskValue.push('low');
+                if (lowCased.search('f') >= 0) maskValue.push('ground'); // for Floor
+                if (lowCased.search('p') >= 0) maskValue.push('P');
+                if (lowCased.search('k') >= 0) maskValue.push('K');
+
+                editorGroup.fillTextInput(reusedInputIds.mask, maskValue.join(' '));
+
+                // tracking
+
+                var trackingValue = undefined;
+                if (lowCased.search('d') >= 0) {
+                    trackingValue = false;
+                } else
+                if (lowCased.search('t') >= 0) {
+                    trackingValue = true;
                 }
-            }
 
-            // ==== Something ====
-
-                function actionStepToSummaryText(actionStep) {
-                    return NodeFactory.getActionStepSummary(actionStep);
+                if (trackingValue === undefined) {
+                    editorGroup.fillCheckbox(reusedInputIds.tracking, false, true);
+                } else {
+                    editorGroup.fillCheckbox(reusedInputIds.tracking, trackingValue, false);
                 }
 
-                function changeActionSummary(newValue, actionStep) {
+                // type
 
-                    var lowCased = newValue.toLowerCase();
-
-                    // mask
-
-                    var maskValue = [];
-                    // FIXME: order is important!
-                    if (lowCased.search('h') >= 0) maskValue.push('high');
-                    if (lowCased.search('m') >= 0) maskValue.push('mid');
-                    if (lowCased.search('l') >= 0) maskValue.push('low');
-                    if (lowCased.search('f') >= 0) maskValue.push('ground'); // for Floor
-                    if (lowCased.search('p') >= 0) maskValue.push('P');
-                    if (lowCased.search('k') >= 0) maskValue.push('K');
-
-                    editorGroup.fillTextInput(reusedInputIds.mask, maskValue.join(' '));
-
-                    // tracking
-
-                    var trackingValue = undefined;
-                    if (lowCased.search('d') >= 0) {
-                        trackingValue = false;
-                    } else
-                    if (lowCased.search('t') >= 0) {
-                        trackingValue = true;
-                    }
-
-                    if (trackingValue === undefined) {
-                        editorGroup.fillTextInput(reusedInputIds.tracking, false, true);
+                var typeValue = 'other';
+                if (lowCased.search('g') >= 0) {
+                    typeValue = 'throw';
+                } else
+                if (lowCased.search('c') >= 0) {
+                    typeValue = 'hold';
+                } else
+                if (lowCased.search(/[pk]/) >= 0) {
+                    if (lowCased.search('j') >= 0) {
+                        typeValue = 'jump attack';
                     } else {
-                        editorGroup.fillTextInput(reusedInputIds.tracking, trackingValue, false);
+                        typeValue = 'strike';
                     }
-
-                    // type
-
-                    var typeValue = 'other';
-                    if (lowCased.search('g') >= 0) {
-                        typeValue = 'throw';
-                    } else
-                    if (lowCased.search('c') >= 0) {
-                        typeValue = 'hold';
-                    } else
-                    if (lowCased.search(/[pk]/) >= 0) {
-                        if (lowCased.search('j') >= 0) {
-                            typeValue = 'jump attack';
-                        } else {
-                            typeValue = 'strike';
-                        }
-                    }
-
-                    editorGroup.fillTextInput(reusedInputIds.type, typeValue);
-
-                    return false;
-
                 }
 
+                editorGroup.fillTextInput(reusedInputIds.type, typeValue);
 
-                function actionStepToMaskText(actionStep) { return actionStep.actionMask || ''; }
-                function changeActionMask(newValue, actionStep) {
-                    var oldValue = actionStep.actionMask;
-                    actionStep.actionMask = newValue;
-                    return oldValue !== newValue;
-                }
+                return false;
 
-                function actionStepToTypeText(actionStep) { return actionStep.actionType || ''; }
-                function changeActionStepType(newValue, actionStep) {
-                    var oldValue = actionStep.actionType;
-                    actionStep.actionType = newValue;
-                    return oldValue !== newValue;
-                }
+            }
 
-                function actionStepToTrackingChecked(actionStep) { return actionStep.isTracking; }
-                function changeActionStepTracking(isChecked, isIndeterminate, actionStep) {
-                    var newValue = isIndeterminate ? undefined : isChecked;
-                    var oldValue = actionStep.isTracking;
-                    actionStep.isTracking = newValue;
-                    return oldValue !== newValue;
-                }
 
-                function actionStepToDamageText(actionStep) { return actionStep.damage || ''; }
-                function changeActionStepDamage(newValue, actionStep) {
-                    var newDamage = parseInt(newValue, 10);
-                    var oldValue = actionStep.damage;
-                    actionStep.damage = newDamage;
-                    return oldValue !== newDamage;
-                }
+            function actionStepToMaskText(actionStep) { return actionStep.actionMask || ''; }
+            function changeActionMask(newValue, actionStep) {
+                var oldValue = actionStep.actionMask;
+                actionStep.actionMask = newValue;
+                return oldValue !== newValue;
+            }
 
-                function actionStepToTagsText(actionStep) { return actionStep.tags.join(', ') || ''; }
-                function changeActionStepTags(newValue, actionStep) {
-                    var newTags = newValue.split(/,\s*/);
-                    var changed = _.arraysConsistOfSameStrings(actionStep.tags, newTags);
-                    actionStep.tags = newTags;
-                    return changed;
-                }
 
-                // function actionStepToConditionText(actionStep) { return actionStep.condition.join(', ') || ''; }
-                // function changeActionStepCondition(newValue, actionStep) {
-                //     var newConditions = newValue.split(/,\s*/);
-                //     var changed = _.arraysConsistOfSameStrings(actionStep.condition, newConditions);
-                //     actionStep.condition = newConditions;
-                //     return changed;
-                // }
+            function actionStepToTypeText(actionStep) { return actionStep.actionType || ''; }
+            function changeActionStepType(newValue, actionStep) {
+                var oldValue = actionStep.actionType;
+                actionStep.actionType = newValue;
+                return oldValue !== newValue;
+            }
 
-            // ===================
+
+            // undefined, true or false
+            function actionStepToTrackingChecked(actionStep) { return actionStep.isTracking; }
+            function changeActionStepTracking(isChecked, isIndeterminate, actionStep) {
+                var newValue = isIndeterminate ? undefined : isChecked;
+                var oldValue = actionStep.isTracking;
+                actionStep.isTracking = newValue;
+                return oldValue !== newValue;
+            }
+
+
+            function actionStepToDamageText(actionStep) { return actionStep.damage || ''; }
+            function changeActionStepDamage(newValue, actionStep) {
+                var newDamage = parseInt(newValue, 10);
+                var oldValue = actionStep.damage;
+                actionStep.damage = newDamage;
+                return oldValue !== newDamage;
+            }
+
+
+            function actionStepToTagsText(actionStep) { return actionStep.tags.join(', ') || ''; }
+            function changeActionStepTags(newValue, actionStep) {
+                var newTags = newValue.split(/,\s*/);
+                var changed = _.arraysConsistOfSameStrings(actionStep.tags, newTags);
+                actionStep.tags = newTags;
+                return changed;
+            }
+
+
+            // function actionStepToConditionText(actionStep) { return actionStep.condition.join(', ') || ''; }
+            // function changeActionStepCondition(newValue, actionStep) {
+            //     var newConditions = newValue.split(/,\s*/);
+            //     var changed = _.arraysConsistOfSameStrings(actionStep.condition, newConditions);
+            //     actionStep.condition = newConditions;
+            //     return changed;
+            // }
 
         }
 

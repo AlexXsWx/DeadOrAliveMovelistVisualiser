@@ -2,78 +2,61 @@ define(
 
     'EditorGroups/EditorGroupStanceCreator',
 
-    ['EditorGroups/EditorGroup', 'UI/TableRowInput', 'NodeFactory', 'Strings', 'Tools'],
+    [
+        'EditorGroups/EditorGroup',
+        'EditorGroups/EditorCreatorBase',
+        'NodeFactory',
+        'Strings',
+        'Tools'
+    ],
 
-    function EditorGroupStanceCreator(EditorGroup, TableRowInput, NodeFactory, Strings, _) {
-
-        var inputEnum = {
-            abbreviation: 0,
-            description:  1,
-            ending:       2
-        };
-        var lastSelectedInput = inputEnum.abbreviation;
+    function EditorGroupStanceCreator(EditorGroup, EditorCreatorBase, NodeFactory, Strings, _) {
 
         return { create: create };
 
-        function create(changeNodes) {
+        function create(selectedNodesModifier) {
 
-            var editorGroupStance = new EditorGroup('stance', filter, focus, updateView);
-
-            var abbreviation = TableRowInput.create({
-                name: Strings('stanceAbbreviation'),
-                description: Strings('stanceAbbreviationDescription'),
-                placeholder: Strings('stanceAbbreviationPlaceholder'),
-                onInput: function onAbbreviationInput(newValue) {
-                    changeNodes(editorGroupStance, function(nodeData) {
-                        return changeStanceAbbreviation(newValue, nodeData)
-                    });
-                },
-                onFocus: function onAbbreviationFocus(event) {
-                    lastSelectedInput = inputEnum.abbreviation;
+            var inputs = [
+                {
+                    id: 'abbreviation',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: Strings('stanceAbbreviation'),
+                    description: Strings('stanceAbbreviationDescription'),
+                    placeholderText: Strings('stanceAbbreviationPlaceholder'),
+                    fill: abbreviationToText,
+                    parameterModifier: changeStanceAbbreviation
+                }, {
+                    id: 'description',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: Strings('stanceDescription'),
+                    description: Strings('stanceDescriptionDescription'),
+                    placeholderText: Strings('stanceDescriptionPlaceholder'),
+                    fill: descriptionToText,
+                    parameterModifier: changeStanceDescription
+                }, {
+                    id: 'ending',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: Strings('stanceEnding'),
+                    description: Strings('stanceEndingDescription'),
+                    placeholderText: Strings('stanceEndingPlaceholder'),
+                    fill: endsWithToText,
+                    parameterModifier: changeStanceEnding
                 }
+            ];
+
+            var editorGroup2 = EditorCreatorBase.createEditorCreator({
+                id: 'stance',
+                inputs: inputs,
+                selectedNodesModifier: selectedNodesModifier
             });
 
-            var description = TableRowInput.create({
-                name: Strings('stanceDescription'),
-                description: Strings('stanceDescriptionDescription'),
-                placeholder: Strings('stanceDescriptionPlaceholder'),
-                onInput: function onDescriptionInput(newValue) {
-                    changeNodes(editorGroupStance, function(nodeData) {
-                        return changeStanceDescription(newValue, nodeData)
-                    });
-                },
-                onFocus: function onDescriptionFocus(event) {
-                    lastSelectedInput = inputEnum.description;
-                }
-            });
+            var editorGroupStance = new EditorGroup('stance', filter, editorGroup2.focus, updateView);
 
-            var ending = TableRowInput.create({
-                name: Strings('stanceEnding'),
-                description: Strings('stanceEndingDescription'),
-                placeholder: Strings('stanceEndingPlaceholder'),
-                onInput: function onEndingInput(newValue) {
-                    changeNodes(editorGroupStance, function(nodeData) {
-                        return changeStanceEnding(newValue, nodeData)
-                    });
-                },
-                onFocus: function onEndingFocus(event) {
-                    lastSelectedInput = inputEnum.ending;
-                }
-            });
-
-            editorGroupStance.domRoot.appendChild(abbreviation.domRoot);
-            editorGroupStance.domRoot.appendChild(description.domRoot);
-            editorGroupStance.domRoot.appendChild(ending.domRoot);
+            editorGroupStance.domRoot.appendChild(editorGroup2.domRoot);
 
             return editorGroupStance;
 
             function filter(data) { return data && NodeFactory.isStanceNode(data); }
-
-            function clear() {
-                abbreviation.setValue('');
-                description.setValue('');
-                ending.setValue('');
-            }
 
             function updateView() {
 
@@ -84,33 +67,12 @@ define(
                 var nodeView = editorGroup.matchingSelectedViews[0];
                 var nodeData = nodeView.binding.targetDataNode;
 
-                if (!nodeData) {
-                    clear();
-                    return;
-                }
-
-                abbreviation.setValue(nodeData.abbreviation || '');
-                description.setValue(nodeData.description || '');
-                ending.setValue(nodeData.endsWith || '');
+                editorGroup2.fill(nodeData);
 
             }
 
-            function focus() {
 
-                if (lastSelectedInput < 0) return false;
-
-                switch (lastSelectedInput) {
-                    case inputEnum.abbreviation: abbreviation.focus(); break;
-                    case inputEnum.description:  description.focus();  break;
-                    case inputEnum.ending:       ending.focus();       break;
-                }
-
-                return true;
-
-            }
-
-            // readers
-
+            function abbreviationToText(nodeData) { return nodeData.abbreviation || ''; }
             function changeStanceAbbreviation(newValue, nodeData) {
                 var oldValue = nodeData.abbreviation;
                 nodeData.abbreviation = newValue;
@@ -118,6 +80,7 @@ define(
             }
 
 
+            function descriptionToText(nodeData) { return nodeData.description || ''; }
             function changeStanceDescription(newValue, nodeData) {
                 var oldValue = nodeData.description;
                 nodeData.description = newValue;
@@ -125,6 +88,7 @@ define(
             }
 
 
+            function endsWithToText(nodeData) { return nodeData.endsWith || ''; }
             function changeStanceEnding(newValue, nodeData) {
                 var oldValue = nodeData.endsWith;
                 nodeData.endsWith = newValue;

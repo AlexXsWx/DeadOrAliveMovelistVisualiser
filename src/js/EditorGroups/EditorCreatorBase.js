@@ -1,4 +1,5 @@
 define(
+    // TODO: find a better name
     'EditorGroups/EditorCreatorBase',
 
     [
@@ -16,68 +17,56 @@ define(
             button:   2
         };
 
+        var lastSelectedInputIdPerEditorGroupId = {};
+
         return {
-            INPUT_TYPES:         INPUT_TYPES,
-            createEditorCreator: createEditorCreator
+            INPUT_TYPES:                 INPUT_TYPES,
+            createEditorCreator:         createEditorCreator, // TODO: find a better name
+            resetLastSelectedInputForId: resetLastSelectedInputForId
         };
 
         function createEditorCreator(options) {
 
             // Sort of an API for the argument
-            var optionsInput           = options.inputs;
-            var specificGenericChanger = options.changer;
-            // var childrenFocusReset     = options.childrenStuff.focusReset;
+            var editorGroupId               = options.id;
+            var editorInputsDescription     = options.inputs;
+            var changeSelectedNodesByAction = options.selectedNodesModifier;
+            var editorExtension             = options.optExtension;
+            var canHaveChildrenEditors      = options.childrenStuff;
+            if (canHaveChildrenEditors) {
+                var resetChildEditorsFocus             = options.childrenStuff.focusReset;
+                var getChildrenDataArray               = options.childrenStuff.getChildrenArray;
+                var childrenDataCreator                = options.childrenStuff.childrenDataCreator;
+                var childEditorCreator                 = options.childrenStuff.childEditorCreator;
+                var childrenEditorName                 = options.childrenStuff.name;
+                var childrenEditorAddButtonText        = options.childrenStuff.addButtonValue;
+                var childrenEditorAddButtonDescription = options.childrenStuff.addButtonDescription;
+            }
 
             var domRoot = _.createDomElement({ tag: 'table' });
 
-            // var resultsParent = _.createDomElement({
-            //     tag: 'td',
-            //     attributes: { 'colspan': 2 }
-            // });
-            // var resultsParentWrapper = _.createDomElement({
-            //     tag: 'tr',
-            //     children: [ resultsParent ]
-            // });
-            // var results = [];
+            var childrenEditors = []; // or keep undefined for when without children?
+            var editorInputs = {};
+            var editorInputFillers = {};
 
-            // var resultsTitle = _.createMergedRow(2, [
-            //     _.createDomElement({
-            //         tag: 'label',
-            //         children: [ _.createTextNode('Action step results:') ]
-            //     })
-            // ]);
+            if (!lastSelectedInputIdPerEditorGroupId.hasOwnProperty(editorGroupId)) {
+                lastSelectedInputIdPerEditorGroupId[editorGroupId] = '';
+            }
 
-            // var btnAddResult = _.createMergedRow(2, [
-            //     _.createDomElement({
-            //         tag: 'input',
-            //         attributes: {
-            //             'type': 'button',
-            //             'value': 'Add result for the action step',
-            //             'title': 'Tell what active frames do, hitblock / stun / launcher etc'
-            //         },
-            //         listeners: {
-            //             'click': function(optEvent) { addResult(); }
-            //         }
-            //     })
-            // ]);
+            editorInputsDescription.forEach(function(editorInputDescription, index) {
 
-            var inputs = {};
-            var fillers = {};
-            var lastSelectedInput = -1;
+                // Sort of an API for the argument
+                var editorInputId            = editorInputDescription.id;
+                var inputType                = editorInputDescription.inputType;
+                var name                     = editorInputDescription.label;
+                var description              = editorInputDescription.description;
+                var placeholderText          = editorInputDescription.placeholderText; // text only
+                var filler                   = editorInputDescription.fill;
+                var nodeDataParameterChanger = editorInputDescription.parameterModifier;
+                var onClick                  = editorInputDescription.onClick; // button only
+                // var includedInSummaries = editorInputDescription.includedInSummaries;
 
-            optionsInput.forEach(function(inputOption, index) {
-
-                var id                      = inputOption.id;
-                var inputType               = inputOption.inputType;
-                var name                    = inputOption.name;
-                var description             = inputOption.description;
-                var placeholderText         = inputOption.placeholderText; // text only
-                var filler                  = inputOption.fill;
-                var specificSpecificChanger = inputOption.changeAction;
-                var onClick                 = inputOption.onClick; // button only
-                // var includedInSummaries     = inputOption.includedInSummaries;
-
-                if (filler !== undefined) fillers[inputOption.id] = filler;
+                if (filler !== undefined) editorInputFillers[editorInputId] = filler;
 
                 var tableRow = null;
 
@@ -109,178 +98,227 @@ define(
                 }
 
                 if (tableRow) {
-                    inputs[id] = tableRow;
+                    editorInputs[editorInputId] = tableRow;
                     domRoot.appendChild(tableRow.domRoot);
                 }
 
                 function textInputHandler(newValue) {
-                    specificGenericChanger(function baseTextChanger(/* arguments */) {
+                    changeSelectedNodesByAction(function baseTextChanger(/* arguments */) {
                         var args = [newValue];
                         for (var i = 0; i < arguments.length; ++i) args.push(arguments[i]);
-                        var changed = specificSpecificChanger.apply(null, args);
-                        // inputOption.includedInSummaries.forEach(function(id) {
-                        //     inputs[id]
+                        var changed = nodeDataParameterChanger.apply(null, args);
+                        // includedInSummaries.forEach(function(id) {
+                        //     editorInputs[id]
                         // });
-                        // if (optUpdateSummary) {
-                        //     updateActionStepSummaryInputValue(actionStep);
-                        // }
                         return changed;
                     });
                 }
 
                 function checkboxChangeHandler(isChecked, isIndeterminate) {
-                    specificGenericChanger(function baseCheckboxChanger(/* arguments */) {
+                    changeSelectedNodesByAction(function baseCheckboxChanger(/* arguments */) {
                         var args = [isChecked, isIndeterminate];
                         for (var i = 0; i < arguments.length; ++i) args.push(arguments[i]);
-                        var changed = specificSpecificChanger.apply(null, args);
-                        // if (optUpdateSummary) {
-                        //     updateActionStepSummaryInputValue(actionStep);
-                        // }
+                        var changed = nodeDataParameterChanger.apply(null, args);
+                        // includedInSummaries.forEach(function(id) {
+                        //     editorInputs[id]
+                        // });
                         return changed;
                     });
                 }
 
                 function rememberFocusedElement(optEvent) {
-                    // childrenFocusReset && childrenFocusReset();
-                    lastSelectedInput = index;
+                    resetChildEditorsFocus && resetChildEditorsFocus();
+                    lastSelectedInputIdPerEditorGroupId[editorGroupId] = editorInputId;
                 }
 
             });
+
+            if (canHaveChildrenEditors) {
+
+                var childrenEditorsParent = _.createDomElement({
+                    tag: 'td',
+                    attributes: { 'colspan': 2 }
+                });
+
+                var childrenEditorsParentWrapper = _.createDomElement({
+                    tag: 'tr',
+                    children: [ childrenEditorsParent ]
+                });
+
+                var childEditorTitle = _.createMergedRow(2, [
+                    _.createDomElement({
+                        tag: 'label',
+                        children: [ _.createTextNode(childrenEditorName) ]
+                    })
+                ]);
+
+                var btnAddChildEditor = TableRowButton.create({
+                    name: childrenEditorAddButtonText,
+                    description: childrenEditorAddButtonDescription,
+                    onClick: addChildData
+                });
+
+                domRoot.appendChild(childEditorTitle);
+                domRoot.appendChild(childrenEditorsParentWrapper);
+                domRoot.appendChild(btnAddChildEditor.domRoot);
+
+            }
 
             return {
                 domRoot: domRoot,
                 clear: clear,
                 fill: fill,
-                focus: focus// ,
-                // fillTextInput: fillTextInput,
-                // fillCheckbox:  fillCheckbox
+                focus: focus,
+                fillTextInput: fillTextInput,
+                fillCheckbox:  fillCheckbox,
+                extension: editorExtension,
+                getFirstChildrenEditor: getFirstChildrenEditor
             };
 
-            function clear() {
-                _.forEachOwnProperty(inputs, function(key, value) {
-                    // if (
-                    //     (value instanceof TableRowInput) ||
-                    //     (value instanceof TableRowTristateCheckbox)
-                    // ) {
-                        value.clear && value.clear();
-                    // }
-                });
-                // clearResults();
+            function getFirstChildrenEditor() {
+                return childrenEditors[0];
             }
 
-            function fill(/* arguments */) {
+            function clear() {
+                _.forEachOwnProperty(editorInputs, function(editorInputId, editorInput) {
+                    // if (
+                    //     (editorInput instanceof TableRowInput) ||
+                    //     (editorInput instanceof TableRowTristateCheckbox)
+                    // ) {
+                        editorInput.clear && editorInput.clear();
+                    // }
+                });
+                clearChildrenEditorGroups();
+            }
 
-                if (arguments.length === 0) {
+            function fill(data) {
+
+                if (!data) {
                     clear();
                     return;
                 }
 
-
-                var args = [];
-                for (var i = 0; i < arguments.length; ++i) args.push(arguments[i]);
-
                 // TODO: update summaries
 
-                _.forEachOwnProperty(inputs, function(key, value) {
+                _.forEachOwnProperty(editorInputs, function(editorInputId, editorInput) {
 
                     if (
                         // summary || // ???
-                        // (value instanceof TableRowButton) ||
-                        !fillers.hasOwnProperty(key)
+                        // (editorInput instanceof TableRowButton) ||
+                        !editorInputFillers.hasOwnProperty(editorInputId)
                     ) {
                         return;
                     }
 
-                    var v = fillers[key].apply(null, args);
+                    var value = editorInputFillers[editorInputId](data);
 
-                    if (value.setValue) {// value instanceof TableRowInput) {
-                        if (document.activeElement !== value.input) value.setValue(v);
+                    if (editorInput.setValue) {// editorInput instanceof TableRowInput) {
+                        if (document.activeElement !== editorInput.input) {
+                            editorInput.setValue(value);
+                        }
                     } else
-                    if (setIsIndeterminate) {// value instanceof TableRowTristateCheckbox) {
-                        if (v === undefined) {
-                            value.setIsIndeterminate(true);
-                            value.setIsChecked(false);
+                    // if (editorInput instanceof TableRowTristateCheckbox) {
+                    if (editorInput.setIsChecked && editorInput.setIsIndeterminate) {
+                        if (value === undefined) {
+                            editorInput.setIsIndeterminate(true);
+                            editorInput.setIsChecked(false);
                         } else {
-                            value.setIsIndeterminate(false);
-                            value.setIsChecked(v);
+                            editorInput.setIsIndeterminate(false);
+                            editorInput.setIsChecked(value);
                         }
                     }
 
                 });
 
-                // clearResults();
-                // for (var i = 0; i < actionStep.results.length; ++i) {
-                //     var result = createResultInput();
-                //     result.fillFromActionStepResult(actionStep.results[i]);
-                // }
+                if (canHaveChildrenEditors) {
+                    clearChildrenEditorGroups();
+                    getChildrenDataArray(data).forEach(function(childData) {
+                        var editor = addChildEditorGroup();
+                        editor.fill(childData);
+                    });
+                }
             }
 
-            // function clearResults() {
-            //     _.removeAllChildren(resultsParent);
-            //     results = [];
-            // }
+            function addChildEditorGroup() {
+
+                var editor = childEditorCreator(changeSelectedNodesSubDataByAction, remove);
+                childrenEditorsParent.appendChild(editor.domRoot);
+                childrenEditors.push(editor);
+
+                return editor;
+
+                function changeSelectedNodesSubDataByAction(nodeSubDataParameterChanger) {
+                    changeSelectedNodesByAction(function(data) {
+                        var index = childrenEditors.indexOf(editor);
+                        return nodeSubDataParameterChanger(
+                            getChildrenDataArray(data)[index]
+                        );
+                    });
+                }
+
+                function remove() {
+                    var index = childrenEditors.indexOf(editor);
+                    childrenEditors.splice(index, 1);
+                    childrenEditorsParent.removeChild(editor.domRoot);
+                    changeSelectedNodesByAction(function(data) {
+                        getChildrenDataArray(data).splice(index, 1);
+                        var changed = true;
+                        return changed;
+                    });
+                }
+
+            }
+
+            function addChildData() {
+                addChildEditorGroup();
+                changeSelectedNodesByAction(function(data) {
+                    getChildrenDataArray(data).push(childrenDataCreator());
+                    var changed = true;
+                    return changed;
+                });
+            }
+
+            function clearChildrenEditorGroups() {
+                _.removeAllChildren(childrenEditorsParent);
+                childrenEditors = [];
+            }
 
             function focus() {
-                if (lastSelectedInput < 0) return false;
-                // var childrenTookFocus = results.length > 0 && results[0].focus();
-                // if (!childrenTookFocus) {
-                    inputs[lastSelectedInput].focus();
-                // }
-                return true;
+                var childrenTookFocus = (
+                    childrenEditors.length > 0 &&
+                    childrenEditors[0].focus()
+                );
+                if (childrenTookFocus) return true;
+                var editorInputId = lastSelectedInputIdPerEditorGroupId[editorGroupId];
+                if (editorInputId) {
+                    editorInputs[editorInputId].focus();
+                    return true;
+                }
+                return false;
             }
 
-            // function fillTextInput(id, value) {
-            //     inputs[id].setValue(value, true);
-            // }
+            function fillTextInput(editorInputId, value) {
+                editorInputs[editorInputId].setValue(value, true);
+            }
 
-            // function fillCheckbox(id, isChecked, isIndeterminate) {
-            //     if (isIndeterminate) {
-            //         input.setIsChecked(isChecked, false);
-            //         input.setIsIndeterminate(true, true);
-            //     } else {
-            //         input.setIsIndeterminate(false, false);
-            //         input.setIsChecked(isChecked, true);
-            //     }
-            // }
-
-            // function addResult() {
-            //     createResultInput();
-            //     changeActionStep(function(actionStep) {
-            //         actionStep.results.push(NodeFactory.createMoveActionStepResult());
-            //         var changed = true;
-            //         return changed;
-            //     });
-            // }
+            function fillCheckbox(editorInputId, isChecked, isIndeterminate) {
+                var input = editorInputs[editorInputId];
+                if (isIndeterminate) {
+                    input.setIsChecked(isChecked, false);
+                    input.setIsIndeterminate(true, true);
+                } else {
+                    input.setIsIndeterminate(false, false);
+                    input.setIsChecked(isChecked, true);
+                }
+            }
 
         }
 
-        // function addTextInput(
-        //     name,
-        //     description,
-        //     placeholderText,
-        //     changeAction,
-        //     enumIndex,
-        //     optUpdateSummary
-        // ) {
-        //     return TableRowInput.create({
-        //         name: name,
-        //         description: description,
-        //         placeholder: placeholderText,
-        //         onInput: function inputHandler(newValue) {
-        //             changeActionStep(function actionStepChanger(actionStep) {
-        //                 var changed = changeAction(newValue, actionStep);
-        //                 if (optUpdateSummary) {
-        //                     updateActionStepSummaryInputValue(actionStep);
-        //                 }
-        //                 return changed;
-        //             });
-        //         },
-        //         onFocus: function rememberFocusedElement(event) {
-        //             MoveActionStepResult.resetLastSelectedInput();
-        //             lastSelectedInput = enumIndex;
-        //         }
-        //     });
-        // }
+        function resetLastSelectedInputForId(editorGroupId) {
+            if (lastSelectedInputIdPerEditorGroupId.hasOwnProperty(editorGroupId)) {
+                lastSelectedInputIdPerEditorGroupId[editorGroupId] = '';
+            }
+        }
 
     }
 

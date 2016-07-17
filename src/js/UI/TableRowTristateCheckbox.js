@@ -101,6 +101,7 @@ define(
             function blurInput()  { input.blur();  }
 
             function callOnChange() {
+                console.trace('on checkbox change', input);
                 onChange && onChange(getIsChecked(), getIsIndeterminate());
             }
 

@@ -6,74 +6,77 @@ define(
 
     function MoveActionStepResult(EditorCreatorBase, Strings, _) {
 
+        var editorGroupId = 'moveActionStepResult';
+
         return {
-            create: create,
-            // resetLastSelectedInput: resetLastSelectedInput
+            id: editorGroupId,
+            create: create
         };
 
-        function create(changeActionStepResult, onRemove) {
+        function create(selectedNodesActionStepResultModifier, removeFunc) {
 
             var inputs = [
                 {
                     id: 'remove',
                     inputType: EditorCreatorBase.INPUT_TYPES.button,
-                    name: 'Remove result',
+                    label: 'Remove result',
                     description: 'Remove this action step result',
-                    onClick: onRemove
+                    onClick: removeFunc
                 }, {
                     id: 'condition',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: Strings('moveActionResultCondition'),
+                    label: Strings('moveActionResultCondition'),
                     description: Strings('moveActionResultConditionDescription'),
                     placeholderText: 'e.g. neutral/open, stun/open',
                     fill: actionStepResultToCondition,
-                    changeAction: changeCondition
+                    parameterModifier: changeCondition
                 }, {
                     id: 'hitBlock',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: 'Hit block',
+                    label: 'Hit block',
                     description: 'cooldown + advantage + active frames after the one that hit',
                     placeholderText: 'e.g. 15',
                     fill: actionStepResultToHitBlock,
-                    changeAction: changeHitBlock
+                    parameterModifier: changeHitBlock
                 }, {
                     id: 'criticalHoldDelay',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: 'Critical hold delay',
+                    label: 'Critical hold delay',
                     description: 'First number in critical hold interval',
                     placeholderText: 'e.g. 6',
                     fill: actionStepResultToCriticalHoldDelay,
-                    changeAction: changeCriticalHoldDelay
+                    parameterModifier: changeCriticalHoldDelay
                 }, {
                     id: 'stunDurationMin',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: 'Stun duration min',
+                    label: 'Stun dur. min',
                     description: 'Second number in critical hold interval with stagger escape off',
                     placeholderText: 'e.g. 60',
                     fill: actionStepResultToStunDurationMin,
-                    changeAction: changeStunDurationMin
+                    parameterModifier: changeStunDurationMin
                 }, {
                     id: 'stunDurationMax',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: 'Stun duration max',
+                    label: 'Stun dur. max',
                     description: 'Second number in critical hold interval with stagger escape on',
                     placeholderText: 'e.g. 50',
                     fill: actionStepResultToStunDurationMax,
-                    changeAction: changeStunDurationMax
+                    parameterModifier: changeStunDurationMax
                 }, {
                     id: 'tags',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    name: Strings('moveActionResultTags'),
+                    label: Strings('moveActionResultTags'),
                     description: Strings('moveActionResultTagsDescription'),
                     placeholderText: 'e.g. sit-down stun',
                     fill: actionStepResultToTags,
-                    changeAction: changeTags
+                    parameterModifier: changeTags
                 }
             ];
 
             var editorGroup = EditorCreatorBase.createEditorCreator({
+                id: editorGroupId,
                 inputs: inputs,
-                changer: changeActionStepResult
+                selectedNodesModifier: selectedNodesActionStepResultModifier
             });
 
             return editorGroup;
@@ -85,7 +88,9 @@ define(
 
             function changeCondition(newValue, actionStepResult) {
                 var newConditions = newValue.split(/\s*,\s*/);
-                var changed = _.arraysConsistOfSameStrings(actionStepResult.condition, newConditions);
+                var changed = _.arraysConsistOfSameStrings(
+                    actionStepResult.condition, newConditions
+                );
                 actionStepResult.condition = newConditions;
                 return changed;
             }

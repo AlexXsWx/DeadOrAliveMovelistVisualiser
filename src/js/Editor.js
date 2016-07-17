@@ -39,9 +39,9 @@ define(
 
         var editorGroups = [
             EditorGroupCommonCreator.create(onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren),
-            EditorGroupRootCreator.create(changeSelectedNodes),
-            EditorGroupStanceCreator.create(changeSelectedNodes),
-            EditorGroupMoveCreator.create(changeSelectedNodes)
+            EditorGroupRootCreator.create(modifySelectedNodesDataByFunc),
+            EditorGroupStanceCreator.create(modifySelectedNodesDataByFunc),
+            EditorGroupMoveCreator.create(modifySelectedNodesDataByFunc)
         ];
 
         var editorsParent = _.getDomElement('editorsParent');
@@ -86,7 +86,7 @@ define(
         }
 
 
-        function changeSelectedNodes(/*sourceHTMLElement,*/ editorGroup, changeAction) {
+        function modifySelectedNodesDataByFunc(changeAction) {
 
             if (!selectedSVGNode) return;
 
@@ -95,9 +95,7 @@ define(
             var changed = false;
 
             var nodeData = nodeView.binding.targetDataNode;
-            // if (editorGroup.filter(nodeData)) { // no need?
-                changed = changeAction(/*sourceHTMLElement,*/ nodeData);
-            // }
+            changed = changeAction(nodeData);
 
             var update = {
                 changed: changed ? [selectedSVGNode] : [],

@@ -2,49 +2,39 @@ define(
 
     'EditorGroups/EditorGroupRootCreator',
 
-    ['EditorGroups/EditorGroup', 'UI/TableRowInput', 'NodeFactory', 'Strings', 'Tools'],
+    [
+        'EditorGroups/EditorGroup',
+        'EditorGroups/EditorCreatorBase',
+        'NodeFactory',
+        'Strings',
+        'Tools'
+    ],
 
-    function EditorGroupRootCreator(EditorGroup, TableRowInput, NodeFactory, Strings, _) {
-
-        var inputEnum = {
-            characterName: 0,
-            gameVersion:   1
-        };
-        var lastSelectedInput = inputEnum.characterName;
+    function EditorGroupRootCreator(EditorGroup, EditorCreatorBase, NodeFactory, Strings, _) {
 
         return { create: create };
 
-        function create(changeNodes) {
+        function create(selectedNodesModifier) {
 
-            var editorGroupRoot = new EditorGroup('root', filter, focus, updateView);
-
-            var characterName = TableRowInput.create({
-                name: Strings('characterName'),
-                description: Strings('characterNameDescription'),
-                placeholder: Strings('characterNamePlaceholder'),
-                onInput: function onCharacterNameInput(newValue) {
-                    changeNodes(editorGroupRoot, function(nodeData) {
-                        return changeCharacterName(newValue, nodeData);
-                    });
-                },
-                onFocus: function onCharacterNameFocus(event) {
-                    lastSelectedInput = inputEnum.characterName;
+            var inputs = [
+                {
+                    id: 'characterName',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: Strings('characterName'),
+                    description: Strings('characterNameDescription'),
+                    placeholderText: Strings('characterNamePlaceholder'),
+                    fill: characterNameToText,
+                    parameterModifier: changeCharacterName
+                }, {
+                    id: 'gameVersion',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: Strings('gameVersion'),
+                    description: Strings('gameVersionDescription'),
+                    placeholderText: Strings('gameVersionPlaceholder'),
+                    fill: gameVersionToText,
+                    parameterModifier: changeGameVersion
                 }
-            });
-
-            var gameVersion = TableRowInput.create({
-                name: Strings('gameVersion'),
-                description: Strings('gameVersionDescription'),
-                placeholder: Strings('gameVersionPlaceholder'),
-                onInput: function onGameVersionInput(newValue) {
-                    changeNodes(editorGroupRoot, function(nodeData) {
-                        return changeGameVersion(newValue, nodeData);
-                    });
-                },
-                onFocus: function onGameVersionFocus(event) {
-                    lastSelectedInput = inputEnum.gameVersion;
-                }
-            });
+            ];
 
             // TODO: context abbreviations
             // <tr title="Context abbreviations and descriptions">
@@ -53,17 +43,19 @@ define(
             //     </td>
             // </tr>
 
-            editorGroupRoot.domRoot.appendChild(characterName.domRoot);
-            editorGroupRoot.domRoot.appendChild(gameVersion.domRoot);
+            var editorGroup2 = EditorCreatorBase.createEditorCreator({
+                id: 'root',
+                inputs: inputs,
+                selectedNodesModifier: selectedNodesModifier
+            });
+
+            var editorGroupRoot = new EditorGroup('root', filter, editorGroup2.focus, updateView);
+
+            editorGroupRoot.domRoot.appendChild(editorGroup2.domRoot);
 
             return editorGroupRoot;
 
             function filter(data) { return data && NodeFactory.isRootNode(data); }
-
-            function clear() {
-                characterName.setValue('');
-                gameVersion.setValue('');
-            }
 
             function updateView() {
 
@@ -74,37 +66,18 @@ define(
                 var nodeView = editorGroup.matchingSelectedViews[0];
                 var nodeData = nodeView.binding.targetDataNode;
 
-                if (!nodeData) {
-                    clear();
-                    return;
-                }
-
-                characterName.setValue(nodeData.character || '');
-                gameVersion.setValue(nodeData.version || '');
+                editorGroup2.fill(nodeData);
 
             }
 
-            function focus() {
-
-                if (lastSelectedInput < 0) return false;
-
-                switch (lastSelectedInput) {
-                    case inputEnum.characterName: characterName.focus(); break;
-                    case inputEnum.gameVersion:   gameVersion.focus();   break;
-                }
-
-                return true;
-
-            }
-
-            // readers
-
+            function characterNameToText(nodeData) { return nodeData.character || ''; }
             function changeCharacterName(newValue, nodeData) {
                 var oldValue = nodeData.character;
                 nodeData.character = newValue;
                 return oldValue !== newValue;
             }
 
+            function gameVersionToText(nodeData) { return nodeData.version || ''; }
             function changeGameVersion(newValue, nodeData) {
                 var oldValue = nodeData.version;
                 nodeData.version = newValue;

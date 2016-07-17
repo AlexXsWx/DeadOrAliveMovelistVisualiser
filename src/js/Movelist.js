@@ -356,6 +356,8 @@ define(
 
             function update() {
 
+                console.trace('update');
+
                 limitsFinder.invalidate();
 
                 var idsVisibleBeforeUpdate = {};

@@ -116,7 +116,8 @@ define(
                 var groupingChild = nodeViewGenerator.generateGroup();
                 groupingChild.binding.groupName = '<' + type + '>';
                 setChildren(groupingChild, childrenOfType);
-                hideAllChildren(groupingChild);
+
+                if (type === 'throws' || type === 'holds') hideAllChildren(groupingChild);
 
                 addVisibleChild(rootNodeView, groupingChild);
 

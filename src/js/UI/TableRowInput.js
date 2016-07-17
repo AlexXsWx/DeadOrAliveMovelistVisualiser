@@ -16,8 +16,8 @@ define(
             var placeholder     = parameters.placeholder;
             var onInput         = parameters.onInput;
             var onFocus         = parameters.onFocus;
-            var onBlurOrConfirm = parameters.onBlurOrConfirm;
-            var onEsc           = parameters.onEsc;
+            // var onBlurOrConfirm = parameters.onBlurOrConfirm;
+            // var onEsc           = parameters.onEsc;
 
             var input = _.createDomElement({
                 tag: 'input',
@@ -85,9 +85,9 @@ define(
                 if (event.keyCode === KeyCodes.ESC) {
                     // reset to last confirmed value
                     setValue(valueConfirmed);
-                    onInput && onInput(valueConfirmed);
+                    callOnInput(valueConfirmed);
                     blurInput();
-                    onEsc && onEsc();
+                    // onEsc && onEsc();
                     event.stopPropagation();
                 } else
                 if (event.keyCode === KeyCodes.ENTER) {
@@ -96,7 +96,7 @@ define(
                 }
             }
 
-            function inputListener(event) { onInput && onInput(getValue()); }
+            function inputListener(event) { callOnInput(getValue()); }
             function blurListener(event)  { handleBlurOrConfirm(); }
 
             function focusListener(event) {
@@ -106,7 +106,12 @@ define(
 
             function handleBlurOrConfirm() {
                 valueConfirmed = getValue();
-                onBlurOrConfirm && onBlurOrConfirm();
+                // onBlurOrConfirm && onBlurOrConfirm();
+            }
+
+            function callOnInput(value) {
+                console.trace('on input "%s"', value, input);
+                onInput && onInput(value);
             }
 
         }
