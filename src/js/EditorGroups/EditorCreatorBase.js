@@ -29,6 +29,7 @@ define(
 
             // Sort of an API for the argument
             var editorGroupId               = options.id;
+            var editorName                  = options.name;
             var editorInputsDescription     = options.inputs;
             var changeSelectedNodesByAction = options.selectedNodesModifier;
             var editorExtension             = options.optExtension;
@@ -39,11 +40,26 @@ define(
                 var childrenDataCreator                = options.childrenStuff.childrenDataCreator;
                 var childEditorCreator                 = options.childrenStuff.childEditorCreator;
                 var childrenEditorName                 = options.childrenStuff.name;
+                var childrenEditorDescription          = options.childrenStuff.overallDescription;
                 var childrenEditorAddButtonText        = options.childrenStuff.addButtonValue;
                 var childrenEditorAddButtonDescription = options.childrenStuff.addButtonDescription;
             }
 
-            var domRoot = _.createDomElement({ tag: 'table' });
+            var domRoot = _.createDomElement({
+                tag: 'fieldset',
+                classes: [ 'subFieldset' ]
+            });
+            var legend = _.createDomElement({
+                tag: 'legend',
+                children: [ _.createTextNode(' ' + editorName + ' ') ],
+                listeners: { 'click': function(optEvent) { domRoot.classList.toggle('collapsed'); } }
+            });
+            var table = _.createDomElement({
+                tag: 'table',
+                classes: [ 'fieldsetContent' ]
+            });
+            domRoot.appendChild(legend);
+            domRoot.appendChild(table);
 
             var childrenEditors = []; // or keep undefined for when without children?
             var editorInputs = {};
@@ -98,7 +114,7 @@ define(
                 if (tableRow) {
                     editorInputs[editorInputId] = tableRow;
                     editorInputChangers[editorInputId] = nodeDataParameterChanger;
-                    domRoot.appendChild(tableRow.domRoot);
+                    table.appendChild(tableRow.domRoot);
                 }
 
                 function textInputHandler(newValue) {
@@ -137,6 +153,7 @@ define(
                 var childEditorTitle = _.createMergedRow(2, [
                     _.createDomElement({
                         tag: 'label',
+                        attributes: { 'title': childrenEditorDescription },
                         children: [ _.createTextNode(childrenEditorName) ]
                     })
                 ]);
@@ -147,9 +164,9 @@ define(
                     onClick: addChildData
                 });
 
-                domRoot.appendChild(childEditorTitle);
-                domRoot.appendChild(childrenEditorsParentWrapper);
-                domRoot.appendChild(btnAddChildEditor.domRoot);
+                table.appendChild(childEditorTitle);
+                table.appendChild(childrenEditorsParentWrapper);
+                table.appendChild(btnAddChildEditor.domRoot);
 
             }
 

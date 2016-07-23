@@ -77,8 +77,17 @@ body {
 #menu fieldset.collapsed > .fieldsetContent {
   display: none;
 }
+#menu fieldset.subFieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+#menu fieldset.subFieldset legend {
+  display: none;
+}
 #menu #about {
   margin-top: 5px;
+  float: right;
 }
 #overlay {
   position: fixed;

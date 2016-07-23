@@ -82,8 +82,8 @@ define(
                 childrenStuff: {
                     name: Strings('moveActionSteps'),
                     addButtonValue: 'Add action step',
-                    // addButtonDescription: 'TBD: action step description',
-                    // overallDescription: Strings('moveActionStepsDescription')
+                    addButtonDescription: 'Add description for the part of the move',
+                    overallDescription: Strings('moveActionStepsDescription'),
 
                     focusReset: function() {
                         EditorCreatorBase.resetLastSelectedInputForId(MoveActionStep.id);
