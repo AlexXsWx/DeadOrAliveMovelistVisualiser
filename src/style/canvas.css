@@ -36,7 +36,7 @@ g.node.throw .node_circle {
   stroke: white;
 }
 g.node .node_mask_height_indicator {
-  stroke-width: 1.5px;
+  stroke-width: 1px;
   fill: none;
   stroke: black;
 }

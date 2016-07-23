@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1468083300989
+    "timeSaved": 1469288127773
   },
   "body": {
     "character": "rig",
@@ -970,6 +970,9 @@
                 "actionMask": "low P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -1011,6 +1014,9 @@
                 "actionMask": "low P",
                 "actionType": "strike",
                 "isTracking": true,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [

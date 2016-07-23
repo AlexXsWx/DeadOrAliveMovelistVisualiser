@@ -7,6 +7,7 @@ define(
     function NodeSvgView(NodeView, NodeFactory, NodeSvgViewTexts, createObserver, _, SvgTools) {
 
         var HEIGHT_MASK_SHAPE = '-2,3 2,0 -2,-3';
+        var HEIGHT_MASK_GROUND_SHAPE = '-5,0 5,0';
 
         var TRANSITION_DURATION = 500; // ms
 
@@ -82,7 +83,8 @@ define(
             var heightIndicators = {
                 high: null,
                 middle: null,
-                bottom: null
+                bottom: null,
+                ground: null
             };
             var texts = {
                 center: null,
@@ -263,9 +265,10 @@ define(
 
             function updateHeightIndicators() {
 
-                var highType = HEIGHT_INDICATOR_TYPE.none;
-                var midType  = HEIGHT_INDICATOR_TYPE.none;
-                var lowType  = HEIGHT_INDICATOR_TYPE.none;
+                var highType    = HEIGHT_INDICATOR_TYPE.none;
+                var midType     = HEIGHT_INDICATOR_TYPE.none;
+                var lowType     = HEIGHT_INDICATOR_TYPE.none;
+                var groundType  = HEIGHT_INDICATOR_TYPE.none;
 
                 var nodeData = nodeView.binding.targetDataNode;
                 if (nodeData && NodeFactory.isMoveNode(nodeData)) {
@@ -284,6 +287,7 @@ define(
                         if (NodeFactory.isActionStepHigh(actionStep)) highType = type;
                         if (NodeFactory.isActionStepMid(actionStep))  midType  = type;
                         if (NodeFactory.isActionStepLow(actionStep))  lowType  = type;
+                        if (NodeFactory.canActionStepHitGround(actionStep)) groundType = type;
 
                     });
 
@@ -292,6 +296,7 @@ define(
                 heightIndicators.high = updateHeightIndicator(heightIndicators.high, -45, highType);
                 heightIndicators.mid  = updateHeightIndicator(heightIndicators.mid,    0, midType);
                 heightIndicators.low  = updateHeightIndicator(heightIndicators.low,   45, lowType);
+                heightIndicators.ground = updateGroundHitIndicator(heightIndicators.ground, groundType);
 
             }
 
@@ -310,6 +315,22 @@ define(
                     updateHeightIndicatorTransform(
                         result, angle, type === HEIGHT_INDICATOR_TYPE.tracking
                     );
+                }
+                return result;
+            }
+
+            function updateGroundHitIndicator(indicator, type) {
+                var result = indicator;
+                if (type === HEIGHT_INDICATOR_TYPE.none) {
+                    if (result) {
+                        result.parentNode.removeChild(result);
+                        result = null;
+                    }
+                } else {
+                    if (!result) {
+                        result = createGroundHitIndicator();
+                        wrapper.insertBefore(result, circle.nextSibling);
+                    }
                 }
                 return result;
             }
@@ -388,6 +409,13 @@ define(
             function createHeightIndicator() {
                 var result = createSvgElementClassed('polyline', [ 'node_mask_height_indicator' ]);
                 result.setAttribute('points', HEIGHT_MASK_SHAPE);
+                return result;
+            }
+
+            function createGroundHitIndicator() {
+                var result = createSvgElementClassed('polyline', [ 'node_mask_height_indicator' ]);
+                result.setAttribute('points', HEIGHT_MASK_GROUND_SHAPE);
+                result.setAttribute('transform', 'translate(0,' + (nodeSize + 0.5) + ')');
                 return result;
             }
 

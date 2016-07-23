@@ -34,6 +34,8 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         isActionStepMid:          isActionStepMid,
         isActionStepLow:          isActionStepLow,
 
+        canActionStepHitGround: canActionStepHitGround,
+
         getMoveSummary:       getMoveSummary,
         getActionStepSummary: getActionStepSummary
 
@@ -362,6 +364,10 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
     function checkActionStepTypeForWord(actionStep, word) {
         return actionStep.actionType && actionStep.actionType.toLowerCase().search(word) >= 0;
+    }
+
+    function canActionStepHitGround(actionStep) {
+        return actionStep.tags.join(' ').toLowerCase().search('ground') >= 0;
     }
 
     function getActionStepSummary(actionStep) {
