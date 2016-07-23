@@ -24,6 +24,7 @@ define(
             NodeSvgViewTexts.getTextDuration,
             NodeSvgViewTexts.getCooldown,
             NodeSvgViewTexts.getSafety,
+            NodeSvgViewTexts.getReach,
             NodeSvgViewTexts.getEmptyText, // TODO: stun depth
             NodeSvgViewTexts.getEmptyText  // TODO: unhold duration
         ];

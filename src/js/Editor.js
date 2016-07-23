@@ -66,7 +66,7 @@ define(
             nodeDataGenerator = nodeDataGeneratorRef;
             toggleChildrenRef = argToggleChildrenRef;
             selectNodeRef     = argSelectNodeRef;
-            updateEditorDomGroups();
+            updateEditorDomGroups(false, false);
 
             // FIXME: this doesn't belong here
             window.addEventListener('keydown', function(event) {
@@ -107,7 +107,7 @@ define(
             }
 
             // Update input values, as summary inputs can change other inputs and vice versa
-            if (changed) updateEditorDomGroups(false);
+            if (changed) updateEditorDomGroups(false, true);
 
             onDataChanged.dispatch(update);
 
@@ -321,19 +321,19 @@ define(
                 }
             }
 
-            updateEditorDomGroups(doFocus);
+            updateEditorDomGroups(doFocus, false);
 
         }
 
 
-        function updateEditorDomGroups(doFocus) {
+        function updateEditorDomGroups(doFocus, keepActiveSummaryContent) {
 
             editorGroups.forEach(function(editorGroup) {
                 if (editorGroup.matchingSelectedViews.length === 0) {
                     _.hideDomElement(editorGroup.domRoot);
                 } else {
                     _.showDomElement(editorGroup.domRoot);
-                    editorGroup.updateView();
+                    editorGroup.updateView(keepActiveSummaryContent);
                 }
             });
 

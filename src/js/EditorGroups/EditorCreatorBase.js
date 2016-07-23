@@ -201,7 +201,7 @@ define(
                 clearChildrenEditorGroups();
             }
 
-            function fill(data) {
+            function fill(data, keepActiveSummaryContent) {
 
                 if (!data) {
                     clear();
@@ -221,7 +221,7 @@ define(
                     var value = editorInputFillers[editorInputId](data);
 
                     if (editorInput.setValue) {// editorInput instanceof TableRowInput) {
-                        if (document.activeElement !== editorInput.input) {
+                        if (!(keepActiveSummaryContent && document.activeElement === editorInput.input)) {
                             editorInput.setValue(value);
                         }
                     } else
@@ -256,7 +256,7 @@ define(
                     }
                     // fill
                     for (var i = 0; i < childrenData.length; ++i) {
-                        childrenEditors[i].fill(childrenData[i]);
+                        childrenEditors[i].fill(childrenData[i], keepActiveSummaryContent);
                     }
                 }
             }

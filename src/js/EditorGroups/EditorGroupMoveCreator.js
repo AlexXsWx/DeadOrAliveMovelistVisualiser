@@ -107,7 +107,7 @@ define(
             function filter(data) { return data && NodeFactory.isMoveNode(data); }
 
 
-            function updateView() {
+            function updateView(keepActiveSummaryContent) {
 
                 var editorGroup = this;
 
@@ -118,7 +118,7 @@ define(
 
                 console.assert(!!nodeData, 'nodeData is not expected to be falsy');
 
-                editorGroupMove2.fill(nodeData);
+                editorGroupMove2.fill(nodeData, keepActiveSummaryContent);
 
             }
 

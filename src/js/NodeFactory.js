@@ -161,6 +161,8 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
             damage: undefined, // int
 
+            reach: undefined, // float
+
             // condition: undefined,
             tags: [],
 

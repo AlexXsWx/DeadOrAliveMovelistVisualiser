@@ -19,7 +19,8 @@ define(
             getTextRight:    getTextRight,
             getTextDuration: getTextDuration,
             getCooldown:     getCooldown,
-            getSafety:       getSafety
+            getSafety:       getSafety,
+            getReach:        getReach
 
         };
 
@@ -95,6 +96,18 @@ define(
                     }
                 }
             }
+        }
+
+        function getReach(nodeView) {
+            var nodeData = nodeView.binding.targetDataNode;
+            if (!nodeData || !nodeData.actionSteps) return '';
+            var max = -Infinity;
+            for (var i = 0; i < nodeData.actionSteps.length; ++i) {
+                if (nodeData.actionSteps[i].reach > max) {
+                    max = nodeData.actionSteps[i].reach;
+                }
+            }
+            return isFinite(max) ? max : '';
         }
 
         function getEmptyText(nodeView) {

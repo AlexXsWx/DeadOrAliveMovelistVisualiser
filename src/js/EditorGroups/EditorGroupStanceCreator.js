@@ -59,7 +59,7 @@ define(
 
             function filter(data) { return data && NodeFactory.isStanceNode(data); }
 
-            function updateView() {
+            function updateView(keepActiveSummaryContent) {
 
                 var editorGroup = this;
 
@@ -68,7 +68,7 @@ define(
                 var nodeView = editorGroup.matchingSelectedViews[0];
                 var nodeData = nodeView.binding.targetDataNode;
 
-                editorGroup2.fill(nodeData);
+                editorGroup2.fill(nodeData, keepActiveSummaryContent);
 
             }
 

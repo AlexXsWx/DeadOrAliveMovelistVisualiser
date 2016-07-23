@@ -89,6 +89,14 @@ define(
                     fill: actionStepToDamageText,
                     parameterModifier: changeActionStepDamage
                 }, {
+                    id: 'reach',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: Strings('moveActionReach'),
+                    description: Strings('moveActionReachDescription'),
+                    placeholderText: 'e.g. 1.34',
+                    fill: actionStepToReachText,
+                    parameterModifier: changeActionStepReach
+                }, {
                     id: 'tags',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: Strings('moveActionTags'),
@@ -235,6 +243,15 @@ define(
                 var oldValue = actionStep.damage;
                 actionStep.damage = newDamage;
                 return oldValue !== newDamage;
+            }
+
+
+            function actionStepToReachText(actionStep) { return actionStep.reach || ''; }
+            function changeActionStepReach(newValue, actionStep) {
+                var newReach = parseFloat(newValue.replace(',', '.'));
+                var oldValue = actionStep.reach;
+                actionStep.reach = newReach;
+                return oldValue !== newReach;
             }
 
 

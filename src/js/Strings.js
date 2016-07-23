@@ -76,9 +76,10 @@ define('Strings', function Strings() {
         ),
 
         'moveActionDamage': 'Damage',
-        'moveActionDamageDescription': (
-            'Action step damage'
-        ),
+        'moveActionDamageDescription': 'Action step damage',
+
+        'moveActionReach': 'Reach',
+        'moveActionReachDescription': 'How far the action step reaches',
 
         'moveActionCondition': 'Condition',
         'moveActionConditionDescription': (
