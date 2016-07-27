@@ -31,6 +31,8 @@ define(
 
             var inputs = [
                 {
+                    // FIXME: offensive holds
+                    // TODO: include ending
                     // FIXME: Esc is bugged
                     id: 'summary',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,

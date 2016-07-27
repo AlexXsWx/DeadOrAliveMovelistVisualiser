@@ -39,6 +39,7 @@ define(
 
             var inputs = [
                 {
+                    // FIXME: mid P mid K
                     id: 'remove',
                     inputType: EditorCreatorBase.INPUT_TYPES.button,
                     label: 'Remove action step',

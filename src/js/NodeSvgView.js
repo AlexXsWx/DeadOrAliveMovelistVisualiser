@@ -234,6 +234,7 @@ define(
                     var isPunch = NodeFactory.isMovePunch(nodeData);
                     var isKick  = NodeFactory.isMoveKick(nodeData);
 
+                    // FIXME: mid P mid K
                     if (isPunch) mark('punch');
                     if (isKick)  mark('kick');
                     if (isPunch || isKick) mark('strike');

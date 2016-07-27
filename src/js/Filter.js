@@ -8,6 +8,7 @@ define(
 
         return {
             isTrackingMidKickNode: isTrackingMidKickNode,
+            isGroundAttackNode: isGroundAttackNode,
             findNodes: findNodes
         };
 
@@ -20,6 +21,18 @@ define(
                         NodeFactory.isActionStepKick(actionStep) &&
                         NodeFactory.isActionStepMid(actionStep)
                     ) {
+                        return true;
+                    }
+                }
+            }
+            return false
+        }
+
+        function isGroundAttackNode(nodeData) {
+            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                for (var i = 0; i < nodeData.actionSteps.length; ++i) {
+                    var actionStep = nodeData.actionSteps[i];
+                    if (NodeFactory.canActionStepHitGround(actionStep)) {
                         return true;
                     }
                 }

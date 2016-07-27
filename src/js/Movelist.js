@@ -337,6 +337,31 @@ define(
                     }
                 );
 
+                _.getDomElement('filterShowGroundAttacks').addEventListener('click',
+                    function showGroundAttacks(optEvent) {
+                        var matchingNodeViews = [];
+                        TreeTools.forAllCurrentChildren(
+                            rootNodeView,
+                            NodeView.getAllChildren,
+                            function filterForTrackingMidKicks(nodeView) {
+                                if (Filter.isGroundAttackNode(nodeView.binding.targetDataNode)) {
+                                    matchingNodeViews.push(nodeView);
+                                }
+                            }
+                        );
+                        if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
+                    }
+                );
+
+                _.getDomElement('filterShowAll').addEventListener('click',
+                    function showAll(optEvent) {
+                        TreeTools.forAllCurrentChildren(
+                            rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren
+                        );
+                        update();
+                    }
+                );
+
             }
 
             function onButtonFilter(optEvent) {

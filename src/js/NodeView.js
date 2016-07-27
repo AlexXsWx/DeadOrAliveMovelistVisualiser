@@ -46,6 +46,7 @@ define(
             showChild:             showChild,
             toggleVisibleChildren: toggleVisibleChildren,
             hideAllChildren:       hideAllChildren,
+            showAllChildren:       showAllChildren,
 
             setBinding: setBinding,
 
@@ -342,6 +343,13 @@ define(
                         'optReturnIDsBecomeHidden is not implemented for hideAllChildren'
                     );
                 }
+            }
+
+
+            function showAllChildren(nodeView) {
+                var children = nodeView.treeInfo.children;
+                children.visible = children.visible.concat(children.hidden);
+                children.hidden = [];
             }
 
 
