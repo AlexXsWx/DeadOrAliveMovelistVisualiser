@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1469645270986
+    "timeSaved": 1469904823374
   },
   "body": {
     "character": "lisa",
@@ -32,6 +32,10 @@
                 ],
                 "followUps": [
                   {
+                    "input": "4",
+                    "endsWith": "BT"
+                  },
+                  {
                     "input": "P",
                     "actionSteps": [
                       {
@@ -41,6 +45,10 @@
                       }
                     ],
                     "followUps": [
+                      {
+                        "input": "4",
+                        "endsWith": "BT"
+                      },
                       {
                         "input": "P+K",
                         "actionSteps": [
@@ -73,15 +81,12 @@
                                     "actionType": "throw",
                                     "isTracking": true
                                   }
-                                ]
+                                ],
+                                "endsWith": "BT"
                               }
                             ]
                           }
                         ]
-                      },
-                      {
-                        "input": "4",
-                        "endsWith": "BT"
                       }
                     ]
                   },
@@ -109,10 +114,6 @@
                         "isTracking": false
                       }
                     ]
-                  },
-                  {
-                    "input": "4",
-                    "endsWith": "BT"
                   }
                 ]
               },
@@ -167,17 +168,6 @@
                 ]
               },
               {
-                "input": "K",
-                "actionSteps": [
-                  {
-                    "actionMask": "mid K",
-                    "actionType": "strike",
-                    "isTracking": false
-                  }
-                ],
-                "endsWith": "BT"
-              },
-              {
                 "input": "P+K",
                 "actionSteps": [
                   {
@@ -200,10 +190,32 @@
                             "isTracking": false
                           }
                         ]
+                      },
+                      {
+                        "input": "T",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
                       }
                     ]
                   }
                 ]
+              },
+              {
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "endsWith": "BT"
               },
               {
                 "input": "T",
@@ -213,7 +225,8 @@
                     "actionType": "offensive hold",
                     "isTracking": true
                   }
-                ]
+                ],
+                "endsWith": "BT"
               }
             ]
           },
@@ -601,7 +614,8 @@
                                     "actionType": "offensive hold",
                                     "isTracking": true
                                   }
-                                ]
+                                ],
+                                "endsWith": "BT"
                               }
                             ]
                           }
@@ -626,7 +640,8 @@
                             "actionType": "offensive hold",
                             "isTracking": true
                           }
-                        ]
+                        ],
+                        "endsWith": "BT"
                       }
                     ]
                   },
@@ -658,6 +673,45 @@
                         ]
                       },
                       {
+                        "input": "P+K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "H",
+                            "endsWith": "BT",
+                            "followUps": [
+                              {
+                                "input": "P+K",
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "jump attack",
+                                    "isTracking": false
+                                  }
+                                ]
+                              },
+                              {
+                                "input": "T",
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "high",
+                                    "actionType": "offensive hold",
+                                    "isTracking": true
+                                  }
+                                ],
+                                "endsWith": "BT"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
                         "input": "K",
                         "actionSteps": [
                           {
@@ -665,7 +719,8 @@
                             "actionType": "strike",
                             "isTracking": false
                           }
-                        ]
+                        ],
+                        "endsWith": "BT"
                       },
                       {
                         "input": "T",
@@ -675,7 +730,8 @@
                             "actionType": "offensive hold",
                             "isTracking": true
                           }
-                        ]
+                        ],
+                        "endsWith": "BT"
                       }
                     ]
                   },
@@ -732,27 +788,6 @@
                     ],
                     "followUps": [
                       {
-                        "input": "K",
-                        "actionSteps": [
-                          {
-                            "actionMask": "mid K",
-                            "actionType": "strike",
-                            "isTracking": false
-                          }
-                        ],
-                        "endsWith": "BT"
-                      },
-                      {
-                        "input": "T",
-                        "actionSteps": [
-                          {
-                            "actionMask": "high",
-                            "actionType": "offensive hold",
-                            "isTracking": true
-                          }
-                        ]
-                      },
-                      {
                         "input": "P",
                         "actionSteps": [
                           {
@@ -773,6 +808,28 @@
                             ]
                           }
                         ]
+                      },
+                      {
+                        "input": "K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "strike",
+                            "isTracking": false
+                          }
+                        ],
+                        "endsWith": "BT"
+                      },
+                      {
+                        "input": "T",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
                       }
                     ]
                   },
@@ -805,7 +862,7 @@
                 "input": "P",
                 "actionSteps": [
                   {
-                    "actionMask": "mid P",
+                    "actionMask": "high P",
                     "actionType": "strike",
                     "isTracking": false
                   }
@@ -849,7 +906,8 @@
                             "actionType": "offensive hold",
                             "isTracking": true
                           }
-                        ]
+                        ],
+                        "endsWith": "BT"
                       }
                     ]
                   }
@@ -873,7 +931,8 @@
                     "actionMask": "high",
                     "actionType": "offensive hold"
                   }
-                ]
+                ],
+                "endsWith": "BT"
               }
             ]
           },
@@ -945,7 +1004,8 @@
                             "actionType": "offensive hold",
                             "isTracking": true
                           }
-                        ]
+                        ],
+                        "endsWith": "BT"
                       }
                     ]
                   }
@@ -968,7 +1028,8 @@
                     "actionMask": "high",
                     "actionType": "throw"
                   }
-                ]
+                ],
+                "endsWith": "BT"
               }
             ]
           },
@@ -1190,7 +1251,8 @@
                         "actionType": "offensive hold",
                         "isTracking": true
                       }
-                    ]
+                    ],
+                    "endsWith": "BT"
                   }
                 ]
               },
@@ -1678,6 +1740,24 @@
             ]
           },
           {
+            "input": "P",
+            "context": [
+              "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "..."
+              }
+            ]
+          },
+          {
             "input": "7K",
             "context": [
               "BT"
@@ -1695,6 +1775,19 @@
               }
             ],
             "endsWith": "BT"
+          },
+          {
+            "input": "4P",
+            "context": [
+              "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
           },
           {
             "input": "P+K",
@@ -1731,7 +1824,8 @@
                         "actionType": "offensive hold",
                         "isTracking": true
                       }
-                    ]
+                    ],
+                    "endsWith": "BT"
                   }
                 ]
               }
@@ -1751,40 +1845,6 @@
             ]
           },
           {
-            "input": "P",
-            "context": [
-              "BT"
-            ],
-            "actionSteps": [
-              {
-                "actionMask": "high P",
-                "actionType": "strike",
-                "isTracking": true
-              }
-            ],
-            "followUps": [
-              {
-                "input": "..."
-              }
-            ]
-          },
-          {
-            "input": "4P",
-            "context": [
-              "BT"
-            ],
-            "actionSteps": [
-              {
-                "actionMask": "mid P",
-                "actionType": "strike",
-                "isTracking": false
-              }
-            ]
-          },
-          {
-            "input": "Ap"
-          },
-          {
             "input": "K",
             "context": [
               "BT"
@@ -1799,6 +1859,22 @@
             "followUps": [
               {
                 "input": "..."
+              }
+            ]
+          },
+          {
+            "input": "Ap"
+          },
+          {
+            "input": "2P",
+            "context": [
+              "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           },
@@ -1822,24 +1898,6 @@
               {
                 "actionType": "other"
               }
-            ]
-          },
-          {
-            "input": "2P",
-            "context": [
-              "BT"
-            ],
-            "actionSteps": [
-              {
-                "actionMask": "low P",
-                "actionType": "strike",
-                "isTracking": true
-              }
-            ]
-          },
-          {
-            "context": [
-              "BT"
             ]
           },
           {
@@ -1873,6 +1931,11 @@
               }
             ],
             "endsWith": "BT"
+          },
+          {
+            "context": [
+              "BT"
+            ]
           }
         ]
       },
@@ -1886,6 +1949,47 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P+K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "jump attack",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P+K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false
+                          }
+                        ]
+                      },
+                      {
+                        "input": "T",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -1915,6 +2019,47 @@
                 "actionMask": "high P",
                 "actionType": "strike",
                 "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P+K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "jump attack",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P+K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false
+                          }
+                        ]
+                      },
+                      {
+                        "input": "T",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
