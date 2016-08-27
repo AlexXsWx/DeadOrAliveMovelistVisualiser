@@ -133,7 +133,7 @@ define(
 
                 if (firstParentData) {
                     var success = false;
-                    var children = NodeFactory.getChildren(nodeData);
+                    var children = NodeFactory.getChildren(firstParentData);
                     if (children) {
                         success = _.removeElement(children, nodeData);
                     }
@@ -143,9 +143,11 @@ define(
                             'nearest parent with data of %O does not contain it',
                             nodeData, parentNodeView
                         );
+                        return;
                     }
                 } else {
                     console.warn('Couldn\'t find first parent data');
+                    return;
                 }
 
                 NodeView.removeChild(parentNodeView, nodeView);

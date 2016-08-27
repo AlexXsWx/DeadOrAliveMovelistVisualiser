@@ -1,0 +1,2066 @@
+{
+  "header": {
+    "format": 3,
+    "timeSaved": 1472316749770
+  },
+  "body": {
+    "character": "Jacky",
+    "version": "1,07 steam",
+    "stances": [
+      {
+        "abbreviation": "STD",
+        "description": "Standing",
+        "moves": [
+          {
+            "input": "P",
+            "frameData": [
+              10,
+              2,
+              10
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  8,
+                  2,
+                  18
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      13,
+                      3,
+                      21
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6P",
+                    "frameData": [
+                      15,
+                      2,
+                      21
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          16,
+                          2,
+                          20
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike"
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "P",
+                            "frameData": [
+                              19,
+                              3,
+                              24
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike"
+                              }
+                            ]
+                          },
+                          {
+                            "input": "K",
+                            "frameData": [
+                              19,
+                              4,
+                              23
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "high K",
+                                "actionType": "strike"
+                              }
+                            ]
+                          },
+                          {
+                            "input": "2K",
+                            "frameData": [
+                              20,
+                              3,
+                              27
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "low K",
+                                "actionType": "strike",
+                                "tags": [
+                                  "ground attack"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "input": "8P+K",
+                            "endsWith": "SSLSH"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "frameData": [
+                          14,
+                          2,
+                          25
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "4P",
+                    "frameData": [
+                      14,
+                      2,
+                      28
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "frameData": [
+                          20,
+                          5,
+                          20
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "frameData": [
+                      19,
+                      5,
+                      26
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "4",
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ],
+                        "endsWith": "SLSH"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  13,
+                  2,
+                  24
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "frameData": [
+                      0,
+                      0,
+                      16
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "4K",
+                "frameData": [
+                  14,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "8P",
+            "frameData": [
+              18,
+              2,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  18,
+                  3,
+                  23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "6P",
+            "frameData": [
+              12,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  16,
+                  2,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      19,
+                      3,
+                      24
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "frameData": [
+                      19,
+                      4,
+                      23
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "4",
+                        "endsWith": "SLSH"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      20,
+                      3,
+                      27
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike",
+                        "tags": [
+                          "ground attack"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "8P+K",
+                    "endsWith": "SSLSH"
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  14,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4P",
+            "frameData": [
+              17,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  19,
+                  2,
+                  24
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ]
+              },
+              {
+                "input": "1P",
+                "frameData": [
+                  20,
+                  2,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low P",
+                    "actionType": "strike",
+                    "tags": [
+                      "ground attack"
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  20,
+                  4,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ],
+                "endsWith": "BT"
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  21,
+                  3,
+                  27
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "tags": [
+                      "ground attack"
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "8P+K",
+                "endsWith": "SSLSH"
+              }
+            ]
+          },
+          {
+            "input": "3P",
+            "frameData": [
+              14,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  12,
+                  3,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "4",
+                    "endsWith": "SLSH"
+                  },
+                  {
+                    "input": "P",
+                    "frameData": [
+                      13,
+                      2,
+                      26
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "P+K",
+                    "frameData": [
+                      18,
+                      3,
+                      24
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2P",
+            "frameData": [
+              12,
+              1,
+              18
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ]
+          },
+          {
+            "input": "(2)3P",
+            "frameData": [
+              15,
+              3,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "1P",
+            "frameData": [
+              19,
+              2,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "4",
+                "endsWith": "SLSH"
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  16,
+                  4,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "44P",
+            "frameData": [
+              10,
+              2,
+              16
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "endsWith": "BT"
+          },
+          {
+            "input": "K",
+            "frameData": [
+              15,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  17,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      12,
+                      2,
+                      22
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          13,
+                          3,
+                          19
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike"
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "K",
+                            "frameData": [
+                              16,
+                              4,
+                              29
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "high K",
+                                "actionType": "strike"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  20,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike"
+                  }
+                ]
+              },
+              {
+                "input": "H",
+                "frameData": [
+                  0,
+                  0,
+                  16
+                ]
+              }
+            ]
+          },
+          {
+            "input": "9K",
+            "frameData": [
+              14,
+              2,
+              9,
+              4,
+              41
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high mid K",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ]
+          },
+          {
+            "input": "8K",
+            "frameData": [
+              18,
+              3,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "7K",
+            "frameData": [
+              14,
+              4,
+              53
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "(6)K",
+            "frameData": [
+              16,
+              2,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "H",
+                "frameData": [
+                  0,
+                  0,
+                  15
+                ]
+              },
+              {
+                "input": "*H",
+                "frameData": [
+                  0,
+                  0,
+                  13
+                ]
+              }
+            ]
+          },
+          {
+            "input": "6K",
+            "frameData": [
+              17,
+              4,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "4K",
+            "frameData": [
+              15,
+              3,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  14,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      18,
+                      3,
+                      24
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "tags": [
+                          "ground attack"
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "frameData": [
+                          17,
+                          3,
+                          29
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3K",
+            "frameData": [
+              16,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  15,
+                  2,
+                  23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      19,
+                      5,
+                      23
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "4",
+                        "endsWith": "SLSH"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      16,
+                      2,
+                      34
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike",
+                        "tags": [
+                          "ground attack"
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "frameData": [
+                          13,
+                          3,
+                          28
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "8P+K",
+                    "endsWith": "SSLSH"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2K",
+            "frameData": [
+              17,
+              2,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  20,
+                  2,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      17,
+                      2,
+                      22
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "(2)K",
+            "frameData": [
+              16,
+              1,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ]
+          },
+          {
+            "input": "66K",
+            "frameData": [
+              15,
+              4,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "44K",
+            "frameData": [
+              16,
+              4,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike"
+              }
+            ],
+            "endsWith": "BT"
+          },
+          {
+            "input": "P+K",
+            "frameData": [
+              16,
+              3,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  21,
+                  1,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  16,
+                  4,
+                  27
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "4",
+                    "endsWith": "SLSH"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "8P+K",
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  41,
+                  4,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike"
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  39,
+                  5,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "4",
+                    "endsWith": "SLSH"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "7P+K",
+            "frameData": [
+              30,
+              2,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "6P+K",
+            "frameData": [
+              14,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "4P+K",
+            "frameData": [
+              19,
+              3,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "3P+K",
+            "frameData": [
+              18,
+              2,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "T",
+                "actionSteps": [
+                  {
+                    "actionType": "throw"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2P+K",
+            "frameData": [
+              22,
+              2,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "8P+K",
+                "endsWith": "SSLSH"
+              },
+              {
+                "input": "4",
+                "endsWith": "SLSH"
+              }
+            ]
+          },
+          {
+            "input": "1P+K",
+            "frameData": [
+              16,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  18,
+                  2,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      15,
+                      2,
+                      26
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "frameData": [
+                      18,
+                      3,
+                      27
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "8P+K",
+                    "endsWith": "SSLSH"
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  18,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "44P+K",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "SLSH"
+          },
+          {
+            "input": "H+K",
+            "frameData": [
+              23,
+              5,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "4",
+                "endsWith": "SLSH"
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  18,
+                  4,
+                  32
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "tags": [
+                      "ground attack"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "8H+K",
+            "frameData": [
+              30,
+              4,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "7H+K",
+            "frameData": [
+              25,
+              4,
+              35
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "6H+K",
+            "frameData": [
+              17,
+              3,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4H+K",
+            "frameData": [
+              20,
+              5,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "3H+K",
+            "frameData": [
+              15,
+              4,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "2H+K",
+            "frameData": [
+              12,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  15,
+                  2,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      13,
+                      2,
+                      22
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "frameData": [
+                          17,
+                          2,
+                          25
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike"
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "K",
+                            "frameData": [
+                              20,
+                              2,
+                              43
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "high K",
+                                "actionType": "strike"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "1H+K",
+            "frameData": [
+              19,
+              3,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ]
+          },
+          {
+            "input": "66H+K",
+            "frameData": [
+              20,
+              3,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "4",
+                "endsWith": "BT"
+              }
+            ]
+          },
+          {
+            "input": "46H+K",
+            "frameData": [
+              17,
+              4,
+              32
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "T",
+            "frameData": [
+              5,
+              2,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "6T",
+            "frameData": [
+              7,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "4T",
+            "frameData": [
+              10,
+              2,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "66T",
+            "frameData": [
+              7,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "64T",
+            "frameData": [
+              12,
+              2,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "46T",
+            "frameData": [
+              12,
+              2,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "2T",
+            "frameData": [
+              5,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "88",
+            "frameData": [
+              0,
+              0,
+              25
+            ],
+            "endsWith": "SS"
+          },
+          {
+            "input": "4H",
+            "frameData": [
+              0,
+              18,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionType": "hold"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "SS",
+        "description": "Sidestep",
+        "moves": [
+          {
+            "input": "P",
+            "frameData": [
+              25,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              26,
+              3,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "BT",
+        "moves": [
+          {
+            "input": "P",
+            "frameData": [
+              10,
+              1,
+              18
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "..."
+              }
+            ]
+          },
+          {
+            "input": "4P",
+            "frameData": [
+              19,
+              3,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "2P",
+            "frameData": [
+              20,
+              2,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  15,
+                  4,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              14,
+              4,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "4",
+                "endsWith": "SLSH"
+              }
+            ]
+          },
+          {
+            "input": "4K",
+            "frameData": [
+              17,
+              4,
+              32
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "2K",
+            "frameData": [
+              17,
+              3,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ]
+          },
+          {
+            "input": "P+K",
+            "frameData": [
+              20,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "4P+K",
+            "endsWith": "SLSH"
+          }
+        ]
+      },
+      {
+        "abbreviation": "SSLSH",
+        "moves": [
+          {
+            "input": "P",
+            "frameData": [
+              18,
+              2,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  17,
+                  2,
+                  42
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "SLSH",
+        "moves": [
+          {
+            "input": "P",
+            "frameData": [
+              13,
+              1,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              22,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "2K",
+            "frameData": [
+              24,
+              2,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "4",
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "SLSH"
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  16,
+                  3,
+                  24
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "P+K",
+            "frameData": [
+              19,
+              3,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  17,
+                  4,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "H+K",
+            "frameData": [
+              22,
+              4,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike"
+              }
+            ]
+          },
+          {
+            "input": "33",
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  36,
+                  2,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike"
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  36,
+                  3,
+                  23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "T",
+                    "actionSteps": [
+                      {
+                        "actionType": "throw"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "H+K",
+                "frameData": [
+                  38,
+                  6,
+                  27
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -53,11 +53,16 @@ define(
 
         // ===================
 
-        var EXAMPLE_URL = (
-            'https://raw.githubusercontent.com/AlexXsWx/' +
-            'DeadOrAliveMovelistVisualiser/master/data/rig.6.json'
-        );
+        var exampleBaseUrl = 'https://' + [
+            'raw.githubusercontent.com',
+            'AlexXsWx',
+            'DeadOrAliveMovelistVisualiser'
+        ].join('/') + '/';
 
+        var EXAMPLE_URLS = {
+            rig:   exampleBaseUrl + 'master/data/rig.6.json',
+            jacky: exampleBaseUrl + 'alpha/data/jacky.json'
+        };
 
         return { init: init };
 
@@ -88,8 +93,11 @@ define(
                 selectNodeView(rootNodeView);
 
                 // FIXME
+                if (window.location.hash.toLowerCase() === '#example-jacky') {
+                    NodeSerializer.deserializeFromUrl(EXAMPLE_URLS.jacky, onDataDeserialized);
+                } else                
                 if (window.location.hash.toLowerCase() === '#example') {
-                    NodeSerializer.deserializeFromUrl(EXAMPLE_URL, onDataDeserialized);
+                    NodeSerializer.deserializeFromUrl(EXAMPLE_URLS.rig, onDataDeserialized);
                 }
             }
 
@@ -264,7 +272,7 @@ define(
                 // }
 
                 function onButtonOpenUrl(optEvent) {
-                    var url = prompt('Enter URL:', EXAMPLE_URL);
+                    var url = prompt('Enter URL:', EXAMPLE_URLS.rig);
                     if (url) NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
                 }
 
