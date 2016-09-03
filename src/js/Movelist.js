@@ -311,53 +311,43 @@ define(
 
                 _.getDomElement('filterShowTracking').addEventListener('click',
                     function showTrackingMoves(optEvent) {
-                        var matchingNodeViews = [];
-                        TreeTools.forAllCurrentChildren(
-                            rootNodeView,
-                            NodeView.getAllChildren,
-                            function filterForTrackingMidKicks(nodeView) {
-                                var nodeData = nodeView.binding.targetDataNode;
-                                if (nodeData && NodeFactory.isMoveNode(nodeData)) {
-                                    var someTracking = nodeData.actionSteps.some(
-                                        function(actionStep) { return actionStep.isTracking; }
-                                    );
-                                    if (someTracking) matchingNodeViews.push(nodeView);
-                                }
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            var nodeData = nodeView.binding.targetDataNode;
+                            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                                var someTracking = nodeData.actionSteps.some(
+                                    function(actionStep) { return actionStep.isTracking; }
+                                );
+                                if (someTracking) return true;
                             }
-                        );
-                        if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
+                            return false;
+                        });
                     }
                 );
 
                 _.getDomElement('filterShowTrackingMidKicks').addEventListener('click',
                     function showTrackingMidKicks(optEvent) {
-                        var matchingNodeViews = [];
-                        TreeTools.forAllCurrentChildren(
-                            rootNodeView,
-                            NodeView.getAllChildren,
-                            function filterForTrackingMidKicks(nodeView) {
-                                if (Filter.isTrackingMidKickNode(nodeView.binding.targetDataNode)) {
-                                    matchingNodeViews.push(nodeView);
-                                }
-                            }
-                        );
-                        if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isTrackingMidKickNode(nodeView.binding.targetDataNode);
+                        });
                     }
                 );
 
                 _.getDomElement('filterShowGroundAttacks').addEventListener('click',
                     function showGroundAttacks(optEvent) {
-                        var matchingNodeViews = [];
-                        TreeTools.forAllCurrentChildren(
-                            rootNodeView,
-                            NodeView.getAllChildren,
-                            function filterForTrackingMidKicks(nodeView) {
-                                if (Filter.isGroundAttackNode(nodeView.binding.targetDataNode)) {
-                                    matchingNodeViews.push(nodeView);
-                                }
-                            }
-                        );
-                        if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isGroundAttackNode(nodeView.binding.targetDataNode);
+                        });
+                    }
+                );
+
+                _.getDomElement('filterShowStance').addEventListener('click',
+                    function showStance(optEvent) {
+                        var stance = prompt('Enter stance name: (e.g. "BT")', 'BT');
+                        if (!stance) return;
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            var ending = NodeView.getEnding(nodeView);
+                            return ending && ending.toLowerCase() == stance.toLowerCase();
+                        });
                     }
                 );
 
@@ -560,6 +550,21 @@ define(
             }
 
         // ================
+
+
+        function showOnlyNodesThatMatch(nodeViewMatchFunc) {
+
+            var matchingNodeViews = [];
+            TreeTools.forAllCurrentChildren(
+                rootNodeView, NodeView.getAllChildren, function(nodeView) {
+                    if (nodeViewMatchFunc(nodeView)) {
+                        matchingNodeViews.push(nodeView);
+                    }
+                }
+            );
+            if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
+
+        }
 
 
         function showOnlyNodes(nodeViewsToShow) {
