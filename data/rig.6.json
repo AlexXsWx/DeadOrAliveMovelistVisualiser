@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1469292980205
+    "timeSaved": 1473539678095
   },
   "body": {
     "character": "rig",
@@ -86,6 +86,12 @@
                           "counter"
                         ],
                         "hitBlock": "16"
+                      },
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "9"
                       }
                     ]
                   }
@@ -128,6 +134,12 @@
                             ],
                             "criticalHoldDelay": "12",
                             "stunDurationMax": "35"
+                          },
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "12"
                           }
                         ]
                       }
@@ -162,6 +174,12 @@
                                 ],
                                 "criticalHoldDelay": "6",
                                 "stunDurationMax": "50"
+                              },
+                              {
+                                "condition": [
+                                  "block"
+                                ],
+                                "hitBlock": "19"
                               }
                             ]
                           }
@@ -202,6 +220,12 @@
                                 "tags": [
                                   "sit-down stun"
                                 ]
+                              },
+                              {
+                                "condition": [
+                                  "block"
+                                ],
+                                "hitBlock": "10"
                               }
                             ]
                           }
@@ -239,7 +263,16 @@
                                 ],
                                 "criticalHoldDelay": "44",
                                 "stunDurationMin": "42",
-                                "stunDurationMax": "50"
+                                "stunDurationMax": "50",
+                                "tags": [
+                                  "sit-down stun"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "block"
+                                ],
+                                "hitBlock": "9"
                               }
                             ]
                           }
@@ -276,6 +309,12 @@
                             ],
                             "criticalHoldDelay": "6",
                             "stunDurationMax": "49"
+                          },
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "15"
                           }
                         ]
                       }
@@ -303,6 +342,12 @@
                                 ],
                                 "criticalHoldDelay": "12",
                                 "stunDurationMax": "35"
+                              },
+                              {
+                                "condition": [
+                                  "block"
+                                ],
+                                "hitBlock": "20"
                               }
                             ]
                           }
@@ -340,6 +385,12 @@
                                 "tags": [
                                   "fall down stun"
                                 ]
+                              },
+                              {
+                                "condition": [
+                                  "block"
+                                ],
+                                "hitBlock": "9"
                               }
                             ]
                           }
@@ -387,6 +438,12 @@
                                 "criticalHoldDelay": "29",
                                 "stunDurationMin": "38",
                                 "stunDurationMax": "45"
+                              },
+                              {
+                                "condition": [
+                                  "block"
+                                ],
+                                "hitBlock": "9"
                               }
                             ]
                           }
@@ -430,6 +487,12 @@
                             ],
                             "criticalHoldDelay": "6",
                             "stunDurationMax": "34"
+                          },
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "12"
                           }
                         ]
                       }
@@ -455,6 +518,12 @@
                                 ],
                                 "criticalHoldDelay": "14",
                                 "stunDurationMax": "51"
+                              },
+                              {
+                                "condition": [
+                                  "block"
+                                ],
+                                "hitBlock": "14"
                               }
                             ]
                           }
@@ -487,6 +556,12 @@
                         ],
                         "criticalHoldDelay": "14",
                         "stunDurationMax": "51"
+                      },
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "12"
                       }
                     ]
                   }
@@ -504,7 +579,18 @@
                         "actionMask": "high K",
                         "actionType": "jump attack",
                         "isTracking": true,
-                        "reach": 1.84
+                        "reach": 1.84,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "30",
+                            "tags": [
+                              "guard break"
+                            ]
+                          }
+                        ]
                       }
                     ]
                   },
@@ -542,6 +628,12 @@
                             "tags": [
                               "sit-down stun"
                             ]
+                          },
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "11"
                           }
                         ]
                       }
@@ -570,6 +662,12 @@
                         ],
                         "criticalHoldDelay": "6",
                         "stunDurationMax": "30"
+                      },
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "20"
                       }
                     ]
                   }
@@ -605,6 +703,12 @@
                     ],
                     "criticalHoldDelay": "14",
                     "stunDurationMax": "61"
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "9"
                   }
                 ]
               }
@@ -633,6 +737,12 @@
                         ],
                         "criticalHoldDelay": "24",
                         "stunDurationMax": "60"
+                      },
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "19"
                       }
                     ]
                   }
@@ -663,6 +773,12 @@
                     ],
                     "criticalHoldDelay": "24",
                     "stunDurationMax": "60"
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "12"
                   }
                 ]
               }
@@ -696,6 +812,12 @@
                     "tags": [
                       "sit-down stun"
                     ]
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "17"
                   }
                 ]
               }
@@ -730,6 +852,12 @@
                     ],
                     "criticalHoldDelay": "6",
                     "stunDurationMax": "49"
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "16"
                   }
                 ]
               }
@@ -765,6 +893,12 @@
                         ],
                         "criticalHoldDelay": "6",
                         "stunDurationMax": "50"
+                      },
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "22"
                       }
                     ]
                   }
@@ -801,6 +935,12 @@
                         ],
                         "criticalHoldDelay": "6",
                         "stunDurationMax": "50"
+                      },
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "9"
                       }
                     ]
                   }
@@ -838,6 +978,12 @@
                         ],
                         "criticalHoldDelay": "6",
                         "stunDurationMax": "50"
+                      },
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "17"
                       }
                     ]
                   }
@@ -867,6 +1013,12 @@
                             ],
                             "criticalHoldDelay": "6",
                             "stunDurationMax": "27"
+                          },
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "19"
                           }
                         ]
                       }
@@ -912,6 +1064,12 @@
                     ],
                     "criticalHoldDelay": "6",
                     "stunDurationMax": "42"
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "11"
                   }
                 ]
               }
@@ -938,6 +1096,12 @@
                         ],
                         "criticalHoldDelay": "6",
                         "stunDurationMax": "30"
+                      },
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "20"
                       }
                     ]
                   }
@@ -963,7 +1127,15 @@
                     "actionMask": "high K",
                     "actionType": "jump attack",
                     "isTracking": false,
-                    "reach": 2.58
+                    "reach": 2.58,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "11"
+                      }
+                    ]
                   }
                 ]
               }
@@ -998,6 +1170,12 @@
                     ],
                     "criticalHoldDelay": "14",
                     "stunDurationMax": "61"
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "19"
                   }
                 ]
               }
@@ -1043,6 +1221,12 @@
                     ],
                     "criticalHoldDelay": "6",
                     "stunDurationMax": "30"
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "17"
                   }
                 ]
               }
@@ -1080,6 +1264,12 @@
                     ],
                     "criticalHoldDelay": "6",
                     "stunDurationMax": "39"
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "12"
                   }
                 ]
               }
@@ -1106,6 +1296,12 @@
                         ],
                         "criticalHoldDelay": "6",
                         "stunDurationMax": "30"
+                      },
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "20"
                       }
                     ]
                   }
@@ -1134,6 +1330,12 @@
                     ],
                     "criticalHoldDelay": "6",
                     "stunDurationMax": "30"
+                  },
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "20"
                   }
                 ]
               }
@@ -1151,7 +1353,15 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.63
+                "reach": 1.63,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "10"
+                  }
+                ]
               }
             ],
             "endsWith": "BND",
@@ -1168,7 +1378,15 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.28
+                    "reach": 1.28,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "24"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BND",
@@ -1194,7 +1412,15 @@
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": true,
-                        "reach": 1.82
+                        "reach": 1.82,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "17"
+                          }
+                        ]
                       }
                     ],
                     "followUps": [
@@ -1214,7 +1440,15 @@
                             "actionMask": "mid K",
                             "actionType": "strike",
                             "isTracking": true,
-                            "reach": 1.96
+                            "reach": 1.96,
+                            "results": [
+                              {
+                                "condition": [
+                                  "block"
+                                ],
+                                "hitBlock": "9"
+                              }
+                            ]
                           }
                         ],
                         "followUps": [
@@ -1240,7 +1474,15 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.88
+                    "reach": 1.88,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "14"
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -1259,6 +1501,14 @@
                         "reach": 1.6,
                         "tags": [
                           "ground attack"
+                        ],
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "13"
+                          }
                         ]
                       }
                     ]
@@ -1280,6 +1530,14 @@
                     "reach": 1.46,
                     "tags": [
                       "ground attack"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "16"
+                      }
                     ]
                   }
                 ],
@@ -1297,7 +1555,15 @@
                         "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": false,
-                        "reach": 1.36
+                        "reach": 1.36,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "19"
+                          }
+                        ]
                       }
                     ],
                     "endsWith": "BND"
@@ -1318,7 +1584,15 @@
                 "actionMask": "high K",
                 "actionType": "jump attack",
                 "isTracking": false,
-                "reach": 1.73
+                "reach": 1.73,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "10"
+                  }
+                ]
               }
             ],
             "endsWith": "BND"
@@ -1335,7 +1609,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.69
+                "reach": 1.69,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "14"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1354,6 +1636,14 @@
                     "reach": 1.6,
                     "tags": [
                       "ground attack"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "13"
+                      }
                     ]
                   }
                 ]
@@ -1375,6 +1665,14 @@
                 "reach": 2.33,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "11"
+                  }
                 ]
               }
             ],
@@ -1394,6 +1692,14 @@
                     "reach": 1.81,
                     "tags": [
                       "ground attack"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "10"
+                      }
                     ]
                   }
                 ],
@@ -1413,7 +1719,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.72
+                "reach": 1.72,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "15"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1429,7 +1743,15 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.58
+                    "reach": 1.58,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "9"
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -1456,7 +1778,15 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.84
+                    "reach": 1.84,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "10"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BND"
@@ -1475,7 +1805,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.74
+                "reach": 1.74,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "8"
+                  }
+                ]
               }
             ],
             "endsWith": "BND",
@@ -1492,7 +1830,15 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.48
+                    "reach": 1.48,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "20"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BND"
@@ -1511,7 +1857,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.92
+                "reach": 1.92,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "10"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1527,7 +1881,15 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.38
+                    "reach": 1.38,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "20"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BND"
@@ -1544,7 +1906,15 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": true,
-                    "reach": 2.14
+                    "reach": 2.14,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "9"
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -1569,6 +1939,14 @@
                     "reach": 1.67,
                     "tags": [
                       "ground attack"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "17"
+                      }
                     ]
                   }
                 ],
@@ -1586,7 +1964,15 @@
                         "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": false,
-                        "reach": 1.36
+                        "reach": 1.36,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "19"
+                          }
+                        ]
                       }
                     ],
                     "endsWith": "BND"
@@ -1610,6 +1996,14 @@
                 "reach": 1.54,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "13"
+                  }
                 ]
               }
             ],
@@ -1626,7 +2020,15 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.93
+                    "reach": 1.93,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "14"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1645,6 +2047,14 @@
                     "reach": 1.9,
                     "tags": [
                       "ground attack"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "11"
+                      }
                     ]
                   }
                 ]
@@ -1666,6 +2076,14 @@
                 "reach": 1.43,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "17"
+                  }
                 ]
               }
             ],
@@ -1683,7 +2101,15 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.36
+                    "reach": 1.36,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "19"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BND"
@@ -1702,7 +2128,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 2.49
+                "reach": 2.49,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "10"
+                  }
+                ]
               }
             ]
           },
@@ -1718,7 +2152,15 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 2
+                "reach": 2,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "20"
+                  }
+                ]
               }
             ],
             "endsWith": "BT"
@@ -1735,7 +2177,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.95
+                "reach": 1.95,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "14"
+                  }
+                ]
               }
             ]
           },
@@ -1751,7 +2201,15 @@
                 "actionMask": "high K",
                 "actionType": "jump attack",
                 "isTracking": false,
-                "reach": 3.64
+                "reach": 3.64,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "35"
+                  }
+                ]
               }
             ],
             "endsWith": "BND"
@@ -1770,6 +2228,14 @@
                 "reach": 2.35,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "22"
+                  }
                 ]
               }
             ]
@@ -1786,7 +2252,18 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 2.29
+                "reach": 2.29,
+                "tags": [
+                  "critical burst"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "20"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1802,7 +2279,15 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.61
+                    "reach": 1.61,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "11"
+                      }
+                    ]
                   }
                 ]
               }
@@ -1847,7 +2332,18 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 2.26
+                "reach": 2.26,
+                "tags": [
+                  "power blow"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "31"
+                  }
+                ]
               }
             ]
           },
@@ -1863,7 +2359,15 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.95
+                "reach": 1.95,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "12"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1879,7 +2383,18 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": true,
-                    "reach": 1.84
+                    "reach": 1.84,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "30",
+                        "tags": [
+                          "guard break"
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
@@ -1898,6 +2413,14 @@
                     "reach": 1.63,
                     "tags": [
                       "ground attack"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "11"
+                      }
                     ]
                   }
                 ]
@@ -1918,7 +2441,15 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.92
+                "reach": 1.92,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "11"
+                  }
+                ]
               },
               {
                 "actionMask": "high K",
@@ -1943,6 +2474,14 @@
                 "reach": 1.63,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "13"
+                  }
                 ]
               }
             ]
@@ -1962,6 +2501,14 @@
                 "reach": 1.83,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "11"
+                  }
                 ]
               }
             ]
@@ -1978,7 +2525,18 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.24
+                "reach": 1.24,
+                "tags": [
+                  "power launcher"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "25"
+                  }
+                ]
               }
             ]
           },
@@ -2149,7 +2707,15 @@
                 "actionMask": "high P",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.4
+                "reach": 1.4,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "15"
+                  }
+                ]
               }
             ]
           },
@@ -2168,7 +2734,15 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.62
+                "reach": 1.62,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "23"
+                  }
+                ]
               }
             ],
             "endsWith": "BT"
@@ -2188,7 +2762,15 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.68
+                "reach": 1.68,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "15"
+                  }
+                ]
               }
             ]
           },
@@ -2210,6 +2792,14 @@
                 "reach": 1.63,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "11"
+                  }
                 ]
               }
             ]
@@ -2229,7 +2819,15 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.82
+                "reach": 1.82,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "9"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -2245,7 +2843,18 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": true,
-                    "reach": 1.84
+                    "reach": 1.84,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "35",
+                        "tags": [
+                          "guard break"
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
@@ -2264,6 +2873,14 @@
                     "reach": 1.63,
                     "tags": [
                       "ground attack"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "11"
+                      }
                     ]
                   }
                 ]
@@ -2285,7 +2902,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 2.1
+                "reach": 2.1,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "23"
+                  }
+                ]
               }
             ]
           },
@@ -2307,6 +2932,14 @@
                 "reach": 1.63,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "21"
+                  }
                 ]
               }
             ]
@@ -2338,8 +2971,36 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 2.29
+                "reach": 2.29,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "11"
+                  }
+                ]
               }
+            ]
+          },
+          {
+            "input": "88",
+            "frameData": [
+              0,
+              0,
+              24
+            ],
+            "endsWith": "SS"
+          },
+          {
+            "input": "44",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              15,
+              0,
+              0
             ]
           }
         ]
@@ -2359,7 +3020,15 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.83
+                "reach": 1.83,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "16"
+                  }
+                ]
               }
             ]
           },
@@ -2375,7 +3044,15 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.9
+                "reach": 1.9,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "12"
+                  }
+                ]
               }
             ]
           }
@@ -2396,7 +3073,15 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.79
+                "reach": 1.79,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "17"
+                  }
+                ]
               }
             ]
           },
@@ -2412,7 +3097,15 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.43
+                "reach": 1.43,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "15"
+                  }
+                ]
               }
             ],
             "endsWith": "BND",
@@ -2429,7 +3122,15 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.14
+                    "reach": 1.14,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "20"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BND",
@@ -2446,7 +3147,15 @@
                         "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": true,
-                        "reach": 1.74
+                        "reach": 1.74,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "12"
+                          }
+                        ]
                       }
                     ],
                     "followUps": [
@@ -2473,7 +3182,15 @@
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": false,
-                        "reach": 1.95
+                        "reach": 1.95,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "11"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -2496,6 +3213,14 @@
                 "reach": 1.95,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "12"
+                  }
                 ]
               }
             ]
@@ -2539,7 +3264,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.92
+                "reach": 1.92,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "18"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -2561,7 +3294,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.51
+                "reach": 1.51,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "8"
+                  }
+                ]
               }
             ],
             "endsWith": "BND",
@@ -2578,7 +3319,15 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.48
+                    "reach": 1.48,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "20"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BND"
@@ -2597,7 +3346,15 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.83
+                "reach": 1.83,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "14"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -2617,7 +3374,15 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": true,
-                    "reach": 1.96
+                    "reach": 1.96,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "9"
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -2644,6 +3409,14 @@
                 "reach": 1.57,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "17"
+                  }
                 ]
               }
             ],
@@ -2661,7 +3434,15 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 1.36
+                    "reach": 1.36,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "19"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BND"
@@ -2680,7 +3461,18 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.61
+                "reach": 1.61,
+                "tags": [
+                  "critical burst"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "20"
+                  }
+                ]
               }
             ]
           },
@@ -2705,7 +3497,15 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 2.14
+                "reach": 2.14,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "12"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -2721,7 +3521,18 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": true,
-                    "reach": 1.84
+                    "reach": 1.84,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "30",
+                        "tags": [
+                          "guard break"
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
@@ -2740,6 +3551,14 @@
                     "reach": 1.63,
                     "tags": [
                       "ground attack"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "11"
+                      }
                     ]
                   }
                 ]
@@ -2760,7 +3579,15 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.84
+                "reach": 1.84,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "19"
+                  }
+                ]
               },
               {
                 "actionMask": "mid K",
@@ -2783,7 +3610,15 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "reach": 2.04
+                    "reach": 2.04,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "12"
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BT"
@@ -2802,7 +3637,18 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 2.23
+                "reach": 2.23,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "30",
+                    "tags": [
+                      "guard break"
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -2821,6 +3667,14 @@
                 "reach": 2.16,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "10"
+                  }
                 ]
               }
             ]
@@ -2953,23 +3807,49 @@
         "moves": [
           {
             "input": "P",
+            "frameData": [
+              21,
+              2,
+              19
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.39
+                "reach": 1.39,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "15"
+                  }
+                ]
               }
             ]
           },
           {
             "input": "K",
+            "frameData": [
+              18,
+              3,
+              23
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.04
+                "reach": 1.04,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "14"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -2985,7 +3865,15 @@
                     "actionMask": "high K",
                     "actionType": "jump attack",
                     "isTracking": true,
-                    "reach": 1.6
+                    "reach": 1.6,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "6"
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -3001,7 +3889,15 @@
                         "actionMask": "high K",
                         "actionType": "jump attack",
                         "isTracking": true,
-                        "reach": 1.69
+                        "reach": 1.69,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "22"
+                          }
+                        ]
                       }
                     ]
                   },
@@ -3017,7 +3913,15 @@
                         "actionMask": "mid K",
                         "actionType": "jump attack",
                         "isTracking": false,
-                        "reach": 1.5
+                        "reach": 1.5,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "13"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -3035,7 +3939,18 @@
                     "actionMask": "high K",
                     "actionType": "jump attack",
                     "isTracking": true,
-                    "reach": 1.91
+                    "reach": 1.91,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "35",
+                        "tags": [
+                          "guard break"
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -3043,12 +3958,25 @@
           },
           {
             "input": "6K",
+            "frameData": [
+              24,
+              4,
+              20
+            ],
             "actionSteps": [
               {
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.83
+                "reach": 1.83,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "9"
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -3064,7 +3992,15 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": true,
-                    "reach": 2.68
+                    "reach": 2.68,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "9"
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -3080,7 +4016,15 @@
                         "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": true,
-                        "reach": 2.68
+                        "reach": 2.68,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "8"
+                          }
+                        ]
                       }
                     ]
                   },
@@ -3096,7 +4040,15 @@
                         "actionMask": "high K",
                         "actionType": "jump attack",
                         "isTracking": true,
-                        "reach": 2.94
+                        "reach": 2.94,
+                        "results": [
+                          {
+                            "condition": [
+                              "block"
+                            ],
+                            "hitBlock": "11"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -3114,7 +4066,15 @@
                     "actionMask": "high K",
                     "actionType": "jump attack",
                     "isTracking": true,
-                    "reach": 2.94
+                    "reach": 2.94,
+                    "results": [
+                      {
+                        "condition": [
+                          "block"
+                        ],
+                        "hitBlock": "11"
+                      }
+                    ]
                   }
                 ]
               }
@@ -3122,6 +4082,11 @@
           },
           {
             "input": "2K",
+            "frameData": [
+              26,
+              2,
+              29
+            ],
             "actionSteps": [
               {
                 "actionMask": "low K",
@@ -3130,29 +4095,66 @@
                 "reach": 1.76,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "21"
+                  }
                 ]
               }
             ]
           },
           {
             "input": "H+K",
+            "frameData": [
+              37,
+              4,
+              13
+            ],
             "actionSteps": [
               {
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.83
+                "reach": 1.83,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "11"
+                  }
+                ]
               }
             ]
           },
           {
             "input": "6H+K",
+            "frameData": [
+              36,
+              4,
+              29
+            ],
             "actionSteps": [
               {
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 2.18
+                "reach": 2.18,
+                "results": [
+                  {
+                    "condition": [
+                      "block"
+                    ],
+                    "hitBlock": "36",
+                    "tags": [
+                      "guard break"
+                    ]
+                  }
+                ]
               }
             ]
           }
