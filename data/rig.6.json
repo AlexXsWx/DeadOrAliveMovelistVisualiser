@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1473539678095
+    "timeSaved": 1473609388506
   },
   "body": {
     "character": "rig",
@@ -100,9 +100,9 @@
                   {
                     "input": "4",
                     "frameData": [
+                      13,
                       0,
-                      0,
-                      33
+                      22
                     ],
                     "endsWith": "TLC"
                   },
@@ -1394,9 +1394,9 @@
                   {
                     "input": "4",
                     "frameData": [
+                      20,
                       0,
-                      0,
-                      38
+                      20
                     ],
                     "endsWith": "TLC"
                   },
@@ -1758,9 +1758,9 @@
                   {
                     "input": "4",
                     "frameData": [
+                      15,
                       0,
-                      0,
-                      30
+                      20
                     ],
                     "endsWith": "TLC"
                   }
@@ -2296,9 +2296,9 @@
           {
             "input": "6P+K",
             "frameData": [
-              23,
+              15,
               0,
-              12
+              20
             ],
             "endsWith": "TLC"
           },
@@ -2950,9 +2950,9 @@
               "BT"
             ],
             "frameData": [
+              15,
               0,
-              0,
-              38
+              23
             ],
             "endsWith": "TLC"
           },
@@ -3162,9 +3162,9 @@
                       {
                         "input": "4",
                         "frameData": [
+                          27,
                           0,
-                          0,
-                          40
+                          20
                         ],
                         "endsWith": "TLC"
                       }
@@ -3228,7 +3228,7 @@
           {
             "input": "7K",
             "frameData": [
-              43,
+              21,
               3,
               21
             ],
@@ -3479,9 +3479,9 @@
           {
             "input": "6P+K",
             "frameData": [
+              20,
               0,
-              0,
-              39
+              15
             ],
             "endsWith": "TLC"
           },
@@ -3808,7 +3808,7 @@
           {
             "input": "P",
             "frameData": [
-              21,
+              6,
               2,
               19
             ],
@@ -3832,7 +3832,7 @@
           {
             "input": "K",
             "frameData": [
-              18,
+              3,
               3,
               23
             ],
@@ -3959,7 +3959,7 @@
           {
             "input": "6K",
             "frameData": [
-              24,
+              9,
               4,
               20
             ],
@@ -4083,7 +4083,7 @@
           {
             "input": "2K",
             "frameData": [
-              26,
+              11,
               2,
               29
             ],
@@ -4110,7 +4110,7 @@
           {
             "input": "H+K",
             "frameData": [
-              37,
+              22,
               4,
               13
             ],
@@ -4134,7 +4134,7 @@
           {
             "input": "6H+K",
             "frameData": [
-              36,
+              21,
               4,
               29
             ],
