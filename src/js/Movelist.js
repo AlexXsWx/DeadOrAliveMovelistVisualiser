@@ -23,6 +23,8 @@ define(
         // automatic + by (hk)
         // fixme: guess action type/mask for just created nodes
 
+        // auofocus on action step result "blockhit" hapens instead of "frame data"
+
         // ==== Constants ====
 
             var PADDING = 50;
@@ -61,7 +63,8 @@ define(
 
         var EXAMPLE_URLS = {
             rig:   exampleBaseUrl + 'master/data/rig.6.json',
-            jacky: exampleBaseUrl + 'alpha/data/jacky.json'
+            jacky: exampleBaseUrl + 'alpha/data/jacky.json',
+            mai:   exampleBaseUrl + 'master/data/mai.json'
         };
 
         return { init: init };
@@ -95,7 +98,10 @@ define(
                 // FIXME
                 if (window.location.hash.toLowerCase() === '#example-jacky') {
                     NodeSerializer.deserializeFromUrl(EXAMPLE_URLS.jacky, onDataDeserialized);
-                } else                
+                } else
+                if (window.location.hash.toLowerCase() === '#example-mai') {
+                    NodeSerializer.deserializeFromUrl(EXAMPLE_URLS.mai, onDataDeserialized);
+                } else
                 if (window.location.hash.toLowerCase() === '#example') {
                     NodeSerializer.deserializeFromUrl(EXAMPLE_URLS.rig, onDataDeserialized);
                 }
