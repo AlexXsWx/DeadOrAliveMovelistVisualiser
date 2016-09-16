@@ -118,7 +118,7 @@ define(
 
             var nodeView = nodeSvgView.nodeView;
             var children = NodeView.getVisibleChildren(nodeView);
-            if (children && children.length > 0) {
+            if (children.length > 0) {
                 var firstChild = children[0];
                 var childId = NodeView.getId(firstChild);
                 if (visibleNodesSvgViews.hasOwnProperty(childId)) {
@@ -127,7 +127,7 @@ define(
             } else {
                 // FIXME: this doesn't belong here
                 children = NodeView.getHiddenChildren(nodeView);
-                if (children && children.length > 0) {
+                if (children.length > 0) {
                     toggleChildren(nodeSvgView);
                 }
             }
@@ -143,7 +143,7 @@ define(
             var visibleNodesSvgViews = getVisibleNodesSvgViews();
 
             var nodeView = nodeSvgView.nodeView;
-            var parent = NodeView.getParentView(nodeView);
+            var parent = NodeView.getParentNodeView(nodeView);
             if (!parent) return;
             var children = NodeView.getVisibleChildren(parent);
             var selfIndex = children.indexOf(nodeView);
@@ -181,7 +181,7 @@ define(
             var visibleNodesSvgViews = getVisibleNodesSvgViews();
 
             var nodeView = nodeSvgView.nodeView;
-            var parent = NodeView.getParentView(nodeView);
+            var parent = NodeView.getParentNodeView(nodeView);
             if (!parent) return;
             var parentId = NodeView.getId(parent);
             if (visibleNodesSvgViews.hasOwnProperty(parentId)) {

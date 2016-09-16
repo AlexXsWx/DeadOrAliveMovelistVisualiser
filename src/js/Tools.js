@@ -93,14 +93,18 @@ define('Tools', function() {
         return !!obj;
     }
 
+    // TODO: revisit names
     /** overwrites values of `target`'s keys with corresponding values `source`, if provided */
     function defaults(source, target) {
         if (!source || !isObject(source)) return target;
         Object.getOwnPropertyNames(target).forEach(function(propName) {
             target[propName] = defined(source[propName], target[propName]);
         });
-        // TODO: rename
-        // TODO: show warning if source has a key that target doesn't
+        for (key in source) {
+            if (!(key in target)) {
+                console.warn('Target doesn\'t have key that source has: "%s"', key);
+            }
+        }
         return target;
     }
 

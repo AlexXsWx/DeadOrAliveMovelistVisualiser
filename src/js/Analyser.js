@@ -17,10 +17,9 @@ define('Analyser', ['Filter', 'Tools'], function Analyser(Filter, _) {
     }
 
     function findForceTechMoves(rootNodeData) {
-        // FIXME: no prompts
         var advantage = +prompt('Your advantage (frames): e.g. "51"');
         if (advantage) {
-            var result = Filter.findNodes(rootNodeData, advantage, canMoveForceTech);
+            var result = Filter.findNodes(rootNodeData, advantage + 1, canMoveForceTech);
             _.setTextContent(domCache.filterOutput, advantage + 'f:\n' + result);
             _.showDomElement(domCache.popupFilterResult);
         }

@@ -6,11 +6,12 @@ define(
         'EditorGroups/EditorGroup',
         'EditorGroups/EditorCreatorBase',
         'NodeFactory',
+        'NodeView',
         'Strings',
         'Tools'
     ],
 
-    function EditorGroupStanceCreator(EditorGroup, EditorCreatorBase, NodeFactory, Strings, _) {
+    function EditorGroupStanceCreator(EditorGroup, EditorCreatorBase, NodeFactory, NodeView, Strings, _) {
 
         return { create: create };
 
@@ -66,7 +67,7 @@ define(
                 // FIXME: consider differences between matching nodes
 
                 var nodeView = editorGroup.matchingSelectedViews[0];
-                var nodeData = nodeView.binding.targetDataNode;
+                var nodeData = NodeView.getNodeData(nodeView);
 
                 editorGroup2.fill(nodeData, keepActiveSummaryContent);
 

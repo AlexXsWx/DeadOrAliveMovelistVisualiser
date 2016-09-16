@@ -18,13 +18,6 @@ define(
         KeyCodes, TreeTools, GithubStuff, _
     ) {
 
-        // fixme: realtime group reassigning
-
-        // automatic + by (hk)
-        // fixme: guess action type/mask for just created nodes
-
-        // auofocus on action step result "blockhit" hapens instead of "frame data"
-
         // ==== Constants ====
 
             var PADDING = 50;
@@ -55,6 +48,7 @@ define(
 
         // ===================
 
+
         return { init: init };
 
 
@@ -69,7 +63,7 @@ define(
                     return visibleNodesSvgViews;
                 }, toggleChildren);
 
-                nodeViewGenerator = NodeView.createGenerators();
+                nodeViewGenerator = NodeView.createNodeViewGenerator();
                 NodeSvgView.onNodeClick.addListener(onClickNodeView);
                 NodeSvgView.onNodeToggleChildren.addListener(onDoubleClickNodeView);
 
@@ -308,7 +302,7 @@ define(
                 _.getDomElement('filterShowTracking').addEventListener('click',
                     function showTrackingMoves(optEvent) {
                         showOnlyNodesThatMatch(function(nodeView) {
-                            var nodeData = nodeView.binding.targetDataNode;
+                            var nodeData = NodeView.getNodeData(nodeView);
                             if (nodeData && NodeFactory.isMoveNode(nodeData)) {
                                 var someTracking = nodeData.actionSteps.some(
                                     function(actionStep) { return actionStep.isTracking; }
@@ -323,7 +317,7 @@ define(
                 _.getDomElement('filterShowTrackingMidKicks').addEventListener('click',
                     function showTrackingMidKicks(optEvent) {
                         showOnlyNodesThatMatch(function(nodeView) {
-                            return Filter.isTrackingMidKickNode(nodeView.binding.targetDataNode);
+                            return Filter.isTrackingMidKickNode(NodeView.getNodeData(nodeView));
                         });
                     }
                 );
@@ -331,7 +325,7 @@ define(
                 _.getDomElement('filterShowGroundAttacks').addEventListener('click',
                     function showGroundAttacks(optEvent) {
                         showOnlyNodesThatMatch(function(nodeView) {
-                            return Filter.isGroundAttackNode(nodeView.binding.targetDataNode);
+                            return Filter.isGroundAttackNode(NodeView.getNodeData(nodeView));
                         });
                     }
                 );
@@ -430,7 +424,7 @@ define(
                 );
 
                 nodeSvgViewsToHide.forEach(function(nodeSvgView) {
-                    var parentView = NodeView.getParentView(nodeSvgView.nodeView);
+                    var parentView = NodeView.getParentNodeView(nodeSvgView.nodeView);
                     while (parentView) {
                         var parentId = NodeView.getId(parentView);
                         if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
@@ -439,7 +433,7 @@ define(
                             nodeSvgView.destroy(position.x, position.y);
                             return;
                         }
-                        parentView = NodeView.getParentView(parentView);
+                        parentView = NodeView.getParentNodeView(parentView);
                     }
                 });
 
@@ -471,7 +465,7 @@ define(
             }
 
             function reversedDepthUpdateNodeViewIteration(nodeView, index, array) {
-                var parentAppearance = NodeView.getParentView(nodeView).appearance;
+                var parentAppearance = NodeView.getParentNodeView(nodeView).appearance;
                 parentAppearance.branchesAfter += Math.max(1, nodeView.appearance.branchesAfter);
                 parentAppearance.totalChildren += 1 + NodeView.getAllChildren(nodeView).length;
                 parentAppearance.deepness = Math.max(
@@ -504,7 +498,7 @@ define(
                     canvas.nodesParent.appendChild(nodeSvgView.wrapper);
                     visibleNodesSvgViews[id] = nodeSvgView;
 
-                    var parentView = NodeView.getParentView(nodeSvgView.nodeView);
+                    var parentView = NodeView.getParentNodeView(nodeSvgView.nodeView);
                     while (parentView) {
                         var parentId = NodeView.getId(parentView);
                         if (idsSvgVisibleBeforeUpdate.hasOwnProperty(parentId)) {
@@ -513,7 +507,7 @@ define(
                             nodeSvgView.animate(position.x, position.y, position.x, position.y, 0);
                             break;
                         }
-                        parentView = NodeView.getParentView(parentView);
+                        parentView = NodeView.getParentNodeView(parentView);
                     }
                 }
 
@@ -581,7 +575,7 @@ define(
                         NodeView.getVisibleChildren(nodeView).length > 0 ||
                         nodeViewsToShow.indexOf(nodeView) >= 0
                     ) {
-                        NodeView.showChild(NodeView.getParentView(nodeView), nodeView);
+                        NodeView.showChild(NodeView.getParentNodeView(nodeView), nodeView);
                     }
                 }
             }

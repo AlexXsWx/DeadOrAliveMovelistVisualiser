@@ -94,7 +94,7 @@ define(
 
             var changed = false;
 
-            var nodeData = nodeView.binding.targetDataNode;
+            var nodeData = NodeView.getNodeData(nodeView);
             changed = changeAction(nodeData);
 
             var update = {
@@ -119,8 +119,8 @@ define(
             if (!selectedSVGNode) return;
 
             var nodeView = selectedSVGNode.nodeView;
-            var nodeData = nodeView.binding.targetDataNode;
-            var parentNodeView = NodeView.getParentView(nodeView);
+            var nodeData = NodeView.getNodeData(nodeView);
+            var parentNodeView = NodeView.getParentNodeView(nodeView);
 
             if (
                 // TODO: or allow deleting placeholders?..
@@ -129,7 +129,7 @@ define(
                 parentNodeView
             ) {
 
-                var firstParentData = NodeView.getParentDataView(nodeView);
+                var firstParentData = NodeView.findAncestorNodeData(nodeView);
 
                 if (firstParentData) {
                     var success = false;
@@ -189,7 +189,7 @@ define(
             if (!selectedSVGNode) return;
 
             var nodeView = selectedSVGNode.nodeView;
-            var parentView = NodeView.getParentView(nodeView);
+            var parentView = NodeView.getParentNodeView(nodeView);
 
             if (!parentView) return;
 
@@ -205,8 +205,8 @@ define(
 
             if (NodeView.isGroupingNodeView(nodeView)) return;
 
-            var nodeData = nodeView.binding.targetDataNode;
-            var parentData = NodeView.getParentDataView(nodeView);
+            var nodeData = NodeView.getNodeData(nodeView);
+            var parentData = NodeView.findAncestorNodeData(nodeView);
             var children = NodeFactory.getChildren(parentData);
             if (children) _.moveArrayElement(children, nodeData, delta);
 
@@ -220,14 +220,14 @@ define(
             var newNodes = [];
             var placeholderNodeView;
 
-            var parentView = NodeView.getParentView(nodeView);
+            var parentView = NodeView.getParentNodeView(nodeView);
 
             placeholderNodeView = addPlaceholderNode(parentView, true);
             newNodes.push(placeholderNodeView);
 
             // turn node from placeholder to actual node
 
-            nodeView.binding.isPlaceholder = false;
+            NodeView.setIsPlaceholder(nodeView, false);
 
             addNodeDataToParentData(nodeView);
 
@@ -240,8 +240,8 @@ define(
 
 
         function addNodeDataToParentData(nodeView) {
-            var nodeData = nodeView.binding.targetDataNode;
-            var parentData = NodeView.getParentDataView(nodeView);
+            var nodeData = NodeView.getNodeData(nodeView);
+            var parentData = NodeView.findAncestorNodeData(nodeView);
             var children = NodeFactory.getChildren(parentData);
             if (children) children.push(nodeData);
         }
@@ -275,7 +275,7 @@ define(
                 function(nodeView) {
                     if (NodeView.isPlaceholder(nodeView)) {
                         removedNodes.push(nodeView);
-                        NodeView.removeChild(NodeView.getParentView(nodeView), nodeView)
+                        NodeView.removeChild(NodeView.getParentNodeView(nodeView), nodeView)
                     }
                 }
             );
@@ -286,20 +286,20 @@ define(
 
 
         function addPlaceholderNode(parent, isEditorElement) {
-            var placeholderNode;
-            var parentIsRoot = !NodeView.getParentView(parent);
+            var placeholderNodeView;
+            var parentIsRoot = !NodeView.getParentNodeView(parent);
             if (parentIsRoot) {
-                placeholderNode = nodeDataGenerator.generateGroup();
+                placeholderNodeView = nodeDataGenerator();
                 var nodeData = NodeFactory.createStanceNode();
-                NodeView.setBinding(placeholderNode, nodeData);
+                NodeView.setNodeData(placeholderNodeView, nodeData);
             } else {
-                placeholderNode = nodeDataGenerator.generateNode();
+                placeholderNodeView = nodeDataGenerator();
                 var nodeData = NodeFactory.createMoveNode();
-                NodeView.setBinding(placeholderNode, nodeData);
+                NodeView.setNodeData(placeholderNodeView, nodeData);
             }
-            placeholderNode.binding.isPlaceholder = isEditorElement;
-            NodeView.addChild(parent, placeholderNode);
-            return placeholderNode;
+            NodeView.setIsPlaceholder(placeholderNodeView, isEditorElement);
+            NodeView.addChild(parent, placeholderNodeView);
+            return placeholderNodeView;
         }
 
 
@@ -316,7 +316,7 @@ define(
             // update to new one
             for (var i = 0; i < selectedNodeViewDomElements.length; ++i) {
                 var nodeView = selectedNodeViewDomElements[i].nodeView;
-                var nodeData = nodeView.binding.targetDataNode;
+                var nodeData = NodeView.getNodeData(nodeView);
                 for (var j = 0; j < editorGroups.length; ++j) {
                     var editorGroup = editorGroups[j];
                     if (editorGroup.filter(nodeData)) {

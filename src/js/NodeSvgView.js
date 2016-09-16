@@ -20,7 +20,7 @@ define(
 
         var TEXT_GETTER_OPTIONS = [
             NodeSvgViewTexts.getEmptyText,
-            NodeSvgViewTexts.getTextRight,
+            NodeSvgViewTexts.getTextEnding,
             NodeSvgViewTexts.getTextDuration,
             NodeSvgViewTexts.getCooldown,
             NodeSvgViewTexts.getSafety,
@@ -114,15 +114,19 @@ define(
             createDomNodes();
 
             var nodeSvgView = {
-                nodeView:             nodeView,
-                wrapper:              wrapper,
-                link:                 link,
+
+                nodeView: nodeView,
+
+                wrapper: wrapper,
+                link:    link,
+
                 animate:              animate,
                 getPositionTarget:    getPositionTarget,
                 getPositionStart:     getPositionStart,
                 updateLinkThickness:  updateLinkThickness,
                 updateByData:         updateByData,
-                destroy:              destroy
+
+                destroy: destroy
             };
 
             return nodeSvgView;
@@ -190,7 +194,7 @@ define(
             }
 
             function getActualLeftText(nodeView) {
-                var leftText = NodeSvgViewTexts.getTextLeft(nodeView);
+                var leftText = NodeSvgViewTexts.getTextMain(nodeView);
                 if (!flipTextToRight) {
                     return leftText;
                 }
@@ -203,7 +207,7 @@ define(
                 if (!flipTextToRight) {
                     return rightText;
                 }
-                return rightText || NodeSvgViewTexts.getTextLeft(nodeView);
+                return rightText || NodeSvgViewTexts.getTextMain(nodeView);
             }
 
             function updateClassesByData() {
@@ -227,7 +231,7 @@ define(
 
                 function mark(name) { classes[name] = true; }
 
-                var nodeData = nodeView.binding.targetDataNode;
+                var nodeData = NodeView.getNodeData(nodeView);
 
                 if (nodeData && NodeFactory.isMoveNode(nodeData)) {
 
@@ -272,7 +276,7 @@ define(
                 var lowType     = HEIGHT_INDICATOR_TYPE.none;
                 var groundType  = HEIGHT_INDICATOR_TYPE.none;
 
-                var nodeData = nodeView.binding.targetDataNode;
+                var nodeData = NodeView.getNodeData(nodeView);
                 if (nodeData && NodeFactory.isMoveNode(nodeData)) {
 
                     nodeData.actionSteps.forEach(function(actionStep) {

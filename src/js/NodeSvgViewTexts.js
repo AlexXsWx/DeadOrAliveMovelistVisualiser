@@ -13,10 +13,11 @@ define(
         return {
 
             getTextToggle: getTextToggle,
-            getTextLeft:  getTextLeft,
+
+            getTextMain: getTextMain,
 
             getEmptyText:    getEmptyText,
-            getTextRight:    getTextRight,
+            getTextEnding:   getTextEnding,
             getTextDuration: getTextDuration,
             getCooldown:     getCooldown,
             getSafety:       getSafety,
@@ -37,16 +38,16 @@ define(
 
         }
 
-        function getTextLeft(nodeView) {
+        function getTextMain(nodeView) {
             return NodeView.getName(nodeView) || '<unnamed>';
         }
 
-        function getTextRight(nodeView) {
+        function getTextEnding(nodeView) {
             return NodeView.getEnding(nodeView) || '';
         }
 
         function getTextDuration(nodeView) {
-            var nodeData = nodeView.binding.targetDataNode;
+            var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
             var frameData = nodeData.frameData;
             if (!frameData || frameData.length === 0) return '';
@@ -64,7 +65,7 @@ define(
         }
 
         function getCooldown(nodeView) {
-            var nodeData = nodeView.binding.targetDataNode;
+            var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
             var frameData = nodeData.frameData;
             if (!frameData || frameData.length === 0) return '';
@@ -74,7 +75,7 @@ define(
         }
 
         function getSafety(nodeView) {
-            var nodeData = nodeView.binding.targetDataNode;
+            var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
             var frameData = nodeData.frameData;
             if (!frameData || frameData.length === 0) return '';
@@ -99,7 +100,7 @@ define(
         }
 
         function getReach(nodeView) {
-            var nodeData = nodeView.binding.targetDataNode;
+            var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData || !nodeData.actionSteps) return '';
             var max = -Infinity;
             for (var i = 0; i < nodeData.actionSteps.length; ++i) {

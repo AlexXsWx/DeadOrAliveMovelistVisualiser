@@ -55,9 +55,7 @@ define(
 
         }
 
-        // TODO: clean up
         function deserializeFromUrl(url, onDataReady) {
-
             Request.getJSON(url).then(
                 function(parsedJson) {
                     var sparseData = importJson(parsedJson);

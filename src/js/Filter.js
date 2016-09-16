@@ -40,39 +40,48 @@ define(
             return false
         }
 
-        function findNodes(rootNodeData, advantage, filter, optPath, optStance) {
+        function findNodes(
+            rootNodeData,
+            frameToBeActiveOn,
+            doesNodeDataQualify,
+            optCurrentStance,
+            optCurrentParentPath
+        ) {
 
-            var path = optPath || [rootNodeData];
-            var stance = optStance || 'STD';
+            var currentParentPath = optCurrentParentPath || [rootNodeData];
+            var stance = optCurrentStance || 'STD';
 
             var result = [];
 
-            NodeFactory.getChildren(path[path.length - 1]).forEach(function(child) {
+            var currentParentData = currentParentPath[currentParentPath.length - 1];
 
-                var freeCancelAdvantage = -1;
-                var followUpAdvantage = advantage;
-                var fullPath = path.concat(child);
+            NodeFactory.getChildren(currentParentData).forEach(function(child) {
+
+                var remainingFramesForFreeCancel = -1;
+                var remainingFramesForFollowUp = frameToBeActiveOn;
+                var childFullPath = currentParentPath.concat(child);
                 var keepLooking = true;
-                var freeCancelStance = null;
+                var stanceOnFreeCancel = null;
 
                 if (NodeFactory.isMoveNode(child)) {
                     var frameData = child.frameData;
                     if (frameData && frameData.length > 0) {
                         var frames = 1;
+                        // FIXME: this only applies to 1st move in string
                         for (var i = 0; i < frameData.length - 1; i += 2) {
                             frames += frameData[i];
                             var activeFrames = frameData[i + 1];
-                            if (frames < advantage && advantage <= frames + activeFrames) {
-                                if (filter(child)) {
-                                    result.push(fullPath);
+                            if (frames < frameToBeActive && frameToBeActive <= frames + activeFrames) {
+                                if (doesNodeDataQualify(child)) {
+                                    result.push(childFullPath);
                                 }
                                 keepLooking = false;
                             }
                             frames += activeFrames;
                         }
-                        followUpAdvantage = advantage - frames;
-                        freeCancelAdvantage = followUpAdvantage - frameData[frameData.length - 1];
-                        freeCancelStance = child.endsWith;
+                        remainingFramesForFollowUp = frameToBeActiven - frames;
+                        remainingFramesForFreeCancel = remainingFramesForFollowUp - frameData[frameData.length - 1];
+                        stanceOnFreeCancel = child.endsWith;
                     } else {
                         keepLooking = false;
                     }
@@ -85,19 +94,25 @@ define(
                 }
 
                 if (keepLooking) {
-                    if (followUpAdvantage > 0) {
-                        result = result.concat(
-                            findNodes(rootNodeData, followUpAdvantage, filter, fullPath)
-                        );
-                    }
-                    if (freeCancelAdvantage > 0) {
+                    if (remainingFramesForFollowUp > 0) {
                         result = result.concat(
                             findNodes(
                                 rootNodeData,
-                                freeCancelAdvantage,
-                                filter,
-                                fullPath.concat(rootNodeData),
-                                freeCancelStance
+                                remainingFramesForFollowUp,
+                                doesNodeDataQualify,
+                                null,
+                                childFullPath
+                            )
+                        );
+                    }
+                    if (remainingFramesForFreeCancel > 0) {
+                        result = result.concat(
+                            findNodes(
+                                rootNodeData,
+                                remainingFramesForFreeCancel,
+                                doesNodeDataQualify,
+                                stanceOnFreeCancel,
+                                childFullPath.concat(rootNodeData)
                             )
                         );
                     }

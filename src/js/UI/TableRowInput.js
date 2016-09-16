@@ -26,7 +26,7 @@ define(
                     'input':   inputListener,
                     'keydown': keyDownListener,
                     'focus':   focusListener,
-                    'blur':    blurListener // FIXME: does it happen twice on enter/escape?
+                    'blur':    blurListener
                 }
             });
             setValue(valueConfirmed);

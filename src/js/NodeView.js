@@ -6,28 +6,19 @@ define(
 
     function NodeView(NodeFactory, TreeTools, _) {
 
-        var RGX = {
-            PUNCH: /^\d*p(?:\+k)?$/i,
-            KICK:  /(?:h\+)?k$/i,
-            HOLD:  /^\d+h$/i,
-            THROW: /^\d*t$/i
-        };
-
-
         return {
 
             groupByType: groupByType,
 
-            createGenerators: createGenerators,
+            createNodeViewGenerator: createNodeViewGenerator,
 
             createViewFromData: createViewFromData,
 
             log: log,
 
-            getParentView:     getParentView,
-            getParentDataView: getParentDataView,
+            getParentNodeView: getParentNodeView,
+            findAncestorNodeData: findAncestorNodeData,
 
-            setChildren:     setChildren,
             addChild:        addChild,
             addVisibleChild: addVisibleChild,
             addHiddenChild:  addHiddenChild,
@@ -48,12 +39,14 @@ define(
             hideAllChildren:       hideAllChildren,
             showAllChildren:       showAllChildren,
 
-            setBinding: setBinding,
+            setNodeData: setNodeData,
+            getNodeData: getNodeData,
 
             getId: getId,
             getName: getName,
             getEnding: getEnding,
 
+            setIsPlaceholder:   setIsPlaceholder,
             isPlaceholder:      isPlaceholder,
             isGroupingNodeView: isGroupingNodeView
 
@@ -91,7 +84,7 @@ define(
                 }
 
                 var type;
-                var nodeData = childNodeView.binding.targetDataNode;
+                var nodeData = getNodeData(childNodeView);
                 switch(true) {
                     case NodeFactory.isMovePunch(nodeData): type = 'punches'; break;
                     case NodeFactory.isMoveKick(nodeData):  type = 'kicks';   break;
@@ -114,7 +107,7 @@ define(
                 var childrenOfType = byType[type];
                 if (childrenOfType.length < 1) continue;
 
-                var groupingChild = nodeViewGenerator.generateGroup();
+                var groupingChild = nodeViewGenerator();
                 groupingChild.binding.groupName = '<' + type + '>';
                 setChildren(groupingChild, childrenOfType);
 
@@ -127,16 +120,20 @@ define(
         }
 
 
-        function setBinding(nodeView, nodeData) {
-            nodeView.binding.targetDataNode = nodeData;
+        function setNodeData(nodeView, nodeData) {
+            nodeView.binding.targetNodeData = nodeData;
+        }
+
+        function getNodeData(nodeView) {
+            return nodeView.binding.targetNodeData;
         }
 
 
-        function createViewFromData(dataRoot, nodeViewGenerators) {
+        function createViewFromData(dataRoot, nodeViewGenerator) {
 
-            var wrappedDataRoot = nodeViewGenerators.generateRoot();
+            var wrappedDataRoot = nodeViewGenerator();
             setChildren(wrappedDataRoot, dataRoot.stances.map(wrapStance));
-            setBinding(wrappedDataRoot, dataRoot);
+            setNodeData(wrappedDataRoot, dataRoot);
 
             // TODO: fill classes and other cached info
 
@@ -144,35 +141,36 @@ define(
 
 
             function wrapStance(stance) {
-                var stanceNode = nodeViewGenerators.generateGroup();
+                var stanceNode = nodeViewGenerator();
                 setChildren(stanceNode, stance.moves.map(wrapMove));
-                setBinding(stanceNode, stance);
+                setNodeData(stanceNode, stance);
                 return stanceNode;
             }
 
 
             function wrapMove(move) {
-                var moveNode = nodeViewGenerators.generateNode();
+                var moveNode = nodeViewGenerator();
                 if (_.isNonEmptyArray(move.followUps)) {
                     setChildren(moveNode, move.followUps.map(wrapMove));
                 }
-                setBinding(moveNode, move);
+                setNodeData(moveNode, move);
                 return moveNode;
             }
 
         }
 
 
-        function createVisualNode(id, parent) {
+        // TODO: move up
+
+        function createNodeView(id, parentNodeView) {
 
             return {
 
+                // Do not reference directly - use getter for whatever you need
                 treeInfo: {
-                    // Note - prefer using getter
                     id: id,
-                    /** NodeView - prefer using getter */
-                    parent: parent || null,
-                    // Note - prefer using accessor methods
+                    /** NodeView */
+                    parent: parentNodeView || null,
                     children: {
                         /** Array<NodeView> */
                         visible: [],
@@ -182,7 +180,6 @@ define(
                 },
 
                 appearance: {
-                    classes: [],
                     // scrollRange: {
                     //     from: undefined,
                     //     to:   undefined
@@ -194,7 +191,7 @@ define(
 
                 binding: {
                     isPlaceholder: undefined, // bool
-                    targetDataNode: null,
+                    targetNodeData: null,
                     groupName: undefined // string
                     // svgNodeView: null
                 }
@@ -205,37 +202,28 @@ define(
 
 
 
-        function createGenerators() {
-
-            var counter = 1;
-
-            return {
-                generateRoot:  generate,
-                generateGroup: generate,
-                generateNode:  generate
+        function createNodeViewGenerator() {
+            var counter = 0;
+            return function generate(parentNodeView) {
+                return createNodeView(counter++, parentNodeView || null);
             };
-
-            function generate(parent) {
-                return createVisualNode(counter++, parent || null);
-            }
-
         }
 
 
 
         /** Can return grouping node views as well */
-        function getParentView(nodeView) {
+        function getParentNodeView(nodeView) {
             return nodeView.treeInfo.parent || null;
         }
 
 
-        /** Skip grouping node views */
-        function getParentDataView(nodeView) {
+        /** Skip ancestors that don't have bound data (grouping nodes view and alike) */
+        function findAncestorNodeData(nodeView) {
             var parentNodeView = nodeView;
             var result = null;
             while (parentNodeView && !result) {
-                var parentNodeView = getParentView(parentNodeView);
-                result = parentNodeView.binding.targetDataNode || null;
+                var parentNodeView = getParentNodeView(parentNodeView);
+                result = getNodeData(parentNodeView) || null;
             }
             return result;
         }
@@ -323,10 +311,11 @@ define(
             }
 
 
-            function showChild(nodeView, childView) {
+            function showChild(nodeView, childNodeView) {
                 var children = nodeView.treeInfo.children;
-                var index = children.hidden.indexOf(childView);
+                var index = children.hidden.indexOf(childNodeView);
                 if (index >= 0) {
+                    // FIXME: append at correct index, in accordance to bound nodeData
                     children.visible = children.visible.concat(
                         children.hidden.splice(index, 1)
                     );
@@ -348,6 +337,7 @@ define(
 
             function showAllChildren(nodeView) {
                 var children = nodeView.treeInfo.children;
+                // FIXME: append at correct index, in accordance to bound nodeData
                 children.visible = children.visible.concat(children.hidden);
                 children.hidden = [];
             }
@@ -362,6 +352,7 @@ define(
                 var children = nodeView.treeInfo.children;
                 var temp = children.hidden;
                 children.hidden = children.visible; // FIXME: unique arrays?
+                // FIXME: sort in accordance to bound nodeData
                 children.visible = temp;
 
                 if (!optReturnIDsBecomeHidden) return;
@@ -401,12 +392,12 @@ define(
 
                     nodesAtIteratedDepth.forEach(function(nodeView) {
 
-                        var parent = getParentView(nodeView);
+                        var parentNodeView = getParentNodeView(nodeView);
                         var visibleChildren = getVisibleChildren(nodeView);
                         var hiddenChildren  = getHiddenChildren(nodeView);
 
                         output.push({
-                            parent: parent && getReadableId(parent),
+                            parentNodeView: parentNodeView && getReadableId(parentNodeView),
                             id:    getId(nodeView),
                             input: getName(nodeView),
                             visibleChildren: childReadableIds(visibleChildren),
@@ -450,27 +441,31 @@ define(
 
 
         function getName(nodeView) {
-            var targetNode = nodeView.binding.targetDataNode;
-            return targetNode ? NodeFactory.toString(targetNode) : nodeView.binding.groupName;
+            var nodeData = getNodeData(nodeView);
+            return nodeData ? NodeFactory.toString(nodeData) : nodeView.binding.groupName;
         }
 
 
         function getEnding(nodeView) {
-            var targetDataNode = nodeView.binding.targetDataNode;
-            var result = targetDataNode && (
-                NodeFactory.isStanceNode(targetDataNode) && targetDataNode.endsWith ||
-                NodeFactory.isMoveNode(targetDataNode)   && targetDataNode.endsWith
+            var nodeData = getNodeData(nodeView);
+            var result = nodeData && (
+                NodeFactory.isStanceNode(nodeData) && nodeData.endsWith ||
+                NodeFactory.isMoveNode(nodeData)   && nodeData.endsWith
             );
             return result || null;
         }
 
+
+        function setIsPlaceholder(nodeView, isPlaceholder) {
+            nodeView.binding.isPlaceholder = isPlaceholder;
+        }
 
         function isPlaceholder(nodeView) {
             return nodeView.binding.isPlaceholder;
         }
 
         function isGroupingNodeView(nodeView) {
-            return !nodeView.binding.targetDataNode;
+            return !getNodeData(nodeView);
         }
 
 
@@ -490,7 +485,7 @@ define(
         //     for (var i = childrenByDepth.length - 1; i > 0; --i) {
         //         var children = childrenByDepth[i];
         //         children.forEach(function(child) {
-        //             var parentSr = getParentView(child).appearance.scrollRange;
+        //             var parentSr = getParentNodeView(child).appearance.scrollRange;
         //             var childSr = child.appearance.scrollRange;
         //             parentSr.from = Math.min(parentSr.from, child.y); // childSr.from);
         //             parentSr.to   = Math.max(parentSr.to,   child.y); // childSr.to);

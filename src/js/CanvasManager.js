@@ -1,4 +1,4 @@
-define('CanvasManager', ['Tools'], function(_) {
+define('CanvasManager', ['Tools'], function CanvasManager(_) {
 
     var SCROLLBAR_SIZE = 20;
 
@@ -54,7 +54,6 @@ define('CanvasManager', ['Tools'], function(_) {
                 ')'
             );
 
-            // FIXME: don't reference document
             var body = document.body;
 
             var width  = totalWidth  + 2 * padding;
@@ -77,7 +76,6 @@ define('CanvasManager', ['Tools'], function(_) {
             // TODO: animate
             var nodeRootRelativeY = nodeSvgView.getPositionTarget().y;
             var nodeCenterDocumentY = nodeRootRelativeY - offsetY + padding;
-            // FIXME: don't reference document
             var body = document.body;
             if (body.scrollTop + padding > nodeCenterDocumentY) {
                 body.scrollTop = nodeCenterDocumentY - padding;

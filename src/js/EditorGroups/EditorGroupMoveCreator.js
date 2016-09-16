@@ -7,6 +7,7 @@ define(
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStep',
         'NodeFactory',
+        'NodeView',
         'Strings',
         'Tools'
     ],
@@ -16,6 +17,7 @@ define(
         EditorCreatorBase,
         MoveActionStep,
         NodeFactory,
+        NodeView,
         Strings,
         _
     ) {
@@ -116,7 +118,7 @@ define(
                 // FIXME: consider differences between matching nodes
 
                 var nodeView = editorGroup.matchingSelectedViews[0];
-                var nodeData = nodeView.binding.targetDataNode;
+                var nodeData = NodeView.getNodeData(nodeView);
 
                 console.assert(!!nodeData, 'nodeData is not expected to be falsy');
 
