@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1474044847928
+    "timeSaved": 1474046639787
   },
   "body": {
     "character": "Mai",
@@ -27,9 +27,25 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "block",
+                      "neutral"
                     ],
                     "hitBlock": "12"
+                  },
+                  {
+                    "condition": [
+                      "counter"
+                    ],
+                    "hitBlock": "15"
+                  },
+                  {
+                    "condition": [
+                      "hi-counter",
+                      "stun"
+                    ],
+                    "criticalHoldDelay": "6",
+                    "stunDurationMin": "50",
+                    "stunDurationMax": "42"
                   }
                 ]
               }
@@ -51,9 +67,25 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "block",
+                          "neutral"
                         ],
                         "hitBlock": "7"
+                      },
+                      {
+                        "condition": [
+                          "counter"
+                        ],
+                        "hitBlock": "16"
+                      },
+                      {
+                        "condition": [
+                          "hi-counter",
+                          "stun"
+                        ],
+                        "criticalHoldDelay": "6",
+                        "stunDurationMin": "42",
+                        "stunDurationMax": "50"
                       }
                     ]
                   }
@@ -75,9 +107,20 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "block",
+                              "neutral"
                             ],
                             "hitBlock": "15"
+                          },
+                          {
+                            "condition": [
+                              "counter",
+                              "hi-counter",
+                              "stun"
+                            ],
+                            "criticalHoldDelay": "14",
+                            "stunDurationMin": "51",
+                            "stunDurationMax": "61"
                           }
                         ]
                       }
@@ -109,6 +152,14 @@
                                   "block"
                                 ],
                                 "hitBlock": "23"
+                              },
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "criticalHoldDelay": "14",
+                                "stunDurationMin": "51",
+                                "stunDurationMax": "61"
                               }
                             ]
                           }
@@ -168,6 +219,22 @@
                                   "block"
                                 ],
                                 "hitBlock": "13"
+                              },
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "criticalHoldDelay": "6",
+                                "stunDurationMin": "33",
+                                "stunDurationMax": "39"
+                              },
+                              {
+                                "condition": [
+                                  "counter"
+                                ],
+                                "criticalHoldDelay": "29",
+                                "stunDurationMin": "38",
+                                "stunDurationMax": "45"
                               }
                             ]
                           }
@@ -194,6 +261,14 @@
                               "block"
                             ],
                             "hitBlock": "13"
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "criticalHoldDelay": "14",
+                            "stunDurationMin": "51",
+                            "stunDurationMax": "61"
                           }
                         ]
                       }
@@ -221,6 +296,22 @@
                               "block"
                             ],
                             "hitBlock": "13"
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "criticalHoldDelay": "6",
+                            "stunDurationMin": "33",
+                            "stunDurationMax": "39"
+                          },
+                          {
+                            "condition": [
+                              "counter"
+                            ],
+                            "criticalHoldDelay": "29",
+                            "stunDurationMin": "38",
+                            "stunDurationMax": "45"
                           }
                         ]
                       }
@@ -247,6 +338,24 @@
                           "block"
                         ],
                         "hitBlock": "14"
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "criticalHoldDelay": "12",
+                        "stunDurationMin": "30",
+                        "stunDurationMax": "35"
+                      },
+                      {
+                        "condition": [
+                          "counter",
+                          "hi-counter",
+                          "stun"
+                        ],
+                        "criticalHoldDelay": "6",
+                        "stunDurationMin": "52",
+                        "stunDurationMax": "50"
                       }
                     ]
                   }
