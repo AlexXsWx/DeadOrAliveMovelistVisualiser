@@ -210,6 +210,8 @@ define(
             var children = NodeFactory.getChildren(parentData);
             if (children) _.moveArrayElement(children, nodeData, delta);
 
+            // FIXME: When nodes are grouped by type (punches/kicks), this still acts over limit of the group...
+
         }
 
 

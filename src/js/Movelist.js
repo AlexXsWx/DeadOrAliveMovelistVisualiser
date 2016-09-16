@@ -7,7 +7,7 @@ define(
         'NodeFactory', 'NodeSerializer',
         'NodeView', 'NodeSvgView', 'LimitsFinder',
         'SelectionManager', 'Editor', 'UI', 'Analyser', 'Filter',
-        'Input/KeyCodes', 'TreeTools', 'Tools'
+        'Input/KeyCodes', 'TreeTools', 'GithubStuff', 'Tools'
     ],
 
     function Movelist(
@@ -15,7 +15,7 @@ define(
         NodeFactory, NodeSerializer,
         NodeView, NodeSvgView, createLimitsFinder,
         SelectionManager, Editor, UI, Analyser, Filter,
-        KeyCodes, TreeTools, _
+        KeyCodes, TreeTools, GithubStuff, _
     ) {
 
         // fixme: realtime group reassigning
@@ -55,18 +55,6 @@ define(
 
         // ===================
 
-        var exampleBaseUrl = 'https://' + [
-            'raw.githubusercontent.com',
-            'AlexXsWx',
-            'DeadOrAliveMovelistVisualiser'
-        ].join('/') + '/';
-
-        var EXAMPLE_URLS = {
-            rig:   exampleBaseUrl + 'master/data/rig.6.json',
-            jacky: exampleBaseUrl + 'alpha/data/jacky.json',
-            mai:   exampleBaseUrl + 'master/data/mai.json'
-        };
-
         return { init: init };
 
 
@@ -95,16 +83,16 @@ define(
                 initUI();
                 selectNodeView(rootNodeView);
 
-                // FIXME
-                if (window.location.hash.toLowerCase() === '#example-jacky') {
-                    NodeSerializer.deserializeFromUrl(EXAMPLE_URLS.jacky, onDataDeserialized);
-                } else
-                if (window.location.hash.toLowerCase() === '#example-mai') {
-                    NodeSerializer.deserializeFromUrl(EXAMPLE_URLS.mai, onDataDeserialized);
-                } else
-                if (window.location.hash.toLowerCase() === '#example') {
-                    NodeSerializer.deserializeFromUrl(EXAMPLE_URLS.rig, onDataDeserialized);
-                }
+                // FIXME: referencing `window` here isn't a good idea
+                var exampleUrlByHash = {
+                    '#example-jacky': GithubStuff.EXAMPLE_URLS.jacky,
+                    '#example-mai':   GithubStuff.EXAMPLE_URLS.mai,
+                    '#example':       GithubStuff.EXAMPLE_URLS.rig
+                };
+                var exampleUrl = exampleUrlByHash[window.location.hash.toLowerCase()];
+                exampleUrl && NodeSerializer.deserializeFromUrl(exampleUrl, onDataDeserialized);
+
+                GithubStuff.checkIfHigherVersionIsAvailable();
             }
 
 
@@ -206,7 +194,9 @@ define(
                 window.addEventListener('keydown', function(event) {
                     if ((event.ctrlKey || event.metaKey) && event.keyCode === KeyCodes.Z) {
                         event.preventDefault();
-                        alert('[Ctrl]+[Z] is disabled since it can break the program');
+                        event.stopPropagation();
+                        alert('[Ctrl]+[Z] is disabled since it may corrupt the entered data');
+                        return false;
                     }
                 });
             }
@@ -278,7 +268,7 @@ define(
                 // }
 
                 function onButtonOpenUrl(optEvent) {
-                    var url = prompt('Enter URL:', EXAMPLE_URLS.rig);
+                    var url = prompt('Enter URL:', GithubStuff.EXAMPLE_URLS.rig);
                     if (url) NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
                 }
 
@@ -352,7 +342,7 @@ define(
                         if (!stance) return;
                         showOnlyNodesThatMatch(function(nodeView) {
                             var ending = NodeView.getEnding(nodeView);
-                            return ending && ending.toLowerCase() == stance.toLowerCase();
+                            return ending && ending.toLowerCase() === stance.toLowerCase();
                         });
                     }
                 );
