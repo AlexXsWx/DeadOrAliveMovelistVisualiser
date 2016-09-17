@@ -8,52 +8,125 @@ define(
 
         return {
 
-            groupByType: groupByType,
-
             createNodeViewGenerator: createNodeViewGenerator,
 
             createViewFromData: createViewFromData,
 
-            log: log,
+            groupByType: groupByType,
 
+            setNodeData: setNodeData,
+            getNodeData: getNodeData,
             getParentNodeView: getParentNodeView,
             findAncestorNodeData: findAncestorNodeData,
 
-            addChild:        addChild,
-            addVisibleChild: addVisibleChild,
-            addHiddenChild:  addHiddenChild,
+            getId: getId,
+            getName: getName,
+            getEnding: getEnding,
+            setIsPlaceholder:   setIsPlaceholder,
+            isPlaceholder:      isPlaceholder,
+            isGroupingNodeView: isGroupingNodeView,
 
-            hasAnyChildren:     hasAnyChildren,
-            hasVisibleChildren: hasVisibleChildren,
-            hasHiddenChildren:  hasHiddenChildren,
+            addChild: addChild,
+            removeChild:       removeChild,
+            removeAllChildren: removeAllChildren,
 
             getAllChildren:     getAllChildren,
             getVisibleChildren: getVisibleChildren,
             getHiddenChildren:  getHiddenChildren,
 
-            removeChild:       removeChild,
-            removeAllChildren: removeAllChildren,
+            hasAnyChildren:     hasAnyChildren,
+            hasVisibleChildren: hasVisibleChildren,
+            hasHiddenChildren:  hasHiddenChildren,
 
             showChild:             showChild,
-            toggleVisibleChildren: toggleVisibleChildren,
-            hideAllChildren:       hideAllChildren,
             showAllChildren:       showAllChildren,
+            hideAllChildren:       hideAllChildren,
+            toggleVisibleChildren: toggleVisibleChildren,
 
-            setNodeData: setNodeData,
-            getNodeData: getNodeData,
-
-            getId: getId,
-            getName: getName,
-            getEnding: getEnding,
-
-            setIsPlaceholder:   setIsPlaceholder,
-            isPlaceholder:      isPlaceholder,
-            isGroupingNodeView: isGroupingNodeView
+            debugLogNodeView: debugLogNodeView
 
             // fillScrollRange: fillScrollRange,
             // resetScrollRange: resetScrollRange
 
         };
+
+
+        function createNodeView(id, parentNodeView) {
+
+            return {
+
+                // Do not reference directly - use getter for whatever you need
+                treeInfo: {
+                    id: id,
+                    /** NodeView */
+                    parent: parentNodeView || null,
+                    children: {
+                        /** Array<NodeView> */
+                        visible: [],
+                        /** Array<NodeView> */
+                        hidden:  []
+                    }
+                },
+
+                appearance: {
+                    // scrollRange: {
+                    //     from: undefined,
+                    //     to:   undefined
+                    // }
+                    totalChildren: 0,
+                    deepness:      0,
+                    branchesAfter: 0
+                },
+
+                binding: {
+                    isPlaceholder: undefined, // bool
+                    targetNodeData: null,
+                    groupName: undefined // string
+                    // svgNodeView: null
+                }
+
+            };
+
+        }
+
+
+        function createNodeViewGenerator() {
+            var counter = 0;
+            return function generate(parentNodeView) {
+                return createNodeView(counter++, parentNodeView || null);
+            };
+        }
+
+
+        function createViewFromData(dataRoot, nodeViewGenerator) {
+
+            var wrappedDataRoot = nodeViewGenerator();
+            setChildren(wrappedDataRoot, dataRoot.stances.map(wrapStance));
+            setNodeData(wrappedDataRoot, dataRoot);
+
+            // TODO: fill classes and other cached info
+
+            return wrappedDataRoot;
+
+
+            function wrapStance(stance) {
+                var stanceNode = nodeViewGenerator();
+                setChildren(stanceNode, stance.moves.map(wrapMove));
+                setNodeData(stanceNode, stance);
+                return stanceNode;
+            }
+
+
+            function wrapMove(move) {
+                var moveNode = nodeViewGenerator();
+                if (_.isNonEmptyArray(move.followUps)) {
+                    setChildren(moveNode, move.followUps.map(wrapMove));
+                }
+                setNodeData(moveNode, move);
+                return moveNode;
+            }
+
+        }
 
 
         function groupByType(rootNodeView, nodeViewGenerator) {
@@ -128,94 +201,10 @@ define(
             return nodeView.binding.targetNodeData;
         }
 
-
-        function createViewFromData(dataRoot, nodeViewGenerator) {
-
-            var wrappedDataRoot = nodeViewGenerator();
-            setChildren(wrappedDataRoot, dataRoot.stances.map(wrapStance));
-            setNodeData(wrappedDataRoot, dataRoot);
-
-            // TODO: fill classes and other cached info
-
-            return wrappedDataRoot;
-
-
-            function wrapStance(stance) {
-                var stanceNode = nodeViewGenerator();
-                setChildren(stanceNode, stance.moves.map(wrapMove));
-                setNodeData(stanceNode, stance);
-                return stanceNode;
-            }
-
-
-            function wrapMove(move) {
-                var moveNode = nodeViewGenerator();
-                if (_.isNonEmptyArray(move.followUps)) {
-                    setChildren(moveNode, move.followUps.map(wrapMove));
-                }
-                setNodeData(moveNode, move);
-                return moveNode;
-            }
-
-        }
-
-
-        // TODO: move up
-
-        function createNodeView(id, parentNodeView) {
-
-            return {
-
-                // Do not reference directly - use getter for whatever you need
-                treeInfo: {
-                    id: id,
-                    /** NodeView */
-                    parent: parentNodeView || null,
-                    children: {
-                        /** Array<NodeView> */
-                        visible: [],
-                        /** Array<NodeView> */
-                        hidden:  []
-                    }
-                },
-
-                appearance: {
-                    // scrollRange: {
-                    //     from: undefined,
-                    //     to:   undefined
-                    // }
-                    totalChildren: 0,
-                    deepness:      0,
-                    branchesAfter: 0
-                },
-
-                binding: {
-                    isPlaceholder: undefined, // bool
-                    targetNodeData: null,
-                    groupName: undefined // string
-                    // svgNodeView: null
-                }
-
-            };
-
-        }
-
-
-
-        function createNodeViewGenerator() {
-            var counter = 0;
-            return function generate(parentNodeView) {
-                return createNodeView(counter++, parentNodeView || null);
-            };
-        }
-
-
-
         /** Can return grouping node views as well */
         function getParentNodeView(nodeView) {
             return nodeView.treeInfo.parent || null;
         }
-
 
         /** Skip ancestors that don't have bound data (grouping nodes view and alike) */
         function findAncestorNodeData(nodeView) {
@@ -226,6 +215,37 @@ define(
                 result = getNodeData(parentNodeView) || null;
             }
             return result;
+        }
+
+
+        function getId(nodeView) {
+            return nodeView.treeInfo.id;
+        }
+
+        function getName(nodeView) {
+            var nodeData = getNodeData(nodeView);
+            return nodeData ? NodeFactory.toString(nodeData) : nodeView.binding.groupName;
+        }
+
+        function getEnding(nodeView) {
+            var nodeData = getNodeData(nodeView);
+            var result = nodeData && (
+                NodeFactory.isStanceNode(nodeData) && nodeData.endsWith ||
+                NodeFactory.isMoveNode(nodeData)   && nodeData.endsWith
+            );
+            return result || null;
+        }
+
+        function setIsPlaceholder(nodeView, isPlaceholder) {
+            nodeView.binding.isPlaceholder = isPlaceholder;
+        }
+
+        function isPlaceholder(nodeView) {
+            return nodeView.binding.isPlaceholder;
+        }
+
+        function isGroupingNodeView(nodeView) {
+            return !getNodeData(nodeView);
         }
 
 
@@ -243,18 +263,6 @@ define(
 
             }
 
-            function addChild(nodeView, child) {
-                var children = nodeView.treeInfo.children;
-                if (
-                    children.visible.length > 0 ||
-                    children.hidden.length === 0
-                ) {
-                    addVisibleChild(nodeView, child);
-                } else {
-                    addHiddenChild(nodeView, child);
-                }
-            }
-
             function addVisibleChild(nodeView, child) {
                 child.treeInfo.parent = nodeView;
                 var children = nodeView.treeInfo.children;
@@ -268,30 +276,17 @@ define(
             }
 
 
-            function hasAnyChildren(nodeView) {
-                return hasVisibleChildren(nodeView) || hasHiddenChildren(nodeView);
+            function addChild(nodeView, child) {
+                var children = nodeView.treeInfo.children;
+                if (
+                    children.visible.length > 0 ||
+                    children.hidden.length === 0
+                ) {
+                    addVisibleChild(nodeView, child);
+                } else {
+                    addHiddenChild(nodeView, child);
+                }
             }
-
-            function hasVisibleChildren(nodeView) {
-                return getVisibleChildren(nodeView).length > 0;
-            }
-
-            function hasHiddenChildren(nodeView) {
-                return getHiddenChildren(nodeView).length > 0;
-            }
-
-            function getAllChildren(nodeView) {
-                return getVisibleChildren(nodeView).concat(getHiddenChildren(nodeView));
-            }
-
-            function getVisibleChildren(nodeView) {
-                return nodeView.treeInfo.children.visible;
-            }
-
-            function getHiddenChildren(nodeView) {
-                return nodeView.treeInfo.children.hidden;
-            }
-
 
             /** Does not update `parent` of its old children */
             function removeChild(parentNodeView, child) {
@@ -311,6 +306,32 @@ define(
             }
 
 
+            function getAllChildren(nodeView) {
+                return getVisibleChildren(nodeView).concat(getHiddenChildren(nodeView));
+            }
+
+            function getVisibleChildren(nodeView) {
+                return nodeView.treeInfo.children.visible;
+            }
+
+            function getHiddenChildren(nodeView) {
+                return nodeView.treeInfo.children.hidden;
+            }
+
+
+            function hasAnyChildren(nodeView) {
+                return hasVisibleChildren(nodeView) || hasHiddenChildren(nodeView);
+            }
+
+            function hasVisibleChildren(nodeView) {
+                return getVisibleChildren(nodeView).length > 0;
+            }
+
+            function hasHiddenChildren(nodeView) {
+                return getHiddenChildren(nodeView).length > 0;
+            }
+
+
             function showChild(nodeView, childNodeView) {
                 var children = nodeView.treeInfo.children;
                 var index = children.hidden.indexOf(childNodeView);
@@ -322,6 +343,12 @@ define(
                 }
             }
 
+            function showAllChildren(nodeView) {
+                var children = nodeView.treeInfo.children;
+                // FIXME: append at correct index, in accordance to bound nodeData
+                children.visible = children.visible.concat(children.hidden);
+                children.hidden = [];
+            }
 
             function hideAllChildren(nodeView, optReturnIDsBecomeHidden) {
                 var children = nodeView.treeInfo.children;
@@ -333,15 +360,6 @@ define(
                     );
                 }
             }
-
-
-            function showAllChildren(nodeView) {
-                var children = nodeView.treeInfo.children;
-                // FIXME: append at correct index, in accordance to bound nodeData
-                children.visible = children.visible.concat(children.hidden);
-                children.hidden = [];
-            }
-
 
             function toggleVisibleChildren(nodeView, optReturnIDsBecomeHidden) {
 
@@ -375,10 +393,9 @@ define(
         // ==================
 
 
-
         // ==== Logging ====
 
-            function log(nodeView) {
+            function debugLogNodeView(nodeView) {
 
                 console.group(nodeView);
 
@@ -434,46 +451,10 @@ define(
         // =================
 
 
-
-        function getId(nodeView) {
-            return nodeView.treeInfo.id;
-        }
-
-
-        function getName(nodeView) {
-            var nodeData = getNodeData(nodeView);
-            return nodeData ? NodeFactory.toString(nodeData) : nodeView.binding.groupName;
-        }
-
-
-        function getEnding(nodeView) {
-            var nodeData = getNodeData(nodeView);
-            var result = nodeData && (
-                NodeFactory.isStanceNode(nodeData) && nodeData.endsWith ||
-                NodeFactory.isMoveNode(nodeData)   && nodeData.endsWith
-            );
-            return result || null;
-        }
-
-
-        function setIsPlaceholder(nodeView, isPlaceholder) {
-            nodeView.binding.isPlaceholder = isPlaceholder;
-        }
-
-        function isPlaceholder(nodeView) {
-            return nodeView.binding.isPlaceholder;
-        }
-
-        function isGroupingNodeView(nodeView) {
-            return !getNodeData(nodeView);
-        }
-
-
         // function resetScrollRange(nodeView) {
         //     nodeView.appearance.scrollRange.from = nodeView.y;
         //     nodeView.appearance.scrollRange.to   = nodeView.y;
         // }
-
 
         // function fillScrollRange(data) {
 
