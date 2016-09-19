@@ -7,7 +7,7 @@ define(
         'NodeFactory', 'NodeSerializer',
         'NodeView', 'NodeSvgView', 'LimitsFinder',
         'SelectionManager', 'Editor', 'UI', 'Analyser', 'Filter',
-        'Input/KeyCodes', 'TreeTools', 'GithubStuff', 'Tools'
+        'TreeTools', 'GithubStuff', 'Tools', 'Executor', 'Hotkeys'
     ],
 
     function Movelist(
@@ -15,7 +15,7 @@ define(
         NodeFactory, NodeSerializer,
         NodeView, NodeSvgView, createLimitsFinder,
         SelectionManager, Editor, UI, Analyser, Filter,
-        KeyCodes, TreeTools, GithubStuff, _
+        TreeTools, GithubStuff, _, Executor, Hotkeys
     ) {
 
         // ==== Constants ====
@@ -70,10 +70,11 @@ define(
                 Editor.init(nodeViewGenerator, toggleChildren, selectNodeView);
                 Editor.onDataChanged.addListener(onDataChange);
 
-                SelectionManager.onSelectionChanged.addListener(onSelectionChanged);
+                SelectionManager.onSelectionChanged.addListener(selectionChangedListener);
                 limitsFinder = createLimitsFinder();
-                loadData(createEmptyData(), false);
+                loadData(createEmptyData());
                 bindUIActions();
+                Hotkeys.init(Executor, SelectionManager, Editor);
                 initUI();
                 selectNodeView(rootNodeView);
 
@@ -90,7 +91,7 @@ define(
             }
 
 
-            function onSelectionChanged(nodeSvgViews, focus) {
+            function selectionChangedListener(nodeSvgViews, focus) {
                 Editor.updateBySelection(nodeSvgViews, focus);
                 if (nodeSvgViews && nodeSvgViews.length > 0) {
                     canvas.scrollToSvgNodeViewIfNeeded(nodeSvgViews[0], limitsFinder.y.min, PADDING);
@@ -118,13 +119,14 @@ define(
             }
 
 
-            function loadData(data, reset) {
+            function reset() {
+                // don't dispatch
+                domCache.showPlaceholders.checked = false;
+                Editor.reset();
+            }
 
-                if (reset) {
-                    // don't dispatch
-                    domCache.showPlaceholders.checked = false;
-                    Editor.reset();
-                }
+
+            function loadData(data) {
 
                 destroyExistingNodes();
 
@@ -136,6 +138,8 @@ define(
                 // UI.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
 
                 restructureByType(rootNodeView);
+
+                Executor.clearHistory();
 
                 update();
 
@@ -164,9 +168,6 @@ define(
 
             function initUI() {
 
-                // Disable Ctrl+Z since it can modify hidden inputs and so break logic
-                disableUndo();
-
                 _.hideDomElement(_.getDomElement('loading'));
 
                 _.getDomElement('about').addEventListener('click', showWelcomePopup);
@@ -181,18 +182,6 @@ define(
 
                 if (!domCache.showWelcomePopupOnStart.checked) hideWelcomePopup();
 
-            }
-
-            function disableUndo() {
-                // FIXME: this doesn't disable RMB - undo
-                window.addEventListener('keydown', function(event) {
-                    if ((event.ctrlKey || event.metaKey) && event.keyCode === KeyCodes.Z) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        alert('[Ctrl]+[Z] is disabled since it may corrupt the entered data');
-                        return false;
-                    }
-                });
             }
 
             function onClickStopPropagation(event) {
@@ -267,7 +256,8 @@ define(
                 }
 
                 function onDataDeserialized(data) {
-                    loadData(data, true);
+                    reset();
+                    loadData(data);
                 }
 
             // ===================

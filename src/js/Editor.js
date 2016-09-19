@@ -58,7 +58,9 @@ define(
             addPlaceholders:    addPlaceholders,
             removePlaceholders: removePlaceholders,
             updateBySelection:  updateBySelection,
-            onDataChanged:      onDataChanged
+            onDataChanged:      onDataChanged,
+
+            onClickAddChild: onClickAddChild
         };
 
 
@@ -67,17 +69,6 @@ define(
             toggleChildrenRef = argToggleChildrenRef;
             selectNodeRef     = argSelectNodeRef;
             updateEditorDomGroups(false, false);
-
-            // FIXME: this doesn't belong here
-            window.addEventListener('keydown', function(event) {
-                if (
-                    (event.keyCode === KeyCodes.PLUS || event.keyCode === KeyCodes.NUM_PLUS) &&
-                    !(document.activeElement instanceof HTMLInputElement)
-                ) {
-                    onClickAddChild();
-                    event.preventDefault();
-                }
-            });
         }
 
 

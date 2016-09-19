@@ -1,9 +1,9 @@
 define(
 
     'UI/TableRowInput',
-    ['Tools', 'Input/KeyCodes'],
+    ['Tools', 'Input/KeyCodes', 'Hotkeys'],
 
-    function TableRowInput(_, KeyCodes) {
+    function TableRowInput(_, KeyCodes, Hotkeys) {
 
         return { create: create };
 
@@ -24,12 +24,24 @@ define(
                 attributes: { 'placeholder': placeholder },
                 listeners: {
                     'input':   inputListener,
-                    'keydown': keyDownListener,
                     'focus':   focusListener,
                     'blur':    blurListener
                 }
             });
             setValue(valueConfirmed);
+
+            Hotkeys.addInputEscListener(input, function() {
+                // reset to last confirmed value
+                setValue(valueConfirmed);
+                callOnInput(valueConfirmed);
+                blurInput();
+                // onEsc && onEsc();
+            });
+
+            Hotkeys.addInputEnterListener(input, function() {
+                blurInput();
+                handleBlurOrConfirm();
+            });
 
             var label = _.createDomElement({
                 tag: 'label',
@@ -80,21 +92,6 @@ define(
             }
 
             function blurInput() { input.blur(); }
-
-            function keyDownListener(event) {
-                if (event.keyCode === KeyCodes.ESC) {
-                    // reset to last confirmed value
-                    setValue(valueConfirmed);
-                    callOnInput(valueConfirmed);
-                    blurInput();
-                    // onEsc && onEsc();
-                    event.stopPropagation();
-                } else
-                if (event.keyCode === KeyCodes.ENTER) {
-                    blurInput();
-                    handleBlurOrConfirm();
-                }
-            }
 
             function inputListener(event) { callOnInput(getValue()); }
             function blurListener(event)  { handleBlurOrConfirm(); }

@@ -12,6 +12,12 @@ g.node {
     cursor: default;
     &.container { cursor: pointer; }
 
+    .hitbox {
+        fill: none;
+        // FIXME: Only tested in Chrome
+        pointer-events: bounding-box;
+    }
+
     .node_circle {
         fill: white;
         stroke: #777;

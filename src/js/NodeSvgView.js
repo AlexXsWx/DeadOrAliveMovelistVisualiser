@@ -80,6 +80,7 @@ define(
 
             var link;
             var wrapper;
+            var additionalHitbox;
             var circle;
             var heightIndicators = {
                 high: null,
@@ -356,6 +357,11 @@ define(
                     }
                 });
 
+                additionalHitbox = _.createSvgElement({
+                    tag: 'rect',
+                    classes: [ 'hitbox' ]
+                });
+
                 circle = _.createSvgElement({
                     tag: 'circle',
                     // FIXME: CSS "stroke-dasharray: 2 2;"
@@ -369,6 +375,7 @@ define(
                 texts.top    = createSvgElementClassed('text', [ 'node_text', 'node_text_top'    ]);
                 texts.bottom = createSvgElementClassed('text', [ 'node_text', 'node_text_bottom' ]);
 
+                wrapper.appendChild(additionalHitbox);
                 wrapper.appendChild(circle);
                 // ... Place for height indicators ...
                 wrapper.appendChild(texts.bottom);
@@ -401,6 +408,12 @@ define(
 
                 var textPadding = 4;
                 circle.setAttribute('r', nodeSize);
+
+                // FIXME: calculate size out of padding, and try to include text
+                additionalHitbox.setAttribute('x',     -nodeSize * 3);
+                additionalHitbox.setAttribute('width',  nodeSize * 6);
+                additionalHitbox.setAttribute('y',     -nodeSize * 1.5);
+                additionalHitbox.setAttribute('height', nodeSize * 3);
 
                 var offset = nodeSize + textPadding;
                 texts.right.setAttribute('x', offset);
