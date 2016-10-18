@@ -44,7 +44,7 @@ define('Strings', function Strings() {
         'summaryAdvantageOnBlockDescription': (
             'Helper field, uses entered number to calculate hit block duration.\n' +
             'It assumes that move landed on the first active frame.\n' +
-            'Frame data for this move has to be already entered for it to work'.
+            'Frame data for this move has to be already entered for it to work'
         ),
 
         'moveActionSteps': 'Action steps',
