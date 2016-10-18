@@ -12,9 +12,10 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
     ].join('/') + '/';
 
     var EXAMPLE_URLS = {
-        rig:   exampleBaseUrl + 'master/data/rig.6.json',
-        jacky: exampleBaseUrl + 'alpha/data/jacky.json',
-        mai:   exampleBaseUrl + 'master/data/mai.json'
+        rig:    exampleBaseUrl + 'master/data/rig.6.json',
+        jacky:  exampleBaseUrl + 'alpha/data/jacky.json',
+        mai:    exampleBaseUrl + 'master/data/mai.json',
+        hitomi: exampleBaseUrl + 'master/data/hitomi.json'
     };
 
     var versionRgx = /^[^\d]*((?:\d+)(?:\.\d+)*)[^\d]*$/i;

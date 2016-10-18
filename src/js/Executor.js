@@ -8,22 +8,31 @@ define(
 
         // TODO: Consider limiting storage size
 
+        /** Array<Array<Command>> */
         var commandsHistory = [];
         var lastAppliedCommandIndex = -1;
 
         return {
-            executeAndRememberCommand: executeAndRememberCommand,
+            rememberAndExecute: rememberAndExecute,
             undo: undo,
             redo: redo,
             clearHistory: clearHistory
         };
+
+        function createCommand(commandName, doFunc, undoFunc) {
+            return {
+                doFunc: doFunc,
+                undoFunc: undoFunc,
+                commandName: commandName
+            };
+        }
 
         function clearHistory() {
             commandsHistory = [];
             lastAppliedCommandIndex = -1;
         }
 
-        function executeAndRememberCommand(commandName, doFunc, undoFunc) {
+        function rememberAndExecute(commandName, doFunc, undoFunc, optAppendToPrevious) {
 
             // Reset redo list
             if (lastAppliedCommandIndex < commandsHistory.length - 1) {
@@ -31,11 +40,18 @@ define(
                 // TODO: Consider saving this branch of command history to offer redo option
             }
 
-            commandsHistory.push({
-                doFunc: doFunc,
-                undoFunc: undoFunc,
-                commandName: commandName
-            });
+            var command = createCommand(commandName, doFunc, undoFunc);
+
+            if (optAppendToPrevious) {
+                if (commandsHistory.length === 0) {
+                    console.error('Trying to append a command to empty history');
+                    commandsHistory.push([]);
+                }
+                commandsHistory[commandsHistory.length - 1].push(command);
+            } else {
+                commandsHistory.push([command]);
+            }
+
             lastAppliedCommandIndex = commandsHistory.length - 1;
 
             console.debug('do "%s"', commandName);
@@ -51,8 +67,11 @@ define(
                 return false;
             }
             while (lastAppliedCommandIndex >= 0 && count > 0) {
-                console.debug('Undo "%s"', commandsHistory[lastAppliedCommandIndex].commandName);
-                commandsHistory[lastAppliedCommandIndex].undoFunc();
+                var commandsGroup = commandsHistory[lastAppliedCommandIndex];
+                for (var i = commandsGroup.length - 1; i >= 0; --i) {
+                    console.debug('Undo "%s"', commandsGroup[i].commandName);
+                    commandsGroup[i].undoFunc();
+                }
                 lastAppliedCommandIndex -= 1;
                 count -= 1;
             }
@@ -67,8 +86,11 @@ define(
             }
             while (lastAppliedCommandIndex < commandsHistory.length - 1 && count > 0) {
                 lastAppliedCommandIndex += 1;
-                console.debug('Redo "%s"', commandsHistory[lastAppliedCommandIndex].commandName);
-                commandsHistory[lastAppliedCommandIndex].doFunc();
+                var commandsGroup = commandsHistory[lastAppliedCommandIndex];
+                for (var i = 0; i < commandsGroup.length; ++i) {
+                    console.debug('Redo "%s"', commandsGroup[i].commandName);
+                    commandsGroup[i].doFunc();
+                }
                 count -= 1;
             }
             return true;

@@ -38,7 +38,9 @@ define(
 
 
         var editorGroups = [
-            EditorGroupCommonCreator.create(onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren),
+            EditorGroupCommonCreator.create(
+                onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren
+            ),
             EditorGroupRootCreator.create(modifySelectedNodesDataByFunc),
             EditorGroupStanceCreator.create(modifySelectedNodesDataByFunc),
             EditorGroupMoveCreator.create(modifySelectedNodesDataByFunc)
@@ -201,7 +203,8 @@ define(
             var children = NodeFactory.getChildren(parentData);
             if (children) _.moveArrayElement(children, nodeData, delta);
 
-            // FIXME: When nodes are grouped by type (punches/kicks), this still acts over limit of the group...
+            // FIXME: When nodes are grouped by type (punches/kicks),
+            // this still acts over limit of the group...
 
         }
 

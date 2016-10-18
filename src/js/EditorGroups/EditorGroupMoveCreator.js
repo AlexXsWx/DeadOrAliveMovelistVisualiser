@@ -76,6 +76,14 @@ define(
                     placeholderText: Strings('moveFrameDataPlaceholder'),
                     fill: frameDataToText,
                     parameterModifier: changeFrameData
+                }, {
+                    id: 'summaryAdvantageOnBlock',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: Strings('summaryAdvantageOnBlock'),
+                    description: Strings('summaryAdvantageOnBlockDescription'),
+                    placeholderText: 'e.g. "-8"',
+                    fill: actionStepResultToAdvantageOnBlock,
+                    parameterModifier: changeAdvantageOnBlock
                 }
             ];
 
@@ -196,6 +204,66 @@ define(
 
                 return !_.arraysAreEqual(oldValue, newValue);
 
+            }
+
+
+            function actionStepResultToAdvantageOnBlock(nodeData) {
+                var advantageRange = NodeFactory.getAdvantageRange(nodeData);
+                return advantageRange ? advantageRange.min : '';
+            }
+
+            function changeAdvantageOnBlock(newValue, nodeData) {
+                var changed = false;
+
+                if (
+                    !nodeData ||
+                    !nodeData.frameData || nodeData.frameData.length < 3
+                ) {
+                    return changed;
+                }
+
+                var advantage = Number(newValue);
+
+                var actionStep = null;
+                for (var i = nodeData.actionSteps.length; i >= 0 && !actionStep; --i) {
+                    actionStep = nodeData.actionSteps[i];
+                }
+
+                if (actionStep) {
+
+                    var actionStepResult = null;
+
+                    for (var i = 0; i < actionStep.results.length; ++i) {
+                        var result = actionStep.results[i];
+                        if (result && NodeFactory.doesActionStepResultDescribeGuard(result)) {
+                            actionStepResult = result;
+                        }
+                        else
+                        if (NodeFactory.isActionStepResultEmpty(result)) {
+                            changed = true;
+                            result.condition.push('guard');
+                            actionStepResult = result;
+                        }
+                    }
+
+                    if (!actionStepResult) {
+                        changed = true;
+                        actionStepResult = NodeFactory.createMoveActionStepResult();
+                        actionStepResult.condition.push('guard');
+                        actionStep.results.push(actionStepResult);
+                    }
+                    
+                    var hitBlock = (
+                        Number(nodeData.frameData[nodeData.frameData.length - 2]) - 1 +
+                        Number(nodeData.frameData[nodeData.frameData.length - 1]) + advantage
+                    );
+                    changed = changed || (Number(actionStepResult.hitBlock) !== hitBlock);
+                    if (changed) {
+                        actionStepResult.hitBlock = hitBlock;
+                    }
+                }
+
+                return changed;
             }
 
 

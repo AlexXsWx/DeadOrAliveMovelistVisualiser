@@ -2,12 +2,11 @@ define(
 
     'SelectionManager',
 
-    ['NodeView', 'Observer', 'Executor'],
+    ['NodeView', 'Observer', 'Executor', 'NodeSvgViewTexts'],
 
-    function SelectionManager(NodeView, createObserver, Executor) {
+    function SelectionManager(NodeView, createObserver, Executor, NodeSvgViewTexts) {
 
-        var selectionPrevious = null;
-        var selectionCurrent  = null;
+        var selectionCurrent = null;
 
         var onSelectionChanged = createObserver();
 
@@ -19,11 +18,11 @@ define(
         return {
             init:                init,
             selectNode:          selectNode,
-            undoSelection:       undoSelection,
             getCurrentSelection: getCurrentSelection,
             onSelectionChanged:  onSelectionChanged,
 
             deselectAll:           deselectAll,
+            deselectHiddenNodes:   deselectHiddenNodes,
             selectFirstChild:      selectFirstChild,
             selectParent:          selectParent,
             selectPreviousSibling: selectPreviousSibling,
@@ -36,9 +35,7 @@ define(
             getVisibleNodesSvgViews = getVisibleNodesSvgViewsRef;
             toggleChildren = toggleChildrenRef;
 
-            rootElement.addEventListener('click', function(event) {
-                selectNode(null);
-            });
+            rootElement.addEventListener('click', function(event) { deselectAll(); });
 
             // rootElement.addEventListener('mousedown', function(event) {
             //     event.stopPropagation();
@@ -50,11 +47,41 @@ define(
 
         function selectNode(svgNodeView, optDontFocus) {
 
+            if (!selectionCurrent && !svgNodeView) return;
+            console.assert(!svgNodeView || isVisible(svgNodeView), 'Node to select is not visible');
+
+            var selectionCurrentWas = selectionCurrent;
+
+            Executor.rememberAndExecute(
+                (
+                    'Change selection: ' +
+                    svgNodeViewToString(selectionCurrent) + ' -> ' +
+                    svgNodeViewToString(svgNodeView)
+                ),
+                function changeSelection()     { privateSelectNode(svgNodeView, optDontFocus); },
+                function undoChangeSelection() { privateSelectNode(selectionCurrentWas);       }
+            );
+
+        }
+
+
+        function svgNodeViewToString(svgNodeView) {
+            return svgNodeView ? NodeSvgViewTexts.getTextMain(svgNodeView.nodeView) : 'null';
+        }
+
+
+        function privateSelectNode(svgNodeView, optDontFocus) {
+
             if (selectionCurrent) {
                 selectionCurrent.wrapper.classList.remove('selection');
             }
 
-            selectionPrevious = selectionCurrent;
+            if (svgNodeView && !isVisible(svgNodeView)) {
+                // Should never happen after Undo is fully implemented
+                console.error('Trying to select node that is not visible');
+                selectionCurrent = null;
+            }
+            else
             if (svgNodeView !== selectionCurrent) {
                 selectionCurrent = svgNodeView;
             } else {
@@ -71,9 +98,8 @@ define(
         }
 
 
-        function undoSelection() {
-            console.warn('Undo selection not yet implemented');
-            // selectNode(selectionPrevious);
+        function isVisible(svgNodeView) {
+            return getVisibleNodesSvgViews().hasOwnProperty(NodeView.getId(svgNodeView.nodeView));
         }
 
 
@@ -83,12 +109,14 @@ define(
 
 
         function deselectAll() {
-            var selectionCurrentWas = selectionCurrent;
-            Executor.executeAndRememberCommand(
-                'Deselect all',
-                function() { selectNode(null); },
-                function() { selectNode(selectionCurrentWas); }
-            );
+            if (!selectionCurrent) return;
+            selectNode(null);
+        }
+
+        function deselectHiddenNodes() {
+            if (selectionCurrent && !isVisible(selectionCurrent)) {
+                selectNode(null);
+            }
         }
 
         function selectFirstChild() {

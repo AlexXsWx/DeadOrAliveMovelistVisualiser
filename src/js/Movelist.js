@@ -80,9 +80,10 @@ define(
 
                 // FIXME: referencing `window` here isn't a good idea
                 var exampleUrlByHash = {
-                    '#example-jacky': GithubStuff.EXAMPLE_URLS.jacky,
-                    '#example-mai':   GithubStuff.EXAMPLE_URLS.mai,
-                    '#example':       GithubStuff.EXAMPLE_URLS.rig
+                    '#example-hitomi': GithubStuff.EXAMPLE_URLS.hitomi, 
+                    '#example-jacky':  GithubStuff.EXAMPLE_URLS.jacky,
+                    '#example-mai':    GithubStuff.EXAMPLE_URLS.mai,
+                    '#example':        GithubStuff.EXAMPLE_URLS.rig
                 };
                 var exampleUrl = exampleUrlByHash[window.location.hash.toLowerCase()];
                 exampleUrl && NodeSerializer.deserializeFromUrl(exampleUrl, onDataDeserialized);
@@ -271,7 +272,8 @@ define(
 
                 function onChangeShowPlaceholders(optEvent) {
 
-                    SelectionManager.selectNode(null);
+                    // FIXME: this is used to make sure no invisible nodes are remaining selected
+                    SelectionManager.deselectAll();
 
                     var checkbox = this;
                     if (checkbox.checked) {
@@ -518,14 +520,20 @@ define(
             }
 
             function onDoubleClickNodeView(nodeSvgView) {
+                // Undo selection changes caused by two clicks
+                Executor.undo(2);
                 toggleChildren(nodeSvgView);
-                SelectionManager.undoSelection();
+                SelectionManager.deselectHiddenNodes();
             }
 
             function toggleChildren(nodeSvgView) {
                 if (_.isNonEmptyArray(NodeView.getAllChildren(nodeSvgView.nodeView))) {
-                    NodeView.toggleVisibleChildren(nodeSvgView.nodeView);
-                    update();
+                    Executor.rememberAndExecute('toggle children', act, act);
+                    function act() {
+                        // FIXME: this operation is not always symmetric due to filters
+                        NodeView.toggleVisibleChildren(nodeSvgView.nodeView);
+                        update();
+                    }
                 }
             }
 

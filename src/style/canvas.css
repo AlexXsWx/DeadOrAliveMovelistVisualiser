@@ -1,5 +1,8 @@
 .unclickable {
-  pointer-events: none;
+  pointer-events: none !important;
+}
+.unclickable * {
+  pointer-events: none !important;
 }
 g.canvas {
   transition: transform 500ms;

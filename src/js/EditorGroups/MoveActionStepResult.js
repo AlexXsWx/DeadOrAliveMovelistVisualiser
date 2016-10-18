@@ -34,7 +34,7 @@ define(
                     id: 'hitBlock',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: 'Hit block',
-                    description: 'cooldown + advantage + active frames after the one that hit',
+                    description: 'recovery + advantage + active frames after the one that hit',
                     placeholderText: 'e.g. 15',
                     fill: actionStepResultToHitBlock,
                     parameterModifier: changeHitBlock

@@ -43,7 +43,11 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         canActionStepHitGround: canActionStepHitGround,
 
         getMoveSummary:       getMoveSummary,
-        getActionStepSummary: getActionStepSummary
+        getActionStepSummary: getActionStepSummary,
+
+        doesActionStepResultDescribeGuard: doesActionStepResultDescribeGuard,
+        getAdvantageRange: getAdvantageRange,
+        isActionStepResultEmpty: isActionStepResultEmpty
 
         // guessMoveTypeByInput: guessMoveTypeByInput
 
@@ -101,7 +105,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             context: [],
 
             // TODO: make first element to be Array<Int> for charge attacks
-            frameData: [], // Array<Int>
+            frameData: [], // Array<Int> // aka "Timeframe"
 
             actionSteps: [ undefined ],
 
@@ -157,7 +161,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
                 jump attack
                 grab for throw
                 OH grab
-                grab for hold
+                grab for hold (regular, specific (can't be critical) and expert)
                 ground attack
                 other
              */
@@ -165,7 +169,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
             isTracking: undefined, // bool
 
-            damage: undefined, // int
+            damage: undefined, // int // striking back-faced opponent causes x1.25 damage
 
             reach: undefined, // float
 
@@ -176,6 +180,10 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             results: [ undefined ]
 
         });
+
+        // critical holds have longer recovery than normal holds
+
+        // all attacks that land on sidestepping becomes countering
 
         for (var i = 0; i < actionStep.results.length; ++i) {
             actionStep.results[i] = createMoveActionStepResult(actionStep.results[i]);
@@ -222,14 +230,15 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             //    squatting? (crouching + vulnerability to high throws)
             //    "jumping" / "jump" / "jump (evade lows)" aka airborne (Rig's [BND] 6H+K K)
             //    down (grounded) (has anyone got move that would be different on landing to this status?)
-            // surface: normal / slippery
-            // hit distance: normal / close hit (Lisa's 2H+K GB on close hit)
-            // other: neutral / counter / hi-counter / stun / critical hold / double use / use on CB / over combo limit
+            // surface: normal / "Slip Zone" (doing a counter hit against a low strike causes a bigger stun than normal)
+            // hit distance: half hit / normal / close hit (Lisa's 2H+K GB on close hit; "close hit can't occur during critical combo")
+            // other: neutral / counter / hi-counter / stun / critical hold / double use aka "critical finish" / use on CB / over combo limit aka "critical limit"
             //     2p seems to be an exception from double use
+            //     according to tutorial dealing damage over "critical limit" causes "critical finish", the same term as on double use
             // environment: default / wall behind (Alpha-152 66P)
             condition: [],
 
-            // Is calculated as amount of active frames after the one that landed + cooldown + (dis-)advantage
+            // Is calculated as amount of active frames after the one that landed + recovery + (dis-)advantage
             hitBlock: undefined,
 
             // first number in critical hold interval
@@ -245,6 +254,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             // swapsPositions:      undefined  // bool
 
             // launcher, sit-down stun, etc
+            // Making Critical Finish with move that causes sit-down results sit-down bounce that is vulnerable to Close Hit
             tags: []
         });
     }
@@ -384,6 +394,51 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         if (lowCased.search(/\bp(?:unch)?/) >= 0) result += 'p';
         if (lowCased.search(/\bk(?:ick)?/)  >= 0) result += 'k';
         return result;
+    }
+
+    function doesActionStepResultDescribeGuard(actionStepResult) {
+        if (
+            !actionStepResult ||
+            !actionStepResult.condition || !actionStepResult.condition.length
+        ) {
+            return false;
+        }
+
+        for (var i = 0; i < actionStepResult.condition.length; ++i) {
+            if (actionStepResult.condition[i].search(/block|guard/i) >= 0) return true;
+        }
+
+        return false;
+    }
+
+    function getAdvantageRange(nodeData) {
+        if (!nodeData) return;
+        var frameData = nodeData.frameData;
+        if (!frameData || frameData.length === 0) return;
+        var actionSteps = nodeData.actionSteps;
+        if (!actionSteps || actionSteps.length === 0) return;
+        var recovery = frameData[frameData.length - 1];
+        var activeFramesVarianceRoom = frameData[frameData.length - 2] - 1;
+        for (var i = actionSteps.length - 1; i >= 0; --i) {
+            var results = actionSteps[i].results;
+            if (!results) continue;
+            for (var j = 0; j < results.length; ++j) {
+                if (doesActionStepResultDescribeGuard(results[j])) {
+                    var blockStun = Number(results[j].hitBlock);
+                    if (isNaN(blockStun) || !isFinite(blockStun)) continue;
+                    var maxAdvantage = blockStun - recovery;
+                    var minAdvantage = maxAdvantage - activeFramesVarianceRoom;
+                    return {
+                        min: minAdvantage,
+                        max: maxAdvantage
+                    };
+                }
+            }
+        }
+    }
+
+    function isActionStepResultEmpty(actionStepResult) {
+        return !_.withoutFalsyProperties(actionStepResult);
     }
 
 });
