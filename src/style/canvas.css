@@ -87,11 +87,11 @@ g.node.selection text {
 }
 .node_text tspan.semisafe {
   font-weight: bold;
-  fill: #ffbf00;
+  fill: #bf8000;
 }
 .node_text tspan.unsafe {
   font-weight: bold;
-  fill: #ff0000;
+  fill: #bf0000;
 }
 .text_white_shadow {
   text-shadow: 0 0 2px white;
