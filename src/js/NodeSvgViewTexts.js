@@ -114,9 +114,9 @@ define(
         function advantageInteger(value) {
             var className;
             switch(true) {
-                case value >= 0: className = 'positive'; break;
-                case value > -5: className = 'safe';     break;
-                case value > -7: className = 'semisafe'; break;
+                case value >= 0:  className = 'positive'; break;
+                case value >= -5: className = 'safe';     break;
+                case value >= -7: className = 'semisafe'; break;
                 default: className = 'unsafe';
             }
             return _.createSvgElement({
