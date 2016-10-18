@@ -263,7 +263,11 @@ define('Tools', function() {
 
     function setTextContent(domElement, text) {
         removeAllChildren(domElement);
-        domElement.appendChild(createTextNode(text));
+        if (text instanceof DocumentFragment) {
+            domElement.appendChild(text);
+        } else {
+            domElement.appendChild(createTextNode(text));
+        }
     }
 
     function lerp(start, target, weight) {

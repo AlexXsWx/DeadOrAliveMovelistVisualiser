@@ -9,7 +9,7 @@ define(
         var CHAR_EXPAND   = '+';
         var CHAR_HIDE     = String.fromCharCode(0x2212); // minus sign
         var CHAR_MIXED    = String.fromCharCode(0x00D7); // cross sign
-        var CHAR_ELLIPSIS = String.fromCharCode(0x2026); // triple dot
+        var CHAR_ELLIPSIS = '..'; // String.fromCharCode(0x2026); // triple dot
 
         return {
 
@@ -80,14 +80,15 @@ define(
             if (!nodeData) return '';
             var advantageRange = NodeFactory.getAdvantageRange(nodeData);
             if (!advantageRange) return '';
+
+            // FIXME: don't reference document here
+            var result = document.createDocumentFragment();
+            result.appendChild(advantageInteger(advantageRange.min));
             if (advantageRange.min !== advantageRange.max) {
-                return (
-                    signedInteger(advantageRange.min) + CHAR_ELLIPSIS +
-                    signedInteger(advantageRange.max)
-                );
-            } else {
-                return signedInteger(advantageRange.max);
+                result.appendChild(_.createTextNode(CHAR_ELLIPSIS));
+                result.appendChild(advantageInteger(advantageRange.max));
             }
+            return result;
         }
 
         function getReach(nodeView) {
@@ -108,6 +109,21 @@ define(
 
         function signedInteger(value) {
             return (value < 0) ? value : '+' + value;
+        }
+
+        function advantageInteger(value) {
+            var className;
+            switch(true) {
+                case value >= 0: className = 'positive'; break;
+                case value > -5: className = 'safe';     break;
+                case value > -7: className = 'semisafe'; break;
+                default: className = 'unsafe';
+            }
+            return _.createSvgElement({
+                tag: 'tspan',
+                classes: [ className ],
+                children: [ _.createTextNode(signedInteger(value)) ]
+            });
         }
 
     }

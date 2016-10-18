@@ -77,6 +77,22 @@ g.node.selection text {
   -ms-user-select: none;
   font-family: arial;
 }
+.node_text tspan.positive {
+  font-weight: bold;
+  fill: #00a800;
+}
+.node_text tspan.safe {
+  font-weight: bold;
+  fill: #8fbf00;
+}
+.node_text tspan.semisafe {
+  font-weight: bold;
+  fill: #ffbf00;
+}
+.node_text tspan.unsafe {
+  font-weight: bold;
+  fill: #ff0000;
+}
 .text_white_shadow {
   text-shadow: 0 0 2px white;
 }
