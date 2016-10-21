@@ -78,17 +78,39 @@ define(
                 initUI();
                 selectNodeView(rootNodeView);
 
-                // FIXME: referencing `window` here isn't a good idea
-                var exampleUrlByHash = {
-                    '#example-hitomi': GithubStuff.EXAMPLE_URLS.hitomi, 
-                    '#example-jacky':  GithubStuff.EXAMPLE_URLS.jacky,
-                    '#example-mai':    GithubStuff.EXAMPLE_URLS.mai,
-                    '#example':        GithubStuff.EXAMPLE_URLS.rig
-                };
-                var exampleUrl = exampleUrlByHash[window.location.hash.toLowerCase()];
-                exampleUrl && NodeSerializer.deserializeFromUrl(exampleUrl, onDataDeserialized);
+                parseHashParameters();
 
                 GithubStuff.checkIfHigherVersionIsAvailable();
+            }
+
+
+            function parseHashParameters() {
+
+                // FIXME: referencing `window` here isn't a good idea
+                var hashParameters = window.location.hash.toLowerCase().substr(1).split(',');
+
+                var exampleUrlByHashParameter = {
+                    'example-momiji': GithubStuff.EXAMPLE_URLS.momiji,
+                    'example-hitomi': GithubStuff.EXAMPLE_URLS.hitomi,
+                    'example-jacky':  GithubStuff.EXAMPLE_URLS.jacky,
+                    'example-mai':    GithubStuff.EXAMPLE_URLS.mai,
+                    'example-rog':    GithubStuff.EXAMPLE_URLS.rig,
+                    'example':        GithubStuff.EXAMPLE_URLS.rig
+                };
+
+                var url = null;
+                for (var i = 0; i < hashParameters.length; ++i) {
+                    var param = hashParameters[i];
+                    if (!url && exampleUrlByHashParameter.hasOwnProperty(param)) {
+                        url = exampleUrlByHashParameter[param];
+                    }
+                    if (param === 'show-safety') {
+                        NodeSvgView.setRightTextToSafety();
+                    }
+                }
+
+                url && NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
+
             }
 
 

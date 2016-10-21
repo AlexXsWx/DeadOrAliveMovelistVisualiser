@@ -44,7 +44,8 @@ define(
             init:                 init,
             create:               create,
             onNodeClick:          onNodeClick,
-            onNodeToggleChildren: onNodeToggleChildren
+            onNodeToggleChildren: onNodeToggleChildren,
+            setRightTextToSafety: setRightTextToSafety
         };
 
         function init(updateRef) {
@@ -74,6 +75,13 @@ define(
                 updateRef();
             });
 
+        }
+
+        function setRightTextToSafety() {
+            textGetters.right = NodeSvgViewTexts.getSafety;
+            _.getDomElement('rightTextOption').selectedIndex = (
+                TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTexts.getSafety)
+            );
         }
 
         function create(nodeView, NODE_HEIGHT) {
