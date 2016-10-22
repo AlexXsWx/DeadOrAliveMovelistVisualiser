@@ -254,10 +254,10 @@ define(
                     }
                     
                     var hitBlock = (
-                        Number(nodeData.frameData[nodeData.frameData.length - 2]) - 1 +
-                        Number(nodeData.frameData[nodeData.frameData.length - 1]) + advantage
+                        nodeData.frameData[nodeData.frameData.length - 2] - 1 +
+                        nodeData.frameData[nodeData.frameData.length - 1] + advantage
                     );
-                    changed = changed || (Number(actionStepResult.hitBlock) !== hitBlock);
+                    changed = changed || (actionStepResult.hitBlock !== hitBlock);
                     if (changed) {
                         actionStepResult.hitBlock = hitBlock;
                     }

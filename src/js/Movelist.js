@@ -72,7 +72,7 @@ define(
 
                 SelectionManager.onSelectionChanged.addListener(selectionChangedListener);
                 limitsFinder = createLimitsFinder();
-                loadData(createEmptyData());
+                loadData(NodeFactory.createEmptyData());
                 bindUIActions();
                 Hotkeys.init(Executor, SelectionManager, Editor);
                 initUI();
@@ -130,18 +130,6 @@ define(
             }
 
 
-            function createEmptyData() {
-                return NodeFactory.createRootNode({
-                    stances: [
-                        NodeFactory.createStanceNode({
-                            abbreviation: 'STD',
-                            description: 'Standing'
-                        })
-                    ]
-                }, true);
-            }
-
-
             function reset() {
                 // don't dispatch
                 domCache.showPlaceholders.checked = false;
@@ -161,6 +149,7 @@ define(
                 // UI.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
 
                 restructureByType(rootNodeView);
+                NodeView.hideHiddenByDefault(rootNodeView);
 
                 Executor.clearHistory();
 
@@ -312,6 +301,7 @@ define(
                 Analyser.init();
 
                 _.getDomElement('filter').addEventListener('click', onButtonFilter);
+                _.getDomElement('filterFrame').addEventListener('click', onButtonFilterFrame);
 
                 _.getDomElement('filterShowTracking').addEventListener('click',
                     function showTrackingMoves(optEvent) {
@@ -364,10 +354,24 @@ define(
                     }
                 );
 
+                _.getDomElement('filterShowDefault').addEventListener('click',
+                    function showAll(optEvent) {
+                        TreeTools.forAllCurrentChildren(
+                            rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren
+                        );
+                        NodeView.hideHiddenByDefault(rootNodeView);
+                        update();
+                    }
+                );
+
             }
 
             function onButtonFilter(optEvent) {
                 Analyser.findForceTechMoves(rootNodeData);
+            }
+
+            function onButtonFilterFrame(optEvent) {
+                Analyser.findMoves(rootNodeData);
             }
 
         // ============

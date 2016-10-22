@@ -52,14 +52,14 @@ define(
             if (!nodeData) return '';
             var frameData = nodeData.frameData;
             if (!frameData || frameData.length === 0) return '';
-            var frames = Number(frameData[0]) + 1;
+            var frames = frameData[0] + 1;
             var activeFrames = [];
             for (var i = 1; i < frameData.length; i += 2) {
-                var localFrames = Number(frameData[i]);
+                var localFrames = frameData[i];
                 for (var j = 0; j < localFrames; ++j) {
                     activeFrames.push(':' + (frames + j + 1));
                 }
-                frames += localFrames + Number(frameData[i + 1]);
+                frames += localFrames + frameData[i + 1];
             }
             console.assert(!isNaN(frames), 'Frames are NaN');
             return activeFrames.join('') + ':/' + frames;

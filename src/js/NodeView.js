@@ -13,6 +13,7 @@ define(
             createViewFromData: createViewFromData,
 
             groupByType: groupByType,
+            hideHiddenByDefault: hideHiddenByDefault,
 
             setNodeData: setNodeData,
             getNodeData: getNodeData,
@@ -184,12 +185,34 @@ define(
                 groupingChild.binding.groupName = '<' + type + '>';
                 setChildren(groupingChild, childrenOfType);
 
-                if (type === 'throws' || type === 'holds') hideAllChildren(groupingChild);
-
                 addVisibleChild(rootNodeView, groupingChild);
 
             }
 
+        }
+
+
+        function hideHiddenByDefault(rootNodeView) {
+            var stanceViews = getAllChildren(rootNodeView);
+            for (var i = 0; i < stanceViews.length; ++i) {
+                var stanceView = stanceViews[i];
+                var nodeData = stanceView.binding.targetNodeData;
+                if (!nodeData) continue;
+                if (nodeData.abbreviation == 'SS' || nodeData.abbreviation == 'GND') {
+                    hideAllChildren(stanceView);
+                } else
+                if (nodeData.abbreviation == 'STD') {
+                    var groupViews = getAllChildren(stanceView);
+                    for (var j = 0; j < groupViews.length; ++j) {
+                        var groupView = groupViews[j];
+                        if (!groupView.binding.groupName) continue;
+                        // FIXME: this will break with localization
+                        if (groupView.binding.groupName.search(/throws|holds/i) >= 0) {
+                            hideAllChildren(groupView);
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -229,10 +252,7 @@ define(
 
         function getEnding(nodeView) {
             var nodeData = getNodeData(nodeView);
-            var result = nodeData && (
-                NodeFactory.isStanceNode(nodeData) && nodeData.endsWith ||
-                NodeFactory.isMoveNode(nodeData)   && nodeData.endsWith
-            );
+            var result = nodeData && NodeFactory.isMoveNode(nodeData) && nodeData.endsWith;
             return result || null;
         }
 

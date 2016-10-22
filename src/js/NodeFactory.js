@@ -24,10 +24,11 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
         toString: toString,
 
-        isMovePunch: isMovePunch,
-        isMoveKick:  isMoveKick,
-        isMoveThrow: isMoveThrow,
-        isMoveHold:  isMoveHold,
+        isMovePunch:    isMovePunch,
+        isMoveKick:     isMoveKick,
+        isMoveThrow:    isMoveThrow,
+        isMoveHold:     isMoveHold,
+        isMoveHoldOnly: isMoveHoldOnly,
 
         isActionStepPunch:        isActionStepPunch,
         isActionStepKick:         isActionStepKick,
@@ -41,13 +42,18 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         isActionStepLow:          isActionStepLow,
 
         canActionStepHitGround: canActionStepHitGround,
+        canMoveHitGround:       canMoveHitGround,
 
         getMoveSummary:       getMoveSummary,
         getActionStepSummary: getActionStepSummary,
 
         doesActionStepResultDescribeGuard: doesActionStepResultDescribeGuard,
         getAdvantageRange: getAdvantageRange,
-        isActionStepResultEmpty: isActionStepResultEmpty
+        doesMoveContainActiveFrameInRange: doesMoveContainActiveFrameInRange,
+        getMoveDurationData: getMoveDurationData,
+        isActionStepResultEmpty: isActionStepResultEmpty,
+
+        createEmptyData: createEmptyData
 
         // guessMoveTypeByInput: guessMoveTypeByInput
 
@@ -78,9 +84,9 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
     function createStanceNode(optSource, optValidateChildren) {
 
         var result = _.defaults(optSource, {
-            abbreviation: undefined,
-            description: undefined,
-            endsWith: undefined,
+            abbreviation: undefined, // string
+            description: undefined, // string
+            appliesExtraFrame: undefined, // bool
             moves: []
         });
 
@@ -239,7 +245,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             condition: [],
 
             // Is calculated as amount of active frames after the one that landed + recovery + (dis-)advantage
-            hitBlock: undefined,
+            hitBlock: undefined, // Int
 
             // first number in critical hold interval
             criticalHoldDelay: undefined,
@@ -321,6 +327,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
     function isMoveKick(node)  { return node.actionSteps.some(isActionStepKick);  }
     function isMoveThrow(node) { return node.actionSteps.some(isActionStepThrow); }
     function isMoveHold(node)  { return node.actionSteps.some(isActionStepHold);  }
+    function isMoveHoldOnly(node) { return node.actionSteps.every(isActionStepHold);  }
 
     function isActionStepPunch(actionStep) {
         if (!actionStep.actionMask || !actionStep.actionType) return false;
@@ -412,7 +419,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
     }
 
     function getAdvantageRange(nodeData) {
-        if (!nodeData) return;
+        console.assert(_.isObject(nodeData), 'nodeData is invalid');
         var frameData = nodeData.frameData;
         if (!frameData || frameData.length === 0) return;
         var actionSteps = nodeData.actionSteps;
@@ -424,7 +431,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             if (!results) continue;
             for (var j = 0; j < results.length; ++j) {
                 if (doesActionStepResultDescribeGuard(results[j])) {
-                    var blockStun = Number(results[j].hitBlock);
+                    var blockStun = results[j].hitBlock;
                     if (isNaN(blockStun) || !isFinite(blockStun)) continue;
                     var maxAdvantage = blockStun - recovery;
                     var minAdvantage = maxAdvantage - activeFramesVarianceRoom;
@@ -437,8 +444,125 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         }
     }
 
+    /**
+     * `frameStart` and `frameEnd` inclusive. E.g. 10 (2) 15 is active on 11th and 12th frame
+     * This method assumes that nodeData is valid and its `frameData` is not empty
+     */
+    function doesMoveContainActiveFrameInRange(nodeData, frameStart, frameEnd) {
+        console.assert(_.isObject(nodeData), 'nodeData is invalid');
+        var frameData = nodeData.frameData; 
+        console.assert(frameData.length > 0, 'Frame data is not provided');
+        var t = frameData[0];
+        for (var i = 1; i < frameData.length; i += 2) {
+            var activeFrames = frameData[i];
+            var recoveryFrames = _.defined(frameData[i + 1], 0);
+            var activeFrameStart = t + 1;
+            var activeFrameEnd = t + activeFrames;
+            if (!(activeFrameEnd < frameStart || activeFrameStart > frameEnd)) {
+                return true;
+            }
+            t += activeFrames + recoveryFrames;
+        }
+        return false;
+    }
+
+    /** This method assumes that nodeData is valid and its `frameData` is not empty */
+    function getMoveDurationData(nodeData) {
+        var frameData = nodeData.frameData;
+        var withoutRecovery = 0;
+        for (var i = 0; i < frameData.length - 1; ++i) {
+            withoutRecovery += frameData[i];
+        }
+        var recovery = frameData[frameData.length - 1];
+        return {
+            total: withoutRecovery + recovery,
+            withoutRecovery: withoutRecovery
+        };
+    }
+
     function isActionStepResultEmpty(actionStepResult) {
         return !_.withoutFalsyProperties(actionStepResult);
+    }
+
+    function canMoveHitGround(nodeData) {
+        for (var i = 0; i < nodeData.actionSteps.length; ++i) {
+            if (canActionStepHitGround(nodeData.actionSteps[i])) return true;
+        }
+        return false;
+    }
+
+
+    function createEmptyData() {
+
+        return createRootNode({
+
+            stances: [
+
+                createStanceNode({
+                    abbreviation: 'STD',
+                    description: 'Standing',
+                    appliesExtraFrame: true
+                }),
+
+                createStanceNode({
+                    abbreviation: 'SS',
+                    description: 'Side step',
+                    appliesExtraFrame: false,
+                    moves: [
+                        createMoveNode({
+                            input: 'P',
+                            actionSteps: [
+                                createMoveActionStep({
+                                    actionMask: 'P',
+                                    actionType: 'strike'
+                                })
+                            ]
+                        }, true),
+                        createMoveNode({
+                            input: 'K',
+                            actionSteps: [
+                                createMoveActionStep({
+                                    actionMask: 'K',
+                                    actionType: 'strike'
+                                })
+                            ]
+                        }, true)
+                    ]
+                }, true),
+
+                createStanceNode({
+                    abbreviation: 'GND',
+                    description: 'From the ground',
+                    appliesExtraFrame: true,
+                    moves: [
+                        createMoveNode({
+                            input: 'K',
+                            actionSteps: [
+                                createMoveActionStep({
+                                    actionMask: 'mid K',
+                                    actionType: 'strike',
+                                    isTracking: true
+                                })
+                            ]
+                        }, true),
+                        createMoveNode({
+                            input: '2K',
+                            actionSteps: [
+                                createMoveActionStep({
+                                    actionMask: 'low K',
+                                    actionType: 'strike',
+                                    isTracking: true,
+                                    tags: ['ground attack']
+                                })
+                            ]
+                        }, true)
+                    ]
+                }, true)
+
+            ]
+
+        }, true);
+
     }
 
 });

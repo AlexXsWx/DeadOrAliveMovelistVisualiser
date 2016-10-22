@@ -36,13 +36,12 @@ define(
                     fill: descriptionToText,
                     parameterModifier: changeStanceDescription
                 }, {
-                    id: 'ending',
-                    inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    label: Strings('stanceEnding'),
-                    description: Strings('stanceEndingDescription'),
-                    placeholderText: Strings('stanceEndingPlaceholder'),
-                    fill: endsWithToText,
-                    parameterModifier: changeStanceEnding
+                    id: 'extraFrame',
+                    inputType: EditorCreatorBase.INPUT_TYPES.checkbox,
+                    label: Strings('stanceExtraFrame'),
+                    description: Strings('stanceExtraFrameDescription'),
+                    fill: appliesExtraFrameToIsChecked,
+                    parameterModifier: changeStanceExtraFrame
                 }
             ];
 
@@ -89,11 +88,11 @@ define(
                 return oldValue !== newValue;
             }
 
-
-            function endsWithToText(nodeData) { return nodeData.endsWith || ''; }
-            function changeStanceEnding(newValue, nodeData) {
-                var oldValue = nodeData.endsWith;
-                nodeData.endsWith = newValue;
+            function appliesExtraFrameToIsChecked(nodeData) { return nodeData.appliesExtraFrame; }
+            function changeStanceExtraFrame(isChecked, isIndeterminate, nodeData) {
+                var newValue = isIndeterminate ? undefined : isChecked;
+                var oldValue = nodeData.appliesExtraFrame;
+                nodeData.appliesExtraFrame = newValue;
                 return oldValue !== newValue;
             }
 

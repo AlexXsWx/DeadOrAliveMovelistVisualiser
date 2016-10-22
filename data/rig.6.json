@@ -1,13 +1,14 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1473609388506
+    "timeSaved": 1477093245521
   },
   "body": {
     "character": "rig",
     "stances": [
       {
         "abbreviation": "STD",
+        "appliesExtraFrame": true,
         "moves": [
           {
             "input": "P",
@@ -3007,6 +3008,7 @@
       },
       {
         "abbreviation": "SS",
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "P",
@@ -3060,6 +3062,7 @@
       },
       {
         "abbreviation": "BND",
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "P",
@@ -3804,6 +3807,7 @@
       },
       {
         "abbreviation": "TLC",
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "P",

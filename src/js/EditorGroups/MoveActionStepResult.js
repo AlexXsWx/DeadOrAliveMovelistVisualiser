@@ -102,8 +102,9 @@ define(
 
             function changeHitBlock(newValue, actionStepResult) {
                 var oldValue = actionStepResult.hitBlock;
-                actionStepResult.hitBlock = newValue;
-                return newValue === oldValue;
+                var newValueAsNumber = Number(newValue);
+                actionStepResult.hitBlock = newValueAsNumber;
+                return newValueAsNumber === oldValue;
             }
 
 

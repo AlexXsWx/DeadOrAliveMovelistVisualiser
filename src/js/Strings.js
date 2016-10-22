@@ -18,9 +18,11 @@ define('Strings', function Strings() {
         'stanceDescriptionDescription': 'Abbreviation description - e.g. "Bokuho"',
         'stanceDescriptionPlaceholder': 'e.g. "Bokuho"',
 
-        'stanceEnding': 'Ending',
-        'stanceEndingDescription': 'Abbreviation of another stance if transits automatically',
-        'stanceEndingPlaceholder': 'e.g. "BND"',
+        'stanceExtraFrame': 'Extra frame',
+        'stanceExtraFrameDescription': (
+            'If the stance applies extra frame.\n' +
+            'Most stances, including standart standing, do'
+        ),
 
         'moveSummary': 'Summary',
         'moveSummaryDescription': (
