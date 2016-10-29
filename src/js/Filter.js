@@ -40,126 +40,132 @@ define(
             return false
         }
 
+        function createWarner(outputObject) {
+            var outputWarnings = outputObject || {};
+            return warn;
+            function warn(fullPath, message) {
+                var fullMessage;
+                var nodeData = fullPath[fullPath.length - 1];
+                if (NodeFactory.isStanceNode(nodeData)) {
+                    fullMessage = 'stance ' + NodeFactory.toString(nodeData) + ' ' + message;
+                } else {
+                    fullMessage = pathHistoryToString(getRelativePath(fullPath)) + ' ' + message;
+                }
+                outputWarnings[fullMessage] = (outputWarnings[fullMessage] || 0) + 1;
+            }
+        }
+
         function findNodes(
             rootNodeData,
             frameToBeActiveOnStart, // inclusive
             frameToBeActiveOnEnd,   // inclusive
-            doesNodeDataQualify,
-            optWarnings,
-            optPathHistory,
-            optFramesSpent,
+            optNodeDataFilterFunc,
+            optOutputWarnings,
             optCurrentStance
         ) {
-            var result = doFindNodes(
-                rootNodeData,
-                frameToBeActiveOnStart,
-                frameToBeActiveOnEnd,
-                doesNodeDataQualify,
-                optWarnings,
-                optPathHistory,
-                optFramesSpent,
-                optCurrentStance
-            );
-            return filterResultsToString(result);
+            var results = [];
+
+            var warnFunc = createWarner(optOutputWarnings);
+
+            var keepLookingRecursive = _.flattenRecursion(keepLooking);
+            keepLookingRecursive([], true, 0, optCurrentStance || 'STD');
+            function keepLooking(workingPath, restartFromRoot, framesSpent, currentStance) {
+                if (framesSpent >= frameToBeActiveOnEnd) return;
+                if (restartFromRoot) workingPath = workingPath.concat([rootNodeData]);
+                var stance = currentStance || 'STD';
+                var workingParentNodeData = workingPath[workingPath.length - 1];
+                NodeFactory.getChildren(workingParentNodeData).forEach(function(childNodeData) {
+                    var childWorkingPath = workingPath.concat(childNodeData);
+                    if (NodeFactory.isMoveNode(childNodeData)) {
+                        var qualifies = checkMoveNode(
+                            childWorkingPath,
+                            stance,
+                            optNodeDataFilterFunc,
+                            frameToBeActiveOnStart,
+                            frameToBeActiveOnEnd,
+                            framesSpent,
+                            keepLookingRecursive,
+                            warnFunc
+                        );
+                        if (qualifies) {
+                            results.push(childWorkingPath);
+                        }
+                    } else
+                    if (NodeFactory.isStanceNode(childNodeData)) {
+                        checkStanceNode(
+                            childWorkingPath, stance, framesSpent, keepLookingRecursive, warnFunc
+                        );
+                    }
+                });
+            }
+
+            // TODO: handle 7h, 4h, 6h as the same
+            // TODO: include +- of active frames (e.g landed on 3rd out of 5 total)
+            return filterResultsToString(results);
+
         }
 
-        function doFindNodes(
-            rootNodeData,
+        /** Assuming nodeData is move node data */
+        function checkMoveNode(
+            workingPath,
+            workingStance,
+            optNodeDataFilterFunc,
             frameToBeActiveOnStart, // inclusive
             frameToBeActiveOnEnd,   // inclusive
-            doesNodeDataQualify,
-            optWarnings,
-            optPathHistory,
-            optFramesSpent,
-            optCurrentStance
+            framesSpent,
+            keepLookingFunc,
+            warnFunc
         ) {
-
-            var currentParentPath = optPathHistory || [rootNodeData];
-            var stance = optCurrentStance || 'STD';
-
-            var result = [];
-
-            var currentParentData = currentParentPath[currentParentPath.length - 1];
-            NodeFactory.getChildren(currentParentData).forEach(function(child) {
-
-                var framesSpent = _.defined(optFramesSpent, 0);
-
-                var childFullPath = currentParentPath.concat(child);
-
-                if (NodeFactory.isMoveNode(child)) {
-                    var frameData = child.frameData;
-                    if (frameData && frameData.length > 0) {
-                        // Filter out BT moves
-                        if (!doesContextQualify(child, stance)) return;
-                        if (
-                            doesNodeDataQualify(child) && 
-                            NodeFactory.doesMoveContainActiveFrameInRange(
-                                child,
-                                frameToBeActiveOnStart - framesSpent,
-                                frameToBeActiveOnEnd   - framesSpent
-                            )
-                        ) {
-                            result.push(childFullPath);
-                        }
-
-                        var moveDurationData = NodeFactory.getMoveDurationData(child);
-
-                        // FIXME: use followup information instead of ignoring recovery
-                        // Check for possible direct followups
-                        var framesSpentWithoutRecovery = framesSpent + moveDurationData.withoutRecovery;
-                        if (framesSpentWithoutRecovery < frameToBeActiveOnEnd) {
-                            keepLooking(childFullPath, framesSpentWithoutRecovery, undefined);
-                        }
-
-                        // Check for possible followups after free cancel or end of string
-                        var framesSpentTotal = framesSpent + moveDurationData.total;
-                        if (framesSpentTotal < frameToBeActiveOnEnd) {
-                            var fullPathHistory = childFullPath.concat(rootNodeData);
-                            keepLooking(fullPathHistory, framesSpentTotal, child.endsWith);
-                        }
-                    } else {
-                        var relPath = childFullPath;
-                        var restartIndex = childFullPath.lastIndexOf(rootNodeData);
-                        if (restartIndex > 0) {
-                            relPath = relPath.slice(restartIndex + 1);
-                        }
-                        warn(pathHistoryToString(relPath) + ' has no frameData');
-                    }
+            var qualifies = false;
+            var nodeData = workingPath[workingPath.length - 1];
+            // Filter out BT moves
+            if (!doesContextQualify(nodeData, workingStance)) return qualifies;
+            if (nodeData.frameData && nodeData.frameData.length > 0) {
+                if (
+                    (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) && 
+                    NodeFactory.doesMoveContainActiveFrameInRange(
+                        nodeData,
+                        frameToBeActiveOnStart - framesSpent,
+                        frameToBeActiveOnEnd   - framesSpent
+                    )
+                ) {
+                    qualifies = true;
                 }
 
-                else
+                var moveDurationData = NodeFactory.getMoveDurationData(nodeData);
 
-                if (NodeFactory.isStanceNode(child) && doesStanceQualify(child, stance)) {
-                    if (child.appliesExtraFrame === undefined) {
-                        warn('stance ' + NodeFactory.toString(child) + ' has no appliesExtraFrame');
-                    } else 
-                    if (child.appliesExtraFrame) framesSpent += 1;
-                    keepLooking(childFullPath, framesSpent, undefined);
-                }
+                // Check followups of this move
+                keepLookingFunc(
+                    workingPath, false,
+                    // FIXME: use followup information instead of ignoring recovery
+                    framesSpent + moveDurationData.withoutRecovery,
+                    undefined
+                );
 
-            });
-
-            return result;
-
-            function keepLooking(pathHistory, framesSpent, currentStance) {
-                result = result.concat(doFindNodes(
-                    rootNodeData,
-                    frameToBeActiveOnStart,
-                    frameToBeActiveOnEnd,
-                    doesNodeDataQualify,
-                    optWarnings,
-                    pathHistory,
-                    framesSpent,
-                    currentStance
-                ));
+                // Check followups after free cancel or end of string
+                keepLookingFunc(
+                    workingPath, true,
+                    framesSpent + moveDurationData.total,
+                    nodeData.endsWith
+                );
+            } else {
+                warnFunc(workingPath, 'has no frameData');
             }
+            return qualifies;
+        }
 
-            function warn(message) {
-                if (_.isObject(optWarnings)) {
-                    optWarnings[message] = true;
+        /** Assuming nodeData is stance node data */
+        function checkStanceNode(
+            workingPath, workingStance, framesSpent, keepLookingFunc, warnFunc
+        ) {
+            var nodeData = workingPath[workingPath.length - 1];
+            if (doesStanceQualify(nodeData, workingStance)) {
+                if (nodeData.appliesExtraFrame === undefined) {
+                    warnFunc(workingPath, 'did not define appliesExtraFrame');
                 }
+                var framesSpentByStance = (nodeData.appliesExtraFrame === false) ? 0 : 1;
+                keepLookingFunc(workingPath, false, framesSpent + framesSpentByStance, undefined);
             }
-
         }
 
         function doesStanceQualify(stanceNodeData, stance) {
@@ -201,6 +207,15 @@ define(
                 result += moves.join(' ');
             }
             return result;
+        }
+
+        function getRelativePath(pathHistory) {
+            for (var i = pathHistory.length - 1; i >= 0; --i) {
+                if (NodeFactory.isRootNode(pathHistory[i])) {
+                    return pathHistory.slice(i);
+                }
+            }
+            return pathHistory;
         }
 
         function filterResultsToString(pathHistoryArray) {

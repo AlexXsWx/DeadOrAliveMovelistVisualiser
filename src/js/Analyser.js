@@ -22,7 +22,12 @@ define('Analyser', ['Filter', 'Tools', 'NodeFactory'], function Analyser(Filter,
         if (advantage) {
             var vulnerabilityStarts = advantage + 1;
             var vulnerabilityEnds   = vulnerabilityStarts;
-            doFindMoves(rootNodeData, vulnerabilityStarts, vulnerabilityEnds, NodeFactory.canMoveHitGround);
+            doFindMoves(
+                rootNodeData,
+                vulnerabilityStarts,
+                vulnerabilityEnds,
+                NodeFactory.canMoveHitGround
+            );
         }
     }
 
@@ -54,9 +59,12 @@ define('Analyser', ['Filter', 'Tools', 'NodeFactory'], function Analyser(Filter,
 
         var warningMessages = Object.keys(warnings);
 
+        // TODO: sort by frequency of occurrence
         if (warningMessages.length > 0) {
-            output += 'warnings (' + warningMessages.length + '):\n';
-            output += warningMessages.join('\n') + '\n\n'
+            output += 'warnings (x' + warningMessages.length + '):\n';
+            output += warningMessages.map(function(msg) {
+                return (warnings[msg] == 1) ? msg : msg + ' (x' + warnings[msg] + ')';
+            }).join('\n') + '\n\n';
         }
 
         output += frameStart + '-' + frameEnd + 'f:\n';

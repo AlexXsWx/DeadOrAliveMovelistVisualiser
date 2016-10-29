@@ -25,7 +25,9 @@ define('Tools', function() {
         removeAllChildren:                     removeAllChildren,
         lerp:                                  lerp,
         dispatchInputEvent:                    dispatchInputEvent,
-        forEachOwnProperty:                    forEachOwnProperty
+        forEachOwnProperty:                    forEachOwnProperty,
+        flattenRecursion:                      flattenRecursion,
+        sliceArguments:                        sliceArguments
     };
 
     function getDomElement(id) {
@@ -285,6 +287,36 @@ define('Tools', function() {
                 action(key, object[key]);
             }
         }
+    }
+
+    function flattenRecursion(func) {
+
+        var isRunning = false;
+        var args = [];
+        
+        return goRecursive;
+
+        function goRecursive(/* arguments */) {
+            args.push(sliceArguments.apply(null, arguments));
+            run();
+        }
+
+        function run() {
+            if (!isRunning) {
+                isRunning = true;
+                while (args.length > 0) func.apply(null, args.shift());
+                isRunning = false;
+            }
+        }
+    }
+
+    /** Only use via apply */
+    function sliceArguments(/* arguments */) {
+        var args = [];
+        for (var i = 0; i < arguments.length; ++i) {
+            args.push(arguments[i]);
+        }
+        return args;
     }
 
 });
