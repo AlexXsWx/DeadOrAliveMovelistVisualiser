@@ -289,6 +289,7 @@ define('Tools', function() {
         }
     }
 
+    /** WARNING: order of execution is not preserved */
     function flattenRecursion(func) {
 
         var isRunning = false;
@@ -304,7 +305,18 @@ define('Tools', function() {
         function run() {
             if (!isRunning) {
                 isRunning = true;
-                while (args.length > 0) func.apply(null, args.shift());
+                while (args.length > 0) {
+
+                    // slow but preserves order
+                    // var arg = args.shift();
+
+                    // fast but does not preserve order
+                    var arg = args[0];
+                    args[0] = args[args.length - 1];
+                    args.pop();
+
+                    func.apply(null, arg);
+                }
                 isRunning = false;
             }
         }

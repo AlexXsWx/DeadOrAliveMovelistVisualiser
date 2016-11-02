@@ -504,6 +504,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
                     appliesExtraFrame: true
                 }),
 
+                // when a non-tracking on first active frame misses due to sidestep, further active frames will miss too?
                 createStanceNode({
                     abbreviation: 'SS',
                     description: 'Side step',
@@ -515,6 +516,9 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
                                 createMoveActionStep({
                                     actionMask: 'P',
                                     actionType: 'strike'
+                                    // starting from 14th (without counting extra initial frame) frame sidestep untouchable is inactive
+                                    // followup: 13.
+                                    // when followed up, sidestep untouchable shortens from 20 frames to 13
                                 })
                             ]
                         }, true),

@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1477093245521
+    "timeSaved": 1478129134927
   },
   "body": {
     "character": "rig",
@@ -103,9 +103,20 @@
                     "frameData": [
                       13,
                       0,
-                      22
+                      0
                     ],
-                    "endsWith": "TLC"
+                    "endsWith": "TLC",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          22
+                        ],
+                        "endsWith": "BND"
+                      }
+                    ]
                   },
                   {
                     "input": "P",
@@ -400,7 +411,7 @@
                           {
                             "input": "4",
                             "frameData": [
-                              12,
+                              -8,
                               0,
                               16
                             ],
@@ -1397,9 +1408,20 @@
                     "frameData": [
                       20,
                       0,
-                      20
+                      0
                     ],
-                    "endsWith": "TLC"
+                    "endsWith": "TLC",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          20
+                        ],
+                        "endsWith": "BND"
+                      }
+                    ]
                   },
                   {
                     "input": "K",
@@ -1455,6 +1477,11 @@
                         "followUps": [
                           {
                             "input": "4",
+                            "frameData": [
+                              -8,
+                              0,
+                              16
+                            ],
                             "endsWith": "BND"
                           }
                         ]
@@ -1761,9 +1788,20 @@
                     "frameData": [
                       15,
                       0,
-                      20
+                      0
                     ],
-                    "endsWith": "TLC"
+                    "endsWith": "TLC",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          20
+                        ],
+                        "endsWith": "BND"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1921,6 +1959,11 @@
                 "followUps": [
                   {
                     "input": "4",
+                    "frameData": [
+                      -8,
+                      0,
+                      16
+                    ],
                     "endsWith": "BND"
                   }
                 ]
@@ -2299,25 +2342,36 @@
             "frameData": [
               15,
               0,
-              20
+              0
             ],
-            "endsWith": "TLC"
+            "endsWith": "TLC",
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  0,
+                  20
+                ],
+                "endsWith": "BND"
+              }
+            ]
           },
           {
             "input": "4P+K",
             "frameData": [
-              4,
+              22,
               0,
-              18
+              0
             ],
             "endsWith": "BND"
           },
           {
             "input": "2P+K",
             "frameData": [
-              4,
+              22,
               0,
-              18
+              0
             ],
             "endsWith": "BND"
           },
@@ -2345,6 +2399,12 @@
                     "hitBlock": "31"
                   }
                 ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "8",
+                "endsWith": "SS"
               }
             ]
           },
@@ -2953,9 +3013,20 @@
             "frameData": [
               15,
               0,
-              23
+              0
             ],
-            "endsWith": "TLC"
+            "endsWith": "TLC",
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  0,
+                  23
+                ],
+                "endsWith": "BND"
+              }
+            ]
           },
           {
             "input": "H+K",
@@ -2989,7 +3060,7 @@
             "frameData": [
               0,
               0,
-              24
+              0
             ],
             "endsWith": "SS"
           },
@@ -3056,6 +3127,14 @@
                   }
                 ]
               }
+            ]
+          },
+          {
+            "input": "*",
+            "frameData": [
+              0,
+              0,
+              24
             ]
           }
         ]
@@ -3167,9 +3246,20 @@
                         "frameData": [
                           27,
                           0,
-                          20
+                          0
                         ],
-                        "endsWith": "TLC"
+                        "endsWith": "TLC",
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              0,
+                              0,
+                              20
+                            ],
+                            "endsWith": "BND"
+                          }
+                        ]
                       }
                     ]
                   },
@@ -3281,6 +3371,11 @@
             "followUps": [
               {
                 "input": "4",
+                "frameData": [
+                  -7,
+                  0,
+                  8
+                ],
                 "endsWith": "BND"
               }
             ]
@@ -3391,6 +3486,11 @@
                 "followUps": [
                   {
                     "input": "4",
+                    "frameData": [
+                      -8,
+                      0,
+                      16
+                    ],
                     "endsWith": "BND"
                   }
                 ]
@@ -3484,9 +3584,20 @@
             "frameData": [
               20,
               0,
-              15
+              0
             ],
-            "endsWith": "TLC"
+            "endsWith": "TLC",
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  0,
+                  15
+                ],
+                "endsWith": "BND"
+              }
+            ]
           },
           {
             "input": "H+K",
@@ -3703,7 +3814,7 @@
             "frameData": [
               0,
               0,
-              14
+              15
             ]
           },
           {
@@ -3802,6 +3913,15 @@
                 "reach": 1.06
               }
             ]
+          },
+          {
+            "input": "*",
+            "frameData": [
+              0,
+              0,
+              50
+            ],
+            "endsWith": "STD"
           }
         ]
       },
@@ -4161,6 +4281,50 @@
                 ]
               }
             ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "GND",
+        "description": "On the ground",
+        "moves": [
+          {
+            "input": "K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "FNC",
+        "description": "Jumping over fence",
+        "moves": [
+          {
+            "input": "P"
+          },
+          {
+            "input": "K"
+          },
+          {
+            "input": "*P"
+          },
+          {
+            "input": "*K"
           }
         ]
       }

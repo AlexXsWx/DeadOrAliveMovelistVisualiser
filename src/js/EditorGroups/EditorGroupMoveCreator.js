@@ -196,7 +196,8 @@ define(
             function frameDataToText(nodeData) { return nodeData.frameData.join(' ') || ''; }
             function changeFrameData(newValueRaw, nodeData) {
 
-                var numbers = newValueRaw.match(/\d+/g);
+                // FIXME: dont support negative framedata, use followup range instead
+                var numbers = newValueRaw.match(/-?\d+/g);
                 var newValue = numbers ? numbers.map(mapStrToInt) : [];
                 var oldValue = nodeData.frameData || [];
 

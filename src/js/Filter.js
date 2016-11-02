@@ -55,6 +55,7 @@ define(
             }
         }
 
+        // Stuff to test on: Rig's 3k6k4 2k should land on frame 72
         function findNodes(
             rootNodeData,
             frameToBeActiveOnStart, // inclusive
@@ -70,12 +71,16 @@ define(
             var keepLookingRecursive = _.flattenRecursion(keepLooking);
             keepLookingRecursive([], true, 0, optCurrentStance || 'STD');
             function keepLooking(workingPath, restartFromRoot, framesSpent, currentStance) {
-                if (framesSpent >= frameToBeActiveOnEnd) return;
+                var negativeFramedataTolerance = 10;
+                /* Normally it makes sense to stop right after exceeding frameToBeActiveOnEnd,
+                 * but then there are negative frame data... */
+                if (framesSpent - frameToBeActiveOnEnd >= negativeFramedataTolerance) return;
                 if (restartFromRoot) workingPath = workingPath.concat([rootNodeData]);
                 var stance = currentStance || 'STD';
                 var workingParentNodeData = workingPath[workingPath.length - 1];
                 NodeFactory.getChildren(workingParentNodeData).forEach(function(childNodeData) {
                     var childWorkingPath = workingPath.concat(childNodeData);
+        // pathHistoryToString(childWorkingPath);
                     if (NodeFactory.isMoveNode(childNodeData)) {
                         var qualifies = checkMoveNode(
                             childWorkingPath,
