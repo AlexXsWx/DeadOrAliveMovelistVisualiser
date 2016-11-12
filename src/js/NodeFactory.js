@@ -48,6 +48,8 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         getActionStepSummary: getActionStepSummary,
 
         doesActionStepResultDescribeGuard: doesActionStepResultDescribeGuard,
+        doesActionStepResultDescribeForcetech: doesActionStepResultDescribeForcetech,
+        doesActionStepResultDescribeGroundHit: doesActionStepResultDescribeGroundHit,
         getAdvantageRange: getAdvantageRange,
         doesMoveContainActiveFrameInRange: doesMoveContainActiveFrameInRange,
         getMoveDurationData: getMoveDurationData,
@@ -418,7 +420,36 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         return false;
     }
 
-    function getAdvantageRange(nodeData) {
+    function doesActionStepResultDescribeForcetech(actionStepResult) {
+        if (
+            !actionStepResult ||
+            !actionStepResult.condition || !actionStepResult.condition.length
+        ) {
+            return false;
+        }
+
+        for (var i = 0; i < actionStepResult.condition.length; ++i) {
+            if (actionStepResult.condition[i].search(/forcetech/i) >= 0) return true;
+        }
+
+        return false;
+    }
+    function doesActionStepResultDescribeGroundHit(actionStepResult) {
+        if (
+            !actionStepResult ||
+            !actionStepResult.condition || !actionStepResult.condition.length
+        ) {
+            return false;
+        }
+
+        for (var i = 0; i < actionStepResult.condition.length; ++i) {
+            if (actionStepResult.condition[i].search(/grounded/i) >= 0) return true;
+        }
+
+        return false;
+    }
+
+    function getAdvantageRange(nodeData, actionStepResultFilter) {
         console.assert(_.isObject(nodeData), 'nodeData is invalid');
         var frameData = nodeData.frameData;
         if (!frameData || frameData.length === 0) return;
@@ -430,7 +461,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             var results = actionSteps[i].results;
             if (!results) continue;
             for (var j = 0; j < results.length; ++j) {
-                if (doesActionStepResultDescribeGuard(results[j])) {
+                if (actionStepResultFilter(results[j])) {
                     var blockStun = results[j].hitBlock;
                     if (isNaN(blockStun) || !isFinite(blockStun)) continue;
                     var maxAdvantage = blockStun - recovery;

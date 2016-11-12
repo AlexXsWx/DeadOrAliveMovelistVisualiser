@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1478129134927
+    "timeSaved": 1478987051014
   },
   "body": {
     "character": "rig",
@@ -46,7 +46,7 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "14"
                   }
@@ -90,7 +90,7 @@
                       },
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "9"
                       }
@@ -149,7 +149,7 @@
                           },
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "12"
                           }
@@ -189,7 +189,7 @@
                               },
                               {
                                 "condition": [
-                                  "block"
+                                  "guard"
                                 ],
                                 "hitBlock": "19"
                               }
@@ -235,9 +235,15 @@
                               },
                               {
                                 "condition": [
-                                  "block"
+                                  "guard"
                                 ],
                                 "hitBlock": "10"
+                              },
+                              {
+                                "condition": [
+                                  "forcetech"
+                                ],
+                                "hitBlock": 45
                               }
                             ]
                           }
@@ -282,7 +288,7 @@
                               },
                               {
                                 "condition": [
-                                  "block"
+                                  "guard"
                                 ],
                                 "hitBlock": "9"
                               }
@@ -324,7 +330,7 @@
                           },
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "15"
                           }
@@ -357,7 +363,7 @@
                               },
                               {
                                 "condition": [
-                                  "block"
+                                  "guard"
                                 ],
                                 "hitBlock": "20"
                               }
@@ -400,7 +406,7 @@
                               },
                               {
                                 "condition": [
-                                  "block"
+                                  "guard"
                                 ],
                                 "hitBlock": "9"
                               }
@@ -453,9 +459,15 @@
                               },
                               {
                                 "condition": [
-                                  "block"
+                                  "guard"
                                 ],
                                 "hitBlock": "9"
+                              },
+                              {
+                                "condition": [
+                                  "forcetech"
+                                ],
+                                "hitBlock": 45
                               }
                             ]
                           }
@@ -502,9 +514,21 @@
                           },
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "12"
+                          },
+                          {
+                            "condition": [
+                              "grounded"
+                            ],
+                            "hitBlock": 50
+                          },
+                          {
+                            "condition": [
+                              "forcetech"
+                            ],
+                            "hitBlock": 51
                           }
                         ]
                       }
@@ -533,7 +557,7 @@
                               },
                               {
                                 "condition": [
-                                  "block"
+                                  "guard"
                                 ],
                                 "hitBlock": "14"
                               }
@@ -571,7 +595,7 @@
                       },
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "12"
                       }
@@ -595,7 +619,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "30",
                             "tags": [
@@ -643,9 +667,15 @@
                           },
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "11"
+                          },
+                          {
+                            "condition": [
+                              "forcetech"
+                            ],
+                            "hitBlock": 45
                           }
                         ]
                       }
@@ -677,7 +707,7 @@
                       },
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "20"
                       }
@@ -718,7 +748,7 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "9"
                   }
@@ -752,7 +782,7 @@
                       },
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "19"
                       }
@@ -788,7 +818,7 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "12"
                   }
@@ -827,7 +857,7 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "17"
                   }
@@ -867,7 +897,7 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "16"
                   }
@@ -908,7 +938,7 @@
                       },
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "22"
                       }
@@ -950,7 +980,7 @@
                       },
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "9"
                       }
@@ -993,9 +1023,21 @@
                       },
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "17"
+                      },
+                      {
+                        "condition": [
+                          "grounded"
+                        ],
+                        "hitBlock": 50
+                      },
+                      {
+                        "condition": [
+                          "forcetech"
+                        ],
+                        "hitBlock": 55
                       }
                     ]
                   }
@@ -1028,7 +1070,7 @@
                           },
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "19"
                           }
@@ -1079,7 +1121,7 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "11"
                   }
@@ -1111,7 +1153,7 @@
                       },
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "20"
                       }
@@ -1143,7 +1185,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "11"
                       }
@@ -1185,7 +1227,7 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "19"
                   }
@@ -1236,9 +1278,21 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "17"
+                  },
+                  {
+                    "condition": [
+                      "grounded"
+                    ],
+                    "hitBlock": 50
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 51
                   }
                 ]
               }
@@ -1279,9 +1333,15 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "12"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -1311,7 +1371,7 @@
                       },
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "20"
                       }
@@ -1345,7 +1405,7 @@
                   },
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "20"
                   }
@@ -1369,7 +1429,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "10"
                   }
@@ -1394,7 +1454,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "24"
                       }
@@ -1439,7 +1499,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "17"
                           }
@@ -1467,7 +1527,7 @@
                             "results": [
                               {
                                 "condition": [
-                                  "block"
+                                  "guard"
                                 ],
                                 "hitBlock": "9"
                               }
@@ -1506,7 +1566,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "14"
                       }
@@ -1533,9 +1593,15 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "13"
+                          },
+                          {
+                            "condition": [
+                              "forcetech"
+                            ],
+                            "hitBlock": 45
                           }
                         ]
                       }
@@ -1562,9 +1628,21 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "16"
+                      },
+                      {
+                        "condition": [
+                          "grounded"
+                        ],
+                        "hitBlock": 50
+                      },
+                      {
+                        "condition": [
+                          "forcetech"
+                        ],
+                        "hitBlock": 55
                       }
                     ]
                   }
@@ -1587,7 +1665,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "19"
                           }
@@ -1616,7 +1694,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "10"
                   }
@@ -1641,7 +1719,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "14"
                   }
@@ -1668,9 +1746,15 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "13"
+                      },
+                      {
+                        "condition": [
+                          "grounded"
+                        ],
+                        "hitBlock": 45
                       }
                     ]
                   }
@@ -1697,9 +1781,15 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "11"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 46
                   }
                 ]
               }
@@ -1724,9 +1814,15 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "10"
+                      },
+                      {
+                        "condition": [
+                          "forcetech"
+                        ],
+                        "hitBlock": 46
                       }
                     ]
                   }
@@ -1751,7 +1847,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "15"
                   }
@@ -1775,7 +1871,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "9"
                       }
@@ -1821,7 +1917,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "10"
                       }
@@ -1848,7 +1944,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "8"
                   }
@@ -1873,7 +1969,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "20"
                       }
@@ -1900,7 +1996,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "10"
                   }
@@ -1924,7 +2020,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "20"
                       }
@@ -1949,7 +2045,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "9"
                       }
@@ -1987,9 +2083,21 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "17"
+                      },
+                      {
+                        "condition": [
+                          "grounded"
+                        ],
+                        "hitBlock": 50
+                      },
+                      {
+                        "condition": [
+                          "forcetech"
+                        ],
+                        "hitBlock": 55
                       }
                     ]
                   }
@@ -2012,7 +2120,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "19"
                           }
@@ -2044,9 +2152,21 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "13"
+                  },
+                  {
+                    "condition": [
+                      "grounded"
+                    ],
+                    "hitBlock": 50
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 51
                   }
                 ]
               }
@@ -2068,7 +2188,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "14"
                       }
@@ -2095,9 +2215,15 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "11"
+                      },
+                      {
+                        "condition": [
+                          "forcetech"
+                        ],
+                        "hitBlock": 45
                       }
                     ]
                   }
@@ -2124,9 +2250,21 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "17"
+                  },
+                  {
+                    "condition": [
+                      "grounded"
+                    ],
+                    "hitBlock": 50
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 55
                   }
                 ]
               }
@@ -2149,7 +2287,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "19"
                       }
@@ -2176,7 +2314,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "10"
                   }
@@ -2200,7 +2338,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "20"
                   }
@@ -2225,7 +2363,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "14"
                   }
@@ -2249,7 +2387,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "35"
                   }
@@ -2276,9 +2414,15 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "22"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -2303,7 +2447,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "20"
                   }
@@ -2327,7 +2471,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "11"
                       }
@@ -2394,7 +2538,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "31"
                   }
@@ -2424,7 +2568,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "12"
                   }
@@ -2448,7 +2592,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "30",
                         "tags": [
@@ -2478,9 +2622,15 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "11"
+                      },
+                      {
+                        "condition": [
+                          "forcetech"
+                        ],
+                        "hitBlock": 45
                       }
                     ]
                   }
@@ -2506,7 +2656,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "11"
                   }
@@ -2539,9 +2689,15 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "13"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -2566,9 +2722,15 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "11"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -2593,7 +2755,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "25"
                   }
@@ -2772,7 +2934,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "15"
                   }
@@ -2799,7 +2961,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "23"
                   }
@@ -2827,7 +2989,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "15"
                   }
@@ -2857,9 +3019,21 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "11"
+                  },
+                  {
+                    "condition": [
+                      "grounded"
+                    ],
+                    "hitBlock": 50
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 51
                   }
                 ]
               }
@@ -2884,7 +3058,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "9"
                   }
@@ -2908,7 +3082,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "35",
                         "tags": [
@@ -2938,9 +3112,15 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "11"
+                      },
+                      {
+                        "condition": [
+                          "forcetech"
+                        ],
+                        "hitBlock": 45
                       }
                     ]
                   }
@@ -2967,7 +3147,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "23"
                   }
@@ -2997,9 +3177,15 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "21"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -3047,7 +3233,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "11"
                   }
@@ -3097,7 +3283,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "16"
                   }
@@ -3121,7 +3307,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "12"
                   }
@@ -3159,7 +3345,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "17"
                   }
@@ -3183,7 +3369,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "15"
                   }
@@ -3208,7 +3394,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "20"
                       }
@@ -3233,7 +3419,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "12"
                           }
@@ -3279,7 +3465,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "11"
                           }
@@ -3310,9 +3496,15 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "12"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 46
                   }
                 ]
               }
@@ -3337,9 +3529,15 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "23"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 46
                   }
                 ]
               }
@@ -3361,7 +3559,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "18"
                   }
@@ -3396,7 +3594,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "8"
                   }
@@ -3421,7 +3619,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "20"
                       }
@@ -3448,7 +3646,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "14"
                   }
@@ -3476,7 +3674,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "9"
                       }
@@ -3516,9 +3714,21 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "17"
+                  },
+                  {
+                    "condition": [
+                      "grounded"
+                    ],
+                    "hitBlock": 50
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 56
                   }
                 ]
               }
@@ -3541,7 +3751,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "19"
                       }
@@ -3571,7 +3781,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "20"
                   }
@@ -3615,7 +3825,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "12"
                   }
@@ -3639,7 +3849,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "30",
                         "tags": [
@@ -3669,9 +3879,15 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "11"
+                      },
+                      {
+                        "condition": [
+                          "forcetech"
+                        ],
+                        "hitBlock": 45
                       }
                     ]
                   }
@@ -3697,7 +3913,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "19"
                   }
@@ -3728,7 +3944,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "12"
                       }
@@ -3755,7 +3971,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "30",
                     "tags": [
@@ -3785,9 +4001,15 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "10"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -3822,12 +4044,25 @@
             "context": [
               "BT"
             ],
+            "frameData": [
+              12,
+              2,
+              18
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.1
+                "reach": 1.1,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 15
+                  }
+                ]
               }
             ]
           },
@@ -3836,12 +4071,25 @@
             "context": [
               "BT"
             ],
+            "frameData": [
+              15,
+              3,
+              18
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.35
+                "reach": 1.35,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 15
+                  }
+                ]
               }
             ]
           },
@@ -3849,6 +4097,11 @@
             "input": "2P",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              18,
+              2,
+              21
             ],
             "actionSteps": [
               {
@@ -3858,6 +4111,26 @@
                 "reach": 1.57,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "grounded"
+                    ],
+                    "hitBlock": 50
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 49
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 11
+                  }
                 ]
               }
             ]
@@ -3867,12 +4140,25 @@
             "context": [
               "BT"
             ],
+            "frameData": [
+              16,
+              3,
+              21
+            ],
             "actionSteps": [
               {
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.24
+                "reach": 1.24,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 9
+                  }
+                ]
               }
             ]
           },
@@ -3880,6 +4166,11 @@
             "input": "2K",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              16,
+              2,
+              29
             ],
             "actionSteps": [
               {
@@ -3889,6 +4180,20 @@
                 "reach": 1.66,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 45
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
                 ]
               }
             ]
@@ -3905,12 +4210,25 @@
             "context": [
               "BT"
             ],
+            "frameData": [
+              31,
+              4,
+              16
+            ],
             "actionSteps": [
               {
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
-                "reach": 1.06
+                "reach": 1.06,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 14
+                  }
+                ]
               }
             ]
           },
@@ -3945,7 +4263,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "15"
                   }
@@ -3969,7 +4287,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "14"
                   }
@@ -3993,7 +4311,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "6"
                       }
@@ -4017,7 +4335,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "22"
                           }
@@ -4041,7 +4359,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "13"
                           }
@@ -4067,7 +4385,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "35",
                         "tags": [
@@ -4096,7 +4414,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "9"
                   }
@@ -4120,7 +4438,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "9"
                       }
@@ -4144,7 +4462,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "8"
                           }
@@ -4168,7 +4486,7 @@
                         "results": [
                           {
                             "condition": [
-                              "block"
+                              "guard"
                             ],
                             "hitBlock": "11"
                           }
@@ -4194,7 +4512,7 @@
                     "results": [
                       {
                         "condition": [
-                          "block"
+                          "guard"
                         ],
                         "hitBlock": "11"
                       }
@@ -4223,9 +4541,15 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "21"
+                  },
+                  {
+                    "condition": [
+                      "forcetech"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -4247,7 +4571,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "11"
                   }
@@ -4271,7 +4595,7 @@
                 "results": [
                   {
                     "condition": [
-                      "block"
+                      "guard"
                     ],
                     "hitBlock": "36",
                     "tags": [

@@ -209,7 +209,10 @@ define(
 
 
             function actionStepResultToAdvantageOnBlock(nodeData) {
-                var advantageRange = NodeFactory.getAdvantageRange(nodeData);
+                var advantageRange = NodeFactory.getAdvantageRange(
+                    nodeData,
+                    NodeFactory.doesActionStepResultDescribeGuard
+                );
                 return advantageRange ? advantageRange.min : '';
             }
 

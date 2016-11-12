@@ -22,7 +22,8 @@ define(
             getTextDuration: getTextDuration,
             getCooldown:     getCooldown,
             getSafety:       getSafety,
-            getReach:        getReach
+            getReach:        getReach,
+            getForcetechAdvantage: getForcetechAdvantage
 
         };
 
@@ -78,7 +79,10 @@ define(
         function getSafety(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
-            var advantageRange = NodeFactory.getAdvantageRange(nodeData);
+            var advantageRange = NodeFactory.getAdvantageRange(
+                nodeData,
+                NodeFactory.doesActionStepResultDescribeGuard
+            );
             if (!advantageRange) return '';
 
             // FIXME: don't reference document here
@@ -101,6 +105,33 @@ define(
                 }
             }
             return isFinite(max) ? max : '';
+        }
+        
+        function getForcetechAdvantage(nodeView) {
+            var nodeData = NodeView.getNodeData(nodeView);
+            if (!nodeData) return '';
+
+            // FIXME: don't reference document here
+            var result = document.createDocumentFragment();
+
+            var advantageRangeForcetech = NodeFactory.getAdvantageRange(
+                nodeData,
+                NodeFactory.doesActionStepResultDescribeForcetech
+            );
+            if (advantageRangeForcetech) {
+                result.appendChild(advantageInteger(advantageRangeForcetech.min));
+            }
+
+            var advantageRangeGroundHit = NodeFactory.getAdvantageRange(
+                nodeData,
+                NodeFactory.doesActionStepResultDescribeGroundHit
+            );
+            if (advantageRangeGroundHit) {
+                result.appendChild(_.createTextNode('/'));
+                result.appendChild(advantageInteger(advantageRangeGroundHit.min));
+            }
+
+            return result;
         }
 
         function getEmptyText(nodeView) {
