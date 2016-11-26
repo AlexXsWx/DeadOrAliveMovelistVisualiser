@@ -9,6 +9,7 @@ define(
         return {
             isTrackingMidKickNode: isTrackingMidKickNode,
             isGroundAttackNode: isGroundAttackNode,
+            doesNodeCauseHardKnockDown: doesNodeCauseHardKnockDown,
             findNodes: findNodes
         };
 
@@ -22,6 +23,20 @@ define(
                         NodeFactory.isActionStepMid(actionStep)
                     ) {
                         return true;
+                    }
+                }
+            }
+            return false
+        }
+
+        function doesNodeCauseHardKnockDown(nodeData) {
+            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                for (var i = 0; i < nodeData.actionSteps.length; ++i) {
+                    var actionStep = nodeData.actionSteps[i];
+                    for (var j = 0; j < actionStep.results.length; ++j) {
+                        if (NodeFactory.doesActionStepResultTagHasHardKnockDown(actionStep.results[j])) {
+                            return true;
+                        }
                     }
                 }
             }

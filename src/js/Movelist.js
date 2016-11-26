@@ -326,6 +326,14 @@ define(
                     }
                 );
 
+                _.getDomElement('filterShowHardKnockDowns').addEventListener('click',
+                    function showTrackingMidKicks(optEvent) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.doesNodeCauseHardKnockDown(NodeView.getNodeData(nodeView));
+                        });
+                    }
+                );
+
                 _.getDomElement('filterShowGroundAttacks').addEventListener('click',
                     function showGroundAttacks(optEvent) {
                         showOnlyNodesThatMatch(function(nodeView) {

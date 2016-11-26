@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1478987051014
+    "timeSaved": 1480192735067
   },
   "body": {
     "character": "rig",
@@ -333,6 +333,14 @@
                               "guard"
                             ],
                             "hitBlock": "15"
+                          },
+                          {
+                            "condition": [
+                              "critical finish"
+                            ],
+                            "tags": [
+                              "hard knock-down"
+                            ]
                           }
                         ]
                       }
@@ -409,6 +417,14 @@
                                   "guard"
                                 ],
                                 "hitBlock": "9"
+                              },
+                              {
+                                "condition": [
+                                  "critical finish"
+                                ],
+                                "tags": [
+                                  "hard knock-down"
+                                ]
                               }
                             ]
                           }
@@ -710,6 +726,14 @@
                           "guard"
                         ],
                         "hitBlock": "20"
+                      },
+                      {
+                        "condition": [
+                          "critical finish"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -900,6 +924,14 @@
                       "guard"
                     ],
                     "hitBlock": "16"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -941,6 +973,14 @@
                           "guard"
                         ],
                         "hitBlock": "22"
+                      },
+                      {
+                        "condition": [
+                          "critical finish"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -983,6 +1023,14 @@
                           "guard"
                         ],
                         "hitBlock": "9"
+                      },
+                      {
+                        "condition": [
+                          "critical finish"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -1124,6 +1172,14 @@
                       "guard"
                     ],
                     "hitBlock": "11"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -1156,6 +1212,14 @@
                           "guard"
                         ],
                         "hitBlock": "20"
+                      },
+                      {
+                        "condition": [
+                          "critical finish"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -1374,6 +1438,14 @@
                           "guard"
                         ],
                         "hitBlock": "20"
+                      },
+                      {
+                        "condition": [
+                          "critical finish"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -1408,6 +1480,14 @@
                       "guard"
                     ],
                     "hitBlock": "20"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -1484,6 +1564,41 @@
                     ]
                   },
                   {
+                    "input": "P",
+                    "frameData": [
+                      24,
+                      3,
+                      18
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "damage": 16,
+                        "reach": 1.86,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 12
+                          },
+                          {
+                            "condition": [
+                              "neutral",
+                              "counter",
+                              "hi-counter"
+                            ],
+                            "criticalHoldDelay": "24",
+                            "stunDurationMin": "50",
+                            "stunDurationMax": "60"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
                     "input": "K",
                     "frameData": [
                       23,
@@ -1502,6 +1617,14 @@
                               "guard"
                             ],
                             "hitBlock": "17"
+                          },
+                          {
+                            "condition": [
+                              "critical finish"
+                            ],
+                            "tags": [
+                              "hard knock-down"
+                            ]
                           }
                         ]
                       }
@@ -1530,6 +1653,14 @@
                                   "guard"
                                 ],
                                 "hitBlock": "9"
+                              },
+                              {
+                                "condition": [
+                                  "critical finish"
+                                ],
+                                "tags": [
+                                  "hard knock-down"
+                                ]
                               }
                             ]
                           }
@@ -1874,6 +2005,14 @@
                           "guard"
                         ],
                         "hitBlock": "9"
+                      },
+                      {
+                        "condition": [
+                          "critical finish"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -1902,7 +2041,7 @@
                 ]
               },
               {
-                "input": "9K",
+                "input": "8K",
                 "frameData": [
                   24,
                   3,
@@ -1999,6 +2138,14 @@
                       "guard"
                     ],
                     "hitBlock": "10"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -2048,6 +2195,14 @@
                           "guard"
                         ],
                         "hitBlock": "9"
+                      },
+                      {
+                        "condition": [
+                          "critical finish"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -2317,6 +2472,14 @@
                       "guard"
                     ],
                     "hitBlock": "10"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -2964,6 +3127,14 @@
                       "guard"
                     ],
                     "hitBlock": "23"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -2992,6 +3163,14 @@
                       "guard"
                     ],
                     "hitBlock": "15"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -3562,6 +3741,14 @@
                       "guard"
                     ],
                     "hitBlock": "18"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -3649,6 +3836,14 @@
                       "guard"
                     ],
                     "hitBlock": "14"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -3677,6 +3872,14 @@
                           "guard"
                         ],
                         "hitBlock": "9"
+                      },
+                      {
+                        "condition": [
+                          "critical finish"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -3784,6 +3987,14 @@
                       "guard"
                     ],
                     "hitBlock": "20"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -3909,21 +4120,29 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 1.84,
-                "results": [
-                  {
-                    "condition": [
-                      "guard"
-                    ],
-                    "hitBlock": "19"
-                  }
-                ]
+                "reach": 1.84
               },
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
-                "reach": 2.48
+                "reach": 2.48,
+                "results": [
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 19
+                  }
+                ]
               }
             ],
             "endsWith": "BND",
@@ -4088,6 +4307,14 @@
                       "guard"
                     ],
                     "hitBlock": 15
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -4266,6 +4493,14 @@
                       "guard"
                     ],
                     "hitBlock": "15"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }

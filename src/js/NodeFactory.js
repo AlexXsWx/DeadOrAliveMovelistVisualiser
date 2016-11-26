@@ -54,6 +54,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         doesMoveContainActiveFrameInRange: doesMoveContainActiveFrameInRange,
         getMoveDurationData: getMoveDurationData,
         isActionStepResultEmpty: isActionStepResultEmpty,
+        doesActionStepResultTagHasHardKnockDown: doesActionStepResultTagHasHardKnockDown,
 
         createEmptyData: createEmptyData
 
@@ -373,7 +374,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
     }
 
     function canActionStepHitGround(actionStep) {
-        return actionStep.tags.join(' ').toLowerCase().search('ground') >= 0;
+        return searchInStringArray(actionStep.tags, /ground/i);
     }
 
     function getActionStepSummary(actionStep) {
@@ -406,47 +407,19 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
     }
 
     function doesActionStepResultDescribeGuard(actionStepResult) {
-        if (
-            !actionStepResult ||
-            !actionStepResult.condition || !actionStepResult.condition.length
-        ) {
-            return false;
-        }
-
-        for (var i = 0; i < actionStepResult.condition.length; ++i) {
-            if (actionStepResult.condition[i].search(/block|guard/i) >= 0) return true;
-        }
-
-        return false;
+        return actionStepResult && searchInStringArray(actionStepResult.condition, /block|guard/i);
     }
 
     function doesActionStepResultDescribeForcetech(actionStepResult) {
-        if (
-            !actionStepResult ||
-            !actionStepResult.condition || !actionStepResult.condition.length
-        ) {
-            return false;
-        }
-
-        for (var i = 0; i < actionStepResult.condition.length; ++i) {
-            if (actionStepResult.condition[i].search(/forcetech/i) >= 0) return true;
-        }
-
-        return false;
+        return actionStepResult && searchInStringArray(actionStepResult.condition, /forcetech/i);
     }
+
     function doesActionStepResultDescribeGroundHit(actionStepResult) {
-        if (
-            !actionStepResult ||
-            !actionStepResult.condition || !actionStepResult.condition.length
-        ) {
-            return false;
-        }
+        return actionStepResult && searchInStringArray(actionStepResult.condition, /grounded/i);
+    }
 
-        for (var i = 0; i < actionStepResult.condition.length; ++i) {
-            if (actionStepResult.condition[i].search(/grounded/i) >= 0) return true;
-        }
-
-        return false;
+    function doesActionStepResultTagHasHardKnockDown(actionStepResult) {
+        return actionStepResult && searchInStringArray(actionStepResult.tags, /hard/i);
     }
 
     function getAdvantageRange(nodeData, actionStepResultFilter) {
@@ -598,6 +571,15 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
         }, true);
 
+    }
+
+
+    function searchInStringArray(array, regexOrString) {
+        if (!array || !array.length) return false;
+        for (var i = 0; i < array.length; ++i) {
+            if (array[i].search(regexOrString) >= 0) return true;
+        }
+        return false;
     }
 
 });
