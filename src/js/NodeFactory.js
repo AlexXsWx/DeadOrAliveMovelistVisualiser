@@ -56,6 +56,8 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         isActionStepResultEmpty: isActionStepResultEmpty,
         doesActionStepResultTagHasHardKnockDown: doesActionStepResultTagHasHardKnockDown,
 
+        getActionStepResultHitBlock: getActionStepResultHitBlock,
+
         createEmptyData: createEmptyData
 
         // guessMoveTypeByInput: guessMoveTypeByInput
@@ -422,7 +424,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         return actionStepResult && searchInStringArray(actionStepResult.tags, /hard/i);
     }
 
-    function getAdvantageRange(nodeData, actionStepResultFilter) {
+    function getAdvantageRange(nodeData, actionStepResultFilter, getDuration) {
         console.assert(_.isObject(nodeData), 'nodeData is invalid');
         var frameData = nodeData.frameData;
         if (!frameData || frameData.length === 0) return;
@@ -435,7 +437,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             if (!results) continue;
             for (var j = 0; j < results.length; ++j) {
                 if (actionStepResultFilter(results[j])) {
-                    var blockStun = results[j].hitBlock;
+                    var blockStun = getDuration(results[j]);
                     if (isNaN(blockStun) || !isFinite(blockStun)) continue;
                     var maxAdvantage = blockStun - recovery;
                     var minAdvantage = maxAdvantage - activeFramesVarianceRoom;
@@ -446,6 +448,10 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
                 }
             }
         }
+    }
+
+    function getActionStepResultHitBlock(actionStepResult) {
+        return actionStepResult.hitBlock;
     }
 
     /**

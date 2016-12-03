@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1480192735067
+    "timeSaved": 1480769818417
   },
   "body": {
     "character": "rig",
@@ -2613,6 +2613,14 @@
                       "guard"
                     ],
                     "hitBlock": "20"
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -2667,7 +2675,7 @@
           {
             "input": "4P+K",
             "frameData": [
-              22,
+              21,
               0,
               0
             ],
@@ -2676,7 +2684,7 @@
           {
             "input": "2P+K",
             "frameData": [
-              22,
+              21,
               0,
               0
             ],
@@ -2804,7 +2812,7 @@
           {
             "input": "6H+K",
             "frameData": [
-              16,
+              15,
               2,
               6,
               2,
@@ -4195,6 +4203,14 @@
                     "hitBlock": "30",
                     "tags": [
                       "guard break"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "critical finish"
+                    ],
+                    "tags": [
+                      "hard knock-down"
                     ]
                   }
                 ]

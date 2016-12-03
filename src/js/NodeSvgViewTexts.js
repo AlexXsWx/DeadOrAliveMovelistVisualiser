@@ -23,7 +23,8 @@ define(
             getCooldown:     getCooldown,
             getSafety:       getSafety,
             getReach:        getReach,
-            getForcetechAdvantage: getForcetechAdvantage
+            getForcetechAdvantage: getForcetechAdvantage,
+            getHardKnockdownAdvantage: getHardKnockdownAdvantage
 
         };
 
@@ -81,7 +82,8 @@ define(
             if (!nodeData) return '';
             var advantageRange = NodeFactory.getAdvantageRange(
                 nodeData,
-                NodeFactory.doesActionStepResultDescribeGuard
+                NodeFactory.doesActionStepResultDescribeGuard,
+                NodeFactory.getActionStepResultHitBlock
             );
             if (!advantageRange) return '';
 
@@ -116,7 +118,8 @@ define(
 
             var advantageRangeForcetech = NodeFactory.getAdvantageRange(
                 nodeData,
-                NodeFactory.doesActionStepResultDescribeForcetech
+                NodeFactory.doesActionStepResultDescribeForcetech,
+                NodeFactory.getActionStepResultHitBlock
             );
             if (advantageRangeForcetech) {
                 result.appendChild(advantageInteger(advantageRangeForcetech.min));
@@ -124,11 +127,45 @@ define(
 
             var advantageRangeGroundHit = NodeFactory.getAdvantageRange(
                 nodeData,
-                NodeFactory.doesActionStepResultDescribeGroundHit
+                NodeFactory.doesActionStepResultDescribeGroundHit,
+                NodeFactory.getActionStepResultHitBlock
             );
             if (advantageRangeGroundHit) {
                 result.appendChild(_.createTextNode('/'));
                 result.appendChild(advantageInteger(advantageRangeGroundHit.min));
+            }
+
+            return result;
+        }
+
+        function getHardKnockdownAdvantage(nodeView) {
+
+            var HARD_KNOCKDOWN_DURATION_MIN = 70;
+            var HARD_KNOCKDOWN_DURATION_TECHROLL = 51;
+
+            var nodeData = NodeView.getNodeData(nodeView);
+            if (!nodeData) return '';
+
+            // FIXME: don't reference document here
+            var result = document.createDocumentFragment();
+
+            var advantageRangeHardKnockdown = NodeFactory.getAdvantageRange(
+                nodeData,
+                NodeFactory.doesActionStepResultTagHasHardKnockDown,
+                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_MIN; }
+            );
+            if (advantageRangeHardKnockdown) {
+                result.appendChild(advantageInteger(advantageRangeHardKnockdown.min));
+            }
+
+            var advantageRangeHardKnockdownTechroll = NodeFactory.getAdvantageRange(
+                nodeData,
+                NodeFactory.doesActionStepResultTagHasHardKnockDown,
+                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_TECHROLL; }
+            );
+            if (advantageRangeHardKnockdownTechroll) {
+                result.appendChild(_.createTextNode('/'));
+                result.appendChild(advantageInteger(advantageRangeHardKnockdownTechroll.min));
             }
 
             return result;
