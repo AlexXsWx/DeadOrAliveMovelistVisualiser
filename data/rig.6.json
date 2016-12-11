@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1480769818417
+    "timeSaved": 1481060234828
   },
   "body": {
     "character": "rig",
@@ -2675,7 +2675,7 @@
           {
             "input": "4P+K",
             "frameData": [
-              21,
+              22,
               0,
               0
             ],
@@ -2684,7 +2684,7 @@
           {
             "input": "2P+K",
             "frameData": [
-              21,
+              22,
               0,
               0
             ],

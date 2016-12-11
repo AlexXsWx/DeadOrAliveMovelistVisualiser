@@ -149,23 +149,23 @@ define(
             // FIXME: don't reference document here
             var result = document.createDocumentFragment();
 
-            var advantageRangeHardKnockdown = NodeFactory.getAdvantageRange(
-                nodeData,
-                NodeFactory.doesActionStepResultTagHasHardKnockDown,
-                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_MIN; }
-            );
-            if (advantageRangeHardKnockdown) {
-                result.appendChild(advantageInteger(advantageRangeHardKnockdown.min));
-            }
-
             var advantageRangeHardKnockdownTechroll = NodeFactory.getAdvantageRange(
                 nodeData,
                 NodeFactory.doesActionStepResultTagHasHardKnockDown,
                 function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_TECHROLL; }
             );
             if (advantageRangeHardKnockdownTechroll) {
-                result.appendChild(_.createTextNode('/'));
                 result.appendChild(advantageInteger(advantageRangeHardKnockdownTechroll.min));
+            }
+
+            var advantageRangeHardKnockdown = NodeFactory.getAdvantageRange(
+                nodeData,
+                NodeFactory.doesActionStepResultTagHasHardKnockDown,
+                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_MIN; }
+            );
+            if (advantageRangeHardKnockdown) {
+                result.appendChild(_.createTextNode('/'));
+                result.appendChild(advantageInteger(advantageRangeHardKnockdown.min));
             }
 
             return result;
