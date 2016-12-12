@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1481493198284
+    "timeSaved": 1481577916216
   },
   "body": {
     "character": "Sarah",
@@ -90,6 +90,11 @@
                   {
                     "actionMask": "high K",
                     "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H"
                   }
                 ]
               },
@@ -286,6 +291,9 @@
                     "actionType": "strike"
                   }
                 ]
+              },
+              {
+                "input": "H"
               }
             ]
           },
@@ -341,7 +349,8 @@
                 ],
                 "followUps": [
                   {
-                    "input": "6"
+                    "input": "6",
+                    "endsWith": "FWD"
                   }
                 ]
               },
@@ -382,12 +391,18 @@
                     "actionMask": "mid K",
                     "actionType": "strike"
                   }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "endsWith": "FMG"
+                  }
                 ]
               }
             ]
           },
           {
-            "input": "(3)K",
+            "input": "(3)*K",
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -459,6 +474,12 @@
                     "actionMask": "high K",
                     "actionType": "strike"
                   }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "endsWith": "FMG"
+                  }
                 ]
               }
             ]
@@ -506,7 +527,8 @@
                 ],
                 "followUps": [
                   {
-                    "input": "6"
+                    "input": "6",
+                    "endsWith": "FWD"
                   },
                   {
                     "input": "K",
@@ -514,6 +536,12 @@
                       {
                         "actionMask": "high K",
                         "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "H",
+                        "endsWith": "FMG"
                       }
                     ]
                   }
@@ -534,6 +562,12 @@
                       {
                         "actionMask": "mid K",
                         "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "H",
+                        "endsWith": "FMG"
                       }
                     ]
                   }
@@ -684,6 +718,12 @@
                         "actionMask": "high K",
                         "actionType": "strike"
                       }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "H",
+                        "endsWith": "FMG"
+                      }
                     ]
                   }
                 ]
@@ -723,6 +763,12 @@
               {
                 "actionMask": "mid K",
                 "actionType": "strike"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "H",
+                "endsWith": "FMG"
               }
             ]
           },
@@ -1339,7 +1385,8 @@
                 "actionMask": "low P",
                 "actionType": "hold"
               }
-            ]
+            ],
+            "endsWith": "FMG"
           },
           {
             "input": "9P+K"
@@ -1352,7 +1399,13 @@
                 "actionType": "strike"
               }
             ],
-            "endsWith": "FMG"
+            "endsWith": "FMG",
+            "followUps": [
+              {
+                "input": "H",
+                "endsWith": "FMG"
+              }
+            ]
           },
           {
             "input": "4P+K"
@@ -1415,6 +1468,22 @@
             ]
           },
           {
+            "input": "2P+K",
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike"
+              }
+            ],
+            "endsWith": "FMG",
+            "followUps": [
+              {
+                "input": "H",
+                "endsWith": "FMG"
+              }
+            ]
+          },
+          {
             "input": "1P+K",
             "followUps": [
               {
@@ -1453,7 +1522,8 @@
                     "actionMask": "low P",
                     "actionType": "hold"
                   }
-                ]
+                ],
+                "endsWith": "FMG"
               },
               {
                 "input": "T",
@@ -1531,10 +1601,6 @@
                 "actionType": "strike"
               }
             ]
-          },
-          {
-            "input": "2P+K",
-            "endsWith": "???"
           }
         ]
       },
