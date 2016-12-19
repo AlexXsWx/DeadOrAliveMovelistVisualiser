@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1482105629164
+    "timeSaved": 1482160545565
   },
   "body": {
     "character": "Sarah",
@@ -83,7 +83,22 @@
                     "followUps": [
                       {
                         "input": "6",
-                        "endsWith": "FWD"
+                        "frameData": [
+                          13,
+                          0,
+                          0
+                        ],
+                        "endsWith": "FWD",
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              0,
+                              0,
+                              18
+                            ]
+                          }
+                        ]
                       },
                       {
                         "input": "K",
@@ -134,7 +149,24 @@
                         "followUps": [
                           {
                             "input": "P+K",
-                            "endsWith": "STP"
+                            "frameData": [
+                              2,
+                              0,
+                              29,
+                              0,
+                              0
+                            ],
+                            "endsWith": "STP",
+                            "followUps": [
+                              {
+                                "input": "*",
+                                "frameData": [
+                                  0,
+                                  0,
+                                  12
+                                ]
+                              }
+                            ]
                           }
                         ]
                       },
@@ -215,7 +247,12 @@
                 ],
                 "followUps": [
                   {
-                    "input": "H"
+                    "input": "H",
+                    "frameData": [
+                      -8,
+                      0,
+                      11
+                    ]
                   }
                 ]
               },
@@ -315,7 +352,22 @@
                 "followUps": [
                   {
                     "input": "6",
-                    "endsWith": "FWD"
+                    "frameData": [
+                      22,
+                      0,
+                      0
+                    ],
+                    "endsWith": "FWD",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          18
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
@@ -368,7 +420,24 @@
                 "followUps": [
                   {
                     "input": "P+K",
-                    "endsWith": "STP"
+                    "frameData": [
+                      3,
+                      0,
+                      28,
+                      0,
+                      0
+                    ],
+                    "endsWith": "STP",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          12
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -633,7 +702,24 @@
                 "followUps": [
                   {
                     "input": "P+K",
-                    "endsWith": "STP"
+                    "frameData": [
+                      8,
+                      0,
+                      25,
+                      0,
+                      0
+                    ],
+                    "endsWith": "STP",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          15
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -765,7 +851,12 @@
                 ]
               },
               {
-                "input": "H"
+                "input": "H",
+                "frameData": [
+                  -9,
+                  0,
+                  11
+                ]
               }
             ]
           },
@@ -1000,6 +1091,11 @@
                 "followUps": [
                   {
                     "input": "H",
+                    "frameData": [
+                      -6,
+                      0,
+                      18
+                    ],
                     "endsWith": "FMG"
                   }
                 ]
@@ -1198,6 +1294,11 @@
                 "followUps": [
                   {
                     "input": "H",
+                    "frameData": [
+                      -5,
+                      0,
+                      17
+                    ],
                     "endsWith": "FMG"
                   }
                 ]
@@ -1235,7 +1336,12 @@
             "endsWith": "FMG"
           },
           {
-            "input": "9P+K"
+            "input": "9P+K",
+            "frameData": [
+              71,
+              0,
+              0
+            ]
           },
           {
             "input": "6P+K",
@@ -1285,7 +1391,22 @@
                 "followUps": [
                   {
                     "input": "6",
-                    "endsWith": "FWD"
+                    "frameData": [
+                      22,
+                      0,
+                      0
+                    ],
+                    "endsWith": "FWD",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          15
+                        ]
+                      }
+                    ]
                   },
                   {
                     "input": "K",
@@ -1312,6 +1433,11 @@
                     "followUps": [
                       {
                         "input": "H",
+                        "frameData": [
+                          -4,
+                          0,
+                          18
+                        ],
                         "endsWith": "FMG"
                       }
                     ]
@@ -1366,6 +1492,11 @@
                     "followUps": [
                       {
                         "input": "H",
+                        "frameData": [
+                          -10,
+                          0,
+                          6
+                        ],
                         "endsWith": "FMG"
                       }
                     ]
@@ -1376,9 +1507,19 @@
           },
           {
             "input": "8P+K",
+            "frameData": [
+              22,
+              0,
+              0
+            ],
             "followUps": [
               {
                 "input": "P+K",
+                "frameData": [
+                  21,
+                  0,
+                  0
+                ],
                 "endsWith": "FMG"
               }
             ]
@@ -1724,6 +1865,11 @@
                     "followUps": [
                       {
                         "input": "H",
+                        "frameData": [
+                          -10,
+                          0,
+                          5
+                        ],
                         "endsWith": "FMG"
                       }
                     ]
@@ -1829,6 +1975,11 @@
             "followUps": [
               {
                 "input": "H",
+                "frameData": [
+                  -15,
+                  0,
+                  11
+                ],
                 "endsWith": "FMG"
               }
             ]
@@ -2014,6 +2165,11 @@
                 "followUps": [
                   {
                     "input": "H",
+                    "frameData": [
+                      -12,
+                      0,
+                      16
+                    ],
                     "endsWith": "FMG"
                   }
                 ]
@@ -2206,6 +2362,11 @@
             "input": "8P+K",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              71,
+              0,
+              0
             ]
           },
           {
@@ -2316,7 +2477,22 @@
           },
           {
             "input": "66P+K",
-            "endsWith": "FWD"
+            "frameData": [
+              20,
+              0,
+              0
+            ],
+            "endsWith": "FWD",
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  0,
+                  29
+                ]
+              }
+            ]
           },
           {
             "input": "H+K",
@@ -2477,6 +2653,7 @@
       {
         "abbreviation": "FMG",
         "description": "Flamingo",
+        "appliesExtraFrame": true,
         "moves": [
           {
             "input": "P",
@@ -3019,6 +3196,11 @@
             "followUps": [
               {
                 "input": "H",
+                "frameData": [
+                  -11,
+                  0,
+                  5
+                ],
                 "endsWith": "FMG"
               }
             ]
@@ -3052,6 +3234,11 @@
             "followUps": [
               {
                 "input": "H",
+                "frameData": [
+                  -11,
+                  0,
+                  5
+                ],
                 "endsWith": "FMG"
               }
             ]
@@ -3317,6 +3504,7 @@
       {
         "abbreviation": "STP",
         "description": "Stepping",
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "P",
@@ -3480,6 +3668,7 @@
       },
       {
         "abbreviation": "FWD",
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "P",
@@ -3876,6 +4065,7 @@
       },
       {
         "abbreviation": "RUN",
+        "appliesExtraFrame": true,
         "moves": [
           {
             "input": "K",
