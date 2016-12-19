@@ -1,5 +1,7 @@
 define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
+    var guardRegex = /block|guard/i;
+
     // var RGX = {
     //     PUNCH: /^\d*p(?:\+k)?$/i,
     //     KICK:  /(?:h\+)?k$/i,
@@ -46,6 +48,8 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
         getMoveSummary:       getMoveSummary,
         getActionStepSummary: getActionStepSummary,
+
+        removeGuardConditionFromActionStepResult: removeGuardConditionFromActionStepResult,
 
         doesActionStepResultDescribeGuard: doesActionStepResultDescribeGuard,
         doesActionStepResultDescribeForcetech: doesActionStepResultDescribeForcetech,
@@ -376,7 +380,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
     }
 
     function canActionStepHitGround(actionStep) {
-        return searchInStringArray(actionStep.tags, /ground/i);
+        return searchInStringArray(actionStep.tags, /ground/i) >= 0;
     }
 
     function getActionStepSummary(actionStep) {
@@ -408,20 +412,31 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         return result;
     }
 
+    function removeGuardConditionFromActionStepResult(actionStepResult) {
+        var changed = false;
+        while (true) {
+            var index = searchInStringArray(actionStepResult.condition, guardRegex);
+            if (index < 0) break;
+            changed = true;
+            actionStepResult.condition.splice(index, 1);
+        }
+        return changed;
+    }
+
     function doesActionStepResultDescribeGuard(actionStepResult) {
-        return actionStepResult && searchInStringArray(actionStepResult.condition, /block|guard/i);
+        return actionStepResult && searchInStringArray(actionStepResult.condition, guardRegex) >= 0;
     }
 
     function doesActionStepResultDescribeForcetech(actionStepResult) {
-        return actionStepResult && searchInStringArray(actionStepResult.condition, /forcetech/i);
+        return actionStepResult && searchInStringArray(actionStepResult.condition, /forcetech/i) >= 0;
     }
 
     function doesActionStepResultDescribeGroundHit(actionStepResult) {
-        return actionStepResult && searchInStringArray(actionStepResult.condition, /grounded/i);
+        return actionStepResult && searchInStringArray(actionStepResult.condition, /grounded/i) >= 0;
     }
 
     function doesActionStepResultTagHasHardKnockDown(actionStepResult) {
-        return actionStepResult && searchInStringArray(actionStepResult.tags, /hard/i);
+        return actionStepResult && searchInStringArray(actionStepResult.tags, /hard/i) >= 0;
     }
 
     function getAdvantageRange(nodeData, actionStepResultFilter, getDuration) {
@@ -581,11 +596,11 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
 
     function searchInStringArray(array, regexOrString) {
-        if (!array || !array.length) return false;
+        if (!array || !array.length) return -1;
         for (var i = 0; i < array.length; ++i) {
-            if (array[i].search(regexOrString) >= 0) return true;
+            if (array[i].search(regexOrString) >= 0) return i;
         }
-        return false;
+        return -1;
     }
 
 });

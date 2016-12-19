@@ -52,6 +52,7 @@ define(
                     label: Strings('moveActionSummary'),
                     description: Strings('moveActionSummaryDescription'),
                     placeholderText: Strings('moveActionSummaryPlaceholder'), // only for type=text
+                    isSummary: true,
                     fill: actionStepToSummaryText,
                     parameterModifier: changeActionSummary
                     // isSummary: true
@@ -142,7 +143,8 @@ define(
 
                 },
                 optExtension: {
-                    changeActionSummary: changeActionSummary
+                    changeActionSummary: changeActionSummary,
+                    changeTrackingFromSummary: changeTrackingFromSummary
                 }
             });
 
@@ -174,19 +176,7 @@ define(
 
                 // tracking
 
-                var trackingValue = undefined;
-                if (lowCased.search('d') >= 0) {
-                    trackingValue = false;
-                } else
-                if (lowCased.search('t') >= 0) {
-                    trackingValue = true;
-                }
-
-                if (trackingValue === undefined) {
-                    changed = changeActionStepTracking(false, true, actionStep) || changed;
-                } else {
-                    changed = changeActionStepTracking(trackingValue, false, actionStep) || changed;
-                }
+                changed = changeTrackingFromSummary(lowCased, actionStep) || changed;
 
                 // type
 
@@ -206,6 +196,31 @@ define(
                 }
 
                 changed = changeActionStepType(typeValue, actionStep) || changed;
+
+                return changed;
+
+            }
+
+
+            function changeTrackingFromSummary(summaryString, actionStep) {
+
+                var changed = false;
+
+                var lowCased = summaryString.toLowerCase();
+
+                var trackingValue = undefined;
+                if (lowCased.search('d') >= 0) {
+                    trackingValue = false;
+                } else
+                if (lowCased.search('t') >= 0) {
+                    trackingValue = true;
+                }
+
+                if (trackingValue === undefined) {
+                    changed = changeActionStepTracking(false, true, actionStep) || changed;
+                } else {
+                    changed = changeActionStepTracking(trackingValue, false, actionStep) || changed;
+                }
 
                 return changed;
 

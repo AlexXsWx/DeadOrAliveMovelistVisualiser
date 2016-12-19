@@ -74,6 +74,7 @@ define(
                 var name                     = editorInputDescription.label;
                 var description              = editorInputDescription.description;
                 var placeholderText          = editorInputDescription.placeholderText; // text only
+                var isSummary                = editorInputDescription.isSummary || false; // text only
                 var filler                   = editorInputDescription.fill;
                 var nodeDataParameterChanger = editorInputDescription.parameterModifier;
                 var onClick                  = editorInputDescription.onClick; // button only
@@ -90,7 +91,8 @@ define(
                         description: description,
                         placeholder: placeholderText,
                         onInput: textInputHandler,
-                        onFocus: rememberFocusedElement
+                        onFocus: rememberFocusedElement,
+                        classes: isSummary ? ['summary'] : []
                     });
                 } else
                 if (inputType === INPUT_TYPES.checkbox) {

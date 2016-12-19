@@ -16,6 +16,7 @@ define(
             var placeholder     = parameters.placeholder;
             var onInput         = parameters.onInput;
             var onFocus         = parameters.onFocus;
+            var classes         = parameters.classes;
             // var onBlurOrConfirm = parameters.onBlurOrConfirm;
             // var onEsc           = parameters.onEsc;
 
@@ -57,7 +58,8 @@ define(
                 children: [
                     _.createDomElement({ tag: 'td', children: [label] }),
                     _.createDomElement({ tag: 'td', children: [input] })
-                ]
+                ],
+                classes: classes
             });
 
             return {

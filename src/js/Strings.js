@@ -34,6 +34,10 @@ define('Strings', function Strings() {
         ),
         'moveSummaryPlaceholder': '(<Ctx>:) <Input> (<AS sum.>)',
 
+        'moveSummary2': 'Summary2',
+        'moveSummary2Description': '// FIXME: TBD', // FIXME
+        'moveSummary2Placeholder': '[t|d] <Frame data> \/<advantage on block>',
+
         'moveInput': 'Input',
         'moveInputDescription': 'Keys to perform the move - e.g. "236P"',
         'moveInputPlaceholder': 'e.g. "236P"',

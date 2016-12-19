@@ -115,6 +115,15 @@ body {
             margin: 0;
             legend { display: none; }
         }
+
+        tr.summary {
+            label { font-style: italic; }
+            input {
+                border-style: dotted;
+                border-width: 1px;
+                padding: 2px 1px; // hack to make it same size as untouched input
+            }
+        }
     }
 
     #about {

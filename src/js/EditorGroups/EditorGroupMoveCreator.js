@@ -41,6 +41,7 @@ define(
                     label: Strings('moveSummary'),
                     description: Strings('moveSummaryDescription'),
                     placeholderText: Strings('moveSummaryPlaceholder'),
+                    isSummary: true,
                     fill: summaryToText,
                     parameterModifier: changeSummary,
                     focused: true
@@ -69,6 +70,15 @@ define(
                     fill: endingToText,
                     parameterModifier: changeEnding
                 }, {
+                    id: 'summary2',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: Strings('moveSummary2'),
+                    description: Strings('moveSummary2Description'),
+                    placeholderText: Strings('moveSummary2Placeholder'),
+                    isSummary: true,
+                    fill: summary2ToText,
+                    parameterModifier: changeSummary2
+                }, {
                     id: 'frameData',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: Strings('moveFrameData'),
@@ -81,6 +91,7 @@ define(
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: Strings('summaryAdvantageOnBlock'),
                     description: Strings('summaryAdvantageOnBlockDescription'),
+                    isSummary: true,
                     placeholderText: 'e.g. "-8"',
                     fill: actionStepResultToAdvantageOnBlock,
                     parameterModifier: changeAdvantageOnBlock
@@ -172,6 +183,70 @@ define(
             }
 
 
+            function summary2ToText(nodeData) {
+
+                var result = [];
+
+                if (nodeData.actionSteps.length > 0) {
+                    var firstActionStep = nodeData.actionSteps[0];
+                    if (firstActionStep.isTracking !== undefined) {
+                        result.push(firstActionStep.isTracking ? 't' : 'd');
+                    }
+                }
+
+                result.push(frameDataToText(nodeData));
+
+                var safety = actionStepResultToAdvantageOnBlock(nodeData);
+                if (safety) {
+                    result.push('/' + safety);
+                }
+
+                return result.join(' ');
+
+            }
+
+            function changeSummary2(newValueRaw, nodeData) {
+
+                var changed = false;
+
+                var trackingPart  = '';
+                var frameDataPart = '';
+                var safetyPart    = '';
+
+                var safetyStart = newValueRaw.indexOf('/');
+                var numbersStart = newValueRaw.search(/-?\d/);
+                if (safetyStart >= 0 && safetyStart < numbersStart) {
+                    numbersStart = -1;
+                }
+
+                if (numbersStart > 0) {
+                    trackingPart = newValueRaw.substring(0, numbersStart);
+                }
+
+                if (numbersStart >= 0) {
+                    frameDataPart = newValueRaw.substring(
+                        numbersStart,
+                        safetyStart >= 0 ? safetyStart : numbersStart.length
+                    );
+                }
+
+                if (safetyStart >= 0) {
+                    safetyPart = newValueRaw.substring(safetyStart + 1);
+                }
+
+                changed = editorGroupMove2.getFirstChildrenEditor().extension.changeTrackingFromSummary(
+                    trackingPart,
+                    nodeData.actionSteps[0]
+                ) || changed;
+
+                changed = changeFrameData(frameDataPart, nodeData) || changed;
+                changed = changeAdvantageOnBlock(safetyPart, nodeData) || changed;
+
+                return changed;
+
+            }
+
+
             function inputToText(nodeData) { return nodeData.input || ''; }
             function changeInput(newValue, nodeData) {
                 var oldValue = nodeData.input;
@@ -217,58 +292,115 @@ define(
                 return advantageRange ? advantageRange.min : '';
             }
 
-            function changeAdvantageOnBlock(newValue, nodeData) {
+            function changeAdvantageOnBlock(advantageStr, nodeData) {
+
                 var changed = false;
 
-                if (
-                    !nodeData ||
-                    !nodeData.frameData || nodeData.frameData.length < 3
-                ) {
+                // Frame data is required to convert input to storable value
+                if (nodeData.frameData.length < 3) {
                     return changed;
                 }
 
-                var advantage = Number(newValue);
-
+                // find last action step
                 var actionStep = null;
-                for (var i = nodeData.actionSteps.length; i >= 0 && !actionStep; --i) {
+                for (var i = nodeData.actionSteps.length - 1; i >= 0 && !actionStep; --i) {
                     actionStep = nodeData.actionSteps[i];
                 }
 
+                // if there's one
                 if (actionStep) {
+
+                    var isNewHitBlockProvided = false;
+                    var hitBlock = 0;
+
+                    var advantage = Number(advantageStr);
+                    if (advantageStr && !isNaN(advantage)) {
+                        var activeFramesCount   = nodeData.frameData[nodeData.frameData.length - 2];
+                        var recoveryFramesCount = nodeData.frameData[nodeData.frameData.length - 1];
+                        // Assuming advantage is given for situation where first active frame lands
+                        var activeFramesAfterLanded = activeFramesCount - 1;
+                        hitBlock = activeFramesAfterLanded + recoveryFramesCount + advantage;
+                        isNewHitBlockProvided = true;
+                    }
 
                     var actionStepResult = null;
 
+                    // Try to find existing action step result that describes guard
                     for (var i = 0; i < actionStep.results.length; ++i) {
                         var result = actionStep.results[i];
                         if (result && NodeFactory.doesActionStepResultDescribeGuard(result)) {
                             actionStepResult = result;
-                        }
-                        else
-                        if (NodeFactory.isActionStepResultEmpty(result)) {
-                            changed = true;
-                            result.condition.push('guard');
-                            actionStepResult = result;
+                            break;
                         }
                     }
 
-                    if (!actionStepResult) {
+                    var cleanupGuard = false;
+                    var addGuardCondition = false;
+                    var createNewActionStepResult = false;
+
+                    if (isNewHitBlockProvided) {
+                        if (actionStepResult) {
+                            if (
+                                isNewHitBlockProvided &&
+                                actionStepResult.condition.length > 1 &&
+                                actionStepResult.hitBlock !== hitBlock
+                            ) {
+                                cleanupGuard = true;
+                                createNewActionStepResult = true;
+                            }
+                        } else {
+                            // Try to find empty action step result to use
+                            for (var i = 0; i < actionStep.results.length; ++i) {
+                                var result = actionStep.results[i];
+                                if (NodeFactory.isActionStepResultEmpty(result)) {
+                                    actionStepResult = result;
+                                    addGuardCondition = true;
+                                    break;
+                                }
+                            }
+                            if (!actionStepResult) {
+                                createNewActionStepResult = true;
+                            }
+                        }
+                    } else
+                    if (actionStepResult) {
+                        cleanupGuard = true;
+                    }
+
+                    if (cleanupGuard) {
+                        changed = true;
+                        NodeFactory.removeGuardConditionFromActionStepResult(actionStepResult);
+                        if (actionStepResult.condition.length === 0) {
+                            actionStep.results.splice(
+                                actionStep.results.indexOf(actionStepResult), 1
+                            );
+                            if (actionStep.results.length === 0) {
+                                // Create default placeholder
+                                actionStep.results.push(NodeFactory.createMoveActionStepResult());
+                            }
+                        }
+                    }
+
+                    if (createNewActionStepResult) {
                         changed = true;
                         actionStepResult = NodeFactory.createMoveActionStepResult();
-                        actionStepResult.condition.push('guard');
-                        actionStep.results.push(actionStepResult);
+                        actionStep.results.push(actionStepResult); 
+                        addGuardCondition = true;
                     }
-                    
-                    var hitBlock = (
-                        nodeData.frameData[nodeData.frameData.length - 2] - 1 +
-                        nodeData.frameData[nodeData.frameData.length - 1] + advantage
-                    );
-                    changed = changed || (actionStepResult.hitBlock !== hitBlock);
-                    if (changed) {
+
+                    if (addGuardCondition) {
+                        changed = true;
+                        actionStepResult.condition.push('guard');
+                    }
+
+                    if (isNewHitBlockProvided && actionStepResult.hitBlock !== hitBlock) {
+                        changed = true;
                         actionStepResult.hitBlock = hitBlock;
                     }
                 }
 
                 return changed;
+
             }
 
 

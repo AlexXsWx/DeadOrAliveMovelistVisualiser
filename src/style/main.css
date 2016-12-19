@@ -87,6 +87,14 @@ body {
 #menu fieldset.subFieldset legend {
   display: none;
 }
+#menu fieldset tr.summary label {
+  font-style: italic;
+}
+#menu fieldset tr.summary input {
+  border-style: dotted;
+  border-width: 1px;
+  padding: 2px 1px;
+}
 #menu #about {
   margin-top: 5px;
   float: right;
