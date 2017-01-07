@@ -94,7 +94,8 @@ define(
                     'example-hitomi': GithubStuff.EXAMPLE_URLS.hitomi,
                     'example-jacky':  GithubStuff.EXAMPLE_URLS.jacky,
                     'example-mai':    GithubStuff.EXAMPLE_URLS.mai,
-                    'example-rog':    GithubStuff.EXAMPLE_URLS.rig,
+                    'example-rig':    GithubStuff.EXAMPLE_URLS.rig,
+                    'example-honoka': GithubStuff.EXAMPLE_URLS.honoka,
                     'example':        GithubStuff.EXAMPLE_URLS.rig
                 };
 

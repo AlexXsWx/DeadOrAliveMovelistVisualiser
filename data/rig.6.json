@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1481060234828
+    "timeSaved": 1482982508473
   },
   "body": {
     "character": "rig",
@@ -152,6 +152,14 @@
                               "guard"
                             ],
                             "hitBlock": "12"
+                          },
+                          {
+                            "condition": [
+                              "critical finish"
+                            ],
+                            "tags": [
+                              "stun reset"
+                            ]
                           }
                         ]
                       }
@@ -228,6 +236,7 @@
                                   "counter"
                                 ],
                                 "criticalHoldDelay": "29",
+                                "stunDurationMin": "38",
                                 "stunDurationMax": "45",
                                 "tags": [
                                   "sit-down stun"
@@ -244,6 +253,16 @@
                                   "forcetech"
                                 ],
                                 "hitBlock": 45
+                              },
+                              {
+                                "condition": [
+                                  "hi-counter",
+                                  "stun",
+                                  "critical finish"
+                                ],
+                                "tags": [
+                                  "side back drop"
+                                ]
                               }
                             ]
                           }
@@ -291,6 +310,14 @@
                                   "guard"
                                 ],
                                 "hitBlock": "9"
+                              },
+                              {
+                                "condition": [
+                                  "critical finish"
+                                ],
+                                "tags": [
+                                  "fall back bounce"
+                                ]
                               }
                             ]
                           }
@@ -364,7 +391,8 @@
                                 "condition": [
                                   "neutral",
                                   "counter",
-                                  "hi counter"
+                                  "hi counter",
+                                  "stun"
                                 ],
                                 "criticalHoldDelay": "12",
                                 "stunDurationMax": "35"
@@ -374,6 +402,14 @@
                                   "guard"
                                 ],
                                 "hitBlock": "20"
+                              },
+                              {
+                                "condition": [
+                                  "critical finish"
+                                ],
+                                "tags": [
+                                  "stun reset"
+                                ]
                               }
                             ]
                           }
@@ -397,16 +433,19 @@
                               {
                                 "condition": [
                                   "neutral",
-                                  "counter"
+                                  "counter",
+                                  "crouching"
                                 ],
                                 "criticalHoldDelay": "6",
                                 "stunDurationMax": "50"
                               },
                               {
                                 "condition": [
-                                  "hi counter"
+                                  "hi counter",
+                                  "stun"
                                 ],
                                 "criticalHoldDelay": "6",
+                                "stunDurationMin": "59",
                                 "stunDurationMax": "59",
                                 "tags": [
                                   "fall down stun"
@@ -460,7 +499,8 @@
                             "results": [
                               {
                                 "condition": [
-                                  "neutral"
+                                  "neutral",
+                                  "crouch"
                                 ],
                                 "criticalHoldDelay": "6",
                                 "stunDurationMax": "39"
@@ -484,6 +524,16 @@
                                   "forcetech"
                                 ],
                                 "hitBlock": 45
+                              },
+                              {
+                                "condition": [
+                                  "stun",
+                                  "hi-counter",
+                                  "critical finish"
+                                ],
+                                "tags": [
+                                  "side back drop"
+                                ]
                               }
                             ]
                           }
@@ -510,7 +560,8 @@
                         "results": [
                           {
                             "condition": [
-                              "neutral"
+                              "neutral",
+                              "neutral crouch"
                             ],
                             "hitBlock": "17"
                           },
@@ -523,10 +574,13 @@
                           {
                             "condition": [
                               "hi counter",
-                              "stun"
+                              "stun",
+                              "counter crouch",
+                              "hi-counter crouch"
                             ],
                             "criticalHoldDelay": "6",
-                            "stunDurationMax": "34"
+                            "stunDurationMin": "34",
+                            "stunDurationMax": "40"
                           },
                           {
                             "condition": [
@@ -545,6 +599,14 @@
                               "forcetech"
                             ],
                             "hitBlock": 51
+                          },
+                          {
+                            "condition": [
+                              "critical finish"
+                            ],
+                            "tags": [
+                              "face-down drop"
+                            ]
                           }
                         ]
                       }
@@ -566,16 +628,27 @@
                             "results": [
                               {
                                 "condition": [
-                                  "neutral"
+                                  "neutral",
+                                  "crouch"
                                 ],
                                 "criticalHoldDelay": "14",
-                                "stunDurationMax": "51"
+                                "stunDurationMax": "60"
                               },
                               {
                                 "condition": [
                                   "guard"
                                 ],
                                 "hitBlock": "14"
+                              },
+                              {
+                                "condition": [
+                                  "stun",
+                                  "counter",
+                                  "hi-counter"
+                                ],
+                                "tags": [
+                                  "launcher"
+                                ]
                               }
                             ]
                           }
@@ -607,7 +680,7 @@
                           "stun"
                         ],
                         "criticalHoldDelay": "14",
-                        "stunDurationMax": "51"
+                        "stunDurationMax": "61"
                       },
                       {
                         "condition": [
@@ -641,6 +714,18 @@
                             "tags": [
                               "guard break"
                             ]
+                          },
+                          {
+                            "condition": [
+                              "neutral",
+                              "counter",
+                              "hi-counter",
+                              "stun",
+                              "critical finish"
+                            ],
+                            "tags": [
+                              "backflip drop"
+                            ]
                           }
                         ]
                       }
@@ -668,17 +753,19 @@
                               "neutral"
                             ],
                             "criticalHoldDelay": "6",
-                            "stunDurationMax": "33"
+                            "stunDurationMin": "33",
+                            "stunDurationMax": "39"
                           },
                           {
                             "condition": [
                               "counter",
-                              "hi-counter"
+                              "half-hit hi-counter"
                             ],
                             "criticalHoldDelay": "29",
-                            "stunDurationMax": "38",
+                            "stunDurationMin": "38",
+                            "stunDurationMax": "45",
                             "tags": [
-                              "sit-down stun"
+                              "trip stun"
                             ]
                           },
                           {
@@ -692,6 +779,14 @@
                               "forcetech"
                             ],
                             "hitBlock": 45
+                          },
+                          {
+                            "condition": [
+                              "hi-counter"
+                            ],
+                            "tags": [
+                              "side back drop"
+                            ]
                           }
                         ]
                       }
@@ -2703,9 +2798,6 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "reach": 2.26,
-                "tags": [
-                  "power blow"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -2720,6 +2812,33 @@
               {
                 "input": "8",
                 "endsWith": "SS"
+              }
+            ]
+          },
+          {
+            "input": "1(P+K)",
+            "frameData": [
+              60,
+              2,
+              40
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "reach": 2.38,
+                "tags": [
+                  "power blow"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 53
+                  }
+                ]
               }
             ]
           },
@@ -2919,7 +3038,33 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 40,
                 "reach": 1.24,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": "25"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "33(H+K)",
+            "frameData": [
+              40,
+              4,
+              34
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "damage": 40,
+                "reach": 1.12,
                 "tags": [
                   "power launcher"
                 ],
@@ -2928,7 +3073,7 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "25"
+                    "hitBlock": 25
                   }
                 ]
               }
@@ -2959,7 +3104,9 @@
             ],
             "actionSteps": [
               {
+                "actionMask": "high",
                 "actionType": "throw",
+                "isTracking": true,
                 "reach": 1.52
               }
             ]
@@ -2973,7 +3120,9 @@
             ],
             "actionSteps": [
               {
+                "actionMask": "high",
                 "actionType": "throw",
+                "isTracking": true,
                 "reach": 1.67
               }
             ]
@@ -2987,7 +3136,9 @@
             ],
             "actionSteps": [
               {
+                "actionMask": "high",
                 "actionType": "throw",
+                "isTracking": true,
                 "reach": 1.47
               }
             ]
@@ -3001,7 +3152,9 @@
             ],
             "actionSteps": [
               {
+                "actionMask": "high",
                 "actionType": "throw",
+                "isTracking": true,
                 "reach": 1.82
               }
             ]
@@ -3015,7 +3168,9 @@
             ],
             "actionSteps": [
               {
+                "actionMask": "low",
                 "actionType": "throw",
+                "isTracking": true,
                 "reach": 1.67
               }
             ]
@@ -3709,6 +3864,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 25,
                 "reach": 1.22,
                 "tags": [
                   "ground attack"
@@ -3725,6 +3881,31 @@
                       "forcetech"
                     ],
                     "hitBlock": 46
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "7(K)",
+            "frameData": [
+              28,
+              3,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "damage": 45,
+                "reach": 1.1,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 35
                   }
                 ]
               }
@@ -3859,6 +4040,11 @@
             "followUps": [
               {
                 "input": "4",
+                "frameData": [
+                  0,
+                  0,
+                  16
+                ],
                 "endsWith": "BND"
               },
               {
@@ -4259,6 +4445,7 @@
             ],
             "actionSteps": [
               {
+                "actionMask": "high",
                 "actionType": "throw",
                 "isTracking": true,
                 "reach": 1.87
@@ -4865,21 +5052,47 @@
         "moves": [
           {
             "input": "K",
+            "frameData": [
+              35,
+              4,
+              18
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 15
+                  }
+                ]
               }
             ]
           },
           {
             "input": "K",
+            "frameData": [
+              34,
+              4,
+              18
+            ],
             "actionSteps": [
               {
                 "actionMask": "low K",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 11
+                  }
+                ]
               }
             ]
           }
@@ -4900,6 +5113,21 @@
           },
           {
             "input": "*K"
+          },
+          {
+            "input": "T",
+            "frameData": [
+              33,
+              2,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
           }
         ]
       }

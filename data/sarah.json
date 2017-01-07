@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1482160545565
+    "timeSaved": 1483252237318
   },
   "body": {
     "character": "Sarah",
@@ -2791,6 +2791,11 @@
                   }
                 ]
               }
+            ],
+            "followUps": [
+              {
+                "input": "..."
+              }
             ]
           },
           {
@@ -3775,8 +3780,7 @@
             "frameData": [
               21,
               4,
-              25,
-              -18
+              25
             ],
             "actionSteps": [
               {
@@ -3785,6 +3789,14 @@
                 "isTracking": true,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 10
+                  }
                 ]
               }
             ],

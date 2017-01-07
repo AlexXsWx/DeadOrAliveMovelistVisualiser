@@ -163,6 +163,7 @@ define(
                 );
 
                 // Check followups after free cancel or end of string
+                // FIXME: moves that described with child of input '*' should use them instead of free cancel
                 keepLookingFunc(
                     workingPath, true,
                     framesSpent + moveDurationData.total,

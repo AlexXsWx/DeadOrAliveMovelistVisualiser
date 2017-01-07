@@ -16,7 +16,8 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
         jacky:  exampleBaseUrl + 'alpha/data/jacky.json',
         mai:    exampleBaseUrl + 'master/data/mai.json',
         hitomi: exampleBaseUrl + 'alpha/data/hitomi.json',
-        momiji: exampleBaseUrl + 'alpha/data/momiji.json'
+        momiji: exampleBaseUrl + 'alpha/data/momiji.json',
+        honoka: exampleBaseUrl + 'alpha/data/honoka.json'
     };
 
     var versionRgx = /^[^\d]*((?:\d+)(?:\.\d+)*)[^\d]*$/i;
