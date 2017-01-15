@@ -42,7 +42,8 @@ g.node.throw .node_circle {
   fill: #77f;
   stroke: white;
 }
-g.node .node_mask_height_indicator {
+g.node .node_mask_height_indicator,
+g.node .node_knockback_indicator {
   stroke-width: 1px;
   fill: none;
   stroke: black;

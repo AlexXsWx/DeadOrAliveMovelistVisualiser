@@ -21,8 +21,6 @@ define(
         // ==== Constants ====
 
             var PADDING = 50;
-            var NODE_WIDTH  = 150;
-            var NODE_HEIGHT = 25;
 
         // ===================
 
@@ -507,12 +505,13 @@ define(
             }
 
             function getNodeViewSize(nodeView) {
-                // var height = NODE_HEIGHT;
-                // if (textGetters.top    != getEmptyText) height += 0.5 * NODE_HEIGHT;
-                // if (textGetters.bottom != getEmptyText) height += 0.5 * NODE_HEIGHT;
+                var nodeHeight = NodeSvgView.getNodeHeight();
+                // var height = nodeHeight;
+                // if (textGetters.top    != getEmptyText) height += 0.5 * nodeHeight;
+                // if (textGetters.bottom != getEmptyText) height += 0.5 * nodeHeight;
                 return {
-                    width:  NODE_WIDTH,
-                    height: NODE_HEIGHT
+                    width:  NodeSvgView.getNodeWidth(),
+                    height: nodeHeight
                 };
             }
 
@@ -525,7 +524,7 @@ define(
 
                 if (!nodeSvgView) {
 
-                    nodeSvgView = NodeSvgView.create(nodeView, NODE_HEIGHT / 3.0);
+                    nodeSvgView = NodeSvgView.create(nodeView);
                     canvas.linksParent.appendChild(nodeSvgView.link);
                     canvas.nodesParent.appendChild(nodeSvgView.wrapper);
                     visibleNodesSvgViews[id] = nodeSvgView;

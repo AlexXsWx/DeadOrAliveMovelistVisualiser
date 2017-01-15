@@ -11,6 +11,9 @@ define(
 
         var TRANSITION_DURATION = 500; // ms
 
+        var NODE_WIDTH  = 150;
+        var NODE_HEIGHT = 25;
+
         var HEIGHT_INDICATOR_TYPE = {
             none:       0,
             tracking:   1,
@@ -27,6 +30,7 @@ define(
             NodeSvgViewTexts.getReach,
             NodeSvgViewTexts.getForcetechAdvantage,
             NodeSvgViewTexts.getHardKnockdownAdvantage,
+            NodeSvgViewTexts.getFollowupDelay,
             NodeSvgViewTexts.getEmptyText, // TODO: stun depth
             NodeSvgViewTexts.getEmptyText  // TODO: unhold duration
         ];
@@ -47,7 +51,18 @@ define(
             create:               create,
             onNodeClick:          onNodeClick,
             onNodeToggleChildren: onNodeToggleChildren,
-            setRightTextToSafety: setRightTextToSafety
+            setRightTextToSafety: setRightTextToSafety,
+            getNodeWidth:  function() { return NODE_WIDTH; },
+            getNodeHeight: function() {
+                var height = 1;
+                if (textGetters.top !== NodeSvgViewTexts.getEmptyText) {
+                    height += 0.75;
+                }
+                if (textGetters.bottom !== NodeSvgViewTexts.getEmptyText) {
+                    height += 0.75;
+                }
+                return height * NODE_HEIGHT;
+            }
         };
 
         function init(updateRef) {
@@ -86,7 +101,7 @@ define(
             );
         }
 
-        function create(nodeView, NODE_HEIGHT) {
+        function create(nodeView) {
 
             var link;
             var wrapper;
@@ -96,7 +111,8 @@ define(
                 high: null,
                 middle: null,
                 bottom: null,
-                ground: null
+                ground: null,
+                knockback: null
             };
             var texts = {
                 center: null,
@@ -282,10 +298,10 @@ define(
 
             function updateHeightIndicators() {
 
-                var highType    = HEIGHT_INDICATOR_TYPE.none;
-                var midType     = HEIGHT_INDICATOR_TYPE.none;
-                var lowType     = HEIGHT_INDICATOR_TYPE.none;
-                var groundType  = HEIGHT_INDICATOR_TYPE.none;
+                var highType   = HEIGHT_INDICATOR_TYPE.none;
+                var midType    = HEIGHT_INDICATOR_TYPE.none;
+                var lowType    = HEIGHT_INDICATOR_TYPE.none;
+                var groundType = HEIGHT_INDICATOR_TYPE.none;
 
                 var nodeData = NodeView.getNodeData(nodeView);
                 if (nodeData && NodeFactory.isMoveNode(nodeData)) {
@@ -314,6 +330,7 @@ define(
                 heightIndicators.mid  = updateHeightIndicator(heightIndicators.mid,    0, midType);
                 heightIndicators.low  = updateHeightIndicator(heightIndicators.low,   45, lowType);
                 heightIndicators.ground = updateGroundHitIndicator(heightIndicators.ground, groundType);
+                heightIndicators.knockback = updateKnockbackIndicator(heightIndicators.knockback, false);
 
             }
 
@@ -346,6 +363,22 @@ define(
                 } else {
                     if (!result) {
                         result = createGroundHitIndicator();
+                        wrapper.insertBefore(result, circle.nextSibling);
+                    }
+                }
+                return result;
+            }
+
+            function updateKnockbackIndicator(indicator, knocksBack) {
+                var result = indicator;
+                if (!knocksBack) {
+                    if (result) {
+                        result.parentNode.removeChild(result);
+                        result = null;
+                    }
+                } else {
+                    if (!result) {
+                        result = createKnockbackIndicator();
                         wrapper.insertBefore(result, circle.nextSibling);
                     }
                 }
@@ -394,7 +427,7 @@ define(
                 wrapper.appendChild(texts.right);
                 wrapper.appendChild(texts.left);
 
-                resize(NODE_HEIGHT);
+                resize(NODE_HEIGHT / 3.0);
 
                 // wrapper.addEventListener('touchend', toggleChildren);
                 // wrapper.addEventListener('click', onClickNodeView);
@@ -416,7 +449,7 @@ define(
 
                 nodeSize = newNodeSize;
 
-                var textPadding = 4;
+                var textPadding = 5;
                 circle.setAttribute('r', nodeSize);
 
                 // FIXME: calculate size out of padding, and try to include text
@@ -428,8 +461,8 @@ define(
                 var offset = nodeSize + textPadding;
                 texts.right.setAttribute('x', offset);
                 texts.left.setAttribute('x', -offset);
-                texts.top.setAttribute('y', -offset);
-                texts.bottom.setAttribute('y', offset);
+                texts.top.setAttribute('y', -1.5 * offset);
+                texts.bottom.setAttribute('y', 1.5 * offset);
 
                 updateHeightIndicators();
 
@@ -438,6 +471,13 @@ define(
             function createHeightIndicator() {
                 var result = createSvgElementClassed('polyline', [ 'node_mask_height_indicator' ]);
                 result.setAttribute('points', HEIGHT_MASK_SHAPE);
+                return result;
+            }
+
+            function createKnockbackIndicator() {
+                var result = createSvgElementClassed('path', [ 'node_knockback_indicator' ]);
+                var r = 5;
+                result.setAttribute('d', 'm0,' + r + ' a' + r + ',' + r + ' 90 0,0 0,' + -2 * r);
                 return result;
             }
 

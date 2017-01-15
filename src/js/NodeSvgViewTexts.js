@@ -24,7 +24,8 @@ define(
             getSafety:       getSafety,
             getReach:        getReach,
             getForcetechAdvantage: getForcetechAdvantage,
-            getHardKnockdownAdvantage: getHardKnockdownAdvantage
+            getHardKnockdownAdvantage: getHardKnockdownAdvantage,
+            getFollowupDelay: getFollowupDelay
 
         };
 
@@ -169,6 +170,22 @@ define(
             }
 
             return result;
+        }
+
+        function getFollowupDelay(nodeView) {
+
+            var nodeData = NodeView.getNodeData(nodeView);
+            if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return '';
+
+            if (nodeData.followUpInterval.length === 0) return '';
+
+            if (nodeData.followUpInterval.length === 1) return '0';
+
+            var followUpIntervalStart = nodeData.followUpInterval[0];
+            var followUpIntervalEnd   = nodeData.followUpInterval[1] - 1;
+
+            return Math.max(0, followUpIntervalEnd - followUpIntervalStart);
+
         }
 
         function getEmptyText(nodeView) {
