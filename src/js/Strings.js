@@ -53,6 +53,14 @@ define('Strings', function Strings() {
             'Frame data for this move has to be already entered for it to work'
         ),
 
+        'followUpInterval': 'Followup interval',
+        'followUpIntervalDescription': 'When doing followup, how many frames total without initial',
+        'followUpIntervalPlaceholder': 'e.g. "12~23"',
+
+        'comment': 'Comment',
+        'commentDescription': 'Anything to note about this move',
+        'commentPlaceholder': 'e.g. "The game lies about framedata of this move"',
+
         'moveActionSteps': 'Action steps',
         'moveActionStepsDescription': 'Move action steps - for most moves just one',
 
@@ -139,10 +147,12 @@ define('Strings', function Strings() {
 
     return getString;
 
+    // TODO: recusrive localization
+
     function getString(id) {
         if (!strings.hasOwnProperty(id)) {
             console.error('Strings has no id %s', id);
-            return '%' + id + '%';
+            return '@[' + id + ']@';
         }
         return strings[id];
     }

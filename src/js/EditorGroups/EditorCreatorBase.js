@@ -75,24 +75,26 @@ define(
                 var description              = editorInputDescription.description;
                 var placeholderText          = editorInputDescription.placeholderText; // text only
                 var isSummary                = editorInputDescription.isSummary || false; // text only
+                var multiline                = editorInputDescription.multiline || false; // text only
                 var filler                   = editorInputDescription.fill;
                 var nodeDataParameterChanger = editorInputDescription.parameterModifier;
                 var onClick                  = editorInputDescription.onClick; // button only
-                var focused                  = editorInputDescription.focused;
+                var focused                  = editorInputDescription.focused || false;
 
                 if (filler !== undefined) editorInputFillers[editorInputId] = filler;
                 if (focused) setDefaultFocus(editorInputId);
 
                 var tableRow = null;
 
-                if (inputType === INPUT_TYPES.text) {
+                if (inputType === INPUT_TYPES.text || inputType === INPUT_TYPES.textLong) {
                     tableRow = TableRowInput.create({
                         name: name,
                         description: description,
                         placeholder: placeholderText,
                         onInput: textInputHandler,
                         onFocus: rememberFocusedElement,
-                        classes: isSummary ? ['summary'] : []
+                        classes: isSummary ? ['summary'] : [],
+                        multiline: multiline
                     });
                 } else
                 if (inputType === INPUT_TYPES.checkbox) {

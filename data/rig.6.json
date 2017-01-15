@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1482982508473
+    "timeSaved": 1484453712722
   },
   "body": {
     "character": "rig",
@@ -53,6 +53,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              12,
+              23
+            ],
             "followUps": [
               {
                 "input": "P",
@@ -97,6 +101,10 @@
                     ]
                   }
                 ],
+                "followUpInterval": [
+                  10,
+                  15
+                ],
                 "followUps": [
                   {
                     "input": "4",
@@ -106,6 +114,10 @@
                       0
                     ],
                     "endsWith": "TLC",
+                    "followUpInterval": [
+                      13,
+                      18
+                    ],
                     "followUps": [
                       {
                         "input": "*",
@@ -163,6 +175,10 @@
                           }
                         ]
                       }
+                    ],
+                    "followUpInterval": [
+                      19,
+                      32
                     ],
                     "followUps": [
                       {
@@ -372,6 +388,10 @@
                         ]
                       }
                     ],
+                    "followUpInterval": [
+                      16,
+                      25
+                    ],
                     "followUps": [
                       {
                         "input": "K",
@@ -468,13 +488,17 @@
                             ]
                           }
                         ],
+                        "followUpInterval": [
+                          13,
+                          19
+                        ],
                         "followUps": [
                           {
                             "input": "4",
                             "frameData": [
-                              -8,
+                              16,
                               0,
-                              16
+                              0
                             ],
                             "endsWith": "BND"
                           }
@@ -611,6 +635,10 @@
                         ]
                       }
                     ],
+                    "followUpInterval": [
+                      15,
+                      25
+                    ],
                     "followUps": [
                       {
                         "input": "K",
@@ -690,6 +718,10 @@
                       }
                     ]
                   }
+                ],
+                "followUpInterval": [
+                  21,
+                  24
                 ],
                 "followUps": [
                   {
@@ -874,6 +906,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              17,
+              25
+            ],
             "followUps": [
               {
                 "input": "P",
@@ -1031,6 +1067,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              16,
+              25
+            ],
             "followUps": [
               {
                 "input": "P",
@@ -1186,6 +1226,10 @@
                   }
                 ],
                 "endsWith": "BND",
+                "followUpInterval": [
+                  22,
+                  31
+                ],
                 "followUps": [
                   {
                     "input": "K",
@@ -1278,6 +1322,10 @@
                   }
                 ]
               }
+            ],
+            "followUpInterval": [
+              19,
+              30
             ],
             "followUps": [
               {
@@ -1505,6 +1553,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              22,
+              34
+            ],
             "followUps": [
               {
                 "input": "P",
@@ -1612,6 +1664,10 @@
               }
             ],
             "endsWith": "BND",
+            "followUpInterval": [
+              15,
+              20
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -1637,6 +1693,10 @@
                   }
                 ],
                 "endsWith": "BND",
+                "followUpInterval": [
+                  18,
+                  30
+                ],
                 "followUps": [
                   {
                     "input": "4",
@@ -1646,6 +1706,10 @@
                       0
                     ],
                     "endsWith": "TLC",
+                    "followUpInterval": [
+                      20,
+                      25
+                    ],
                     "followUps": [
                       {
                         "input": "*",
@@ -1724,9 +1788,18 @@
                         ]
                       }
                     ],
+                    "followUpInterval": [
+                      26,
+                      36
+                    ],
                     "followUps": [
                       {
                         "input": "4",
+                        "frameData": [
+                          34,
+                          0,
+                          0
+                        ],
                         "endsWith": "BND"
                       },
                       {
@@ -1760,13 +1833,17 @@
                             ]
                           }
                         ],
+                        "followUpInterval": [
+                          14,
+                          14
+                        ],
                         "followUps": [
                           {
                             "input": "4",
                             "frameData": [
-                              -8,
+                              16,
                               0,
-                              16
+                              0
                             ],
                             "endsWith": "BND"
                           }
@@ -1798,6 +1875,10 @@
                       }
                     ]
                   }
+                ],
+                "followUpInterval": [
+                  21,
+                  33
                 ],
                 "followUps": [
                   {
@@ -1874,6 +1955,10 @@
                   }
                 ],
                 "endsWith": "BND",
+                "followUpInterval": [
+                  24,
+                  33
+                ],
                 "followUps": [
                   {
                     "input": "K",
@@ -1952,6 +2037,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              14,
+              25
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -2020,6 +2109,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              27,
+              35
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -2080,6 +2173,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              15,
+              23
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -2112,6 +2209,10 @@
                     ]
                   }
                 ],
+                "followUpInterval": [
+                  15,
+                  23
+                ],
                 "followUps": [
                   {
                     "input": "4",
@@ -2121,6 +2222,10 @@
                       0
                     ],
                     "endsWith": "TLC",
+                    "followUpInterval": [
+                      15,
+                      20
+                    ],
                     "followUps": [
                       {
                         "input": "*",
@@ -2186,6 +2291,10 @@
               }
             ],
             "endsWith": "BND",
+            "followUpInterval": [
+              16,
+              21
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -2245,6 +2354,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              19,
+              34
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -2302,13 +2415,17 @@
                     ]
                   }
                 ],
+                "followUpInterval": [
+                  13,
+                  19
+                ],
                 "followUps": [
                   {
                     "input": "4",
                     "frameData": [
-                      -8,
+                      16,
                       0,
-                      16
+                      0
                     ],
                     "endsWith": "BND"
                   }
@@ -2353,6 +2470,10 @@
                   }
                 ],
                 "endsWith": "BND",
+                "followUpInterval": [
+                  24,
+                  34
+                ],
                 "followUps": [
                   {
                     "input": "K",
@@ -2420,6 +2541,10 @@
                   }
                 ]
               }
+            ],
+            "followUpInterval": [
+              20,
+              28
             ],
             "followUps": [
               {
@@ -2520,6 +2645,10 @@
               }
             ],
             "endsWith": "BND",
+            "followUpInterval": [
+              19,
+              28
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -2720,6 +2849,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              23,
+              35
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -2755,6 +2888,10 @@
               0
             ],
             "endsWith": "TLC",
+            "followUpInterval": [
+              15,
+              20
+            ],
             "followUps": [
               {
                 "input": "*",
@@ -2808,9 +2945,18 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              15,
+              44
+            ],
             "followUps": [
               {
                 "input": "8",
+                "frameData": [
+                  0,
+                  0,
+                  0
+                ],
                 "endsWith": "SS"
               }
             ]
@@ -2864,6 +3010,10 @@
                   }
                 ]
               }
+            ],
+            "followUpInterval": [
+              21,
+              24
             ],
             "followUps": [
               {
@@ -3407,6 +3557,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              16,
+              19
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -3544,6 +3698,10 @@
               0
             ],
             "endsWith": "TLC",
+            "followUpInterval": [
+              15,
+              33
+            ],
             "followUps": [
               {
                 "input": "*",
@@ -3590,7 +3748,11 @@
               0,
               0
             ],
-            "endsWith": "SS"
+            "endsWith": "SS",
+            "followUpInterval": [
+              13,
+              18
+            ]
           },
           {
             "input": "44",
@@ -3719,6 +3881,10 @@
               }
             ],
             "endsWith": "BND",
+            "followUpInterval": [
+              13,
+              28
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -3744,6 +3910,10 @@
                   }
                 ],
                 "endsWith": "BND",
+                "followUpInterval": [
+                  9,
+                  20
+                ],
                 "followUps": [
                   {
                     "input": "K",
@@ -3768,6 +3938,10 @@
                         ]
                       }
                     ],
+                    "followUpInterval": [
+                      26,
+                      31
+                    ],
                     "followUps": [
                       {
                         "input": "4",
@@ -3777,6 +3951,10 @@
                           0
                         ],
                         "endsWith": "TLC",
+                        "followUpInterval": [
+                          27,
+                          32
+                        ],
                         "followUps": [
                           {
                             "input": "*",
@@ -3942,13 +4120,17 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              11,
+              16
+            ],
             "followUps": [
               {
                 "input": "4",
                 "frameData": [
-                  -7,
+                  8,
                   0,
-                  8
+                  0
                 ],
                 "endsWith": "BND"
               }
@@ -3978,6 +4160,10 @@
               }
             ],
             "endsWith": "BND",
+            "followUpInterval": [
+              16,
+              21
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -4037,13 +4223,17 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              21,
+              31
+            ],
             "followUps": [
               {
                 "input": "4",
                 "frameData": [
+                  34,
                   0,
-                  0,
-                  16
+                  0
                 ],
                 "endsWith": "BND"
               },
@@ -4078,13 +4268,17 @@
                     ]
                   }
                 ],
+                "followUpInterval": [
+                  14,
+                  20
+                ],
                 "followUps": [
                   {
                     "input": "4",
                     "frameData": [
-                      -8,
+                      16,
                       0,
-                      16
+                      0
                     ],
                     "endsWith": "BND"
                   }
@@ -4131,6 +4325,10 @@
               }
             ],
             "endsWith": "BND",
+            "followUpInterval": [
+              23,
+              32
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -4202,6 +4400,10 @@
               0
             ],
             "endsWith": "TLC",
+            "followUpInterval": [
+              20,
+              25
+            ],
             "followUps": [
               {
                 "input": "*",
@@ -4236,6 +4438,10 @@
                   }
                 ]
               }
+            ],
+            "followUpInterval": [
+              26,
+              29
             ],
             "followUps": [
               {
@@ -4340,6 +4546,10 @@
               }
             ],
             "endsWith": "BND",
+            "followUpInterval": [
+              35,
+              41
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -4459,7 +4669,8 @@
               0,
               0,
               15
-            ]
+            ],
+            "comment": "Framedata calculated manually"
           },
           {
             "input": "P",
@@ -4732,6 +4943,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              6,
+              10
+            ],
             "followUps": [
               {
                 "input": "K",
@@ -4755,6 +4970,10 @@
                       }
                     ]
                   }
+                ],
+                "followUpInterval": [
+                  14,
+                  14
                 ],
                 "followUps": [
                   {
@@ -4859,6 +5078,10 @@
                 ]
               }
             ],
+            "followUpInterval": [
+              13,
+              18
+            ],
             "followUps": [
               {
                 "input": "6K",
@@ -4882,6 +5105,10 @@
                       }
                     ]
                   }
+                ],
+                "followUpInterval": [
+                  30,
+                  35
                 ],
                 "followUps": [
                   {

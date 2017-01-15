@@ -17,11 +17,12 @@ define(
             var onInput         = parameters.onInput;
             var onFocus         = parameters.onFocus;
             var classes         = parameters.classes;
+            var multiline       = parameters.multiline || false;
             // var onBlurOrConfirm = parameters.onBlurOrConfirm;
             // var onEsc           = parameters.onEsc;
 
             var input = _.createDomElement({
-                tag: 'input',
+                tag: multiline ? 'textarea' : 'input',
                 attributes: { 'placeholder': placeholder },
                 listeners: {
                     'input':   inputListener,

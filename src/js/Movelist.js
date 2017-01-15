@@ -101,12 +101,17 @@ define(
 
                 var url = null;
                 for (var i = 0; i < hashParameters.length; ++i) {
-                    var param = hashParameters[i];
-                    if (!url && exampleUrlByHashParameter.hasOwnProperty(param)) {
-                        url = exampleUrlByHashParameter[param];
+                    var temp = hashParameters[i].toLowerCase().split('=');
+                    var paramName  = temp[0];
+                    var paramValue = temp[1];
+                    if (!url && exampleUrlByHashParameter.hasOwnProperty(paramName)) {
+                        url = exampleUrlByHashParameter[paramName];
                     }
-                    if (param === 'show-safety') {
+                    if (paramName === 'show-safety') {
                         NodeSvgView.setRightTextToSafety();
+                    }
+                    if (paramName === 'data-url') {
+                        url = decodeURI(paramValue);
                     }
                 }
 

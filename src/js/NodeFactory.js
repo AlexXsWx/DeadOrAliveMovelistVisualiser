@@ -127,7 +127,12 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             /** stance / context - like crounching after move or lying after taunt */
             endsWith: undefined,
 
-            followUps: []
+            followUpInterval: [],
+
+            followUps: [],
+
+            /** string */
+            comment: undefined
 
         });
 

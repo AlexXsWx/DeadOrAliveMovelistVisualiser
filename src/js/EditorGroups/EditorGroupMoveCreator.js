@@ -95,6 +95,23 @@ define(
                     placeholderText: 'e.g. "-8"',
                     fill: actionStepResultToAdvantageOnBlock,
                     parameterModifier: changeAdvantageOnBlock
+                }, {
+                    id: 'followUpInterval',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: Strings('followUpInterval'),
+                    description: Strings('followUpIntervalDescription'),
+                    placeholderText: Strings('followUpIntervalPlaceholder'),
+                    fill: followUpIntervalToText,
+                    parameterModifier: changeFollowUpInterval
+                }, {
+                    id: 'comment',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    multiline: true,
+                    label: Strings('comment'),
+                    description: Strings('commentDescription'),
+                    placeholderText: Strings('commentPlaceholder'),
+                    fill: commentToText,
+                    parameterModifier: changeComment
                 }
             ];
 
@@ -273,7 +290,7 @@ define(
 
                 // FIXME: dont support negative framedata, use followup range instead
                 var numbers = newValueRaw.match(/-?\d+/g);
-                var newValue = numbers ? numbers.map(mapStrToInt) : [];
+                var newValue = numbers ? numbers.map(strToIntMapper) : [];
                 var oldValue = nodeData.frameData || [];
 
                 nodeData.frameData = newValue;
@@ -412,7 +429,25 @@ define(
             }
 
 
-            function mapStrToInt(element, index, array) { return +element; }
+            function followUpIntervalToText(nodeData) { return nodeData.followUpInterval.join('~'); }
+            function changeFollowUpInterval(newValueRaw, nodeData) {
+                var oldValue = nodeData.followUpInterval;
+                var newValue = newValueRaw.match(/\d+/g).map(strToIntMapper);
+                nodeData.followUpInterval = newValue;
+                return !_.arraysAreEqual(oldValue, newValue);
+            }
+
+
+            function commentToText(nodeData) { return nodeData.comment || ''; }
+            function changeComment(newValueRaw, nodeData) {
+                var oldValue = nodeData.comment;
+                var newValue = newValueRaw.trim();
+                nodeData.comment = newValue;
+                return oldValue !== newValue;
+            }
+
+
+            function strToIntMapper(element, index, array) { return Number(element); }
 
         }
 
