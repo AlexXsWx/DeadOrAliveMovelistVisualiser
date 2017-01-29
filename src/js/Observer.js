@@ -7,11 +7,11 @@ define('Observer', function() {
         var listeners = [];
 
         return {
-            dispatch:          dispatch,
-            addListener:       addListener,
-            hasListener:       hasListener,
-            removeListener:    removeListener,
-            removeAllListener: removeAllListener
+            dispatch:           dispatch,
+            addListener:        addListener,
+            hasListener:        hasListener,
+            removeListener:     removeListener,
+            removeAllListeners: removeAllListeners
         };
 
 
@@ -65,7 +65,7 @@ define('Observer', function() {
         }
 
 
-        function removeAllListener() {
+        function removeAllListeners() {
             listeners = [];
         }
 

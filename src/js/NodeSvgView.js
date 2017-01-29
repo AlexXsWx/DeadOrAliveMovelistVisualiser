@@ -4,17 +4,15 @@ define(
 
     [
         'NodeView', 'NodeFactory',
-        'NodeSvgIndicatorsView', 'NodeSvgViewTexts',
-        'Vector2', 'Observer', 'Tools', 'SvgTools'
+        'NodeSvgIndicatorsView', 'NodeSvgViewTexts', 'NodeSvgViewAnimator',
+        'Observer', 'Tools', 'SvgTools'
     ],
 
     function NodeSvgView(
         NodeView, NodeFactory,
-        NodeSvgIndicatorsView, NodeSvgViewTexts,
-        Vector2, createObserver, _, SvgTools
+        NodeSvgIndicatorsView, NodeSvgViewTexts, NodeSvgViewAnimator,
+        createObserver, _, SvgTools
     ) {
-
-        var TRANSITION_DURATION = 500; // ms
 
         var NODE_WIDTH  = 150;
         var NODE_HEIGHT = 25;
@@ -114,19 +112,7 @@ define(
                 right:  null
             };
 
-            // ==== Animation ====
-
-                var positionTarget = Vector2.create();
-                var positionStart  = Vector2.create();
-                var positionParentTarget = Vector2.create();
-                var positionParentStart  = Vector2.create();
-                var opacityStart  = 1;
-                var opacityTarget = 1;
-
-                var transitionStart = undefined;
-                var animationFrameRequest = null;
-
-            // ===================
+            var animator = NodeSvgViewAnimator.create(setNodePositionAndOpacity);
 
             var nodeSize = 0;
 
@@ -142,9 +128,9 @@ define(
                 wrapper: wrapper,
                 link:    link,
 
-                animate:              animate,
-                getPositionTarget:    getPositionTarget,
-                getPositionStart:     getPositionStart,
+                animate:              animator.animate,
+                getPositionStart:     animator.getPositionStart,
+                getPositionTarget:    animator.getPositionTarget,
                 updateLinkThickness:  updateLinkThickness,
                 updateByData:         updateByData,
 
@@ -166,28 +152,10 @@ define(
             function destroy(optX, optY) {
                 wrapper.classList.add('unclickable');
                 link.classList.add('unclickable');
-                if (optX !== undefined && optY !== undefined) {
-                    destroyAnimated(optX, optY);
-                } else {
-                    destroyNotAnimated();
-                }
+                animator.destroy(onDestroyAnimationComplete, optX, optY);
             }
 
-            function destroyAnimated(x, y) {
-                if (animationFrameRequest !== null) {
-                    window.cancelAnimationFrame(animationFrameRequest);
-                    animationFrameRequest = null;
-                }
-                animate(x, y, x, y, 0);
-                setTimeout(destroyNotAnimated, TRANSITION_DURATION);
-            }
-
-            function destroyNotAnimated() {
-
-                if (animationFrameRequest !== null) {
-                    window.cancelAnimationFrame(animationFrameRequest);
-                    animationFrameRequest = null;
-                }
+            function onDestroyAnimationComplete() {
 
                 _.removeElementFromParent(link);
                 _.removeElementFromParent(wrapper);
@@ -367,106 +335,11 @@ define(
 
             }
 
-            // ==== Animation ====
-
-                function updateAnimationState(x, y, linkStartX, linkStartY, opacity) {
-                    wrapper.setAttribute('transform', 'translate(' + x + ',' + y + ')');
-                    updateLink(x, y, linkStartX, linkStartY);
-                    wrapper.setAttribute('opacity', opacity);
-                    link.setAttribute('opacity', opacity);
-                }
-
-                function animate(x, y, linkStartX, linkStartY, opacity) {
-
-                    if (
-                        positionTarget.x === undefined ||
-                        positionTarget.y === undefined ||
-                        positionParentTarget.x === undefined ||
-                        positionParentTarget.y === undefined
-                    ) {
-                        positionTarget.x = x;
-                        positionTarget.y = y;
-                        positionParentTarget.x = linkStartX;
-                        positionParentTarget.y = linkStartY;
-                        updateAnimationState(x, y, linkStartX, linkStartY, opacity);
-                        return;
-                    }
-
-                    var oldProgress = easeTransition(getTransitionProgress());
-
-                    if (positionStart.x === undefined || positionStart.y === undefined) {
-                        positionStart.x = positionTarget.x;
-                        positionStart.y = positionTarget.y;
-                    } else {
-                        positionStart.x = _.lerp(positionStart.x, positionTarget.x, oldProgress);
-                        positionStart.y = _.lerp(positionStart.y, positionTarget.y, oldProgress);
-                    }
-                    positionTarget.x = x;
-                    positionTarget.y = y;
-
-                    var posParSt = positionParentStart;
-                    if (posParSt.x === undefined || posParSt.y === undefined) {
-                        posParSt.x = positionParentTarget.x;
-                        posParSt.y = positionParentTarget.y;
-                    } else {
-                        posParSt.x = _.lerp(posParSt.x, positionParentTarget.x, oldProgress);
-                        posParSt.y = _.lerp(posParSt.y, positionParentTarget.y, oldProgress);
-                    }
-                    positionParentTarget.x = linkStartX;
-                    positionParentTarget.y = linkStartY;
-
-                    opacityStart = _.lerp(opacityStart, opacityTarget, oldProgress);
-                    opacityTarget = opacity;
-
-                    transitionStart = Date.now();
-
-                    if (animationFrameRequest !== null) {
-                        window.cancelAnimationFrame(animationFrameRequest);
-                    }
-                    animationFrameRequest = window.requestAnimationFrame(moveToTargetPosition);
-
-                }
-
-                function moveToTargetPosition() {
-                    var progress = getTransitionProgress();
-                    var eased = easeTransition(progress);
-                    updateAnimationState(
-                        _.lerp(positionStart.x, positionTarget.x, eased),
-                        _.lerp(positionStart.y, positionTarget.y, eased),
-                        _.lerp(positionParentStart.x, positionParentTarget.x, eased),
-                        _.lerp(positionParentStart.y, positionParentTarget.y, eased),
-                        _.lerp(opacityStart, opacityTarget, eased)
-                    );
-                    if (transitionStart + TRANSITION_DURATION > Date.now()) {
-                        animationFrameRequest = window.requestAnimationFrame(moveToTargetPosition);
-                    }
-                }
-
-                function getTransitionProgress() {
-                    if (!transitionStart) return 1;
-                    return Math.min(1, (Date.now() - transitionStart) / TRANSITION_DURATION);
-                }
-
-                function easeTransition(progress) {
-                    return Math.sin(Math.PI / 2 * progress);
-                }
-
-            // ===================
-
-            function getPositionStart() {
-                console.assert(
-                    positionStart.x !== undefined && positionStart.y !== undefined,
-                    'position start is not initialized'
-                );
-                return positionStart;
-            }
-
-            function getPositionTarget() {
-                return positionTarget;
-            }
-
-            function updateLink(sx, sy, tx, ty) {
-                link.setAttribute('d', SvgTools.pathSmoothedHorizontal(sx, sy, tx, ty));
+            function setNodePositionAndOpacity(x, y, linkStartX, linkStartY, opacity) {
+                wrapper.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+                wrapper.setAttribute('opacity', opacity);
+                link.setAttribute('d', SvgTools.pathSmoothedHorizontal(x, y, linkStartX, linkStartY));
+                link.setAttribute('opacity', opacity);
             }
 
             // TODO: optimize
