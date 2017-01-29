@@ -17,85 +17,27 @@ define(
         var NODE_WIDTH  = 150;
         var NODE_HEIGHT = 25;
 
-        var TEXT_GETTER_OPTIONS = [
-            NodeSvgViewTexts.getEmptyText,
-            NodeSvgViewTexts.getTextEnding,
-            NodeSvgViewTexts.getTextDuration,
-            NodeSvgViewTexts.getCooldown,
-            NodeSvgViewTexts.getSafety,
-            NodeSvgViewTexts.getReach,
-            NodeSvgViewTexts.getForcetechAdvantage,
-            NodeSvgViewTexts.getHardKnockdownAdvantage,
-            NodeSvgViewTexts.getFollowupDelay,
-            NodeSvgViewTexts.getEmptyText, // TODO: stun depth
-            NodeSvgViewTexts.getEmptyText  // TODO: unhold duration
-        ];
-
-        var textGetters = {
-            top:    TEXT_GETTER_OPTIONS[0],
-            right:  TEXT_GETTER_OPTIONS[1],
-            bottom: TEXT_GETTER_OPTIONS[0]
-        };
-
-        var flipTextToRight = true;
-
         var onNodeClick          = createObserver();
         var onNodeToggleChildren = createObserver();
 
         return {
-            init:                 init,
+            init:                 NodeSvgViewTexts.init,
             create:               create,
             onNodeClick:          onNodeClick,
             onNodeToggleChildren: onNodeToggleChildren,
-            setRightTextToSafety: setRightTextToSafety,
+            setRightTextToSafety: NodeSvgViewTexts.setRightTextToSafety,
             getNodeWidth:  function() { return NODE_WIDTH; },
             getNodeHeight: function() {
                 var height = 1;
-                if (textGetters.top !== NodeSvgViewTexts.getEmptyText) {
+                if (NodeSvgViewTexts.hasTextAtTop()) {
                     height += 0.75;
                 }
-                if (textGetters.bottom !== NodeSvgViewTexts.getEmptyText) {
+                if (NodeSvgViewTexts.hasTextAtBottom()) {
                     height += 0.75;
                 }
                 return height * NODE_HEIGHT;
             }
         };
-
-        function init(updateRef) {
-
-            _.getDomElement('topTextOption').addEventListener('change', function(event) {
-                var select = this;
-                var selectedOptionValue = +select.selectedOptions[0].value;
-                textGetters.top = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
-                updateRef();
-            });
-            _.getDomElement('rightTextOption').addEventListener('change', function(event) {
-                var select = this;
-                var selectedOptionValue = +select.selectedOptions[0].value;
-                textGetters.right = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
-                updateRef();
-            });
-            _.getDomElement('bottomTextOption').addEventListener('change', function(event) {
-                var select = this;
-                var selectedOptionValue = +select.selectedOptions[0].value;
-                textGetters.bottom = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
-                updateRef();
-            });
-
-            _.getDomElement('flipTextToRight').addEventListener('change', function(event) {
-                var checkbox = this;
-                flipTextToRight = checkbox.checked;
-                updateRef();
-            });
-
-        }
-
-        function setRightTextToSafety() {
-            textGetters.right = NodeSvgViewTexts.getSafety;
-            _.getDomElement('rightTextOption').selectedIndex = (
-                TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTexts.getSafety)
-            );
-        }
 
         function create(nodeView) {
 
@@ -104,13 +46,7 @@ define(
             var additionalHitbox;
             var circle;
             var indicatorsView = null;
-            var texts = {
-                center: null,
-                top:    null,
-                bottom: null,
-                left:   null,
-                right:  null
-            };
+            var texts2 = NodeSvgViewTexts.create();
 
             var animator = NodeSvgViewAnimator.create(setNodePositionAndOpacity);
 
@@ -143,7 +79,7 @@ define(
                 if (!NodeView.isPlaceholder(nodeView)) {
                     circle.removeAttribute('stroke-dasharray');
                 }
-                updateTextsByData();
+                texts2.updateByData(nodeView);
                 updateClassesByData();
                 indicatorsView.update(NodeView.getNodeData(nodeView), nodeSize);
                 updateLinkThickness();
@@ -156,44 +92,8 @@ define(
             }
 
             function onDestroyAnimationComplete() {
-
                 _.removeElementFromParent(link);
                 _.removeElementFromParent(wrapper);
-                link = null;
-                wrapper = null;
-
-                circle = null;
-                texts.center = null;
-                texts.top = null;
-                texts.bottom = null;
-                texts.left = null;
-                texts.right = null;
-
-            }
-
-            function updateTextsByData() {
-                _.setTextContent(texts.left,   getActualLeftText(nodeView));
-                _.setTextContent(texts.center, NodeSvgViewTexts.getTextToggle(nodeView));
-                _.setTextContent(texts.right,  getActualRightText(nodeView));
-                _.setTextContent(texts.top,    textGetters.top(nodeView));
-                _.setTextContent(texts.bottom, textGetters.bottom(nodeView));
-            }
-
-            function getActualLeftText(nodeView) {
-                var leftText = NodeSvgViewTexts.getTextMain(nodeView);
-                if (!flipTextToRight) {
-                    return leftText;
-                }
-                var rightText = textGetters.right(nodeView);
-                return rightText ? leftText : '';
-            }
-
-            function getActualRightText(nodeView) {
-                var rightText = textGetters.right(nodeView);
-                if (!flipTextToRight) {
-                    return rightText;
-                }
-                return rightText || NodeSvgViewTexts.getTextMain(nodeView);
             }
 
             function updateClassesByData() {
@@ -257,7 +157,10 @@ define(
 
             function createSvgElements() {
 
-                link = createSvgElementClassed('path', ['node_link']);
+                link = _.createSvgElement({
+                    tag: 'path',
+                    classes: ['node_link']
+                });
 
                 wrapper = _.createSvgElement({
                     tag: 'g',
@@ -281,20 +184,10 @@ define(
                     classes: [ 'node_circle' ]
                 });
 
-                texts.center = createSvgElementClassed('text', [ 'node_text', 'node_text_center' ]);
-                texts.right  = createSvgElementClassed('text', [ 'node_text', 'node_text_right'  ]);
-                texts.left   = createSvgElementClassed('text', [ 'node_text', 'node_text_left'   ]);
-                texts.top    = createSvgElementClassed('text', [ 'node_text', 'node_text_top'    ]);
-                texts.bottom = createSvgElementClassed('text', [ 'node_text', 'node_text_bottom' ]);
-
                 wrapper.appendChild(additionalHitbox);
                 wrapper.appendChild(circle);
                 // ... Place for indicators ...
-                wrapper.appendChild(texts.bottom);
-                wrapper.appendChild(texts.center);
-                wrapper.appendChild(texts.top);
-                wrapper.appendChild(texts.right);
-                wrapper.appendChild(texts.left);
+                texts2.addSelfToParent(wrapper);
 
                 // wrapper.addEventListener('touchend', toggleChildren);
                 // wrapper.addEventListener('click', onClickNodeView);
@@ -316,7 +209,6 @@ define(
 
                 nodeSize = newNodeSize;
 
-                var textPadding = 5;
                 circle.setAttribute('r', nodeSize);
 
                 // FIXME: calculate size out of padding, and try to include text
@@ -325,11 +217,7 @@ define(
                 additionalHitbox.setAttribute('y',     -nodeSize * 1.5);
                 additionalHitbox.setAttribute('height', nodeSize * 3);
 
-                var offset = nodeSize + textPadding;
-                texts.right.setAttribute('x', offset);
-                texts.left.setAttribute('x', -offset);
-                texts.top.setAttribute('y', -1.5 * offset);
-                texts.bottom.setAttribute('y', 1.5 * offset);
+                texts2.resize(nodeSize);
 
                 indicatorsView.update(NodeView.getNodeData(nodeView), nodeSize);
 
@@ -354,15 +242,6 @@ define(
                 link.setAttribute('stroke-width', result);
             }
 
-        }
-
-        // Helpers
-
-        function createSvgElementClassed(tag, classes) {
-            return _.createSvgElement({
-                tag: tag,
-                classes: classes
-            });
         }
 
     }

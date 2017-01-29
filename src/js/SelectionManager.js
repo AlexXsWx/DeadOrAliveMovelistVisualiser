@@ -2,9 +2,9 @@ define(
 
     'SelectionManager',
 
-    ['NodeView', 'Observer', 'Executor', 'NodeSvgViewTexts'],
+    ['NodeView', 'Observer', 'Executor', 'NodeSvgViewTextGetters'],
 
-    function SelectionManager(NodeView, createObserver, Executor, NodeSvgViewTexts) {
+    function SelectionManager(NodeView, createObserver, Executor, NodeSvgViewTextGetters) {
 
         var selectionCurrent = null;
 
@@ -66,7 +66,7 @@ define(
 
 
         function svgNodeViewToString(svgNodeView) {
-            return svgNodeView ? NodeSvgViewTexts.getTextMain(svgNodeView.nodeView) : 'null';
+            return svgNodeView ? NodeSvgViewTextGetters.getTextMain(svgNodeView.nodeView) : 'null';
         }
 
 
