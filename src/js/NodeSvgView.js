@@ -2,24 +2,22 @@ define(
 
     'NodeSvgView',
 
-    ['NodeView', 'NodeFactory', 'NodeSvgViewTexts', 'Observer', 'Tools', 'SvgTools'],
+    [
+        'NodeView', 'NodeFactory',
+        'NodeSvgIndicatorsView', 'NodeSvgViewTexts',
+        'Vector2', 'Observer', 'Tools', 'SvgTools'
+    ],
 
-    function NodeSvgView(NodeView, NodeFactory, NodeSvgViewTexts, createObserver, _, SvgTools) {
-
-        var HEIGHT_MASK_SHAPE = '-2,3 2,0 -2,-3';
-        var HEIGHT_MASK_GROUND_SHAPE = '-5,0 5,0';
+    function NodeSvgView(
+        NodeView, NodeFactory,
+        NodeSvgIndicatorsView, NodeSvgViewTexts,
+        Vector2, createObserver, _, SvgTools
+    ) {
 
         var TRANSITION_DURATION = 500; // ms
 
         var NODE_WIDTH  = 150;
         var NODE_HEIGHT = 25;
-
-        var HEIGHT_INDICATOR_TYPE = {
-            none:       0,
-            tracking:   1,
-            direct:     2,
-            notDefined: 3
-        };
 
         var TEXT_GETTER_OPTIONS = [
             NodeSvgViewTexts.getEmptyText,
@@ -107,13 +105,7 @@ define(
             var wrapper;
             var additionalHitbox;
             var circle;
-            var heightIndicators = {
-                high: null,
-                middle: null,
-                bottom: null,
-                ground: null,
-                knockback: null
-            };
+            var indicatorsView = null;
             var texts = {
                 center: null,
                 top:    null,
@@ -124,10 +116,10 @@ define(
 
             // ==== Animation ====
 
-                var positionTarget = createVectorXY();
-                var positionStart  = createVectorXY();
-                var positionParentTarget = createVectorXY();
-                var positionParentStart  = createVectorXY();
+                var positionTarget = Vector2.create();
+                var positionStart  = Vector2.create();
+                var positionParentTarget = Vector2.create();
+                var positionParentStart  = Vector2.create();
                 var opacityStart  = 1;
                 var opacityTarget = 1;
 
@@ -138,7 +130,10 @@ define(
 
             var nodeSize = 0;
 
-            createDomNodes();
+            createSvgElements();
+            indicatorsView = NodeSvgIndicatorsView.create(circle);
+
+            resizeAndUpdateIndicators(NODE_HEIGHT / 3.0);
 
             var nodeSvgView = {
 
@@ -164,7 +159,7 @@ define(
                 }
                 updateTextsByData();
                 updateClassesByData();
-                updateHeightIndicators();
+                indicatorsView.update(NodeView.getNodeData(nodeView), nodeSize);
                 updateLinkThickness();
             }
 
@@ -194,8 +189,8 @@ define(
                     animationFrameRequest = null;
                 }
 
-                removeSvgNodeFromParent(link);
-                removeSvgNodeFromParent(wrapper);
+                _.removeElementFromParent(link);
+                _.removeElementFromParent(wrapper);
                 link = null;
                 wrapper = null;
 
@@ -206,10 +201,6 @@ define(
                 texts.left = null;
                 texts.right = null;
 
-            }
-
-            function removeSvgNodeFromParent(svgNodeView) {
-                svgNodeView.parentElement.removeChild(svgNodeView);
             }
 
             function updateTextsByData() {
@@ -296,97 +287,7 @@ define(
             }
 
 
-            function updateHeightIndicators() {
-
-                var highType   = HEIGHT_INDICATOR_TYPE.none;
-                var midType    = HEIGHT_INDICATOR_TYPE.none;
-                var lowType    = HEIGHT_INDICATOR_TYPE.none;
-                var groundType = HEIGHT_INDICATOR_TYPE.none;
-
-                var nodeData = NodeView.getNodeData(nodeView);
-                if (nodeData && NodeFactory.isMoveNode(nodeData)) {
-
-                    nodeData.actionSteps.forEach(function(actionStep) {
-
-                        var type = HEIGHT_INDICATOR_TYPE.notDefined;
-                        if (actionStep.isTracking !== undefined) {
-                            if (actionStep.isTracking) {
-                                type = HEIGHT_INDICATOR_TYPE.tracking;
-                            } else {
-                                type = HEIGHT_INDICATOR_TYPE.direct;
-                            }
-                        }
-
-                        if (NodeFactory.isActionStepHigh(actionStep)) highType = type;
-                        if (NodeFactory.isActionStepMid(actionStep))  midType  = type;
-                        if (NodeFactory.isActionStepLow(actionStep))  lowType  = type;
-                        if (NodeFactory.canActionStepHitGround(actionStep)) groundType = type;
-
-                    });
-
-                }
-
-                heightIndicators.high = updateHeightIndicator(heightIndicators.high, -45, highType);
-                heightIndicators.mid  = updateHeightIndicator(heightIndicators.mid,    0, midType);
-                heightIndicators.low  = updateHeightIndicator(heightIndicators.low,   45, lowType);
-                heightIndicators.ground = updateGroundHitIndicator(heightIndicators.ground, groundType);
-                heightIndicators.knockback = updateKnockbackIndicator(heightIndicators.knockback, false);
-
-            }
-
-            function updateHeightIndicator(indicator, angle, type) {
-                var result = indicator;
-                if (type === HEIGHT_INDICATOR_TYPE.none) {
-                    if (result) {
-                        result.parentNode.removeChild(result);
-                        result = null;
-                    }
-                } else {
-                    if (!result) {
-                        result = createHeightIndicator();
-                        wrapper.insertBefore(result, circle.nextSibling);
-                    }
-                    updateHeightIndicatorTransform(
-                        result, angle, type === HEIGHT_INDICATOR_TYPE.tracking
-                    );
-                }
-                return result;
-            }
-
-            function updateGroundHitIndicator(indicator, type) {
-                var result = indicator;
-                if (type === HEIGHT_INDICATOR_TYPE.none) {
-                    if (result) {
-                        result.parentNode.removeChild(result);
-                        result = null;
-                    }
-                } else {
-                    if (!result) {
-                        result = createGroundHitIndicator();
-                        wrapper.insertBefore(result, circle.nextSibling);
-                    }
-                }
-                return result;
-            }
-
-            function updateKnockbackIndicator(indicator, knocksBack) {
-                var result = indicator;
-                if (!knocksBack) {
-                    if (result) {
-                        result.parentNode.removeChild(result);
-                        result = null;
-                    }
-                } else {
-                    if (!result) {
-                        result = createKnockbackIndicator();
-                        wrapper.insertBefore(result, circle.nextSibling);
-                    }
-                }
-                return result;
-            }
-
-
-            function createDomNodes() {
+            function createSvgElements() {
 
                 link = createSvgElementClassed('path', ['node_link']);
 
@@ -420,14 +321,12 @@ define(
 
                 wrapper.appendChild(additionalHitbox);
                 wrapper.appendChild(circle);
-                // ... Place for height indicators ...
+                // ... Place for indicators ...
                 wrapper.appendChild(texts.bottom);
                 wrapper.appendChild(texts.center);
                 wrapper.appendChild(texts.top);
                 wrapper.appendChild(texts.right);
                 wrapper.appendChild(texts.left);
-
-                resize(NODE_HEIGHT / 3.0);
 
                 // wrapper.addEventListener('touchend', toggleChildren);
                 // wrapper.addEventListener('click', onClickNodeView);
@@ -445,7 +344,7 @@ define(
                 event.stopPropagation();
             }
 
-            function resize(newNodeSize) {
+            function resizeAndUpdateIndicators(newNodeSize) {
 
                 nodeSize = newNodeSize;
 
@@ -464,34 +363,8 @@ define(
                 texts.top.setAttribute('y', -1.5 * offset);
                 texts.bottom.setAttribute('y', 1.5 * offset);
 
-                updateHeightIndicators();
+                indicatorsView.update(NodeView.getNodeData(nodeView), nodeSize);
 
-            }
-
-            function createHeightIndicator() {
-                var result = createSvgElementClassed('polyline', [ 'node_mask_height_indicator' ]);
-                result.setAttribute('points', HEIGHT_MASK_SHAPE);
-                return result;
-            }
-
-            function createKnockbackIndicator() {
-                var result = createSvgElementClassed('path', [ 'node_knockback_indicator' ]);
-                var r = 5;
-                result.setAttribute('d', 'm0,' + r + ' a' + r + ',' + r + ' 90 0,0 0,' + -2 * r);
-                return result;
-            }
-
-            function createGroundHitIndicator() {
-                var result = createSvgElementClassed('polyline', [ 'node_mask_height_indicator' ]);
-                result.setAttribute('points', HEIGHT_MASK_GROUND_SHAPE);
-                result.setAttribute('transform', 'translate(0,' + (nodeSize + 0.5) + ')');
-                return result;
-            }
-
-            function updateHeightIndicatorTransform(indicator, angle, flip) {
-                var transform = 'rotate(' + angle + ') translate(' + nodeSize + ',0)';
-                if (flip) transform = transform + ' scale(-1,1)';
-                indicator.setAttribute('transform', transform);
             }
 
             // ==== Animation ====
@@ -611,13 +484,6 @@ define(
         }
 
         // Helpers
-
-        function createVectorXY() {
-            return {
-                x: undefined,
-                y: undefined
-            };
-        }
 
         function createSvgElementClassed(tag, classes) {
             return _.createSvgElement({

@@ -27,7 +27,8 @@ define('Tools', function() {
         dispatchInputEvent:                    dispatchInputEvent,
         forEachOwnProperty:                    forEachOwnProperty,
         flattenRecursion:                      flattenRecursion,
-        sliceArguments:                        sliceArguments
+        sliceArguments:                        sliceArguments,
+        removeElementFromParent:               removeElementFromParent
     };
 
     function getDomElement(id) {
@@ -329,6 +330,10 @@ define('Tools', function() {
             args.push(arguments[i]);
         }
         return args;
+    }
+
+    function removeElementFromParent(element) {
+        element.parentNode.removeChild(element);
     }
 
 });

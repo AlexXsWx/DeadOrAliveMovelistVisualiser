@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1484453712722
+    "timeSaved": 1485700662877
   },
   "body": {
     "character": "rig",
@@ -1240,7 +1240,7 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "mid K",
+                        "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": false,
                         "reach": 1.36,
@@ -3763,6 +3763,48 @@
               15,
               0,
               0
+            ]
+          },
+          {
+            "input": "2K",
+            "context": [
+              "OGND"
+            ],
+            "frameData": [
+              53,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "ground attack",
+                "damage": 12,
+                "tags": [
+                  "ground attack"
+                ]
+              }
+            ]
+          },
+          {
+            "input": "8P+K",
+            "context": [
+              "OGND"
+            ],
+            "frameData": [
+              93,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "ground attack",
+                "damage": 20,
+                "tags": [
+                  "ground attack"
+                ]
+              }
             ]
           }
         ]
