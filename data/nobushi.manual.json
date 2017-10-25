@@ -1,0 +1,354 @@
+// when the game shows killer info, it says direction for killer, not for you
+
+forward+guard break in some cases will land where just guard break wouldn't
+attacking from different direction than guarding does take extra time (at least after block / GB timeout)
+
+block hit from guy w/o stamina to get free guaranteed GB
+
+bleed is affected by stats?
+you can't escape GB if your heavy attack (death rattle form 2/2) got parried
+
+guard break
+    if player A w/o stamina starts guard break, player B can start later and win because it will land faster
+    you can't escape GB if
+        if you dash forward
+        if you whiffed GB
+        you were doing light/heavy attack while got GB'ed by someone in revenge mode (or shugoki from his uninterruptible stance)
+    you can escape GB when
+        you're dodging with Hidden Stance
+        you're idling in Hidden Stance
+        you're in progress of changing guard direction (black mark on different spot than white)
+
+blocking
+    when outnumbered, blocking attack from locked opponent will for short time automatically block attacks from non-locked opponents
+
+Landing hit with Death Rattle Form 1/2 can knock off the ledge
+
+
+parry light -> attack light or attack heavy are both guaranteed
+parry heavy -> attack heavy is not guaranteed
+
+parry zone attack 1/2 - heavy is not guaranteed
+parry zone attack 2/2 - light whiffs, heavy too slow
+
+{
+    "movesFromGuardMode": [
+        "Poke the Nest 1/3", "Hiss and Bite 1/2",
+        "Death Rattle Form 1/2",
+        "Hidden Stance",
+        "Guard break",
+        "Viper's Retreat",
+        "Swift recoil",
+        "Zone attack 1/2",
+        "Dodge"
+    ],
+
+    "movesFromOutsideGuardMode": [
+        "Slithering Thrust",
+        "Coiling Slash"
+    ],
+
+    "allMoves": [
+        {
+            // left/right faster than top
+            "names": [
+                "Poke the Nest 1/3",
+                "Hiss and Bite 1/2"
+            ],
+            "input": "light",
+            "directions": [ "top", "left", "right" ],
+            "followups": [
+                "[cancel] Hidden Stance",
+                "Poke the Nest 2/3",
+                "Hiss and Bite 2/2",
+                "Hidden Stance",
+                "Viper's Retreat",
+                "Kick"
+            ],
+            "type": "light"
+        },
+            {
+                "names": [ "Poke the Nest 2/3" ],
+                "input": "light",
+                "directions": [ "top", "left", "right" ],
+                "followups": [
+                    "Poke the Nest 3/3 whiff followup",
+                    "Poke the Nest 3/3 hit followup",
+                    "Hidden Stance",
+                    "Viper's Retreat",
+                    "Kick"
+                ],
+                "type": "light"
+            },
+                {
+                    "names": [ "Poke the Nest 3/3 whiff followup" ],
+                    "input": "light",
+                    "directions": [ "top", "left", "right" ],
+                    "followups": [
+                        "Hidden Stance",
+                        "Viper's Retreat",
+                        "Kick"
+                    ],
+                    "type": "light"
+                },
+                {
+                    // will chain even if you ran out of stamina on PtN 2/3
+                    "names": [ "Poke the Nest 3/3 hit followup" ],
+                    "input": "light",
+                    "directions": [ "top", "left", "right" ],
+                    "followups": [
+                        "Hidden Stance",
+                        "Viper's Retreat",
+                        "Kick"
+                    ],
+                    "comment": "Bleed, unblockable/fast"
+                },
+
+            {
+                "names": [ "Hiss and Bite 2/2" ],
+                "input": "heavy",
+                "directions": [ "top", "left", "right" ],
+                "followups": [
+                    "Cancel",
+                    "Hidden Stance",
+                    "Viper's Retreat",
+                    "Kick"
+                ],
+                "type": "heavy"
+            },
+
+        {
+            "names": [ "Death Rattle Form 1/2" ],
+            "input": "heavy",
+            "directions": [ "top", "left", "right" ],
+            "followups": [
+                "Cancel",
+                "[cancel] Hidden Stance",
+                "Death Rattle Form 2/2",
+                "Hidden Stance",
+                "Viper's Retreat",
+                "Kick"
+            ],
+            "type": "heavy",
+            "comment": "Startup is vulnerable to guard break",
+            "damage": "(left)left=30; (top)top=38dmg / 46dmg(while bleed)"
+        },
+            {
+                "names": [ "Death Rattle Form 2/2" ],
+                "input": "heavy",
+                "directions": [ "top", "left", "right" ],
+                "followups": [
+                    "Cancel",
+                    "Hidden Stance",
+                    "Viper's Retreat",
+                    "Kick"
+                ],
+                "type": "heavy",
+                "damage": "(left)left-left=24"
+            },
+
+        {
+            "names": [ "Hidden Stance", "[cancel] Hidden Stance" ],
+            "input": "stance",
+            "followups": [
+                "Poke the Nest 2/3",
+                "Hiss and Bite 2/2",
+                "Kick",
+                "Dodge",
+                "Zone attack 1/2"
+            ],
+            "comment": "dodge during startup; no guard"
+        },
+
+        {
+            "names": [ "Guard break" ],
+            "input": "kick",
+            "followups": [ "Guard break success followup - throw" ],
+            "type": "guard break"
+            // FIXME: followups
+            // All but dodge or guard break
+        },
+            {
+                "names": [ "Guard break success followup - throw" ],
+                "input": [ "kick", "left + kick", "right + kick", "forward + kick", "back + kick" ],
+                "followups": [
+                    "Poke the Nest 1/3", "Hiss and Bite 1/2",
+                    "Death Rattle Form 1/2",
+                    "Viper's Retreat",
+                    "Cobra Strike left",
+                    "Cobra Strike right",
+                    "Cobra Strike forward",
+                    "Zone attack 1/2",
+                    "Hidden Stance"
+                ]
+            }
+
+        {
+            "names": [ "Viper's Retreat" ],
+            "input": "back + light",
+            "directions": [ "top", "left", "right" ],
+            "comment": "Bleed",
+            "followups": [
+                "Hidden Stance",
+                "Dodge left",
+                "Dodge right"
+            ],
+            "type": "light"
+        },
+
+        {
+            "names": [ "Kick" ],
+            "input": "kick",
+            "comment": "Unblockable",
+            "followups": [
+                "Cobra Strike left",
+                "Cobra Strike right",
+                "Cobra Strike forward",
+                "Hidden Stance"
+            ]
+        },
+
+        {
+            "names": [ "Swift recoil" ],
+            "input": "[on guard] dodge"
+        },
+
+        {
+            "names": [ "Zone attack 1/2" ],
+            "input": "light + heavy",
+            "followups": [ "Zone attack 2/2 cancel" ],
+            "comment": "Bleed",
+            "type": "heavy", // confirmed
+            "damage": "(top)right=33dmg"
+        },
+            {
+                "names": [ "Zone attack 2/2 cancel" ],
+                "input": "cancel",
+                "advantageOnBlock": 0
+            },
+
+
+        {
+            "names": [ "Dodge", "Dodge left" ],
+            "input": "left + dodge",
+            "followups": [
+                "Cobra Strike left",
+                "Sidewinder Form left"
+            ]
+        },
+            {
+                "names": [ "Cobra Strike left" ],
+                "directions": [ "left" ],
+                "input": "light",
+                "comment": "Bleed; Startup is vulnerable to guard break",
+                "followups": [
+                    "Hidden Stance",
+                    "Poke the Nest 2/3",
+                    "Dodge left",
+                    "Dodge right"
+                ],
+                "type": "light", // confirmed
+                "damage": "(top)left=??? + ? x 6dmg"
+            },
+
+            {
+                "names": [ "Sidewinder Form left" ],
+                "input": "heavy",
+                "directions": [ "right" ],
+                "comment": "Startup is vulnerable to guard break",
+                "followups": [
+                    "Hidden Stance",
+                    "Viper's Retreat",
+                    "Kick",
+                    "Dodge"
+                ],
+                "type": "heavy"
+            },
+
+        {
+            "names": [ "Dodge", "Dodge right" ],
+            "input": "right + dodge",
+            "followups": [
+                "Cobra Strike right",
+                "Sidewinder Form right"
+            ]
+        },
+
+            {
+                "names": [ "Cobra Strike right" ],
+                "input": "light",
+                "directions": [ "right" ],
+                "comment": "Bleed; Startup is vulnerable to guard break",
+                "followups": [
+                    "Hidden Stance",
+                    "Poke the Nest 2/3",
+                    "Dodge left",
+                    "Dodge right"
+                ],
+                "type": "light"
+            },
+            {
+                "names": [ "Sidewinder Form right" ],
+                "input": "heavy",
+                "directions": [ "left" ],
+                "comment": "Startup is vulnerable to guard break",
+                "followups": [
+                    "Hidden Stance",
+                    "Viper's Retreat",
+                    "Kick",
+                    "Dodge"
+                ],
+                "type": "heavy"
+            },
+
+        {
+            "names": [ "Dodge", "Dodge forward" ],
+            "input": "left + dodge",
+            "followups": [ "Cobra Strike forward" ]
+        },
+            {
+                "names": [ "Cobra Strike forward" ],
+                "input": "light",
+                "directions": [ "top" ],
+                "comment": "Bleed",
+                "followups": [
+                    "Hidden Stance",
+                    "Poke the Nest 2/3",
+                    "Dodge left",
+                    "Dodge right"
+                ],
+                "type": "light"
+            },
+
+        {
+            "names": [ "Dodge", "Dodge back" ],
+            "input": "dodge",
+            "followups": [ "Dodge roll" ]
+        },
+            {
+                "names": [ "Dodge roll" ],
+                "input": "dodge"
+            },
+
+        {
+            "names": [ "Cancel" ],
+            "input": "cancel"
+        },
+
+        {
+            "names": [ "Slithering Thrust" ],
+            "input": "sprint + light",
+            "directions": [ "right" ],
+            "comment": "Bleed",
+            "type": "???",
+            "damage": "??? + 5 x 5dmg?"
+        },
+        {
+            "names": [ "Coiling Slash" ],
+            "input": "sprint + heavy",
+            "directions": [ "right" ],
+            "type": "heavy",
+            "damage": 17
+        }
+    ]
+}

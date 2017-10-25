@@ -1,0 +1,188 @@
+{
+  "header": {
+    "format": 3,
+    "timeSaved": 1486855575684
+  },
+  "body": {
+    "character": "Nobushi",
+    "version": "For Honor - open beta",
+    "stances": [
+      {
+        "abbreviation": "GRD",
+        "moves": [
+          {
+            "input": "L",
+            "actionSteps": [
+              {
+                "actionMask": "high mid low P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "L",
+                "actionSteps": [
+                  {
+                    "actionMask": "high mid low P",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "L",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high mid low P",
+                        "actionType": "strike",
+                        "isTracking": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "R",
+                "actionSteps": [
+                  {
+                    "actionMask": "high mid low K",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "R",
+            "actionSteps": [
+              {
+                "actionMask": "high mid low K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "R",
+                "actionSteps": [
+                  {
+                    "actionMask": "high mid low K",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "C",
+            "endsWith": "HDN"
+          },
+          {
+            "input": "4_L",
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "6_L",
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "8_L",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "4_R",
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "6_R",
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "L+R",
+            "actionSteps": [
+              {
+                "actionMask": "low",
+                "actionType": "other",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "actionSteps": [
+                  {
+                    "actionMask": "low",
+                    "actionType": "other",
+                    "isTracking": false
+                  }
+                ]
+              },
+              {
+                "input": "E",
+                "endsWith": "GRD"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "RUN",
+        "moves": [
+          {
+            "input": "L",
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "R",
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
