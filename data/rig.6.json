@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1485700662877
+    "timeSaved": 1486214545199
   },
   "body": {
     "character": "rig",
@@ -856,6 +856,7 @@
                       },
                       {
                         "condition": [
+                          "stun",
                           "critical finish"
                         ],
                         "tags": [

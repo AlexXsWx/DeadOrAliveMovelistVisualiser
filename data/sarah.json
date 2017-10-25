@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1483252237318
+    "timeSaved": 1486213350435
   },
   "body": {
     "character": "Sarah",
@@ -279,7 +279,8 @@
                   }
                 ]
               }
-            ]
+            ],
+            "comment": "Recovery can be 10f in some cases"
           },
           {
             "input": "8P",
@@ -721,7 +722,8 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "comment": "Recovery can be 12f in some cases"
               }
             ]
           },
@@ -749,7 +751,8 @@
                   }
                 ]
               }
-            ]
+            ],
+            "comment": "Recovery can be 14f in some cases"
           },
           {
             "input": "44P",
@@ -823,7 +826,12 @@
                 "followUps": [
                   {
                     "input": "6",
-                    "endsWith": "FWD"
+                    "endsWith": "FWD",
+                    "followUps": [
+                      {
+                        "input": "*"
+                      }
+                    ]
                   }
                 ]
               },
@@ -884,8 +892,7 @@
             ],
             "followUps": [
               {
-                "input": "P+K",
-                "endsWith": "STP"
+                "input": "P+K"
               }
             ]
           },
@@ -915,7 +922,12 @@
             "followUps": [
               {
                 "input": "P+K",
-                "endsWith": "STP"
+                "endsWith": "STP",
+                "followUps": [
+                  {
+                    "input": "*"
+                  }
+                ]
               }
             ]
           },
@@ -990,7 +1002,12 @@
                 "followUps": [
                   {
                     "input": "6",
-                    "endsWith": "FWD"
+                    "endsWith": "FWD",
+                    "followUps": [
+                      {
+                        "input": "*"
+                      }
+                    ]
                   }
                 ]
               },
@@ -2088,7 +2105,12 @@
                 "followUps": [
                   {
                     "input": "P+K",
-                    "endsWith": "STP"
+                    "endsWith": "STP",
+                    "followUps": [
+                      {
+                        "input": "*"
+                      }
+                    ]
                   }
                 ]
               }
@@ -2523,7 +2545,12 @@
             "followUps": [
               {
                 "input": "P+K",
-                "endsWith": "STP"
+                "endsWith": "STP",
+                "followUps": [
+                  {
+                    "input": "*"
+                  }
+                ]
               }
             ]
           },
@@ -2622,7 +2649,7 @@
             "endsWith": "BT"
           },
           {
-            "input": "(3)6P+K",
+            "input": "(1)4P+K",
             "context": [
               "WALL",
               "BT"
@@ -2942,7 +2969,8 @@
                             ]
                           }
                         ],
-                        "endsWith": "FMG"
+                        "endsWith": "FMG",
+                        "comment": "Recovery can be 16f in some cases"
                       }
                     ]
                   }
@@ -3152,7 +3180,8 @@
                     ]
                   }
                 ],
-                "endsWith": "FMG"
+                "endsWith": "FMG",
+                "comment": "Recovery can be 12f in some cases"
               }
             ]
           },
@@ -3383,7 +3412,12 @@
           },
           {
             "input": "1P+K",
-            "endsWith": "STP"
+            "endsWith": "STP",
+            "followUps": [
+              {
+                "input": "*"
+              }
+            ]
           },
           {
             "input": "66",
@@ -3746,7 +3780,12 @@
                   },
                   {
                     "input": "6",
-                    "endsWith": "FWD"
+                    "endsWith": "FWD",
+                    "followUps": [
+                      {
+                        "input": "*"
+                      }
+                    ]
                   }
                 ]
               }

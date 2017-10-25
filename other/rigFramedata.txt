@@ -1,0 +1,216 @@
+Rig bnd shows correct frame data if executed after [BND]3k4 (e.g. 7k is 21~28 (3) 21)
+
+advantage on blocking zack beam from max distance: 87
+
+== rig ==
+
+p:          87-59 = 28 (1 +   10+2+15 = 28)
+pp:         87-49 = 38 (1 +   10+2+     8+2+15 = 38)
+ppp:        87-25 = 62 (1 +   10+2+     8+2+     16+3+20 = 62)
+
+p p:        87-31 = 56 (1 +   10+2+15 +   1 + 10+2+15 = 56)
+
+2p+k h:     87-49 = 38 (1 +   4+0+18 +    1 +   0+0+14 = 38) // this is how duration of H was calculated, that's why it matches
+2p+k p:     87-18 = 69 (1 +   4+0+18 +    1 +   23+3+20 = 70) ???
+2p+k 6k:    87-27 = 60 (1 +   4+0+18 +    1 +   15+3+19 = 61) ???
+
+9k:         87-46 = 41 (1 +   20+3+17 = 41)
+9k 6k:      87- 9 = 78 (1 +   20+3+17 +   1 +   15+3+19 = 79) ???
+
+
+
+2p+k 7k:    87-19 = 68 (1 +   4+0+18 +    y+3+21)
+1 +   4+0+18 +    3+21 = 47 +y=68
+
+// Apparently attacks from bending stance do not take 1 extra frame
+
+
+TLC
+
+    duration
+
+
+        6p+k h:     87-36 = 51 (1 +   y +   1 +   0+0+14)
+
+        1 +   y +   1 +   0+0+14 = 51
+
+        1+y+1+14=51
+        y = 51-16 = 35
+
+        6P+K:  1 +   0 0 35
+
+
+
+        pp4 h: 87-14 = 73 (1 +   10+2+   8+2 +   y  +   1 +   0+0+14)
+
+        23 +   y  +   15 = 73
+        y=35
+
+        pp4h: 0 0 35
+
+
+
+        kk4h: 87--2=89 (1 +   13+2 +   16+2 +   y +   1 +   0+0+14)
+        49 + y = 89
+        y=40
+
+        kk4: 40
+
+
+
+        6kk4 h: 87-6=81 (1 +   13+2 +   13+2 +   y +   1 +   0+0+14)
+        46 + y = 81
+        y = 81-46 = 35
+
+        6kk4: 35
+
+
+
+        [bnd]kkk: +17 (hit stun of 40 frames)
+        [bnd]kkk4: -24 (2+ y + 1+0+0+14 - 24 = 40)
+            y = 47
+
+        [bnd]kkk4: 47
+
+
+
+        2p+k 6p+k h: 87-9=78 (1 +   4+0+18 +   y +   15)
+        y=78-(1+4+18+15) = 40
+
+        [bnd]6p+k: 40
+
+
+
+
+        44k p+k h:  87--8 = 95 (1 +   15+2+23 +   1 + y + 15)
+        1 +   15+2+23 +   1 + 15 + y = 57 + y = 95
+        y = 38
+
+        [bt]p+k: 38
+
+    p
+
+        6p+k p:      87-44 = 43 (1 + y + 21+2+19):                y = 0
+        pp4p:        87-24 = 63 (1 + 10+2 + 8+2 + y + 32+2+19):   y = -13
+        kk4p:        87- 6 = 81 (1 + 13+2 + 16+2 + y + 46+2+19):  y = -20
+        6kk4p:       87-14 = 73 (1 + 13+2 + 13+2 + y + 36+2+19):  y = -15
+        2p+k 6p+k p: 87-17 = 70 (1 + 4+0+18 + y + 68+2+19):       y = -42
+        44k p+k p:   87- 3 = 84 (1 + 15+2+23 + 1 + y + 21+2+19):  y = 0
+        2p+k kkk4p:  87+38 = 125 (1 + 4+0+18 + 10+3 + 6+3 + 23+3 + y + 60+2+19):   y = -27
+
+    Summary
+
+        pp4
+            duration: 35f
+            followup: 13-18
+            execution:
+                pp4 p
+                1 + 10+2 + 8+2 + (32-13=19)+2+19 = 63f
+            offset: 19-19=0
+
+        kk4
+            duration: 40f
+            followup: 20-25
+            execution:
+                kk4 p
+                1 + 13+2 + 16+2 + (46-20=26)+2+19 = 81f
+            offset: 26-19=7
+
+        6kk4
+            duration: 35f
+            followup: 15-20
+            execution:
+                6kk4 p
+                1 + 13+2 + 13+2 + (36-15=21)+2+19 = 73f
+            offset: 21-19=2
+
+        6p+k
+            duration: 35f
+            followup: 15-20
+            execution:
+                6p+k p
+                1 + (21-0=21)+2+19 = 43f
+            offset: 21-19=2
+
+            real frame data: 15 0 20
+
+        [bt]p+k
+            duration: 38f
+            followup: 6-24
+            execution:
+                44k p+k p
+                1 + 15+2+23 + 1 + (21-0=21)+2+19 = 84f
+            offset: 21-19=2
+
+        [bnd]kkk4
+            duration: 47f
+            followup: 27-32
+            execution:
+                2p+k kkk4 p
+                1 + 4+0+18 + 10+3 + 6+3 + 23+3 + (60-27=33)+2+19 = 125f
+            offset: 33-19=14
+
+        [bnd]6p+k
+            duration: 35f
+            followup: 20-25
+            execution:
+                2p+k 6p+k p
+                1 + 4+0+18 + (68-42=26)+2+19 = 70f
+            offset:26-19=7
+
+
+
+87-44 = 43: 1 + ? + 6+2+19
+
+
+
+
+== brad wong ==
+
+3k4 p:      87-17 = 70 (1 +   14+2+24 +   1 +   12+2+14 = 70)
+
+// but for brad wong it's ok...
+
+
+
+
+
+
+
+
+==== mai ====
+
+
+87-14 = 73 = 1 + 15+2 + 12+2+11+2+28 = 73 + y
+
+
+
+
+====
+
+rig sidestep (advantage is for opponent)
+88: 0 20 5
+vs rig:
+    on +0 pp hits      ->  1   10 2 15   8 2 15 -> active =          12 13         >22<23
+    on +0 2k whiffs    ->  1   18 2 23          -> active =                   20 21
+    on +0 66k whiffs   ->  1   19 3 20          -> active =                      21 22 23
+    on +0 9k hits      ->  1   20 3 17          -> active =                         22 23 24
+    on +0 p+k hits     ->  1   20 3 26          -> active =                        >22<23 24
+vs hitomi:
+    on -1 33p hits     ->  2   19 3 22          -> active =                        >22<23 24
+    on +0 33p whiffs   ->  1   19 3 22          -> active =                      21 22 23
+    on +0 6p+k whiffs  ->  1   19 3 27          -> active =                      21 22 23
+    on +1 6p+k whiffs  ->  0   19 3 27          -> active =                   20 21 22
+    on +2 6p+k whiffs  -> -1   19 3 27          -> active =                19 20 21
+
+    on -1 pp hits      ->  2   10 2 13   9 2 16 -> active =             13 14            >24< 25
+    on +0 pp hits      ->  1   10 2 13   9 2 16 -> active =          12 13            >23<24
+    on +1 pp hits      ->  0   10 2 13   9 2 16 -> active =       11 12            >22<23
+    on +2 pp whiffs    -> -1   10 2 13   9 2 16 -> active =    10 11             21 22
+    on +3 pp whiffs    -> -2   10 2 13   9 2 16 -> active =  9 10             20 21
+
+88 P: 28 2 21
+vs rig:
+    on +0 8k whiffs -> 1   12 2 15 -> active = 14 15
+    on +0 6p hits   -> 1   13 3 26 -> active =   >15<16 17
+    on +0 2p hits   -> 1   13 2 20 -> active =   >15<16
