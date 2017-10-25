@@ -97,7 +97,7 @@ define(
                     var childWorkingPath = workingPath.concat(childNodeData);
         // pathHistoryToString(childWorkingPath);
                     if (NodeFactory.isMoveNode(childNodeData)) {
-                        var qualifies = checkMoveNode(
+                        var intersectingActiveFramesRange = checkMoveNode(
                             childWorkingPath,
                             stance,
                             optNodeDataFilterFunc,
@@ -107,8 +107,12 @@ define(
                             keepLookingRecursive,
                             warnFunc
                         );
-                        if (qualifies) {
-                            results.push(childWorkingPath);
+                        var intersects = intersectingActiveFramesRange.length > 0;
+                        if (intersects) {
+                            results.push({
+                                path: childWorkingPath,
+                                range: intersectingActiveFramesRange
+                            });
                         }
                     } else
                     if (NodeFactory.isStanceNode(childNodeData)) {
@@ -136,20 +140,25 @@ define(
             keepLookingFunc,
             warnFunc
         ) {
-            var qualifies = false;
+            var intersectingActiveFramesRange = [];
             var nodeData = workingPath[workingPath.length - 1];
             // Filter out BT moves
-            if (!doesContextQualify(nodeData, workingStance)) return qualifies;
+            if (!doesContextQualify(nodeData, workingStance)) return intersectingActiveFramesRange;
             if (nodeData.frameData && nodeData.frameData.length > 0) {
-                if (
-                    (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) && 
-                    NodeFactory.doesMoveContainActiveFrameInRange(
+                if (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) {
+                    var actionLocalRange = NodeFactory.getActiveFramesRangeThatIntersectsWith(
                         nodeData,
                         frameToBeActiveOnStart - framesSpent,
                         frameToBeActiveOnEnd   - framesSpent
-                    )
-                ) {
-                    qualifies = true;
+                    );
+                    var intersects = actionLocalRange.length > 0;
+                    if (intersects)
+                    {
+                        intersectingActiveFramesRange = [
+                            framesSpent + actionLocalRange[0],
+                            framesSpent + actionLocalRange[1]
+                        ];
+                    }
                 }
 
                 var moveDurationData = NodeFactory.getMoveDurationData(nodeData);
@@ -170,9 +179,9 @@ define(
                     nodeData.endsWith
                 );
             } else {
-                warnFunc(workingPath, 'has no frameData');
+                warnFunc(workingPath, 'has no frameData, probabilities that use it are excluded');
             }
-            return qualifies;
+            return intersectingActiveFramesRange;
         }
 
         /** Assuming nodeData is stance node data */
@@ -182,7 +191,7 @@ define(
             var nodeData = workingPath[workingPath.length - 1];
             if (doesStanceQualify(nodeData, workingStance)) {
                 if (nodeData.appliesExtraFrame === undefined) {
-                    warnFunc(workingPath, 'did not define appliesExtraFrame');
+                    warnFunc(workingPath, 'did not define appliesExtraFrame, assuming it does');
                 }
                 var framesSpentByStance = (nodeData.appliesExtraFrame === false) ? 0 : 1;
                 keepLookingFunc(workingPath, false, framesSpent + framesSpentByStance, undefined);
@@ -239,25 +248,17 @@ define(
             return pathHistory;
         }
 
-        function filterResultsToString(pathHistoryArray) {
-            var results = [];
-            for (var i = 0; i < pathHistoryArray.length; ++i) {
-                var str = pathHistoryToString(pathHistoryArray[i]);
-                if (str) results.push(str);
+        function filterResultsToString(results) {
+            var stringLines = [];
+            for (var i = 0; i < results.length; ++i) {
+                var result = results[i];
+                var str = pathHistoryToString(result.path);
+                if (str) {
+                    str += ' (' + result.range[0] + '-' + result.range[1] + 'f)';
+                    stringLines.push(str);
+                }
             }
-            return results.join('\n');
-            // var result = pathHistoryArray.filter(
-            //     function(pathHistory) { return pathHistory.length > 0; }
-            // );
-            // // FIXME: add comma on free cancel
-            // return result.map(function(pathHistory) {
-            //     if (typeof pathHistory === 'string') return pathHistory;
-            //     return pathHistory.filter(
-            //         function(nodeData) { return NodeFactory.isMoveNode(nodeData); }
-            //     ).map(
-            //         function(nodeData) { return NodeFactory.toString(nodeData); }
-            //     ).join(' ');
-            // }).join('\n');
+            return stringLines.join('\n');
         }
 
     }

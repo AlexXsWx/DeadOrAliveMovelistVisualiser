@@ -55,7 +55,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         doesActionStepResultDescribeForcetech: doesActionStepResultDescribeForcetech,
         doesActionStepResultDescribeGroundHit: doesActionStepResultDescribeGroundHit,
         getAdvantageRange: getAdvantageRange,
-        doesMoveContainActiveFrameInRange: doesMoveContainActiveFrameInRange,
+        getActiveFramesRangeThatIntersectsWith: getActiveFramesRangeThatIntersectsWith,
         getMoveDurationData: getMoveDurationData,
         isActionStepResultEmpty: isActionStepResultEmpty,
         doesActionStepResultTagHasHardKnockDown: doesActionStepResultTagHasHardKnockDown,
@@ -478,7 +478,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
      * `frameStart` and `frameEnd` inclusive. E.g. 10 (2) 15 is active on 11th and 12th frame
      * This method assumes that nodeData is valid and its `frameData` is not empty
      */
-    function doesMoveContainActiveFrameInRange(nodeData, frameStart, frameEnd) {
+    function getActiveFramesRangeThatIntersectsWith(nodeData, frameStart, frameEnd) {
         console.assert(_.isObject(nodeData), 'nodeData is invalid');
         var frameData = nodeData.frameData; 
         console.assert(frameData.length > 0, 'Frame data is not provided');
@@ -489,11 +489,11 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             var activeFrameStart = t + 1;
             var activeFrameEnd = t + activeFrames;
             if (!(activeFrameEnd < frameStart || activeFrameStart > frameEnd)) {
-                return true;
+                return [activeFrameStart, activeFrameEnd];
             }
             t += activeFrames + recoveryFrames;
         }
-        return false;
+        return [];
     }
 
     /** This method assumes that nodeData is valid and its `frameData` is not empty */
