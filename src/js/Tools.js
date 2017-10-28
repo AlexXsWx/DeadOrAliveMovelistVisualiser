@@ -12,6 +12,7 @@ define('Tools', function() {
         isBool:                                isBool,
         isNumber:                              isNumber,
         moveArrayElement:                      moveArrayElement,
+        arrayGroupedByFactor:                  arrayGroupedByFactor,
         arraysConsistOfSameStrings:            arraysConsistOfSameStrings,
         getDomElement:                         getDomElement,
         hideDomElement:                        hideDomElement,
@@ -162,6 +163,38 @@ define('Tools', function() {
             }
         }
         return false;
+    }
+
+    /**
+     * `groupElementsFunc` is given two elements.
+     * If it returns true, this elements will be grouped together
+     */
+    function arrayGroupedByFactor(array, groupElementsFunc) {
+
+        if (array.length === 0) return [];
+
+        var result = [array[0]];
+
+        for (var i = 1; i < array.length; ++i) {
+            var element = array[i];
+            var index = findIndexFor(element);
+            if (index === -1) {
+                result.push(element);
+            } else {
+                result.splice(index + 1, 0, element);
+            }
+        }
+
+        return result;
+
+        function findIndexFor(element) {
+            for (var i = 0; i < result.length; ++i) {
+                if (groupElementsFunc(element, result[i])) {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 
     function arraysConsistOfSameStrings(arrayA, arrayB) {

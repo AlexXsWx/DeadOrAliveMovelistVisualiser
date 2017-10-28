@@ -249,9 +249,10 @@ define(
         }
 
         function filterResultsToString(results) {
+            var sorted = sortResults(results);
             var stringLines = [];
-            for (var i = 0; i < results.length; ++i) {
-                var result = results[i];
+            for (var i = 0; i < sorted.length; ++i) {
+                var result = sorted[i];
                 var str = pathHistoryToString(result.path);
                 if (str) {
                     str += ' (' + result.range[0] + '-' + result.range[1] + 'f)';
@@ -259,6 +260,16 @@ define(
                 }
             }
             return stringLines.join('\n');
+        }
+
+        function sortResults(results) {
+            return _.arrayGroupedByFactor(results, function shouldBeGrouped(a, b) {
+                return (
+                    a.path.length > 0 &&
+                    b.path.length > 0 &&
+                    a.path[a.path.length - 1] === b.path[b.path.length - 1]
+                );
+            })
         }
 
     }
