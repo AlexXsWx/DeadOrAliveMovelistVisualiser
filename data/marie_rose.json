@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1508948320161
+    "timeSaved": 1509574622206
   },
   "body": {
     "character": "Marie Rose",
@@ -187,7 +187,7 @@
                         "frameData": [
                           0,
                           25,
-                          10
+                          0
                         ],
                         "actionSteps": [
                           {
@@ -253,7 +253,7 @@
                             "frameData": [
                               0,
                               25,
-                              10
+                              0
                             ],
                             "actionSteps": [
                               {
@@ -265,10 +265,20 @@
                           },
                           {
                             "input": "8",
+                            "frameData": [
+                              30,
+                              0,
+                              0
+                            ],
                             "endsWith": "MNT"
                           },
                           {
                             "input": "2",
+                            "frameData": [
+                              30,
+                              0,
+                              0
+                            ],
                             "endsWith": "MNT"
                           }
                         ]
@@ -401,7 +411,7 @@
                         "frameData": [
                           0,
                           25,
-                          10
+                          0
                         ],
                         "actionSteps": [
                           {
@@ -552,7 +562,7 @@
                     "frameData": [
                       9,
                       15,
-                      10
+                      0
                     ],
                     "actionSteps": [
                       {
@@ -579,10 +589,20 @@
                   },
                   {
                     "input": "8",
+                    "frameData": [
+                      39,
+                      0,
+                      0
+                    ],
                     "endsWith": "MNT"
                   },
                   {
                     "input": "2",
+                    "frameData": [
+                      39,
+                      0,
+                      0
+                    ],
                     "endsWith": "MNT"
                   }
                 ]
@@ -592,7 +612,7 @@
                 "frameData": [
                   9,
                   20,
-                  10
+                  0
                 ],
                 "actionSteps": [
                   {
@@ -604,10 +624,20 @@
               },
               {
                 "input": "8",
+                "frameData": [
+                  39,
+                  0,
+                  0
+                ],
                 "endsWith": "MNT"
               },
               {
                 "input": "2",
+                "frameData": [
+                  39,
+                  0,
+                  0
+                ],
                 "endsWith": "MNT"
               }
             ]
@@ -702,7 +732,7 @@
                 "frameData": [
                   0,
                   25,
-                  10
+                  0
                 ],
                 "actionSteps": [
                   {
@@ -960,7 +990,7 @@
                     "frameData": [
                       0,
                       25,
-                      10
+                      0
                     ],
                     "actionSteps": [
                       {
@@ -972,10 +1002,20 @@
                   },
                   {
                     "input": "8",
+                    "frameData": [
+                      30,
+                      0,
+                      0
+                    ],
                     "endsWith": "MNT"
                   },
                   {
                     "input": "2",
+                    "frameData": [
+                      30,
+                      0,
+                      0
+                    ],
                     "endsWith": "MNT"
                   }
                 ]
@@ -1108,7 +1148,7 @@
                 "frameData": [
                   0,
                   25,
-                  10
+                  0
                 ],
                 "actionSteps": [
                   {
@@ -1120,10 +1160,20 @@
               },
               {
                 "input": "8",
+                "frameData": [
+                  30,
+                  0,
+                  0
+                ],
                 "endsWith": "MNT"
               },
               {
                 "input": "2",
+                "frameData": [
+                  30,
+                  0,
+                  0
+                ],
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -1154,6 +1204,16 @@
                   }
                 ]
               }
+            ],
+            "followUps": [
+              {
+                "input": "8",
+                "endsWith": "SS"
+              },
+              {
+                "input": "2",
+                "endsWith": "SS"
+              }
             ]
           },
           {
@@ -1179,6 +1239,16 @@
                     "hitBlock": 53
                   }
                 ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "8",
+                "endsWith": "SS"
+              },
+              {
+                "input": "2",
+                "endsWith": "SS"
               }
             ]
           },
@@ -1256,7 +1326,418 @@
             ],
             "followUps": [
               {
-                "input": "..."
+                "input": "P",
+                "frameData": [
+                  9,
+                  2,
+                  17
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 12
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      15,
+                      2,
+                      16
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 12
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          21,
+                          5,
+                          26
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 18
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6P",
+                    "frameData": [
+                      12,
+                      2,
+                      17
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 10
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          18,
+                          2,
+                          16
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 12
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "frameData": [
+                          17,
+                          3,
+                          26
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 22
+                              },
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "hard knock-down"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "4",
+                        "frameData": [
+                          0,
+                          25,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P mid P",
+                            "actionType": "hold"
+                          }
+                        ],
+                        "endsWith": "RND"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2P",
+                    "frameData": [
+                      20,
+                      2,
+                      28
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "tags": [
+                          "ground attack"
+                        ],
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 19
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          24,
+                          2,
+                          23
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 20
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "4",
+                            "frameData": [
+                              0,
+                              25,
+                              0
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "high mid P",
+                                "actionType": "hold"
+                              }
+                            ],
+                            "endsWith": "RND"
+                          },
+                          {
+                            "input": "8",
+                            "frameData": [
+                              30,
+                              0,
+                              0
+                            ],
+                            "endsWith": "MNT"
+                          },
+                          {
+                            "input": "2",
+                            "frameData": [
+                              30,
+                              0,
+                              0
+                            ],
+                            "endsWith": "MNT"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "P+K",
+                        "frameData": [
+                          27,
+                          2,
+                          29
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "tags": [
+                              "ground attack"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 26
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "frameData": [
+                      16,
+                      2,
+                      25
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 14
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6K",
+                    "frameData": [
+                      19,
+                      2,
+                      25
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 17
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "frameData": [
+                          18,
+                          3,
+                          27
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 20
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "2K",
+                        "frameData": [
+                          23,
+                          2,
+                          30
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "low K",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "tags": [
+                              "ground attack"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 19
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "4",
+                        "frameData": [
+                          0,
+                          25,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high mid P",
+                            "actionType": "hold"
+                          }
+                        ],
+                        "endsWith": "RND"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  14,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 20
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -1287,7 +1768,148 @@
             ],
             "followUps": [
               {
-                "input": "..."
+                "input": "P",
+                "frameData": [
+                  15,
+                  3,
+                  5,
+                  3,
+                  23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 16
+                      }
+                    ]
+                  },
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      18,
+                      2,
+                      9,
+                      2,
+                      26
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 16
+                          }
+                        ]
+                      },
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": true
+                      }
+                    ],
+                    "endsWith": "BT"
+                  },
+                  {
+                    "input": "4",
+                    "frameData": [
+                      9,
+                      15,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high mid P",
+                        "actionType": "hold"
+                      }
+                    ],
+                    "endsWith": "RND"
+                  },
+                  {
+                    "input": "(4)",
+                    "frameData": [
+                      9,
+                      18,
+                      10
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P mid P",
+                        "actionType": "hold"
+                      }
+                    ],
+                    "endsWith": "BT"
+                  },
+                  {
+                    "input": "8",
+                    "frameData": [
+                      39,
+                      0,
+                      0
+                    ],
+                    "endsWith": "MNT"
+                  },
+                  {
+                    "input": "2",
+                    "frameData": [
+                      39,
+                      0,
+                      0
+                    ],
+                    "endsWith": "MNT"
+                  }
+                ]
+              },
+              {
+                "input": "4",
+                "frameData": [
+                  9,
+                  20,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high mid P",
+                    "actionType": "hold"
+                  }
+                ],
+                "endsWith": "RND"
+              },
+              {
+                "input": "8",
+                "frameData": [
+                  39,
+                  0,
+                  0
+                ],
+                "endsWith": "MNT"
+              },
+              {
+                "input": "2",
+                "frameData": [
+                  39,
+                  0,
+                  0
+                ],
+                "endsWith": "MNT"
               }
             ]
           },
@@ -1602,7 +2224,7 @@
                 "frameData": [
                   0,
                   25,
-                  10
+                  0
                 ],
                 "actionSteps": [
                   {
@@ -1948,7 +2570,7 @@
                 "frameData": [
                   0,
                   25,
-                  10
+                  0
                 ],
                 "actionSteps": [
                   {
@@ -2481,7 +3103,7 @@
             "frameData": [
               0,
               25,
-              10
+              0
             ],
             "actionSteps": [
               {
@@ -2494,7 +3116,7 @@
           {
             "input": "8P+K",
             "frameData": [
-              35,
+              30,
               0,
               0
             ],
@@ -2503,7 +3125,7 @@
           {
             "input": "2P+K",
             "frameData": [
-              35,
+              30,
               0,
               0
             ],
@@ -2512,11 +3134,29 @@
           {
             "input": "3P+K",
             "frameData": [
-              40,
+              20,
+              0,
+              20
+            ],
+            "endsWith": "FLW"
+          },
+          {
+            "input": "88",
+            "frameData": [
+              0,
               0,
               0
             ],
-            "endsWith": "FLW"
+            "endsWith": "SS"
+          },
+          {
+            "input": "22",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "endsWith": "SS"
           },
           {
             "input": "Ap"
@@ -2593,6 +3233,15 @@
                 ]
               }
             ]
+          },
+          {
+            "input": "*",
+            "frameData": [
+              0,
+              0,
+              25
+            ],
+            "endsWith": "STD"
           }
         ]
       },
@@ -2629,6 +3278,7 @@
       {
         "abbreviation": "RND",
         "description": "Rondo",
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "P",
@@ -2704,30 +3354,33 @@
           },
           {
             "input": "4",
-            "actionSteps": [
-              {
-                "results": [
-                  {
-                    "condition": [
-                      "guard"
-                    ],
-                    "hitBlock": 53
-                  }
-                ]
-              }
+            "frameData": [
+              0,
+              0,
+              10
             ],
             "endsWith": "BT"
+          },
+          {
+            "input": "*",
+            "frameData": [
+              0,
+              0,
+              10
+            ],
+            "endsWith": "STD"
           }
         ]
       },
       {
         "abbreviation": "MNT",
         "description": "Minuet",
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "P+K",
             "frameData": [
-              45,
+              15,
               11,
               64
             ],
@@ -2746,17 +3399,27 @@
                 ]
               }
             ]
+          },
+          {
+            "input": "*",
+            "frameData": [
+              0,
+              0,
+              5
+            ],
+            "endsWith": "BT"
           }
         ]
       },
       {
         "abbreviation": "FLW",
         "description": "Flower Wheel",
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "P",
             "frameData": [
-              36,
+              16,
               3,
               27
             ],
@@ -2782,7 +3445,7 @@
           {
             "input": "K",
             "frameData": [
-              44,
+              24,
               2,
               9,
               2,
@@ -2811,6 +3474,14 @@
                 "isTracking": false,
                 "tags": [
                   "ground attack"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 12
+                  }
                 ]
               }
             ],
@@ -2819,7 +3490,7 @@
           {
             "input": "T",
             "frameData": [
-              48,
+              28,
               3,
               24
             ],
@@ -2837,7 +3508,7 @@
               "OBT"
             ],
             "frameData": [
-              48,
+              28,
               3,
               24
             ],
@@ -2848,6 +3519,15 @@
                 "isTracking": true
               }
             ]
+          },
+          {
+            "input": "*",
+            "frameData": [
+              0,
+              0,
+              20
+            ],
+            "endsWith": "STD"
           }
         ]
       }
