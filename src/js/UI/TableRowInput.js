@@ -14,6 +14,7 @@ define(
             var valueConfirmed  = parameters.value || '';
             var description     = parameters.description;
             var placeholder     = parameters.placeholder;
+            var datalist        = parameters.datalist;
             var onInput         = parameters.onInput;
             var onFocus         = parameters.onFocus;
             var classes         = parameters.classes;
@@ -23,11 +24,14 @@ define(
 
             var input = _.createDomElement({
                 tag: multiline ? 'textarea' : 'input',
-                attributes: { 'placeholder': placeholder },
+                attributes: {
+                    'placeholder': placeholder,
+                    'list':        datalist
+                },
                 listeners: {
-                    'input':   inputListener,
-                    'focus':   focusListener,
-                    'blur':    blurListener
+                    'input': inputListener,
+                    'focus': focusListener,
+                    'blur':  blurListener
                 }
             });
             setValue(valueConfirmed);

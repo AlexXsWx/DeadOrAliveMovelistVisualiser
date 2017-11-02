@@ -28,6 +28,7 @@ define(
                     label: Strings('moveActionResultCondition'),
                     description: Strings('moveActionResultConditionDescription'),
                     placeholderText: 'e.g. neutral/open, stun/open',
+                    datalist: 'actionStepSupportedConditions',
                     fill: actionStepResultToCondition,
                     parameterModifier: changeCondition
                 }, {
@@ -68,6 +69,7 @@ define(
                     label: Strings('moveActionResultTags'),
                     description: Strings('moveActionResultTagsDescription'),
                     placeholderText: 'e.g. sit-down stun',
+                    datalist: 'actionStepSupportedTags',
                     fill: actionStepResultToTags,
                     parameterModifier: changeTags
                 }

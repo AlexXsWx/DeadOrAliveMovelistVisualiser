@@ -26,11 +26,12 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
         toString: toString,
 
-        isMovePunch:    isMovePunch,
-        isMoveKick:     isMoveKick,
-        isMoveThrow:    isMoveThrow,
-        isMoveHold:     isMoveHold,
-        isMoveHoldOnly: isMoveHoldOnly,
+        isMovePunch:         isMovePunch,
+        isMoveKick:          isMoveKick,
+        isMoveThrow:         isMoveThrow,
+        isMoveOffensiveHold: isMoveOffensiveHold,
+        isMoveHold:          isMoveHold,
+        isMoveHoldOnly:      isMoveHoldOnly,
 
         isActionStepPunch:        isActionStepPunch,
         isActionStepKick:         isActionStepKick,
@@ -293,13 +294,14 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             return node.character || 'character';
         } else
         if (isStanceNode(node)) {
-            return node.abbreviation || 'stance';
+            var abbreviation = node.abbreviation;
+            return abbreviation ? '{' + abbreviation + '}' : 'stance';
         } else
         if (isMoveNode(node)) {
             var input = node.input;
             if (!input) return 'move';
             var context = node.context.join(',');
-            if (context) return context + ':' + input;
+            if (context) return '{' + context + '}' + input;
             return input;
         }
         console.error('Can\'t represent node %O with a string', node);
@@ -337,11 +339,12 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
 
     }
 
-    function isMovePunch(node) { return node.actionSteps.some(isActionStepPunch); }
-    function isMoveKick(node)  { return node.actionSteps.some(isActionStepKick);  }
-    function isMoveThrow(node) { return node.actionSteps.some(isActionStepThrow); }
-    function isMoveHold(node)  { return node.actionSteps.some(isActionStepHold);  }
-    function isMoveHoldOnly(node) { return node.actionSteps.every(isActionStepHold);  }
+    function isMovePunch(node)         { return node.actionSteps.some(isActionStepPunch); }
+    function isMoveKick(node)          { return node.actionSteps.some(isActionStepKick);  }
+    function isMoveThrow(node)         { return node.actionSteps.some(isActionStepThrow); }
+    function isMoveOffensiveHold(node) { return node.actionSteps.some(isActionStepOffensiveHold); }
+    function isMoveHold(node)          { return node.actionSteps.some(isActionStepHold);  }
+    function isMoveHoldOnly(node)      { return node.actionSteps.every(isActionStepHold);  }
 
     function isActionStepPunch(actionStep) {
         if (!actionStep.actionMask || !actionStep.actionType) return false;
@@ -367,6 +370,15 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         return (
             actionType.search('grab') >= 0 ||
             actionType.search('throw') >= 0 ||
+            actionType.search('offensive') >= 0
+        );
+    }
+
+    function isActionStepOffensiveHold(actionStep) {
+        if (!actionStep.actionType) return false;
+        var actionType = actionStep.actionType.toLowerCase();
+        return (
+            actionType.search(/\boh\b/) >= 0 ||
             actionType.search('offensive') >= 0
         );
     }
@@ -560,6 +572,11 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
                                     actionType: 'strike'
                                 })
                             ]
+                        }, true),
+                        createMoveNode({
+                            input: '*',
+                            frameData: [ 0, 0, 25 ],
+                            endsWith: 'STD'
                         }, true)
                     ]
                 }, true),

@@ -47,7 +47,8 @@ define(
         }
 
         function getTextEnding(nodeView) {
-            return NodeView.getEnding(nodeView) || '';
+            var ending = NodeView.getEnding(nodeView);
+            return ending ? '{' + ending + '}' : '';
         }
 
         function getTextDuration(nodeView) {

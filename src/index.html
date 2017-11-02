@@ -26,6 +26,50 @@
 
     <body>
 
+        <datalist id="actionStepSupportedConditions">
+            <option value="guard" title="On guard" />
+            <option value="grounded" title="Ground hit but no forcetech outside combo" />
+            <option value="forcetech" title="Ground hit with forcetech" />
+            <!-- <option value="neutral" /> -->
+            <!-- <option value="counter" /> -->
+            <!-- <option value="hi-counter" /> -->
+            <!-- <option value="stun" /> -->
+            <!-- <option value="critical finish" /> -->
+            <!-- <option value="half-hit" /> -->
+            <!-- <option value="close-hit" /> -->
+            <!-- <option value="open stance" /> -->
+            <!-- <option value="closed stance" /> -->
+            <!-- <option value="crouch" /> -->
+            <!-- // FIXME: is this any different than 'critical finish'? -->
+            <!-- <option value="overdamage" /> -->
+            <!-- <option value="CB" /> -->
+        </datalist>
+
+        <datalist id="actionSupportedTags">
+            <option value="ground attack" title="Means move can hit grounded opponents" />
+        </datalist>
+
+        <datalist id="actionStepSupportedTags">
+            <option
+                value="hard knock-down"
+                title="Opponent falls on back and slightly raises legs (has limited techroll time)"
+            />
+            <!-- <option value="guard break" />
+            <option value="launcher" />
+            <option value="force crouch" />
+            <option value="critical burst" />
+            <option value="power blow" />
+            <option value="power launcher" />
+            <option value="stun reset" />
+            <option value="sit-down stun" />
+            <option value="trip stun" />
+            <option value="side back drop" />
+            <option value="fall back bounce" />
+            <option value="fall down stun" />
+            <option value="face-down drop" />
+            <option value="backflip drop" /> -->
+        </datalist>
+
         <div id="content"></div>
 
         <div id="menu" class="columnRight">
@@ -228,7 +272,7 @@
             </div>
 
             <div id="loading">
-                <span>Loading bunch of the script files<br />through a slow service...</span>
+                <span>Loading bunch of script files<br />through a slow service...</span>
             </div>
 
         <!-- /================= -->

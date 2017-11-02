@@ -104,6 +104,7 @@ define(
                     label: Strings('moveActionTags'),
                     description: Strings('moveActionTagsDescription'),
                     placeholderText: 'e.g. ground attack',
+                    datalist: 'actionSupportedTags',
                     fill: actionStepToTagsText,
                     parameterModifier: changeActionStepTags
                 }// , {

@@ -107,6 +107,7 @@ define(
 
                     'strike':       false,
                     'throw':        false,
+                    'OHGrab':       false,
                     'hold':         false,
                     'groundAttack': false,
                     'other':        false,
@@ -129,7 +130,14 @@ define(
                     if (isKick)  mark('kick');
                     if (isPunch || isKick) mark('strike');
 
-                    if (NodeFactory.isMoveThrow(nodeData)) mark('throw');
+                    if (NodeFactory.isMoveOffensiveHold(nodeData)) {
+                        mark('OHGrab');
+                    }
+                    else
+                    if (NodeFactory.isMoveThrow(nodeData)) {
+                        mark('throw');
+                    }
+
                     // FIXME: sabaki - parry & attack
                     if (NodeFactory.isMoveHold(nodeData)) mark('hold');
 

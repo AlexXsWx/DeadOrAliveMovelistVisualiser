@@ -74,6 +74,7 @@ define(
                 var name                     = editorInputDescription.label;
                 var description              = editorInputDescription.description;
                 var placeholderText          = editorInputDescription.placeholderText; // text only
+                var datalist                 = editorInputDescription.datalist;
                 var isSummary                = editorInputDescription.isSummary || false; // text only
                 var multiline                = editorInputDescription.multiline || false; // text only
                 var filler                   = editorInputDescription.fill;
@@ -91,6 +92,7 @@ define(
                         name: name,
                         description: description,
                         placeholder: placeholderText,
+                        datalist: datalist,
                         onInput: textInputHandler,
                         onFocus: rememberFocusedElement,
                         classes: isSummary ? ['summary'] : [],
