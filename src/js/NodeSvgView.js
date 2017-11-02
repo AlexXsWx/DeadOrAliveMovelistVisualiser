@@ -21,11 +21,12 @@ define(
         var onNodeToggleChildren = createObserver();
 
         return {
-            init:                 NodeSvgViewTexts.init,
-            create:               create,
-            onNodeClick:          onNodeClick,
-            onNodeToggleChildren: onNodeToggleChildren,
-            setRightTextToSafety: NodeSvgViewTexts.setRightTextToSafety,
+            init:                         NodeSvgViewTexts.init,
+            create:                       create,
+            onNodeClick:                  onNodeClick,
+            onNodeToggleChildren:         onNodeToggleChildren,
+            setRightTextToSafety:         NodeSvgViewTexts.setRightTextToSafety,
+            setRightTextToHardKnockdowns: NodeSvgViewTexts.setRightTextToHardKnockdowns,
             getNodeWidth:  function() { return NODE_WIDTH; },
             getNodeHeight: function() {
                 var height = 1;

@@ -108,6 +108,9 @@ define(
                     if (paramName === 'show-safety') {
                         NodeSvgView.setRightTextToSafety();
                     }
+                    if (paramName === 'show-hardknockdowns') {
+                        NodeSvgView.setRightTextToHardKnockdowns();
+                    }
                     if (paramName === 'data-url') {
                         url = decodeURI(paramValue);
                     }

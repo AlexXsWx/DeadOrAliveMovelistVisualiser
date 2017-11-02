@@ -35,11 +35,12 @@ define(
         var flipTextToRight = true;
 
         return {
-            init:                 init,
-            setRightTextToSafety: setRightTextToSafety,
-            hasTextAtTop:         hasTextAtTop,
-            hasTextAtBottom:      hasTextAtBottom,
-            create:               create
+            init:                         init,
+            setRightTextToSafety:         setRightTextToSafety,
+            setRightTextToHardKnockdowns: setRightTextToHardKnockdowns,
+            hasTextAtTop:                 hasTextAtTop,
+            hasTextAtBottom:              hasTextAtBottom,
+            create:                       create
         };
 
 
@@ -76,6 +77,13 @@ define(
             textGetters.right = NodeSvgViewTextGetters.getSafety;
             _.getDomElement('rightTextOption').selectedIndex = (
                 TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getSafety)
+            );
+        }
+
+        function setRightTextToHardKnockdowns() {
+            textGetters.right = NodeSvgViewTextGetters.getHardKnockdownAdvantage;
+            _.getDomElement('rightTextOption').selectedIndex = (
+                TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getHardKnockdownAdvantage)
             );
         }
 
