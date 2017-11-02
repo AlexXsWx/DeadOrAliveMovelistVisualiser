@@ -173,15 +173,15 @@ define('Tools', function() {
 
         if (array.length === 0) return [];
 
-        var result = [array[0]];
+        var result = [ [array[0]] ];
 
         for (var i = 1; i < array.length; ++i) {
             var element = array[i];
             var index = findIndexFor(element);
             if (index === -1) {
-                result.push(element);
+                result.push([element]);
             } else {
-                result.splice(index + 1, 0, element);
+                result[index].push(element);
             }
         }
 
@@ -189,8 +189,10 @@ define('Tools', function() {
 
         function findIndexFor(element) {
             for (var i = 0; i < result.length; ++i) {
-                if (groupElementsFunc(element, result[i])) {
-                    return i;
+                for (var j = 0; j < result[i].length; ++j) {
+                    if (groupElementsFunc(element, result[i][j])) {
+                        return i;
+                    }
                 }
             }
             return -1;

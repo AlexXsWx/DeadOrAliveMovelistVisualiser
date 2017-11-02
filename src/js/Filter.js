@@ -263,13 +263,47 @@ define(
         }
 
         function sortResults(results) {
-            return _.arrayGroupedByFactor(results, function shouldBeGrouped(a, b) {
-                return (
-                    a.path.length > 0 &&
-                    b.path.length > 0 &&
-                    a.path[a.path.length - 1] === b.path[b.path.length - 1]
+
+            // group together options that have same resulting active frames
+            var groupedByActiveFrames = _.arrayGroupedByFactor(results, function(a, b) {
+                return compareRange(a, b) == 0;
+            });
+
+            // put same ending move together
+            groupedByActiveFrames = groupedByActiveFrames.map(function(group) {
+                var groupedByFinalMove = _.arrayGroupedByFactor(
+                    group,
+                    function(a, b) {
+                        return (
+                            a.path.length > 0 &&
+                            b.path.length > 0 &&
+                            a.path[a.path.length - 1] === b.path[b.path.length - 1]
+                        );
+                    }
                 );
-            })
+                return flatten(groupedByFinalMove);
+            });
+
+            groupedByActiveFrames.sort(function(a, b) {
+                return compareRange(a[0], b[0]);
+            });
+
+            return flatten(groupedByActiveFrames);
+
+            function compareRange(a, b) {
+                if (a.range[0] < b.range[0]) return -1;
+                if (a.range[0] > b.range[0]) return 1;
+                if (a.range[1] < b.range[1]) return -1;
+                if (a.range[1] > b.range[1]) return 1;
+                return 0;
+            }
+
+            function flatten(arr) {
+                return arr.reduce(
+                    function(acc, curr) { return acc.concat(curr); },
+                    []
+                );
+            }
         }
 
     }

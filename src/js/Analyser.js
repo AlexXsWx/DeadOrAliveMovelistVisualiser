@@ -18,16 +18,19 @@ define('Analyser', ['Filter', 'Tools', 'NodeFactory'], function Analyser(Filter,
     }
 
     function findForceTechMoves(rootNodeData) {
-        var advantage = +prompt('Your advantage (frames): e.g. "51"');
-        if (advantage) {
-            var vulnerabilityStarts = advantage + 1;
-            var vulnerabilityEnds   = vulnerabilityStarts;
-            doFindMoves(
-                rootNodeData,
-                vulnerabilityStarts,
-                vulnerabilityEnds,
-                NodeFactory.canMoveHitGround
-            );
+        var input = prompt('Your frames to land on: e.g. "43" or "43-45"');
+        if (input) {
+            var parts = input.match(/\d+/g);
+            if (parts) {
+                var vulnerabilityStarts = Number(parts[0]);
+                var vulnerabilityEnds   = (parts.length > 1) ? Number(parts[1]) : vulnerabilityStarts;
+                doFindMoves(
+                    rootNodeData,
+                    vulnerabilityStarts,
+                    vulnerabilityEnds,
+                    NodeFactory.canMoveHitGround
+                );
+            }
         }
     }
 
