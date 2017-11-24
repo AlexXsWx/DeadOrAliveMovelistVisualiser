@@ -189,11 +189,11 @@ define(
 
                 if (actionStepSummary) {
                     console.assert(nodeData.actionSteps.length > 0, 'move has no actions steps');
-                    changed = editorGroupMove2.getFirstChildrenEditor().extension.changeActionSummary(
-                        actionStepSummary,
-                        nodeData.actionSteps[0]
-                    ) || changed;
                 }
+                changed = editorGroupMove2.getFirstChildrenEditor().extension.changeActionSummary(
+                    actionStepSummary,
+                    nodeData.actionSteps[0]
+                ) || changed;
 
                 return changed;
 

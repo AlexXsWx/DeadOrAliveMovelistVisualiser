@@ -110,31 +110,53 @@ define(
             }
             return isFinite(max) ? max : '';
         }
-        
+
         function getForcetechAdvantage(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
 
-            // FIXME: don't reference document here
-            var result = document.createDocumentFragment();
+            var parts = [];
 
-            var advantageRangeForcetech = NodeFactory.getAdvantageRange(
-                nodeData,
-                NodeFactory.doesActionStepResultDescribeForcetech,
-                NodeFactory.getActionStepResultHitBlock
-            );
-            if (advantageRangeForcetech) {
-                result.appendChild(advantageInteger(advantageRangeForcetech.min));
-            }
+            var types = [
+                {
+                    prefix: 'f',
+                    filter: NodeFactory.doesActionStepResultDescribeForcetech
+                }, {
+                    prefix: 'g',
+                    filter: NodeFactory.doesActionStepResultDescribeGroundHit
+                }, {
+                    prefix: 'gc',
+                    filter: NodeFactory.doesActionStepResultDescribeGroundHitCombo
+                }
+            ];
 
-            var advantageRangeGroundHit = NodeFactory.getAdvantageRange(
-                nodeData,
-                NodeFactory.doesActionStepResultDescribeGroundHit,
-                NodeFactory.getActionStepResultHitBlock
-            );
-            if (advantageRangeGroundHit) {
-                result.appendChild(_.createTextNode('/'));
-                result.appendChild(advantageInteger(advantageRangeGroundHit.min));
+            // Ground hit duration is expected to be written in to "hit block" field
+            var getGroundHitDuration = NodeFactory.getActionStepResultHitBlock;
+
+            types.forEach(function(t) {
+                var advantage = NodeFactory.getAdvantageRange(
+                    nodeData,
+                    t.filter,
+                    getGroundHitDuration
+                );
+                if (advantage) {
+                    parts.push([
+                        _.createTextNode(t.prefix),
+                        advantageInteger(advantage.min)
+                    ]);
+                }
+            });
+
+            if (parts.length > 0) {
+
+                // FIXME: don't reference document here
+                var result = document.createDocumentFragment();
+
+                parts[0].forEach(function(p) { result.appendChild(p); });
+                for (var i = 1; i < parts.length; ++i) {
+                    result.appendChild(_.createTextNode('/'));
+                    parts[i].forEach(function(p) { result.appendChild(p); });
+                }
             }
 
             return result;

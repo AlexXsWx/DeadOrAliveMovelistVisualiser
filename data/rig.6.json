@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1509154019121
+    "timeSaved": 1511513308050
   },
   "body": {
     "character": "rig",
@@ -620,12 +620,6 @@
                           },
                           {
                             "condition": [
-                              "forcetech"
-                            ],
-                            "hitBlock": 51
-                          },
-                          {
-                            "condition": [
                               "critical finish"
                             ],
                             "tags": [
@@ -1216,12 +1210,6 @@
                           "grounded"
                         ],
                         "hitBlock": 50
-                      },
-                      {
-                        "condition": [
-                          "forcetech"
-                        ],
-                        "hitBlock": 55
                       }
                     ]
                   }
@@ -1498,9 +1486,9 @@
                   },
                   {
                     "condition": [
-                      "forcetech"
+                      "grounded combo"
                     ],
-                    "hitBlock": 51
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -1945,12 +1933,6 @@
                           "grounded"
                         ],
                         "hitBlock": 50
-                      },
-                      {
-                        "condition": [
-                          "forcetech"
-                        ],
-                        "hitBlock": 55
                       }
                     ]
                   }
@@ -2460,12 +2442,6 @@
                           "grounded"
                         ],
                         "hitBlock": 50
-                      },
-                      {
-                        "condition": [
-                          "forcetech"
-                        ],
-                        "hitBlock": 55
                       }
                     ]
                   }
@@ -2533,12 +2509,6 @@
                       "grounded"
                     ],
                     "hitBlock": 50
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 51
                   }
                 ]
               }
@@ -2635,12 +2605,6 @@
                       "grounded"
                     ],
                     "hitBlock": 50
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 55
                   }
                 ]
               }
@@ -3521,12 +3485,6 @@
                       "grounded"
                     ],
                     "hitBlock": 50
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 51
                   }
                 ]
               }
@@ -4357,12 +4315,6 @@
                       "grounded"
                     ],
                     "hitBlock": 50
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 56
                   }
                 ]
               }
@@ -4802,12 +4754,6 @@
                       "grounded"
                     ],
                     "hitBlock": 50
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 49
                   },
                   {
                     "condition": [

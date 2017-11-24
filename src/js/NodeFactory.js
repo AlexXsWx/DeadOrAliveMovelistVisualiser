@@ -55,6 +55,7 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         doesActionStepResultDescribeGuard: doesActionStepResultDescribeGuard,
         doesActionStepResultDescribeForcetech: doesActionStepResultDescribeForcetech,
         doesActionStepResultDescribeGroundHit: doesActionStepResultDescribeGroundHit,
+        doesActionStepResultDescribeGroundHitCombo: doesActionStepResultDescribeGroundHitCombo,
         getAdvantageRange: getAdvantageRange,
         getActiveFramesRangeThatIntersectsWith: getActiveFramesRangeThatIntersectsWith,
         getMoveDurationData: getMoveDurationData,
@@ -444,12 +445,26 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         return actionStepResult && searchInStringArray(actionStepResult.condition, guardRegex) >= 0;
     }
 
+    // When a move forces to get up from first hit
     function doesActionStepResultDescribeForcetech(actionStepResult) {
         return actionStepResult && searchInStringArray(actionStepResult.condition, /forcetech/i) >= 0;
     }
 
+    // When a move doesn't force to get up and opponent chooses to remain grounded
     function doesActionStepResultDescribeGroundHit(actionStepResult) {
-        return actionStepResult && searchInStringArray(actionStepResult.condition, /grounded/i) >= 0;
+        return (
+            actionStepResult &&
+            searchInStringArray(actionStepResult.condition, /grounded/i) >= 0 &&
+            searchInStringArray(actionStepResult.condition, /grounded\ combo/i) < 0
+        );
+    }
+
+    // When a move that normally doesn't force to get up hits as a combo and so forces to ge tup
+    function doesActionStepResultDescribeGroundHitCombo(actionStepResult) {
+        return (
+            actionStepResult &&
+            searchInStringArray(actionStepResult.condition, /grounded\ combo/i) >= 0
+        );
     }
 
     function doesActionStepResultTagHasHardKnockDown(actionStepResult) {
