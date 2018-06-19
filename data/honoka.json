@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1483821230464
+    "timeSaved": 1529439697956
   },
   "body": {
     "character": "Honoka",
@@ -2885,6 +2885,9 @@
           },
           {
             "input": "P+K",
+            "context": [
+              "CONTACT"
+            ],
             "frameData": [
               17,
               3,
@@ -2906,6 +2909,24 @@
               }
             ],
             "endsWith": "HNK"
+          },
+          {
+            "input": "P+K",
+            "context": [
+              "WHIFF"
+            ],
+            "frameData": [
+              17,
+              3,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
           }
         ]
       },
@@ -3303,11 +3324,37 @@
                   }
                 ]
               }
-            ],
-            "endsWith": "HNK"
+            ]
           },
           {
             "input": "H"
+          },
+          {
+            "input": "H+K",
+            "context": [
+              "HIT"
+            ],
+            "frameData": [
+              23,
+              3,
+              21
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 12
+                  }
+                ]
+              }
+            ],
+            "endsWith": "HNK"
           }
         ]
       },
