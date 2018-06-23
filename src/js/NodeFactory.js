@@ -64,6 +64,8 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
 
         getActionStepResultHitBlock: getActionStepResultHitBlock,
 
+        hasNoInputFollowup: hasNoInputFollowup,
+
         createEmptyData: createEmptyData
 
         // guessMoveTypeByInput: guessMoveTypeByInput
@@ -577,6 +579,19 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
 
     // }
 
+    function hasNoInputFollowup(nodeData) {
+        if (
+            isStanceNode(nodeData) ||
+            isMoveNode(nodeData)
+        ) {
+            var childMoves = getChildren(nodeData);
+            return childMoves && childMoves.some(function(childeNodeData) {
+                return childeNodeData.input === '*';
+            });
+        }
+        return false;
+    }
+
 
     function createEmptyData() {
 
@@ -619,7 +634,8 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
                         }, true),
                         createMoveNode({
                             input: '*',
-                            frameData: [ 0, 0, 25 ]
+                            frameData: [ 0, 0, 25 ],
+                            endsWith: CommonStances.Standing
                         }, true)
                     ]
                 }, true),

@@ -303,14 +303,20 @@ define(
                     undefined
                 );
 
-                // Check followups after free cancel or end of string
-                // FIXME: moves that described with child of input '*' should use them
-                // instead of free cancel
-                traverseRecursive(
-                    workingPath, true,
-                    framesSpent + moveDurationData.total,
-                    nodeData.endsWith
-                );
+                if (
+                    NodeFactory.hasNoInputFollowup(nodeData) &&
+                    !nodeData.endsWith
+                ) {
+                    // free cancel unavailable
+                    warnFunc(workingPath, Strings('skippingFreeCancel'));
+                } else {
+                    // Check followups after free cancel or end of string
+                    traverseRecursive(
+                        workingPath, true,
+                        framesSpent + moveDurationData.total,
+                        nodeData.endsWith
+                    );
+                }
             } else {
                 warnFunc(workingPath, Strings('hasNoFrameData'));
             }
