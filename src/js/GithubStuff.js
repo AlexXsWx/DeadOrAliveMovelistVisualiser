@@ -1,16 +1,21 @@
 define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
 
-    var githubSettings = {
-        user: 'AlexXsWx',
-        repo: 'DeadOrAliveMovelistVisualiser'
+    var GITHUB_SETTINGS = {
+        USER: 'AlexXsWx',
+        REPO: 'DeadOrAliveMovelistVisualiser'
+    };
+
+    var BRANCHES = {
+        MASTER: 'master',
+        ALPHA:  'alpha'
     };
 
     var exampleBaseUrl = (
         'https://' +
         [
             'raw.githubusercontent.com',
-            githubSettings.user,
-            githubSettings.repo,
+            GITHUB_SETTINGS.USER,
+            GITHUB_SETTINGS.REPO,
             !_.isDevBuild() && getCurrentVersion() || 'alpha',
             'data'
         ].join('/') +
@@ -59,9 +64,13 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
 
 
     function getCurrentVersion() {
-        var pathname = window.location.pathname;
-        var version = pathname.match(/\/([^/]+)\/src\/index\.html/i);
-        return version ? version[1] : null;
+        if (window.location.hostname.toLowerCase() === 'rawgit.com') {
+            var pathname = window.location.pathname;
+            var version = pathname.match(/\/([^/]+)\/src\/index\.html/i);
+            return version ? version[1] : null;
+        } else {
+            return BRANCHES.MASTER;
+        }
     }
 
 
@@ -69,7 +78,11 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
 
         var url = (
             'https://' + [
-                'api.github.com', 'repos', githubSettings.user, githubSettings.repo, 'tags'
+                'api.github.com',
+                'repos',
+                GITHUB_SETTINGS.USER,
+                GITHUB_SETTINGS.REPO,
+                'tags'
             ].join('/')
         );
 
@@ -146,8 +159,8 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
 
     function isVersionValid(verstionStr) {
         return Boolean(verstionStr) && (
-            verstionStr === 'master' ||
-            verstionStr === 'alpha' ||
+            verstionStr === BRANCHES.MASTER ||
+            verstionStr === BRANCHES.ALPHA ||
             Boolean(verstionStr.match(versionRgx))
         );
     }
