@@ -303,92 +303,6 @@ define(
 
             // ================
 
-            function initFilter() {
-
-                Analyser.init();
-
-                _.getDomElement('filter').addEventListener('click', onButtonFilter);
-                _.getDomElement('filterFrame').addEventListener('click', onButtonFilterFrame);
-
-                _.getDomElement('filterShowTracking').addEventListener('click',
-                    function showTrackingMoves(optEvent) {
-                        showOnlyNodesThatMatch(function(nodeView) {
-                            var nodeData = NodeView.getNodeData(nodeView);
-                            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
-                                var someTracking = nodeData.actionSteps.some(
-                                    function(actionStep) { return actionStep.isTracking; }
-                                );
-                                if (someTracking) return true;
-                            }
-                            return false;
-                        });
-                    }
-                );
-
-                _.getDomElement('filterShowTrackingMidKicks').addEventListener('click',
-                    function showTrackingMidKicks(optEvent) {
-                        showOnlyNodesThatMatch(function(nodeView) {
-                            return Filter.isTrackingMidKickNode(NodeView.getNodeData(nodeView));
-                        });
-                    }
-                );
-
-                _.getDomElement('filterShowHardKnockDowns').addEventListener('click',
-                    function showTrackingMidKicks(optEvent) {
-                        showOnlyNodesThatMatch(function(nodeView) {
-                            return Filter.doesNodeCauseHardKnockDown(NodeView.getNodeData(nodeView));
-                        });
-                    }
-                );
-
-                _.getDomElement('filterShowGroundAttacks').addEventListener('click',
-                    function showGroundAttacks(optEvent) {
-                        showOnlyNodesThatMatch(function(nodeView) {
-                            return Filter.isGroundAttackNode(NodeView.getNodeData(nodeView));
-                        });
-                    }
-                );
-
-                _.getDomElement('filterShowStance').addEventListener('click',
-                    function showStance(optEvent) {
-                        var stance = prompt('Enter stance name: (e.g. "BT")', 'BT');
-                        if (!stance) return;
-                        showOnlyNodesThatMatch(function(nodeView) {
-                            var ending = NodeView.getEnding(nodeView);
-                            return ending && ending.toLowerCase() === stance.toLowerCase();
-                        });
-                    }
-                );
-
-                _.getDomElement('filterShowAll').addEventListener('click',
-                    function showAll(optEvent) {
-                        TreeTools.forAllCurrentChildren(
-                            rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren
-                        );
-                        update();
-                    }
-                );
-
-                _.getDomElement('filterShowDefault').addEventListener('click',
-                    function showAll(optEvent) {
-                        TreeTools.forAllCurrentChildren(
-                            rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren
-                        );
-                        NodeView.hideHiddenByDefault(rootNodeView);
-                        update();
-                    }
-                );
-
-            }
-
-            function onButtonFilter(optEvent) {
-                Analyser.findForceTechMoves(rootNodeData);
-            }
-
-            function onButtonFilterFrame(optEvent) {
-                Analyser.findMoves(rootNodeData);
-            }
-
         // ============
 
 
@@ -581,48 +495,139 @@ define(
 
         // ================
 
+        // ==== Filter ====
 
-        function showOnlyNodesThatMatch(nodeViewMatchFunc) {
+            function initFilter() {
 
-            var matchingNodeViews = [];
-            TreeTools.forAllCurrentChildren(
-                rootNodeView, NodeView.getAllChildren, function(nodeView) {
-                    if (nodeViewMatchFunc(nodeView)) {
-                        matchingNodeViews.push(nodeView);
+                Analyser.init();
+
+                _.forEachKey(
+                    getClickListenersByElementId(),
+                    function(domElementId, clickListener) {
+                        _.addClickListenerToElementWithId(domElementId, clickListener);
                     }
-                }
-            );
-            if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
+                );
 
-        }
-
-
-        function showOnlyNodes(nodeViewsToShow) {
-
-            TreeTools.forAllCurrentChildren(
-                rootNodeView, NodeView.getAllChildren, NodeView.hideAllChildren
-            );
-
-            var childrenByDepth = TreeTools.getChildrenMergedByDepth(
-                rootNodeView, NodeView.getAllChildren
-            );
-
-            for (var i = childrenByDepth.length - 1; i > 0; --i) {
-                var childrenAtDepth = childrenByDepth[i];
-                for (var j = 0; j < childrenAtDepth.length; ++j) {
-                    var nodeView = childrenAtDepth[j];
-                    if (
-                        NodeView.getVisibleChildren(nodeView).length > 0 ||
-                        nodeViewsToShow.indexOf(nodeView) >= 0
-                    ) {
-                        NodeView.showChild(NodeView.getParentNodeView(nodeView), nodeView);
-                    }
-                }
             }
 
-            update();
+            function getClickListenersByElementId() {
 
-        }
+                return {
+
+                    'filter': function onButtonFilter() {
+                        Analyser.findForceTechMoves(rootNodeData);
+                    },
+
+                    'filterTime': function onButtonFilterTime() {
+                        Analyser.findMovesToSpendTime(rootNodeData);
+                    },
+
+                    'filterFrame': function onButtonFilterFrame() {
+                        Analyser.findMoves(rootNodeData);
+                    },
+
+                    'filterShowTracking': function showTrackingMoves() {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            var nodeData = NodeView.getNodeData(nodeView);
+                            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                                var someTracking = nodeData.actionSteps.some(
+                                    function(actionStep) { return actionStep.isTracking; }
+                                );
+                                if (someTracking) return true;
+                            }
+                            return false;
+                        });
+                    },
+
+                    'filterShowTrackingMidKicks': function showTrackingMidKicks() {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isTrackingMidKickNode(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
+                    'filterShowHardKnockDowns': function showTrackingMidKicks() {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.doesNodeCauseHardKnockDown(
+                                NodeView.getNodeData(nodeView)
+                            );
+                        });
+                    },
+
+                    'filterShowGroundAttacks': function showGroundAttacks() {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isGroundAttackNode(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
+                    'filterShowStance': function showStance() {
+                        var stance = prompt('Enter stance name: (e.g. "BT")', 'BT');
+                        if (!stance) return;
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            var ending = NodeView.getEnding(nodeView);
+                            return ending && ending.toLowerCase() === stance.toLowerCase();
+                        });
+                    },
+
+                    'filterShowAll': function showAll() {
+                        TreeTools.forAllCurrentChildren(
+                            rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren
+                        );
+                        update();
+                    },
+
+                    'filterShowDefault': function showAll() {
+                        TreeTools.forAllCurrentChildren(
+                            rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren
+                        );
+                        NodeView.hideHiddenByDefault(rootNodeView);
+                        update();
+                    }
+                };
+
+            }
+
+            function showOnlyNodesThatMatch(nodeViewMatchFunc) {
+
+                var matchingNodeViews = [];
+                TreeTools.forAllCurrentChildren(
+                    rootNodeView, NodeView.getAllChildren, function(nodeView) {
+                        if (nodeViewMatchFunc(nodeView)) {
+                            matchingNodeViews.push(nodeView);
+                        }
+                    }
+                );
+                if (matchingNodeViews.length > 0) showOnlyNodes(matchingNodeViews);
+
+            }
+
+            function showOnlyNodes(nodeViewsToShow) {
+
+                TreeTools.forAllCurrentChildren(
+                    rootNodeView, NodeView.getAllChildren, NodeView.hideAllChildren
+                );
+
+                var childrenByDepth = TreeTools.getChildrenMergedByDepth(
+                    rootNodeView, NodeView.getAllChildren
+                );
+
+                for (var i = childrenByDepth.length - 1; i > 0; --i) {
+                    var childrenAtDepth = childrenByDepth[i];
+                    for (var j = 0; j < childrenAtDepth.length; ++j) {
+                        var nodeView = childrenAtDepth[j];
+                        if (
+                            NodeView.getVisibleChildren(nodeView).length > 0 ||
+                            nodeViewsToShow.indexOf(nodeView) >= 0
+                        ) {
+                            NodeView.showChild(NodeView.getParentNodeView(nodeView), nodeView);
+                        }
+                    }
+                }
+
+                update();
+
+            }
+
+        // ================
 
     }
 

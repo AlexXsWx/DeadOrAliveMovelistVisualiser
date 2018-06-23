@@ -1,6 +1,7 @@
 define('Tools', function() {
 
     return {
+        forEachKey:                            forEachKey,
         isObject:                              isObject,
         defined:                               defined,
         defaults:                              defaults,
@@ -15,6 +16,8 @@ define('Tools', function() {
         arrayGroupedByFactor:                  arrayGroupedByFactor,
         arraysConsistOfSameStrings:            arraysConsistOfSameStrings,
         getDomElement:                         getDomElement,
+        addClickListenerToElement:             addClickListenerToElement,
+        addClickListenerToElementWithId:       addClickListenerToElementWithId,
         hideDomElement:                        hideDomElement,
         showDomElement:                        showDomElement,
         createDomElement:                      createDomElement,
@@ -27,15 +30,35 @@ define('Tools', function() {
         lerp:                                  lerp,
         dispatchInputEvent:                    dispatchInputEvent,
         forEachOwnProperty:                    forEachOwnProperty,
-        flattenRecursion:                      flattenRecursion,
-        sliceArguments:                        sliceArguments,
+        flattenRecursionDirty:                 flattenRecursionDirty,
+        takeSomeArrayElement:                  takeSomeArrayElement,
+        optimizedSliceArguments:               optimizedSliceArguments,
         removeElementFromParent:               removeElementFromParent
     };
+
+    function forEachKey(object, callback) {
+        var keys = Object.keys(object);
+        keys.forEach(function(key) {
+            callback(key, object[key]);
+        });
+    }
 
     function getDomElement(id) {
         var result = document.getElementById(id);
         console.assert(!!result, 'element #"' + id + '" not found');
         return result;
+    }
+
+    function addClickListenerToElementWithId(id, listener) {
+        getDomElement(id).addEventListener('click', function(event) {
+            listener();
+        });
+    }
+
+    function addClickListenerToElement(element, listener) {
+        element.addEventListener('click', function(event) {
+            listener();
+        });
     }
 
     function hideDomElement(element) {
@@ -326,40 +349,47 @@ define('Tools', function() {
     }
 
     /** WARNING: order of execution is not preserved */
-    function flattenRecursion(func) {
+    function flattenRecursionDirty(func) {
 
-        var isRunning = false;
+        var executing = false;
         var args = [];
         
         return goRecursive;
 
         function goRecursive(/* arguments */) {
-            args.push(sliceArguments.apply(null, arguments));
+            args.push(optimizedSliceArguments.apply(null, arguments));
             run();
         }
 
         function run() {
-            if (!isRunning) {
-                isRunning = true;
-                while (args.length > 0) {
+            if (executing) return;
 
-                    // slow but preserves order
-                    // var arg = args.shift();
+            executing = true;
+            while (args.length > 0) {
 
-                    // fast but does not preserve order
-                    var arg = args[0];
-                    args[0] = args[args.length - 1];
-                    args.pop();
+                // slow but preserves order
+                // var nextArgs = args.shift();
 
-                    func.apply(null, arg);
-                }
-                isRunning = false;
+                // fast but messes up order of elements in the array
+                var nextArgs = takeSomeArrayElement(args);
+
+                func.apply(null, nextArgs);
             }
+            executing = false;
         }
     }
 
+    /** Removes an element from the array and returns it */
+    function takeSomeArrayElement(array) {
+        var result = array[0];
+        array[0] = array[array.length - 1];
+        array.pop();
+
+        return result;
+    }
+
     /** Only use via apply */
-    function sliceArguments(/* arguments */) {
+    function optimizedSliceArguments(/* arguments */) {
         var args = [];
         for (var i = 0; i < arguments.length; ++i) {
             args.push(arguments[i]);

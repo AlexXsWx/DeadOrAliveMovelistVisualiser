@@ -8,16 +8,21 @@ define('Analyser', ['Filter', 'Tools', 'NodeFactory'], function Analyser(Filter,
     return {
         init: init,
         findForceTechMoves: findForceTechMoves,
+        findMovesToSpendTime: findMovesToSpendTime,
         findMoves: findMoves
     };
 
     function init() {
         domCache.popupFilterResult = _.getDomElement('popupFilterResult');
         domCache.filterOutput      = _.getDomElement('filterOutput');
-        _.getDomElement('closeFilterResult').addEventListener('click', onButtonCloseFilterResult);
+        _.addClickListenerToElementWithId(
+            'closeFilterResult',
+            function() { _.hideDomElement(domCache.popupFilterResult); }
+        );
     }
 
     function findForceTechMoves(rootNodeData) {
+        // FIXME: localize
         var input = prompt('Your frames to land on: e.g. "43" or "43-45"');
         if (input) {
             var parts = input.match(/\d+/g);
@@ -31,6 +36,55 @@ define('Analyser', ['Filter', 'Tools', 'NodeFactory'], function Analyser(Filter,
                     NodeFactory.canMoveHitGround
                 );
             }
+        }
+    }
+
+    function findMovesToSpendTime(rootNodeData) {
+
+        var input = promptArguments();
+        if (input.succeed) {
+            act(
+                input.data.framesCountToSpend,
+                input.data.stanceToEndIn || 'STD'
+            );
+        }
+
+        return;
+
+        function promptArguments() {
+            var result = {
+                succeed: false,
+                data: {
+                    framesCountToSpend: undefined,
+                    stanceToEndIn:      undefined
+                }
+            };
+            var textInput = prompt(
+                'Amount of frames to spend and stance to end in (leave empty for STD):'
+            );
+            if (textInput) {
+                var parts = textInput.trim().split(/\s+/);
+                result.succeed = true;
+                result.data.framesCountToSpend = Number(parts[0]);
+                result.data.stanceToEndIn = parts[1];
+            }
+            return result;
+        }
+
+        function act(framesCountToSpend, stanceToEndIn) {
+            var warnings = {};
+            var result = Filter.findNodesToSpendTime(
+                rootNodeData,
+                framesCountToSpend, stanceToEndIn,
+                undefined,
+                warnings
+            );
+
+            showFilterResults(
+                warnings,
+                framesCountToSpend + 'f -> ' + stanceToEndIn + ':\n',
+                result
+            );
         }
     }
 
@@ -58,6 +112,15 @@ define('Analyser', ['Filter', 'Tools', 'NodeFactory'], function Analyser(Filter,
             warnings
         );
 
+        showFilterResults(
+            warnings,
+            frameStart + '-' + frameEnd + 'f:\n',
+            result
+        );
+    }
+
+    function showFilterResults(warnings, prefix, result) {
+
         var output = '';
 
         var warningMessages = Object.keys(warnings);
@@ -70,44 +133,11 @@ define('Analyser', ['Filter', 'Tools', 'NodeFactory'], function Analyser(Filter,
             }).join('\n') + '\n\n';
         }
 
-        output += frameStart + '-' + frameEnd + 'f:\n';
+        output += prefix;
         output += result;
 
         _.setTextContent(domCache.filterOutput, output);
         _.showDomElement(domCache.popupFilterResult);
-    }
-
-    // function canMoveForceTech(nodeData) {
-
-    //     var input = nodeData.input;
-
-    //     // Exclude holds and throws
-    //     // FIXME: some throws can grab grounded opponent
-    //     if (input.match(/(46|7|4|6|1)h/i) || input.match(/t/i)) {
-    //         return false;
-    //     }
-
-    //     for (var i = 0; i < nodeData.actionSteps.length; ++i) {
-
-    //         if (NodeFactory.canActionStepHitGround(nodeData.actionSteps[i])) {
-    //             return true;
-    //         }
-
-    //         var actionMask = nodeData.actionSteps[i].actionMask;
-    //         if (
-    //             !actionMask ||
-    //             actionMask.search('high') >= 0
-    //         ) {
-    //             return false;
-    //         }
-    //     }
-
-    //     return true;
-
-    // }
-
-    function onButtonCloseFilterResult(optEvent) {
-        _.hideDomElement(domCache.popupFilterResult);
     }
 
 });

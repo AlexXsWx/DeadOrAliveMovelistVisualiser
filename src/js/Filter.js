@@ -7,11 +7,15 @@ define(
     function Filter(NodeFactory, _) {
 
         return {
-            isTrackingMidKickNode: isTrackingMidKickNode,
-            isGroundAttackNode: isGroundAttackNode,
+            isTrackingMidKickNode:      isTrackingMidKickNode,
+            isGroundAttackNode:         isGroundAttackNode,
             doesNodeCauseHardKnockDown: doesNodeCauseHardKnockDown,
-            findNodes: findNodes
+
+            findNodes:            findNodes,
+            findNodesToSpendTime: findNodesToSpendTime
         };
+
+        //
 
         function isTrackingMidKickNode(nodeData) {
             if (nodeData && NodeFactory.isMoveNode(nodeData)) {
@@ -26,7 +30,7 @@ define(
                     }
                 }
             }
-            return false
+            return false;
         }
 
         function doesNodeCauseHardKnockDown(nodeData) {
@@ -40,7 +44,7 @@ define(
                     }
                 }
             }
-            return false
+            return false;
         }
 
         function isGroundAttackNode(nodeData) {
@@ -52,8 +56,10 @@ define(
                     }
                 }
             }
-            return false
+            return false;
         }
+
+        //
 
         function createWarner(outputObject) {
             var outputWarnings = outputObject || {};
@@ -70,6 +76,41 @@ define(
             }
         }
 
+        function createTraverser(
+            rootNodeData,
+            framesLimit,
+            checkMoveNodeFunc,
+            checkStanceNodeFunc
+        ) {
+
+            return traverse;
+
+            function traverse(workingPath, restartFromRoot, framesSpent, currentStance) {
+                // FIXME: replace with min value available or remove completely
+                var NEGATIVE_FRAMEDATA_TOLERANCE = 10;
+                /* Normally it makes sense to stop right after exceeding `framesLimit`,
+                 * but then there are negative frame data... */
+                if (framesSpent - framesLimit >= NEGATIVE_FRAMEDATA_TOLERANCE) return;
+                if (restartFromRoot) {
+                    // concat to make a copy
+                    workingPath = workingPath.concat([rootNodeData]);
+                }
+                var stance = currentStance || 'STD';
+                var workingParentNodeData = workingPath[workingPath.length - 1];
+                NodeFactory.getChildren(workingParentNodeData).forEach(function(childNodeData) {
+                    var childWorkingPath = workingPath.concat(childNodeData);
+                    if (NodeFactory.isMoveNode(childNodeData)) {
+                        checkMoveNodeFunc(childWorkingPath, stance, framesSpent);
+                    } else
+                    if (NodeFactory.isStanceNode(childNodeData)) {
+                        checkStanceNodeFunc(childWorkingPath, stance, framesSpent);
+                    }
+                });
+            }
+        }
+
+        //
+
         // Stuff to test on: Rig's 3k6k4 2k should land on frame 72
         function findNodes(
             rootNodeData,
@@ -83,29 +124,13 @@ define(
 
             var warnFunc = createWarner(optOutputWarnings);
 
-            var keepLookingRecursive = _.flattenRecursion(keepLooking);
-            keepLookingRecursive([], true, 0, optCurrentStance || 'STD');
-            function keepLooking(workingPath, restartFromRoot, framesSpent, currentStance) {
-                var negativeFramedataTolerance = 10;
-                /* Normally it makes sense to stop right after exceeding frameToBeActiveOnEnd,
-                 * but then there are negative frame data... */
-                if (framesSpent - frameToBeActiveOnEnd >= negativeFramedataTolerance) return;
-                if (restartFromRoot) workingPath = workingPath.concat([rootNodeData]);
-                var stance = currentStance || 'STD';
-                var workingParentNodeData = workingPath[workingPath.length - 1];
-                NodeFactory.getChildren(workingParentNodeData).forEach(function(childNodeData) {
-                    var childWorkingPath = workingPath.concat(childNodeData);
-        // pathHistoryToString(childWorkingPath);
-                    if (NodeFactory.isMoveNode(childNodeData)) {
-                        var intersectingActiveFramesRange = checkMoveNode(
-                            childWorkingPath,
-                            stance,
-                            optNodeDataFilterFunc,
-                            frameToBeActiveOnStart,
-                            frameToBeActiveOnEnd,
-                            framesSpent,
-                            keepLookingRecursive,
-                            warnFunc
+            var traverseRecursive = _.flattenRecursionDirty(
+                createTraverser(
+                    rootNodeData,
+                    frameToBeActiveOnEnd,
+                    function checkMoveNodeFunc(childWorkingPath, stance, framesSpent) {
+                        var intersectingActiveFramesRange = checkMoveNodeActiveFrames(
+                            childWorkingPath, stance, framesSpent
                         );
                         var intersects = intersectingActiveFramesRange.length > 0;
                         if (intersects) {
@@ -114,57 +139,156 @@ define(
                                 range: intersectingActiveFramesRange
                             });
                         }
-                    } else
-                    if (NodeFactory.isStanceNode(childNodeData)) {
-                        checkStanceNode(
-                            childWorkingPath, stance, framesSpent, keepLookingRecursive, warnFunc
+                    },
+                    function checkStanceNodeFunc(childWorkingPath, stance, framesSpent) {
+                        genericCheckStanceNode(
+                            childWorkingPath, stance, framesSpent, traverseRecursive, warnFunc
                         );
                     }
-                });
-            }
+                )
+            );
+            traverseRecursive([], true, 0, optCurrentStance || 'STD');
 
-            // TODO: handle 7h, 4h, 6h as the same
+            // TODO: treat 7h, 4h, 6h as the same
             // TODO: include +- of active frames (e.g landed on 3rd out of 5 total)
             return filterResultsToString(results);
 
-        }
+            /** Last element of `workingPath` must be a move node data */
+            function checkMoveNodeActiveFrames(workingPath, workingStance, framesSpent) {
 
-        /** Assuming nodeData is move node data */
-        function checkMoveNode(
-            workingPath,
-            workingStance,
-            optNodeDataFilterFunc,
-            frameToBeActiveOnStart, // inclusive
-            frameToBeActiveOnEnd,   // inclusive
-            framesSpent,
-            keepLookingFunc,
-            warnFunc
-        ) {
-            var intersectingActiveFramesRange = [];
-            var nodeData = workingPath[workingPath.length - 1];
-            // Filter out BT moves
-            if (!doesContextQualify(nodeData, workingStance)) return intersectingActiveFramesRange;
-            if (nodeData.frameData && nodeData.frameData.length > 0) {
-                if (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) {
-                    var actionLocalRange = NodeFactory.getActiveFramesRangeThatIntersectsWith(
-                        nodeData,
-                        frameToBeActiveOnStart - framesSpent,
-                        frameToBeActiveOnEnd   - framesSpent
-                    );
-                    var intersects = actionLocalRange.length > 0;
-                    if (intersects)
-                    {
-                        intersectingActiveFramesRange = [
-                            framesSpent + actionLocalRange[0],
-                            framesSpent + actionLocalRange[1]
-                        ];
+                var intersectingActiveFramesRange = [];
+
+                if (
+                    genericCheckMoveNode(
+                        workingPath, workingStance, framesSpent,
+                        traverseRecursive,
+                        warnFunc
+                    )
+                ) {
+                    var nodeData = workingPath[workingPath.length - 1];
+                    // FIXME: filterFunc can be specific to action step
+                    // E.g. Honoka's 214P+K doesn't have ground hit property on 2nd active frames group
+                    if (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) {
+                        var actionLocalRange = NodeFactory.getActiveFramesRangeThatIntersectsWith(
+                            nodeData,
+                            frameToBeActiveOnStart - framesSpent,
+                            frameToBeActiveOnEnd   - framesSpent
+                        );
+                        var intersects = actionLocalRange.length > 0;
+                        if (intersects) {
+                            intersectingActiveFramesRange = [
+                                framesSpent + actionLocalRange[0],
+                                framesSpent + actionLocalRange[1]
+                            ];
+                        }
                     }
                 }
+
+                return intersectingActiveFramesRange;
+            }
+
+        }
+
+        //
+
+        function findNodesToSpendTime(
+            rootNodeData,
+            framesToSpend,
+            endingStance,
+            optNodeDataFilterFunc,
+            optOutputWarnings,
+            optCurrentStance
+        ) {
+            var results = [];
+
+            var warnFunc = createWarner(optOutputWarnings);
+
+            var traverseRecursive = _.flattenRecursionDirty(
+                createTraverser(
+                    rootNodeData,
+                    framesToSpend,
+                    function checkMoveNodeFunc(childWorkingPath, stance, framesSpent) {
+                        if (
+                            checkMoveNodeDuration(
+                                childWorkingPath,
+                                stance,
+                                framesSpent
+                            )
+                        ) {
+                            results.push(childWorkingPath);
+                        }
+                    },
+                    function checkStanceNodeFunc(childWorkingPath, stance, framesSpent) {
+                        genericCheckStanceNode(
+                            childWorkingPath, stance, framesSpent,
+                            traverseRecursive, warnFunc
+                        );
+                    }
+                )
+            );
+            traverseRecursive([], true, 0, optCurrentStance || 'STD');
+
+            return results.map(function(r) {
+                return pathHistoryToString(r);
+            }).join('\n');
+
+            /** Last elements of `workingPath` must be a move node data */
+            function checkMoveNodeDuration(
+                workingPath,
+                workingStance,
+                framesSpent
+            ) {
+
+                var result = false;
+                if (
+                    genericCheckMoveNode(
+                        workingPath, workingStance, framesSpent,
+                        traverseRecursive,
+                        warnFunc
+                    )
+                ) {
+                    var nodeData = workingPath[workingPath.length - 1];
+                    var moveDurationData = NodeFactory.getMoveDurationData(nodeData);
+                    if (filter(nodeData)) {
+                        if (framesSpent + moveDurationData.total === framesToSpend) {
+                            result = true;
+                        }
+                    }
+                }
+                return result;
+
+                function filter(nodeData) {
+                    return (
+                        (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) &&
+                        (nodeData.endsWith || 'STD').toLowerCase() === endingStance.toLowerCase()
+                    );
+                }
+            }
+
+        }
+
+        /** Last element of `workingPath` must be a move node data */
+        function genericCheckMoveNode(
+            workingPath, workingStance, framesSpent,
+            traverseRecursive,
+            warnFunc
+        ) {
+
+            var checkPassed = false;
+
+            var nodeData = workingPath[workingPath.length - 1];
+            // Filter out BT moves
+            if (!doesContextQualify(nodeData, workingStance)) {
+                return checkPassed;
+            }
+            if (nodeData.frameData && nodeData.frameData.length > 0) {
+
+                checkPassed = true;
 
                 var moveDurationData = NodeFactory.getMoveDurationData(nodeData);
 
                 // Check followups of this move
-                keepLookingFunc(
+                traverseRecursive(
                     workingPath, false,
                     // FIXME: use followup information instead of ignoring recovery
                     framesSpent + moveDurationData.withoutRecovery,
@@ -172,21 +296,28 @@ define(
                 );
 
                 // Check followups after free cancel or end of string
-                // FIXME: moves that described with child of input '*' should use them instead of free cancel
-                keepLookingFunc(
+                // FIXME: moves that described with child of input '*' should use them
+                // instead of free cancel
+                traverseRecursive(
                     workingPath, true,
                     framesSpent + moveDurationData.total,
                     nodeData.endsWith
                 );
             } else {
-                warnFunc(workingPath, 'has no frameData, probabilities that use it are excluded');
+                warnFunc(
+                    workingPath,
+                    'has no frameData, probabilities that use it are excluded'
+                );
             }
-            return intersectingActiveFramesRange;
+
+            return checkPassed;
         }
 
+        //
+
         /** Assuming nodeData is stance node data */
-        function checkStanceNode(
-            workingPath, workingStance, framesSpent, keepLookingFunc, warnFunc
+        function genericCheckStanceNode(
+            workingPath, workingStance, framesSpent, traverseRecursive, warnFunc
         ) {
             var nodeData = workingPath[workingPath.length - 1];
             if (doesStanceQualify(nodeData, workingStance)) {
@@ -194,7 +325,7 @@ define(
                     warnFunc(workingPath, 'did not define appliesExtraFrame, assuming it does');
                 }
                 var framesSpentByStance = (nodeData.appliesExtraFrame === false) ? 0 : 1;
-                keepLookingFunc(workingPath, false, framesSpent + framesSpentByStance, undefined);
+                traverseRecursive(workingPath, false, framesSpent + framesSpentByStance, undefined);
             }
         }
 

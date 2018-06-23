@@ -548,6 +548,35 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
         return false;
     }
 
+    // function canMoveForceTech(nodeData) {
+
+    //     var input = nodeData.input;
+
+    //     // Exclude holds and throws
+    //     // FIXME: some throws can grab grounded opponent
+    //     if (input.match(/(46|7|4|6|1)h/i) || input.match(/t/i)) {
+    //         return false;
+    //     }
+
+    //     for (var i = 0; i < nodeData.actionSteps.length; ++i) {
+
+    //         if (NodeFactory.canActionStepHitGround(nodeData.actionSteps[i])) {
+    //             return true;
+    //         }
+
+    //         var actionMask = nodeData.actionSteps[i].actionMask;
+    //         if (
+    //             !actionMask ||
+    //             actionMask.search('high') >= 0
+    //         ) {
+    //             return false;
+    //         }
+    //     }
+
+    //     return true;
+
+    // }
+
 
     function createEmptyData() {
 
