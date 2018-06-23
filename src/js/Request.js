@@ -1,5 +1,7 @@
 define('Request', function Request() {
 
+    var HTTP_CODES = { OK: 200 };
+
     return {
         getJSON: getJSON
     };
@@ -8,8 +10,8 @@ define('Request', function Request() {
         return new Promise(function(succeed, failed) {
             var request = new XMLHttpRequest();
             request.onreadystatechange = function onreadystatechange() {
-                if (request.readyState != XMLHttpRequest.DONE) return;
-                if (request.status != 200) {
+                if (request.readyState !== XMLHttpRequest.DONE) return;
+                if (request.status !== HTTP_CODES.OK) {
                     failed('Failed to get json from "' + url + '": HTTP ' + request.status);
                     return;
                 }

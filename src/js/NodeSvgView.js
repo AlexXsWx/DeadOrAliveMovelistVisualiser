@@ -198,10 +198,6 @@ define(
                 // ... Place for indicators ...
                 texts2.addSelfToParent(wrapper);
 
-                // wrapper.addEventListener('touchend', toggleChildren);
-                // wrapper.addEventListener('click', onClickNodeView);
-                // wrapper.addEventListener('dblclick', onDoubleClickNodeView);
-
             }
 
             function onClick(event) {

@@ -2,9 +2,9 @@ define(
 
     'Filter',
 
-    [ 'NodeFactory', 'Tools' ],
+    [ 'NodeFactory', 'CommonStances', 'Strings', 'Tools' ],
 
-    function Filter(NodeFactory, _) {
+    function Filter(NodeFactory, CommonStances, Strings, _) {
 
         return {
             isTrackingMidKickNode:      isTrackingMidKickNode,
@@ -68,7 +68,10 @@ define(
                 var fullMessage;
                 var nodeData = fullPath[fullPath.length - 1];
                 if (NodeFactory.isStanceNode(nodeData)) {
-                    fullMessage = 'stance ' + NodeFactory.toString(nodeData) + ' ' + message;
+                    fullMessage = (
+                        Strings('stance') + ' ' + NodeFactory.toString(nodeData) + ' ' +
+                        message
+                    );
                 } else {
                     fullMessage = pathHistoryToString(getRelativePath(fullPath)) + ' ' + message;
                 }
@@ -95,7 +98,7 @@ define(
                     // concat to make a copy
                     workingPath = workingPath.concat([rootNodeData]);
                 }
-                var stance = currentStance || 'STD';
+                var stance = currentStance || CommonStances.DEFAULT;
                 var workingParentNodeData = workingPath[workingPath.length - 1];
                 NodeFactory.getChildren(workingParentNodeData).forEach(function(childNodeData) {
                     var childWorkingPath = workingPath.concat(childNodeData);
@@ -147,7 +150,9 @@ define(
                     }
                 )
             );
-            traverseRecursive([], true, 0, optCurrentStance || 'STD');
+            traverseRecursive([], true, 0, optCurrentStance || CommonStances.DEFAULT);
+
+            // TODO: check if all stances are accessible
 
             // TODO: treat 7h, 4h, 6h as the same
             // TODO: include +- of active frames (e.g landed on 3rd out of 5 total)
@@ -226,7 +231,7 @@ define(
                     }
                 )
             );
-            traverseRecursive([], true, 0, optCurrentStance || 'STD');
+            traverseRecursive([], true, 0, optCurrentStance || CommonStances.DEFAULT);
 
             return results.map(function(r) {
                 return pathHistoryToString(r);
@@ -260,7 +265,10 @@ define(
                 function filter(nodeData) {
                     return (
                         (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) &&
-                        (nodeData.endsWith || 'STD').toLowerCase() === endingStance.toLowerCase()
+                        (
+                            nodeData.endsWith ||
+                            CommonStances.DEFAULT
+                        ).toLowerCase() === endingStance.toLowerCase()
                     );
                 }
             }
@@ -304,10 +312,7 @@ define(
                     nodeData.endsWith
                 );
             } else {
-                warnFunc(
-                    workingPath,
-                    'has no frameData, probabilities that use it are excluded'
-                );
+                warnFunc(workingPath, Strings('hasNoFrameData'));
             }
 
             return checkPassed;
@@ -322,7 +327,7 @@ define(
             var nodeData = workingPath[workingPath.length - 1];
             if (doesStanceQualify(nodeData, workingStance)) {
                 if (nodeData.appliesExtraFrame === undefined) {
-                    warnFunc(workingPath, 'did not define appliesExtraFrame, assuming it does');
+                    warnFunc(workingPath, Strings('undefinedInitialFrame'));
                 }
                 var framesSpentByStance = (nodeData.appliesExtraFrame === false) ? 0 : 1;
                 traverseRecursive(workingPath, false, framesSpent + framesSpentByStance, undefined);
@@ -397,7 +402,7 @@ define(
 
             // group together options that have same resulting active frames
             var groupedByActiveFrames = _.arrayGroupedByFactor(results, function(a, b) {
-                return compareRange(a, b) == 0;
+                return compareRange(a, b) === 0;
             });
 
             // put same ending move together

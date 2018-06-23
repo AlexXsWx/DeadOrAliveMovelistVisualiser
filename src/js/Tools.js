@@ -1,7 +1,7 @@
 define('Tools', function() {
 
     return {
-        forEachKey:                            forEachKey,
+        isDevBuild:                            isDevBuild,
         isObject:                              isObject,
         defined:                               defined,
         defaults:                              defaults,
@@ -36,11 +36,17 @@ define('Tools', function() {
         removeElementFromParent:               removeElementFromParent
     };
 
-    function forEachKey(object, callback) {
-        var keys = Object.keys(object);
-        keys.forEach(function(key) {
-            callback(key, object[key]);
-        });
+    function isDevBuild() {
+        try {
+            return (
+                window.location.protocol === 'file:' ||
+                window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1' ||
+                /^192\.168\.\d+.\d+$/.test(window.location.hostname)
+            );
+        } catch(error) {
+            return false;
+        }
     }
 
     function getDomElement(id) {
@@ -50,15 +56,11 @@ define('Tools', function() {
     }
 
     function addClickListenerToElementWithId(id, listener) {
-        getDomElement(id).addEventListener('click', function(event) {
-            listener();
-        });
+        addClickListenerToElement(getDomElement(id), listener);
     }
 
     function addClickListenerToElement(element, listener) {
-        element.addEventListener('click', function(event) {
-            listener();
-        });
+        element.addEventListener('click', listener);
     }
 
     function hideDomElement(element) {
@@ -70,7 +72,7 @@ define('Tools', function() {
     }
 
     function arraysAreEqual(arrayA, arrayB) {
-        if (arrayA.length != arrayB.length) return false;
+        if (arrayA.length !== arrayB.length) return false;
         for (var i = 0; i < arrayA.length; ++i) {
             if (arrayA[i] !== arrayB[i]) return false;
         }
@@ -294,7 +296,13 @@ define('Tools', function() {
         });
 
         isObject(listeners) && forEachOwnProperty(listeners, function(key, value) {
-            if (value !== undefined) element.addEventListener(key, value);
+            if (value !== undefined) {
+                if (key === 'click') {
+                    addClickListenerToElement(element, value);
+                } else {
+                    element.addEventListener(key, value);
+                }
+            }
         });
 
         if (isArray(classes)) {

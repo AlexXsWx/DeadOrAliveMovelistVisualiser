@@ -8,19 +8,7 @@
         <link rel="stylesheet" type="text/css" href="style/main.css">
         <link rel="stylesheet" type="text/css" href="style/canvas.css">
 
-        <script src="../data/rig.js"></script>
         <script data-main="js/main" src="../lib/require/2.1.20/require.min.js"></script>
-
-        <!-- <template id="table-row-text">
-            <tr>
-                <td>
-                    <label></label>
-                </td>
-                <td>
-                    <input type="text" />
-                </td>
-            </tr>
-        </template> -->
 
     </head>
 
@@ -93,11 +81,6 @@
                 <div class="fieldsetContent columnRight">
 
                     <table>
-
-                        <tr title="Disabling may solve some scroll related bugs">
-                            <td><input id="smoothScroll" type="checkbox" checked /></td>
-                            <td><label for="smoothScroll">Smooth scroll</label></td>
-                        </tr>
 
                         <tr>
                             <td><input id="flipTextToRight" type="checkbox" checked /></td>
@@ -183,6 +166,11 @@
                         <tr>
                             <td><input id="showPlaceholders" type="checkbox" checked /></td>
                             <td><label for="showPlaceholders">Show placeholders</label></td>
+                        </tr>
+
+                        <tr title="Disabling may solve some scroll related bugs">
+                            <td><input id="smoothScroll" type="checkbox" /></td>
+                            <td><label for="smoothScroll">Force smooth scroll</label></td>
                         </tr>
 
                     </table>

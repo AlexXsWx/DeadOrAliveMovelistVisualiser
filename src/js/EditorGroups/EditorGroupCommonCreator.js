@@ -57,7 +57,11 @@ define(
                         'type': 'button',
                         'value': 'Up'
                     },
-                    listeners: { 'click': moveNodeBy.bind(null, -1) }
+                    listeners: {
+                        'click': function(event) {
+                            moveNodeBy(-1);
+                        }
+                    }
                 }),
                 _.createDomElement({
                     tag: 'input',
@@ -65,7 +69,11 @@ define(
                         'type': 'button',
                         'value': 'Down'
                     },
-                    listeners: { 'click': moveNodeBy.bind(null,  1) }
+                    listeners: {
+                        'click': function(event) {
+                            moveNodeBy(1);
+                        }
+                    }
                 })
             ]);
 

@@ -6,41 +6,19 @@ requirejs.config({
     }
 });
 
+// TODO: localize html
+// TODO: localize editors (button labels and placeholders "e.g.")
+// TODO: logger with log levels
+
 requirejs(
 
-    ['Movelist', 'SmoothScroll', 'Tools'],
+    ['Movelist', 'SmoothScrollManager', 'Tools'],
 
-    function Main(Movelist, SmoothScroll, _) {
+    function Main(Movelist, SmoothScrollManager, _) {
 
-        init();
+        SmoothScrollManager.init(_.getDomElement('smoothScroll'));
 
-        function init() {
-            initSmoothScroll();
-            Movelist.init(document.getElementById('content'));
-        }
-
-        function initSmoothScroll() {
-
-            SmoothScroll({
-                animationTime: 500, // 800
-                stepSize: 100, // 80
-                pulseScale: 8,
-                accelerationDelta: 10, // 20
-                accelerationMax: 1,
-            });
-
-            _.getDomElement('smoothScroll').addEventListener('change', function(event) {
-                var checkbox = this;
-                if (checkbox.checked) {
-                    // TODO: uncomment once SmoothScroll is updated
-                    // SmoothScroll.start();
-                } else {
-                    SmoothScroll.destroy();
-                    checkbox.setAttribute('disabled', true);
-                }
-            });
-
-        }
+        Movelist.init(_.getDomElement('content'));
 
     }
 

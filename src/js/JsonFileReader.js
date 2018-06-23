@@ -8,7 +8,7 @@ define('JsonFileReader', [], function() {
             reader.addEventListener('load', onFileLoaded);
             reader.readAsText(file);
 
-            function onFileLoaded() {
+            function onFileLoaded(event) {
                 var parsedJson;
                 try {
                     parsedJson = JSON.parse(this.result);

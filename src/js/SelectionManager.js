@@ -2,9 +2,9 @@ define(
 
     'SelectionManager',
 
-    ['NodeView', 'Observer', 'Executor', 'NodeSvgViewTextGetters'],
+    ['NodeView', 'Observer', 'Executor', 'NodeSvgViewTextGetters', 'Tools'],
 
-    function SelectionManager(NodeView, createObserver, Executor, NodeSvgViewTextGetters) {
+    function SelectionManager(NodeView, createObserver, Executor, NodeSvgViewTextGetters, _) {
 
         var selectionCurrent = null;
 
@@ -35,7 +35,7 @@ define(
             getVisibleNodesSvgViews = getVisibleNodesSvgViewsRef;
             toggleChildren = toggleChildrenRef;
 
-            rootElement.addEventListener('click', function(event) { deselectAll(); });
+            _.addClickListenerToElement(rootElement, deselectAll);
 
             // rootElement.addEventListener('mousedown', function(event) {
             //     event.stopPropagation();
@@ -108,7 +108,7 @@ define(
         }
 
 
-        function deselectAll() {
+        function deselectAll(optEvent) {
             if (!selectionCurrent) return;
             selectNode(null);
         }

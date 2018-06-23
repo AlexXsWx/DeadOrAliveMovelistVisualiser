@@ -5,25 +5,27 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
         repo: 'DeadOrAliveMovelistVisualiser'
     };
 
-    var exampleBaseUrl = 'https://' + [
-        'raw.githubusercontent.com',
-        githubSettings.user,
-        githubSettings.repo
-    ].join('/') + '/';
+    var exampleBaseUrl = (
+        'https://' +
+        [
+            'raw.githubusercontent.com',
+            githubSettings.user,
+            githubSettings.repo,
+            !_.isDevBuild() && getCurrentVersion() || 'alpha',
+            'data'
+        ].join('/') +
+        '/'
+    );
 
-    var EXAMPLE_URLS = {
-        rig:    exampleBaseUrl + 'master/data/rig.6.json',
-        jacky:  exampleBaseUrl + 'alpha/data/jacky.json',
-        mai:    exampleBaseUrl + 'master/data/mai.json',
-        hitomi: exampleBaseUrl + 'alpha/data/hitomi.json',
-        momiji: exampleBaseUrl + 'alpha/data/momiji.json',
-        honoka: exampleBaseUrl + 'alpha/data/honoka.json'
-    };
+    function getExampleUrl(characterName) {
+        return exampleBaseUrl + characterName + '.json';
+    }
 
-    var versionRgx = /^[^\d]*((?:\d+)(?:\.\d+)*)[^\d]*$/i;
+    // TODO: recognize postfixes like alpha/beta/rc1/rc2
+    var versionRgx = /^[^\d]*((?:\d+)(?:\.\d+)*)(?:([a-z])|[^\d]*)$/i;
 
     return {
-        EXAMPLE_URLS: EXAMPLE_URLS,
+        getExampleUrl: getExampleUrl,
         checkIfHigherVersionIsAvailable: checkIfHigherVersionIsAvailable
     };
 
@@ -33,8 +35,8 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
         var currentVersion = getCurrentVersion();
 
         // TODO: uncomment after online version check is tested live
-        // if (currentVersion == null) {
-        //     // Unable to figure out current version - could be because runned locally
+        // if (currentVersion === null) {
+        //     console.error("Unable to detect current version");
         //     return;
         // }
 
@@ -45,7 +47,7 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
             );
 
             console.log(
-                'Version check: current = "%s", highest online = "%s" -> show popup = %s',
+                'Version check: current = %s, highest online = %s -> show popup = %s',
                 currentVersion,
                 highestVersionOnline,
                 showHigherVersionAvailablePopup
@@ -78,7 +80,7 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
             _.forEachOwnProperty(parsedJsonResponse, function(key, value) {
                 var version = value.name;
                 if (
-                    highestVersion == null ||
+                    highestVersion === null ||
                     isVersionAHigherThanB(version, highestVersion)
                 ) {
                     highestVersion = version;
@@ -88,7 +90,8 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
             return highestVersion;
 
         }).catch(function(error) {
-            console.log(error);
+            console.error("Failed to get highest version available:");
+            console.error(error);
         });
 
     }
@@ -96,12 +99,22 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
 
     function isVersionAHigherThanB(versionStrA, versionStrB) {
 
-        if (!isVersionValid(versionStrA) || !isVersionValid(versionStrB)) return false;
+        if (
+            !isVersionValid(versionStrA) ||
+            !isVersionValid(versionStrB)
+        ) {
+            return false;
+        }
 
         var versionMatchResultA = versionStrA.match(versionRgx);
         var versionMatchResultB = versionStrB.match(versionRgx);
 
-        if (!versionMatchResultA || !versionMatchResultB) return false;
+        if (
+            !versionMatchResultA ||
+            !versionMatchResultB
+        ) {
+            return false;
+        }
 
         var versionArrA = versionMatchResultA[1].split('.');
         var versionArrB = versionMatchResultB[1].split('.');
@@ -114,14 +127,25 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
             return versionPartA > versionPartB;
         }
 
-        if (versionArrA.length === versionArrB.length) return 0;
+        if (versionArrA.length === versionArrB.length) {
+            var postfixA = versionMatchResultA[2];
+            var postfixB = versionMatchResultB[2];
+            var hasPostfixA = Boolean(postfixA);
+            var hasPostfixB = Boolean(postfixB);
+            if (hasPostfixA !== hasPostfixB) {
+                return !hasPostfixA;
+            } else if (hasPostfixA) {
+                return postfixA.charCodeAt(0) > postfixB.charCodeAt(0);
+            }
+            return false;
+        }
         return versionArrA.length > versionArrB.length;
 
     }
 
 
     function isVersionValid(verstionStr) {
-        return verstionStr != null && (
+        return Boolean(verstionStr) && (
             verstionStr === 'master' ||
             verstionStr === 'alpha' ||
             Boolean(verstionStr.match(versionRgx))

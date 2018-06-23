@@ -1,10 +1,11 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1465057278199
+    "timeSaved": 1478378765534
   },
   "body": {
-    "character": "Lisa",
+    "character": "lisa",
+    "version": "1.07 steam",
     "stances": [
       {
         "abbreviation": "STD",
@@ -12,9 +13,2201 @@
         "moves": [
           {
             "input": "P",
+            "frameData": [
+              11,
+              2,
+              13
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 15
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  14,
+                  2,
+                  14
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 12
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "4",
+                    "frameData": [
+                      1,
+                      0,
+                      0
+                    ],
+                    "endsWith": "BT"
+                  },
+                  {
+                    "input": "P",
+                    "frameData": [
+                      17,
+                      3,
+                      25
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 19
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "4",
+                        "frameData": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "endsWith": "BT"
+                      },
+                      {
+                        "input": "P+K",
+                        "frameData": [
+                          42,
+                          7,
+                          30
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 45
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "H",
+                            "frameData": [
+                              -15,
+                              0,
+                              30
+                            ],
+                            "endsWith": "BT",
+                            "followUps": [
+                              {
+                                "input": "P+K",
+                                "frameData": [
+                                  66,
+                                  7,
+                                  30
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "jump attack",
+                                    "isTracking": false,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "guard"
+                                        ],
+                                        "hitBlock": 53
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "input": "T",
+                                "frameData": [
+                                  64,
+                                  2,
+                                  31
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "high",
+                                    "actionType": "throw",
+                                    "isTracking": true
+                                  }
+                                ],
+                                "endsWith": "BT"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "frameData": [
+                      23,
+                      3,
+                      57
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "jump attack",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 53
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "6",
+                        "frameData": [
+                          45,
+                          0,
+                          0
+                        ],
+                        "endsWith": "RUN"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      30,
+                      2,
+                      48
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "jump attack",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 50
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  13,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 14
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      16,
+                      2,
+                      27
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 20
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "4",
+                        "frameData": [
+                          22,
+                          0,
+                          0
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "9P",
+            "endsWith": "BT",
+            "followUps": [
+              {
+                "input": "P",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "4",
+                    "endsWith": "BT"
+                  }
+                ]
+              },
+              {
+                "input": "P+K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "jump attack",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P+K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false
+                          }
+                        ]
+                      },
+                      {
+                        "input": "T",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "endsWith": "BT"
+              },
+              {
+                "input": "T",
+                "actionSteps": [
+                  {
+                    "actionMask": "high",
+                    "actionType": "offensive hold",
+                    "isTracking": true
+                  }
+                ],
+                "endsWith": "BT"
+              }
+            ]
+          },
+          {
+            "input": "8P",
+            "endsWith": "BT"
+          },
+          {
+            "input": "7P"
+          },
+          {
+            "input": "6P",
+            "frameData": [
+              14,
+              2,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 15
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  16,
+                  3,
+                  29
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 25
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      25,
+                      3,
+                      28
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "jump attack",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 35
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "4P",
+                "frameData": [
+                  22,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 22
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      23,
+                      2,
+                      27
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 20
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  15,
+                  2,
+                  27
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 20
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "4",
+                    "frameData": [
+                      22,
+                      0,
+                      0
+                    ],
+                    "endsWith": "BT"
+                  }
+                ]
+              },
+              {
+                "input": "8K",
+                "frameData": [
+                  22,
+                  4,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 17
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      26,
+                      3,
+                      26
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 20
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4P",
+            "frameData": [
+              14,
+              3,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 14
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  14,
+                  2,
+                  20
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 16
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      20,
+                      2,
+                      3,
+                      2,
+                      30
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false
+                      },
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 23
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      23,
+                      3,
+                      39
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 20
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "6K",
+                "frameData": [
+                  18,
+                  4,
+                  35
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 31
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3P",
+            "frameData": [
+              16,
+              3,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 25
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  25,
+                  3,
+                  28
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 35
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2P",
+            "frameData": [
+              16,
+              3,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 18
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "1P",
+            "frameData": [
+              18,
+              3,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 18
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  16,
+                  3,
+                  24
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "BT"
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  21,
+                  3,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      20,
+                      3,
+                      27
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 22
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "K",
+                        "frameData": [
+                          27,
+                          4,
+                          34
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 36
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "2K",
+                        "frameData": [
+                          25,
+                          3,
+                          28
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "low K",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 9
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "66P",
+            "frameData": [
+              20,
+              3,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 17
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  19,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 17
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  19,
+                  2,
+                  21
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 15
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "BT"
+              }
+            ]
+          },
+          {
+            "input": "33P",
+            "frameData": [
+              21,
+              3,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "236P",
+            "frameData": [
+              16,
+              10,
+              44
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 35
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              14,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 18
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  20,
+                  2,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 18
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      13,
+                      0,
+                      0
+                    ],
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          90,
+                          3,
+                          38
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 36
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "4",
+                            "frameData": [
+                              28,
+                              0,
+                              0
+                            ],
+                            "endsWith": "BT"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "P+K",
+                        "frameData": [
+                          101,
+                          7,
+                          30
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 53
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "H",
+                            "frameData": [
+                              -15,
+                              0,
+                              30
+                            ],
+                            "endsWith": "BT",
+                            "followUps": [
+                              {
+                                "input": "P+K",
+                                "frameData": [
+                                  66,
+                                  7,
+                                  30
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "jump attack",
+                                    "isTracking": false,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "guard"
+                                        ],
+                                        "hitBlock": 53
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "input": "T",
+                                "frameData": [
+                                  64,
+                                  2,
+                                  31
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "high",
+                                    "actionType": "offensive hold",
+                                    "isTracking": true
+                                  }
+                                ],
+                                "endsWith": "BT"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "frameData": [
+                          94,
+                          2,
+                          31
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 35
+                              }
+                            ]
+                          }
+                        ],
+                        "endsWith": "BT"
+                      },
+                      {
+                        "input": "T",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "frameData": [
+                      33,
+                      6,
+                      12
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 14
+                          }
+                        ]
+                      }
+                    ],
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          22,
+                          3,
+                          38
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 36
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "4",
+                            "frameData": [
+                              28,
+                              0,
+                              0
+                            ],
+                            "endsWith": "BT"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "P+K",
+                        "frameData": [
+                          33,
+                          7,
+                          30
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 53
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "H",
+                            "frameData": [
+                              -15,
+                              0,
+                              30
+                            ],
+                            "endsWith": "BT",
+                            "followUps": [
+                              {
+                                "input": "P+K",
+                                "frameData": [
+                                  66,
+                                  7,
+                                  30
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "jump attack",
+                                    "isTracking": false,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "guard"
+                                        ],
+                                        "hitBlock": 53
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "input": "T",
+                                "frameData": [
+                                  64,
+                                  2,
+                                  31
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "high",
+                                    "actionType": "offensive hold",
+                                    "isTracking": true
+                                  }
+                                ],
+                                "endsWith": "BT"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "frameData": [
+                          26,
+                          2,
+                          31
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 35
+                              }
+                            ]
+                          }
+                        ],
+                        "endsWith": "BT"
+                      },
+                      {
+                        "input": "T",
+                        "frameData": [
+                          27,
+                          2,
+                          34
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "6K",
+                "frameData": [
+                  22,
+                  2,
+                  27
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 20
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "4",
+                    "frameData": [
+                      22,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "BT"
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  29,
+                  3,
+                  9,
+                  4,
+                  27
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "hitBlock": 0
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 20
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      26,
+                      4,
+                      45
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 20
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          50,
+                          3,
+                          25
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 22
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "P",
+                            "frameData": [
+                              23,
+                              2,
+                              27
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike",
+                                "isTracking": false,
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "guard"
+                                    ],
+                                    "hitBlock": 20
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "frameData": [
+                          67,
+                          4,
+                          23
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 35
+                              }
+                            ]
+                          }
+                        ],
+                        "endsWith": "BT"
+                      },
+                      {
+                        "input": "T",
+                        "frameData": [
+                          70,
+                          2,
+                          29
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      21,
+                      3,
+                      8,
+                      3,
+                      29
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 18
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "9K",
+            "frameData": [
+              31,
+              6,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 14
+                  }
+                ]
+              }
+            ],
+            "endsWith": "BT",
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  22,
+                  3,
+                  38
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 36
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "4",
+                    "frameData": [
+                      28,
+                      0,
+                      0
+                    ],
+                    "endsWith": "BT"
+                  }
+                ]
+              },
+              {
+                "input": "P+K",
+                "frameData": [
+                  33,
+                  7,
+                  30
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "jump attack",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 53
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "frameData": [
+                      -15,
+                      0,
+                      30
+                    ],
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P+K",
+                        "frameData": [
+                          66,
+                          7,
+                          30
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 53
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "T",
+                        "frameData": [
+                          64,
+                          2,
+                          31
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  26,
+                  2,
+                  31
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 35
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "BT"
+              },
+              {
+                "input": "T",
+                "frameData": [
+                  27,
+                  2,
+                  34
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high",
+                    "actionType": "offensive hold"
+                  }
+                ],
+                "endsWith": "BT"
+              }
+            ]
+          },
+          {
+            "input": "8K",
+            "frameData": [
+              22,
+              4,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 18
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  26,
+                  3,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 20
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "7K",
+            "frameData": [
+              16,
+              3,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 15
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "6",
+                "frameData": [
+                  28,
+                  0,
+                  0
+                ],
+                "endsWith": "RUN"
+              },
+              {
+                "input": "P",
+                "frameData": [
+                  53,
+                  7,
+                  30
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "jump attack",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 53
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "frameData": [
+                      -15,
+                      0,
+                      30
+                    ],
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P+K",
+                        "frameData": [
+                          66,
+                          7,
+                          30
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 53
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "T",
+                        "frameData": [
+                          64,
+                          2,
+                          31
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  40,
+                  3,
+                  40
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 30
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "T",
+                "frameData": [
+                  61,
+                  2,
+                  36
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high",
+                    "actionType": "throw"
+                  }
+                ],
+                "endsWith": "BT"
+              }
+            ]
+          },
+          {
+            "input": "6K",
+            "frameData": [
+              14,
+              2,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 16
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  20,
+                  2,
+                  3,
+                  2,
+                  30
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
+                  },
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 23
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  23,
+                  3,
+                  39
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4K",
+            "frameData": [
+              18,
+              3,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 19
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  20,
+                  3,
+                  27
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 21
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      27,
+                      4,
+                      34
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 35
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      25,
+                      3,
+                      38
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 19
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "4",
+                "endsWith": "BT"
+              }
+            ]
+          },
+          {
+            "input": "2K",
+            "actionSteps": [
+              {
+                "actionMask": "low K",
                 "actionType": "strike",
                 "isTracking": false
               }
@@ -31,400 +2224,40 @@
                 ],
                 "followUps": [
                   {
-                    "input": "P",
+                    "input": "K",
                     "actionSteps": [
                       {
-                        "actionMask": "high P",
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": true
                       }
-                    ],
-                    "followUps": [
-                      {
-                        "input": "P+K",
-                        "actionSteps": [
-                          {
-                            "actionMask": "mid P",
-                            "actionType": "jump attack",
-                            "isTracking": false
-                          }
-                        ],
-                        "followUps": [
-                          {
-                            "input": "H",
-                            "actionSteps": [
-                              {
-                                "actionType": "other"
-                              }
-                            ],
-                            "followUps": [
-                              {
-                                "input": "P+K",
-                                "actionSteps": [
-                                  {
-                                    "actionMask": "mid P",
-                                    "actionType": "jump attack",
-                                    "isTracking": false
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
                     ]
-                  },
-                  {
-                    "input": "K",
-                    "followUps": [
-                      {
-                        "input": "6",
-                        "endsWith": "RUN"
-                      }
-                    ]
-                  },
-                  {
-                    "input": "2K"
                   }
                 ]
               },
               {
                 "input": "K",
-                "followUps": [
+                "actionSteps": [
                   {
-                    "input": "K",
-                    "followUps": [
-                      {
-                        "input": "4"
-                      }
-                    ]
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
-                ]
-              }
-            ]
-          },
-          {
-            "input": "9P",
-            "followUps": [
-              {
-                "input": "P"
-              },
-              {
-                "input": "K"
-              },
-              {
-                "input": "P+K",
+                ],
                 "followUps": [
                   {
-                    "input": "H",
-                    "followUps": [
-                      {
-                        "input": "P+K"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "input": "T"
-              }
-            ]
-          },
-          {
-            "input": "8P"
-          },
-          {
-            "input": "7P"
-          },
-          {
-            "input": "6P",
-            "followUps": [
-              {
-                "input": "P",
-                "followUps": [
-                  {
-                    "input": "P"
-                  }
-                ]
-              },
-              {
-                "input": "4P",
-                "followUps": [
-                  {
-                    "input": "P"
-                  }
-                ]
-              },
-              {
-                "input": "K",
-                "followUps": [
-                  {
-                    "input": "4"
-                  }
-                ]
-              },
-              {
-                "input": "8K",
-                "followUps": [
-                  {
-                    "input": "K"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "input": "4P",
-            "followUps": [
-              {
-                "input": "K",
-                "followUps": [
-                  {
-                    "input": "K"
-                  },
-                  {
-                    "input": "2K"
-                  }
-                ]
-              },
-              {
-                "input": "6K"
-              }
-            ]
-          },
-          {
-            "input": "3P",
-            "followUps": [
-              {
-                "input": "P"
-              }
-            ]
-          },
-          {
-            "input": "2P"
-          },
-          {
-            "input": "1P",
-            "followUps": [
-              {
-                "input": "P"
-              }
-            ]
-          },
-          {
-            "input": "1P",
-            "followUps": [
-              {
-                "input": "K",
-                "followUps": [
-                  {
-                    "input": "K",
-                    "followUps": [
-                      {
-                        "input": "K"
-                      },
-                      {
-                        "input": "2K"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "input": "66P",
-            "followUps": [
-              {
-                "input": "P"
-              },
-              {
-                "input": "K"
-              }
-            ]
-          },
-          {
-            "input": "33P"
-          },
-          {
-            "input": "236P"
-          },
-          {
-            "input": "K",
-            "followUps": [
-              {
-                "input": "K",
-                "followUps": [
-                  {
-                    "input": "P",
-                    "followUps": [
-                      {
-                        "input": "P"
-                      },
-                      {
-                        "input": "P+K",
-                        "followUps": [
-                          {
-                            "input": "H",
-                            "followUps": [
-                              {
-                                "input": "P+K"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "input": "K"
-                      }
-                    ]
-                  },
-                  {
-                    "input": "K",
-                    "followUps": [
-                      {
-                        "input": "P"
-                      },
-                      {
-                        "input": "K"
-                      }
-                    ]
-                  },
-                  {
-                    "input": "6K"
-                  }
-                ]
-              },
-              {
-                "input": "6K",
-                "followUps": [
-                  {
-                    "input": "4"
-                  }
-                ]
-              },
-              {
-                "input": "2K",
-                "followUps": [
-                  {
-                    "input": "K",
-                    "followUps": [
-                      {
-                        "input": "K"
-                      }
-                    ]
-                  },
-                  {
-                    "input": "2K"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "input": "9K",
-            "followUps": [
-              {
-                "input": "P"
-              },
-              {
-                "input": "K"
-              },
-              {
-                "input": "T"
-              }
-            ]
-          },
-          {
-            "input": "8K",
-            "followUps": [
-              {
-                "input": "K"
-              }
-            ]
-          },
-          {
-            "input": "7K",
-            "followUps": [
-              {
-                "input": "6",
-                "endsWith": "RUN"
-              },
-              {
-                "input": "P",
-                "followUps": [
-                  {
-                    "input": "H",
-                    "followUps": [
-                      {
-                        "input": "P+K"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "input": "K"
-              },
-              {
-                "input": "T"
-              }
-            ]
-          },
-          {
-            "input": "6K",
-            "followUps": [
-              {
-                "input": "K"
-              },
-              {
-                "input": "2K"
-              }
-            ]
-          },
-          {
-            "input": "4K",
-            "followUps": [
-              {
-                "input": "K",
-                "followUps": [
-                  {
-                    "input": "K"
-                  },
-                  {
-                    "input": "2K"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "input": "3K",
-            "followUps": [
-              {
-                "input": "4"
-              }
-            ]
-          },
-          {
-            "input": "2K",
-            "followUps": [
-              {
-                "input": "P",
-                "followUps": [
-                  {
-                    "input": "K"
-                  },
-                  {
-                    "input": "6K"
-                  }
-                ]
-              },
-              {
-                "input": "K",
-                "followUps": [
-                  {
-                    "input": "4"
+                    "input": "4",
+                    "endsWith": "BT"
                   }
                 ]
               }
@@ -432,99 +2265,317 @@
           },
           {
             "input": "1K",
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
             "followUps": [
               {
                 "input": "K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
                 "followUps": [
                   {
                     "input": "P",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike",
+                        "isTracking": false
+                      }
+                    ],
                     "followUps": [
                       {
-                        "input": "P"
+                        "input": "P",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": false
+                          }
+                        ]
                       }
                     ]
                   },
                   {
-                    "input": "K"
+                    "input": "K",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false
+                      }
+                    ],
+                    "endsWith": "BT"
+                  },
+                  {
+                    "input": "T",
+                    "actionSteps": [
+                      {
+                        "actionMask": "high",
+                        "actionType": "offensive hold",
+                        "isTracking": true
+                      }
+                    ],
+                    "endsWith": "BT"
                   }
                 ]
               },
               {
-                "input": "2K"
+                "input": "2K",
+                "actionSteps": [
+                  {
+                    "actionMask": "low K",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ]
               }
             ]
           },
           {
             "input": "66K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "jump attack",
+                "isTracking": false
+              }
+            ],
             "followUps": [
               {
-                "input": "6"
+                "input": "6",
+                "endsWith": "RUN"
               }
             ]
           },
           {
-            "input": "33K"
+            "input": "33K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
           },
           {
-            "input": "236K"
+            "input": "236K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "4",
+                "endsWith": "BT"
+              }
+            ]
           },
           {
-            "input": "P+K"
+            "input": "P+K",
+            "frameData": [
+              28,
+              3,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "jump attack",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 35
+                  }
+                ]
+              }
+            ]
           },
           {
-            "input": "4P+K"
+            "input": "4P+K",
+            "frameData": [
+              30,
+              2,
+              35
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "jump attack",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 26
+                  }
+                ]
+              }
+            ]
           },
           {
-            "input": "H+K"
+            "input": "H+K",
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
           },
           {
-            "input": "6H+K"
+            "input": "6H+K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
           },
           {
             "input": "4H+K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
             "followUps": [
               {
-                "input": "6"
+                "input": "6",
+                "endsWith": "RUN"
               }
             ]
           },
           {
-            "input": "2H+K"
+            "input": "2H+K",
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
           },
           {
             "input": "1H+K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
             "followUps": [
               {
-                "input": "6"
+                "input": "6",
+                "endsWith": "RUN"
               }
             ]
           },
           {
-            "input": "214H+K"
+            "input": "214H+K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
           },
           {
-            "input": "T"
+            "input": "T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
           },
           {
-            "input": "6T"
+            "input": "6T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
           },
           {
-            "input": "4T"
+            "input": "4T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
           },
           {
-            "input": "64T"
+            "input": "64T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
           },
           {
-            "input": "44T"
+            "input": "44T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
           },
           {
             "input": "214T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ],
             "followUps": [
               {
                 "input": "6T",
+                "actionSteps": [
+                  {
+                    "actionType": "throw"
+                  }
+                ],
                 "followUps": [
                   {
-                    "input": "8T"
+                    "input": "8T",
+                    "actionSteps": [
+                      {
+                        "actionType": "throw"
+                      }
+                    ]
                   }
                 ]
               }
@@ -532,12 +2583,29 @@
           },
           {
             "input": "41236T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ],
             "followUps": [
               {
                 "input": "46T",
+                "actionSteps": [
+                  {
+                    "actionType": "throw"
+                  }
+                ],
                 "followUps": [
                   {
-                    "input": "6987412T"
+                    "input": "6987412T",
+                    "actionSteps": [
+                      {
+                        "actionType": "throw"
+                      }
+                    ]
                   }
                 ]
               }
@@ -547,37 +2615,111 @@
             "input": "T",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
             ]
           },
           {
-            "input": "2T"
+            "input": "2T",
+            "actionSteps": [
+              {
+                "actionMask": "low",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "T",
+            "context": [
+              "OBT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
           },
           {
             "input": "6T",
             "context": [
               "OBT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
             ]
           },
           {
             "input": "41236T",
             "context": [
               "OBT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
             ]
           },
           {
-            "input": "8T"
+            "input": "8T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "offensive hold",
+                "isTracking": true
+              }
+            ]
           },
           {
-            "input": "66T"
+            "input": "66T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "offensive hold",
+                "isTracking": true
+              }
+            ]
           },
           {
-            "input": "236T"
+            "input": "236T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "offensive hold",
+                "isTracking": true
+              }
+            ]
           },
           {
             "input": "3T",
+            "actionSteps": [
+              {
+                "actionMask": "low",
+                "actionType": "offensive hold",
+                "isTracking": true
+              }
+            ],
             "followUps": [
               {
-                "input": "T"
+                "input": "T",
+                "actionSteps": [
+                  {
+                    "actionType": "throw"
+                  }
+                ]
               }
             ]
           },
@@ -585,18 +2727,39 @@
             "input": "8T",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "offensive hold",
+                "isTracking": true
+              }
             ]
           },
           {
             "input": "6T",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "offensive hold",
+                "isTracking": true
+              }
             ]
           },
           {
             "input": "66T",
             "context": [
               "OBT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "offensive hold",
+                "isTracking": true
+              }
             ]
           },
           {
@@ -604,30 +2767,138 @@
             "context": [
               "BT",
               "OBT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "offensive hold",
+                "isTracking": true
+              }
             ]
           },
           {
-            "input": "7H"
+            "input": "7H",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "hold"
+              }
+            ]
           },
           {
-            "input": "4H"
+            "input": "4H",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "hold"
+              }
+            ]
           },
           {
-            "input": "6H"
+            "input": "6H",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "hold"
+              }
+            ]
           },
           {
-            "input": "1H"
+            "input": "1H",
+            "actionSteps": [
+              {
+                "actionMask": "low",
+                "actionType": "hold"
+              }
+            ]
           },
           {
             "input": "7P",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "P",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              13,
+              2,
+              16
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 18
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "..."
+              }
             ]
           },
           {
             "input": "7K",
             "context": [
               "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
+              },
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "endsWith": "BT"
+          },
+          {
+            "input": "4P",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              14,
+              4,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 19
+                  }
+                ]
+              }
             ]
           },
           {
@@ -635,12 +2906,74 @@
             "context": [
               "BT"
             ],
+            "frameData": [
+              33,
+              7,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "jump attack",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 53
+                  }
+                ]
+              }
+            ],
             "followUps": [
               {
                 "input": "H",
+                "frameData": [
+                  -15,
+                  0,
+                  30
+                ],
+                "endsWith": "BT",
                 "followUps": [
                   {
-                    "input": "P+K"
+                    "input": "P+K",
+                    "frameData": [
+                      66,
+                      7,
+                      30
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "jump attack",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 53
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "T",
+                    "frameData": [
+                      64,
+                      2,
+                      31
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high",
+                        "actionType": "offensive hold",
+                        "isTracking": true
+                      }
+                    ],
+                    "endsWith": "BT"
                   }
                 ]
               }
@@ -650,22 +2983,132 @@
             "input": "4P+K",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              12,
+              4,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 24
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "context": [
+              "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "..."
+              }
+            ]
+          },
+          {
+            "input": "Ap"
+          },
+          {
+            "input": "2P",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              16,
+              3,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 16
+                  }
+                ]
+              }
             ]
           },
           {
             "input": "H+K",
+            "context": [
+              "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
             "endsWith": "BT"
+          },
+          {
+            "input": "6Ap",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ]
+          },
+          {
+            "input": "4K",
+            "context": [
+              "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              },
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
           },
           {
             "input": "2K",
             "context": [
-              "OGND"
-            ]
+              "BT"
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "endsWith": "BT"
           },
           {
-            "input": "8P+K",
             "context": [
-              "OGND"
+              "BT"
             ]
           }
         ]
@@ -674,13 +3117,69 @@
         "abbreviation": "SS",
         "moves": [
           {
-            "input": "P"
+            "input": "P",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P+K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "jump attack",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P+K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false
+                          }
+                        ]
+                      },
+                      {
+                        "input": "T",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           },
           {
-            "input": "K"
+            "input": "K",
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
           },
           {
-            "input": "P+K"
+            "input": "P+K",
+            "endsWith": "BT"
           }
         ]
       },
@@ -688,13 +3187,101 @@
         "abbreviation": "RUN",
         "moves": [
           {
-            "input": "P"
+            "input": "P",
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P+K",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "jump attack",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P+K",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "jump attack",
+                            "isTracking": false
+                          }
+                        ]
+                      },
+                      {
+                        "input": "T",
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "offensive hold",
+                            "isTracking": true
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           },
           {
-            "input": "H+K"
+            "input": "H+K",
+            "actionSteps": [
+              {
+                "actionMask": "low K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
           },
           {
-            "input": "T"
+            "input": "T",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "offensive hold",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "P+K",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "jump attack",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "6",
+                "endsWith": "RUN"
+              }
+            ]
           }
         ]
       }

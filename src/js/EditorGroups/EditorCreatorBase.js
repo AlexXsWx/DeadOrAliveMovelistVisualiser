@@ -52,7 +52,11 @@ define(
             var legend = _.createDomElement({
                 tag: 'legend',
                 children: [ _.createTextNode(' ' + editorName + ' ') ],
-                listeners: { 'click': function(optEvent) { domRoot.classList.toggle('collapsed'); } }
+                listeners: {
+                    'click': function(event) {
+                        domRoot.classList.toggle('collapsed');
+                    }
+                }
             });
             var table = _.createDomElement({
                 tag: 'table',

@@ -6,10 +6,12 @@ define(
 
     function NodeSvgViewTextGetters(NodeView, NodeFactory, _) {
 
-        var CHAR_EXPAND   = '+';
-        var CHAR_HIDE     = String.fromCharCode(0x2212); // minus sign
-        var CHAR_MIXED    = String.fromCharCode(0x00D7); // cross sign
-        var CHAR_ELLIPSIS = '..'; // String.fromCharCode(0x2026); // triple dot
+        var CHARS = {
+            EXPAND:   '+',
+            HIDE:     String.fromCharCode(0x2212), // minus sign
+            MIXED:    String.fromCharCode(0x00D7), // cross sign
+            ELLIPSIS: '..', // String.fromCharCode(0x2026); // triple dot
+        };
 
         return {
 
@@ -35,10 +37,10 @@ define(
 
             var hasVisible = NodeView.hasVisibleChildren(nodeView);
             var hasHidden  = NodeView.hasHiddenChildren(nodeView);
-            if (hasVisible && !hasHidden)  return CHAR_HIDE;
-            if (hasHidden  && !hasVisible) return CHAR_EXPAND;
+            if (hasVisible && !hasHidden)  return CHARS.HIDE;
+            if (hasHidden  && !hasVisible) return CHARS.EXPAND;
 
-            return CHAR_MIXED;
+            return CHARS.MIXED;
 
         }
 
@@ -93,7 +95,7 @@ define(
             var result = document.createDocumentFragment();
             result.appendChild(advantageInteger(advantageRange.min));
             if (advantageRange.min !== advantageRange.max) {
-                result.appendChild(_.createTextNode(CHAR_ELLIPSIS));
+                result.appendChild(_.createTextNode(CHARS.ELLIPSIS));
                 result.appendChild(advantageInteger(advantageRange.max));
             }
             return result;

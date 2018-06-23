@@ -1,4 +1,4 @@
-define('NodeFactory', ['Tools'], function NodeFactory(_) {
+define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonStances, _) {
 
     var guardRegex = /block|guard/i;
 
@@ -585,14 +585,14 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
             stances: [
 
                 createStanceNode({
-                    abbreviation: 'STD',
+                    abbreviation: CommonStances.Standing,
                     description: 'Standing',
                     appliesExtraFrame: true
                 }),
 
                 // when a non-tracking on first active frame misses due to sidestep, further active frames will miss too?
                 createStanceNode({
-                    abbreviation: 'SS',
+                    abbreviation: CommonStances.Sidestepping,
                     description: 'Side step',
                     appliesExtraFrame: false,
                     moves: [
@@ -619,14 +619,13 @@ define('NodeFactory', ['Tools'], function NodeFactory(_) {
                         }, true),
                         createMoveNode({
                             input: '*',
-                            frameData: [ 0, 0, 25 ],
-                            endsWith: 'STD'
+                            frameData: [ 0, 0, 25 ]
                         }, true)
                     ]
                 }, true),
 
                 createStanceNode({
-                    abbreviation: 'GND',
+                    abbreviation: CommonStances.Grounded,
                     description: 'From the ground',
                     appliesExtraFrame: true,
                     moves: [

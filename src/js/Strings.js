@@ -1,6 +1,27 @@
-define('Strings', function Strings() {
+define('Strings', ['Tools'], function Strings(_) {
 
     var strings = {
+
+        'enterUrl': 'Enter URL:',
+
+        'enterFramesToForceTech': 'Your frames to land on: e.g. "43" or "43-45"',
+        'enterFramesToSpend': (
+            'Amount of frames to spend and stance to end in ' +
+            '(leave empty for "${DEFAULT_STANCE}")' +
+            ':'
+        ),
+        'enterFramesToLandOn': 'Your frames to land on: e.g. "17-19"',
+        'enterStanceToShow': 'Enter stance name: (e.g. "${EXAMPLE_STANCE}")',
+
+        'warnings': 'warnings',
+        'hasNoFrameData': 'has no frameData, probabilities that use it are excluded',
+        'stance': 'stance',
+        'undefinedInitialFrame': 'did not define appliesExtraFrame, assuming it does',
+
+        'undoIsBorked': '[Ctrl]+[Z] is disabled since it may corrupt the entered data',
+
+        'failedToImportJson': 'Failed to import json',
+        'invalidJson': 'Error: Invalid JSON file\n${ERROR_DATA}',
 
         'characterName': 'Character',
         'characterNameDescription': 'Character name - e.g. "Kasumi" or "Hayabusa"',
@@ -10,8 +31,8 @@ define('Strings', function Strings() {
         'gameVersionDescription': 'Game version - e.g. "1.04 steam"',
         'gameVersionPlaceholder': 'e.g. "1.04 steam"',
 
-        'stanceAbbreviation': 'Abbreviation',
-        'stanceAbbreviationDescription': 'Stance abbreviation - e.g. "BKH" for Helena\'s Bokuho',
+        'stanceAbbreviation': 'Alias',
+        'stanceAbbreviationDescription': 'Alias for the stance - e.g. "BKH" for Helena\'s Bokuho',
         'stanceAbbreviationPlaceholder': 'e.g. "BKH"',
 
         'stanceDescription': 'Description',
@@ -20,8 +41,8 @@ define('Strings', function Strings() {
 
         'stanceExtraFrame': 'Extra frame',
         'stanceExtraFrameDescription': (
-            'If the stance applies extra frame.\n' +
-            'Most stances, including standart standing, do'
+            'If moves from this stance have an idle frame.\n' +
+            'For most stances, including default (standing), they are'
         ),
 
         'moveSummary': 'Summary',
@@ -149,12 +170,18 @@ define('Strings', function Strings() {
 
     // TODO: recusrive localization
 
-    function getString(id) {
+    function getString(id, optReplaceMap) {
         if (!strings.hasOwnProperty(id)) {
             console.error('Strings has no id %s', id);
             return '@[' + id + ']@';
         }
-        return strings[id];
+        var result = strings[id];
+        if (optReplaceMap) {
+            _.forEachOwnProperty(optReplaceMap, function(key, replacement) {
+                result = result.split('${' + key + '}').join(replacement);
+            });
+        }
+        return result;
     }
 
 });

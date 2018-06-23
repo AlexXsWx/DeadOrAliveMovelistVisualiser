@@ -2,9 +2,9 @@ define(
 
     'NodeView',
 
-    ['NodeFactory', 'TreeTools', 'Tools'],
+    ['NodeFactory', 'TreeTools', 'CommonStances', 'Tools'],
 
-    function NodeView(NodeFactory, TreeTools, _) {
+    function NodeView(NodeFactory, TreeTools, CommonStances, _) {
 
         return {
 
@@ -198,10 +198,13 @@ define(
                 var stanceView = stanceViews[i];
                 var nodeData = stanceView.binding.targetNodeData;
                 if (!nodeData) continue;
-                if (nodeData.abbreviation == 'SS' || nodeData.abbreviation == 'GND') {
+                if (
+                    nodeData.abbreviation === CommonStances.Sidestepping ||
+                    nodeData.abbreviation === CommonStances.Grounded
+                ) {
                     hideAllChildren(stanceView);
                 } else
-                if (nodeData.abbreviation == 'STD') {
+                if (nodeData.abbreviation === CommonStances.Standing) {
                     var groupViews = getAllChildren(stanceView);
                     for (var j = 0; j < groupViews.length; ++j) {
                         var groupView = groupViews[j];

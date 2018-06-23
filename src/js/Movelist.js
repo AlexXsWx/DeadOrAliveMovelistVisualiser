@@ -7,7 +7,7 @@ define(
         'NodeFactory', 'NodeSerializer',
         'NodeView', 'NodeSvgView', 'LimitsFinder',
         'SelectionManager', 'Editor', 'UI', 'Analyser', 'Filter',
-        'TreeTools', 'GithubStuff', 'Tools', 'Executor', 'Hotkeys'
+        'TreeTools', 'GithubStuff', 'Tools', 'Executor', 'Hotkeys', 'Strings'
     ],
 
     function Movelist(
@@ -15,7 +15,7 @@ define(
         NodeFactory, NodeSerializer,
         NodeView, NodeSvgView, createLimitsFinder,
         SelectionManager, Editor, UI, Analyser, Filter,
-        TreeTools, GithubStuff, _, Executor, Hotkeys
+        TreeTools, GithubStuff, _, Executor, Hotkeys, Strings
     ) {
 
         // ==== Constants ====
@@ -78,7 +78,9 @@ define(
 
                 parseHashParameters();
 
-                GithubStuff.checkIfHigherVersionIsAvailable();
+                if (!_.isDevBuild()) {
+                    GithubStuff.checkIfHigherVersionIsAvailable();
+                }
             }
 
 
@@ -87,32 +89,26 @@ define(
                 // FIXME: referencing `window` here isn't a good idea
                 var hashParameters = window.location.hash.toLowerCase().substr(1).split(',');
 
-                var exampleUrlByHashParameter = {
-                    'example-momiji': GithubStuff.EXAMPLE_URLS.momiji,
-                    'example-hitomi': GithubStuff.EXAMPLE_URLS.hitomi,
-                    'example-jacky':  GithubStuff.EXAMPLE_URLS.jacky,
-                    'example-mai':    GithubStuff.EXAMPLE_URLS.mai,
-                    'example-rig':    GithubStuff.EXAMPLE_URLS.rig,
-                    'example-honoka': GithubStuff.EXAMPLE_URLS.honoka,
-                    'example':        GithubStuff.EXAMPLE_URLS.rig
-                };
-
                 var url = null;
                 for (var i = 0; i < hashParameters.length; ++i) {
                     var temp = hashParameters[i].toLowerCase().split('=');
                     var paramName  = temp[0];
                     var paramValue = temp[1];
-                    if (!url && exampleUrlByHashParameter.hasOwnProperty(paramName)) {
-                        url = exampleUrlByHashParameter[paramName];
-                    }
+
                     if (paramName === 'show-safety') {
                         NodeSvgView.setRightTextToSafety();
-                    }
+                    } else
                     if (paramName === 'show-hardknockdowns') {
                         NodeSvgView.setRightTextToHardKnockdowns();
-                    }
+                    } else
                     if (paramName === 'data-url') {
                         url = decodeURI(paramValue);
+                    } else {
+                        var exampleMatch = paramName.match(/example(?:-(.+))?/i);
+                        if (exampleMatch) {
+                            var characterName = paramValue || exampleMatch[1] || 'rig';
+                            url = GithubStuff.getExampleUrl(characterName);
+                        }
                     }
                 }
 
@@ -189,11 +185,11 @@ define(
 
                 _.hideDomElement(_.getDomElement('loading'));
 
-                _.getDomElement('about').addEventListener('click', showWelcomePopup);
-                domCache.popupWelcome.addEventListener('click', hideWelcomePopup);
-                _.getDomElement('closeWelcomePopup').addEventListener('click', hideWelcomePopup);
-                _.getDomElement('popupWelcome').addEventListener('click', onClickStopPropagation);
-                _.getDomElement('loadExample').addEventListener('click', onLoadExampleClicked);
+                _.addClickListenerToElementWithId('about', showWelcomePopup);
+                _.addClickListenerToElement(domCache.popupWelcome, hideWelcomePopup);
+                _.addClickListenerToElementWithId('closeWelcomePopup', hideWelcomePopup);
+                _.addClickListenerToElementWithId('popupWelcome', onClickStopPropagation);
+                _.addClickListenerToElementWithId('loadExample', onLoadExampleClicked);
 
                 if (localStorage && localStorage.hasOwnProperty('showWelcomePopupOnStart')) {
                     domCache.showWelcomePopupOnStart.checked = +localStorage.showWelcomePopupOnStart;
@@ -233,7 +229,7 @@ define(
                 var fieldsets = document.querySelectorAll('#menu > fieldset');
                 Array.prototype.forEach.call(fieldsets, function bindLegendClickAction(fieldset) {
                     var legend = fieldset.querySelector('legend');
-                    legend.addEventListener('click', function onClickToggleCollapsed(event) {
+                    _.addClickListenerToElement(legend, function onClickToggleCollapsed(event) {
                         fieldset.classList.toggle('collapsed');
                     });
                 });
@@ -242,13 +238,13 @@ define(
             // ==== Save/load ====
 
                 function initLoadSaveUIActions() {
-                    _.getDomElement('save').addEventListener('click',  onButtonSave);
+                    _.addClickListenerToElementWithId('save', onButtonSave);
                     _.getDomElement('load').addEventListener('change', onFilesLoaded);
-                    // domCache.download.addEventListener('click', onDownload);
-                    _.getDomElement('openUrl').addEventListener('click', onButtonOpenUrl);
+                    // _.addClickListenerToElement(domCache.download, onDownload);
+                    _.addClickListenerToElementWithId('openUrl', onButtonOpenUrl);
                 }
 
-                function onButtonSave(event) {
+                function onButtonSave(optEvent) {
                     domCache.download.download = (
                         rootNodeData.character.toLowerCase() || 'someCharacter'
                     ) + '.json';
@@ -265,12 +261,15 @@ define(
                     NodeSerializer.deserializeFromLocalFile(file, onDataDeserialized);
                 }
 
-                // function onDownload(event) {
+                // function onDownload(optEvent) {
                 //     _.hideDomElement(domCache.download);
                 // }
 
                 function onButtonOpenUrl(optEvent) {
-                    var url = prompt('Enter URL:', GithubStuff.EXAMPLE_URLS.rig);
+                    var url = prompt(
+                        Strings('enterUrl'),
+                        GithubStuff.getExampleUrl('rig')
+                    );
                     if (url) NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
                 }
 
@@ -288,7 +287,7 @@ define(
                     onChangeShowPlaceholders.call(domCache.showPlaceholders, null);
                 }
 
-                function onChangeShowPlaceholders(optEvent) {
+                function onChangeShowPlaceholders(event) {
 
                     // FIXME: this is used to make sure no invisible nodes are remaining selected
                     SelectionManager.deselectAll();
@@ -424,8 +423,12 @@ define(
             function getNodeViewSize(nodeView) {
                 var nodeHeight = NodeSvgView.getNodeHeight();
                 // var height = nodeHeight;
-                // if (textGetters.top    != getEmptyText) height += 0.5 * nodeHeight;
-                // if (textGetters.bottom != getEmptyText) height += 0.5 * nodeHeight;
+                // if (textGetters.top !== NodeSvgViewTextGetters.getEmptyText) {
+                //     height += 0.5 * nodeHeight;
+                // }
+                // if (textGetters.bottom !== NodeSvgViewTextGetters.getEmptyText) {
+                //     height += 0.5 * nodeHeight;
+                // }
                 return {
                     width:  NodeSvgView.getNodeWidth(),
                     height: nodeHeight
@@ -501,11 +504,9 @@ define(
 
                 Analyser.init();
 
-                _.forEachKey(
+                _.forEachOwnProperty(
                     getClickListenersByElementId(),
-                    function(domElementId, clickListener) {
-                        _.addClickListenerToElementWithId(domElementId, clickListener);
-                    }
+                    _.addClickListenerToElementWithId
                 );
 
             }
@@ -514,19 +515,19 @@ define(
 
                 return {
 
-                    'filter': function onButtonFilter() {
+                    'filter': function onButtonFilter(event) {
                         Analyser.findForceTechMoves(rootNodeData);
                     },
 
-                    'filterTime': function onButtonFilterTime() {
+                    'filterTime': function onButtonFilterTime(event) {
                         Analyser.findMovesToSpendTime(rootNodeData);
                     },
 
-                    'filterFrame': function onButtonFilterFrame() {
+                    'filterFrame': function onButtonFilterFrame(event) {
                         Analyser.findMoves(rootNodeData);
                     },
 
-                    'filterShowTracking': function showTrackingMoves() {
+                    'filterShowTracking': function showTrackingMoves(event) {
                         showOnlyNodesThatMatch(function(nodeView) {
                             var nodeData = NodeView.getNodeData(nodeView);
                             if (nodeData && NodeFactory.isMoveNode(nodeData)) {
@@ -539,13 +540,13 @@ define(
                         });
                     },
 
-                    'filterShowTrackingMidKicks': function showTrackingMidKicks() {
+                    'filterShowTrackingMidKicks': function showTrackingMidKicks(event) {
                         showOnlyNodesThatMatch(function(nodeView) {
                             return Filter.isTrackingMidKickNode(NodeView.getNodeData(nodeView));
                         });
                     },
 
-                    'filterShowHardKnockDowns': function showTrackingMidKicks() {
+                    'filterShowHardKnockDowns': function showTrackingMidKicks(event) {
                         showOnlyNodesThatMatch(function(nodeView) {
                             return Filter.doesNodeCauseHardKnockDown(
                                 NodeView.getNodeData(nodeView)
@@ -553,14 +554,17 @@ define(
                         });
                     },
 
-                    'filterShowGroundAttacks': function showGroundAttacks() {
+                    'filterShowGroundAttacks': function showGroundAttacks(event) {
                         showOnlyNodesThatMatch(function(nodeView) {
                             return Filter.isGroundAttackNode(NodeView.getNodeData(nodeView));
                         });
                     },
 
-                    'filterShowStance': function showStance() {
-                        var stance = prompt('Enter stance name: (e.g. "BT")', 'BT');
+                    'filterShowStance': function showStance(event) {
+                        var stance = prompt(
+                            Strings('enterStanceToShow', { EXAMPLE_STANCE: 'BT' }),
+                            'BT'
+                        );
                         if (!stance) return;
                         showOnlyNodesThatMatch(function(nodeView) {
                             var ending = NodeView.getEnding(nodeView);
@@ -568,14 +572,14 @@ define(
                         });
                     },
 
-                    'filterShowAll': function showAll() {
+                    'filterShowAll': function showAll(event) {
                         TreeTools.forAllCurrentChildren(
                             rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren
                         );
                         update();
                     },
 
-                    'filterShowDefault': function showAll() {
+                    'filterShowDefault': function showAll(event) {
                         TreeTools.forAllCurrentChildren(
                             rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren
                         );

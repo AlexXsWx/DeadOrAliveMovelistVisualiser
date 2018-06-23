@@ -22,7 +22,7 @@ define(
                     'title': description
                 },
                 listeners: {
-                    'click': function(optEvent) { onClick && onClick(); }
+                    'click': function(event) { onClick && onClick(); }
                 }
             });
 

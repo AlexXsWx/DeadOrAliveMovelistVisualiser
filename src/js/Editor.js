@@ -107,7 +107,7 @@ define(
         }
 
 
-        function onClickDeleteNode() {
+        function onClickDeleteNode(optEvent) {
 
             if (!selectedSVGNode) return;
 
@@ -152,7 +152,7 @@ define(
         }
 
 
-        function onClickAddChild() {
+        function onClickAddChild(optEvent) {
 
             if (!selectedSVGNode) return;
 

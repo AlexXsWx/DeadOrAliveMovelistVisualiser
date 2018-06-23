@@ -2,9 +2,9 @@ define(
 
     'NodeSerializer',
 
-    [ 'NodeFactory', 'JsonFileReader', 'Tools', 'Request' ],
+    [ 'NodeFactory', 'JsonFileReader', 'Tools', 'Request', 'Strings' ],
 
-    function NodeSerializer(NodeFactory, JsonFileReader, _, Request) {
+    function NodeSerializer(NodeFactory, JsonFileReader, _, Request, Strings) {
 
         // FIXME: no alerts
 
@@ -38,7 +38,7 @@ define(
 
                     var sparseData = importJson(parsedJson);
                     if (!sparseData) {
-                        alert('Failed to import json');
+                        alert(Strings('failedToImportJson'));
                         return;
                     }
 
@@ -48,7 +48,7 @@ define(
                 },
 
                 function onFail(error) {
-                    alert('Error: Invalid JSON file\n%O', error);
+                    alert(Strings('invalidJson', { ERROR_DATA: error }));
                 }
 
             );
@@ -60,7 +60,7 @@ define(
                 function(parsedJson) {
                     var sparseData = importJson(parsedJson);
                     if (!sparseData) {
-                        alert('Failed to import json');
+                        alert(Strings('failedToImportJson'));
                         return;
                     }
                     var extendedData = NodeFactory.createRootNode(sparseData, true);

@@ -2,9 +2,9 @@ define(
 
     'Hotkeys',
 
-    ['Input/KeyCodes'],
+    ['Input/KeyCodes', 'Strings'],
 
-    function Hotkeys(KeyCodes) {
+    function Hotkeys(KeyCodes, Strings) {
 
         var windowKeyDownListeners = [];
 
@@ -46,7 +46,7 @@ define(
                     }
                     event.preventDefault();
                     event.stopPropagation();
-                    // alert('[Ctrl]+[Z] is disabled since it may corrupt the entered data');
+                    // alert(Strings('undoIsBorked'));
                     return false;
                 }
             });
