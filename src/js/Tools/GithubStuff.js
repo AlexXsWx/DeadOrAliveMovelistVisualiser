@@ -53,18 +53,18 @@ define(
 
             return getHighestVersionOnline().then(function(highestVersionOnline) {
 
-                var showHigherVersionAvailablePopup = (
+                var showHigherVersionAvailableNotification = (
                     isVersionAHigherThanB(highestVersionOnline, currentVersion)
                 );
 
                 console.log(
-                    'Version check: current = %s, highest online = %s -> show popup = %s',
+                    'Version check: current = %s, highest online = %s -> show notification = %s',
                     currentVersion,
                     highestVersionOnline,
-                    showHigherVersionAvailablePopup
+                    showHigherVersionAvailableNotification
                 );
 
-                if (showHigherVersionAvailablePopup) {
+                if (showHigherVersionAvailableNotification) {
                     var url = (
                         'https://' +
                         [

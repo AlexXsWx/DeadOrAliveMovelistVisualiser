@@ -143,18 +143,16 @@ define(
                 }
 
                 function checkHigherVersion() {
-
                     GithubStuff.checkIfHigherVersionIsAvailable().then(function(higherVersionUrl) {
-
-                        if (!higherVersionUrl) return;
-
-                        var currentParams = window.location.search + window.location.hash;
-                        var link = _.getDomElement('newerVersionAvailableLink');
-                        link.setAttribute('href', higherVersionUrl + currentParams);
-                        _.getDomElement('newerVersionAvailable').classList.remove('hidden');
-
+                        if (higherVersionUrl) {
+                            var currentParams = window.location.search + window.location.hash;
+                            _.getDomElement('newerVersionAvailableLink').setAttribute(
+                                'href',
+                                higherVersionUrl + currentParams
+                            );
+                            _.showDomElement(_.getDomElement('newerVersionAvailable'));
+                        }
                     });
-
                 }
 
             }
