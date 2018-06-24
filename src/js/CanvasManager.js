@@ -6,41 +6,38 @@ define('CanvasManager', ['Tools'], function CanvasManager(_) {
 
     function create(rootNode, padding) {
 
-        var canvas = _.createSvgElement({
-            tag: 'g',
-            classes: [ 'canvas' ]
-        });
+        var svg;
+        var canvas;
+        var linksParent;
+        var nodesParent;
 
-        var svg = _.createSvgElement({
-            tag: 'svg',
-            attributes: {
-                'version': 1.1,
-                'xmlns': 'http://www.w3.org/2000/svg'
-            },
-            children: [ canvas ]
-        });
-
-        var linksParent = _.createSvgElement({
-            tag: 'g',
-            classes: [ 'links' ]
-        });
-
-        var nodesParent = _.createSvgElement({
-            tag: 'g',
-            classes: [ 'nodes' ]
-        });
-
-        canvas.appendChild(linksParent);
-        canvas.appendChild(nodesParent);
-
-        rootNode.appendChild(svg);
+        rootNode.appendChild(
+            svg = _.createSvgElement({
+                tag: 'svg',
+                attributes: {
+                    'version': 1.1,
+                    'xmlns': 'http://www.w3.org/2000/svg'
+                },
+                children: [
+                    canvas = _.createSvgElement({
+                        tag: 'g',
+                        classes: [ 'canvas' ],
+                        children: [
+                            linksParent = _.createSvgElement({ tag: 'g', classes: [ 'links' ] }),
+                            nodesParent = _.createSvgElement({ tag: 'g', classes: [ 'nodes' ] })
+                        ]
+                    })
+                ]
+            })
+        );
 
         return {
-            svg: svg,
-            canvas: canvas,
+            svg:         svg,
+            canvas:      canvas,
             linksParent: linksParent,
             nodesParent: nodesParent,
-            normalize: normalize,
+
+            normalize:                   normalize,
             scrollToSvgNodeViewIfNeeded: scrollToSvgNodeViewIfNeeded
         };
 

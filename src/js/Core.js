@@ -33,10 +33,10 @@ define(
             var nodeViewGenerator = null;
 
             var domCache = {
-                download: null,
-                popupWelcome: null,
+                download:                null,
+                popupWelcome:            null,
                 showWelcomePopupOnStart: null,
-                showPlaceholders: null
+                showPlaceholders:        null
             };
 
             var limitsFinder;
@@ -78,60 +78,62 @@ define(
                 initUI();
                 selectNodeView(rootNodeView);
 
-                parseHashParameters();
+                parseParameters();
 
                 if (!_.isDevBuild()) {
                     GithubStuff.checkIfHigherVersionIsAvailable();
                 }
-            }
 
+                return;
 
-            function parseHashParameters() {
+                function cacheDomElements() {
+                    domCache.download                = _.getDomElement('download');
+                    domCache.popupWelcome            = _.getDomElement('popupWelcomeOverlay');
+                    domCache.showWelcomePopupOnStart = _.getDomElement('showWelcomePopupOnStart');
+                    domCache.showPlaceholders        = _.getDomElement('showPlaceholders');
+                }
 
-                // FIXME: referencing `window` here isn't a good idea
-                var hashParameters = window.location.hash.toLowerCase().substr(1).split(',');
-
-                var url = null;
-                for (var i = 0; i < hashParameters.length; ++i) {
-                    var temp = hashParameters[i].toLowerCase().split('=');
-                    var paramName  = temp[0];
-                    var paramValue = temp[1];
-
-                    if (paramName === 'show-safety') {
-                        NodeSvgView.setRightTextToSafety();
-                    } else
-                    if (paramName === 'show-hardknockdowns') {
-                        NodeSvgView.setRightTextToHardKnockdowns();
-                    } else
-                    if (paramName === 'data-url') {
-                        url = decodeURI(paramValue);
-                    } else {
-                        var exampleMatch = paramName.match(/example(?:-(.+))?/i);
-                        if (exampleMatch) {
-                            var characterName = paramValue || exampleMatch[1] || 'rig';
-                            url = GithubStuff.getExampleUrl(characterName);
-                        }
+                function selectionChangedListener(nodeSvgViews, focus) {
+                    Editor.updateBySelection(nodeSvgViews, focus);
+                    if (nodeSvgViews && nodeSvgViews.length > 0) {
+                        canvas.scrollToSvgNodeViewIfNeeded(
+                            nodeSvgViews[0], limitsFinder.y.min, PADDING
+                        );
                     }
                 }
 
-                url && NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
+                function parseParameters() {
 
-            }
+                    var params = _.getParameters(['show', 'example']);
 
+                    if (params.has('show')) {
+                        var value = params.get('show').toLowerCase();
+                        switch(value) {
 
-            function selectionChangedListener(nodeSvgViews, focus) {
-                Editor.updateBySelection(nodeSvgViews, focus);
-                if (nodeSvgViews && nodeSvgViews.length > 0) {
-                    canvas.scrollToSvgNodeViewIfNeeded(nodeSvgViews[0], limitsFinder.y.min, PADDING);
+                            case 'safety':
+                                NodeSvgView.setRightTextToSafety();
+                            break;
+
+                            case 'hardknockdowns':
+                                NodeSvgView.setRightTextToHardKnockdowns();
+                            break;
+
+                            default: _.report('Invalid "show" param value: "' + value + '"');
+                        }
+                    }
+
+                    var url = null;
+                    if (params.has('data-url')) {
+                        url = decodeURI(params.get('data-url'));
+                    }
+                    if (!url && params.has('example')) {
+                        url = GithubStuff.getExampleUrl(params.get('example', 'rig').toLowerCase());
+                    }
+                    
+                    url && NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
+
                 }
-            }
 
-
-            function cacheDomElements() {
-                domCache.download = _.getDomElement('download');
-                domCache.popupWelcome = _.getDomElement('popupWelcomeOverlay');
-                domCache.showWelcomePopupOnStart = _.getDomElement('showWelcomePopupOnStart');
-                domCache.showPlaceholders = _.getDomElement('showPlaceholders');
             }
 
 

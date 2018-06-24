@@ -1,6 +1,8 @@
 define('Tools', function() {
 
     return {
+        report:                                report,
+        getParameters:                         getParameters,
         isDevBuild:                            isDevBuild,
         isObject:                              isObject,
         defined:                               defined,
@@ -36,6 +38,67 @@ define('Tools', function() {
         optimizedSliceArguments:               optimizedSliceArguments,
         removeElementFromParent:               removeElementFromParent
     };
+
+    function report(message) {
+        console.error(message);
+    }
+
+    function getParameters(optAdaptList) {
+        var hashParameters = window.location.hash.toLowerCase().substr(1).split(',');
+
+        var result = Object.create({
+            adapt: adapt,
+            has: has,
+            get: get
+        });
+
+        var adapted = {};
+
+        for (var i = 0; i < hashParameters.length; ++i) {
+            var parts = hashParameters[i].split('=');
+            var paramName  = parts[0].toLowerCase();
+            var paramValue = parts[1];
+
+            result[paramName] = paramValue;
+        }
+
+        optAdaptList && optAdaptList.forEach(function(paramNamePrefix) {
+            adapt(paramNamePrefix);
+        });
+
+        return result;
+
+        // turn values like "show-safety" into "show=safety" by adapting prefix "show"
+        function adapt(prefix) {
+            forEachOwnProperty(result, function(key, value) {
+                if (key.startsWith(prefix)) {
+                    var postfix = key.substr(prefix.length);
+                    var match = postfix.match(/\s*[-:=]?\s*(.+)$/);
+                    if (match) {
+                        var value = match[1];
+                        adapted[prefix] = (adapted[prefix] || []).concat(value);
+                    }
+                }
+            });
+        }
+
+        function has(paramName) {
+            return (
+                result.hasOwnProperty(paramName) ||
+                adapted.hasOwnProperty(paramName)
+            );
+        }
+
+        function get(paramName, optDefaultValue) {
+            if (result.hasOwnProperty(paramName)) {
+                return result[paramName] || optDefaultValue;
+            }
+            if (adapted.hasOwnProperty(paramName)) {
+                return adapted[paramName][0] || optDefaultValue;
+            }
+            return optDefaultValue;
+        }
+    }
 
     function isDevBuild() {
         try {
