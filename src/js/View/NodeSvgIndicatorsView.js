@@ -1,8 +1,8 @@
 define(
 
-    'NodeSvgIndicatorsView',
+    'View/NodeSvgIndicatorsView',
 
-    ['NodeFactory', 'Tools'],
+    [ 'Model/NodeFactory', 'Tools/Tools' ],
 
     function NodeSvgIndicatorsView(NodeFactory, _) {
 

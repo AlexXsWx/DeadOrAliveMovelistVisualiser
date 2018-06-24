@@ -1,10 +1,14 @@
 define(
 
-    'NodeSerializer',
+    'Model/NodeSerializer',
 
-    [ 'NodeFactory', 'JsonFileReader', 'Tools', 'Request', 'Strings' ],
+    [
+        'Model/NodeFactory',
+        'Localization/Strings',
+        'Tools/JsonFileReader', 'Tools/Request', 'Tools/Tools'
+    ],
 
-    function NodeSerializer(NodeFactory, JsonFileReader, _, Request, Strings) {
+    function NodeSerializer(NodeFactory, Strings, JsonFileReader, Request, _) {
 
         // FIXME: no alerts
 

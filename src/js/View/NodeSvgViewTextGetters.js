@@ -1,8 +1,8 @@
 define(
 
-    'NodeSvgViewTextGetters',
+    'View/NodeSvgViewTextGetters',
 
-    ['NodeView', 'NodeFactory', 'Tools',],
+    [ 'View/NodeView', 'Model/NodeFactory', 'Tools/Tools' ],
 
     function NodeSvgViewTextGetters(NodeView, NodeFactory, _) {
 

@@ -2,7 +2,7 @@ define(
 
     'EditorGroups/EditorGroupCommonCreator',
 
-    ['EditorGroups/EditorGroup', 'Tools'],
+    [ 'EditorGroups/EditorGroup', 'Tools/Tools' ],
 
     function EditorGroupCommonCreator(EditorGroup,  _) {
 

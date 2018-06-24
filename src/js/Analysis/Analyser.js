@@ -1,8 +1,12 @@
 define(
 
-    'Analyser',
+    'Analysis/Analyser',
 
-    [ 'Filter', 'NodeFactory', 'CommonStances', 'Strings', 'Tools' ],
+    [
+        'Analysis/Filter',
+        'Model/NodeFactory', 'Model/CommonStances',
+        'Localization/Strings', 'Tools/Tools'
+    ],
 
     function Analyser(Filter, NodeFactory, CommonStances, Strings, _) {
 

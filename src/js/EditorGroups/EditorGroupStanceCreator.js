@@ -5,10 +5,10 @@ define(
     [
         'EditorGroups/EditorGroup',
         'EditorGroups/EditorCreatorBase',
-        'NodeFactory',
-        'NodeView',
-        'Strings',
-        'Tools'
+        'Model/NodeFactory',
+        'View/NodeView',
+        'Localization/Strings',
+        'Tools/Tools'
     ],
 
     function EditorGroupStanceCreator(EditorGroup, EditorCreatorBase, NodeFactory, NodeView, Strings, _) {

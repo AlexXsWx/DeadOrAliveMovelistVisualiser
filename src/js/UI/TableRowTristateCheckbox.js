@@ -1,9 +1,10 @@
 define(
 
     'UI/TableRowTristateCheckbox',
-    ['Tools', 'Input/KeyCodes', 'Strings'],
 
-    function(_, KeyCodes, Strings) {
+    [ 'Input/KeyCodes', 'Localization/Strings', 'Tools/Tools' ],
+
+    function(KeyCodes, Strings, _) {
 
         return { create: create };
 

@@ -1,9 +1,10 @@
 define(
 
     'UI/TableRowInput',
-    ['Tools', 'Input/KeyCodes', 'Hotkeys'],
 
-    function TableRowInput(_, KeyCodes, Hotkeys) {
+    [ 'Input/KeyCodes', 'Hotkeys', 'Tools/Tools' ],
+
+    function TableRowInput(KeyCodes, Hotkeys, _) {
 
         return { create: create };
 

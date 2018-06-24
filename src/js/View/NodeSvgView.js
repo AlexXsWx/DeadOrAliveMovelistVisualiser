@@ -1,17 +1,17 @@
 define(
 
-    'NodeSvgView',
+    'View/NodeSvgView',
 
     [
-        'NodeView', 'NodeFactory',
-        'NodeSvgIndicatorsView', 'NodeSvgViewTexts', 'NodeSvgViewAnimator',
-        'Observer', 'Tools', 'SvgTools'
+        'View/NodeView', 'Model/NodeFactory',
+        'View/NodeSvgIndicatorsView', 'View/NodeSvgViewTexts', 'View/NodeSvgViewAnimator',
+        'Tools/Observer', 'Tools/SvgTools', 'Tools/Tools'
     ],
 
     function NodeSvgView(
         NodeView, NodeFactory,
         NodeSvgIndicatorsView, NodeSvgViewTexts, NodeSvgViewAnimator,
-        createObserver, _, SvgTools
+        createObserver, SvgTools, _
     ) {
 
         var NODE_WIDTH  = 150;

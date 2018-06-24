@@ -3,21 +3,23 @@ define(
     'Editor',
 
     [
-        'Observer', 'NodeFactory', 'NodeView', 'TreeTools', 'Tools',
+        'Tools/Observer', 'Model/NodeFactory', 'View/NodeView', 'Tools/TreeTools',
         'EditorGroups/EditorGroupRootCreator',
         'EditorGroups/EditorGroupStanceCreator',
         'EditorGroups/EditorGroupMoveCreator',
         'EditorGroups/EditorGroupCommonCreator',
-        'Input/KeyCodes'
+        'Input/KeyCodes',
+        'Tools/Tools'
     ],
 
     function(
-        createObserver, NodeFactory, NodeView, TreeTools, _,
+        createObserver, NodeFactory, NodeView, TreeTools,
         EditorGroupRootCreator,
         EditorGroupStanceCreator,
         EditorGroupMoveCreator,
         EditorGroupCommonCreator,
-        KeyCodes
+        KeyCodes,
+        _
     ) {
 
         var nodeDataGenerator;

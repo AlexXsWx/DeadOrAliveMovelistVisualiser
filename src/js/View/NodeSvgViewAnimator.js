@@ -1,8 +1,8 @@
 define(
 
-    'NodeSvgViewAnimator',
+    'View/NodeSvgViewAnimator',
 
-    ['Vector2', 'Tools'],
+    [ 'Tools/Vector2', 'Tools/Tools' ],
 
     function NodeSvgViewAnimator(Vector2, _) {
 

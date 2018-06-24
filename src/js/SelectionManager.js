@@ -2,9 +2,12 @@ define(
 
     'SelectionManager',
 
-    ['NodeView', 'Observer', 'Executor', 'NodeSvgViewTextGetters', 'Tools'],
+    [
+        'View/NodeView', 'View/NodeSvgViewTextGetters',
+        'Tools/Observer', 'Tools/Executor', 'Tools/Tools'
+    ],
 
-    function SelectionManager(NodeView, createObserver, Executor, NodeSvgViewTextGetters, _) {
+    function SelectionManager(NodeView, NodeSvgViewTextGetters, createObserver, Executor, _) {
 
         var selectionCurrent = null;
 

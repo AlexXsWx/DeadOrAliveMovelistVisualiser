@@ -1,16 +1,10 @@
 define(
 
-    'NodeSvgViewTexts',
+    'View/NodeSvgViewTexts',
 
-    [
-        'NodeView', 'NodeFactory',
-        'NodeSvgViewTextGetters', 'Tools'
-    ],
+    [ 'View/NodeSvgViewTextGetters', 'Tools/Tools' ],
 
-    function NodeSvgViewTexts(
-        NodeView, NodeFactory,
-        NodeSvgViewTextGetters, _
-    ) {
+    function NodeSvgViewTexts(NodeSvgViewTextGetters, _) {
 
         var TEXT_GETTER_OPTIONS = [
             NodeSvgViewTextGetters.getEmptyText,

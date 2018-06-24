@@ -6,10 +6,10 @@ define(
         'EditorGroups/EditorGroup',
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStep',
-        'NodeFactory',
-        'NodeView',
-        'Strings',
-        'Tools'
+        'Model/NodeFactory',
+        'View/NodeView',
+        'Localization/Strings',
+        'Tools/Tools'
     ],
 
     function EditorGroupMoveCreator(

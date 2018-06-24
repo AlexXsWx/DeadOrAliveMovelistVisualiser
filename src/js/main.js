@@ -1,41 +1,46 @@
 (function() {
 
-    requirejs.config({
-        baseUrl: 'js',
-        paths: {
-            d3:           '../../lib/d3/3.5.6/d3.min',
-            SmoothScroll: '../../lib/SmoothScroll/1.4.0/SmoothScroll'
-        },
-        onNodeCreated: createLoadingProgressUpdater(
-            getDomElement('loading-loaded'),
-            getDomElement('loading-amount')
-        )
-    });
-
     // TODO: localize html
     // TODO: localize editors (button labels and placeholders "e.g.")
     // TODO: logger with log levels
     // FIXME: datalist multiple options
 
-    requirejs(
-
-        ['Core', 'SmoothScrollManager'],
-
-        function Main(Core, SmoothScrollManager) {
-
-            // FIXME: prompt if there are unsaved changes
-            // TODO: react to hash change without reload
-            installReloadOnHashParametersChangeHook();
-
-            SmoothScrollManager.init(getDomElement('smoothScroll'));
-
-            Core.init(getDomElement('content'));
-
-        }
-
-    );
-
+    startRequireJS();
     return;
+
+    function startRequireJS() {
+
+        requirejs.config({
+            baseUrl: 'js',
+            paths: {
+                d3:           '../../lib/d3/3.5.6/d3.min',
+                SmoothScroll: '../../lib/SmoothScroll/1.4.0/SmoothScroll'
+            },
+            onNodeCreated: createLoadingProgressUpdater(
+                getDomElement('loading-loaded'),
+                getDomElement('loading-amount')
+            )
+        });
+
+        requirejs(
+
+            ['Core', 'Lib/SmoothScrollManager'],
+
+            function Main(Core, SmoothScrollManager) {
+
+                // FIXME: prompt if there are unsaved changes
+                // TODO: react to hash change without reload
+                installReloadOnHashParametersChangeHook();
+
+                SmoothScrollManager.init(getDomElement('smoothScroll'));
+
+                Core.init(getDomElement('content'));
+
+            }
+
+        );
+
+    }
 
     function installReloadOnHashParametersChangeHook() {
         window.addEventListener('hashchange', function(event) {

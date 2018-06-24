@@ -6,7 +6,7 @@ define(
         'UI/TableRowInput',
         'UI/TableRowTristateCheckbox',
         'UI/TableRowButton',
-        'Tools'
+        'Tools/Tools'
     ],
 
     function EditorCreatorBase(TableRowInput, TableRowTristateCheckbox, TableRowButton, _) {

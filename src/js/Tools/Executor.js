@@ -1,8 +1,8 @@
 define(
 
-    'Executor',
+    'Tools/Executor',
 
-    ['Tools'],
+    [ 'Tools/Tools' ],
 
     function Executor(_) {
 

@@ -2,7 +2,7 @@ define(
 
     'Hotkeys',
 
-    ['Input/KeyCodes', 'Strings'],
+    [ 'Input/KeyCodes', 'Localization/Strings' ],
 
     function Hotkeys(KeyCodes, Strings) {
 

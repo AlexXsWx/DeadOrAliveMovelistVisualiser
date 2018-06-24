@@ -1,8 +1,8 @@
 define(
 
-    'NodeView',
+    'View/NodeView',
 
-    ['NodeFactory', 'TreeTools', 'CommonStances', 'Tools'],
+    [ 'Model/NodeFactory', 'Tools/TreeTools', 'Model/CommonStances', 'Tools/Tools' ],
 
     function NodeView(NodeFactory, TreeTools, CommonStances, _) {
 

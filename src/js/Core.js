@@ -3,19 +3,23 @@ define(
     'Core',
 
     [
-        'CanvasManager',
-        'NodeFactory', 'NodeSerializer',
-        'NodeView', 'NodeSvgView', 'LimitsFinder',
-        'SelectionManager', 'Editor', 'UI', 'Analyser', 'Filter',
-        'TreeTools', 'GithubStuff', 'Tools', 'Executor', 'Hotkeys', 'Strings', 'ActionType'
+        'CanvasManager', 'SelectionManager', 'Editor', 'Hotkeys',
+        'Model/NodeFactory', 'Model/NodeSerializer', 'Model/ActionType',
+        'View/NodeView', 'View/NodeSvgView',
+        'Analysis/Analyser', 'Analysis/Filter',
+        'Localization/Strings',
+        'Tools/TreeTools', 'Tools/GithubStuff', 'Tools/Executor', 'Tools/LimitsFinder',
+        'Tools/Tools'
     ],
 
     function Core(
-        CanvasManager,
-        NodeFactory, NodeSerializer,
-        NodeView, NodeSvgView, createLimitsFinder,
-        SelectionManager, Editor, UI, Analyser, Filter,
-        TreeTools, GithubStuff, _, Executor, Hotkeys, Strings, ActionType
+        CanvasManager, SelectionManager, Editor, Hotkeys,
+        NodeFactory, NodeSerializer, ActionType,
+        NodeView, NodeSvgView,
+        Analyser, Filter,
+        Strings,
+        TreeTools, GithubStuff, Executor, createLimitsFinder,
+        _
     ) {
 
         // ==== Constants ====
@@ -57,9 +61,13 @@ define(
                 cacheDomElements();
 
                 canvas = CanvasManager.create(parentElement, PADDING);
-                SelectionManager.init(canvas.svg, function getVisibleNodesSvgView() {
-                    return visibleNodesSvgViews;
-                }, toggleChildren);
+                SelectionManager.init(
+                    parentElement,
+                    function getVisibleNodesSvgView() {
+                        return visibleNodesSvgViews;
+                    },
+                    toggleChildren
+                );
 
                 nodeViewGenerator = NodeView.createNodeViewGenerator();
                 NodeSvgView.onNodeClick.addListener(onClickNodeView);
@@ -153,7 +161,6 @@ define(
 
                 // TODO: reset everything
                 // FIXME: update editor (selected element changed)
-                // UI.showAbbreviations(rawData.meta && rawData.meta.abbreviations);
 
                 restructureByType(rootNodeView);
                 NodeView.hideHiddenByDefault(rootNodeView);
@@ -319,7 +326,9 @@ define(
 
             function update() {
 
+                console.groupCollapsed('update');
                 console.trace('update');
+                console.groupEnd();
 
                 limitsFinder.invalidate();
 
@@ -449,8 +458,7 @@ define(
                 if (!nodeSvgView) {
 
                     nodeSvgView = NodeSvgView.create(nodeView);
-                    canvas.linksParent.appendChild(nodeSvgView.link);
-                    canvas.nodesParent.appendChild(nodeSvgView.wrapper);
+                    canvas.addNode(nodeSvgView.link, nodeSvgView.wrapper);
                     visibleNodesSvgViews[id] = nodeSvgView;
 
                     var parentView = NodeView.getParentNodeView(nodeSvgView.nodeView);

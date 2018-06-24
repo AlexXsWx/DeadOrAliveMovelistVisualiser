@@ -3,12 +3,12 @@ define(
     'EditorGroups/MoveActionStep',
 
     [
-        'NodeFactory',
+        'Model/NodeFactory',
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStepResult',
-        'ActionType',
-        'Strings',
-        'Tools'
+        'Model/ActionType',
+        'Localization/Strings',
+        'Tools/Tools'
     ],
 
     function MoveActionStep(
@@ -291,4 +291,5 @@ define(
         }
 
     }
+
 );

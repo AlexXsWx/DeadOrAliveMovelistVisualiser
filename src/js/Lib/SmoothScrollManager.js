@@ -1,10 +1,10 @@
 define(
 
-    'SmoothScrollManager',
+    'Lib/SmoothScrollManager',
 
-    [/*'SmoothScroll'*/],
+    [ /*'SmoothScroll'*/ ],
 
-    function SmoothScrollManager(SmoothScroll) {
+    function SmoothScrollManager(/*SmoothScroll*/) {
 
         var initializeWasRequested = false;
 
@@ -12,7 +12,7 @@ define(
 
         function init(checkbox) {
 
-            if (!SmoothScroll) {
+            if (typeof SmoothScroll !== 'undefined') {
                 checkbox.checked = false;
                 disableCheckbox(checkbox);
                 return;

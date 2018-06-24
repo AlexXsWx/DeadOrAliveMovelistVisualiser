@@ -1,7 +1,8 @@
 define(
 
     'UI/TableRowButton',
-    ['Tools'],
+    
+    [ 'Tools/Tools' ],
 
     function TableRowButton(_) {
 

@@ -2,7 +2,7 @@ define(
 
     'EditorGroups/MoveActionStepResult',
 
-    [ 'EditorGroups/EditorCreatorBase', 'Strings', 'Tools' ],
+    [ 'EditorGroups/EditorCreatorBase', 'Localization/Strings', 'Tools/Tools' ],
 
     function MoveActionStepResult(EditorCreatorBase, Strings, _) {
 

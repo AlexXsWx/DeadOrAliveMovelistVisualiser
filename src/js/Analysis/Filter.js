@@ -1,8 +1,8 @@
 define(
 
-    'Filter',
+    'Analysis/Filter',
 
-    [ 'NodeFactory', 'CommonStances', 'Strings', 'Tools' ],
+    [ 'Model/NodeFactory', 'Model/CommonStances', 'Localization/Strings', 'Tools/Tools' ],
 
     function Filter(NodeFactory, CommonStances, Strings, _) {
 
