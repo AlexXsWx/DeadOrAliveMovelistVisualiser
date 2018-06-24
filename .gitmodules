@@ -1,0 +1,3 @@
+[submodule "lib/less.js-windows"]
+	path = lib/less.js-windows
+	url = https://github.com/duncansmart/less.js-windows.git

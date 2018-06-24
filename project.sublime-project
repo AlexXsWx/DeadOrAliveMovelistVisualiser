@@ -3,7 +3,7 @@
 	[
 		{
 			"path": "src",
-			"file_exclude_patterns": ["*.min.js"]
+			"file_exclude_patterns": ["*.min.js", "style/*.css"]
 		},
 		{
 			"path": "data"
