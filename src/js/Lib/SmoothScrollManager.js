@@ -12,7 +12,7 @@ define(
 
         function init(checkbox) {
 
-            if (typeof SmoothScroll !== 'undefined') {
+            if (typeof SmoothScroll === 'undefined') {
                 checkbox.checked = false;
                 disableCheckbox(checkbox);
                 return;
