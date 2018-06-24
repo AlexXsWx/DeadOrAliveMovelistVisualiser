@@ -17,6 +17,8 @@ define(
             var linksParent;
             var nodesParent;
 
+            var renderHack = createRenderHackManager();
+
             rootNode.appendChild(
                 svg = _.createSvgElement({
                     tag: 'svg',
@@ -25,6 +27,7 @@ define(
                         'xmlns': 'http://www.w3.org/2000/svg'
                     },
                     children: [
+                        renderHack.element,
                         canvas = _.createSvgElement({
                             tag: 'g',
                             classes: [ 'canvas' ],
@@ -36,6 +39,8 @@ define(
                     ]
                 })
             );
+
+            renderHack.installHook(canvas);
 
             return {
                 addNode:                     addNode,
@@ -87,6 +92,38 @@ define(
                 if (body.scrollTop + body.clientHeight - padding - SCROLLBAR_SIZE < nodeCenterDocumentY) {
                     body.scrollTop = nodeCenterDocumentY - (body.clientHeight - padding - SCROLLBAR_SIZE);
                 }
+            }
+
+        }
+
+        // Chrome 67.0.3396.87 (Win-x64) does not render parts of svg that were offscreen
+        // and went in screen because of CSS animation of transform property
+        function createRenderHackManager() {
+
+            var t1 = 'rotate(90deg)';
+            var t2 = 'rotate(180deg)';
+
+            var element = _.createSvgElement({
+                tag: 'rect',
+                attributes: {
+                    'width': 10,
+                    'height': 10,
+                    'style': 'fill: white; opacity: 0; ' + t1
+                }
+            });
+
+            return {
+                element: element,
+                installHook: installHook
+            };
+
+            function installHook(targetElement) {
+                targetElement.addEventListener(
+                    'transitionend',
+                    function(event) {
+                        element.style.transform = (element.style.transform === t1) ? t2 : t1;
+                    }
+                );
             }
 
         }
