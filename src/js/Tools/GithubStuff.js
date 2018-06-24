@@ -46,13 +46,12 @@ define(
 
             var currentVersion = getCurrentVersion();
 
-            // TODO: uncomment after online version check is tested live
-            // if (currentVersion === null) {
-            //     _.report("Unable to detect current version");
-            //     return;
-            // }
+            if (currentVersion === null) {
+                _.report("Unable to detect current version");
+                return Promise.resolve(null);
+            }
 
-            getHighestVersionOnline().then(function(highestVersionOnline) {
+            return getHighestVersionOnline().then(function(highestVersionOnline) {
 
                 var showHigherVersionAvailablePopup = (
                     isVersionAHigherThanB(highestVersionOnline, currentVersion)
@@ -64,6 +63,22 @@ define(
                     highestVersionOnline,
                     showHigherVersionAvailablePopup
                 );
+
+                if (showHigherVersionAvailablePopup) {
+                    var url = (
+                        'https://' +
+                        [
+                            'rawgit.com',
+                            GITHUB_SETTINGS.USER,
+                            GITHUB_SETTINGS.REPO,
+                            highestVersionOnline,
+                            // FIXME: don't repeat yourself
+                            'src',
+                            'index.html'
+                        ].join('/')
+                    );
+                    return url;
+                }
 
             });
 

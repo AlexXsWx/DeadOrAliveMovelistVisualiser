@@ -116,6 +116,14 @@ body {
             legend { display: none; }
         }
 
+        &.firstHighlight {
+            background-color: rgba(128, 255, 128, 0.75);
+            margin-top: 0;
+            border-top-left-radius: 0;
+            border-top: none;
+            .fieldsetContent { text-align: center; }
+        }
+
         tr.summary {
             label { font-style: italic; }
             input {
@@ -128,6 +136,7 @@ body {
 
     #about {
         margin-top: 5px;
+        margin-right: 3px;
         float: right;
     }
 

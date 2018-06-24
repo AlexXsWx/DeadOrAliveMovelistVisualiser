@@ -87,6 +87,15 @@ body {
 #menu fieldset.subFieldset legend {
   display: none;
 }
+#menu fieldset.firstHighlight {
+  background-color: rgba(128, 255, 128, 0.75);
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top: none;
+}
+#menu fieldset.firstHighlight .fieldsetContent {
+  text-align: center;
+}
 #menu fieldset tr.summary label {
   font-style: italic;
 }
@@ -97,6 +106,7 @@ body {
 }
 #menu #about {
   margin-top: 5px;
+  margin-right: 3px;
   float: right;
 }
 #overlay {

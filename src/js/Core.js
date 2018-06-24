@@ -89,7 +89,7 @@ define(
                 parseParameters();
 
                 if (!_.isDevBuild()) {
-                    GithubStuff.checkIfHigherVersionIsAvailable();
+                    checkHigherVersion();
                 }
 
                 return;
@@ -139,6 +139,21 @@ define(
                     }
 
                     url && NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
+
+                }
+
+                function checkHigherVersion() {
+
+                    GithubStuff.checkIfHigherVersionIsAvailable().then(function(higherVersionUrl) {
+
+                        if (!higherVersionUrl) return;
+
+                        var currentParams = window.location.search + window.location.hash;
+                        var link = _.getDomElement('newerVersionAvailableLink');
+                        link.setAttribute('href', higherVersionUrl + currentParams);
+                        _.getDomElement('newerVersionAvailable').classList.remove('hidden');
+
+                    });
 
                 }
 
@@ -203,7 +218,9 @@ define(
                 _.addClickListenerToElementWithId('loadExample', onLoadExampleClicked);
 
                 if (localStorage && localStorage.hasOwnProperty('showWelcomePopupOnStart')) {
-                    domCache.showWelcomePopupOnStart.checked = +localStorage.showWelcomePopupOnStart;
+                    domCache.showWelcomePopupOnStart.checked = Boolean(
+                        localStorage.showWelcomePopupOnStart
+                    );
                 }
 
                 if (!domCache.showWelcomePopupOnStart.checked) hideWelcomePopup();
@@ -223,7 +240,7 @@ define(
                 _.showDomElement(domCache.popupWelcome);
             }
             function hideWelcomePopup(optEvent) {
-                localStorage.showWelcomePopupOnStart = +domCache.showWelcomePopupOnStart.checked;
+                localStorage.showWelcomePopupOnStart = Boolean(domCache.showWelcomePopupOnStart.checked);
                 _.hideDomElement(domCache.popupWelcome);
                 Editor.focus();
             }
@@ -240,9 +257,11 @@ define(
                 var fieldsets = document.querySelectorAll('#menu > fieldset');
                 Array.prototype.forEach.call(fieldsets, function bindLegendClickAction(fieldset) {
                     var legend = fieldset.querySelector('legend');
-                    _.addClickListenerToElement(legend, function onClickToggleCollapsed(event) {
-                        fieldset.classList.toggle('collapsed');
-                    });
+                    if (legend) {
+                        _.addClickListenerToElement(legend, function onClickToggleCollapsed(event) {
+                            fieldset.classList.toggle('collapsed');
+                        });
+                    }
                 });
             }
 
