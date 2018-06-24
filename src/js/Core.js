@@ -1,6 +1,6 @@
 define(
 
-    'Movelist', // TODO: rename to Core
+    'Core',
 
     [
         'CanvasManager',
@@ -10,7 +10,7 @@ define(
         'TreeTools', 'GithubStuff', 'Tools', 'Executor', 'Hotkeys', 'Strings', 'ActionType'
     ],
 
-    function Movelist(
+    function Core(
         CanvasManager,
         NodeFactory, NodeSerializer,
         NodeView, NodeSvgView, createLimitsFinder,
