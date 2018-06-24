@@ -129,7 +129,7 @@ define(
                     if (!url && params.has('example')) {
                         url = GithubStuff.getExampleUrl(params.get('example', 'rig').toLowerCase());
                     }
-                    
+
                     url && NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
 
                 }

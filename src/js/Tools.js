@@ -1,5 +1,6 @@
 define('Tools', function() {
 
+    // TODO: split into sub packages like DOM, object, array etc
     return {
         report:                                report,
         getParameters:                         getParameters,
@@ -39,8 +40,12 @@ define('Tools', function() {
         removeElementFromParent:               removeElementFromParent
     };
 
-    function report(message) {
-        console.error(message);
+    function report(/*arguments*/) {
+        console.error.apply(console, arguments);
+        if (isDevBuild()) {
+            debugger;
+        }
+        // TODO: send the message somewhere
     }
 
     function getParameters(optAdaptList) {

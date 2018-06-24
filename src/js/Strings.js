@@ -171,7 +171,7 @@ define('Strings', ['Tools'], function Strings(_) {
 
     function getString(id, optReplaceMap) {
         if (!strings.hasOwnProperty(id)) {
-            console.error('Strings has no id %s', id);
+            _.report('Strings has no id %s', id);
             return '@[' + id + ']@';
         }
         var result = strings[id];

@@ -311,7 +311,7 @@ define(
             if (context) return '{' + context + '}' + input;
             return input;
         }
-        console.error('Can\'t represent node %O with a string', node);
+        _.report('Can\'t represent node %O with a string', node);
     }
 
 

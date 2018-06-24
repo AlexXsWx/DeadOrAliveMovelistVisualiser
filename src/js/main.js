@@ -23,6 +23,10 @@
 
         function Main(Core, SmoothScrollManager) {
 
+            // FIXME: prompt if there are unsaved changes
+            // TODO: react to hash change without reload
+            installReloadOnHashParametersChangeHook();
+
             SmoothScrollManager.init(getDomElement('smoothScroll'));
 
             Core.init(getDomElement('content'));
@@ -32,6 +36,12 @@
     );
 
     return;
+
+    function installReloadOnHashParametersChangeHook() {
+        window.addEventListener('hashchange', function(event) {
+            window.location.reload();
+        });
+    }
 
     // Loading progress updater
 

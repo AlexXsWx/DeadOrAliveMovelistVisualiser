@@ -78,7 +78,7 @@ define(
 
             if (svgNodeView && !isVisible(svgNodeView)) {
                 // Should never happen after Undo is fully implemented
-                console.error('Trying to select node that is not visible');
+                _.report('Trying to select node that is not visible');
                 selectionCurrent = null;
             }
             else

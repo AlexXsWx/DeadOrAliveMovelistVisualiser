@@ -378,9 +378,7 @@ define(
                 children.hidden = children.hidden.concat(children.visible);
                 children.visible = [];
                 if (optReturnIDsBecomeHidden) {
-                    console.error(
-                        'optReturnIDsBecomeHidden is not implemented for hideAllChildren'
-                    );
+                    _.report('optReturnIDsBecomeHidden is not implemented for hideAllChildren');
                 }
             }
 

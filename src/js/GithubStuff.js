@@ -41,7 +41,7 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
 
         // TODO: uncomment after online version check is tested live
         // if (currentVersion === null) {
-        //     console.error("Unable to detect current version");
+        //     _.report("Unable to detect current version");
         //     return;
         // }
 
@@ -103,8 +103,7 @@ define('GithubStuff', ['Request', 'Tools'], function GithubStuff(Request, _) {
             return highestVersion;
 
         }).catch(function(error) {
-            console.error("Failed to get highest version available:");
-            console.error(error);
+            _.report("Failed to get highest version available:", error);
         });
 
     }
