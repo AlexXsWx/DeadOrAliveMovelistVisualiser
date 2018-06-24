@@ -814,7 +814,7 @@
                 ]
               }
             ],
-            "comment": "CB"
+            "comment": "Critical Burst"
           },
           {
             "input": "64P",
@@ -2089,7 +2089,7 @@
                 ]
               }
             ],
-            "comment": "CB"
+            "comment": "Critical Burst"
           },
           {
             "input": "K",

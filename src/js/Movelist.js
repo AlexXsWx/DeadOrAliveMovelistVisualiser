@@ -7,7 +7,7 @@ define(
         'NodeFactory', 'NodeSerializer',
         'NodeView', 'NodeSvgView', 'LimitsFinder',
         'SelectionManager', 'Editor', 'UI', 'Analyser', 'Filter',
-        'TreeTools', 'GithubStuff', 'Tools', 'Executor', 'Hotkeys', 'Strings'
+        'TreeTools', 'GithubStuff', 'Tools', 'Executor', 'Hotkeys', 'Strings', 'ActionType'
     ],
 
     function Movelist(
@@ -15,7 +15,7 @@ define(
         NodeFactory, NodeSerializer,
         NodeView, NodeSvgView, createLimitsFinder,
         SelectionManager, Editor, UI, Analyser, Filter,
-        TreeTools, GithubStuff, _, Executor, Hotkeys, Strings
+        TreeTools, GithubStuff, _, Executor, Hotkeys, Strings, ActionType
     ) {
 
         // ==== Constants ====
@@ -64,6 +64,8 @@ define(
                 nodeViewGenerator = NodeView.createNodeViewGenerator();
                 NodeSvgView.onNodeClick.addListener(onClickNodeView);
                 NodeSvgView.onNodeToggleChildren.addListener(onDoubleClickNodeView);
+
+                ActionType.fillDatalist(_.getDomElement('actionStepSupportedTypes'));
 
                 Editor.init(nodeViewGenerator, toggleChildren, selectNodeView);
                 Editor.onDataChanged.addListener(onDataChange);

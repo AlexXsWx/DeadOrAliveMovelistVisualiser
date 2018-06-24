@@ -6,6 +6,7 @@ define(
         'NodeFactory',
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStepResult',
+        'ActionType',
         'Strings',
         'Tools'
     ],
@@ -14,6 +15,7 @@ define(
         NodeFactory,
         EditorCreatorBase,
         MoveActionStepResult,
+        ActionType,
         Strings,
         _
     ) {
@@ -55,7 +57,6 @@ define(
                     isSummary: true,
                     fill: actionStepToSummaryText,
                     parameterModifier: changeActionSummary
-                    // isSummary: true
                 }, {
                     id: reusedInputIds.mask,
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
@@ -64,16 +65,15 @@ define(
                     placeholderText: 'e.g. mid P',
                     fill: actionStepToMaskText,
                     parameterModifier: changeActionMask
-                    // optIncludedInSummaries: { 'summary': changeActionSummary }
                 }, {
                     id: reusedInputIds.type,
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: Strings('moveActionType'),
                     description: Strings('moveActionTypeDescription'),
                     placeholderText: 'e.g. strike',
+                    datalist: 'actionStepSupportedTypes',
                     fill: actionStepToTypeText,
                     parameterModifier: changeActionStepType
-                    // optIncludedInSummaries: { 'summary': changeActionSummary }
                 }, {
                     id: reusedInputIds.tracking,
                     inputType: EditorCreatorBase.INPUT_TYPES.checkbox,
@@ -81,7 +81,6 @@ define(
                     description: Strings('moveActionTrackingDescription'),
                     fill: actionStepToTrackingChecked,
                     parameterModifier: changeActionStepTracking
-                    // optIncludedInSummaries: { 'summary': changeActionSummary }
                 }, {
                     id: 'damage',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,

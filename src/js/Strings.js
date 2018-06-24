@@ -88,9 +88,10 @@ define('Strings', ['Tools'], function Strings(_) {
 
         'moveEnding': 'Ending',
         'moveEndingDescription': (
-            'Abbreviation of a stance the move ends with - e.g. "BND" for Rig\'s Bending stance'
+            'Abbreviation of a stance the move ends with -\n' +
+            'e.g. "BT" for back-turned or "BND" for Rig\'s Bending stance'
         ),
-        'moveEndingPlaceholder': 'e.g. "BND"',
+        'moveEndingPlaceholder': 'e.g. "BT"',
 
         'moveContext': 'Context',
         'moveContextDescription': 'Requirements to perform the move - e.g. "BT" for back-turned',
@@ -103,10 +104,7 @@ define('Strings', ['Tools'], function Strings(_) {
         ),
 
         'moveActionType': 'Type',
-        'moveActionTypeDescription': (
-            'Action step type. Possible values are: strike; jump attack; grab for throw; ' +
-            'OH grab; grab for hold; ground attack; other'
-        ),
+        'moveActionTypeDescription': 'Action step type',
 
         'moveActionTracking': 'Tracking',
         'moveActionTrackingDescription': (

@@ -9,6 +9,7 @@ requirejs.config({
 // TODO: localize html
 // TODO: localize editors (button labels and placeholders "e.g.")
 // TODO: logger with log levels
+// FIXME: datalist multiple options
 
 requirejs(
 

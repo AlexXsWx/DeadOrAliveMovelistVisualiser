@@ -16,41 +16,72 @@
 
         <datalist id="actionStepSupportedConditions">
             <option value="guard" title="On guard" />
+
             <option value="grounded" title="Ground hit but no forcetech outside combo" />
-            <option value="grounded combo" title="Ground hit that only forcetechs because of combo" />
+            <option
+                value="grounded combo"
+                title="Ground hit that only forcetechs because of combo"
+            />
+
             <option value="forcetech" title="Ground hit with forcetech" />
-            <!-- <option value="neutral" /> -->
-            <!-- <option value="counter" /> -->
-            <!-- <option value="hi-counter" /> -->
-            <!-- <option value="stun" /> -->
-            <!-- <option value="critical finish" /> -->
-            <!-- <option value="half-hit" /> -->
-            <!-- <option value="close-hit" /> -->
-            <!-- <option value="open stance" /> -->
-            <!-- <option value="closed stance" /> -->
-            <!-- <option value="crouch" /> -->
-            <!-- // FIXME: is this any different than 'critical finish'? -->
-            <!-- <option value="overdamage" /> -->
-            <!-- <option value="CB" /> -->
+
+            <option value="neutral" />
+            <option value="counter" />
+            <option value="hi-counter" />
+
+            <option value="stun" />
+            <option value="critical finish" />
+            <option value="Critical Burst" />
+
+            <option value="half-hit" />
+            <option value="close-hit" />
+
+            <option value="open stance" />
+            <option value="closed stance" />
+
+            <option value="crouching" title="Opponent is in crouching/squatting state" />
+            <option value="backturned" title="Opponent is facing away" />
+            <option value="airborne" title="Opponent is airborne" />
         </datalist>
 
         <datalist id="actionSupportedTags">
             <option value="ground attack" title="Means move can hit grounded opponents" />
+            <option
+                value="unholdable"
+                title="Means attempting to hold this move will perform sidestep"
+            />
+            <option
+                value="close-hit"
+                title="Means move can deal more damage when performed upclose"
+            />
+            <option
+                value="half-hit"
+                title="Means effect of the move is different when performed from far away"
+            />
+            <option value="guard break" />
+            <option value="critical burst" />
+            <option value="power blow" />
+            <option value="power launcher" />
+        </datalist>
+
+        <datalist id="actionStepSupportedTypes">
+            <!-- to be filled by javascript -->
         </datalist>
 
         <datalist id="actionStepSupportedTags">
             <option
                 value="hard knock-down"
-                title="Opponent falls on back and slightly raises legs (has limited techroll time)"
+                title="Opponent falls on his back and slightly raises legs (has very strict window for techroll input )"
             />
-            <!-- <option value="guard break" />
-            <option value="launcher" />
-            <option value="force crouch" />
+            <option value="sit-down stun" />
             <option value="critical burst" />
             <option value="power blow" />
             <option value="power launcher" />
+            <option value="guard break" />
+            <option value="force crouch" />
+            <!-- 
+            <option value="launcher" />
             <option value="stun reset" />
-            <option value="sit-down stun" />
             <option value="trip stun" />
             <option value="side back drop" />
             <option value="fall back bounce" />

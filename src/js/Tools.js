@@ -29,6 +29,7 @@ define('Tools', function() {
         removeAllChildren:                     removeAllChildren,
         lerp:                                  lerp,
         dispatchInputEvent:                    dispatchInputEvent,
+        mapValues:                             mapValues,
         forEachOwnProperty:                    forEachOwnProperty,
         flattenRecursionDirty:                 flattenRecursionDirty,
         takeSomeArrayElement:                  takeSomeArrayElement,
@@ -346,6 +347,12 @@ define('Tools', function() {
     // FIXME: may not be compatible with browsers other than chrome
     function dispatchInputEvent(inputElement, eventName) {
         inputElement.dispatchEvent(new Event(eventName, { bubbles: false, cancelable: true }));
+    }
+
+    function mapValues(obj) {
+        return Object.keys(obj).map(function(key) {
+            return obj[key]
+        });
     }
 
     function forEachOwnProperty(object, action) {

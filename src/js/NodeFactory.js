@@ -1,4 +1,8 @@
-define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonStances, _) {
+define(
+
+    'NodeFactory',
+    ['CommonStances', 'ActionType', 'Tools'],
+    function NodeFactory(CommonStances, ActionType, _) {
 
     var guardRegex = /block|guard/i;
 
@@ -222,22 +226,22 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
     //     var input = node.input;
     //     var actionStep = node.actionSteps[0];
     //     if (RGX.PUNCH.test(input)) {
-    //         actionStep.actionType = 'strike';
+    //         actionStep.actionType = ActionType.Strike;
     //         actionStep.actionMask = 'P';
     //     } else
     //     if (RGX.KICK.test(input))  {
-    //         actionStep.actionType = 'strike';
+    //         actionStep.actionType = ActionType.Strike;
     //         actionStep.actionMask = 'K';
     //     } else
     //     if (RGX.HOLD.test(input))  {
-    //         actionStep.actionType = 'hold';
+    //         actionStep.actionType = ActionType.Hold;
     //         actionStep.actionMask = undefined;
     //      } else
     //     if (RGX.THROW.test(input)) {
-    //         actionStep.actionType = 'throw';
+    //         actionStep.actionType = ActionType.Throw;
     //         actionStep.actionMask = undefined;
     //     } else {
-    //         actionStep.actionType = 'other';
+    //         actionStep.actionType = ActionType.Other;
     //         actionStep.actionMask = undefined;
     //     }
     // }
@@ -353,8 +357,8 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
         if (!actionStep.actionMask || !actionStep.actionType) return false;
         var actionType = actionStep.actionType.toLowerCase();
         return (actionStep.actionMask.toLowerCase().search('p') >= 0 && (
-            actionType.search('strike') >= 0 ||
-            actionType.search('attack') >= 0
+            actionType.search(ActionType.Strike) >= 0 ||
+            actionType.search(ActionType.HelperAttack) >= 0
         ));
     }
 
@@ -362,8 +366,8 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
         if (!actionStep.actionMask || !actionStep.actionType) return false;
         var actionType = actionStep.actionType.toLowerCase();
         return (actionStep.actionMask.toLowerCase().search('k') >= 0 && (
-            actionType.search('strike') >= 0 ||
-            actionType.search('attack') >= 0
+            actionType.search(ActionType.Strike) >= 0 ||
+            actionType.search(ActionType.HelperAttack) >= 0
         ));
     }
 
@@ -371,9 +375,9 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
         if (!actionStep.actionType) return false;
         var actionType = actionStep.actionType.toLowerCase();
         return (
-            actionType.search('grab') >= 0 ||
-            actionType.search('throw') >= 0 ||
-            actionType.search('offensive') >= 0
+            actionType.search(ActionType.HelperGrab) >= 0 ||
+            actionType.search(ActionType.Throw) >= 0 ||
+            actionType.search(ActionType.HelperOffensive) >= 0
         );
     }
 
@@ -381,15 +385,15 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
         if (!actionStep.actionType) return false;
         var actionType = actionStep.actionType.toLowerCase();
         return (
-            actionType.search(/\boh\b/) >= 0 ||
-            actionType.search('offensive') >= 0
+            actionType.search(ActionType.HelperOH) >= 0 ||
+            actionType.search(ActionType.HelperOffensive) >= 0
         );
     }
 
-    function isActionStepHold(actionStep)         { return checkActionStepTypeForWord(actionStep, 'hold');   }
-    function isActionStepJumpAttack(actionStep)   { return checkActionStepTypeForWord(actionStep, 'jump');   }
-    function isActionStepGroundAttack(actionStep) { return checkActionStepTypeForWord(actionStep, 'ground'); }
-    function isActionStepOther(actionStep)        { return checkActionStepTypeForWord(actionStep, 'other');  }
+    function isActionStepHold(actionStep)         { return checkActionStepTypeForWord(actionStep, ActionType.Hold);   }
+    function isActionStepJumpAttack(actionStep)   { return checkActionStepTypeForWord(actionStep, ActionType.Jump);   }
+    function isActionStepGroundAttack(actionStep) { return checkActionStepTypeForWord(actionStep, ActionType.Ground); }
+    function isActionStepOther(actionStep)        { return checkActionStepTypeForWord(actionStep, ActionType.Other);  }
 
     function isActionStepHigh(actionStep) { return /\bhigh\b/i.test(actionStep.actionMask); }
     function isActionStepMid(actionStep)  { return /\bmid\b/i.test(actionStep.actionMask);  }
@@ -616,7 +620,7 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
                             actionSteps: [
                                 createMoveActionStep({
                                     actionMask: 'P',
-                                    actionType: 'strike'
+                                    actionType: ActionType.Strike
                                     // starting from 14th (without counting extra initial frame) frame sidestep untouchable is inactive
                                     // followup: 13.
                                     // when followed up, sidestep untouchable shortens from 20 frames to 13
@@ -628,7 +632,7 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
                             actionSteps: [
                                 createMoveActionStep({
                                     actionMask: 'K',
-                                    actionType: 'strike'
+                                    actionType: ActionType.Strike
                                 })
                             ]
                         }, true),
@@ -650,7 +654,7 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
                             actionSteps: [
                                 createMoveActionStep({
                                     actionMask: 'mid K',
-                                    actionType: 'strike',
+                                    actionType: ActionType.Strike,
                                     isTracking: true
                                 })
                             ]
@@ -660,7 +664,7 @@ define('NodeFactory', ['CommonStances', 'Tools'], function NodeFactory(CommonSta
                             actionSteps: [
                                 createMoveActionStep({
                                     actionMask: 'low K',
-                                    actionType: 'strike',
+                                    actionType: ActionType.Strike,
                                     isTracking: true,
                                     tags: ['ground attack']
                                 })
