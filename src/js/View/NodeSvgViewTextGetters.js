@@ -149,10 +149,12 @@ define(
                 }
             });
 
+            var result = '';
+
             if (parts.length > 0) {
 
                 // FIXME: don't reference document here
-                var result = document.createDocumentFragment();
+                result = document.createDocumentFragment();
 
                 parts[0].forEach(function(p) { result.appendChild(p); });
                 for (var i = 1; i < parts.length; ++i) {
