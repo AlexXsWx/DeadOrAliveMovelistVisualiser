@@ -6,11 +6,15 @@ define(
 
     function CanvasManager(_) {
 
+        var PADDING = 50;
+
         var SCROLLBAR_SIZE = 20;
+        function getBodyScrollbarWidth()  { return SCROLLBAR_SIZE; }
+        function getBodyScrollbarHeight() { return SCROLLBAR_SIZE; }
 
         return { create: create };
 
-        function create(rootNode, padding) {
+        function create(rootNode) {
 
             var svg;
             var canvas;
@@ -58,23 +62,21 @@ define(
                 canvas.setAttribute(
                     'style',
                     'transform: translate(' +
-                        (padding + offsetX) + 'px,' +
-                        (padding + offsetY) + 'px' +
+                        (PADDING + offsetX) + 'px,' +
+                        (PADDING + offsetY) + 'px' +
                     ')'
                 );
 
                 var body = document.body;
 
-                var width  = totalWidth  + 2 * padding;
-                var height = totalHeight + 2 * padding;
+                var width  = totalWidth  + 2 * PADDING;
+                var height = totalHeight + 2 * PADDING;
 
-                // I hate CSS...
-                var menuTheoreticMaxWidth = 375;
-                width += menuTheoreticMaxWidth;
+                width += getMenuWidth();
 
                 // Keep it screen size to avoid culling when svg animates shrinking
-                width  = Math.max(body.clientWidth  - SCROLLBAR_SIZE, width);
-                height = Math.max(body.clientHeight - SCROLLBAR_SIZE, height);
+                width  = Math.max(body.clientWidth  - getBodyScrollbarWidth(),  width);
+                height = Math.max(body.clientHeight - getBodyScrollbarHeight(), height);
 
                 svg.setAttribute('width',  width);
                 svg.setAttribute('height', height);
@@ -83,19 +85,42 @@ define(
 
             }
 
-            function scrollToSvgNodeViewIfNeeded(nodeSvgView, offsetY) {
-                // TODO: animate
-                var nodeRootRelativeY = nodeSvgView.getPositionTarget().y;
-                var nodeCenterDocumentY = nodeRootRelativeY - offsetY + padding;
-                var body = document.body;
-                if (body.scrollTop + padding > nodeCenterDocumentY) {
-                    body.scrollTop = nodeCenterDocumentY - padding;
-                } else
-                if (body.scrollTop + body.clientHeight - padding - SCROLLBAR_SIZE < nodeCenterDocumentY) {
-                    body.scrollTop = nodeCenterDocumentY - (body.clientHeight - padding - SCROLLBAR_SIZE);
-                }
-            }
+        }
 
+        function scrollToSvgNodeViewIfNeeded(nodeSvgView, minY) {
+            var positionSvg = nodeSvgView.getPositionTarget();
+            var positionDocumentX = positionSvg.x;
+            var positionDocumentY = positionSvg.y - minY;
+
+            var body = document.body;
+            var activeAreaWidth  = body.clientWidth  - getBodyScrollbarWidth() - getMenuWidth();
+            var activeAreaHeight = body.clientHeight - getBodyScrollbarHeight();
+
+            limitScroll(
+                positionDocumentX - PADDING,
+                positionDocumentY - PADDING,
+                positionDocumentX - activeAreaWidth  + 2 * PADDING,
+                positionDocumentY - activeAreaHeight + 2 * PADDING
+            );
+        }
+
+        function limitScroll(maxX, maxY, minX, minY) {
+            // TODO: animate
+            var scrollX = window.scrollX;
+            var scrollY = window.scrollY;
+            if (scrollX < minX) { setScrollX(minX); } else
+            if (scrollX > maxX) { setScrollX(maxX); }
+            if (scrollY < minY) { setScrollY(minY); } else
+            if (scrollY > maxY) { setScrollY(maxY); }
+        }
+
+        function setScrollX(x) { window.scroll(x, window.scrollY); }
+        function setScrollY(y) { window.scroll(window.scrollX, y); }
+
+        function getMenuWidth() {
+            // FIXME: get actual menu width
+            // I hate CSS...
+            return 375;
         }
 
         // Chrome 67.0.3396.87 (Win-x64) does not render parts of svg that were offscreen

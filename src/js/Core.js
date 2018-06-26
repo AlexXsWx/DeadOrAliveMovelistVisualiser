@@ -22,34 +22,22 @@ define(
         _
     ) {
 
-        // ==== Constants ====
+        var canvas;
+        var visibleNodesSvgViews = {};
 
-            var PADDING = 50;
+        var nodeViewGenerator = null;
 
-        // ===================
+        var domCache = {
+            download:                null,
+            popupWelcome:            null,
+            showWelcomePopupOnStart: null,
+            showPlaceholders:        null
+        };
 
+        var limitsFinder;
 
-        // ==== Variables ====
-
-            var canvas;
-            var visibleNodesSvgViews = {};
-
-            var nodeViewGenerator = null;
-
-            var domCache = {
-                download:                null,
-                popupWelcome:            null,
-                showWelcomePopupOnStart: null,
-                showPlaceholders:        null
-            };
-
-            var limitsFinder;
-
-            var rootNodeData;
-            var rootNodeView;
-
-        // ===================
-
+        var rootNodeData;
+        var rootNodeView;
 
         return { init: init };
 
@@ -60,7 +48,7 @@ define(
 
                 cacheDomElements();
 
-                canvas = CanvasManager.create(parentElement, PADDING);
+                canvas = CanvasManager.create(parentElement);
                 SelectionManager.init(
                     parentElement,
                     function getVisibleNodesSvgView() {
@@ -104,9 +92,7 @@ define(
                 function selectionChangedListener(nodeSvgViews, focus) {
                     Editor.updateBySelection(nodeSvgViews, focus);
                     if (nodeSvgViews && nodeSvgViews.length > 0) {
-                        canvas.scrollToSvgNodeViewIfNeeded(
-                            nodeSvgViews[0], limitsFinder.y.min, PADDING
-                        );
+                        canvas.scrollToSvgNodeViewIfNeeded(nodeSvgViews[0], limitsFinder.y.min);
                     }
                 }
 
@@ -423,11 +409,7 @@ define(
 
                 var currentlySelectedNode = SelectionManager.getCurrentSelection();
                 if (currentlySelectedNode) {
-                    canvas.scrollToSvgNodeViewIfNeeded(
-                        currentlySelectedNode,
-                        limitsFinder.y.min,
-                        PADDING
-                    );
+                    canvas.scrollToSvgNodeViewIfNeeded(currentlySelectedNode, limitsFinder.y.min);
                 }
 
             }
