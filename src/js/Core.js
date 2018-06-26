@@ -215,8 +215,8 @@ define(
                 _.addClickListenerToElementWithId('popupWelcome', onClickStopPropagation);
                 _.addClickListenerToElementWithId('loadExample', onLoadExampleClicked);
 
-                if (localStorage && localStorage.hasOwnProperty('showWelcomePopupOnStart')) {
-                    domCache.showWelcomePopupOnStart.checked = Boolean(
+                if (localStorage.hasOwnProperty('showWelcomePopupOnStart')) {
+                    domCache.showWelcomePopupOnStart.checked = JSON.parse(
                         localStorage.showWelcomePopupOnStart
                     );
                 }
