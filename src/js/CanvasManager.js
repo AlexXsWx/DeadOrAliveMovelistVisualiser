@@ -79,6 +79,8 @@ define(
                 svg.setAttribute('width',  width);
                 svg.setAttribute('height', height);
 
+                renderHack.resize(height);
+
             }
 
             function scrollToSvgNodeViewIfNeeded(nodeSvgView, offsetY) {
@@ -100,20 +102,21 @@ define(
         // and went in screen because of CSS animation of transform property
         function createRenderHackManager() {
 
-            var t1 = 'rotate(90deg)';
-            var t2 = 'rotate(180deg)';
+            var t1 = 'translate(0px, 0px)';
+            var t2 = 'translate(1px, 0px)';
 
             var element = _.createSvgElement({
                 tag: 'rect',
                 attributes: {
                     'width': 10,
                     'height': 10,
-                    'style': 'fill: white; opacity: 0; ' + t1
+                    'style': 'fill: white; opacity: 0.1'
                 }
             });
 
             return {
                 element: element,
+                resize: resize,
                 installHook: installHook
             };
 
@@ -124,6 +127,10 @@ define(
                         element.style.transform = (element.style.transform === t1) ? t2 : t1;
                     }
                 );
+            }
+
+            function resize(newHeight) {
+                element.setAttribute('height', newHeight);
             }
 
         }
