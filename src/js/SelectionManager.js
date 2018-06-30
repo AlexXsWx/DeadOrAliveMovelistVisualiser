@@ -104,7 +104,11 @@ define(
 
 
         function getCurrentSelection() {
-            return selectionCurrent;
+            var result = [];
+            if (selectionCurrent) {
+                result.push(selectionCurrent);
+            }
+            return result;
         }
 
 

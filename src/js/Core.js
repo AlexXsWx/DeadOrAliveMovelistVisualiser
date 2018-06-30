@@ -410,7 +410,7 @@ define(
                     limitsFinder.y.max - limitsFinder.y.min
                 );
 
-                var selectedNodes = getSelectedNodes();
+                var selectedNodes = SelectionManager.getCurrentSelection();
                 if (selectedNodes.length > 0) {
                     canvas.scrollToSvgNodeViewIfNeeded(selectedNodes[0], limitsFinder.y.min);
                 }
@@ -657,7 +657,7 @@ define(
 
                 var keyCode = event.keyCode;
 
-                var selectedNodes = getSelectedNodes();
+                var selectedNodes = SelectionManager.getCurrentSelection();
 
                 var dontPreventDefault = false;
 
@@ -736,16 +736,6 @@ define(
             }
 
         // =================
-
-
-        function getSelectedNodes() {
-            var selectedNodes = [];
-            var selectedNode = SelectionManager.getCurrentSelection();
-            if (selectedNode) {
-                selectedNodes.push(selectedNode);
-            }
-            return selectedNodes;
-        }
 
     }
 
