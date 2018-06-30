@@ -700,7 +700,7 @@ define(
 
                 // Spacebar
                 if (
-                    (!inputtingText || event.ctrlKey) &&
+                    (!Hotkeys.isInputSelected() || event.ctrlKey) &&
                     keyCode === KeyCodes.SPACEBAR &&
                     selectedNodes.length > 0
                 ) {
@@ -721,9 +721,7 @@ define(
                     Editor.onClickAddChild();
                 } else
 
-                if (
-                    event.ctrlKey && event.shiftKey && keyCode === KeyCodes.BACKSPACE
-                ) {
+                if (event.ctrlKey && event.shiftKey && keyCode === KeyCodes.BACKSPACE) {
                     Editor.deleteNode();
                 }
 
