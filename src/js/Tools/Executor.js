@@ -28,6 +28,7 @@ define(
         }
 
         function clearHistory() {
+            console.debug('Clearing commands history');
             commandsHistory = [];
             lastAppliedCommandIndex = -1;
         }

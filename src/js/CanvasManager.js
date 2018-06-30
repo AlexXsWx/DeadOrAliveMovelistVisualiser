@@ -136,8 +136,8 @@ define(
         // and went in screen because of CSS animation of transform property
         function createRenderHackManager() {
 
-            var t1 = 'translate(0px, 0px)';
-            var t2 = 'translate(1px, 0px)';
+            var t1 = 'translate(1px, 0px)';
+            var t2 = 'translate(2px, 0px)';
 
             var element = _.createSvgElement({
                 tag: 'rect',

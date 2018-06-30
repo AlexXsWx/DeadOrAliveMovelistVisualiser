@@ -2,106 +2,29 @@ define(
 
     'Hotkeys',
 
-    [ 'Input/KeyCodes', 'Localization/Strings' ],
+    [ 'Input/KeyCodes', 'Tools/Signal', 'Localization/Strings' ],
 
-    function Hotkeys(KeyCodes, Strings) {
-
-        var windowKeyDownListeners = [];
+    function Hotkeys(KeyCodes, createSignal, Strings) {
 
         return {
-            init: init,
+            isInputSelected: isInputSelected,
             addInputEscListener:   addInputEscListener,
-            addInputEnterListener: addInputEnterListener
+            addInputEnterListener: addInputEnterListener,
+
+            create: create
         };
 
-
-        function init(executor, selectionManager, editor) {
-            addUndoListeners(executor);
-            addNavigationListeners(selectionManager);
-            addAddChildListener(editor);
-
-            window.addEventListener('keydown', handleWindowKeydown);
-        }
-
-
-        function handleWindowKeydown(event) {
-            var result = undefined;
-            for (var i = 0; i < windowKeyDownListeners.length; ++i) {
-                result = windowKeyDownListeners[i](event);
-                if (result !== undefined) {
-                    return result;
+        function isInputSelected(optType) {
+            if (document.activeElement instanceof HTMLInputElement) {
+                if (!optType) {
+                    return true;
+                } else {
+                    return document.activeElement.type === optType;
                 }
+            } else {
+                return false;
             }
         }
-
-
-        function addUndoListeners(executor) {
-            // FIXME: this doesn't replace other ways to perform undo (context menu, main menu)
-            windowKeyDownListeners.push(function(event) {
-                if ((event.ctrlKey || event.metaKey) && event.keyCode === KeyCodes.Z) {
-                    if (event.shiftKey) {
-                        executor.redo();
-                    } else {
-                        executor.undo();
-                    }
-                    event.preventDefault();
-                    event.stopPropagation();
-                    // alert(Strings('undoIsBorked'));
-                    return false;
-                }
-            });
-        }
-
-
-        function addNavigationListeners(selectionManager) {
-
-            windowKeyDownListeners.push(function(event) {
-
-                var keyCode = event.keyCode;
-
-                // Do not react to left/right if it's in an input without CTRL and not over bounds
-                if (!event.ctrlKey && document.activeElement instanceof HTMLInputElement) {
-                    var input = document.activeElement;
-                    if (input.type === 'text' && (
-                        keyCode === KeyCodes.LEFT  && input.selectionEnd > 0 ||
-                        keyCode === KeyCodes.RIGHT && input.selectionStart < input.value.length
-                    )) {
-                        return;
-                    }
-                }
-
-                var processed = true;
-                switch (keyCode) {
-                    case KeyCodes.ESC:   selectionManager.deselectAll();           break;
-                    case KeyCodes.RIGHT: selectionManager.selectFirstChild();      break;
-                    case KeyCodes.LEFT:  selectionManager.selectParent();          break;
-                    case KeyCodes.UP:    selectionManager.selectPreviousSibling(); break;
-                    case KeyCodes.DOWN:  selectionManager.selectNextSibling();     break;
-                    default:
-                        processed = false;
-                        // console.log('unused keycode', event.keyCode);
-                }
-
-                if (processed) event.preventDefault();
-
-            });
-
-        }
-
-
-        function addAddChildListener(editor) {
-            // FIXME: this doesn't belong here
-            windowKeyDownListeners.push(function(event) {
-                if (
-                    (event.keyCode === KeyCodes.PLUS || event.keyCode === KeyCodes.NUM_PLUS) &&
-                    !(document.activeElement instanceof HTMLInputElement)
-                ) {
-                    editor.onClickAddChild();
-                    event.preventDefault();
-                }
-            });
-        }
-
 
         function addInputEscListener(element, onEsc) {
             element.addEventListener('keydown', function(event) {
@@ -112,13 +35,48 @@ define(
             });
         }
 
-
         function addInputEnterListener(element, onEnter) {
             element.addEventListener('keydown', function(event) {
                 if (event.keyCode === KeyCodes.ENTER) {
                     onEnter();
                 }
             });
+        }
+
+        function create(keyDownListener) {
+
+            var keyDownSignal = createSignal();
+            keyDownSignal.listenersManager.addListener(keyDownListener);
+            window.addEventListener('keydown', handleWindowKeydown);
+
+            return {
+                onKeyDown: keyDownSignal.listenersManager
+            };
+
+            function handleWindowKeydown(event) {
+
+                // console.log(event.keyCode);
+
+                // Check if current key down is for navigating within a text input
+                if (!event.ctrlKey && isInputSelected('text')) {
+                    var input = document.activeElement;
+                    if (
+                        input.selectionEnd > 0 && (
+                            event.keyCode === KeyCodes.LEFT
+                            // TODO: key HOME
+                        ) ||
+                        input.selectionStart < input.value.length && (
+                            event.keyCode === KeyCodes.RIGHT
+                            // TODO: key END
+                        )
+                    ) {
+                        return;
+                    }
+                }
+
+                keyDownSignal.dispatch(event);
+            }
+
         }
 
     }

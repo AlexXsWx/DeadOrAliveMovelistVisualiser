@@ -17,7 +17,8 @@ define(
                     tag: 'input',
                     attributes: {
                         'type': 'button',
-                        'value': 'Add child (+)'
+                        'value': 'Add child (+)',
+                        'title': 'Hotkey: +'
                     },
                     listeners: { 'click': onAdd }
                 }),
@@ -25,7 +26,8 @@ define(
                     tag: 'input',
                     attributes: {
                         'type': 'button',
-                        'value': 'Delete selected node'
+                        'value': 'Delete selected node',
+                        'title': 'Hotkey: Ctrl Shift Backspace'
                     },
                     listeners: { 'click': onDelete }
                 }),
@@ -36,7 +38,8 @@ define(
                     tag: 'input',
                     attributes: {
                         'type': 'button',
-                        'value': 'Toggle Children' // TODO: spacebar
+                        'value': 'Toggle Children (spacebar)',
+                        'title': 'Hotkey: [Ctrl] Spacebar'
                     },
                     listeners: {
                         'click': function(event) {
@@ -55,7 +58,8 @@ define(
                     tag: 'input',
                     attributes: {
                         'type': 'button',
-                        'value': 'Up'
+                        'value': 'Up',
+                        'title': 'Hotkey: Ctrl Shift Up'
                     },
                     listeners: {
                         'click': function(event) {
@@ -67,7 +71,8 @@ define(
                     tag: 'input',
                     attributes: {
                         'type': 'button',
-                        'value': 'Down'
+                        'value': 'Down',
+                        'title': 'Hotkey: Ctrl Shift Down'
                     },
                     listeners: {
                         'click': function(event) {

@@ -9,7 +9,7 @@ define(
         'EditorGroups/EditorGroupMoveCreator',
         'EditorGroups/EditorGroupCommonCreator',
         'Input/KeyCodes',
-        'Tools/Tools'
+        'Tools/Executor', 'Tools/Tools'
     ],
 
     function(
@@ -19,7 +19,7 @@ define(
         EditorGroupMoveCreator,
         EditorGroupCommonCreator,
         KeyCodes,
-        _
+        Executor, _
     ) {
 
         var refs = {
@@ -66,6 +66,9 @@ define(
             removePlaceholders: removePlaceholders,
             updateBySelection:  updateBySelection,
             onDataChanged:      onDataChanged.listenersManager,
+
+            moveNodeBy: moveNodeBy,
+            deleteNode: onClickDeleteNode,
 
             onClickAddChild: onClickAddChild
         };
@@ -152,6 +155,9 @@ define(
 
                 onDataChanged.dispatch({ deleted: [ nodeView ] });
 
+                // TODO: treat as 1 action (for undo)
+                refs.selectNode(parentNodeView);
+
             }
 
         }
@@ -181,8 +187,17 @@ define(
         }
 
 
-        // TODO: consider multiselection
         function moveNodeBy(delta) {
+            Executor.rememberAndExecute('move node by ' + delta, act, unact);
+            function act() { doMoveNodeBy(delta); }
+            // FIXME: this is not symmetric
+            // e.g. when you move down last node 3 times and then undo 3 times
+            function unact() { doMoveNodeBy(-delta); }
+        }
+
+
+        // TODO: consider multiselection
+        function doMoveNodeBy(delta) {
 
             if (!selectedSVGNode) return;
 

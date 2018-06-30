@@ -3,7 +3,7 @@ define(
     'Core',
 
     [
-        'CanvasManager', 'SelectionManager', 'Editor', 'Hotkeys',
+        'CanvasManager', 'SelectionManager', 'Editor', 'Hotkeys', 'Input/KeyCodes',
         'Model/NodeFactory', 'Model/NodeSerializer', 'Model/ActionType',
         'View/NodeView', 'View/NodeSvgView',
         'Analysis/Analyser', 'Analysis/Filter',
@@ -13,7 +13,7 @@ define(
     ],
 
     function Core(
-        CanvasManager, SelectionManager, Editor, Hotkeys,
+        CanvasManager, SelectionManager, Editor, Hotkeys, KeyCodes,
         NodeFactory, NodeSerializer, ActionType,
         NodeView, NodeSvgView,
         Analyser, Filter,
@@ -68,8 +68,11 @@ define(
                 limitsFinder = createLimitsFinder();
                 loadData(NodeFactory.createEmptyData());
                 bindUIActions();
-                Hotkeys.init(Executor, SelectionManager, Editor);
+
+                Hotkeys.create(handleFilteredKeyDown);
+
                 initUI();
+
                 selectNodeView(rootNodeView);
 
                 parseParameters();
@@ -151,6 +154,8 @@ define(
 
             function loadData(data) {
 
+                SelectionManager.deselectAll();
+                Executor.clearHistory();
                 destroyExistingNodes();
 
                 rootNodeData = data;
@@ -161,8 +166,6 @@ define(
 
                 restructureByType(rootNodeView);
                 NodeView.hideHiddenByDefault(rootNodeView);
-
-                Executor.clearHistory();
 
                 update();
 
@@ -407,9 +410,9 @@ define(
                     limitsFinder.y.max - limitsFinder.y.min
                 );
 
-                var currentlySelectedNode = SelectionManager.getCurrentSelection();
-                if (currentlySelectedNode) {
-                    canvas.scrollToSvgNodeViewIfNeeded(currentlySelectedNode, limitsFinder.y.min);
+                var selectedNodes = getSelectedNodes();
+                if (selectedNodes.length > 0) {
+                    canvas.scrollToSvgNodeViewIfNeeded(selectedNodes[0], limitsFinder.y.min);
                 }
 
             }
@@ -644,6 +647,107 @@ define(
             }
 
         // ================
+
+
+        // ==== Hotkeys ====
+
+            function handleFilteredKeyDown(event) {
+
+                var inputtingText = Hotkeys.isInputSelected('text');
+
+                var keyCode = event.keyCode;
+
+                var selectedNodes = getSelectedNodes();
+
+                var dontPreventDefault = false;
+
+                // Ctrl + Z
+                if ((event.ctrlKey || event.metaKey) && keyCode === KeyCodes.Z) {
+                    if (event.shiftKey) {
+                        Executor.redo();
+                    } else {
+                        Executor.undo()
+                    };
+                    event.stopPropagation();
+                } else
+
+                // Esc
+                if (keyCode === KeyCodes.ESC) {
+                    SelectionManager.deselectAll();
+                } else
+
+                // Ctrl + Shift + Up / Down
+                if (event.ctrlKey && event.shiftKey && keyCode === KeyCodes.UP) {
+                    Editor.moveNodeBy(-1);
+                } else
+                if (event.ctrlKey && event.shiftKey && keyCode === KeyCodes.DOWN) {
+                    Editor.moveNodeBy(1);
+                } else
+
+                // [Ctrl +] Left / Right / Up / Down
+                if (keyCode === KeyCodes.RIGHT) {
+                    SelectionManager.selectFirstChild();
+                } else
+                if (keyCode === KeyCodes.LEFT) {
+                    SelectionManager.selectParent();
+                } else
+                if (keyCode === KeyCodes.UP) {
+                    SelectionManager.selectPreviousSibling();
+                } else
+                if (keyCode === KeyCodes.DOWN) {
+                    SelectionManager.selectNextSibling();
+                } else
+
+                // Spacebar
+                if (
+                    (!inputtingText || event.ctrlKey) &&
+                    keyCode === KeyCodes.SPACEBAR &&
+                    selectedNodes.length > 0
+                ) {
+                    // FIXME: treat as 1 executor action
+                    // FIXME: case when one selected node is child of another selected node
+                    selectedNodes.forEach(function(nodeSvgView) {
+                        toggleChildren(nodeSvgView);
+                    });
+                } else
+
+                // Plus / Numplus
+                if (
+                    (!inputtingText || event.ctrlKey) && (
+                        keyCode === KeyCodes.PLUS ||
+                        keyCode === KeyCodes.NUM_PLUS
+                    )
+                ) {
+                    Editor.onClickAddChild();
+                } else
+
+                if (
+                    event.ctrlKey && event.shiftKey && keyCode === KeyCodes.BACKSPACE
+                ) {
+                    Editor.deleteNode();
+                }
+
+                // Default - do nothing
+                else {
+                    dontPreventDefault = true;
+                }
+
+                if (!dontPreventDefault) {
+                    event.preventDefault();
+                }
+            }
+
+        // =================
+
+
+        function getSelectedNodes() {
+            var selectedNodes = [];
+            var selectedNode = SelectionManager.getCurrentSelection();
+            if (selectedNode) {
+                selectedNodes.push(selectedNode);
+            }
+            return selectedNodes;
+        }
 
     }
 
