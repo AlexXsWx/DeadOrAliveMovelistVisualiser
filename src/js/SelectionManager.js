@@ -4,25 +4,25 @@ define(
 
     [
         'View/NodeView', 'View/NodeSvgViewTextGetters',
-        'Tools/Observer', 'Tools/Executor', 'Tools/Tools'
+        'Tools/Signal', 'Tools/Executor', 'Tools/Tools'
     ],
 
-    function SelectionManager(NodeView, NodeSvgViewTextGetters, createObserver, Executor, _) {
+    function SelectionManager(NodeView, NodeSvgViewTextGetters, createSignal, Executor, _) {
 
         var selectionCurrent = null;
 
-        var onSelectionChanged = createObserver();
+        var onSelectionChanged = createSignal();
 
-        var getVisibleNodesSvgViews;
-        var toggleChildren;
-
-        var selectParentCallback;
+        var refs = {
+            getVisibleNodesSvgViews: undefined,
+            toggleChildren:          undefined
+        };
 
         return {
             init:                init,
             selectNode:          selectNode,
             getCurrentSelection: getCurrentSelection,
-            onSelectionChanged:  onSelectionChanged,
+            onSelectionChanged:  onSelectionChanged.listenersManager,
 
             deselectAll:           deselectAll,
             deselectHiddenNodes:   deselectHiddenNodes,
@@ -33,17 +33,12 @@ define(
         };
 
 
-        function init(rootElement, getVisibleNodesSvgViewsRef, toggleChildrenRef) {
+        function init(rootElement, getVisibleNodesSvgViewsFunc, toggleChildrenFunc) {
 
-            getVisibleNodesSvgViews = getVisibleNodesSvgViewsRef;
-            toggleChildren = toggleChildrenRef;
+            refs.getVisibleNodesSvgViews = getVisibleNodesSvgViewsFunc;
+            refs.toggleChildren          = toggleChildrenFunc;
 
             _.addClickListenerToElement(rootElement, deselectAll);
-
-            // rootElement.addEventListener('mousedown', function(event) {
-            //     event.stopPropagation();
-            //     event.preventDefault();
-            // });
 
         }
 
@@ -102,7 +97,9 @@ define(
 
 
         function isVisible(svgNodeView) {
-            return getVisibleNodesSvgViews().hasOwnProperty(NodeView.getId(svgNodeView.nodeView));
+            return refs.getVisibleNodesSvgViews().hasOwnProperty(
+                NodeView.getId(svgNodeView.nodeView)
+            );
         }
 
 
@@ -144,7 +141,7 @@ define(
 
             if (!nodeSvgView) return; // FIXME: select root
 
-            var visibleNodesSvgViews = getVisibleNodesSvgViews();
+            var visibleNodesSvgViews = refs.getVisibleNodesSvgViews();
 
             var nodeView = nodeSvgView.nodeView;
             var children = NodeView.getVisibleChildren(nodeView);
@@ -158,7 +155,7 @@ define(
                 // FIXME: this doesn't belong here
                 children = NodeView.getHiddenChildren(nodeView);
                 if (children.length > 0) {
-                    toggleChildren(nodeSvgView);
+                    refs.toggleChildren(nodeSvgView);
                 }
             }
 
@@ -170,7 +167,7 @@ define(
 
             if (!nodeSvgView) return; // FIXME: select root
 
-            var visibleNodesSvgViews = getVisibleNodesSvgViews();
+            var visibleNodesSvgViews = refs.getVisibleNodesSvgViews();
 
             var nodeView = nodeSvgView.nodeView;
             var parent = NodeView.getParentNodeView(nodeView);
@@ -189,7 +186,10 @@ define(
                 var parentId = NodeView.getId(parent);
                 if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
                     var parentNodeSvgView = visibleNodesSvgViews[parentId];
-                    selectSiblingOfNode(parentNodeSvgView, selfIndex + delta - (children.length - 1));
+                    selectSiblingOfNode(
+                        parentNodeSvgView,
+                        selfIndex + delta - (children.length - 1)
+                    );
                 }
             } else {
                 var child = children[selfIndex + delta];
@@ -208,7 +208,7 @@ define(
 
             if (!nodeSvgView) return; // FIXME: select root
 
-            var visibleNodesSvgViews = getVisibleNodesSvgViews();
+            var visibleNodesSvgViews = refs.getVisibleNodesSvgViews();
 
             var nodeView = nodeSvgView.nodeView;
             var parent = NodeView.getParentNodeView(nodeView);

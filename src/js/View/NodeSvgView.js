@@ -5,26 +5,28 @@ define(
     [
         'View/NodeView', 'Model/NodeFactory',
         'View/NodeSvgIndicatorsView', 'View/NodeSvgViewTexts', 'View/NodeSvgViewAnimator',
-        'Tools/Observer', 'Tools/SvgTools', 'Tools/Tools'
+        'Tools/Signal', 'Tools/SvgTools', 'Tools/Tools'
     ],
 
     function NodeSvgView(
         NodeView, NodeFactory,
         NodeSvgIndicatorsView, NodeSvgViewTexts, NodeSvgViewAnimator,
-        createObserver, SvgTools, _
+        createSignal, SvgTools, _
     ) {
 
         var NODE_WIDTH  = 150;
         var NODE_HEIGHT = 25;
 
-        var onNodeClick          = createObserver();
-        var onNodeToggleChildren = createObserver();
+        var onNodeClick          = createSignal();
+        var onNodeToggleChildren = createSignal();
+        var updateSignal         = createSignal();
 
         return {
-            init:                         NodeSvgViewTexts.init,
+            init:                         init,
             create:                       create,
-            onNodeClick:                  onNodeClick,
-            onNodeToggleChildren:         onNodeToggleChildren,
+            onUpdate:                     updateSignal.listenersManager,
+            onNodeClick:                  onNodeClick.listenersManager,
+            onNodeToggleChildren:         onNodeToggleChildren.listenersManager,
             setRightTextToSafety:         NodeSvgViewTexts.setRightTextToSafety,
             setRightTextToHardKnockdowns: NodeSvgViewTexts.setRightTextToHardKnockdowns,
             getNodeWidth:  function() { return NODE_WIDTH; },
@@ -39,6 +41,10 @@ define(
                 return height * NODE_HEIGHT;
             }
         };
+
+        function init() {
+            NodeSvgViewTexts.onUpdate.addListener(updateSignal.dispatch);
+        }
 
         function create(nodeView) {
 

@@ -51,9 +51,7 @@ define(
                 canvas = CanvasManager.create(parentElement);
                 SelectionManager.init(
                     parentElement,
-                    function getVisibleNodesSvgView() {
-                        return visibleNodesSvgViews;
-                    },
+                    function getVisibleNodesSvgView() { return visibleNodesSvgViews; },
                     toggleChildren
                 );
 
@@ -232,7 +230,10 @@ define(
                 initFieldSetToggleCollapse();
                 initLoadSaveUIActions();
                 initEditorUIActions();
-                NodeSvgView.init(update);
+
+                NodeSvgView.init();
+                NodeSvgView.onUpdate.addListener(update);
+
                 initFilter();
             }
 

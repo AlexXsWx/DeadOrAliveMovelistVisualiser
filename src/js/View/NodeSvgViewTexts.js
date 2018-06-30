@@ -2,9 +2,9 @@ define(
 
     'View/NodeSvgViewTexts',
 
-    [ 'View/NodeSvgViewTextGetters', 'Tools/Tools' ],
+    [ 'View/NodeSvgViewTextGetters', 'Tools/Signal', 'Tools/Tools' ],
 
-    function NodeSvgViewTexts(NodeSvgViewTextGetters, _) {
+    function NodeSvgViewTexts(NodeSvgViewTextGetters, createSignal, _) {
 
         var TEXT_GETTER_OPTIONS = [
             NodeSvgViewTextGetters.getEmptyText,
@@ -28,8 +28,11 @@ define(
 
         var flipTextToRight = true;
 
+        var updateSignal = createSignal();
+
         return {
             init:                         init,
+            onUpdate:                     updateSignal.listenersManager,
             setRightTextToSafety:         setRightTextToSafety,
             setRightTextToHardKnockdowns: setRightTextToHardKnockdowns,
             hasTextAtTop:                 hasTextAtTop,
@@ -38,31 +41,31 @@ define(
         };
 
 
-        function init(updateRef) {
+        function init() {
 
             _.getDomElement('topTextOption').addEventListener('change', function(event) {
                 var select = this;
                 var selectedOptionValue = +select.selectedOptions[0].value;
                 textGetters.top = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
-                updateRef();
+                updateSignal.dispatch();
             });
             _.getDomElement('rightTextOption').addEventListener('change', function(event) {
                 var select = this;
                 var selectedOptionValue = +select.selectedOptions[0].value;
                 textGetters.right = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
-                updateRef();
+                updateSignal.dispatch();
             });
             _.getDomElement('bottomTextOption').addEventListener('change', function(event) {
                 var select = this;
                 var selectedOptionValue = +select.selectedOptions[0].value;
                 textGetters.bottom = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
-                updateRef();
+                updateSignal.dispatch();
             });
 
             _.getDomElement('flipTextToRight').addEventListener('change', function(event) {
                 var checkbox = this;
                 flipTextToRight = checkbox.checked;
-                updateRef();
+                updateSignal.dispatch();
             });
 
         }

@@ -10,7 +10,7 @@ define(
 
         function createLimitsFinder(x, y) {
 
-            return {
+            var self = {
 
                 x: {
                     min: _.defined(x, null),
@@ -28,27 +28,29 @@ define(
 
             };
 
-        }
+            return self;
 
-        function invalidate() {
-            this.x.min = null;
-            this.x.max = null;
-            this.y.min = null;
-            this.y.max = null;
-        }
+            function invalidate() {
+                self.x.min = null;
+                self.x.max = null;
+                self.y.min = null;
+                self.y.max = null;
+            }
 
-        function collapseTo(x, y) {
-            this.x.min = x;
-            this.x.max = x;
-            this.y.min = y;
-            this.y.max = y;
-        }
+            function collapseTo(x, y) {
+                self.x.min = x;
+                self.x.max = x;
+                self.y.min = y;
+                self.y.max = y;
+            }
 
-        function expandToContain(x, y) {
-            if (this.x.max === null || this.x.max < x) this.x.max = x;
-            if (this.x.min === null || this.x.min > x) this.x.min = x;
-            if (this.y.max === null || this.y.max < y) this.y.max = y;
-            if (this.y.min === null || this.y.min > y) this.y.min = y;
+            function expandToContain(x, y) {
+                if (self.x.max === null || self.x.max < x) self.x.max = x;
+                if (self.x.min === null || self.x.min > x) self.x.min = x;
+                if (self.y.max === null || self.y.max < y) self.y.max = y;
+                if (self.y.min === null || self.y.min > y) self.y.min = y;
+            }
+
         }
 
     }

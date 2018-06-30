@@ -16,15 +16,17 @@ define(
 
         function create(rootNode) {
 
-            var svg;
-            var canvas;
-            var linksParent;
-            var nodesParent;
+            var domRefs = {
+                svg:         null,
+                canvas:      null,
+                linksParent: null,
+                nodesParent: null,
+            };
 
             var renderHack = createRenderHackManager();
 
             rootNode.appendChild(
-                svg = _.createSvgElement({
+                domRefs.svg = _.createSvgElement({
                     tag: 'svg',
                     attributes: {
                         'version': 1.1,
@@ -32,19 +34,25 @@ define(
                     },
                     children: [
                         renderHack.element,
-                        canvas = _.createSvgElement({
+                        domRefs.canvas = _.createSvgElement({
                             tag: 'g',
                             classes: [ 'canvas' ],
                             children: [
-                                linksParent = _.createSvgElement({ tag: 'g', classes: [ 'links' ] }),
-                                nodesParent = _.createSvgElement({ tag: 'g', classes: [ 'nodes' ] })
+                                domRefs.linksParent = _.createSvgElement({
+                                    tag: 'g',
+                                    classes: [ 'links' ]
+                                }),
+                                domRefs.nodesParent = _.createSvgElement({
+                                    tag: 'g',
+                                    classes: [ 'nodes' ]
+                                })
                             ]
                         })
                     ]
                 })
             );
 
-            renderHack.installHook(canvas);
+            renderHack.installHook(domRefs.canvas);
 
             return {
                 addNode:                     addNode,
@@ -53,13 +61,14 @@ define(
             };
 
             function addNode(link, node) {
-                linksParent.appendChild(link);
-                nodesParent.appendChild(node);
+                domRefs.linksParent.appendChild(link);
+                domRefs.nodesParent.appendChild(node);
             }
 
+            /** Aligns SVG's children so that they are always below SVG's top edge */
             function normalize(offsetX, offsetY, totalWidth, totalHeight) {
 
-                canvas.setAttribute(
+                domRefs.canvas.setAttribute(
                     'style',
                     'transform: translate(' +
                         (PADDING + offsetX) + 'px,' +
@@ -78,8 +87,8 @@ define(
                 width  = Math.max(body.clientWidth  - getBodyScrollbarWidth(),  width);
                 height = Math.max(body.clientHeight - getBodyScrollbarHeight(), height);
 
-                svg.setAttribute('width',  width);
-                svg.setAttribute('height', height);
+                domRefs.svg.setAttribute('width',  width);
+                domRefs.svg.setAttribute('height', height);
 
                 renderHack.resize(height);
 

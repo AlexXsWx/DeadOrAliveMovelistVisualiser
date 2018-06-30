@@ -1,23 +1,25 @@
 define(
 
-    'Tools/Observer',
+    'Tools/Signal',
 
     [],
 
-    function() {
+    function SignalModule() {
 
-        return createObserver;
+        return createSignal;
 
-        function createObserver() {
+        function createSignal() {
 
             var listeners = [];
 
             return {
-                dispatch:           dispatch,
-                addListener:        addListener,
-                hasListener:        hasListener,
-                removeListener:     removeListener,
-                removeAllListeners: removeAllListeners
+                dispatch: dispatch,
+                listenersManager: {
+                    addListener:        addListener,
+                    hasListener:        hasListener,
+                    removeListener:     removeListener,
+                    removeAllListeners: removeAllListeners
+                }
             };
 
 

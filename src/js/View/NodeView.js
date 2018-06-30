@@ -83,7 +83,6 @@ define(
                     isPlaceholder: undefined, // bool
                     targetNodeData: null,
                     groupName: undefined // string
-                    // svgNodeView: null
                 }
 
             };

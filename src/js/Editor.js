@@ -3,7 +3,7 @@ define(
     'Editor',
 
     [
-        'Tools/Observer', 'Model/NodeFactory', 'View/NodeView', 'Tools/TreeTools',
+        'Tools/Signal', 'Model/NodeFactory', 'View/NodeView', 'Tools/TreeTools',
         'EditorGroups/EditorGroupRootCreator',
         'EditorGroups/EditorGroupStanceCreator',
         'EditorGroups/EditorGroupMoveCreator',
@@ -13,7 +13,7 @@ define(
     ],
 
     function(
-        createObserver, NodeFactory, NodeView, TreeTools,
+        createSignal, NodeFactory, NodeView, TreeTools,
         EditorGroupRootCreator,
         EditorGroupStanceCreator,
         EditorGroupMoveCreator,
@@ -22,11 +22,14 @@ define(
         _
     ) {
 
-        var nodeDataGenerator;
+        var refs = {
+            nodeDataGenerator: undefined,
+            // FIXME: find a better way to pass this func
+            toggleChildren: undefined,
+            selectNode:     undefined
+        };
+
         var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
-        // FIXME: find a better way to pass this func
-        var toggleChildrenRef;
-        var selectNodeRef;
 
         /**
          * Dispatches {
@@ -36,7 +39,7 @@ define(
          *     [moved: Array<NodeView>]
          * }
          */
-        var onDataChanged = createObserver();
+        var onDataChanged = createSignal();
 
 
         var editorGroups = [
@@ -62,22 +65,22 @@ define(
             addPlaceholders:    addPlaceholders,
             removePlaceholders: removePlaceholders,
             updateBySelection:  updateBySelection,
-            onDataChanged:      onDataChanged,
+            onDataChanged:      onDataChanged.listenersManager,
 
             onClickAddChild: onClickAddChild
         };
 
 
-        function init(nodeDataGeneratorRef, argToggleChildrenRef, argSelectNodeRef) {
-            nodeDataGenerator = nodeDataGeneratorRef;
-            toggleChildrenRef = argToggleChildrenRef;
-            selectNodeRef     = argSelectNodeRef;
+        function init(nodeDataGeneratorFunc, toggleChildrenFunc, selectNodeFunc) {
+            refs.nodeDataGenerator = nodeDataGeneratorFunc;
+            refs.toggleChildren    = toggleChildrenFunc;
+            refs.selectNode        = selectNodeFunc;
             updateEditorDomGroups(false, false);
         }
 
 
         function toggleChildren() {
-            if (selectedSVGNode) toggleChildrenRef(selectedSVGNode);
+            if (selectedSVGNode) refs.toggleChildren(selectedSVGNode);
         }
 
 
@@ -170,7 +173,7 @@ define(
 
             onDataChanged.dispatch({ added: [ newNode ] });
 
-            selectNodeRef(newNode);
+            refs.selectNode(newNode);
 
             // FIMXE: if not a true placeholder and in edit mode, add placeholder to the new node
             // addPlaceholders(newNode);
@@ -285,11 +288,11 @@ define(
             var placeholderNodeView;
             var parentIsRoot = !NodeView.getParentNodeView(parent);
             if (parentIsRoot) {
-                placeholderNodeView = nodeDataGenerator();
+                placeholderNodeView = refs.nodeDataGenerator();
                 var nodeData = NodeFactory.createStanceNode();
                 NodeView.setNodeData(placeholderNodeView, nodeData);
             } else {
-                placeholderNodeView = nodeDataGenerator();
+                placeholderNodeView = refs.nodeDataGenerator();
                 var nodeData = NodeFactory.createMoveNode();
                 NodeView.setNodeData(placeholderNodeView, nodeData);
             }
@@ -301,25 +304,15 @@ define(
 
         function updateBySelection(selectedNodeViewDomElements, doFocus) {
 
-            // FIXME - keep array of selected elements
+            // FIXME: keep array of selected elements
             selectedSVGNode = selectedNodeViewDomElements[0] || null;
 
-            // reset old selection
+            var selectedNodeViews = selectedNodeViewDomElements.map(
+                function(svgNodeView) { return svgNodeView.nodeView; }
+            );
             editorGroups.forEach(function(editorGroup) {
-                editorGroup.matchingSelectedViews = [];
+                editorGroup.updateBySelection(selectedNodeViews);
             });
-
-            // update to new one
-            for (var i = 0; i < selectedNodeViewDomElements.length; ++i) {
-                var nodeView = selectedNodeViewDomElements[i].nodeView;
-                var nodeData = NodeView.getNodeData(nodeView);
-                for (var j = 0; j < editorGroups.length; ++j) {
-                    var editorGroup = editorGroups[j];
-                    if (editorGroup.filter(nodeData)) {
-                        editorGroup.matchingSelectedViews.push(nodeView);
-                    }
-                }
-            }
 
             updateEditorDomGroups(doFocus, false);
 
