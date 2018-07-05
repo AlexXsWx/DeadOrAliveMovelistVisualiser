@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title>DOA FSDC</title>
+
+        <script src="../lib/codemirror/5.39.0/lib/codemirror.js"></script>
+        <link rel=stylesheet href="../lib/codemirror/5.39.0/lib/codemirror.css">
+        <script src="../lib/codemirror/5.39.0/mode/javascript/javascript.js"></script>
+        <script src="../lib/codemirror/5.39.0/mode/clojure/clojure.js"></script>
+        <link rel=stylesheet href="../lib/codemirror/5.39.0/theme/monokai.css">
+        <script src="../lib/codemirror/5.39.0/keymap/sublime.js"></script>
+        <script src="../lib/codemirror/5.39.0/addon/search/searchcursor.js"></script>
+
+    </head>
+
+    <body>
+
+        <input id="export" type="button" value="Export (Ctrl+E)" />
+        <input id="save" type="button" value="Save source (Ctrl+S)" /><br />
+        Load source (Ctrl+O): <input id="load" type="file" /><br />
+
+        <br />
+        Source: <input id="resetSource" type="button" value="Reset" />
+        <textarea id="source"></textarea>
+
+        <br />
+        AHK Mapping: <input id="resetMapping" type="button" value="Reset" />
+        <textarea id="mapping"></textarea>
+
+        <a id="download" style="display: none">Click to save</a>
+
+        <script>
+
+            (function() {
+
+                const defaultMacro = unindent(`
+                    [
+                        { press: ['4', 'h'] },
+                        { expect: [0, 18, 12] },
+                        { wait: 3 },
+                        { release: ['4', 'h'] },
+                        
+                        { wait: 'auto' },
+                        { press: ['4'] }, { wait: 1 }, { release: ['4'] }, { wait: 1 },
+                        { press: ['4'] }, { wait: 1 }, { release: ['4'] }, { wait: 1 },
+                        { press: ['8'], unholdable: true }, { wait: 1 },
+                        { press: ['h+k'] }, { wait: 3 }, { release: ['8', 'h+k'] }
+                    ]
+                `);
+
+                const defaultAHKBindings = unindent(`
+                    ; Please customize these keyboard configs to match your in-game mapping.
+                    ; Default mapping is for a QWERTY keyboard - in-game TYPE-A.
+                    
+                    btn_left  = left
+                    btn_right = right
+                    btn_up    = up
+                    btn_down  = down
+                    btn_hold  = j ; X
+                    btn_punch = k ; Y
+                    btn_kick  = l ; B
+                    btn_throw = m ; A
+                    btn_pk    = u ; LB
+                    btn_hk    = o ; RT
+                    btn_hpk   = i ; RB
+                    btn_taunt = n ; LT
+                `);
+
+                // const defaultAHKBindings = unindent(`
+                //     ; Please customize these keyboard configs to match your in-game mapping.
+                    
+                //     btn_left  = left
+                //     btn_right = right
+                //     btn_up    = up
+                //     btn_down  = down
+                    
+                //     btn_hold  = l ; B
+                //     btn_punch = m ; A
+                //     btn_kick  = j ; X
+                //     btn_throw = k ; Y
+                //     btn_pk    = u ; LB
+                //     btn_hk    = i ; RB
+                //     btn_hpk   = o ; RT
+                //     btn_taunt = n ; LT
+                // `);
+
+                const AHK_input_map = {
+                    '4':     'btn_left',
+                    '6':     'btn_right',
+                    '8':     'btn_up',
+                    '2':     'btn_down',
+                    'p':     'btn_punch',
+                    'k':     'btn_kick',
+                    'h':     'btn_hold',
+                    'p+k':   'btn_pk',
+                    'h+k':   'btn_hk',
+                    'h+p+k': 'btn_hpk',
+                    't':     'btn_throw'
+                };
+
+                const {
+                    getSourceText: getAHKBinding,
+                    setSourceText: setAHKBinding,
+                } = initCodeMirror($('mapping'), defaultAHKBindings, 'mapping', 'clojure');
+
+                const { getSourceText, setSourceText } = initCodeMirror($('source'), defaultMacro, 'source');
+
+                $('resetSource').addEventListener('click', (event) => setSourceText(defaultMacro));
+                $('resetMapping').addEventListener('click', (event) => setAHKBinding(defaultAHKBindings));
+
+                initFile($('load'), setSourceText);
+
+                $('export').addEventListener('click', (event) => doExport());
+                $('save').addEventListener('click', (event) => doSave());
+
+                initShortcuts();
+
+                return;
+
+                function $(id) { return document.getElementById(id); }
+
+                function initFile(fileInput, onLoad) {
+                    fileInput.addEventListener('change', () => {
+                        if (fileInput.files.length > 0) {
+                            const reader = new FileReader();
+                            reader.addEventListener('load', () => onLoad(reader.result));
+                            reader.readAsText(fileInput.files[0]);
+                        }
+                    });
+                }
+
+
+                function initCodeMirror(myTextArea, content, saveId, optLang) {
+                    const myCodeMirror = CodeMirror.fromTextArea(
+                        myTextArea,
+                        {
+                            // indentWithTabs: true,
+                            tabSize: 2,
+                            lineNumbers: true,
+                            theme: 'monokai',
+                            keyMap: 'sublime',
+                            mode: optLang || 'javascript'
+                        }
+                    );
+
+                    setSourceText(load() || content);
+
+                    myCodeMirror.on("change", () => save());
+
+                    return { getSourceText, setSourceText };
+
+                    function getSourceText() { return myCodeMirror.getValue(); }
+                    function setSourceText(content) { return myCodeMirror.setValue(content); }
+
+                    function load() {
+                        return localStorage['editorCache_' + saveId];
+                    }
+                    function save() {
+                        localStorage['editorCache_' + saveId] = getSourceText();
+                    }
+                }
+
+                function initShortcuts() {
+                    const KeyCode = {
+                        S: 83,
+                        O: 79,
+                        E: 69
+                    };
+
+                    window.addEventListener('keydown', function(event) {
+                        // console.log(event.keyCode);
+                        if (event.ctrlKey || event.metaKey) {
+                            switch (event.keyCode) {
+                                case KeyCode.S: doSave();   event.preventDefault(); break;
+                                case KeyCode.O: doOpen();   event.preventDefault(); break;
+                                case KeyCode.E: doExport(); event.preventDefault(); break;
+                            }
+                        }
+                    });
+                }
+
+                //
+
+                function doExport() {
+                    let filled;
+                    try {
+                        const macroData = parseJson(getSourceText());
+                        filled = fillMacro(macroData);
+                    } catch(error) {
+                        alert("Invalid source");
+                        return;
+                    }
+                    const ahkCode = createAHKcode(filled, getAHKBinding());
+                    save(ahkCode, 'doa_fdsc.ahk');
+                }
+
+                function doSave() {
+                    save(getSourceText(), 'doa_fdsc.js');
+                }
+
+                function doOpen() {
+                    document.getElementById('load').dispatchEvent(new MouseEvent('click'));
+                }
+
+                //
+
+                function save(data, name) {
+                    const link = document.getElementById('download');
+                    link.download = name;
+                    link.href = textToBase64(data);
+                    // FIXME: may not be compatible with browsers other than chrome
+                    // A solution could be to use http://github.com/eligrey/FileSaver.js
+                    link.dispatchEvent(new MouseEvent('click'));
+                }
+
+                function createAHKcode(macroData, binding) {
+                    const body = macroData.reduce((result, step) => {
+                        const str = [];
+                        if (isWaitStep(step)) {
+                            str.push(`WaitFrames(${step.wait})`);
+                        } else {
+                            step.release && str.push(... step.release.map((key) => `send,{%${getKey(key)}% up}`));
+                            step.press   && str.push(... step.press.map((key) => `send,{%${getKey(key)}% down}`));
+                        }
+                        return result + str.join('\n') + '\n';
+                    }, '');
+                    function getKey(key) { return AHK_input_map[key]; }
+                    return unindent(`
+                        ; save this file as anything.ahk, install AutoHotkey to run it, press Right Ctrl to start
+
+                        ; optimizations for better input accuracy
+                        #SingleInstance Force
+                        #NoEnv
+                        #MaxHotkeysPerInterval 99000000
+                        #HotkeyInterval 99000000
+                        #KeyHistory 0
+                        ListLines Off
+                        Process, Priority, , A
+                        SetBatchLines, -1
+                        SetKeyDelay, -1, -1
+                        SetMouseDelay, -1
+                        SetDefaultMouseSpeed, 0
+                        SetWinDelay, -1
+                        SetControlDelay, -1
+                        SendMode Input
+                        SetTitleMatchMode, 2
+
+                        WaitFrames(WaitFrames)
+                        {
+                            ; how many milliseconds does a frame last
+                            ; DllCall("Sleep","UInt",WaitFrames * 16.8)
+
+                            DllCall("Sleep",UInt,WaitFrames * 17)
+                        }
+
+                        ; This macro/script needs the game to have a keyboard as the main input device,
+                        ; so unplug your controllers if necessary.
+                        ___BINDING___
+
+
+                        ; the button that starts executing inputs
+                        $*rctrl::
+                        {
+                            ____BODY____
+                        }
+                        return
+
+                        ; press Ins after editing this script to reload it and test your changes quickly
+                        $*ins::reload
+                    `)
+                    .replace('___BINDING___', binding.trim())
+                    .replace('____BODY____', indent(body, 4).trim());
+                }
+
+                function fillMacro(sparseMacroData) {
+                    const macroData = clone(sparseMacroData);
+                    let undecidedStep = null;
+                    let nextUnholdable = 0;
+                    let time = 0;
+                    for (let i = 0; i < macroData.length; ++i) {
+                        const step = macroData[i];
+                        if (isWaitStep(step)) {
+                            if (
+                                step.wait === 'auto' ||
+                                step.wait === null ||
+                                step.wait === undefined
+                            ) {
+                                if (undecidedStep !== null) {
+                                    throw 'Error: more than 1 auto wait';
+                                }
+                                undecidedStep = step;
+                            } else {
+                                time += step.wait;
+                            }
+                        } else {
+                            if (step.unholdable && undecidedStep) {
+                                const wait = nextUnholdable - time
+                                undecidedStep.wait = wait;
+                                undecidedStep = null;
+                                time += wait;
+                            }
+                            if (step.expect) {
+                                nextUnholdable = time + 1 + getSum(step.expect);
+                            }
+                        }
+                    }
+
+                    return macroData;
+
+                    function getSum(array) {
+                        return array.reduce((sum, element) => (sum + element), 0);
+                    }
+                }
+
+                function isWaitStep(step) {
+                    return step.hasOwnProperty('wait');
+                }
+
+                function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+                function unindent(str) {
+                    const lines = str.split('\n').filter((line) => /[^\s]/.test(line));
+                    const minIndent = Math.min.apply(Math,
+                        lines.map((line) => line.match(/^\s*/)[0].length)
+                    );
+                    console.log(minIndent);
+                    const rgx = new RegExp(`(^|\\n) {${minIndent}}`, 'g');
+                    console.log(rgx);
+                    return str.replace(rgx, (a, b) => b).trim();
+                }
+
+                function indent(str, amount) {
+                    const prefix = new Array(amount + 1).join(' ');
+                    return str.split('\n').map((line) => prefix + line).join('\n');
+                }
+
+            }());
+
+            function parseJson(str) {
+                return eval(str);
+                // return new Promise((fulfill, reject) => {
+                //     const worker = new Worker(textToBase64('(e)=>postMessage(eval(e.data))'));
+                //     worker.onmessage = (e) => fulfill(e.data);
+                //     worker.postMessage(str);
+                // });
+            }
+
+            function textToBase64(text) {
+                return 'data:text/plain;charset=utf8;base64,' + window.btoa(text);
+            }
+
+        </script>
+
+    </body>
+
+</html>
