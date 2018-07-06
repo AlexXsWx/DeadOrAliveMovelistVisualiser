@@ -43,6 +43,7 @@ define(
         };
 
         function init() {
+            NodeSvgViewTexts.init();
             NodeSvgViewTexts.onUpdate.addListener(updateSignal.dispatch);
         }
 
