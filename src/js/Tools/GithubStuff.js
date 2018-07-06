@@ -104,7 +104,7 @@ define(
                     'repos',
                     GITHUB_SETTINGS.USER,
                     GITHUB_SETTINGS.REPO,
-                    'tags'
+                    'tags?noCache=' + Date.now()
                 ].join('/')
             );
 
