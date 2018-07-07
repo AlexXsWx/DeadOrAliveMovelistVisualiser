@@ -115,7 +115,12 @@ define(
 
         function getForcetechAdvantage(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
-            if (!nodeData) return '';
+            if (
+                !nodeData ||
+                !NodeFactory.isMoveNode(nodeData)
+            ) {
+                return '';
+            }
 
             var parts = [];
 
@@ -148,6 +153,32 @@ define(
                     ]);
                 }
             });
+
+            if (
+                parts.length === 0 &&
+                NodeFactory.canMoveHitGround(nodeData)
+            ) {
+                var DEFAULT_GROUND_HIT_DURATION = 50;
+                var DEFAULT_FORCETECH_DURATION = 45;
+                [
+                    ['f/gc?', DEFAULT_FORCETECH_DURATION],
+                    ['g?', DEFAULT_GROUND_HIT_DURATION]
+                ].forEach(function(data) {
+                    var prefix = data[0];
+                    var groundHitDuration = data[1];
+                    var advantage = NodeFactory.getAdvantageRange(
+                        nodeData,
+                        undefined,
+                        function() { return groundHitDuration; }
+                    );
+                    if (advantage) {
+                        parts.push([
+                            _.createTextNode(prefix),
+                            advantageInteger(advantage.min)
+                        ]);
+                    }
+                });
+            }
 
             var result = '';
 

@@ -479,7 +479,7 @@ define(
             return actionStepResult && searchInStringArray(actionStepResult.tags, /hard/i) >= 0;
         }
 
-        function getAdvantageRange(nodeData, actionStepResultFilter, getDuration) {
+        function getAdvantageRange(nodeData, optActionStepResultFilter, getDuration) {
             console.assert(_.isObject(nodeData), 'nodeData is invalid');
             var frameData = nodeData.frameData;
             if (!frameData || frameData.length === 0) return;
@@ -491,7 +491,7 @@ define(
                 var results = actionSteps[i].results;
                 if (!results) continue;
                 for (var j = 0; j < results.length; ++j) {
-                    if (actionStepResultFilter(results[j])) {
+                    if (!optActionStepResultFilter || optActionStepResultFilter(results[j])) {
                         var blockStun = getDuration(results[j]);
                         if (isNaN(blockStun) || !isFinite(blockStun)) continue;
                         var maxAdvantage = blockStun - recovery;

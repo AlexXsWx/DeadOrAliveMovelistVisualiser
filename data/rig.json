@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1511513308050
+    "timeSaved": 1530960571632
   },
   "body": {
     "character": "rig",
@@ -2050,7 +2050,7 @@
                       },
                       {
                         "condition": [
-                          "grounded"
+                          "forcetech"
                         ],
                         "hitBlock": 45
                       }
@@ -2509,6 +2509,12 @@
                       "grounded"
                     ],
                     "hitBlock": 50
+                  },
+                  {
+                    "condition": [
+                      "grounded combo"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -2605,6 +2611,12 @@
                       "grounded"
                     ],
                     "hitBlock": 50
+                  },
+                  {
+                    "condition": [
+                      "grounded combo"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
@@ -4315,6 +4327,12 @@
                       "grounded"
                     ],
                     "hitBlock": 50
+                  },
+                  {
+                    "condition": [
+                      "grounded combo"
+                    ],
+                    "hitBlock": 45
                   }
                 ]
               }
