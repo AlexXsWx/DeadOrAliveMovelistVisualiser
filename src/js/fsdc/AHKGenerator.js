@@ -59,26 +59,11 @@ define(
 
         function generate(steps) {
 
-            var leftover = 0;
             var str = steps.map(function(step) {
                 if (step.hasOwnProperty('wait')) {
                     var amount = step['wait'];
-
-                    var leftoverThirds;
-                    switch (amount % 3) {
-                        case 0: leftoverThirds = 0; break;
-                        case 1: leftoverThirds = 2; break;
-                        case 2: leftoverThirds = 1; break;
-                    }
-
-                    var ms = Math.floor(amount * 1000 / 60);
-
-                    leftover += leftoverThirds;
-                    if (leftover >= 3) {
-                        ms += Math.floor(leftover / 3);
-                        leftover = leftover % 3;
-                    }
-
+                    // var ms = Math.floor(amount * 1000 / 60);
+                    var ms = step['ms'];
                     return `DllCall("Sleep","UInt",${ms}) ; ${amount} frames`;
                 }
                 if (step.hasOwnProperty('release')) {

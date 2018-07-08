@@ -123,6 +123,9 @@ define(
         }
 
         function createSteps(data) {
+
+            var createWaitStep = createWaitStepCreator();
+
             var frameOld = 0;
             var steps = [];
             var lastState = null;
@@ -161,10 +164,41 @@ define(
 
             return steps;
 
-            function createWaitStep(amount) {
-                var obj = {};
-                obj['wait'] = amount;
-                return obj;
+            function createWaitStepCreator() {
+
+                var leftover = 0;
+
+                return createWaitStep;
+
+                function createWaitStep(amount) {
+
+                    var ms = handleLeftover(amount);
+
+                    var obj = {};
+                    obj['wait'] = amount;
+                    obj['ms'] = ms;
+                    return obj;
+
+                }
+
+                function handleLeftover(amount) {
+                    var leftoverThirds;
+                    switch (amount % 3) {
+                        case 0: leftoverThirds = 0; break;
+                        case 1: leftoverThirds = 2; break;
+                        case 2: leftoverThirds = 1; break;
+                    }
+
+                    var ms = Math.floor(amount * 1000 / 60);
+
+                    leftover += leftoverThirds;
+                    if (leftover >= 3) {
+                        ms += Math.floor(leftover / 3);
+                        leftover = leftover % 3;
+                    }
+
+                    return ms;
+                }
             }
 
             function createPressStep(buttonName) {
