@@ -1,0 +1,79 @@
+.hidden {
+  display: none !important;
+}
+.click-through {
+  pointer-events: none !important;
+}
+.click-through > * {
+  pointer-events: initial;
+}
+html {
+  font-family: arial;
+  height: 100%;
+}
+body {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: white;
+  color: black;
+}
+#loading {
+  cursor: default;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background: #777;
+}
+#loading span {
+  color: white;
+  font-size: 48px;
+  align-self: center;
+}
+table#data {
+  border-collapse: collapse;
+}
+table#data tbody {
+  position: relative;
+}
+table#data tbody th {
+  position: fixed;
+  border-bottom: none;
+}
+table#data tr {
+  height: 25px;
+}
+table#data th,
+table#data td {
+  min-width: 25px;
+}
+table#data tbody th {
+  height: 25px;
+  min-width: 75px;
+  z-index: 1;
+}
+table#data thead tr th:first-child {
+  min-width: 75px;
+}
+table#data td,
+table#data th {
+  padding: 0;
+}
+table#data th,
+table#data td {
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+table#data th {
+  background-color: #faa;
+}
+table#data td {
+  background-color: #afa;
+}

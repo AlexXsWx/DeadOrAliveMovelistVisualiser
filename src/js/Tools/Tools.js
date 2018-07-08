@@ -43,7 +43,8 @@ define(
             flattenRecursionDirty:                 flattenRecursionDirty,
             takeSomeArrayElement:                  takeSomeArrayElement,
             optimizedSliceArguments:               optimizedSliceArguments,
-            removeElementFromParent:               removeElementFromParent
+            removeElementFromParent:               removeElementFromParent,
+            createArray:                           createArray
         };
 
         function report(/*arguments*/) {
@@ -488,6 +489,14 @@ define(
 
         function removeElementFromParent(element) {
             element.parentNode.removeChild(element);
+        }
+
+        function createArray(size, elementCreator) {
+            var result = [];
+            for (var i = 0; i < size; ++i) {
+                result.push(elementCreator(i));
+            }
+            return result;
         }
 
     }
