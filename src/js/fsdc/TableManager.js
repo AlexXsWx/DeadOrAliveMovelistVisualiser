@@ -19,12 +19,17 @@ define(
             addInitialBodyRows(bodyRowsCount);
             
             return {
+                getHeader1Cells: getHeader1Cells,
                 addTableBodyRow: addTableBodyRow,
                 addTableColumn:  addTableColumn,
                 getCoords:       getCoords,
                 accomodate:      accomodate,
                 getCustomData:   getCustomData
             };
+
+            function getHeader1Cells() {
+                return Array.from(domCache.head.querySelector('tr').querySelectorAll('th')).slice(1);
+            }
 
             function addInitialBodyRows(bodyRowsCount) {
                 for (var i = 0; i < bodyRowsCount; ++i) {
@@ -45,24 +50,21 @@ define(
             }
 
             function addTableColumn() {
-                var result = {
-                    head: [],
-                    body: []
-                };
                 var x = getColumnsCount();
 
-                var cell = createCell(x, 0);
-                domCache.head.querySelector('tr').appendChild(cell);
-                result.head.push(cell);
+                Array.from(domCache.head.querySelectorAll('tr')).forEach(
+                    function(row, i, a) {
+                        var cell = createCell(x, -(a.length - 1 - i));
+                        row.appendChild(cell);
+                    }
+                );
 
                 Array.from(domCache.body.querySelectorAll('tr')).forEach(
                     function(row, i, a) {
                         var cell = createCell(x, i + 1);
                         row.appendChild(cell);
-                        result.body.push(cell);
                     }
                 );
-                return result;
             }
 
             function getCoords(element) {
@@ -116,7 +118,7 @@ define(
 
             function createCell(x, y) {
                 var customData = {};
-                var header = (x === 0) || (y === 0);
+                var header = (x <= 0) || (y <= 0);
                 var cell = _.createDomElement({ tag: header ? 'th' : 'td' });
                 var content = initCellFunc(cell, customData, x - 1, y - 1);
                 setCustomData(cell, customData);

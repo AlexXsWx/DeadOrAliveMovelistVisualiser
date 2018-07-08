@@ -62,6 +62,7 @@ define(
             divsParent.body.style.position = 'relative';
             divsParent.head.style.position = 'relative';
 
+            updateView();
         }
 
         function initListeners() {
@@ -81,6 +82,7 @@ define(
                     // console.log('pointer up @ ' + customData.x + ':' + customData.y);
                     // datas.actual.setFrom(datas.preview);
                     if (startPosition.x === customData.x) {
+                        // TODO: don't allow to press action button while a macro containing it is held
                         datas.preview.toggle(Buttons.ButtonNames[startPosition.y], customData.x);
                     }
                 }),
@@ -157,6 +159,62 @@ define(
                     var div = createDiv(start, end, 0, 0, 0, 5);
                     divsParent.head.appendChild(div);
                 });
+
+                var header1Cells = tableDomControl.getHeader1Cells();
+                header1Cells.forEach(function(cell, index) { _.removeAllChildren(cell); });
+
+                data.forEachChange(function(frame, buttonsStateOld, buttonsStateNew) {
+                    if (frame + 1 < header1Cells.length) {
+                        var cell = header1Cells[frame + 1];
+                        var textContent = [];
+                        var movementWas    = getMovement(buttonsStateOld);
+                        var movementBecome = getMovement(buttonsStateNew);
+                        if (movementBecome !== movementWas) {
+                            textContent.push(movementBecome);
+                        }
+                        var attackWas    = getAttack(buttonsStateOld);
+                        var attackBecome = getAttack(buttonsStateNew);
+                        Object.keys(attackWas).forEach(function(key) {
+                            if (key === 'taunt') return;
+                            if (attackBecome[key] && !attackWas[key]) textContent.push(key);
+                        });
+
+
+                        if (textContent.length > 0) {
+                            _.setTextContent(cell, textContent.join('\n'));
+                        }
+                    }
+                });
+
+                function getMovement(buttonsState) {
+                    var up    = buttonsState['Up'];
+                    var down  = buttonsState['Down'];
+                    var left  = buttonsState['Left'];
+                    var right = buttonsState['Right'];
+                    if (up && down || left && right) return '';
+                    if (left  && up)   return '7';
+                    if (right && up)   return '9';
+                    if (left  && down) return '1';
+                    if (right && down) return '3';
+                    if (up)    return '8';
+                    if (down)  return '2';
+                    if (left)  return '4';
+                    if (right) return '6';
+                    return '';
+                }
+
+                function getAttack(buttonState) {
+                    return {
+                        h:     buttonState['Guard'],
+                        p:     buttonState['Punch'],
+                        k:     buttonState['Kick'],
+                        t:     buttonState['Throw'],
+                        pk:    buttonState['PunchKick'],
+                        hk:    buttonState['GuardKick'],
+                        hpk:   buttonState['Special'],
+                        taunt: buttonState['Taunt']
+                    };
+                }
             }
         }
 

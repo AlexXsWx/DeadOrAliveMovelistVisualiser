@@ -15,9 +15,9 @@ define(
             return {
                 clone: clone,
                 toggle: toggle,
+                isHeld: isHeld,
                 forEachInterval: forEachInterval
             };
-
             function clone() { return createRange(flips); }
 
             function toggle(frame) {
@@ -32,6 +32,15 @@ define(
                     }
                 }
                 flips.splice(index, 0, frame);
+            }
+
+            function isHeld(frame) {
+                var held = false;
+                for (var i = 0; i < flips.length; ++i) {
+                    if (flips[i] > frame) break;
+                    held = !held;
+                }
+                return held;
             }
 
             function forEachInterval(action) {
