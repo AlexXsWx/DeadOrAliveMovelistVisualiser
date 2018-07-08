@@ -43,7 +43,7 @@ define(
             });
         }
 
-        function create(keyDownListener) {
+        function create(keyDownListener, optFilterTextInput) {
 
             var keyDownSignal = createSignal();
             keyDownSignal.listenersManager.addListener(keyDownListener);
@@ -58,19 +58,21 @@ define(
                 // console.log(event.keyCode);
 
                 // Check if current key down is for navigating within a text input
-                if (!event.ctrlKey && isInputSelected('text')) {
-                    var input = document.activeElement;
-                    if (
-                        input.selectionEnd > 0 && (
-                            event.keyCode === KeyCodes.LEFT
-                            // TODO: key HOME
-                        ) ||
-                        input.selectionStart < input.value.length && (
-                            event.keyCode === KeyCodes.RIGHT
-                            // TODO: key END
-                        )
-                    ) {
-                        return;
+                if (optFilterTextInput) {
+                    if (!event.ctrlKey && isInputSelected('text')) {
+                        var input = document.activeElement;
+                        if (
+                            input.selectionEnd > 0 && (
+                                event.keyCode === KeyCodes.LEFT
+                                // TODO: key HOME
+                            ) ||
+                            input.selectionStart < input.value.length && (
+                                event.keyCode === KeyCodes.RIGHT
+                                // TODO: key END
+                            )
+                        ) {
+                            return;
+                        }
                     }
                 }
 

@@ -69,7 +69,7 @@ define(
                 loadData(NodeFactory.createEmptyData());
                 bindUIActions();
 
-                Hotkeys.create(handleFilteredKeyDown);
+                Hotkeys.create(handleFilteredKeyDown, true);
 
                 initUI();
 

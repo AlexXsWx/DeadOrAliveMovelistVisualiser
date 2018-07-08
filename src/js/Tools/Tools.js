@@ -44,7 +44,8 @@ define(
             takeSomeArrayElement:                  takeSomeArrayElement,
             optimizedSliceArguments:               optimizedSliceArguments,
             removeElementFromParent:               removeElementFromParent,
-            createArray:                           createArray
+            createArray:                           createArray,
+            sortFuncAscending:                     sortFuncAscending
         };
 
         function report(/*arguments*/) {
@@ -497,6 +498,12 @@ define(
                 result.push(elementCreator(i));
             }
             return result;
+        }
+
+        function sortFuncAscending(a, b) {
+            if (a > b) return 1;
+            if (a < b) return -1;
+            return 0;
         }
 
     }

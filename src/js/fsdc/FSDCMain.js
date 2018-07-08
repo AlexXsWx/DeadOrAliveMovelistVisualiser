@@ -4,10 +4,15 @@ define(
 
     [
         'fsdc/Buttons', 'fsdc/Range', 'fsdc/Data', 'fsdc/TableManager',
+        'Hotkeys', 'Input/KeyCodes',
         'Tools/Executor', 'Tools/Tools'
     ],
 
-    function FSDCMain(Buttons, createRange, createData, createTableDomControl, Executor, _) {
+    function FSDCMain(
+        Buttons, createRange, createData, createTableDomControl,
+        Hotkeys, KeyCodes,
+        Executor, _
+    ) {
 
         //
 
@@ -63,9 +68,53 @@ define(
             divsParent.head.style.position = 'relative';
 
             updateView();
+
+            Hotkeys.create(handleFilteredKeyDown);
+
+        }
+
+        function handleFilteredKeyDown(event) {
+
+            var keyCode = event.keyCode;
+
+            var dontPreventDefault = false;
+
+            var modifiers = {
+                ctrl: event.ctrlKey || event.metaKey,
+                shift: event.shiftKey
+            }
+
+            // Ctrl + Z
+            if (modifiers.ctrl && keyCode === KeyCodes.Z) {
+                if (modifiers.shift) {
+                    Executor.redo();
+                } else {
+                    Executor.undo()
+                };
+                event.stopPropagation();
+            } else
+
+            // Esc
+            if (keyCode === KeyCodes.ESC) {
+            } else
+
+            if (modifiers.ctrl && modifiers.shift && keyCode === KeyCodes.E) {
+                console.log('export');
+            }
+
+            // Default - do nothing
+            else {
+                dontPreventDefault = true;
+            }
+
+            if (!dontPreventDefault) {
+                event.preventDefault();
+            }
         }
 
         function initListeners() {
+
+            var previewIsDirty = false;
 
             var startPosition = {
                 x: null,
@@ -84,6 +133,7 @@ define(
                     if (startPosition.x === customData.x) {
                         // TODO: don't allow to press action button while a macro containing it is held
                         datas.preview.toggle(Buttons.ButtonNames[startPosition.y], customData.x);
+                        previewIsDirty = true;
                     }
                 }),
                 enter: createEventHandler(function listenerEnter(cell, customData) {
@@ -104,24 +154,34 @@ define(
                             function(acc, element) { return acc + Number(element); },
                             0
                         );
-                        headerRange.toggle(customData.x);
-                        headerRange.toggle(customData.x + sum);
-                        updateView();
+                        var x = customData.x;
+                        Executor.rememberAndExecute('add header', act, act);
+                        return;
+                        function act() {
+                            headerRange.toggle(x);
+                            headerRange.toggle(x + sum);
+                            updateView();
+                        }
                     }
                 })
             };
 
             window.addEventListener('pointerup', function(event) {
+                if (!previewIsDirty) return;
+                previewIsDirty = false;
+
                 var current = datas.actual.clone();
-                var updated = datas.preview.clone();
+                var next = datas.preview.clone();
                 Executor.rememberAndExecute(
                     'apply preview',
                     function() {
-                        datas.actual.setFrom(updated);
+                        datas.actual.setFrom(next);
+                        datas.preview.setFrom(datas.actual);
                         updateView();
                     },
                     function() {
                         datas.actual.setFrom(current);
+                        datas.preview.setFrom(datas.actual);
                         updateView();
                     }
                 );
@@ -166,22 +226,68 @@ define(
                 data.forEachChange(function(frame, buttonsStateOld, buttonsStateNew) {
                     if (frame + 1 < header1Cells.length) {
                         var cell = header1Cells[frame + 1];
-                        var textContent = [];
+                        var textContent = {};
                         var movementWas    = getMovement(buttonsStateOld);
                         var movementBecome = getMovement(buttonsStateNew);
                         if (movementBecome !== movementWas) {
-                            textContent.push(movementBecome);
+                            textContent[movementBecome] = true;
                         }
                         var attackWas    = getAttack(buttonsStateOld);
                         var attackBecome = getAttack(buttonsStateNew);
                         Object.keys(attackWas).forEach(function(key) {
                             if (key === 'taunt') return;
-                            if (attackBecome[key] && !attackWas[key]) textContent.push(key);
+                            if (attackBecome[key] && !attackWas[key]) {
+                                switch (key) {
+                                    case 'h': setKey('h'); break;
+                                    case 'p': setKey('p'); break;
+                                    case 'k': setKey('k'); break;
+                                    case 't': setKey('t'); break;
+                                    case 'pk': setKey('p', 'k'); break;
+                                    case 'hk': setKey('h', 'k'); break;
+                                    case 'hpk': setKey('h', 'p', 'k'); break;
+                                    case 'taunt': break;
+                                    default: console.warn('unexpected key', key);
+                                }
+                                function setKey(/*arguments*/) {
+                                    for (var i = 0; i < arguments.length; ++i) {
+                                        var key = arguments[i];
+                                        textContent[key] = true;
+                                    }
+                                }
+                            }
                         });
 
+                        if (textContent['h'] && textContent['p']) {
+                            textContent['t'] = true;
+                        }
 
-                        if (textContent.length > 0) {
-                            _.setTextContent(cell, textContent.join('\n'));
+                        if (textContent['t']) {
+                            delete textContent['h'];
+                            delete textContent['p'];
+                            if (textContent['k']) {
+                                delete textContent['t'];
+                                textContent['p'] = true;
+                                textContent['h'] = true;
+                            }
+                        }
+
+
+                        var inputs = Object.keys(textContent).sort(function(a, b) {
+                            var order = [
+                                '1', '2', '3', '4', '6', '7', '8', '9',
+                                'k', 'p', 'h'
+                            ];
+                            return _.sortFuncAscending(order.indexOf(b), order.indexOf(a));
+                        });
+
+                        if (inputs.length > 0) {
+                            var fragment = document.createDocumentFragment();
+                            inputs.forEach(function(input, index, array) {
+                                var last = index === array.length - 1;
+                                fragment.appendChild(_.createTextNode(input));
+                                if (!last) fragment.appendChild(_.createDomElement({ tag: 'br' }));
+                            })
+                            cell.appendChild(fragment);
                         }
                     }
                 });

@@ -2,9 +2,9 @@ define(
 
     'fsdc/Data',
 
-    [ 'fsdc/Buttons', 'fsdc/Range' ],
+    [ 'fsdc/Buttons', 'fsdc/Range', 'Tools/Tools' ],
 
-    function DataModule(Buttons, createRange) {
+    function DataModule(Buttons, createRange, _) {
 
         return createData;
 
@@ -47,7 +47,7 @@ define(
 
                 Object.keys(changes).map(
                     function(key) { return Number(key); }
-                ).sort(ascending).forEach(function(frame) {
+                ).sort(_.sortFuncAscending).forEach(function(frame) {
                     var buttonNames = changes[frame];
                     buttonNames.forEach(function(buttonName) {
                         stateBecome[buttonName] = ranges[buttonName].isHeld(frame);
@@ -64,12 +64,6 @@ define(
                         state[buttonName] = optSource ? optSource[buttonName] : false;
                     });
                     return state;
-                }
-
-                function ascending(a, b) {
-                    if (a > b) return 1;
-                    if (a < b) return -1;
-                    return 0;
                 }
 
             }

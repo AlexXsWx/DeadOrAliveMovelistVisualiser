@@ -47,6 +47,9 @@ table#data tbody th {
   position: fixed;
   border-bottom: none;
 }
+table#data thead tr:first-child {
+  vertical-align: bottom;
+}
 table#data tr {
   height: 25px;
 }
@@ -61,6 +64,9 @@ table#data tbody th {
 }
 table#data thead tr th:first-child {
   min-width: 75px;
+}
+table#data thead tr:first-child {
+  height: 75px;
 }
 table#data td,
 table#data th {
