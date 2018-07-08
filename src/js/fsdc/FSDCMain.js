@@ -377,7 +377,7 @@ define(
                         var inputs = Object.keys(textContent).sort(function(a, b) {
                             var order = [
                                 '1', '2', '3', '4', '6', '7', '8', '9',
-                                'k', 'p', 'h'
+                                'k', 'p', 'h', 't'
                             ];
                             return _.sortFuncAscending(order.indexOf(b), order.indexOf(a));
                         });
@@ -386,7 +386,7 @@ define(
                             var fragment = document.createDocumentFragment();
                             inputs.forEach(function(input, index, array) {
                                 var last = index === array.length - 1;
-                                fragment.appendChild(_.createTextNode(input));
+                                fragment.appendChild(_.createTextNode(input.toUpperCase()));
                                 if (!last) fragment.appendChild(_.createDomElement({ tag: 'br' }));
                             })
                             cell.appendChild(fragment);
