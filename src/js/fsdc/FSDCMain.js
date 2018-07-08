@@ -4,12 +4,14 @@ define(
 
     [
         'fsdc/Buttons', 'fsdc/Range', 'fsdc/Data', 'fsdc/TableManager',
+        'fsdc/AHKGenerator',
         'Hotkeys', 'Input/KeyCodes',
         'Tools/Executor', 'Tools/Tools'
     ],
 
     function FSDCMain(
         Buttons, createRange, createData, createTableDomControl,
+        AHKGenerator,
         Hotkeys, KeyCodes,
         Executor, _
     ) {
@@ -99,7 +101,7 @@ define(
             } else
 
             if (modifiers.ctrl && modifiers.shift && keyCode === KeyCodes.E) {
-                console.log('export');
+                doExport();
             }
 
             // Default - do nothing
@@ -109,6 +111,72 @@ define(
 
             if (!dontPreventDefault) {
                 event.preventDefault();
+            }
+        }
+
+        function doExport() {
+            var steps = createSteps(datas.actual);
+            // console.log(JSON.stringify(steps));
+            var ahkCode = AHKGenerator.generate(steps);
+            console.log(ahkCode);
+            saveText(ahkCode, 'fsdc_generated.ahk');
+        }
+
+        function createSteps(data) {
+            var frameOld = 0;
+            var steps = [];
+            var lastState = null;
+            data.forEachChange(function(frame, buttonsStateOld, buttonsStateNew) {
+                console.assert(frameOld <= frame, '-Infinity is not supported yet');
+                if (!isFinite(frame)) return;
+                var wait = frame - frameOld;
+                if (wait > 0) {
+                    steps.push(createWaitStep(wait));
+                }
+                Buttons.ButtonNames.forEach(function(buttonName) {
+                    if (buttonsStateOld[buttonName] !== buttonsStateNew[buttonName]) {
+                        if (buttonsStateOld[buttonName]) {
+                            steps.push(createReleaseStep(buttonName));
+                        } else {
+                            steps.push(createPressStep(buttonName));
+                        }
+                    }
+                });
+                lastState = buttonsStateNew;
+                frameOld = frame;
+            });
+
+            var unreleasedKeys = [];
+            if (lastState) {
+                unreleasedKeys = Buttons.ButtonNames.filter(
+                    function(buttonName) { return lastState[buttonName]; }
+                );
+                if (unreleasedKeys.length > 0) {
+                    steps.push(createWaitStep(30));
+                    unreleasedKeys.forEach(function(buttonName) {
+                        steps.push(createReleaseStep(buttonName));
+                    });
+                }
+            }
+
+            return steps;
+
+            function createWaitStep(amount) {
+                var obj = {};
+                obj['wait'] = amount;
+                return obj;
+            }
+
+            function createPressStep(buttonName) {
+                var obj = {};
+                obj['press'] = buttonName;
+                return obj;
+            }
+
+            function createReleaseStep(buttonName) {
+                var obj = {};
+                obj['release'] = buttonName;
+                return obj;
             }
         }
 
@@ -146,11 +214,11 @@ define(
                     // console.log('pointer move @ ' + customData.x + ':' + customData.y);
                 }),
                 headerClick: createEventHandler(function listenerHeaderClick(cell, customData) {
-                    var data = prompt('enter data:');
+                    var data = prompt('Enter frame data: (e.g. "0 (18) 12")');
                     if (!data) return;
                     var matchResult = data.match(/(\d+)/g);
                     if (matchResult) {
-                        var sum = matchResult.slice(1).reduce(
+                        var sum = matchResult.reduce(
                             function(acc, element) { return acc + Number(element); },
                             0
                         );
@@ -159,7 +227,7 @@ define(
                         return;
                         function act() {
                             headerRange.toggle(x);
-                            headerRange.toggle(x + sum);
+                            headerRange.toggle(x + sum - 1);
                             updateView();
                         }
                     }
@@ -346,6 +414,23 @@ define(
                 }
             });
             return div;
+        }
+
+        function saveText(text, fileName) {
+            var link = _.createDomElement({
+                tag: 'a',
+                attributes: {
+                    download: fileName,
+                    href: textToBase64(text)
+                }
+            });
+            // FIXME: may not be compatible with browsers other than chrome
+            // A solution could be to use http://github.com/eligrey/FileSaver.js
+            link.dispatchEvent(new MouseEvent('click'));
+        }
+
+        function textToBase64(text) {
+            return `data:text/plain;charset=utf8;base64,${window.btoa(text)}`;
         }
 
     }
