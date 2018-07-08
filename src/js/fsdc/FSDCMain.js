@@ -2,28 +2,12 @@ define(
 
     'fsdc/FSDCMain',
 
-    ['Tools/Executor', 'Tools/Tools'],
+    [
+        'fsdc/Buttons', 'fsdc/Range', 'fsdc/Data', 'fsdc/TableManager',
+        'Tools/Executor', 'Tools/Tools'
+    ],
 
-    function FSDCMain(Executor, _) {
-
-        var Button = {
-            Up:        '8',
-            Left:      '4',
-            Right:     '6',
-            Down:      '2',
-
-            Guard:     'H',
-            Punch:     'P',
-            Kick:      'K',
-            Throw:     'T',
-
-            PunchKick: 'P+K',
-            GuardKick: 'H+K',
-            Special:   'H+P+K',
-
-            Taunt:     'Ap'
-        };
-        var ButtonNames = Object.keys(Button);
+    function FSDCMain(Buttons, createRange, createData, createTableDomControl, Executor, _) {
 
         //
 
@@ -47,9 +31,9 @@ define(
 
             tableDomControl = createTableDomControl(
                 _.getDomElement('data'),
-                ButtonNames.length,
+                Buttons.ButtonNames.length,
                 function initCell(cell, customData, x, y) {
-                    var buttonName = ButtonNames[y];
+                    var buttonName = Buttons.ButtonNames[y];
                     customData.x = x;
                     customData.y = y;
                     customData.buttonName = buttonName;
@@ -57,7 +41,7 @@ define(
                     if (x === 0 && y === 0)  { divsParent.body = cell; }
                     if (x === 0 && y === -1) { divsParent.head = cell; }
 
-                    if (x === -1 && y >= 0) { _.setTextContent(cell, Button[buttonName]); }
+                    if (x === -1 && y >= 0) { _.setTextContent(cell, Buttons.Button[buttonName]); }
                     if (y === -1 && x >= 0) { _.setTextContent(cell, x); }
 
                     if (x >= 0 && y >= 0) {
@@ -97,7 +81,7 @@ define(
                     // console.log('pointer up @ ' + customData.x + ':' + customData.y);
                     // datas.actual.setFrom(datas.preview);
                     if (startPosition.x === customData.x) {
-                        datas.preview.toggle(ButtonNames[startPosition.y], customData.x);
+                        datas.preview.toggle(Buttons.ButtonNames[startPosition.y], customData.x);
                     }
                 }),
                 enter: createEventHandler(function listenerEnter(cell, customData) {
@@ -165,7 +149,7 @@ define(
             return;
             function operate(data) {
                 data.forEachInterval(function(buttonName, start, end) {
-                    var y = ButtonNames.indexOf(buttonName);
+                    var y = Buttons.ButtonNames.indexOf(buttonName);
                     var div = createDiv(start, end, y, 10, 5);
                     divsParent.body.appendChild(div);
                 });
@@ -198,244 +182,6 @@ define(
                 }
             });
             return div;
-        }
-
-        //
-
-        function createTableDomControl(tableElement, bodyRowsCount, initCellFunc) {
-
-            var domCache = {
-                table: tableElement,
-                head: tableElement.querySelector('thead'),
-                body: tableElement.querySelector('tbody')
-            };
-
-            addInitialBodyRows(bodyRowsCount);
-            
-            return {
-                addTableBodyRow: addTableBodyRow,
-                addTableColumn:  addTableColumn,
-                getCoords:       getCoords,
-                accomodate:      accomodate,
-                getCustomData:   getCustomData
-            };
-
-            function addInitialBodyRows(bodyRowsCount) {
-                for (var i = 0; i < bodyRowsCount; ++i) {
-                    addTableBodyRow();
-                }
-            }
-
-            function accomodate(minColumnsCount) {
-                while (getColumnsCount() < minColumnsCount + 1) {
-                    addTableColumn();
-                }
-            }
-
-            function addTableBodyRow() {
-                var row = createBodyRow(getTableBodyRowsCount());
-                domCache.body.appendChild(row);
-                return row;
-            }
-
-            function addTableColumn() {
-                var result = {
-                    head: [],
-                    body: []
-                };
-                var x = getColumnsCount();
-
-                var cell = createCell(x, 0);
-                domCache.head.querySelector('tr').appendChild(cell);
-                result.head.push(cell);
-
-                Array.from(domCache.body.querySelectorAll('tr')).forEach(
-                    function(row, i, a) {
-                        var cell = createCell(x, i + 1);
-                        row.appendChild(cell);
-                        result.body.push(cell);
-                    }
-                );
-                return result;
-            }
-
-            function getCoords(element) {
-                var temp = element;
-                while (temp) {
-                    if (
-                        temp instanceof HTMLTableCellElement &&
-                        temp.parentElement instanceof HTMLTableRowElement && (
-                            temp.parentElement.parentElement === domCache.head ||
-                            temp.parentElement.parentElement === domCache.body
-                        )
-                    ) {
-                        var cell = temp;
-                        var row = temp.parentElement;
-                        var posY = getIndexOfAInB(row, domCache.body);
-                        return {
-                            x: getIndexOfAInB(cell, row),
-                            y: (row.parentElement === domCache.head) ? null : posY
-                        };
-                    }
-                    temp = temp.parentElement;
-                }
-                return null;
-
-                function getIndexOfAInB(child, parent) {
-                    return Array.from(parent.querySelectorAll(child.tagName)).indexOf(child);
-                }
-            }
-
-            //
-
-            function createBodyRow(y) {
-                return _.createDomElement({
-                    tag: 'tr',
-                    children: _.createArray(
-                        getColumnsCount(),
-                        function(element, index) {
-                            return createCell(index, y + 1);
-                        }
-                    )
-                });
-            }
-
-            function getColumnsCount() {
-                return domCache.head.querySelector('tr').querySelectorAll('th').length;
-            }
-
-            function getTableBodyRowsCount() {
-                return domCache.body.querySelectorAll('tr').length;
-            }
-
-            function createCell(x, y) {
-                var customData = {};
-                var header = (x === 0) || (y === 0);
-                var cell = _.createDomElement({ tag: header ? 'th' : 'td' });
-                var content = initCellFunc(cell, customData, x - 1, y - 1);
-                setCustomData(cell, customData);
-                return cell;
-            }
-
-            function setCustomData(cell, customData) { cell.customData = customData; }
-            function getCustomData(cell)             { return cell.customData; }
-
-            // Tools
-
-            function arrify(obj) {
-                return Array.isArray(obj) ? obj : [obj];
-            }
-        }
-
-        //
-
-        function createData(optSource) {
-
-            var ranges = optSource ? createRangesCopy(optSource) : createNewRanges();
-
-            var data = {
-                clone: clone,
-                toggle: toggle,
-                setFrom: setFrom,
-                forEachInterval: forEachInterval,
-                _getRanges: _getRanges
-            };
-
-            return data;
-
-            function forEachInterval(action) {
-                ButtonNames.forEach(function(buttonName) {
-                    ranges[buttonName].forEachInterval(function(start, end) {
-                        action(buttonName, start, end);
-                    });
-                });
-            }
-
-            //
-
-            function setFrom(otherData) {
-                ranges = createRangesCopy(otherData);
-            }
-
-            function _getRanges() { return ranges; }
-
-            function clone() { return createData(data); }
-
-            //
-
-            function createRangesCopy(otherData) {
-                var ranges = {};
-                var sourceRanges = otherData._getRanges();
-                ButtonNames.forEach(function(buttonName) {
-                    ranges[buttonName] = sourceRanges[buttonName].clone();
-                });
-                return ranges;
-            }
-
-            function createNewRanges() {
-                var ranges = {};
-                ButtonNames.forEach(function(buttonName) {
-                    ranges[buttonName] = createRange();
-                });
-                return ranges;
-            }
-
-            //
-
-            function toggle(buttonName, frame) {
-                var range = ranges[buttonName];
-
-                range.toggle(frame);
-
-                return true;
-            }
-
-        }
-        
-        //
-
-        function createRange(optSource) {
-
-            var flips = optSource ? optSource.slice(0) : [];
-
-            return {
-                clone: clone,
-                toggle: toggle,
-                forEachInterval: forEachInterval
-            };
-
-            function clone() { return createRange(flips); }
-
-            function toggle(frame) {
-                var index = 0;
-                for (index; index < flips.length; ++index) {
-                    if (flips[index] === frame) {
-                        flips.splice(index, 1);
-                        return true;
-                    }
-                    if (flips[index] > frame) {
-                        break;
-                    }
-                }
-                flips.splice(index, 0, frame);
-            }
-
-            function forEachInterval(action) {
-                if (flips.length > 0) {
-                    var start = null;
-                    for (var i = 0; i < flips.length; ++i) {
-                        if (start === null) {
-                            start = flips[i];
-                        } else {
-                            action(start, flips[i]);
-                            start = null;
-                        }
-                    }
-                    if (start !== null) {
-                        action(start, Infinity);
-                    }
-                }
-            }
         }
 
     }
