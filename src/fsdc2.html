@@ -23,16 +23,165 @@
                 <tbody>
                 </tbody>
             </table>
-            
+
+            <div id="controls">
+                <input type="button" id="export" value="Export .ahk (Ctrl+Shift+E)" />
+                <input type="button" id="changeMapping" value="Change key mapping" style="display: none" />
+            </div>
+
+            <div id="footer">
+                <sub class="credits">Credit for the used images goes to community at <a href="http://www.freestepdodge.com">FreeStepDodge.com</a></sub>
+            </div>
+
         </div>
 
         <!-- ==== Overlays ==== -->
 
-            <div id="loading">
-                <span>Loading bunch of script files<br />through a slow service... (<span id="loading-loaded">0</span> / <span id="loading-amount"></span>?)</span>
+        <div id="overlays" style="display: none">
+
+            <div id="shadow"></div>
+            <div id="mapping">
+                <a href="https://autohotkey.com/docs/KeyList.htm">Help</a>
+                <table>
+                    <tr><td colspan=2 style="text-align: center">Macro control</td></tr>
+                    <tr><td>Play:   </td><td><input list="keys" id="mapping_btn_play"   type="text" value="RCtrl" /></td></tr>
+                    <tr><td>Reload: </td><td><input list="keys" id="mapping_btn_reload" type="text" value="Insert"   /></td></tr>
+                    <tr><td colspan=2 style="text-align: center">Game input</td></tr>
+                    <tr><td>Left:  </td><td><input list="keys" id="mapping_btn_left"  type="text" value="Left"  /></td></tr>
+                    <tr><td>Right: </td><td><input list="keys" id="mapping_btn_right" type="text" value="Right" /></td></tr>
+                    <tr><td>Up:    </td><td><input list="keys" id="mapping_btn_up"    type="text" value="Up"    /></td></tr>
+                    <tr><td>Down:  </td><td><input list="keys" id="mapping_btn_down"  type="text" value="Down"  /></td></tr>
+                    <tr><td>Hold:  </td><td><input list="keys" id="mapping_btn_hold"  type="text" value="L"     /></td></tr>
+                    <tr><td>Punch: </td><td><input list="keys" id="mapping_btn_punch" type="text" value="M"     /></td></tr>
+                    <tr><td>Kick:  </td><td><input list="keys" id="mapping_btn_kick"  type="text" value="J"     /></td></tr>
+                    <tr><td>Throw: </td><td><input list="keys" id="mapping_btn_throw" type="text" value="K"     /></td></tr>
+                    <tr><td>P+K:   </td><td><input list="keys" id="mapping_btn_pk"    type="text" value="U"     /></td></tr>
+                    <tr><td>H+K:   </td><td><input list="keys" id="mapping_btn_hk"    type="text" value="I"     /></td></tr>
+                    <tr><td>H+P+K: </td><td><input list="keys" id="mapping_btn_hpk"   type="text" value="O"     /></td></tr>
+                    <tr><td>Taunt: </td><td><input list="keys" id="mapping_btn_taunt" type="text" value="N"     /></td></tr>
+                </table>
+                <input type="button" value="OK" />
             </div>
 
+        </div>
+
+        <div id="loading">
+            <span>Loading bunch of script files<br />through a slow service... (<span id="loading-loaded">0</span> / <span id="loading-amount"></span>?)</span>
+        </div>
+
         <!-- /================= -->
+
+        <datalist id="keys">
+            <option value="A" />
+            <option value="B" />
+            <option value="C" />
+            <option value="D" />
+            <option value="E" />
+            <option value="F" />
+            <option value="G" />
+            <option value="H" />
+            <option value="I" />
+            <option value="J" />
+            <option value="K" />
+            <option value="L" />
+            <option value="M" />
+            <option value="N" />
+            <option value="O" />
+            <option value="P" />
+            <option value="Q" />
+            <option value="R" />
+            <option value="S" />
+            <option value="T" />
+            <option value="U" />
+            <option value="V" />
+            <option value="W" />
+            <option value="X" />
+            <option value="Y" />
+            <option value="Z" />
+            <option value="0" />
+            <option value="1" />
+            <option value="2" />
+            <option value="3" />
+            <option value="4" />
+            <option value="5" />
+            <option value="6" />
+            <option value="7" />
+            <option value="8" />
+            <option value="9" />
+            <option value="/" />
+            <option value="*" />
+            <option value="+" />
+            <option value="-" />
+            <option value="F1" />
+            <option value="F2" />
+            <option value="F3" />
+            <option value="F4" />
+            <option value="F5" />
+            <option value="F6" />
+            <option value="F7" />
+            <option value="F8" />
+            <option value="F9" />
+            <option value="F10" />
+            <option value="F11" />
+            <option value="F12" />
+            <option value="Up" />
+            <option value="Down" />
+            <option value="Left" />
+            <option value="Right" />
+            <option value="CapsLock" />
+            <option value="Space" />
+            <option value="Tab" />
+            <option value="Enter" />
+            <option value="Return" />
+            <option value="Escape" />
+            <option value="Backspace" />
+            <option value="ScrollLock" />
+            <option value="Delete" />
+            <option value="Insert" />
+            <option value="Home" />
+            <option value="End" />
+            <option value="PageUp" />
+            <option value="PageDown" />
+            <option value="Numpad0" />
+            <option value="NumpadIns" />
+            <option value="Numpad1" />
+            <option value="NumpadEnd" />
+            <option value="Numpad2" />
+            <option value="NumpadDown" />
+            <option value="Numpad3" />
+            <option value="NumpadPgDn" />
+            <option value="Numpad4" />
+            <option value="NumpadLeft" />
+            <option value="Numpad5" />
+            <option value="NumpadClear" />
+            <option value="Numpad6" />
+            <option value="NumpadRight" />
+            <option value="Numpad7" />
+            <option value="NumpadHome" />
+            <option value="Numpad8" />
+            <option value="NumpadUp" />
+            <option value="Numpad9" />
+            <option value="NumpadPgUp" />
+            <option value="NumpadDot" />
+            <option value="NumpadDel" />
+            <option value="NumLock" />
+            <option value="NumpadDiv" />
+            <option value="NumpadMult" />
+            <option value="NumpadAdd" />
+            <option value="NumpadSub" />
+            <option value="NumpadEnter" />
+            <option value="LWin" />
+            <option value="RWin" />
+            <option value="Ctrl" />
+            <option value="Alt" />
+            <option value="Shift" />
+            <option value="LCtrl" />
+            <option value="RCtrl" />
+            <option value="LShift" />
+            <option value="RShift" />
+            <option value="LAlt" />
+            <option value="RAlt" />
+        </datalist>
 
     </body>
 

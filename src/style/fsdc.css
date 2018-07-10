@@ -7,6 +7,9 @@
 .click-through > * {
   pointer-events: initial;
 }
+.clickable {
+  cursor: pointer;
+}
 html {
   font-family: arial;
   height: 100%;
@@ -37,7 +40,44 @@ body {
   font-size: 48px;
   align-self: center;
 }
+#overlays {
+  z-index: 2;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#shadow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+}
+#mapping {
+  z-index: 3;
+  background-color: white;
+  display: inline-block;
+  text-align: center;
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid gray;
+}
+#mapping table {
+  text-align: right;
+}
+#content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 table#data {
+  display: initial;
   border-collapse: collapse;
 }
 table#data tbody {
@@ -59,14 +99,13 @@ table#data td {
 }
 table#data tbody th {
   height: 25px;
-  min-width: 75px;
   z-index: 1;
 }
-table#data thead tr th:first-child {
-  min-width: 75px;
+table#data tr th:first-child {
+  min-width: 125px;
 }
 table#data thead tr:first-child {
-  height: 75px;
+  height: 125px;
 }
 table#data td,
 table#data th {
@@ -75,11 +114,54 @@ table#data th {
 table#data th,
 table#data td {
   box-sizing: border-box;
-  border: 1px solid black;
 }
-table#data th {
-  background-color: #faa;
+table#data tbody th {
+  background-color: white;
 }
 table#data td {
-  background-color: #afa;
+  background-color: white;
+}
+table#data tr:nth-child(odd) td,
+table#data tr:nth-child(odd) th {
+  background-color: white;
+}
+table#data tr:nth-child(even) td,
+table#data tr:nth-child(even) th {
+  background-color: #eee;
+}
+table#data th,
+table#data td {
+  border-left: 1px solid lightgray;
+}
+table#data th:last-child,
+table#data td:last-child {
+  border-right: 1px solid lightgray;
+}
+table#data tr:last-child {
+  border-bottom: 1px solid lightgray;
+}
+table#data tbody th {
+  border-right: 1px solid lightgray;
+  opacity: 0.9;
+}
+table#data thead tr:first-child th {
+  border: 0;
+}
+.inputDiv {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px 10px;
+}
+#controls {
+  margin: 5px;
+}
+#footer {
+  flex-grow: 2;
+  display: flex;
+  align-items: flex-end;
+}
+.credits {
+  color: lightgray;
+}
+.credits a {
+  color: lightgray;
 }

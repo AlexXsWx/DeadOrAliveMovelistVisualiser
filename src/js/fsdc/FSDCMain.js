@@ -4,6 +4,7 @@ define(
 
     [
         'fsdc/Buttons', 'fsdc/Data', 'fsdc/TableManager',
+        'fsdc/Style',
         'fsdc/AHKGenerator',
         'Hotkeys', 'Input/KeyCodes',
         'Tools/Executor', 'Tools/Tools'
@@ -11,6 +12,7 @@ define(
 
     function FSDCMain(
         Buttons, createData, createTableDomControl,
+        Style,
         AHKGenerator,
         Hotkeys, KeyCodes,
         Executor, _
@@ -46,8 +48,13 @@ define(
                     customData.y = y;
                     customData.buttonName = buttonName;
 
-                    if (x === -1 && y >= 0) { _.setTextContent(cell, Buttons.Button[buttonName]); }
-                    if (y === -1 && x >= 0) { _.setTextContent(cell, x); }
+                    if (x === -1 && y >= 0) {
+                        cell.appendChild(Style.getDomElement(Buttons.Button[buttonName]));
+                    }
+                    if (y === -1 && x >= 0) {
+                        _.setTextContent(cell, x + 1);
+                        cell.classList.add('clickable');
+                    }
 
                     if (x >= 0 && y >= 0) {
                         cell.addEventListener('pointerdown',  listeners.down);
@@ -68,6 +75,7 @@ define(
             updateView();
 
             Hotkeys.create(handleFilteredKeyDown);
+            _.addClickListenerToElementWithId('export', function(event) { doExport(); });
 
             return;
 
@@ -301,13 +309,16 @@ define(
                 move: createEventHandler(function listenerMove(cell, customData) { }),
                 headerClick: createEventHandler(function listenerHeaderClick(cell, customData) {
                     var frame = customData.x;
-                    if (datas.actual.headerRange.isHeld(frame)) {
+                    if (
+                        datas.actual.headerRange.isHeld(frame) ||
+                        datas.actual.headerRange.isHeld(frame - 1)
+                    ) {
                         var interval = datas.actual.headerRange.getInterval(frame);
                         datas.preview.setFrom(datas.actual);
                         datas.preview.headerRange.toggle(interval[0]);
                         datas.preview.headerRange.toggle(interval[1]);
                         applyPreview(
-                            'remove header ' + interval[0] + '...' + interval[1],
+                            'remove header ' + (interval[0] + 1) + '...' + (interval[1] + 1),
                             true
                         );
                         return;
@@ -325,7 +336,7 @@ define(
                             }
                             x += duration;
                         }
-                        applyPreview('add header "' + data + '" @ ' + frame, true);
+                        applyPreview('add header "' + data + '" @ ' + (frame + 1), true);
                     }
                 }),
                 esc: function listenerEsc(keyDownEvent) {
@@ -471,7 +482,7 @@ define(
                     divsParent.body.appendChild(div);
                 });
                 data.headerRange.forEachInterval(function(start, end) {
-                    var div = createDiv(start, end, 0, 0, 0, 5);
+                    var div = createDiv(start, end, 0, 0, 0, 0);
                     divsParent.head.appendChild(div);
                 });
 
@@ -539,9 +550,9 @@ define(
                             var fragment = document.createDocumentFragment();
                             inputs.forEach(function(input, index, array) {
                                 var last = index === array.length - 1;
-                                fragment.appendChild(_.createTextNode(input.toUpperCase()));
+                                fragment.appendChild(Style.getDomElement(input));
                                 if (!last) fragment.appendChild(_.createDomElement({ tag: 'br' }));
-                            })
+                            });
                             cell.appendChild(fragment);
                         }
                     }
@@ -618,10 +629,9 @@ define(
             var paddingRight = _.defined(optPaddingRight, paddingX);
             var div = _.createDomElement({
                 tag: 'div',
-                classes: ['click-through'],
+                classes: ['click-through', 'inputDiv'],
                 attributes: {
                     style: [
-                        'background-color: rgba(255, 255, 128, 0.75)',
                         'height: ' + (cellHeight - 2 * paddingY) + 'px',
                         'width: ' + (limitedLength * cellWidth - paddingX - paddingRight) + 'px',
                         'position: absolute',
