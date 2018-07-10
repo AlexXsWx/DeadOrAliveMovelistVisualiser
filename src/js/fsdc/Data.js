@@ -10,18 +10,30 @@ define(
 
         function createData(optSource) {
 
+            var headerRange = optSource ? optSource.headerRange.clone() : createRange();
             var ranges = optSource ? createRangesCopy(optSource) : createNewRanges();
 
             var data = {
+                headerRange: headerRange,
                 clone: clone,
                 toggle: toggle,
                 setFrom: setFrom,
                 forEachInterval: forEachInterval,
                 forEachChange: forEachChange,
+                getButtonState: getButtonState,
+                getButtonInterval: getButtonInterval,
                 _getRanges: _getRanges
             };
 
             return data;
+
+            function getButtonState(buttonName, frame) {
+                return ranges[buttonName].isHeld(frame);
+            }
+
+            function getButtonInterval(buttonName, frame) {
+                return ranges[buttonName].getInterval(frame);
+            }
 
             function forEachInterval(action) {
                 Buttons.ButtonNames.forEach(function(buttonName) {
@@ -71,6 +83,7 @@ define(
             //
 
             function setFrom(otherData) {
+                headerRange = otherData.headerRange.clone();
                 ranges = createRangesCopy(otherData);
             }
 

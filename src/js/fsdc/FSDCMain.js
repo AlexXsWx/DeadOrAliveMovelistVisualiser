@@ -3,24 +3,25 @@ define(
     'fsdc/FSDCMain',
 
     [
-        'fsdc/Buttons', 'fsdc/Range', 'fsdc/Data', 'fsdc/TableManager',
+        'fsdc/Buttons', 'fsdc/Data', 'fsdc/TableManager',
         'fsdc/AHKGenerator',
         'Hotkeys', 'Input/KeyCodes',
         'Tools/Executor', 'Tools/Tools'
     ],
 
     function FSDCMain(
-        Buttons, createRange, createData, createTableDomControl,
+        Buttons, createData, createTableDomControl,
         AHKGenerator,
         Hotkeys, KeyCodes,
         Executor, _
     ) {
 
+        var MIN_FRAMES = 50;
+
         //
 
         var tableDomControl;
 
-        var headerRange = createRange();
         var datas = {
             actual:  createData(),
             preview: createData()
@@ -45,9 +46,6 @@ define(
                     customData.y = y;
                     customData.buttonName = buttonName;
 
-                    if (x === 0 && y === 0)  { divsParent.body = cell; }
-                    if (x === 0 && y === -1) { divsParent.head = cell; }
-
                     if (x === -1 && y >= 0) { _.setTextContent(cell, Buttons.Button[buttonName]); }
                     if (y === -1 && x >= 0) { _.setTextContent(cell, x); }
 
@@ -61,57 +59,74 @@ define(
                     if (y === -1 && x >= 0) {
                         cell.addEventListener('click', listeners.headerClick);
                     }
+
+                    if (x === 0 && y === 0)  { divsParent.body = initDivsParent(cell); }
+                    if (x === 0 && y === -1) { divsParent.head = initDivsParent(cell); }
                 }
             );
-
-            tableDomControl.accomodate(100);
-
-            divsParent.body.style.position = 'relative';
-            divsParent.head.style.position = 'relative';
 
             updateView();
 
             Hotkeys.create(handleFilteredKeyDown);
 
-        }
+            return;
 
-        function handleFilteredKeyDown(event) {
-
-            var keyCode = event.keyCode;
-
-            var dontPreventDefault = false;
-
-            var modifiers = {
-                ctrl: event.ctrlKey || event.metaKey,
-                shift: event.shiftKey
+            function initDivsParent(parent) {
+                parent.style.position = 'relative';
+                var divsParent = _.createDomElement({
+                    tag: 'div',
+                    attributes: {
+                        style: [
+                            'position: absolute',
+                            'left: 0',
+                            'top: 0'
+                        ].join('; ')
+                    }
+                });
+                parent.appendChild(divsParent);
+                return divsParent;
             }
 
-            // Ctrl + Z
-            if (modifiers.ctrl && keyCode === KeyCodes.Z) {
-                if (modifiers.shift) {
-                    Executor.redo();
-                } else {
-                    Executor.undo()
-                };
-                event.stopPropagation();
-            } else
+            function handleFilteredKeyDown(event) {
 
-            // Esc
-            if (keyCode === KeyCodes.ESC) {
-            } else
+                var keyCode = event.keyCode;
 
-            if (modifiers.ctrl && modifiers.shift && keyCode === KeyCodes.E) {
-                doExport();
+                var dontPreventDefault = false;
+
+                var modifiers = {
+                    ctrl: event.ctrlKey || event.metaKey,
+                    shift: event.shiftKey
+                }
+
+                // Ctrl + Z
+                if (modifiers.ctrl && keyCode === KeyCodes.Z) {
+                    if (modifiers.shift) {
+                        Executor.redo();
+                    } else {
+                        Executor.undo()
+                    };
+                    event.stopPropagation();
+                } else
+
+                // Esc
+                if (keyCode === KeyCodes.ESC) {
+                    listeners.esc(event);
+                } else
+
+                if (modifiers.ctrl && modifiers.shift && keyCode === KeyCodes.E) {
+                    doExport();
+                }
+
+                // Default - do nothing
+                else {
+                    dontPreventDefault = true;
+                }
+
+                if (!dontPreventDefault) {
+                    event.preventDefault();
+                }
             }
 
-            // Default - do nothing
-            else {
-                dontPreventDefault = true;
-            }
-
-            if (!dontPreventDefault) {
-                event.preventDefault();
-            }
         }
 
         function doExport() {
@@ -223,31 +238,71 @@ define(
                 y: null
             };
 
+            var endPosition = {
+                x: null,
+                y: null
+            };
+
+            var InputMode = {
+                DragBeginning: 'dragBeginning',
+                DragEnding:    'dragEnding',
+                DragWhole:     'dragWhole',
+                CreateNew:     'createNew'
+            };
+
+            var inputMode = null;
+            var inputModeLocked = false;
+
             var listeners = {
                 down: createEventHandler(function listenerDown(cell, customData) {
-                    // console.log('pointer down @ ' + customData.x + ':' + customData.y);
+
+                    inputMode = null;
+                    inputModeLocked = false;
+
                     startPosition.x = customData.x;
                     startPosition.y = customData.y;
-                }),
-                up: createEventHandler(function listenerUp(cell, customData) {
-                    // console.log('pointer up @ ' + customData.x + ':' + customData.y);
-                    // datas.actual.setFrom(datas.preview);
-                    if (startPosition.x === customData.x) {
-                        // TODO: don't allow to press action button while a macro containing it is held
-                        datas.preview.toggle(Buttons.ButtonNames[startPosition.y], customData.x);
-                        previewIsDirty = true;
+
+                    var frame = customData.x;
+                    if (getState(frame)) {
+                        if (!getState(frame - 1)) {
+                            inputMode = InputMode.DragBeginning;
+                        } else {
+                            inputMode = InputMode.DragWhole;
+                        }
+                    } else {
+                        if (getState(frame - 1)) {
+                            inputMode = InputMode.DragEnding;
+                        } else {
+                            inputMode = InputMode.CreateNew;
+                        }
+                    }
+
+                    update(customData);
+
+                    return;
+
+                    function getState(frame) {
+                        return datas.actual.getButtonState(customData.buttonName, frame);
                     }
                 }),
+                up: createEventHandler(function listenerUp(cell, customData) { }),
                 enter: createEventHandler(function listenerEnter(cell, customData) {
-                    // console.log('pointer enter @ ' + customData.x + ':' + customData.y);
+                    update(customData);
                 }),
-                leave: createEventHandler(function listenerLeave(cell, customData) {
-                    // console.log('pointer leave @ ' + customData.x + ':' + customData.y);
-                }),
-                move: createEventHandler(function listenerMove(cell, customData) {
-                    // console.log('pointer move @ ' + customData.x + ':' + customData.y);
-                }),
+                leave: createEventHandler(function listenerLeave(cell, customData) { }),
+                move: createEventHandler(function listenerMove(cell, customData) { }),
                 headerClick: createEventHandler(function listenerHeaderClick(cell, customData) {
+                    var frame = customData.x;
+                    // FIXME: why this doesn't work?
+                    // if (datas.actual.headerRange.isHeld(frame)) {
+                    //     var interval = datas.actual.headerRange.getInterval(frame);
+                    //     datas.preview.setFrom(datas.actual);
+                    //     datas.preview.toggle(interval[0]);
+                    //     datas.preview.toggle(interval[1]);
+                    //     previewIsDirty = true;
+                    //     updateView();
+                    //     return;
+                    // }
                     var data = prompt('Enter frame data: (e.g. "0 (18) 12")');
                     if (!data) return;
                     var matchResult = data.match(/(\d+)/g);
@@ -256,19 +311,117 @@ define(
                             function(acc, element) { return acc + Number(element); },
                             0
                         );
-                        var x = customData.x;
                         Executor.rememberAndExecute('add header', act, act);
                         return;
                         function act() {
-                            headerRange.toggle(x);
-                            headerRange.toggle(x + sum - 1);
+                            datas.preview.headerRange.toggle(frame);
+                            datas.preview.headerRange.toggle(frame + sum - 1);
+                            previewIsDirty = true;
                             updateView();
                         }
                     }
-                })
+                }),
+                esc: function listenerEsc(keyDownEvent) {
+                    inputMode = null;
+                    previewIsDirty = false;
+                    datas.preview.setFrom(datas.actual);
+                    updateView();
+                }
             };
 
             window.addEventListener('pointerup', function(event) {
+                inputMode = null;
+                applyPreviewIfDirty();
+            });
+
+            return listeners;
+
+            function update(customData) {
+
+                endPosition.x = customData.x;
+                endPosition.y = customData.y;
+
+                var buttonName = Buttons.ButtonNames[startPosition.y];
+                var newButtonName = Buttons.ButtonNames[endPosition.y];
+
+                var deltaX = endPosition.x - startPosition.x;
+                var deltaY = endPosition.y - startPosition.y;
+
+                if (
+                    !inputModeLocked &&
+                    deltaY !== 0 && (
+                        inputMode === InputMode.CreateNew ||
+                        inputMode === InputMode.DragEnding ||
+                        inputMode === InputMode.DragBeginning
+                    )
+                ) {
+                    inputMode = InputMode.DragWhole;
+                }
+
+                if (
+                    inputMode === InputMode.CreateNew ||
+                    inputMode === InputMode.DragEnding ||
+                    inputMode === InputMode.DragBeginning
+                ) {
+                    if (deltaX !== 0) {
+                        inputModeLocked = true;
+                    }
+
+                    var start = startPosition.x;
+                    var end   = endPosition.x;
+
+                    var min = Math.min(start, end);
+                    var max = Math.max(end, start);
+                    var length = max - min;
+                    if (inputMode === InputMode.CreateNew) {
+                        length = Math.max(length, 1);
+                    }
+
+                    datas.preview.setFrom(datas.actual);
+
+                    // TODO: don't allow to press action button while a macro containing it is held
+                    datas.preview.toggle(buttonName, min);
+                    datas.preview.toggle(buttonName, min + length);
+                    previewIsDirty = true;
+
+                    updateView();
+                } else
+                if (inputMode === InputMode.DragWhole) {
+
+                    if (deltaX !== 0 || deltaY !== 0) {
+                        inputModeLocked = true;
+                    }
+
+                    datas.preview.setFrom(datas.actual);
+                    if (deltaX !== 0 || deltaY !== 0) {
+                        var interval = datas.actual.getButtonInterval(buttonName, startPosition.x);
+
+                        // Prevent dragging beyond frame 0
+                        deltaX = Math.max(deltaX, -interval[0]);
+
+                        datas.preview.toggle(buttonName, interval[0]);
+                        datas.preview.toggle(buttonName, interval[1]);
+                        datas.preview.toggle(newButtonName, interval[0] + deltaX);
+                        datas.preview.toggle(newButtonName, interval[1] + deltaX);
+                    }
+                    previewIsDirty = true;
+                    updateView();
+                }
+            }
+
+            function createEventHandler(listener) {
+                return eventHandler;
+
+                function eventHandler(event) {
+                    // FIXME: `this` or something like `event.target`?
+                    var cell = this;
+                    var customData = tableDomControl.getCustomData(cell);
+                    if (customData) { listener(cell, customData); }
+                    event.preventDefault();
+                }
+            }
+
+            function applyPreviewIfDirty() {
                 if (!previewIsDirty) return;
                 previewIsDirty = false;
 
@@ -287,29 +440,18 @@ define(
                         updateView();
                     }
                 );
-            });
-
-            return listeners;
-
-            function createEventHandler(listener) {
-                return eventHandler;
-
-                function eventHandler(event) {
-                    // FIXME: `this` or something like `event.target`?
-                    var cell = this;
-                    var customData = tableDomControl.getCustomData(cell);
-                    if (customData) { listener(cell, customData); }
-                    event.preventDefault();
-                }
             }
         }
 
         //
 
         function updateView() {
+
+            accomodate(datas.preview);
+
             _.removeAllChildren(divsParent.body);
             _.removeAllChildren(divsParent.head);
-            operate(datas.actual);
+            operate(datas.preview);
             return;
             function operate(data) {
                 data.forEachInterval(function(buttonName, start, end) {
@@ -317,7 +459,7 @@ define(
                     var div = createDiv(start, end, y, 10, 5);
                     divsParent.body.appendChild(div);
                 });
-                headerRange.forEachInterval(function(start, end) {
+                data.headerRange.forEachInterval(function(start, end) {
                     var div = createDiv(start, end, 0, 0, 0, 5);
                     divsParent.head.appendChild(div);
                 });
@@ -424,11 +566,41 @@ define(
                     };
                 }
             }
+
+            function accomodate(data) {
+
+                tableDomControl.accomodate(
+                    Math.max(MIN_FRAMES, getLastFiniteFrame(data) + 2)
+                );
+
+                function getLastFiniteFrame(data) {
+
+                    var latestFrame = 0;
+
+                    data.headerRange.forEachInterval(function(start, end) {
+                        consider(start);
+                        consider(end);
+                    });
+
+                    data.forEachInterval(function(buttonName, start, end) {
+                        consider(start);
+                        consider(end);
+                    });
+
+                    return latestFrame;
+
+                    function consider(value) {
+                        if (isFinite(value)) {
+                            latestFrame = Math.max(latestFrame, value);
+                        }
+                    }
+                }
+            }
         }
 
         function createDiv(start, end, y, paddingX, paddingY, optPaddingRight) {
             var limitedStart = Math.max(0, start);
-            var limitedEnd = Math.min(100, end + 1);
+            var limitedEnd = end + 1;
             var limitedLength = limitedEnd - limitedStart;
             var cellWidth = 25;
             var cellHeight = 25;

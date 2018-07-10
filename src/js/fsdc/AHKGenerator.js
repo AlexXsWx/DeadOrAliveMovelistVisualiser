@@ -117,18 +117,16 @@ define(
         }
 
         function unindent(str) {
-            const lines = str.split('\n').filter(function(line) { return /[^\s]/.test(line); });
-            const minIndent = Math.min.apply(Math,
+            var lines = str.split('\n').filter(function(line) { return /[^\s]/.test(line); });
+            var minIndent = Math.min.apply(Math,
                 lines.map(function(line) { return line.match(/^\s*/)[0].length; })
             );
-            console.log(minIndent);
-            const rgx = new RegExp(`(^|\\n) {${minIndent}}`, 'g');
-            console.log(rgx);
+            var rgx = new RegExp(`(^|\\n) {${minIndent}}`, 'g');
             return str.replace(rgx, function(a, b) { return b; }).trim();
         }
 
         function indent(str, amount) {
-            const prefix = new Array(amount + 1).join(' ');
+            var prefix = new Array(amount + 1).join(' ');
             return str.split('\n').map(function(line) { return prefix + line; }).join('\n');
         }
 

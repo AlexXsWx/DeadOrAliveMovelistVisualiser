@@ -16,7 +16,8 @@ define(
                 clone: clone,
                 toggle: toggle,
                 isHeld: isHeld,
-                forEachInterval: forEachInterval
+                forEachInterval: forEachInterval,
+                getInterval: getInterval
             };
             function clone() { return createRange(flips); }
 
@@ -41,6 +42,17 @@ define(
                     held = !held;
                 }
                 return held;
+            }
+
+            function getInterval(frame) {
+                var result = [-Infinity, -Infinity];
+                forEachInterval(function(start, end) {
+                    if (start <= frame && end >= frame) {
+                        result[0] = start;
+                        result[1] = end;
+                    }
+                });
+                return result;
             }
 
             function forEachInterval(action) {
