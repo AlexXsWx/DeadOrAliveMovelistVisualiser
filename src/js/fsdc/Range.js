@@ -11,6 +11,7 @@ define(
         function createRange(optSource) {
 
             var flips = optSource ? optSource.slice(0) : [];
+            console.assert(flips.every(function(element) { return !isNaN(element); }));
 
             return {
                 clone: clone,
@@ -22,6 +23,7 @@ define(
             function clone() { return createRange(flips); }
 
             function toggle(frame) {
+                console.assert(!isNaN(frame), 'frame is NaN');
                 var index = 0;
                 for (index; index < flips.length; ++index) {
                     if (flips[index] === frame) {

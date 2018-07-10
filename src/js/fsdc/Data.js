@@ -10,11 +10,10 @@ define(
 
         function createData(optSource) {
 
-            var headerRange = optSource ? optSource.headerRange.clone() : createRange();
             var ranges = optSource ? createRangesCopy(optSource) : createNewRanges();
 
             var data = {
-                headerRange: headerRange,
+                headerRange: optSource ? optSource.headerRange.clone() : createRange(),
                 clone: clone,
                 toggle: toggle,
                 setFrom: setFrom,
@@ -83,7 +82,7 @@ define(
             //
 
             function setFrom(otherData) {
-                headerRange = otherData.headerRange.clone();
+                data.headerRange = otherData.headerRange.clone();
                 ranges = createRangesCopy(otherData);
             }
 

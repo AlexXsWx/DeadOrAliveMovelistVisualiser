@@ -253,11 +253,15 @@ define(
             var inputMode = null;
             var inputModeLocked = false;
 
+            var draggedInterval = null;
+
             var listeners = {
                 down: createEventHandler(function listenerDown(cell, customData) {
 
                     inputMode = null;
                     inputModeLocked = false;
+
+                    draggedInterval = null;
 
                     startPosition.x = customData.x;
                     startPosition.y = customData.y;
@@ -268,6 +272,10 @@ define(
                             inputMode = InputMode.DragBeginning;
                         } else {
                             inputMode = InputMode.DragWhole;
+                            var buttonName = Buttons.ButtonNames[startPosition.y];
+                            draggedInterval = datas.actual.getButtonInterval(
+                                buttonName, startPosition.x
+                            );
                         }
                     } else {
                         if (getState(frame - 1)) {
@@ -293,32 +301,31 @@ define(
                 move: createEventHandler(function listenerMove(cell, customData) { }),
                 headerClick: createEventHandler(function listenerHeaderClick(cell, customData) {
                     var frame = customData.x;
-                    // FIXME: why this doesn't work?
-                    // if (datas.actual.headerRange.isHeld(frame)) {
-                    //     var interval = datas.actual.headerRange.getInterval(frame);
-                    //     datas.preview.setFrom(datas.actual);
-                    //     datas.preview.toggle(interval[0]);
-                    //     datas.preview.toggle(interval[1]);
-                    //     previewIsDirty = true;
-                    //     updateView();
-                    //     return;
-                    // }
+                    if (datas.actual.headerRange.isHeld(frame)) {
+                        var interval = datas.actual.headerRange.getInterval(frame);
+                        datas.preview.setFrom(datas.actual);
+                        datas.preview.headerRange.toggle(interval[0]);
+                        datas.preview.headerRange.toggle(interval[1]);
+                        applyPreview(
+                            'remove header ' + interval[0] + '...' + interval[1],
+                            true
+                        );
+                        return;
+                    }
                     var data = prompt('Enter frame data: (e.g. "0 (18) 12")');
                     if (!data) return;
                     var matchResult = data.match(/(\d+)/g);
                     if (matchResult) {
-                        var sum = matchResult.reduce(
-                            function(acc, element) { return acc + Number(element); },
-                            0
-                        );
-                        Executor.rememberAndExecute('add header', act, act);
-                        return;
-                        function act() {
-                            datas.preview.headerRange.toggle(frame);
-                            datas.preview.headerRange.toggle(frame + sum - 1);
-                            previewIsDirty = true;
-                            updateView();
+                        var x = frame;
+                        for (var i = 0; i < matchResult.length; ++i) {
+                            var duration = Number(matchResult[i]);
+                            if (duration > 0) {
+                                datas.preview.headerRange.toggle(x);
+                                datas.preview.headerRange.toggle(x + duration - 1);
+                            }
+                            x += duration;
                         }
+                        applyPreview('add header "' + data + '" @ ' + frame, true);
                     }
                 }),
                 esc: function listenerEsc(keyDownEvent) {
@@ -330,8 +337,9 @@ define(
             };
 
             window.addEventListener('pointerup', function(event) {
+                var temp = inputMode;
                 inputMode = null;
-                applyPreviewIfDirty();
+                applyPreview(temp);
             });
 
             return listeners;
@@ -350,12 +358,16 @@ define(
                 if (
                     !inputModeLocked &&
                     deltaY !== 0 && (
-                        inputMode === InputMode.CreateNew ||
+                        // This screws up calculation of draggedInterval
+                        // inputMode === InputMode.CreateNew ||
                         inputMode === InputMode.DragEnding ||
                         inputMode === InputMode.DragBeginning
                     )
                 ) {
                     inputMode = InputMode.DragWhole;
+                    draggedInterval = datas.actual.getButtonInterval(
+                        buttonName, startPosition.x
+                    );
                 }
 
                 if (
@@ -394,15 +406,14 @@ define(
 
                     datas.preview.setFrom(datas.actual);
                     if (deltaX !== 0 || deltaY !== 0) {
-                        var interval = datas.actual.getButtonInterval(buttonName, startPosition.x);
-
                         // Prevent dragging beyond frame 0
-                        deltaX = Math.max(deltaX, -interval[0]);
+                        // Warning: this bugs out if interval is not finite
+                        deltaX = Math.max(deltaX, -draggedInterval[0]);
 
-                        datas.preview.toggle(buttonName, interval[0]);
-                        datas.preview.toggle(buttonName, interval[1]);
-                        datas.preview.toggle(newButtonName, interval[0] + deltaX);
-                        datas.preview.toggle(newButtonName, interval[1] + deltaX);
+                        datas.preview.toggle(buttonName, draggedInterval[0]);
+                        datas.preview.toggle(buttonName, draggedInterval[1]);
+                        datas.preview.toggle(newButtonName, draggedInterval[0] + deltaX);
+                        datas.preview.toggle(newButtonName, draggedInterval[1] + deltaX);
                     }
                     previewIsDirty = true;
                     updateView();
@@ -421,14 +432,14 @@ define(
                 }
             }
 
-            function applyPreviewIfDirty() {
-                if (!previewIsDirty) return;
+            function applyPreview(actionName, optForce) {
+                if (!optForce && !previewIsDirty) return;
                 previewIsDirty = false;
 
                 var current = datas.actual.clone();
                 var next = datas.preview.clone();
                 Executor.rememberAndExecute(
-                    'apply preview',
+                    actionName,
                     function() {
                         datas.actual.setFrom(next);
                         datas.preview.setFrom(datas.actual);
