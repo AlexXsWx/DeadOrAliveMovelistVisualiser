@@ -3,7 +3,7 @@ define(
     'fsdc/FSDCMain',
 
     [
-        'fsdc/Buttons', 'fsdc/Data', 'fsdc/TableManager',
+        'fsdc/Buttons', 'fsdc/Data', 'fsdc/TableManager', 'fsdc/Mapping',
         'fsdc/Style',
         'fsdc/AHKGenerator',
         'Hotkeys', 'Input/KeyCodes',
@@ -11,7 +11,7 @@ define(
     ],
 
     function FSDCMain(
-        Buttons, createData, createTableDomControl,
+        Buttons, createData, createTableDomControl, Mapping,
         Style,
         AHKGenerator,
         Hotkeys, KeyCodes,
@@ -77,6 +77,12 @@ define(
             Hotkeys.create(handleFilteredKeyDown);
             _.addClickListenerToElementWithId('export', function(event) { doExport(); });
 
+            Mapping.init(_.getDomElement('mappingPopupTable'));
+            _.addClickListenerToElementWithId('mappingPopup_reset', function(event) {
+                Mapping.reset();
+            });
+            initPopup('mappingPopup', 'changeMapping', 'mappingPopup_close');
+
             return;
 
             function initDivsParent(parent) {
@@ -135,12 +141,37 @@ define(
                 }
             }
 
+            function initPopup(popupId, buttonIdOpen, buttonIdClose) {
+                _.addClickListenerToElementWithId(buttonIdOpen, function(event) {
+                    showPopup(popupId);
+                });
+                _.addClickListenerToElementWithId(buttonIdClose, function(event) {
+                    hidePopup(popupId);
+                });
+
+                return;
+
+                function showPopup(id) {
+                    _.getDomElement('popups').classList.remove('hidden');
+                }
+
+                function hidePopup(id) {
+                    _.getDomElement('popups').classList.add('hidden');
+                }
+            }
+
         }
 
         function doExport() {
             var steps = createSteps(datas.actual);
             // console.log(JSON.stringify(steps));
-            var ahkCode = AHKGenerator.generate(steps);
+            var ahkCode;
+            try {
+                ahkCode = AHKGenerator.generate(steps);
+            } catch(error) {
+                alert('Error:\n' + error);
+                return;
+            }
             console.log(ahkCode);
             saveText(ahkCode, 'fsdc_generated.ahk');
         }

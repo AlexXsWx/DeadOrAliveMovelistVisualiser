@@ -40,7 +40,7 @@ body {
   font-size: 48px;
   align-self: center;
 }
-#overlays {
+#popups {
   z-index: 2;
   position: fixed;
   left: 0;
@@ -51,7 +51,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-#shadow {
+#overlay {
   position: absolute;
   left: 0;
   top: 0;
@@ -59,7 +59,7 @@ body {
   height: 100%;
   background: rgba(0, 0, 0, 0.25);
 }
-#mapping {
+#mappingPopup {
   z-index: 3;
   background-color: white;
   display: inline-block;
@@ -68,7 +68,7 @@ body {
   border-radius: 15px;
   border: 1px solid gray;
 }
-#mapping table {
+#mappingPopup table {
   text-align: right;
 }
 #content {
@@ -96,6 +96,7 @@ table#data tr {
 table#data th,
 table#data td {
   min-width: 25px;
+  max-width: 25px;
 }
 table#data tbody th {
   height: 25px;
@@ -146,6 +147,9 @@ table#data tbody th {
 }
 table#data thead tr:first-child th {
   border: 0;
+}
+table#data thead th {
+  font-size: 0.75em;
 }
 .inputDiv {
   background-color: rgba(0, 0, 0, 0.5);

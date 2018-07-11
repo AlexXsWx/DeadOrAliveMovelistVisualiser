@@ -2,44 +2,9 @@ define(
 
     'fsdc/AHKGenerator',
 
-    [ 'fsdc/Buttons' ],
+    [ 'fsdc/Mapping' ],
 
-    function AHKGeneratorModule(Buttons) {
-
-        // var defaultAHKBindings = unindent(`
-        //     ; Please customize these keyboard configs to match your in-game mapping.
-        //     ; Default mapping is for a QWERTY keyboard - in-game TYPE-A.
-            
-        //     btn_left  = left
-        //     btn_right = right
-        //     btn_up    = up
-        //     btn_down  = down
-
-        //     btn_hold  = j ; X
-        //     btn_punch = k ; Y
-        //     btn_kick  = l ; B
-        //     btn_throw = m ; A
-        //     btn_pk    = u ; LB
-        //     btn_hk    = o ; RT
-        //     btn_hpk   = i ; RB
-        //     btn_taunt = n ; LT
-        // `);
-
-        var defaultAHKBindings = unindent(`
-            btn_left  = left
-            btn_right = right
-            btn_up    = up
-            btn_down  = down
-            
-            btn_hold  = l ; B
-            btn_punch = m ; A
-            btn_kick  = j ; X
-            btn_throw = k ; Y
-            btn_pk    = u ; LB
-            btn_hk    = i ; RB
-            btn_hpk   = o ; RT
-            btn_taunt = n ; LT
-        `);
+    function AHKGeneratorModule(Mapping) {
 
         var AHK_input_map = {};
         AHK_input_map['Up']        = 'btn_up';
@@ -67,13 +32,13 @@ define(
                     return `DllCall("Sleep","UInt",${ms}) ; ${amount} frames`;
                 }
                 if (step.hasOwnProperty('release')) {
-                    return `send,{%${getKey(step['release'])}% up}`;
+                    return `send,{%${getAHKKey(step['release'])}% up}`;
                 }
                 if (step.hasOwnProperty('press')) {
-                    return `send,{%${getKey(step['press'])}% down}`;
+                    return `send,{%${getAHKKey(step['press'])}% down}`;
                 }
             });
-            function getKey(key) { return AHK_input_map[key]; }
+            function getAHKKey(key) { return AHK_input_map[key]; }
 
             var body = str.join('\n');
 
@@ -103,17 +68,42 @@ define(
 
 
                 ; the button that starts executing inputs
-                $*rctrl::
+                $*${getKBKey('Macro_Play')}::
                 {
                     ___BODY___
                 }
                 return
 
                 ; press Ins after editing this script to reload it and test your changes quickly
-                $*ins::reload
+                $*${getKBKey('Macro_Reload')}::reload
             `)
-            .replace('___BINDING___', defaultAHKBindings.trim())
+            .replace('___BINDING___', getBinding())
             .replace('___BODY___',    indent(body, 4).trim());
+        }
+
+        function getBinding() {
+            return unindent(`
+                btn_up    = ${getKBKey('Up')}
+                btn_left  = ${getKBKey('Left')}
+                btn_right = ${getKBKey('Right')}
+                btn_down  = ${getKBKey('Down')}
+                btn_hold  = ${getKBKey('Guard')}
+                btn_punch = ${getKBKey('Punch')}
+                btn_kick  = ${getKBKey('Kick')}
+                btn_throw = ${getKBKey('Throw')}
+                btn_pk    = ${getKBKey('PunchKick')}
+                btn_hk    = ${getKBKey('GuardKick')}
+                btn_hpk   = ${getKBKey('Special')}
+                btn_taunt = ${getKBKey('Taunt')}
+            `);
+        }
+
+        function getKBKey(key) {
+            var result = Mapping.getMapping()[key];
+            if (!result) {
+                throw 'Key "' + key + '"" is not mapped';
+            }
+            return result;
         }
 
         function unindent(str) {
