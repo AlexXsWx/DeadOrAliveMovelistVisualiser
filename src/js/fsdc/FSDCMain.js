@@ -67,7 +67,7 @@ define(
                         cell.addEventListener('click', listeners.headerClick);
                     }
 
-                    if (x === 0 && y === 0)  { divsParent.body = initDivsParent(cell); }
+                    if (x === 0 && y === 0)  { divsParent.body = initDivsParent(cell, true); }
                     if (x === 0 && y === -1) { divsParent.head = initDivsParent(cell); }
                 }
             );
@@ -85,7 +85,7 @@ define(
 
             return;
 
-            function initDivsParent(parent) {
+            function initDivsParent(parent, offset) {
                 parent.style.position = 'relative';
                 var divsParent = _.createDomElement({
                     tag: 'div',
@@ -93,7 +93,7 @@ define(
                         style: [
                             'position: absolute',
                             'left: 0',
-                            'top: 0'
+                            'top: ' + (offset ? '-1px' : '0')
                         ].join('; ')
                     }
                 });
@@ -509,7 +509,7 @@ define(
             function operate(data) {
                 data.forEachInterval(function(buttonName, start, end) {
                     var y = Buttons.ButtonNames.indexOf(buttonName);
-                    var div = createDiv(start, end, y, 10, 5);
+                    var div = createDiv(start, end, y, 3, 3);
                     divsParent.body.appendChild(div);
                 });
                 data.headerRange.forEachInterval(function(start, end) {

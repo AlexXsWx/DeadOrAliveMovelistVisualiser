@@ -152,8 +152,13 @@ table#data thead th {
   font-size: 0.75em;
 }
 .inputDiv {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: black;
   border-radius: 10px 10px;
+  opacity: 0.5;
+}
+tbody .inputDiv {
+  border-radius: 3px 3px;
+  background: url(../../media/div-bg.png) 9px;
 }
 #controls {
   margin: 5px;
