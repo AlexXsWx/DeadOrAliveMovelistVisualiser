@@ -27,7 +27,8 @@ define(
             getReach:        getReach,
             getForcetechAdvantage: getForcetechAdvantage,
             getHardKnockdownAdvantage: getHardKnockdownAdvantage,
-            getFollowupDelay: getFollowupDelay
+            getFollowupDelay: getFollowupDelay,
+            getComment: getComment
 
         };
 
@@ -244,6 +245,13 @@ define(
 
             return Math.max(0, followUpIntervalEnd - followUpIntervalStart);
 
+        }
+
+        function getComment(nodeView) {
+            var nodeData = NodeView.getNodeData(nodeView);
+            if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return '';
+
+            return nodeData.comment || '';
         }
 
         function getEmptyText(nodeView) {

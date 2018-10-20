@@ -136,8 +136,10 @@ define(
             // fill groups
 
             var byType = {
-                'punches': [],
-                'kicks':   [],
+                // 'punches': [],
+                // 'kicks':   [],
+                'horizontal': [],
+                'vertical':   [],
                 'throws':  [],
                 'holds':   [],
                 'other':   []
@@ -159,8 +161,10 @@ define(
                 var type;
                 var nodeData = getNodeData(childNodeView);
                 switch(true) {
-                    case NodeFactory.isMovePunch(nodeData): type = 'punches'; break;
-                    case NodeFactory.isMoveKick(nodeData):  type = 'kicks';   break;
+                    // case NodeFactory.isMovePunch(nodeData): type = 'punches'; break;
+                    // case NodeFactory.isMoveKick(nodeData):  type = 'kicks';   break;
+                    case NodeFactory.isMoveHorizontal(nodeData): type = 'horizontal'; break;
+                    case NodeFactory.isMoveVertical(nodeData):   type = 'vertical';   break;
                     case NodeFactory.isMoveThrow(nodeData): type = 'throws';  break;
                     case NodeFactory.isMoveHold(nodeData):  type = 'holds';   break;
                     default: type = 'other';

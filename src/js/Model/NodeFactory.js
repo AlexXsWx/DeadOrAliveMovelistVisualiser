@@ -32,6 +32,8 @@ define(
 
             toString: toString,
 
+            isMoveHorizontal:    isMoveHorizontal,
+            isMoveVertical:      isMoveVertical,
             isMovePunch:         isMovePunch,
             isMoveKick:          isMoveKick,
             isMoveThrow:         isMoveThrow,
@@ -348,12 +350,46 @@ define(
 
         }
 
+        function isMoveHorizontal(node)    { return node.actionSteps.some(isActionStepHorizontal); }
+        function isMoveVertical(node)      { return node.actionSteps.some(isActionStepVertical);  }
         function isMovePunch(node)         { return node.actionSteps.some(isActionStepPunch); }
         function isMoveKick(node)          { return node.actionSteps.some(isActionStepKick);  }
         function isMoveThrow(node)         { return node.actionSteps.some(isActionStepThrow); }
         function isMoveOffensiveHold(node) { return node.actionSteps.some(isActionStepOffensiveHold); }
         function isMoveHold(node)          { return node.actionSteps.some(isActionStepHold);  }
         function isMoveHoldOnly(node)      { return node.actionSteps.every(isActionStepHold);  }
+
+        function isActionStepHorizontal(actionStep) {
+            if (!actionStep.actionMask || !actionStep.actionType) return false;
+            var actionType = actionStep.actionType.toLowerCase();
+            return (
+                (
+                    actionStep.actionMask.toLowerCase().search('p') >= 0 ||
+                    actionStep.actionMask.toLowerCase().search('k') >= 0
+                ) && (
+                    actionStep.isTracking === true
+                ) && (
+                    actionType.search(ActionType.Strike) >= 0 ||
+                    actionType.search(ActionType.HelperAttack) >= 0
+                )
+            );
+        }
+
+        function isActionStepVertical(actionStep) {
+            if (!actionStep.actionMask || !actionStep.actionType) return false;
+            var actionType = actionStep.actionType.toLowerCase();
+            return (
+                (
+                    actionStep.actionMask.toLowerCase().search('p') >= 0 ||
+                    actionStep.actionMask.toLowerCase().search('k') >= 0
+                ) && (
+                    actionStep.isTracking === false
+                ) && (
+                    actionType.search(ActionType.Strike) >= 0 ||
+                    actionType.search(ActionType.HelperAttack) >= 0
+                )
+            );
+        }
 
         function isActionStepPunch(actionStep) {
             if (!actionStep.actionMask || !actionStep.actionType) return false;

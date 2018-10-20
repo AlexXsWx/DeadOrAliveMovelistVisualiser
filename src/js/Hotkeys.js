@@ -15,11 +15,17 @@ define(
         };
 
         function isInputSelected(optType) {
-            if (document.activeElement instanceof HTMLInputElement) {
+            if (
+                document.activeElement instanceof HTMLInputElement ||
+                document.activeElement instanceof HTMLTextAreaElement
+            ) {
                 if (!optType) {
                     return true;
                 } else {
-                    return document.activeElement.type === optType;
+                    return (
+                        document.activeElement.type === optType ||
+                        optType === 'text' && document.activeElement instanceof HTMLTextAreaElement
+                    );
                 }
             } else {
                 return false;
