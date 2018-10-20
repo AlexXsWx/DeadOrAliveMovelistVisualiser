@@ -79,6 +79,15 @@ define(
                         ) {
                             return;
                         }
+                        if (
+                            (
+                                event.keyCode === KeyCodes.UP ||
+                                event.keyCode === KeyCodes.DOWN
+                            ) &&
+                            document.activeElement instanceof HTMLTextAreaElement
+                        ) {
+                            return;
+                        }
                     }
                 }
 
