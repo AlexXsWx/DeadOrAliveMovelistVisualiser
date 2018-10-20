@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540059502766
+    "timeSaved": 1540067397644
   },
   "body": {
     "character": "Talim",
@@ -379,6 +379,20 @@
                             "isTracking": false
                           }
                         ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "context": [
+                              "hit"
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionType": "other"
+                              }
+                            ],
+                            "endsWith": "RE"
+                          }
+                        ],
                         "comment": "RE"
                       },
                       {
@@ -408,6 +422,20 @@
                             "actionType": "strike"
                           }
                         ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "context": [
+                              "hit|guard"
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionType": "other"
+                              }
+                            ],
+                            "endsWith": "RE"
+                          }
+                        ],
                         "comment": "BA; RE"
                       },
                       {
@@ -430,19 +458,7 @@
                     "actionType": "other"
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "input": "B",
-            "actionSteps": [
-              {
-                "actionMask": "mid P",
-                "actionType": "strike",
-                "isTracking": false
-              }
-            ],
-            "followUps": [
+              },
               {
                 "input": "K",
                 "actionSteps": [
@@ -596,7 +612,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "BT"
+            "endsWith": "FA"
           },
           {
             "input": "4B",
@@ -617,7 +633,7 @@
                     "isTracking": true
                   }
                 ],
-                "endsWith": "BT",
+                "endsWith": "FA",
                 "followUps": [
                   {
                     "input": "H",
@@ -625,7 +641,8 @@
                       {
                         "actionType": "other"
                       }
-                    ]
+                    ],
+                    "endsWith": "FA"
                   }
                 ],
                 "comment": "force FA"
@@ -639,7 +656,7 @@
                     "isTracking": true
                   }
                 ],
-                "endsWith": "BT",
+                "endsWith": "FA",
                 "followUps": [
                   {
                     "input": "H",
@@ -647,7 +664,8 @@
                       {
                         "actionType": "other"
                       }
-                    ]
+                    ],
+                    "endsWith": "FA"
                   }
                 ],
                 "comment": "stun; force FA"
@@ -674,7 +692,6 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "CR",
             "followUps": [
               {
                 "input": "*",
@@ -684,7 +701,8 @@
                     "actionType": "strike",
                     "isTracking": false
                   }
-                ]
+                ],
+                "endsWith": "CR"
               }
             ]
           },
@@ -708,7 +726,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "launch; LH on guard impact miss"
+            "comment": "launch; LH on hit after opponent misses a guard impact"
           },
           {
             "input": "214B",
@@ -821,7 +839,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "BT"
+                "endsWith": "FA"
               }
             ],
             "comment": "BA; knock back; LH on impact counter"
@@ -866,7 +884,7 @@
                 ]
               }
             ],
-            "comment": "stun; LH on whiff punish"
+            "comment": "stun; LH on hitting an opponent who missed an attack"
           },
           {
             "input": "3A+B",
@@ -888,9 +906,23 @@
                   }
                 ],
                 "comment": "force FA"
+              },
+              {
+                "input": "*",
+                "context": [
+                  "LH"
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ],
+                "comment": "stun; knock down"
               }
             ],
-            "comment": "LH"
+            "comment": "LH if first strike misses"
           },
           {
             "input": "2A+B",
@@ -900,8 +932,7 @@
                 "actionType": "strike",
                 "isTracking": false
               }
-            ],
-            "comment": "force crouch; knock back"
+            ]
           },
           {
             "input": "2(A+B)",
@@ -924,7 +955,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "LH on low guard stamina of opponent"
+            "comment": "LH on hitting an opponent whose guard stamina is low"
           },
           {
             "input": "4A+B",
@@ -945,7 +976,7 @@
                     "isTracking": false
                   }
                 ],
-                "endsWith": "BT",
+                "endsWith": "FA",
                 "comment": "force crouch"
               }
             ]
@@ -1040,6 +1071,17 @@
                                       }
                                     ],
                                     "comment": "BA; launch"
+                                  },
+                                  {
+                                    "input": "*B",
+                                    "actionSteps": [
+                                      {
+                                        "actionMask": "mid P",
+                                        "actionType": "strike",
+                                        "isTracking": false
+                                      }
+                                    ],
+                                    "comment": "BA; launch"
                                   }
                                 ]
                               }
@@ -1105,7 +1147,7 @@
                     "isTracking": true
                   }
                 ],
-                "comment": "LH; stun"
+                "comment": "stun"
               },
               {
                 "input": "(A)",
@@ -1118,7 +1160,8 @@
                 ],
                 "comment": "BA; stun"
               }
-            ]
+            ],
+            "comment": "LH on hitting an opponent who missed a high attack"
           },
           {
             "input": "(6)B",
@@ -1142,10 +1185,10 @@
                     "isTracking": false
                   }
                 ],
-                "comment": "BA; LH"
+                "comment": "BA"
               }
             ],
-            "comment": "LH; knock back"
+            "comment": "LH on running counter while moving back; knock back"
           },
           {
             "input": "(2)B",
@@ -1177,6 +1220,18 @@
                     "isTracking": false
                   }
                 ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false
+                      }
+                    ]
+                  }
+                ],
                 "comment": "exact timing"
               }
             ],
@@ -1191,7 +1246,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "BT",
+            "endsWith": "FA",
             "followUps": [
               {
                 "input": "...",
@@ -1203,7 +1258,7 @@
                 "endsWith": "W"
               }
             ],
-            "comment": "LH"
+            "comment": "LH on hitting an opponent who missed a low attack"
           },
           {
             "input": "(6)K",
@@ -1214,7 +1269,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "BT",
+            "endsWith": "FA",
             "comment": "launch"
           },
           {
@@ -1351,7 +1406,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "on low health; LH"
+            "comment": "on low health; LH on hitting an opponent during a standing guard"
           },
           {
             "input": "T",
@@ -1397,7 +1452,7 @@
               }
             ],
             "endsWith": "WF",
-            "comment": "dodges some stuff"
+            "comment": "dodges/guardimpacts some stuff"
           },
           {
             "input": "4B+K",
@@ -1411,7 +1466,7 @@
           {
             "input": "A+B+K",
             "context": [
-              "G"
+              "SG"
             ],
             "actionSteps": [
               {
@@ -1445,6 +1500,15 @@
                 ]
               }
             ]
+          },
+          {
+            "input": "2B+K",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WC"
           },
           {
             "input": "B+G",
@@ -1511,19 +1575,7 @@
                   {
                     "input": "*",
                     "context": [
-                      "hit"
-                    ],
-                    "actionSteps": [
-                      {
-                        "actionType": "other"
-                      }
-                    ],
-                    "endsWith": "RE"
-                  },
-                  {
-                    "input": "*",
-                    "context": [
-                      "block"
+                      "hit|guard"
                     ],
                     "actionSteps": [
                       {
@@ -1548,10 +1600,14 @@
           },
           {
             "input": "4A+B+K",
+            "context": [
+              "SG"
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
-                "actionType": "strike"
+                "actionType": "strike",
+                "isTracking": true
               }
             ],
             "comment": "SG; BA; special mid; Soul Charge"
@@ -1570,8 +1626,8 @@
                 "actionType": "throw"
               }
             ],
-            "endsWith": "BT",
-            "comment": "unbreakable"
+            "endsWith": "FA",
+            "comment": "Unable to grapple break"
           },
           {
             "input": "A",
@@ -1602,7 +1658,7 @@
                         "isTracking": false
                       }
                     ],
-                    "endsWith": "BT",
+                    "endsWith": "FA",
                     "followUps": [
                       {
                         "input": "B",
@@ -1737,6 +1793,17 @@
                   }
                 ],
                 "comment": "BA; launch"
+              },
+              {
+                "input": "**B",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "comment": "BA; launch"
               }
             ]
           },
@@ -1749,7 +1816,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "knock back; LH"
+            "comment": "knock back; LH on hitting an opponent who missed a middle attack"
           },
           {
             "input": "A+B",
@@ -1776,6 +1843,7 @@
                 "isTracking": true
               }
             ],
+            "endsWith": "CR",
             "followUps": [
               {
                 "input": "...",
@@ -1823,7 +1891,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "BA; launch;"
+            "comment": "BA; launch"
           },
           {
             "input": "(B)",
@@ -1853,7 +1921,7 @@
               {
                 "input": "*",
                 "context": [
-                  "block"
+                  "guard"
                 ],
                 "actionSteps": [
                   {
@@ -1883,12 +1951,12 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "GND"
+                "endsWith": "DWN"
               }
             ]
           },
           {
-            "input": "*K",
+            "input": "(K)",
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -1896,7 +1964,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "BT"
+            "endsWith": "FA"
           },
           {
             "input": "A+B",
@@ -1981,7 +2049,10 @@
             ],
             "followUps": [
               {
-                "input": "*B",
+                "input": "B",
+                "context": [
+                  "hit|guard"
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -1989,10 +2060,10 @@
                     "isTracking": false
                   }
                 ],
-                "comment": "on hit or block; LH; knock back"
+                "comment": "knock back"
               }
             ],
-            "comment": "stun"
+            "comment": "LH on hitting an opponent knocked off balance with a guard crush; stun"
           },
           {
             "input": "K",
@@ -2012,7 +2083,8 @@
                     "actionType": "strike",
                     "isTracking": true
                   }
-                ]
+                ],
+                "comment": "launch"
               }
             ]
           },
@@ -2082,7 +2154,8 @@
                 "actionType": "strike",
                 "isTracking": false
               }
-            ]
+            ],
+            "endsWith": "CR"
           },
           {
             "input": "3B",
@@ -2415,6 +2488,7 @@
                 "isTracking": false
               }
             ],
+            "endsWith": "FA",
             "comment": "knock down"
           },
           {
@@ -2425,7 +2499,8 @@
                 "actionType": "strike",
                 "isTracking": true
               }
-            ]
+            ],
+            "endsWith": "CR"
           },
           {
             "input": "(A+B)",
@@ -2436,7 +2511,7 @@
                 "isTracking": true
               }
             ],
-            "comment": "BA; LH"
+            "comment": "BA; LH on hitting opponent during an attack"
           },
           {
             "input": "B+K",
@@ -2445,7 +2520,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "BT",
+            "endsWith": "FA",
             "followUps": [
               {
                 "input": "A+B",
@@ -2486,6 +2561,7 @@
                                 "isTracking": true
                               }
                             ],
+                            "endsWith": "FA",
                             "comment": "BA; stun"
                           }
                         ]
@@ -2511,7 +2587,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "BT",
+                "endsWith": "FA",
                 "followUps": [
                   {
                     "input": "A+B",
@@ -2552,13 +2628,15 @@
                                     "isTracking": true
                                   }
                                 ],
-                                "comment": "UA; stun"
+                                "endsWith": "FA",
+                                "comment": "stun"
                               }
                             ]
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "comment": "UA"
                   }
                 ]
               }
@@ -2595,7 +2673,7 @@
           {
             "input": "A+B+K",
             "context": [
-              "G"
+              "SG"
             ],
             "actionSteps": [
               {
@@ -2656,7 +2734,7 @@
                 "endsWith": "W"
               }
             ],
-            "comment": "LH"
+            "comment": "LH on 2nd strike hitting during special phase (only for defending character)"
           },
           {
             "input": "B",
@@ -2667,7 +2745,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "BT",
+            "endsWith": "FA",
             "followUps": [
               {
                 "input": "B",
@@ -2678,10 +2756,10 @@
                     "isTracking": false
                   }
                 ],
-                "comment": "BA; LH; launch behind"
+                "comment": "launch behind"
               }
             ],
-            "comment": "stun"
+            "comment": "BA; LH on 2nd strike hitting during special phase (only for defending character); stun"
           },
           {
             "input": "K",
@@ -2692,7 +2770,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "LH; knock back"
+            "comment": "LH on 2nd strike hitting during special phase (only for defending character); knock back"
           },
           {
             "input": "H",
