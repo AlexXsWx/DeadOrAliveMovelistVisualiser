@@ -49,12 +49,14 @@ define(
             var result = document.createDocumentFragment();
             var name = NodeView.getName(nodeView);
             if (name) {
-                splitBy(name, /[\{\<][^\>\}]*[\}\>]/g).forEach(
-                    function(element, index) {
+                if (name === '*') {
+                    result.appendChild(classedTSpan(name, 'gray'));
+                } else {
+                    splitBy(name, /[\{\<][^\>\}]*[\}\>]/g).forEach(function(element, index) {
                         if (!element) return;
                         result.appendChild(classedTSpan(element, index % 2 ? 'gray' : undefined));
-                    }
-                );
+                    });
+                }
             } else {
                 result.appendChild(classedTSpan('<unnamed>', 'gray'));
             }
