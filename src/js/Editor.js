@@ -202,12 +202,12 @@ define(
             if (!selectedSVGNode) return;
 
             var nodeView = selectedSVGNode.nodeView;
-            var parentView = NodeView.getParentNodeView(nodeView);
+            var parentNodeView = NodeView.getParentNodeView(nodeView);
 
-            if (!parentView) return;
+            if (!parentNodeView) return;
 
-            var allChildren     = NodeView.getAllChildren(parentView);
-            var visibleChildren = NodeView.getVisibleChildren(parentView);
+            var allChildren     = NodeView.getAllChildren(parentNodeView);
+            var visibleChildren = NodeView.getVisibleChildren(parentNodeView);
             var changed = false;
             if (_.moveArrayElement(allChildren,     nodeView, delta)) changed = true;
             if (_.moveArrayElement(visibleChildren, nodeView, delta)) changed = true;
@@ -234,9 +234,9 @@ define(
             var newNodes = [];
             var placeholderNodeView;
 
-            var parentView = NodeView.getParentNodeView(nodeView);
+            var parentNodeView = NodeView.getParentNodeView(nodeView);
 
-            placeholderNodeView = addPlaceholderNode(parentView, true);
+            placeholderNodeView = addPlaceholderNode(parentNodeView, true);
             newNodes.push(placeholderNodeView);
 
             // turn node from placeholder to actual node

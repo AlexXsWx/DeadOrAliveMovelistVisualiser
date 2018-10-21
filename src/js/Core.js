@@ -391,16 +391,16 @@ define(
                 );
 
                 nodeSvgViewsToHide.forEach(function(nodeSvgView) {
-                    var parentView = NodeView.getParentNodeView(nodeSvgView.nodeView);
-                    while (parentView) {
-                        var parentId = NodeView.getId(parentView);
+                    var parentNodeView = NodeView.getParentNodeView(nodeSvgView.nodeView);
+                    while (parentNodeView) {
+                        var parentId = NodeView.getId(parentNodeView);
                         if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
                             var parentSvgView = visibleNodesSvgViews[parentId];
                             var position = parentSvgView.getPositionTarget();
                             nodeSvgView.destroy(position.x, position.y);
                             return;
                         }
-                        parentView = NodeView.getParentNodeView(parentView);
+                        parentNodeView = NodeView.getParentNodeView(parentNodeView);
                     }
                 });
 
@@ -465,16 +465,16 @@ define(
                     canvas.addNode(nodeSvgView.link, nodeSvgView.wrapper);
                     visibleNodesSvgViews[id] = nodeSvgView;
 
-                    var parentView = NodeView.getParentNodeView(nodeSvgView.nodeView);
-                    while (parentView) {
-                        var parentId = NodeView.getId(parentView);
+                    var parentNodeView = NodeView.getParentNodeView(nodeSvgView.nodeView);
+                    while (parentNodeView) {
+                        var parentId = NodeView.getId(parentNodeView);
                         if (idsSvgVisibleBeforeUpdate.hasOwnProperty(parentId)) {
                             var parentSvgView = visibleNodesSvgViews[parentId];
                             var position = parentSvgView.getPositionStart();
                             nodeSvgView.animate(position.x, position.y, position.x, position.y, 0);
                             break;
                         }
-                        parentView = NodeView.getParentNodeView(parentView);
+                        parentNodeView = NodeView.getParentNodeView(parentNodeView);
                     }
                 }
 
