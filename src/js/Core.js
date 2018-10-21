@@ -263,7 +263,9 @@ define(
 
                 function onButtonSave(optEvent) {
                     domCache.download.download = (
-                        rootNodeData.character.toLowerCase() || 'someCharacter'
+                        rootNodeData.character
+                            ? rootNodeData.character.toLowerCase()
+                            : 'someCharacter'
                     ) + '.json';
                     domCache.download.href = NodeSerializer.serializeToBase64Url(rootNodeData);
                     // FIXME: may not be compatible with browsers other than chrome
