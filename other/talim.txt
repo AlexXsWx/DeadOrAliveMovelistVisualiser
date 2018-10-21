@@ -1,0 +1,87 @@
+talim
+    B is +0 on neutral hit
+    K is +0 on neutral hit
+
+    speed:
+        A
+        K
+        -------------
+        B
+        4B
+        3K
+        -------------
+        4A
+        (6)A
+        4K
+        6K
+        2B
+        -------------
+        6A
+        6B
+        1A+B
+        A6
+        1K
+        (4)K
+        -------------
+        1B
+        3B
+        3A+B
+        4A+B
+        2A+B
+        ------------- 
+        (4)A
+        (6)B
+        -------------
+        6A+B
+        (4)A+B
+        236B
+        -------------
+        (4)B
+        -------------
+        (6)A+B
+
+
+        ???
+
+        A+B+K
+        4A+B+K
+        3A
+        3A+B
+        2A
+        (2)A
+        2K
+        (2)K
+        1A
+        A+B
+        (6)K
+        (6*)K
+        (2)B
+        214B
+
+
+    launchers:
+        3B - universal; slow recovery; high crush
+        236B - very high & fast
+        236(B) - very high & fast
+        {WF} K - slow fall; stun
+        {WC} B *B
+        (6) K - FA
+        (6) A+B - WC/WS/WF or slow recovery
+        {CR} A+B
+        {RE} B B - FA
+        {JMP} B
+        {SC} (6)A A A B
+        {SC} (6)B B
+        {SC} {WC} A B B
+        {SC} {WS} B
+        (counter) 1 A+B
+        (lh) 1 A+B
+    juggles BNB:
+        A A A+B
+        {SC} (6)A A A B
+
+    236B 6A+B
+    66A+B 8 B*B
+    66A+B 6 K B
+    66A+B 6 (B) K | A+B
+    {SC} {WS} (B) B B

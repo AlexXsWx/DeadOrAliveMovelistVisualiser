@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540119729789
+    "timeSaved": 1540146055999
   },
   "body": {
     "character": "Talim",
@@ -125,7 +125,7 @@
                             "isTracking": false
                           }
                         ],
-                        "comment": "BA; knock back"
+                        "comment": "BA; knock back; juggle stun"
                       },
                       {
                         "input": "(B)",
@@ -140,7 +140,7 @@
                           }
                         ],
                         "endsWith": "WF",
-                        "comment": "BA; knock back"
+                        "comment": "BA; knock back; juggle stun"
                       }
                     ]
                   },
@@ -346,7 +346,7 @@
                                         "isTracking": false
                                       }
                                     ],
-                                    "comment": "BA; launch"
+                                    "comment": "BA; launch; skewer juggle"
                                   },
                                   {
                                     "input": "*B",
@@ -357,13 +357,15 @@
                                         "isTracking": false
                                       }
                                     ],
-                                    "comment": "BA; launch"
+                                    "comment": "BA; launch; skewer juggle"
                                   }
-                                ]
+                                ],
+                                "comment": "skewer juggle"
                               }
                             ]
                           }
-                        ]
+                        ],
+                        "comment": "skewer juggle"
                       }
                     ]
                   }
@@ -448,7 +450,7 @@
                 "comment": "BA; stun"
               }
             ],
-            "comment": "LH on hitting an opponent who missed a high attack"
+            "comment": "LH on hitting an opponent who missed a high attack; skewer juggle"
           },
           {
             "input": "4K",
@@ -514,7 +516,7 @@
                           }
                         ],
                         "endsWith": "FA",
-                        "comment": "stun"
+                        "comment": "stun; skewer juggle"
                       }
                     ]
                   }
@@ -643,7 +645,12 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "hitBlock": 0
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -900,7 +907,7 @@
                     "endsWith": "W"
                   }
                 ],
-                "comment": "BA; knock back"
+                "comment": "BA; knock back; stun"
               }
             ],
             "comment": "force crouch"
@@ -930,7 +937,7 @@
                 "comment": "BA"
               }
             ],
-            "comment": "LH on running counter while moving back; knock back"
+            "comment": "LH on running counter while moving back; knock back; hard knock down"
           },
           {
             "input": "6K",
@@ -999,7 +1006,7 @@
                 ]
               }
             ],
-            "comment": "stun"
+            "comment": "stun; skewer juggle"
           },
           {
             "input": "6(A+B)",
@@ -1110,7 +1117,7 @@
                     "endsWith": "FA"
                   }
                 ],
-                "comment": "stun; force FA"
+                "comment": "stun; force FA; juggle hard knock down"
               },
               {
                 "input": "B",
@@ -1123,7 +1130,8 @@
                 ],
                 "comment": "force crouch"
               }
-            ]
+            ],
+            "comment": "skewer juggle"
           },
           {
             "input": "(4)B",
@@ -1167,7 +1175,7 @@
                     "isTracking": false
                   }
                 ],
-                "comment": "knock back"
+                "comment": "knock back; skewer juggle"
               }
             ]
           },
@@ -1234,7 +1242,7 @@
                             "isTracking": false
                           }
                         ],
-                        "comment": "knock back"
+                        "comment": "knock back; skewer hard knock down"
                       }
                     ]
                   }
@@ -1271,7 +1279,7 @@
                         "isTracking": false
                       }
                     ],
-                    "comment": "launch"
+                    "comment": "launch; skewer juggle"
                   }
                 ]
               }
@@ -1337,7 +1345,8 @@
                         "actionType": "strike",
                         "isTracking": false
                       }
-                    ]
+                    ],
+                    "comment": "juggle hard knock down"
                   }
                 ],
                 "comment": "exact timing"
@@ -1399,7 +1408,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "LH on hitting an opponent whose guard stamina is low"
+            "comment": "LH on hitting an opponent whose guard stamina is low; launch on counter; launch on LH"
           },
           {
             "input": "236B",
@@ -1462,8 +1471,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WF",
-            "comment": "dodges/guardimpacts some stuff"
+            "endsWith": "WF"
           },
           {
             "input": "6B+K",
@@ -1850,7 +1858,8 @@
                 ],
                 "comment": "BA; launch"
               }
-            ]
+            ],
+            "comment": "juggle hard knock down"
           },
           {
             "input": "K",
@@ -1910,7 +1919,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "knock down"
+            "comment": "knock down; juggle hard knock down"
           },
           {
             "input": "(B)",
@@ -1922,7 +1931,7 @@
               }
             ],
             "endsWith": "WF",
-            "comment": "knock down"
+            "comment": "knock down; juggle hard knock down"
           },
           {
             "input": "B",
@@ -1936,7 +1945,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "BA; launch"
+            "comment": "BA; launch; juggle stun"
           },
           {
             "input": "(B)",
@@ -1951,7 +1960,7 @@
               }
             ],
             "endsWith": "WF",
-            "comment": "BA; launch"
+            "comment": "BA; launch; juggle stun"
           },
           {
             "input": "K",
@@ -1998,7 +2007,8 @@
                 ],
                 "endsWith": "DWN"
               }
-            ]
+            ],
+            "comment": "juggle hard knock down"
           },
           {
             "input": "(K)",
@@ -2071,6 +2081,16 @@
             "endsWith": "CR"
           },
           {
+            "input": "*",
+            "actionSteps": [
+              {
+                "actionMask": "high mid",
+                "actionType": "hold"
+              }
+            ],
+            "comment": "GI on high attacks and mid horizontal (except kicks)"
+          },
+          {
             "input": "A",
             "actionSteps": [
               {
@@ -2117,7 +2137,7 @@
                 "comment": "knock back"
               }
             ],
-            "comment": "LH on hitting an opponent knocked off balance with a guard crush; stun"
+            "comment": "LH on hitting an opponent knocked off balance with a guard crush; stun; juggle hard knock down"
           },
           {
             "input": "K",
@@ -2138,9 +2158,10 @@
                     "isTracking": true
                   }
                 ],
-                "comment": "launch"
+                "comment": "launch; juggle hard knock down"
               }
-            ]
+            ],
+            "comment": "stun"
           },
           {
             "input": "A+B",
@@ -2243,7 +2264,7 @@
                         "endsWith": "W"
                       }
                     ],
-                    "comment": "launch"
+                    "comment": "knock back"
                   }
                 ],
                 "comment": "delayable"
@@ -2365,7 +2386,7 @@
                 "isTracking": false
               }
             ],
-            "comment": "knock behind"
+            "comment": "launch; knock behind"
           },
           {
             "input": "K",
@@ -2375,7 +2396,8 @@
                 "actionType": "strike",
                 "isTracking": false
               }
-            ]
+            ],
+            "comment": "juggle hard knock down"
           }
         ]
       },
@@ -2472,7 +2494,7 @@
                                                 "isTracking": false
                                               }
                                             ],
-                                            "comment": "stun"
+                                            "comment": "stun; skewer juggle"
                                           }
                                         ]
                                       }
@@ -2499,7 +2521,7 @@
                 "isTracking": true
               }
             ],
-            "comment": "BA; LH on hitting opponent during an attack"
+            "comment": "BA; LH on hitting opponent during an attack; skewer juggle"
           },
           {
             "input": "A+B+K",
@@ -2583,7 +2605,7 @@
               }
             ],
             "endsWith": "FA",
-            "comment": "knock down"
+            "comment": "knock down; juggle hard knock down"
           },
           {
             "input": "2K",
