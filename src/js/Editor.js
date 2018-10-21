@@ -199,32 +199,39 @@ define(
         // TODO: consider multiselection
         function doMoveNodeBy(delta) {
 
-            if (!selectedSVGNode) return;
+            if (!selectedSVGNode) return false;
 
             var nodeView = selectedSVGNode.nodeView;
             var parentNodeView = NodeView.getParentNodeView(nodeView);
 
-            if (!parentNodeView) return;
+            if (!parentNodeView) return false;
 
-            var allChildren     = NodeView.getAllChildren(parentNodeView);
             var visibleChildren = NodeView.getVisibleChildren(parentNodeView);
-            var changed = false;
-            if (_.moveArrayElement(allChildren,     nodeView, delta)) changed = true;
-            if (_.moveArrayElement(visibleChildren, nodeView, delta)) changed = true;
+            var changed = _.moveArrayElement(visibleChildren, nodeView, delta);
 
-            if (!changed) return;
+            if (!changed) return false;
 
             onDataChanged.dispatch({ moved: [ nodeView ] });
 
-            if (NodeView.isGroupingNodeView(nodeView)) return;
+            if (!NodeView.isGroupingNodeView(nodeView)) {
+                var adjacentVisibleNodeDatas = NodeView.getAdjacentVisibleNodeDatas(nodeView);
 
-            var nodeData = NodeView.getNodeData(nodeView);
-            var parentData = NodeView.findAncestorNodeData(nodeView);
-            var children = NodeFactory.getChildren(parentData);
-            if (children) _.moveArrayElement(children, nodeData, delta);
+                var nodeData = NodeView.getNodeData(nodeView);
+                var parentData = NodeView.findAncestorNodeData(nodeView);
+                var children = NodeFactory.getChildren(parentData);
+                console.assert(Boolean(children), 'Couldn\'t get children array');
+                if (children.indexOf(nodeData) >= 0) {
+                    _.removeElement(children, nodeData);
+                    _.addBetween(
+                        children,
+                        nodeData,
+                        adjacentVisibleNodeDatas.previous,
+                        adjacentVisibleNodeDatas.next
+                    );
+                }
+            }
 
-            // FIXME: When nodes are grouped by type (punches/kicks),
-            // this still acts over limit of the group...
+            return true;
 
         }
 
@@ -254,10 +261,18 @@ define(
 
 
         function addNodeDataToParentData(nodeView) {
+            var adjacentVisibleNodeDatas = NodeView.getAdjacentVisibleNodeDatas(nodeView);
+
             var nodeData = NodeView.getNodeData(nodeView);
             var parentData = NodeView.findAncestorNodeData(nodeView);
             var children = NodeFactory.getChildren(parentData);
-            if (children) children.push(nodeData);
+            console.assert(Boolean(children), 'Couldn\'t get children array');
+            _.addBetween(
+                children,
+                nodeData,
+                adjacentVisibleNodeDatas.previous,
+                adjacentVisibleNodeDatas.next
+            );
         }
 
 

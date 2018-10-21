@@ -17,6 +17,8 @@ define(
             withoutFalsyProperties:                withoutFalsyProperties,
             arraysAreEqual:                        arraysAreEqual,
             removeElement:                         removeElement,
+            addBetween:                            addBetween,
+            last:                                  last,
             copyKeysInto:                          copyKeysInto,
             isNonEmptyArray:                       isNonEmptyArray,
             isBool:                                isBool,
@@ -161,6 +163,42 @@ define(
             if (index < 0) return false;
             array.splice(index, 1);
             return true;
+        }
+
+        function addBetween(array, element, a, b, optFallbackIsStart) {
+
+            var indexA = array.indexOf(a);
+            var indexB = array.indexOf(b);
+
+            var aExists = indexA !== -1;
+            var bExists = indexB !== -1;
+
+            if (!aExists && !bExists) {
+                if (optFallbackIsStart) {
+                    array.unshift(element);
+                } else {
+                    array.push(element);
+                }
+            } else
+            if (aExists && bExists) {
+                var minIndex = Math.min(indexA, indexB);
+                insertAfter(array, minIndex, element);
+            } else {
+                if (aExists) {
+                    insertAfter(array, indexA, element);
+                } else {
+                    insertBefore(array, indexB, element);
+                }
+            }
+            return array;
+
+            function insertAfter(array, index, element)  { array.splice(index + 1, 0, element); }
+            function insertBefore(array, index, element) { array.splice(index, 0, element);     }
+        }
+
+        function last(array) {
+            if (array.length === 0) return undefined;
+            return array[array.length - 1];
         }
 
         function withoutFalsyProperties(obj) {

@@ -19,6 +19,7 @@ define(
             getNodeData: getNodeData,
             getParentNodeView: getParentNodeView,
             findAncestorNodeData: findAncestorNodeData,
+            getAdjacentVisibleNodeDatas: getAdjacentVisibleNodeDatas,
 
             getId: getId,
             getName: getName,
@@ -244,6 +245,28 @@ define(
                 result = getNodeData(parentNodeView) || null;
             }
             return result;
+        }
+
+        function getAdjacentVisibleNodeDatas(nodeView) {
+            var previous = null;
+            var next     = null;
+
+            var parentNodeView = getParentNodeView(nodeView);
+            var visibleChildren = getVisibleChildren(parentNodeView);
+            var ownIndex = visibleChildren.indexOf(nodeView);
+            if (ownIndex !== -1) {
+                if (ownIndex > 0) {
+                    previous = getNodeData(visibleChildren[ownIndex - 1]);
+                }
+                if (ownIndex <= visibleChildren.length - 2) {
+                    next = getNodeData(visibleChildren[ownIndex + 1]);
+                }
+            }
+
+            return {
+                previous: previous,
+                next: next
+            };
         }
 
 
