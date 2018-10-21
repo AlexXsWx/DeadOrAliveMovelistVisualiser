@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540146055999
+    "timeSaved": 1540156718637
   },
   "body": {
     "character": "Talim",
@@ -22,7 +22,7 @@
             ],
             "followUps": [
               {
-                "input": "H",
+                "input": "G",
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -117,7 +117,10 @@
                         "comment": "knock back"
                       },
                       {
-                        "input": "{SC}B",
+                        "input": "B",
+                        "context": [
+                          "SC"
+                        ],
                         "actionSteps": [
                           {
                             "actionMask": "mid P",
@@ -266,7 +269,7 @@
             ]
           },
           {
-            "input": "(6)A",
+            "input": "66A",
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -418,7 +421,7 @@
             ]
           },
           {
-            "input": "(4)A",
+            "input": "44A",
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -575,7 +578,7 @@
             "comment": "special low"
           },
           {
-            "input": "(2)A",
+            "input": "22A",
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -619,7 +622,7 @@
             "endsWith": "CR"
           },
           {
-            "input": "(2)K",
+            "input": "22K",
             "actionSteps": [
               {
                 "actionMask": "high K",
@@ -655,7 +658,7 @@
             ],
             "followUps": [
               {
-                "input": "H",
+                "input": "G",
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -824,7 +827,7 @@
             ],
             "followUps": [
               {
-                "input": "H",
+                "input": "G",
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -844,7 +847,7 @@
             ],
             "followUps": [
               {
-                "input": "H",
+                "input": "G",
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -913,7 +916,7 @@
             "comment": "force crouch"
           },
           {
-            "input": "(6)B",
+            "input": "66B",
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -951,7 +954,7 @@
             "comment": "force crouch; knock back"
           },
           {
-            "input": "(6)K",
+            "input": "66K",
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -963,7 +966,7 @@
             "comment": "launch"
           },
           {
-            "input": "(6*)K",
+            "input": "6(6)~K",
             "actionSteps": [
               {
                 "actionMask": "low K",
@@ -974,7 +977,7 @@
             "comment": "knock back"
           },
           {
-            "input": "(6*)K",
+            "input": "6(6)~K",
             "context": [
               "low hp"
             ],
@@ -998,7 +1001,7 @@
             ],
             "followUps": [
               {
-                "input": "H",
+                "input": "G",
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -1019,7 +1022,7 @@
             ],
             "followUps": [
               {
-                "input": "H",
+                "input": "G",
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -1030,7 +1033,7 @@
             "comment": "stun; LH on hitting an opponent who missed an attack"
           },
           {
-            "input": "(6)A+B",
+            "input": "66A+B",
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1085,7 +1088,7 @@
                 "endsWith": "FA",
                 "followUps": [
                   {
-                    "input": "H",
+                    "input": "G",
                     "actionSteps": [
                       {
                         "actionType": "other"
@@ -1108,7 +1111,7 @@
                 "endsWith": "FA",
                 "followUps": [
                   {
-                    "input": "H",
+                    "input": "G",
                     "actionSteps": [
                       {
                         "actionType": "other"
@@ -1134,7 +1137,7 @@
             "comment": "skewer juggle"
           },
           {
-            "input": "(4)B",
+            "input": "44B",
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1157,7 +1160,7 @@
             "comment": "LH on hitting an opponent who missed a low attack"
           },
           {
-            "input": "(4)K",
+            "input": "44K",
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -1204,7 +1207,7 @@
             ]
           },
           {
-            "input": "(4)A+B",
+            "input": "44A+B",
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -1307,7 +1310,7 @@
             "endsWith": "FA"
           },
           {
-            "input": "(2)B",
+            "input": "22B",
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1443,7 +1446,7 @@
             ],
             "followUps": [
               {
-                "input": "H",
+                "input": "G",
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -1501,7 +1504,7 @@
             "endsWith": "WC"
           },
           {
-            "input": "T",
+            "input": "A+G",
             "actionSteps": [
               {
                 "actionMask": "high",
@@ -1510,7 +1513,7 @@
             ]
           },
           {
-            "input": "4T",
+            "input": "4A+G",
             "actionSteps": [
               {
                 "actionMask": "high",
@@ -1528,7 +1531,7 @@
             "endsWith": "WC"
           },
           {
-            "input": "K+H",
+            "input": "K+G",
             "actionSteps": [
               {
                 "actionType": "other"
@@ -1672,7 +1675,7 @@
         "description": "Wind Charmer",
         "moves": [
           {
-            "input": "T",
+            "input": "A+G",
             "actionSteps": [
               {
                 "actionMask": "high",
@@ -2072,7 +2075,7 @@
             "endsWith": "W"
           },
           {
-            "input": "H",
+            "input": "G",
             "actionSteps": [
               {
                 "actionType": "other"
@@ -2102,7 +2105,7 @@
             "endsWith": "CR",
             "followUps": [
               {
-                "input": "H",
+                "input": "G",
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -2174,7 +2177,7 @@
             ],
             "followUps": [
               {
-                "input": "H",
+                "input": "G",
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -2748,7 +2751,7 @@
             ]
           },
           {
-            "input": "T",
+            "input": "A+G",
             "actionSteps": [
               {
                 "actionMask": "high",
@@ -2757,7 +2760,7 @@
             ]
           },
           {
-            "input": "4T",
+            "input": "4A+G",
             "actionSteps": [
               {
                 "actionMask": "high",
@@ -2840,7 +2843,7 @@
             "comment": "LH on 2nd strike hitting during special phase (only for defending character); knock back"
           },
           {
-            "input": "H",
+            "input": "G",
             "actionSteps": [
               {
                 "actionType": "other"
