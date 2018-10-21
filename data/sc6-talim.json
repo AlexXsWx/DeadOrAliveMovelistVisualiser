@@ -58,7 +58,7 @@
                             "isTracking": true
                           }
                         ],
-                        "endsWith": "FA"
+                        "endsWith": "BT"
                       }
                     ]
                   },
@@ -89,7 +89,7 @@
                                 "actionType": "other"
                               }
                             ],
-                            "endsWith": "W"
+                            "endsWith": "WN..."
                           }
                         ]
                       },
@@ -113,7 +113,7 @@
                             "isTracking": false
                           }
                         ],
-                        "endsWith": "WF",
+                        "endsWith": "WNF",
                         "comment": "knock back"
                       },
                       {
@@ -142,7 +142,7 @@
                             "isTracking": false
                           }
                         ],
-                        "endsWith": "WF",
+                        "endsWith": "WNF",
                         "comment": "BA; knock back; juggle stun"
                       }
                     ]
@@ -240,7 +240,7 @@
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "W"
+                    "endsWith": "WN..."
                   }
                 ],
                 "comment": "knock back"
@@ -295,7 +295,7 @@
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "W"
+                    "endsWith": "WN..."
                   },
                   {
                     "input": "A",
@@ -518,7 +518,7 @@
                             "isTracking": true
                           }
                         ],
-                        "endsWith": "FA",
+                        "endsWith": "BT",
                         "comment": "stun; skewer juggle"
                       }
                     ]
@@ -546,7 +546,7 @@
                     "isTracking": true
                   }
                 ],
-                "comment": "force FA"
+                "comment": "force BT"
               },
               {
                 "input": "*",
@@ -604,7 +604,7 @@
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "W"
+                    "endsWith": "WN..."
                   }
                 ]
               }
@@ -690,7 +690,7 @@
                             "actionType": "other"
                           }
                         ],
-                        "endsWith": "W"
+                        "endsWith": "WN..."
                       },
                       {
                         "input": "*",
@@ -734,7 +734,7 @@
                             "actionType": "other"
                           }
                         ],
-                        "endsWith": "W"
+                        "endsWith": "WN..."
                       },
                       {
                         "input": "*",
@@ -853,7 +853,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "FA"
+                "endsWith": "BT"
               }
             ],
             "comment": "BA; knock back; LH on impact counter"
@@ -885,7 +885,7 @@
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "W"
+                    "endsWith": "WN..."
                   }
                 ],
                 "comment": "knock back"
@@ -907,7 +907,7 @@
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "W"
+                    "endsWith": "WN..."
                   }
                 ],
                 "comment": "BA; knock back; stun"
@@ -962,7 +962,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "FA",
+            "endsWith": "BT",
             "comment": "launch"
           },
           {
@@ -1059,7 +1059,7 @@
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "W"
+                    "endsWith": "WN..."
                   }
                 ],
                 "comment": "launch"
@@ -1085,7 +1085,7 @@
                     "isTracking": true
                   }
                 ],
-                "endsWith": "FA",
+                "endsWith": "BT",
                 "followUps": [
                   {
                     "input": "G",
@@ -1094,10 +1094,10 @@
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "FA"
+                    "endsWith": "BT"
                   }
                 ],
-                "comment": "force FA"
+                "comment": "force BT"
               },
               {
                 "input": "(A)",
@@ -1108,7 +1108,7 @@
                     "isTracking": true
                   }
                 ],
-                "endsWith": "FA",
+                "endsWith": "BT",
                 "followUps": [
                   {
                     "input": "G",
@@ -1117,10 +1117,10 @@
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "FA"
+                    "endsWith": "BT"
                   }
                 ],
-                "comment": "stun; force FA; juggle hard knock down"
+                "comment": "stun; force BT; juggle hard knock down"
               },
               {
                 "input": "B",
@@ -1145,7 +1145,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "FA",
+            "endsWith": "BT",
             "followUps": [
               {
                 "input": "...",
@@ -1154,7 +1154,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "W"
+                "endsWith": "WN..."
               }
             ],
             "comment": "LH on hitting an opponent who missed a low attack"
@@ -1201,7 +1201,7 @@
                     "isTracking": false
                   }
                 ],
-                "endsWith": "FA",
+                "endsWith": "BT",
                 "comment": "force crouch"
               }
             ]
@@ -1307,7 +1307,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "FA"
+            "endsWith": "BT"
           },
           {
             "input": "22B",
@@ -1376,7 +1376,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "WF",
+            "endsWith": "WNF",
             "comment": "force crouch; knock back"
           },
           {
@@ -1452,7 +1452,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "WS"
+                "endsWith": "WNS"
               }
             ],
             "comment": "UA; stun"
@@ -1474,7 +1474,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WF"
+            "endsWith": "WNF"
           },
           {
             "input": "6B+K",
@@ -1483,7 +1483,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WS"
+            "endsWith": "WNS"
           },
           {
             "input": "4B+K",
@@ -1492,7 +1492,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WF"
+            "endsWith": "WNF"
           },
           {
             "input": "2B+K",
@@ -1501,7 +1501,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WC"
+            "endsWith": "WNC"
           },
           {
             "input": "A+G",
@@ -1528,7 +1528,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WC"
+            "endsWith": "WNC"
           },
           {
             "input": "K+G",
@@ -1553,7 +1553,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "W"
+                "endsWith": "WN..."
               },
               {
                 "input": "*",
@@ -1597,7 +1597,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "W"
+                "endsWith": "WN..."
               },
               {
                 "input": "*",
@@ -1629,7 +1629,7 @@
         ]
       },
       {
-        "abbreviation": "W",
+        "abbreviation": "WN...",
         "description": "Wind ...",
         "moves": [
           {
@@ -1639,7 +1639,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WS"
+            "endsWith": "WNS"
           },
           {
             "input": "4",
@@ -1648,7 +1648,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WF"
+            "endsWith": "WNF"
           },
           {
             "input": "2",
@@ -1657,7 +1657,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WC"
+            "endsWith": "WNC"
           },
           {
             "input": "8",
@@ -1666,12 +1666,12 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WC"
+            "endsWith": "WNC"
           }
         ]
       },
       {
-        "abbreviation": "WC",
+        "abbreviation": "WNC",
         "description": "Wind Charmer",
         "moves": [
           {
@@ -1682,7 +1682,7 @@
                 "actionType": "throw"
               }
             ],
-            "endsWith": "FA",
+            "endsWith": "BT",
             "comment": "Unable to grapple break"
           },
           {
@@ -1712,7 +1712,7 @@
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "W"
+                    "endsWith": "WN..."
                   },
                   {
                     "input": "B",
@@ -1723,7 +1723,7 @@
                         "isTracking": false
                       }
                     ],
-                    "endsWith": "FA",
+                    "endsWith": "BT",
                     "followUps": [
                       {
                         "input": "B",
@@ -1888,7 +1888,7 @@
         ]
       },
       {
-        "abbreviation": "WS",
+        "abbreviation": "WNS",
         "description": "Wind Sault",
         "moves": [
           {
@@ -1909,7 +1909,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "W"
+                "endsWith": "WN..."
               }
             ]
           },
@@ -1933,7 +1933,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "WF",
+            "endsWith": "WNF",
             "comment": "knock down; juggle hard knock down"
           },
           {
@@ -1962,7 +1962,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "WF",
+            "endsWith": "WNF",
             "comment": "BA; launch; juggle stun"
           },
           {
@@ -1996,7 +1996,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "WS"
+                "endsWith": "WNS"
               },
               {
                 "input": "*",
@@ -2022,7 +2022,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "FA"
+            "endsWith": "BT"
           },
           {
             "input": "A+B",
@@ -2062,7 +2062,7 @@
         ]
       },
       {
-        "abbreviation": "WF",
+        "abbreviation": "WNF",
         "description": "Wind Fury",
         "moves": [
           {
@@ -2072,7 +2072,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "W"
+            "endsWith": "WN..."
           },
           {
             "input": "G",
@@ -2111,7 +2111,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "WF"
+                "endsWith": "WNF"
               }
             ]
           },
@@ -2264,7 +2264,7 @@
                             "actionType": "other"
                           }
                         ],
-                        "endsWith": "W"
+                        "endsWith": "WN..."
                       }
                     ],
                     "comment": "knock back"
@@ -2405,7 +2405,7 @@
         ]
       },
       {
-        "abbreviation": "FA",
+        "abbreviation": "BT",
         "description": "Facing Away",
         "moves": [
           {
@@ -2607,7 +2607,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "FA",
+            "endsWith": "BT",
             "comment": "knock down; juggle hard knock down"
           },
           {
@@ -2628,7 +2628,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "FA",
+            "endsWith": "BT",
             "followUps": [
               {
                 "input": "A+B",
@@ -2669,7 +2669,7 @@
                                 "isTracking": true
                               }
                             ],
-                            "endsWith": "FA",
+                            "endsWith": "BT",
                             "comment": "BA; stun"
                           }
                         ]
@@ -2695,7 +2695,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "FA",
+                "endsWith": "BT",
                 "followUps": [
                   {
                     "input": "A+B",
@@ -2736,7 +2736,7 @@
                                     "isTracking": true
                                   }
                                 ],
-                                "endsWith": "FA",
+                                "endsWith": "BT",
                                 "comment": "stun"
                               }
                             ]
@@ -2801,7 +2801,7 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "W"
+                "endsWith": "WN..."
               }
             ],
             "comment": "LH on 2nd strike hitting during special phase (only for defending character)"
@@ -2815,7 +2815,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "FA",
+            "endsWith": "BT",
             "followUps": [
               {
                 "input": "B",
@@ -2857,7 +2857,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WF"
+            "endsWith": "WNF"
           },
           {
             "input": "4",
@@ -2866,7 +2866,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WF"
+            "endsWith": "WNF"
           },
           {
             "input": "2",
@@ -2875,7 +2875,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WF"
+            "endsWith": "WNF"
           },
           {
             "input": "8",
@@ -2884,7 +2884,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "WF"
+            "endsWith": "WNF"
           }
         ]
       }
