@@ -58,7 +58,7 @@ g.node {
     &.selection {
         text {
             font-weight: bold;
-            fill: blue;
+            fill: blue !important;
         }
     }
 }
@@ -88,6 +88,8 @@ g.node {
     tspan.safe     { font-weight: bold; fill: hsl(75,  1, 0.375); }
     tspan.semisafe { font-weight: bold; fill: hsl(40,  1, 0.375); }
     tspan.unsafe   { font-weight: bold; fill: hsl(0,   1, 0.375); }
+
+    tspan.gray     { fill: hsl(0,  0, 0.66); }
 }
 
 .text_white_shadow {

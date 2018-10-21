@@ -65,7 +65,7 @@ g.node text.duration {
 }
 g.node.selection text {
   font-weight: bold;
-  fill: blue;
+  fill: blue !important;
 }
 .node_link {
   fill: none;
@@ -97,6 +97,9 @@ g.node.selection text {
 .node_text tspan.unsafe {
   font-weight: bold;
   fill: #bf0000;
+}
+.node_text tspan.gray {
+  fill: #a8a8a8;
 }
 .text_white_shadow {
   text-shadow: 0 0 2px white;

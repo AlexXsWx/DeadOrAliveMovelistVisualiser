@@ -46,12 +46,27 @@ define(
         }
 
         function getTextMain(nodeView) {
-            return NodeView.getName(nodeView) || '<unnamed>';
+            var result = document.createDocumentFragment();
+            var name = NodeView.getName(nodeView);
+            if (name) {
+                splitBy(name, /[\{\<][^\>\}]*[\}\>]/g).forEach(
+                    function(element, index) {
+                        if (!element) return;
+                        result.appendChild(classedTSpan(element, index % 2 ? 'gray' : undefined));
+                    }
+                );
+            } else {
+                result.appendChild(classedTSpan('<unnamed>', 'gray'));
+            }
+            return result;
         }
 
         function getTextEnding(nodeView) {
             var ending = NodeView.getEnding(nodeView);
-            return ending ? '{' + ending + '}' : '';
+            if (!ending) return '';
+            var result = document.createDocumentFragment();
+            result.appendChild(classedTSpan('{' + ending + '}', 'gray'));
+            return result;
         }
 
         function getTextDuration(nodeView) {
@@ -270,11 +285,32 @@ define(
                 case value >= -7: className = 'semisafe'; break;
                 default: className = 'unsafe';
             }
+            return classedTSpan(signedInteger(value), className);
+        }
+
+        function classedTSpan(text, optClassName) {
+            var classes = [];
+            if (optClassName) classes.push(optClassName);
             return _.createSvgElement({
                 tag: 'tspan',
-                classes: [ className ],
-                children: [ _.createTextNode(signedInteger(value)) ]
+                classes: classes,
+                children: [ _.createTextNode(text) ]
             });
+        }
+
+        function splitBy(text, rgx) {
+            var result = [];
+            var rest = text;
+            while (true) {
+                var start = rgx.lastIndex;
+                var match = rgx.exec(text);
+                if (!match) break;
+                result.push(text.substring(start, match.index));
+                result.push(text.substr(match.index, match[0].length));
+                rest = text.substr(match.index + match[0].length, match.lastIndex);
+            }
+            result.push(rest);
+            return result;
         }
 
     }
