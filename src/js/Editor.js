@@ -188,11 +188,12 @@ define(
 
 
         function moveNodeBy(delta) {
+            var acted = [];
             Executor.rememberAndExecute('move node by ' + delta, act, unact);
-            function act() { doMoveNodeBy(delta); }
-            // FIXME: this is not symmetric
-            // e.g. when you move down last node 3 times and then undo 3 times
-            function unact() { doMoveNodeBy(-delta); }
+            return;
+            function act() { acted.push(doMoveNodeBy(delta)); }
+            // FIXME: this is not accurate
+            function unact() { if (acted.pop()) doMoveNodeBy(-delta); }
         }
 
 
