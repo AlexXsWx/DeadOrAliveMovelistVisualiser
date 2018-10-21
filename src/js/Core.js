@@ -165,7 +165,7 @@ define(
                 // FIXME: update editor (selected element changed)
 
                 restructureByType(rootNodeView);
-                NodeView.hideHiddenByDefault(rootNodeView);
+                // NodeView.hideHiddenByDefault(rootNodeView);
 
                 update();
 

@@ -27,7 +27,7 @@ define(
             bottom: TEXT_GETTER_OPTIONS[0]
         };
 
-        var flipTextToRight = true;
+        var flipTextToRight = false;
 
         var updateSignal = createSignal();
 

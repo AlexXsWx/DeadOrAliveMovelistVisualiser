@@ -142,7 +142,7 @@ define(
                 'horizontal': [],
                 'vertical':   [],
                 'throws':  [],
-                'holds':   [],
+                'guard impacts':   [],
                 'other':   []
             };
 
@@ -167,7 +167,7 @@ define(
                     case NodeFactory.isMoveHorizontal(nodeData): type = 'horizontal'; break;
                     case NodeFactory.isMoveVertical(nodeData):   type = 'vertical';   break;
                     case NodeFactory.isMoveThrow(nodeData): type = 'throws';  break;
-                    case NodeFactory.isMoveHold(nodeData):  type = 'holds';   break;
+                    case NodeFactory.isMoveHold(nodeData):  type = 'guard impacts';   break;
                     default: type = 'other';
                 }
 
