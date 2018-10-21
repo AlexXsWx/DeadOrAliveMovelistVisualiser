@@ -302,9 +302,10 @@ define(
             }
 
 
-            function addChild(nodeView, child) {
+            function addChild(nodeView, child, optForceVisible) {
                 var children = nodeView.treeInfo.children;
                 if (
+                    optForceVisible ||
                     children.visible.length > 0 ||
                     children.hidden.length === 0
                 ) {

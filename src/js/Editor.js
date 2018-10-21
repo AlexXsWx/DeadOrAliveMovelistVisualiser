@@ -312,7 +312,7 @@ define(
                 NodeView.setNodeData(placeholderNodeView, nodeData);
             }
             NodeView.setIsPlaceholder(placeholderNodeView, isEditorElement);
-            NodeView.addChild(parent, placeholderNodeView);
+            NodeView.addChild(parent, placeholderNodeView, !isEditorElement);
             return placeholderNodeView;
         }
 
