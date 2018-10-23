@@ -28,7 +28,8 @@ define(
             getForcetechAdvantage: getForcetechAdvantage,
             getHardKnockdownAdvantage: getHardKnockdownAdvantage,
             getFollowupDelay: getFollowupDelay,
-            getComment: getComment
+            getComment: getComment,
+            getMainTags: getMainTags
 
         };
 
@@ -269,6 +270,20 @@ define(
             if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return '';
 
             return nodeData.comment || '';
+        }
+
+        function getMainTags(nodeView) {
+            var nodeData = NodeView.getNodeData(nodeView);
+            if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return '';
+
+            if (nodeData.actionSteps.length === 0) return '';
+
+            return (
+                nodeData.actionSteps.map(
+                    function(actionStep) { return actionStep.tags; }
+                ).join(', ') ||
+                ''
+            );
         }
 
         function getEmptyText(nodeView) {

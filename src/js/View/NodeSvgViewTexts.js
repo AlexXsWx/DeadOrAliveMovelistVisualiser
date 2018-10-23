@@ -17,6 +17,7 @@ define(
             NodeSvgViewTextGetters.getHardKnockdownAdvantage,
             NodeSvgViewTextGetters.getFollowupDelay,
             NodeSvgViewTextGetters.getComment,
+            NodeSvgViewTextGetters.getMainTags,
             NodeSvgViewTextGetters.getEmptyText, // TODO: stun depth
             NodeSvgViewTextGetters.getEmptyText  // TODO: unhold duration
         ];
