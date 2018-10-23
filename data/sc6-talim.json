@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540163112947
+    "timeSaved": 1540323068308
   },
   "body": {
     "character": "Talim",
@@ -9,10 +9,15 @@
       {
         "abbreviation": "STD",
         "description": "Standing",
-        "appliesExtraFrame": true,
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "A",
+            "frameData": [
+              11,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -215,6 +220,11 @@
           },
           {
             "input": "6A",
+            "frameData": [
+              17,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -270,6 +280,11 @@
           },
           {
             "input": "66A",
+            "frameData": [
+              15,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -280,6 +295,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  11,
+                  1,
+                  999
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "high P",
@@ -378,6 +398,11 @@
           },
           {
             "input": "A6",
+            "frameData": [
+              17,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -388,6 +413,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  14,
+                  1,
+                  999
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "high P",
@@ -400,6 +430,11 @@
           },
           {
             "input": "4A",
+            "frameData": [
+              15,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -422,6 +457,11 @@
           },
           {
             "input": "44A",
+            "frameData": [
+              21,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -457,6 +497,11 @@
           },
           {
             "input": "4K",
+            "frameData": [
+              15,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "high K",
@@ -481,6 +526,11 @@
           },
           {
             "input": "3A",
+            "frameData": [
+              21,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -491,6 +541,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  4,
+                  1,
+                  0
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -501,6 +556,11 @@
                 "followUps": [
                   {
                     "input": "*",
+                    "frameData": [
+                      4,
+                      1,
+                      0
+                    ],
                     "actionSteps": [
                       {
                         "actionMask": "mid P",
@@ -511,6 +571,11 @@
                     "followUps": [
                       {
                         "input": "*",
+                        "frameData": [
+                          4,
+                          1,
+                          999
+                        ],
                         "actionSteps": [
                           {
                             "actionMask": "mid P",
@@ -529,6 +594,11 @@
           },
           {
             "input": "3A+B",
+            "frameData": [
+              19,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -539,6 +609,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  3,
+                  1,
+                  999
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "high P",
@@ -552,6 +627,11 @@
                 "input": "*",
                 "context": [
                   "LH"
+                ],
+                "frameData": [
+                  3,
+                  1,
+                  999
                 ],
                 "actionSteps": [
                   {
@@ -567,6 +647,11 @@
           },
           {
             "input": "2A",
+            "frameData": [
+              11,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "low P",
@@ -579,6 +664,13 @@
           },
           {
             "input": "22A",
+            "frameData": [
+              11,
+              0,
+              17,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -589,6 +681,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  5,
+                  1,
+                  999
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -612,6 +709,11 @@
           },
           {
             "input": "2K",
+            "frameData": [
+              15,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "low K",
@@ -623,6 +725,13 @@
           },
           {
             "input": "22K",
+            "frameData": [
+              11,
+              0,
+              17,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "high K",
@@ -633,6 +742,11 @@
           },
           {
             "input": "1A",
+            "frameData": [
+              29,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "low P",
@@ -838,6 +952,11 @@
           },
           {
             "input": "A+B",
+            "frameData": [
+              39,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1459,6 +1578,11 @@
           },
           {
             "input": "1K",
+            "frameData": [
+              17,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "low K",

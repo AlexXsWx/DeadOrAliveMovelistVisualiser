@@ -85,3 +85,16 @@ talim
     66A+B 6 K B
     66A+B 6 (B) K | A+B
     {SC} {WS} (B) B B
+
+    6BB delay A+B (@Jaxel)
+        A+B is free damage anyway; but if delayed can tech catch and ring out
+
+    LH 236B ??? -> wind cannon
+
+    {
+        "tech trap" from @Jaxel:
+        CH 4B,B into A+B catches techs and knocks them back
+        6B,B*
+    }
+
+    wall splat soul charged 2_8 B+K, A A B B ~ 214 B is a true combo @Jeston
