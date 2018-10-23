@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540330556201
+    "timeSaved": 1540335475015
   },
   "body": {
     "character": "Talim",
@@ -985,6 +985,11 @@
           },
           {
             "input": "B",
+            "frameData": [
+              13,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1173,6 +1178,11 @@
           },
           {
             "input": "K",
+            "frameData": [
+              11,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "high K",
@@ -1234,6 +1244,11 @@
           },
           {
             "input": "6B",
+            "frameData": [
+              17,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1322,6 +1337,11 @@
           },
           {
             "input": "66B",
+            "frameData": [
+              21,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -1365,6 +1385,11 @@
           },
           {
             "input": "6K",
+            "frameData": [
+              15,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -1386,6 +1411,11 @@
           },
           {
             "input": "66K",
+            "frameData": [
+              33,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -1444,6 +1474,11 @@
           },
           {
             "input": "6A+B",
+            "frameData": [
+              23,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1482,6 +1517,11 @@
           },
           {
             "input": "6(A+B)",
+            "frameData": [
+              32,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1524,6 +1564,11 @@
           },
           {
             "input": "66A+B",
+            "frameData": [
+              27,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1534,6 +1579,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  2,
+                  1,
+                  999
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -1567,6 +1617,11 @@
           },
           {
             "input": "4B",
+            "frameData": [
+              13,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1682,6 +1737,11 @@
           },
           {
             "input": "44B",
+            "frameData": [
+              25,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1708,6 +1768,11 @@
           },
           {
             "input": "44K",
+            "frameData": [
+              17,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -1748,6 +1813,11 @@
           },
           {
             "input": "4A+B",
+            "frameData": [
+              19,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1758,6 +1828,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  5,
+                  1,
+                  999
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -1781,6 +1856,11 @@
           },
           {
             "input": "44A+B",
+            "frameData": [
+              23,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -1791,6 +1871,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  9,
+                  1,
+                  0
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid K",
@@ -1801,6 +1886,11 @@
                 "followUps": [
                   {
                     "input": "*",
+                    "frameData": [
+                      6,
+                      1,
+                      0
+                    ],
                     "actionSteps": [
                       {
                         "actionMask": "mid P",
@@ -1811,6 +1901,11 @@
                     "followUps": [
                       {
                         "input": "*",
+                        "frameData": [
+                          3,
+                          1,
+                          999
+                        ],
                         "actionSteps": [
                           {
                             "actionMask": "mid P",
@@ -1845,6 +1940,11 @@
           },
           {
             "input": "3B",
+            "frameData": [
+              19,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1897,6 +1997,11 @@
           },
           {
             "input": "3K",
+            "frameData": [
+              13,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
@@ -1907,6 +2012,11 @@
           },
           {
             "input": "2B",
+            "frameData": [
+              15,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1918,6 +2028,13 @@
           },
           {
             "input": "22B",
+            "frameData": [
+              11,
+              0,
+              21,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -1992,6 +2109,11 @@
           },
           {
             "input": "2A+B",
+            "frameData": [
+              19,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -2013,6 +2135,11 @@
           },
           {
             "input": "2(A+B)",
+            "frameData": [
+              19,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -2035,6 +2162,11 @@
           },
           {
             "input": "1B",
+            "frameData": [
+              19,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "low P",
@@ -2045,6 +2177,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  7,
+                  1,
+                  999
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "low P",
@@ -2058,6 +2195,11 @@
           },
           {
             "input": "1A+B",
+            "frameData": [
+              17,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
