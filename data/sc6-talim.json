@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540323068308
+    "timeSaved": 1540330556201
   },
   "body": {
     "character": "Talim",
@@ -104,10 +104,19 @@
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": false
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              }
+                            ]
                           }
-                        ],
-                        "comment": "knock back"
+                        ]
                       },
                       {
                         "input": "(B)",
@@ -115,11 +124,20 @@
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": false
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              }
+                            ]
                           }
                         ],
-                        "endsWith": "WF",
-                        "comment": "knock back"
+                        "endsWith": "WF"
                       },
                       {
                         "input": "B",
@@ -130,10 +148,30 @@
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": false
+                            "isTracking": false,
+                            "tags": [
+                              "BA"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "stun"
+                                ]
+                              }
+                            ]
                           }
-                        ],
-                        "comment": "BA; knock back; juggle stun"
+                        ]
                       },
                       {
                         "input": "(B)",
@@ -144,11 +182,31 @@
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": false
+                            "isTracking": false,
+                            "tags": [
+                              "BA"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "stun"
+                                ]
+                              }
+                            ]
                           }
                         ],
-                        "endsWith": "WF",
-                        "comment": "BA; knock back; juggle stun"
+                        "endsWith": "WF"
                       }
                     ]
                   },
@@ -158,7 +216,10 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "tags": [
+                          "special"
+                        ]
                       }
                     ],
                     "followUps": [
@@ -168,13 +229,21 @@
                           {
                             "actionMask": "high P",
                             "actionType": "strike",
-                            "isTracking": false
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock behind"
+                                ]
+                              }
+                            ]
                           }
-                        ],
-                        "comment": "knock behind"
+                        ]
                       }
-                    ],
-                    "comment": "special mid"
+                    ]
                   }
                 ]
               }
@@ -189,7 +258,10 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "CE"
+                ]
               }
             ],
             "followUps": [
@@ -212,7 +284,7 @@
                         "isTracking": true
                       }
                     ],
-                    "comment": "restores health; knock back"
+                    "comment": "restores health"
                   }
                 ]
               }
@@ -239,7 +311,17 @@
                   {
                     "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -252,8 +334,7 @@
                     ],
                     "endsWith": "W..."
                   }
-                ],
-                "comment": "knock back"
+                ]
               },
               {
                 "input": "B",
@@ -261,10 +342,19 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "knock back"
+                ]
               },
               {
                 "input": "K",
@@ -336,7 +426,17 @@
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": true
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "skewer"
+                                ]
+                              }
+                            ]
                           }
                         ],
                         "followUps": [
@@ -356,7 +456,17 @@
                                   {
                                     "actionMask": "mid P",
                                     "actionType": "strike",
-                                    "isTracking": true
+                                    "isTracking": true,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "airborne"
+                                        ],
+                                        "tags": [
+                                          "skewer"
+                                        ]
+                                      }
+                                    ]
                                   }
                                 ],
                                 "followUps": [
@@ -366,10 +476,30 @@
                                       {
                                         "actionMask": "mid P",
                                         "actionType": "strike",
-                                        "isTracking": false
+                                        "isTracking": false,
+                                        "tags": [
+                                          "BA"
+                                        ],
+                                        "results": [
+                                          {
+                                            "condition": [
+                                              "neutral"
+                                            ],
+                                            "tags": [
+                                              "launch"
+                                            ]
+                                          },
+                                          {
+                                            "condition": [
+                                              "airborne"
+                                            ],
+                                            "tags": [
+                                              "skewer"
+                                            ]
+                                          }
+                                        ]
                                       }
-                                    ],
-                                    "comment": "BA; launch; skewer juggle"
+                                    ]
                                   },
                                   {
                                     "input": "*B",
@@ -377,18 +507,36 @@
                                       {
                                         "actionMask": "mid P",
                                         "actionType": "strike",
-                                        "isTracking": false
+                                        "isTracking": false,
+                                        "tags": [
+                                          "BA"
+                                        ],
+                                        "results": [
+                                          {
+                                            "condition": [
+                                              "neutral"
+                                            ],
+                                            "tags": [
+                                              "launch"
+                                            ]
+                                          },
+                                          {
+                                            "condition": [
+                                              "airborne"
+                                            ],
+                                            "tags": [
+                                              "skewer"
+                                            ]
+                                          }
+                                        ]
                                       }
-                                    ],
-                                    "comment": "BA; launch; skewer juggle"
+                                    ]
                                   }
-                                ],
-                                "comment": "skewer juggle"
+                                ]
                               }
                             ]
                           }
-                        ],
-                        "comment": "skewer juggle"
+                        ]
                       }
                     ]
                   }
@@ -466,7 +614,20 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -476,10 +637,19 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "stun"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "stun"
+                ]
               },
               {
                 "input": "(A)",
@@ -487,13 +657,25 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "tags": [
+                      "BA"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "stun"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "BA; stun"
+                ]
               }
             ],
-            "comment": "LH on hitting an opponent who missed a high attack; skewer juggle"
+            "comment": "LH on hitting an opponent who missed a high attack"
           },
           {
             "input": "4K",
@@ -519,10 +701,14 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "SC",
+                  "BA",
+                  "special"
+                ]
               }
-            ],
-            "comment": "SG; BA; special mid; Soul Charge"
+            ]
           },
           {
             "input": "3A",
@@ -580,11 +766,28 @@
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": true
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "stun"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "skewer"
+                                ]
+                              }
+                            ]
                           }
                         ],
-                        "endsWith": "BT",
-                        "comment": "stun; skewer juggle"
+                        "endsWith": "BT"
                       }
                     ]
                   }
@@ -603,7 +806,10 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "LH"
+                ]
               }
             ],
             "followUps": [
@@ -618,10 +824,19 @@
                   {
                     "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force BT"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "force BT"
+                ]
               },
               {
                 "input": "*",
@@ -637,10 +852,20 @@
                   {
                     "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "stun",
+                          "knock down"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "stun; knock down"
+                ]
               }
             ],
             "comment": "LH if first strike misses"
@@ -656,11 +881,13 @@
               {
                 "actionMask": "low P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "special"
+                ]
               }
             ],
-            "endsWith": "CR",
-            "comment": "special low"
+            "endsWith": "CR"
           },
           {
             "input": "22A",
@@ -812,7 +1039,10 @@
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": false
+                            "isTracking": false,
+                            "tags": [
+                              "RE"
+                            ]
                           }
                         ],
                         "followUps": [
@@ -828,8 +1058,7 @@
                             ],
                             "endsWith": "RE"
                           }
-                        ],
-                        "comment": "RE"
+                        ]
                       }
                     ]
                   },
@@ -855,7 +1084,11 @@
                         "actionSteps": [
                           {
                             "actionMask": "mid P",
-                            "actionType": "strike"
+                            "actionType": "strike",
+                            "tags": [
+                              "BA",
+                              "RE"
+                            ]
                           }
                         ],
                         "followUps": [
@@ -871,8 +1104,7 @@
                             ],
                             "endsWith": "RE"
                           }
-                        ],
-                        "comment": "BA; RE"
+                        ]
                       }
                     ]
                   }
@@ -917,10 +1149,19 @@
                               {
                                 "actionMask": "low P",
                                 "actionType": "strike",
-                                "isTracking": true
+                                "isTracking": true,
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "neutral"
+                                    ],
+                                    "tags": [
+                                      "knock down"
+                                    ]
+                                  }
+                                ]
                               }
-                            ],
-                            "comment": "knock down"
+                            ]
                           }
                         ]
                       }
@@ -961,7 +1202,21 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "BA",
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -975,7 +1230,7 @@
                 "endsWith": "BT"
               }
             ],
-            "comment": "BA; knock back; LH on impact counter"
+            "comment": "LH on impact counter"
           },
           {
             "input": "6B",
@@ -983,7 +1238,17 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "force crouch"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -993,7 +1258,17 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -1006,8 +1281,7 @@
                     ],
                     "endsWith": "W..."
                   }
-                ],
-                "comment": "knock back"
+                ]
               },
               {
                 "input": "(B)",
@@ -1015,7 +1289,21 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "tags": [
+                      "BA"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back",
+                          "stun"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -1028,11 +1316,9 @@
                     ],
                     "endsWith": "W..."
                   }
-                ],
-                "comment": "BA; knock back; stun"
+                ]
               }
-            ],
-            "comment": "force crouch"
+            ]
           },
           {
             "input": "66B",
@@ -1040,7 +1326,21 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back",
+                      "hard knock down"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1053,13 +1353,15 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "tags": [
+                      "BA"
+                    ]
                   }
-                ],
-                "comment": "BA"
+                ]
               }
             ],
-            "comment": "LH on running counter while moving back; knock back; hard knock down"
+            "comment": "LH on running counter while moving back"
           },
           {
             "input": "6K",
@@ -1067,10 +1369,20 @@
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "force crouch",
+                      "knock back"
+                    ]
+                  }
+                ]
               }
-            ],
-            "comment": "force crouch; knock back"
+            ]
           },
           {
             "input": "66K",
@@ -1078,11 +1390,20 @@
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
               }
             ],
-            "endsWith": "BT",
-            "comment": "launch"
+            "endsWith": "BT"
           },
           {
             "input": "6(6)~K",
@@ -1090,10 +1411,19 @@
               {
                 "actionMask": "low K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
               }
-            ],
-            "comment": "knock back"
+            ]
           },
           {
             "input": "6(6)~K",
@@ -1104,10 +1434,13 @@
               {
                 "actionMask": "low P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ]
               }
             ],
-            "comment": "on low health; LH on hitting an opponent during a standing guard"
+            "comment": "LH on hitting an opponent during a standing guard"
           },
           {
             "input": "6A+B",
@@ -1115,7 +1448,25 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1127,8 +1478,7 @@
                   }
                 ]
               }
-            ],
-            "comment": "stun; skewer juggle"
+            ]
           },
           {
             "input": "6(A+B)",
@@ -1136,7 +1486,28 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1149,7 +1520,7 @@
                 ]
               }
             ],
-            "comment": "stun; LH on hitting an opponent who missed an attack"
+            "comment": "LH on hitting an opponent who missed an attack"
           },
           {
             "input": "66A+B",
@@ -1167,7 +1538,17 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -1180,8 +1561,7 @@
                     ],
                     "endsWith": "W..."
                   }
-                ],
-                "comment": "launch"
+                ]
               }
             ]
           },
@@ -1191,7 +1571,17 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1201,7 +1591,17 @@
                   {
                     "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force BT"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BT",
@@ -1215,8 +1615,7 @@
                     ],
                     "endsWith": "BT"
                   }
-                ],
-                "comment": "force BT"
+                ]
               },
               {
                 "input": "(A)",
@@ -1224,7 +1623,26 @@
                   {
                     "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "stun",
+                          "force BT"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock down"
+                        ]
+                      }
+                    ]
                   }
                 ],
                 "endsWith": "BT",
@@ -1238,8 +1656,7 @@
                     ],
                     "endsWith": "BT"
                   }
-                ],
-                "comment": "stun; force BT; juggle hard knock down"
+                ]
               },
               {
                 "input": "B",
@@ -1247,13 +1664,21 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force crouch"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "force crouch"
+                ]
               }
-            ],
-            "comment": "skewer juggle"
+            ]
           },
           {
             "input": "44B",
@@ -1261,7 +1686,10 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ]
               }
             ],
             "endsWith": "BT",
@@ -1294,10 +1722,27 @@
                   {
                     "actionMask": "high K",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "skewer"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "knock back; skewer juggle"
+                ]
               }
             ]
           },
@@ -1317,11 +1762,20 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force crouch"
+                        ]
+                      }
+                    ]
                   }
                 ],
-                "endsWith": "BT",
-                "comment": "force crouch"
+                "endsWith": "BT"
               }
             ]
           },
@@ -1361,10 +1815,27 @@
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": false
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "hard knock down"
+                                ]
+                              }
+                            ]
                           }
-                        ],
-                        "comment": "knock back; skewer hard knock down"
+                        ]
                       }
                     ]
                   }
@@ -1398,10 +1869,27 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "tags": [
+                              "launch"
+                            ]
+                          },
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "skewer"
+                            ]
+                          }
+                        ]
                       }
-                    ],
-                    "comment": "launch; skewer juggle"
+                    ]
                   }
                 ]
               }
@@ -1434,7 +1922,17 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1444,10 +1942,19 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force crouch"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "force crouch"
+                ]
               },
               {
                 "input": "*B",
@@ -1465,16 +1972,23 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "hard knock down"
+                            ]
+                          }
+                        ]
                       }
-                    ],
-                    "comment": "juggle hard knock down"
+                    ]
                   }
-                ],
-                "comment": "exact timing"
+                ]
               }
-            ],
-            "comment": "launch"
+            ]
           },
           {
             "input": "2A+B",
@@ -1482,7 +1996,18 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "force crouch",
+                      "knock back"
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -1492,11 +2017,21 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "force crouch",
+                      "knock back"
+                    ]
+                  }
+                ]
               }
             ],
-            "endsWith": "WF",
-            "comment": "force crouch; knock back"
+            "endsWith": "WF"
           },
           {
             "input": "1B",
@@ -1527,10 +2062,24 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "counter",
+                      "LH"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
               }
             ],
-            "comment": "LH on hitting an opponent whose guard stamina is low; launch on counter; launch on LH"
+            "comment": "LH on hitting an opponent whose guard stamina is low"
           },
           {
             "input": "236B",
@@ -1538,10 +2087,19 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
               }
-            ],
-            "comment": "launch"
+            ]
           },
           {
             "input": "236(B)",
@@ -1549,10 +2107,23 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
               }
             ],
-            "comment": "launch; LH on hit after opponent misses a guard impact"
+            "comment": "LH on hit after opponent misses a guard impact"
           },
           {
             "input": "214B",
@@ -1560,7 +2131,20 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "UA"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1573,8 +2157,7 @@
                 ],
                 "endsWith": "WS"
               }
-            ],
-            "comment": "UA; stun"
+            ]
           },
           {
             "input": "1K",
@@ -1685,7 +2268,10 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "tags": [
+                      "RE"
+                    ]
                   }
                 ],
                 "followUps": [
@@ -1701,8 +2287,7 @@
                     ],
                     "endsWith": "RE"
                   }
-                ],
-                "comment": "RE"
+                ]
               }
             ]
           },
@@ -1729,7 +2314,11 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "tags": [
+                      "BA",
+                      "RE"
+                    ]
                   }
                 ],
                 "followUps": [
@@ -1745,8 +2334,7 @@
                     ],
                     "endsWith": "RE"
                   }
-                ],
-                "comment": "BA; RE"
+                ]
               }
             ]
           }
@@ -1803,11 +2391,13 @@
             "actionSteps": [
               {
                 "actionMask": "high",
-                "actionType": "throw"
+                "actionType": "throw",
+                "tags": [
+                  "unbreakable"
+                ]
               }
             ],
-            "endsWith": "BT",
-            "comment": "Unable to grapple break"
+            "endsWith": "BT"
           },
           {
             "input": "A",
@@ -1878,10 +2468,19 @@
                                   {
                                     "actionMask": "mid P",
                                     "actionType": "strike",
-                                    "isTracking": false
+                                    "isTracking": false,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "neutral"
+                                        ],
+                                        "tags": [
+                                          "launch"
+                                        ]
+                                      }
+                                    ]
                                   }
-                                ],
-                                "comment": "launch"
+                                ]
                               }
                             ]
                           }
@@ -1928,10 +2527,19 @@
                                   {
                                     "actionMask": "mid P",
                                     "actionType": "strike",
-                                    "isTracking": true
+                                    "isTracking": true,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "neutral"
+                                        ],
+                                        "tags": [
+                                          "knock back"
+                                        ]
+                                      }
+                                    ]
                                   }
-                                ],
-                                "comment": "knock back"
+                                ]
                               }
                             ]
                           }
@@ -1949,7 +2557,17 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1969,10 +2587,22 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "tags": [
+                      "BA"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "BA; launch"
+                ]
               },
               {
                 "input": "**B",
@@ -1980,13 +2610,24 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "tags": [
+                      "BA"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "BA; launch"
+                ]
               }
-            ],
-            "comment": "juggle hard knock down"
+            ]
           },
           {
             "input": "K",
@@ -1994,10 +2635,23 @@
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
               }
             ],
-            "comment": "knock back; LH on hitting an opponent who missed a middle attack"
+            "comment": "LH on hitting an opponent who missed a middle attack"
           },
           {
             "input": "A+B",
@@ -2043,10 +2697,27 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock down"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
               }
-            ],
-            "comment": "knock down; juggle hard knock down"
+            ]
           },
           {
             "input": "(B)",
@@ -2054,11 +2725,28 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock down"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
               }
             ],
-            "endsWith": "WF",
-            "comment": "knock down; juggle hard knock down"
+            "endsWith": "WF"
           },
           {
             "input": "B",
@@ -2069,10 +2757,30 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "BA"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
               }
-            ],
-            "comment": "BA; launch; juggle stun"
+            ]
           },
           {
             "input": "(B)",
@@ -2083,11 +2791,31 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "BA"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
               }
             ],
-            "endsWith": "WF",
-            "comment": "BA; launch; juggle stun"
+            "endsWith": "WF"
           },
           {
             "input": "K",
@@ -2095,7 +2823,17 @@
               {
                 "actionMask": "high K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -2134,8 +2872,7 @@
                 ],
                 "endsWith": "DWN"
               }
-            ],
-            "comment": "juggle hard knock down"
+            ]
           },
           {
             "input": "(K)",
@@ -2174,10 +2911,19 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "tags": [
+                              "knock back"
+                            ]
+                          }
+                        ]
                       }
-                    ],
-                    "comment": "knock back"
+                    ]
                   }
                 ]
               }
@@ -2245,7 +2991,28 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -2258,13 +3025,22 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "knock back"
+                ]
               }
             ],
-            "comment": "LH on hitting an opponent knocked off balance with a guard crush; stun; juggle hard knock down"
+            "comment": "LH on hitting an opponent knocked off balance with a guard crush"
           },
           {
             "input": "K",
@@ -2272,7 +3048,17 @@
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -2282,13 +3068,29 @@
                   {
                     "actionMask": "mid K",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock down"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "launch; juggle hard knock down"
+                ]
               }
-            ],
-            "comment": "stun"
+            ]
           },
           {
             "input": "A+B",
@@ -2296,7 +3098,20 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "UA"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -2309,8 +3124,7 @@
                 ],
                 "endsWith": "CR"
               }
-            ],
-            "comment": "UA; knock back"
+            ]
           }
         ]
       },
@@ -2333,11 +3147,13 @@
               {
                 "actionMask": "low P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "special"
+                ]
               }
             ],
-            "endsWith": "CR",
-            "comment": "special low"
+            "endsWith": "CR"
           },
           {
             "input": "B",
@@ -2377,7 +3193,17 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "tags": [
+                              "knock back"
+                            ]
+                          }
+                        ]
                       }
                     ],
                     "followUps": [
@@ -2390,8 +3216,7 @@
                         ],
                         "endsWith": "W..."
                       }
-                    ],
-                    "comment": "knock back"
+                    ]
                   }
                 ],
                 "comment": "delayable"
@@ -2425,10 +3250,19 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "launch"
+                ]
               }
             ]
           }
@@ -2453,10 +3287,19 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
               }
-            ],
-            "comment": "knock back"
+            ]
           },
           {
             "input": "B",
@@ -2510,10 +3353,20 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch",
+                      "knock behind"
+                    ]
+                  }
+                ]
               }
-            ],
-            "comment": "launch; knock behind"
+            ]
           },
           {
             "input": "K",
@@ -2523,8 +3376,7 @@
                 "actionType": "strike",
                 "isTracking": false
               }
-            ],
-            "comment": "juggle hard knock down"
+            ]
           }
         ]
       },
@@ -2618,10 +3470,27 @@
                                               {
                                                 "actionMask": "mid P",
                                                 "actionType": "strike",
-                                                "isTracking": false
+                                                "isTracking": false,
+                                                "results": [
+                                                  {
+                                                    "condition": [
+                                                      "neutral"
+                                                    ],
+                                                    "tags": [
+                                                      "stun"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "condition": [
+                                                      "airborne"
+                                                    ],
+                                                    "tags": [
+                                                      "skewer"
+                                                    ]
+                                                  }
+                                                ]
                                               }
-                                            ],
-                                            "comment": "stun; skewer juggle"
+                                            ]
                                           }
                                         ]
                                       }
@@ -2645,10 +3514,24 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "BA",
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  }
+                ]
               }
             ],
-            "comment": "BA; LH on hitting opponent during an attack; skewer juggle"
+            "comment": "LH on hitting opponent during an attack"
           },
           {
             "input": "A+B+K",
@@ -2679,10 +3562,20 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": true
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "tags": [
+                              "knock back"
+                            ]
+                          }
+                        ]
                       }
                     ],
-                    "comment": "restores health; knock back"
+                    "comment": "restores health"
                   }
                 ]
               }
@@ -2694,11 +3587,13 @@
               {
                 "actionMask": "low P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "special"
+                ]
               }
             ],
-            "endsWith": "CR",
-            "comment": "special low"
+            "endsWith": "CR"
           },
           {
             "input": "B",
@@ -2706,10 +3601,19 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
               }
-            ],
-            "comment": "stun"
+            ]
           },
           {
             "input": "2B",
@@ -2728,11 +3632,28 @@
               {
                 "actionMask": "high K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock down"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
               }
             ],
-            "endsWith": "BT",
-            "comment": "knock down; juggle hard knock down"
+            "endsWith": "BT"
           },
           {
             "input": "2K",
@@ -2790,11 +3711,23 @@
                               {
                                 "actionMask": "mid P",
                                 "actionType": "strike",
-                                "isTracking": true
+                                "isTracking": true,
+                                "tags": [
+                                  "BA"
+                                ],
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "neutral"
+                                    ],
+                                    "tags": [
+                                      "stun"
+                                    ]
+                                  }
+                                ]
                               }
                             ],
-                            "endsWith": "BT",
-                            "comment": "BA; stun"
+                            "endsWith": "BT"
                           }
                         ]
                       }
@@ -2827,7 +3760,10 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": true
+                        "isTracking": true,
+                        "tags": [
+                          "UA"
+                        ]
                       }
                     ],
                     "followUps": [
@@ -2857,18 +3793,26 @@
                                   {
                                     "actionMask": "mid P",
                                     "actionType": "strike",
-                                    "isTracking": true
+                                    "isTracking": true,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "neutral"
+                                        ],
+                                        "tags": [
+                                          "stun"
+                                        ]
+                                      }
+                                    ]
                                   }
                                 ],
-                                "endsWith": "BT",
-                                "comment": "stun"
+                                "endsWith": "BT"
                               }
                             ]
                           }
                         ]
                       }
-                    ],
-                    "comment": "UA"
+                    ]
                   }
                 ]
               }
@@ -2914,7 +3858,10 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "LH"
+                ]
               }
             ],
             "followUps": [
@@ -2928,7 +3875,7 @@
                 "endsWith": "W..."
               }
             ],
-            "comment": "LH on 2nd strike hitting during special phase (only for defending character)"
+            "comment": "LH on 2nd strike hitting during special phase as attacker"
           },
           {
             "input": "B",
@@ -2936,7 +3883,21 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "BA",
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
               }
             ],
             "endsWith": "BT",
@@ -2947,13 +3908,22 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch behind"
+                        ]
+                      }
+                    ]
                   }
-                ],
-                "comment": "launch behind"
+                ]
               }
             ],
-            "comment": "BA; LH on 2nd strike hitting during special phase (only for defending character); stun"
+            "comment": "LH on 2nd strike hitting during special phase as attacker"
           },
           {
             "input": "K",
@@ -2961,10 +3931,23 @@
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
               }
             ],
-            "comment": "LH on 2nd strike hitting during special phase (only for defending character); knock back"
+            "comment": "LH on 2nd strike hitting during special phase as attacker"
           },
           {
             "input": "G",
