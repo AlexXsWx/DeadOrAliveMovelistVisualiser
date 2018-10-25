@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540335475015
+    "timeSaved": 1540506929109
   },
   "body": {
     "character": "Talim",
@@ -806,10 +806,7 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true,
-                "tags": [
-                  "LH"
-                ]
+                "isTracking": true
               }
             ],
             "followUps": [
@@ -853,6 +850,9 @@
                     "actionMask": "high P",
                     "actionType": "strike",
                     "isTracking": true,
+                    "tags": [
+                      "LH"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -865,10 +865,10 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "comment": "LH if previous strike missed"
               }
-            ],
-            "comment": "LH if first strike misses"
+            ]
           },
           {
             "input": "2A",
@@ -3134,9 +3134,6 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
-                "tags": [
-                  "LH"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -3168,6 +3165,9 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "tags": [
+                      "LH"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -3179,10 +3179,10 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "comment": "LH on hitting an opponent knocked off balance with a guard crush"
               }
-            ],
-            "comment": "LH on hitting an opponent knocked off balance with a guard crush"
+            ]
           },
           {
             "input": "K",
@@ -3285,6 +3285,11 @@
           },
           {
             "input": "A",
+            "frameData": [
+              11,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "low P",
@@ -3299,6 +3304,11 @@
           },
           {
             "input": "B",
+            "frameData": [
+              13,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -3310,6 +3320,11 @@
           },
           {
             "input": "3B",
+            "frameData": [
+              15,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -3367,6 +3382,11 @@
           },
           {
             "input": "K",
+            "frameData": [
+              15,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "low K",
@@ -3378,6 +3398,11 @@
           },
           {
             "input": "A+B",
+            "frameData": [
+              21,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -3388,6 +3413,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  5,
+                  1,
+                  999
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -3425,6 +3455,11 @@
           },
           {
             "input": "A",
+            "frameData": [
+              17,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -3445,6 +3480,11 @@
           },
           {
             "input": "B",
+            "frameData": [
+              11,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -3455,6 +3495,11 @@
           },
           {
             "input": "K",
+            "frameData": [
+              13,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
