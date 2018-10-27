@@ -577,6 +577,30 @@ define(
                         });
                     },
 
+                    'filterShowSC6SoulChargeMoves': function showSC6SoulChargeMoves(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isSC6SoulChargeMove(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
+                    'filterShowSC6BreakAttacks': function showSC6BreakAttacks(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isSC6BreakAttack(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
+                    'filterShowSC6UnblockableAttacks': function showSC6UnblockableAttacks(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isSC6UnblockableAttack(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
+                    'filterShowSC6LethalHits': function showSC6LethalHits(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isSC6LethalHit(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
                     'filterShowStance': function showStance(event) {
                         var stance = prompt(
                             Strings('enterStanceToShow', { EXAMPLE_STANCE: 'BT' }),

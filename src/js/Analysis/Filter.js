@@ -9,6 +9,10 @@ define(
         return {
             isTrackingMidKickNode:      isTrackingMidKickNode,
             isGroundAttackNode:         isGroundAttackNode,
+            isSC6SoulChargeMove:        isSC6SoulChargeMove,
+            isSC6BreakAttack:           isSC6BreakAttack,
+            isSC6UnblockableAttack:     isSC6UnblockableAttack,
+            isSC6LethalHit:             isSC6LethalHit,
             doesNodeCauseHardKnockDown: doesNodeCauseHardKnockDown,
 
             findNodes:            findNodes,
@@ -55,6 +59,48 @@ define(
                         return true;
                     }
                 }
+            }
+            return false;
+        }
+
+        function isSC6SoulChargeMove(nodeData) {
+            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                return nodeData.context.some(function(ctx) {
+                    return ctx.toLowerCase() === 'sc';
+                });
+            }
+            return false;
+        }
+
+        function isSC6BreakAttack(nodeData) {
+            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                return hasActionStepWithTag(nodeData, 'ba');
+            }
+            return false;
+        }
+
+        function isSC6UnblockableAttack(nodeData) {
+            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                return hasActionStepWithTag(nodeData, 'ua');
+            }
+            return false;
+        }
+
+        function isSC6LethalHit(nodeData) {
+            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                return hasActionStepWithTag(nodeData, 'lh');
+            }
+            return false;
+        }
+
+        function hasActionStepWithTag(nodeData, givenTag) {
+            for (var i = 0; i < nodeData.actionSteps.length; ++i) {
+                var actionStep = nodeData.actionSteps[i];
+                if (
+                    actionStep.tags && actionStep.tags.some(function(tag) {
+                        return tag.toLowerCase() === givenTag.toLowerCase();
+                    })
+                ) return true;
             }
             return false;
         }
