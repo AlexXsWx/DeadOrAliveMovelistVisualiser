@@ -19,12 +19,12 @@ define(
 
             getTextMain: getTextMain,
 
-            getEmptyText:    getEmptyText,
-            getTextEnding:   getTextEnding,
-            getTextDuration: getTextDuration,
-            getCooldown:     getCooldown,
-            getSafety:       getSafety,
-            getReach:        getReach,
+            getEmptyText:        getEmptyText,
+            getTextEnding:       getTextEnding,
+            getTextActiveFrames: getTextActiveFrames,
+            getCooldown:         getCooldown,
+            getSafety:           getSafety,
+            getReach:            getReach,
             getForcetechAdvantage: getForcetechAdvantage,
             getHardKnockdownAdvantage: getHardKnockdownAdvantage,
             getFollowupDelay: getFollowupDelay,
@@ -72,12 +72,14 @@ define(
             return result;
         }
 
-        function getTextDuration(nodeView) {
+        function getTextActiveFrames(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
             var frameData = nodeData.frameData;
             if (!frameData || frameData.length === 0) return '';
-            var frames = frameData[0] + 1;
+            var frames = 0;
+            if (doesParentStanceApplyExtraFrame()) frames += 1;
+            frames += frameData[0];
             var activeFrames = [];
             for (var i = 1; i < frameData.length; i += 2) {
                 var localFrames = frameData[i];
@@ -88,6 +90,15 @@ define(
             }
             console.assert(!isNaN(frames), 'Frames are NaN');
             return activeFrames.join('') + ':/' + frames;
+
+            function doesParentStanceApplyExtraFrame() {
+                var parentNodeData = NodeView.findAncestorNodeData(nodeView);
+                return (
+                    parentNodeData &&
+                    NodeFactory.isStanceNode(parentNodeData) &&
+                    parentNodeData.appliesExtraFrame
+                );
+            }
         }
 
         function getCooldown(nodeView) {

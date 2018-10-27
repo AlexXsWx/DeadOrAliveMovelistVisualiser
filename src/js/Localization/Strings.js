@@ -49,7 +49,7 @@ define(
             'stanceExtraFrame': 'Extra frame',
             'stanceExtraFrameDescription': (
                 'If moves from this stance have an idle frame.\n' +
-                'For most stances, including default (standing), they are'
+                'In DOA for most stances, including default (standing), they are'
             ),
 
             'moveSummary': 'Summary',

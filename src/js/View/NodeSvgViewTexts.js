@@ -9,7 +9,7 @@ define(
         var TEXT_GETTER_OPTIONS = [
             NodeSvgViewTextGetters.getEmptyText,
             NodeSvgViewTextGetters.getTextEnding,
-            NodeSvgViewTextGetters.getTextDuration,
+            NodeSvgViewTextGetters.getTextActiveFrames,
             NodeSvgViewTextGetters.getCooldown,
             NodeSvgViewTextGetters.getSafety,
             NodeSvgViewTextGetters.getReach,
