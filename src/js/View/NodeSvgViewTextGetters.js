@@ -35,14 +35,19 @@ define(
 
         function getTextToggle(nodeView) {
 
-            if (!_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) return '';
-
             var hasVisible = NodeView.hasVisibleChildren(nodeView);
             var hasHidden  = NodeView.hasHiddenChildren(nodeView);
-            if (hasVisible && !hasHidden)  return CHARS.HIDE;
-            if (hasHidden  && !hasVisible) return CHARS.EXPAND;
 
-            return CHARS.MIXED;
+            if (!hasVisible && !hasHidden) return '';
+
+            var str;
+            if (hasVisible === hasHidden) {
+                str = CHARS.MIXED;
+            } else {
+                str = hasVisible ? CHARS.HIDE : CHARS.EXPAND;
+            }
+
+            return str;
 
         }
 
@@ -50,14 +55,11 @@ define(
             var result = document.createDocumentFragment();
             var name = NodeView.getName(nodeView);
             if (name) {
-                if (name === '*') {
-                    result.appendChild(classedTSpan(name, 'gray'));
-                } else {
-                    splitBy(name, /[\{\<][^\>\}]*[\}\>]/g).forEach(function(element, index) {
-                        if (!element) return;
-                        result.appendChild(classedTSpan(element, index % 2 ? 'gray' : undefined));
-                    });
-                }
+                splitBy(name, /[\{\<][^\>\}]*[\}\>]/g).forEach(function(element, index) {
+                    if (!element || element === '*') return;
+                    var dim = Boolean(index % 2) || element === '*' || element === '...';
+                    result.appendChild(classedTSpan(element, dim ? 'gray' : undefined));
+                });
             } else {
                 result.appendChild(classedTSpan('<unnamed>', 'gray'));
             }
