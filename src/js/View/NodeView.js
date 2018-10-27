@@ -83,7 +83,10 @@ define(
                 binding: {
                     isPlaceholder: undefined, // bool
                     targetNodeData: null,
-                    groupName: undefined // string
+                    group: {
+                        name: undefined, // string
+                        order: undefined // number
+                    }
                 }
 
             };
@@ -145,6 +148,15 @@ define(
                 'guard impacts':   [],
                 'other':   []
             };
+            var typeOrder = [
+                // 'punches',
+                // 'kicks',
+                'horizontal',
+                'vertical',
+                'throws',
+                'guard impacts',
+                'other'
+            ];
 
             for (var i = 0; i < allChildrenNodeViews.length; ++i) {
 
@@ -186,7 +198,8 @@ define(
                 if (childrenOfType.length < 1) continue;
 
                 var groupingChild = nodeViewGenerator();
-                groupingChild.binding.groupName = '<' + type + '>';
+                groupingChild.binding.group.name = '<' + type + '>';
+                groupingChild.binding.group.order = typeOrder.indexOf(type);
                 setChildren(groupingChild, childrenOfType);
 
                 addVisibleChild(rootNodeView, groupingChild);
@@ -212,9 +225,9 @@ define(
                     var groupViews = getAllChildren(stanceView);
                     for (var j = 0; j < groupViews.length; ++j) {
                         var groupView = groupViews[j];
-                        if (!groupView.binding.groupName) continue;
+                        if (!groupView.binding.group.name) continue;
                         // FIXME: this will break with localization
-                        if (groupView.binding.groupName.search(/throws|holds/i) >= 0) {
+                        if (groupView.binding.group.name.search(/throws|holds/i) >= 0) {
                             hideAllChildren(groupView);
                         }
                     }
@@ -276,7 +289,7 @@ define(
 
         function getName(nodeView) {
             var nodeData = getNodeData(nodeView);
-            return nodeData ? NodeFactory.toString(nodeData) : nodeView.binding.groupName;
+            return nodeData ? NodeFactory.toString(nodeData) : nodeView.binding.group.name;
         }
 
         function getEnding(nodeView) {
@@ -386,17 +399,73 @@ define(
                 var children = nodeView.treeInfo.children;
                 var index = children.hidden.indexOf(childNodeView);
                 if (index >= 0) {
-                    // FIXME: append at correct index, in accordance to bound nodeData
                     children.visible = children.visible.concat(
                         children.hidden.splice(index, 1)
                     );
+                    sortVisibleChildren(nodeView);
+                }
+            }
+
+            function sortVisibleChildren(nodeView) {
+                var children = nodeView.treeInfo.children;
+
+                var temp = children.visible;
+
+                var groups = take(temp, function(nodeView) {
+                    return Boolean(nodeView.binding.group.name);
+                });
+                var rest = take(temp, function(nodeView) {
+                    return !nodeView.binding.isPlaceholder;
+                });
+                var placeholders = temp;
+
+                groups.sort(function(nodeViewA, nodeViewB) {
+                    return compare(
+                        nodeViewA.binding.group.order,
+                        nodeViewB.binding.group.order
+                    );
+                });
+                rest.sort(function(nodeViewA, nodeViewB) {
+                    var parentNodeDataA = findAncestorNodeData(nodeViewA);
+                    var parentNodeDataB = findAncestorNodeData(nodeViewB);
+                    if (parentNodeDataA !== parentNodeDataB) return 0;
+                    var parentNodeData = parentNodeDataA;
+                    if (!parentNodeData) return 0;
+                    var parentNodeDataChildren = NodeFactory.getChildren(parentNodeData);
+                    return compare(
+                        parentNodeDataChildren.indexOf(getNodeData(nodeViewA)),
+                        parentNodeDataChildren.indexOf(getNodeData(nodeViewB))
+                    );
+                });
+
+                children.visible = groups.concat(rest).concat(placeholders);
+
+                return;
+
+                function compare(numberA, numberB) {
+                    if (numberA < numberB) return -1;
+                    if (numberA > numberB) return 1;
+                    return 0;
+                }
+
+                function take(array, predicate) {
+                    var i = 0;
+                    var result = [];
+                    while (i < array.length) {
+                        if (predicate(array[i])) {
+                            result = result.concat(array.splice(i, 1));
+                        } else {
+                            i++;
+                        }
+                    }
+                    return result;
                 }
             }
 
             function showAllChildren(nodeView) {
                 var children = nodeView.treeInfo.children;
-                // FIXME: append at correct index, in accordance to bound nodeData
                 children.visible = children.visible.concat(children.hidden);
+                sortVisibleChildren(nodeView);
                 children.hidden = [];
             }
 
@@ -418,8 +487,8 @@ define(
                 var children = nodeView.treeInfo.children;
                 var temp = children.hidden;
                 children.hidden = children.visible; // FIXME: unique arrays?
-                // FIXME: sort in accordance to bound nodeData
                 children.visible = temp;
+                sortVisibleChildren(nodeView);
 
                 if (!optReturnIDsBecomeHidden) return;
 

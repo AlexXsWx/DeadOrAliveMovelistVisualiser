@@ -156,9 +156,8 @@ define(
                     selectNode(visibleNodesSvgViews[childId]);
                 }
             } else {
-                // FIXME: this doesn't belong here
-                children = NodeView.getHiddenChildren(nodeView);
-                if (children.length > 0) {
+                // FIXME: this doesn't belong here (changed something; does it still?)
+                if (NodeView.hasHiddenChildren(nodeView)) {
                     refs.toggleChildren(nodeSvgView);
                 }
             }
