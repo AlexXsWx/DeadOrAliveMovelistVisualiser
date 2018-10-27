@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540635712012
+    "timeSaved": 1540656908215
   },
   "body": {
     "character": "Talim",
@@ -144,6 +144,11 @@
                         "context": [
                           "SC"
                         ],
+                        "frameData": [
+                          22,
+                          1,
+                          39
+                        ],
                         "actionSteps": [
                           {
                             "actionMask": "mid P",
@@ -168,6 +173,12 @@
                                 "tags": [
                                   "stun"
                                 ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 41
                               }
                             ]
                           }
@@ -338,6 +349,11 @@
               },
               {
                 "input": "B",
+                "frameData": [
+                  41,
+                  1,
+                  31
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -351,6 +367,12 @@
                         "tags": [
                           "knock back"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 33
                       }
                     ]
                   }
@@ -412,6 +434,11 @@
                     "context": [
                       "SC"
                     ],
+                    "frameData": [
+                      29,
+                      1,
+                      0
+                    ],
                     "actionSteps": [
                       {
                         "actionMask": "mid P",
@@ -422,6 +449,11 @@
                     "followUps": [
                       {
                         "input": "*",
+                        "frameData": [
+                          10,
+                          1,
+                          999
+                        ],
                         "actionSteps": [
                           {
                             "actionMask": "mid P",
@@ -442,6 +474,11 @@
                         "followUps": [
                           {
                             "input": "A",
+                            "frameData": [
+                              21,
+                              1,
+                              0
+                            ],
                             "actionSteps": [
                               {
                                 "actionMask": "mid P",
@@ -452,6 +489,11 @@
                             "followUps": [
                               {
                                 "input": "*",
+                                "frameData": [
+                                  10,
+                                  1,
+                                  999
+                                ],
                                 "actionSteps": [
                                   {
                                     "actionMask": "mid P",
@@ -472,6 +514,11 @@
                                 "followUps": [
                                   {
                                     "input": "B",
+                                    "frameData": [
+                                      15,
+                                      1,
+                                      43
+                                    ],
                                     "actionSteps": [
                                       {
                                         "actionMask": "mid P",
@@ -496,6 +543,12 @@
                                             "tags": [
                                               "skewer"
                                             ]
+                                          },
+                                          {
+                                            "condition": [
+                                              "guard"
+                                            ],
+                                            "hitBlock": 45
                                           }
                                         ]
                                       }
@@ -503,6 +556,11 @@
                                   },
                                   {
                                     "input": ":B",
+                                    "frameData": [
+                                      15,
+                                      1,
+                                      43
+                                    ],
                                     "actionSteps": [
                                       {
                                         "actionMask": "mid P",
@@ -527,6 +585,12 @@
                                             "tags": [
                                               "skewer"
                                             ]
+                                          },
+                                          {
+                                            "condition": [
+                                              "guard"
+                                            ],
+                                            "hitBlock": 45
                                           }
                                         ]
                                       }
@@ -653,6 +717,11 @@
               },
               {
                 "input": "(A)",
+                "frameData": [
+                  62,
+                  1,
+                  33
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -669,6 +738,12 @@
                         "tags": [
                           "stun"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 41
                       }
                     ]
                   }
@@ -697,6 +772,11 @@
             "context": [
               "SG"
             ],
+            "frameData": [
+              4,
+              1,
+              44
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -706,6 +786,20 @@
                   "SC",
                   "BA",
                   "special"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 44
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 52
+                  }
                 ]
               }
             ]
@@ -1206,7 +1300,7 @@
             "frameData": [
               39,
               1,
-              999
+              41
             ],
             "actionSteps": [
               {
@@ -1225,6 +1319,12 @@
                     "tags": [
                       "knock back"
                     ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 43
                   }
                 ]
               }
@@ -1300,6 +1400,11 @@
               },
               {
                 "input": "(B)",
+                "frameData": [
+                  43,
+                  1,
+                  39
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -1317,6 +1422,12 @@
                           "knock back",
                           "stun"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 41
                       }
                     ]
                   }
@@ -1369,6 +1480,11 @@
                 "context": [
                   "SC"
                 ],
+                "frameData": [
+                  34,
+                  1,
+                  41
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -1376,6 +1492,14 @@
                     "isTracking": false,
                     "tags": [
                       "BA"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 45
+                      }
                     ]
                   }
                 ]
@@ -2725,6 +2849,11 @@
               },
               {
                 "input": "~B",
+                "frameData": [
+                  26,
+                  1,
+                  39
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -2741,6 +2870,12 @@
                         "tags": [
                           "launch"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 35
                       }
                     ]
                   }
@@ -2748,6 +2883,11 @@
               },
               {
                 "input": ":B",
+                "frameData": [
+                  26,
+                  1,
+                  39
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -2764,6 +2904,12 @@
                         "tags": [
                           "launch"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 35
                       }
                     ]
                   }
@@ -2797,11 +2943,24 @@
           },
           {
             "input": "A+B",
+            "frameData": [
+              999,
+              1,
+              29
+            ],
             "actionSteps": [
               {
                 "actionMask": "low P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 29
+                  }
+                ]
               }
             ]
           }
@@ -2895,6 +3054,11 @@
             "context": [
               "SC"
             ],
+            "frameData": [
+              999,
+              1,
+              39
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -2919,6 +3083,12 @@
                     "tags": [
                       "stun"
                     ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 43
                   }
                 ]
               }
@@ -3549,6 +3719,11 @@
           },
           {
             "input": "B",
+            "frameData": [
+              23,
+              1,
+              27
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -3563,6 +3738,12 @@
                       "launch",
                       "knock behind"
                     ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 29
                   }
                 ]
               }
@@ -3709,6 +3890,42 @@
             ]
           },
           {
+            "input": "A+B",
+            "frameData": [
+              999,
+              1,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "tags": [
+                  "BA",
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 33
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on hitting opponent during an attack"
+          },
+          {
             "input": "(A+B)",
             "actionSteps": [
               {
@@ -3797,6 +4014,11 @@
           },
           {
             "input": "B",
+            "frameData": [
+              19,
+              1,
+              37
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
@@ -3907,6 +4129,11 @@
                         "followUps": [
                           {
                             "input": "*",
+                            "frameData": [
+                              999,
+                              1,
+                              27
+                            ],
                             "actionSteps": [
                               {
                                 "actionMask": "mid P",
@@ -3923,6 +4150,12 @@
                                     "tags": [
                                       "stun"
                                     ]
+                                  },
+                                  {
+                                    "condition": [
+                                      "guard"
+                                    ],
+                                    "hitBlock": 39
                                   }
                                 ]
                               }

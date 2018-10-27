@@ -1,3 +1,5 @@
+turning from back to facing takes 5 frames (RE effect would appear on 6th frame)
+
 talim
     B is +0 on neutral hit
     K is +0 on neutral hit
