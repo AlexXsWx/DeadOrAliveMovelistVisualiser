@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540506929109
+    "timeSaved": 1540587716898
   },
   "body": {
     "character": "Talim",
@@ -3013,6 +3013,19 @@
                   }
                 ],
                 "endsWith": "DWN"
+              },
+              {
+                "input": "*G",
+                "context": [
+                  "whiff|guard"
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "WS",
+                "comment": "secret"
               }
             ]
           },
