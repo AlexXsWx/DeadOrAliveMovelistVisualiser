@@ -60,7 +60,7 @@ define(
                 '  1st action step summary (optional)\n' +
                 'Examples: "p hp", "33K dmk", "OBT,OCr: 2T tlg"'
             ),
-            'moveSummaryPlaceholder': '(<Ctx>:) <Input> (<AS sum.>)',
+            'moveSummaryPlaceholder': '(<Ctx>: )<Input>( <AS sum.>)',
 
             'moveSummary2': 'Summary2',
             'moveSummary2Description': '// FIXME: TBD', // FIXME

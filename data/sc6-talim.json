@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540587716898
+    "timeSaved": 1540635712012
   },
   "body": {
     "character": "Talim",
@@ -502,7 +502,7 @@
                                     ]
                                   },
                                   {
-                                    "input": "*B",
+                                    "input": ":B",
                                     "actionSteps": [
                                       {
                                         "actionMask": "mid P",
@@ -2074,7 +2074,7 @@
                 ]
               },
               {
-                "input": "*B",
+                "input": ":B",
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -2724,7 +2724,7 @@
                 ]
               },
               {
-                "input": "*B",
+                "input": "~B",
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -2747,7 +2747,7 @@
                 ]
               },
               {
-                "input": "**B",
+                "input": ":B",
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -3015,7 +3015,7 @@
                 "endsWith": "DWN"
               },
               {
-                "input": "*G",
+                "input": ":G",
                 "context": [
                   "whiff|guard"
                 ],

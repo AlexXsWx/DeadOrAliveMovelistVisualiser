@@ -169,7 +169,7 @@ define(
                 var changed = false;
 
                 var rest = newValue.trim();
-                var parts = rest.split(':');
+                var parts = rest.split(': ');
                 if (parts.length > 1) {
                     changed = changeContext(parts[0], nodeData) || changed;
                     rest = parts[1].trim();
