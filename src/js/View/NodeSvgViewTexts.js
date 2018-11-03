@@ -12,6 +12,7 @@ define(
             NodeSvgViewTextGetters.getTextActiveFrames,
             NodeSvgViewTextGetters.getCooldown,
             NodeSvgViewTextGetters.getSafety,
+            NodeSvgViewTextGetters.getAdvantageOnHit,
             NodeSvgViewTextGetters.getReach,
             NodeSvgViewTextGetters.getForcetechAdvantage,
             NodeSvgViewTextGetters.getHardKnockdownAdvantage,

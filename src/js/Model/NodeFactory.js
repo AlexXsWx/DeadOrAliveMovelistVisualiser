@@ -60,6 +60,7 @@ define(
 
             removeGuardConditionFromActionStepResult: removeGuardConditionFromActionStepResult,
 
+            doesActionStepResultDescribeNeutralHit: doesActionStepResultDescribeNeutralHit,
             doesActionStepResultDescribeGuard: doesActionStepResultDescribeGuard,
             doesActionStepResultDescribeForcetech: doesActionStepResultDescribeForcetech,
             doesActionStepResultDescribeGroundHit: doesActionStepResultDescribeGroundHit,
@@ -483,6 +484,10 @@ define(
                 actionStepResult.condition.splice(index, 1);
             }
             return changed;
+        }
+
+        function doesActionStepResultDescribeNeutralHit(actionStepResult) {
+            return actionStepResult && searchInStringArray(actionStepResult.condition, 'neutral') >= 0;
         }
 
         function doesActionStepResultDescribeGuard(actionStepResult) {

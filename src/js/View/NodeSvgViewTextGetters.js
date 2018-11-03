@@ -24,6 +24,7 @@ define(
             getTextActiveFrames: getTextActiveFrames,
             getCooldown:         getCooldown,
             getSafety:           getSafety,
+            getAdvantageOnHit:   getAdvantageOnHit,
             getReach:            getReach,
             getForcetechAdvantage: getForcetechAdvantage,
             getHardKnockdownAdvantage: getHardKnockdownAdvantage,
@@ -119,6 +120,26 @@ define(
             var advantageRange = NodeFactory.getAdvantageRange(
                 nodeData,
                 NodeFactory.doesActionStepResultDescribeGuard,
+                NodeFactory.getActionStepResultHitBlock
+            );
+            if (!advantageRange) return '';
+
+            // FIXME: don't reference document here
+            var result = document.createDocumentFragment();
+            result.appendChild(advantageInteger(advantageRange.min));
+            if (advantageRange.min !== advantageRange.max) {
+                result.appendChild(_.createTextNode(CHARS.ELLIPSIS));
+                result.appendChild(advantageInteger(advantageRange.max));
+            }
+            return result;
+        }
+
+        function getAdvantageOnHit(nodeView) {
+            var nodeData = NodeView.getNodeData(nodeView);
+            if (!nodeData) return '';
+            var advantageRange = NodeFactory.getAdvantageRange(
+                nodeData,
+                NodeFactory.doesActionStepResultDescribeNeutralHit,
                 NodeFactory.getActionStepResultHitBlock
             );
             if (!advantageRange) return '';
