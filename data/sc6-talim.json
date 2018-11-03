@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1540656908215
+    "timeSaved": 1541262554492
   },
   "body": {
     "character": "Talim",
@@ -978,10 +978,18 @@
                 "isTracking": true,
                 "tags": [
                   "special"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 1005
+                  }
                 ]
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "22A",
@@ -1039,10 +1047,18 @@
               {
                 "actionMask": "low K",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 995
+                  }
+                ]
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "22K",
@@ -1072,10 +1088,18 @@
               {
                 "actionMask": "low P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 1003
+                  }
+                ]
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "B",
@@ -2310,10 +2334,18 @@
                   {
                     "actionMask": "low P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 1005
+                      }
+                    ]
                   }
                 ],
-                "endsWith": "CR"
+                "endsWith": "FC"
               }
             ]
           },
@@ -2436,7 +2468,15 @@
               {
                 "actionMask": "low K",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 999
+                  }
+                ]
               }
             ]
           },
@@ -2667,6 +2707,11 @@
           },
           {
             "input": "A",
+            "frameData": [
+              999,
+              1,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -2677,6 +2722,11 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  13,
+                  1,
+                  999
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "high P",
@@ -2756,6 +2806,11 @@
                   },
                   {
                     "input": "K",
+                    "frameData": [
+                      26,
+                      1,
+                      999
+                    ],
                     "actionSteps": [
                       {
                         "actionMask": "low K",
@@ -2766,11 +2821,24 @@
                     "followUps": [
                       {
                         "input": "A",
+                        "frameData": [
+                          20,
+                          1,
+                          27
+                        ],
                         "actionSteps": [
                           {
                             "actionMask": "high K",
                             "actionType": "strike",
-                            "isTracking": true
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "hitBlock": 33
+                              }
+                            ]
                           }
                         ],
                         "followUps": [
@@ -2979,7 +3047,7 @@
                 "isTracking": true
               }
             ],
-            "endsWith": "CR",
+            "endsWith": "FC",
             "followUps": [
               {
                 "input": "...",
@@ -3276,7 +3344,7 @@
                 "actionType": "other"
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "*",
@@ -3290,14 +3358,16 @@
           },
           {
             "input": "A",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
             "actionSteps": [
               {
-                "actionMask": "low P",
-                "actionType": "strike",
-                "isTracking": true
+                "actionType": "other"
               }
             ],
-            "endsWith": "CR",
             "followUps": [
               {
                 "input": "G",
@@ -3307,6 +3377,30 @@
                   }
                 ],
                 "endsWith": "WF"
+              },
+              {
+                "input": "*",
+                "frameData": [
+                  999,
+                  1,
+                  24
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 38
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "FC"
               }
             ]
           },
@@ -3447,15 +3541,15 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "CR"
+                "endsWith": "FC"
               }
             ]
           }
         ]
       },
       {
-        "abbreviation": "CR",
-        "description": "Crouching",
+        "abbreviation": "FC",
+        "description": "Full crouching",
         "moves": [
           {
             "input": "*",
@@ -3471,7 +3565,7 @@
             "frameData": [
               11,
               1,
-              999
+              30
             ],
             "actionSteps": [
               {
@@ -3480,10 +3574,18 @@
                 "isTracking": true,
                 "tags": [
                   "special"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 36
+                  }
                 ]
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "B",
@@ -3496,10 +3598,18 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 1001
+                  }
+                ]
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "3B",
@@ -3515,7 +3625,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "CR",
+            "endsWith": "FC",
             "followUps": [
               {
                 "input": "B",
@@ -3574,10 +3684,18 @@
               {
                 "actionMask": "low K",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 995
+                  }
+                ]
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "A+B",
@@ -3666,13 +3784,21 @@
             "frameData": [
               11,
               1,
-              999
+              27
             ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 31
+                  }
+                ]
               }
             ]
           },
@@ -3681,13 +3807,21 @@
             "frameData": [
               13,
               1,
-              999
+              25
             ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 33
+                  }
+                ]
               }
             ]
           }
@@ -3708,14 +3842,27 @@
           },
           {
             "input": "A",
+            "frameData": [
+              999,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "low P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 1003
+                  }
+                ]
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "B",
@@ -4000,6 +4147,11 @@
           },
           {
             "input": "2A",
+            "frameData": [
+              999,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "low P",
@@ -4007,10 +4159,18 @@
                 "isTracking": true,
                 "tags": [
                   "special"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 1005
+                  }
                 ]
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "B",
@@ -4046,7 +4206,7 @@
                 "isTracking": false
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "K",
@@ -4079,14 +4239,27 @@
           },
           {
             "input": "2K",
+            "frameData": [
+              999,
+              1,
+              999
+            ],
             "actionSteps": [
               {
                 "actionMask": "low K",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 999
+                  }
+                ]
               }
             ],
-            "endsWith": "CR"
+            "endsWith": "FC"
           },
           {
             "input": "B+K",
