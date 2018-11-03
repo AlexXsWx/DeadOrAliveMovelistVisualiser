@@ -19,6 +19,7 @@ define(
             removeElement:                         removeElement,
             addBetween:                            addBetween,
             last:                                  last,
+            find:                                  find,
             copyKeysInto:                          copyKeysInto,
             isNonEmptyArray:                       isNonEmptyArray,
             isBool:                                isBool,
@@ -199,6 +200,13 @@ define(
         function last(array) {
             if (array.length === 0) return undefined;
             return array[array.length - 1];
+        }
+
+        function find(array, predicate) {
+            for (var i = 0; i < array.length; i++) {
+                var element = array[i];
+                if (predicate(element)) return element;
+            }
         }
 
         function withoutFalsyProperties(obj) {

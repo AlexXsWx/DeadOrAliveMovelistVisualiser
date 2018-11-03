@@ -73,7 +73,7 @@ define(
 
             getActionStepResultHitBlock: getActionStepResultHitBlock,
 
-            hasNoInputFollowup: hasNoInputFollowup,
+            getNoInputFollowup: getNoInputFollowup,
 
             createEmptyData: createEmptyData
 
@@ -626,17 +626,18 @@ define(
 
         // }
 
-        function hasNoInputFollowup(nodeData) {
+        function getNoInputFollowup(nodeData) {
             if (
                 isStanceNode(nodeData) ||
                 isMoveNode(nodeData)
             ) {
-                var childMoves = getChildren(nodeData);
-                return childMoves && childMoves.some(function(childeNodeData) {
-                    return childeNodeData.input === '*';
-                });
+                var children = getChildren(nodeData);
+                if (children) {
+                    return _.find(children, function(childNodeData) {
+                        return childNodeData.input === '*';
+                    });
+                }
             }
-            return false;
         }
 
 

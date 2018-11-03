@@ -171,20 +171,26 @@ define(
                     continue;
                 }
 
-                var type;
                 var nodeData = getNodeData(childNodeView);
-                switch(true) {
-                    // case NodeFactory.isMovePunch(nodeData): type = 'punches'; break;
-                    // case NodeFactory.isMoveKick(nodeData):  type = 'kicks';   break;
-                    case NodeFactory.isMoveHorizontal(nodeData): type = 'horizontal'; break;
-                    case NodeFactory.isMoveVertical(nodeData):   type = 'vertical';   break;
-                    case NodeFactory.isMoveThrow(nodeData): type = 'throws';  break;
-                    case NodeFactory.isMoveHold(nodeData):  type = 'guard impacts';   break;
-                    default: type = 'other';
-                }
 
-                byType[type].push(childNodeView);
+                byType[getType(nodeData)].push(childNodeView);
                 removeChild(rootNodeView, childNodeView);
+
+                function getType(nodeData) {
+                    switch(true) {
+                        // case NodeFactory.isMovePunch(nodeData): return 'punches';
+                        // case NodeFactory.isMoveKick(nodeData):  return 'kicks';
+                        case NodeFactory.isMoveHorizontal(nodeData): return 'horizontal';
+                        case NodeFactory.isMoveVertical(nodeData):   return 'vertical';
+                        case NodeFactory.isMoveThrow(nodeData): return 'throws';
+                        case NodeFactory.isMoveHold(nodeData):  return 'guard impacts';
+                    }
+                    var noInputFollowup = NodeFactory.getNoInputFollowup(nodeData);
+                    if (noInputFollowup) {
+                        return getType(noInputFollowup);
+                    }
+                    return 'other';
+                }
 
             }
 

@@ -350,7 +350,7 @@ define(
                 );
 
                 if (
-                    NodeFactory.hasNoInputFollowup(nodeData) &&
+                    Boolean(NodeFactory.getNoInputFollowup(nodeData)) &&
                     !nodeData.endsWith
                 ) {
                     // free cancel unavailable
