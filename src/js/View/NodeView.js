@@ -104,6 +104,7 @@ define(
                     targetNodeData: null,
                     group: {
                         name: undefined, // string
+                        hideByDefault: undefined, // boolean
                         order: undefined // number
                     }
                 }
@@ -199,6 +200,7 @@ define(
                 return {
                     name: entry.name,
                     func: entry.func,
+                    hideByDefault: entry.hideByDefault,
                     nodeViews: []
                 };
             });
@@ -251,6 +253,7 @@ define(
 
                 var groupingChild = nodeViewGenerator();
                 groupingChild.binding.group.name = '<' + entry.name + '>';
+                groupingChild.binding.group.hideByDefault = entry.hideByDefault;
                 groupingChild.binding.group.order = index;
                 setChildren(groupingChild, childrenOfType);
 
@@ -269,8 +272,8 @@ define(
                     [
                         { name: 'punches', func: NodeFactory.isMovePunch },
                         { name: 'kicks',   func: NodeFactory.isMoveKick  },
-                        { name: 'throws',  func: NodeFactory.isMoveThrow },
-                        { name: 'holds',   func: NodeFactory.isMoveHold  },
+                        { name: 'throws',  func: NodeFactory.isMoveThrow, hideByDefault: true },
+                        { name: 'holds',   func: NodeFactory.isMoveHold,  hideByDefault: true },
                         { name: 'other' }
                     ]
                 );
@@ -286,8 +289,8 @@ define(
                     [
                         { name: 'horizontal',    func: NodeFactory.isMoveHorizontal },
                         { name: 'vertical',      func: NodeFactory.isMoveVertical   },
-                        { name: 'throws',        func: NodeFactory.isMoveThrow      },
-                        { name: 'guard impacts', func: NodeFactory.isMoveHold       },
+                        { name: 'throws',        func: NodeFactory.isMoveThrow, hideByDefault: true },
+                        { name: 'guard impacts', func: NodeFactory.isMoveHold },
                         { name: 'other' }
                     ]
                 );
@@ -311,9 +314,7 @@ define(
                     var groupViews = getAllChildren(stanceView);
                     for (var j = 0; j < groupViews.length; ++j) {
                         var groupView = groupViews[j];
-                        if (!groupView.binding.group.name) continue;
-                        // FIXME: this will break with localization
-                        if (groupView.binding.group.name.search(/throws|holds/i) >= 0) {
+                        if (groupView.binding.group.hideByDefault) {
                             hideAllChildren(groupView);
                         }
                     }
