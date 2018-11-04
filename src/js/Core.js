@@ -502,13 +502,23 @@ define(
             }
 
             function toggleChildren(nodeSvgView) {
-                if (_.isNonEmptyArray(NodeView.getAllChildren(nodeSvgView.nodeView))) {
-                    Executor.rememberAndExecute('toggle children', act, act);
-                    function act() {
-                        // FIXME: this operation is not always symmetric due to filters
-                        NodeView.toggleVisibleChildren(nodeSvgView.nodeView);
-                        update();
-                    }
+                if (NodeView.hasAnyChildren(nodeSvgView.nodeView)) {
+                    Executor.rememberAndExecute(
+                        'toggle children',
+                        function act() {
+                            var ids = NodeView.toggleVisibleChildren(nodeSvgView.nodeView, true);
+                            if (ids.length > 0) {
+                                update();
+                            }
+                            return ids;
+                        },
+                        function unact(ids) {
+                            var acted = NodeView.toggleChildrenWithIds(nodeSvgView.nodeView, ids);
+                            if (acted) {
+                                update();
+                            }
+                        }
+                    );
                 }
             }
 

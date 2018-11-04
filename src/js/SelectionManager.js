@@ -124,7 +124,10 @@ define(
         }
 
         function selectFirstChild() {
-            selectFirstChildOfNode(selectionCurrent);
+            if (selectionCurrent) {
+                selectFirstChildOfNode(selectionCurrent);
+            }
+            // TODO: select root otherwise?
         }
 
         function selectParent() {
@@ -142,8 +145,6 @@ define(
 
         // TODO: select mid child?
         function selectFirstChildOfNode(nodeSvgView) {
-
-            if (!nodeSvgView) return; // FIXME: select root
 
             var visibleNodesSvgViews = refs.getVisibleNodesSvgViews();
 

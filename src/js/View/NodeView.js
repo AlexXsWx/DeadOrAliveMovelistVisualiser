@@ -55,6 +55,7 @@ define(
             showAllChildren:       showAllChildren,
             hideAllChildren:       hideAllChildren,
             toggleVisibleChildren: toggleVisibleChildren,
+            toggleChildrenWithIds: toggleChildrenWithIds,
 
             sortVisibleChildren: sortVisibleChildren,
 
@@ -77,7 +78,7 @@ define(
                     parent: parentNodeView || null,
                     children: {
                         /** Array<NodeView> */
-                        visible: [],
+                        visible: [], // FIXME: unique arrays?
                         /** Array<NodeView> */
                         hidden:  []
                     }
@@ -543,49 +544,53 @@ define(
 
             //
 
-            function showAllChildren(nodeView) {
+            function showAllChildren(nodeView, optReturnIDs) {
                 var children = nodeView.treeInfo.children;
+                var result;
+                if (optReturnIDs) {
+                    result = children.hidden.map(getId);
+                }
                 children.visible = children.visible.concat(children.hidden);
-                sortVisibleChildren(nodeView);
                 children.hidden = [];
+                sortVisibleChildren(nodeView);
+                return result;
             }
 
-            function hideAllChildren(nodeView, optReturnIDsBecomeHidden) {
+            function hideAllChildren(nodeView, optReturnIDs) {
                 var children = nodeView.treeInfo.children;
+                var result;
+                if (optReturnIDs) {
+                    result = children.visible.map(getId);
+                }
                 children.hidden = children.hidden.concat(children.visible);
                 children.visible = [];
-                if (optReturnIDsBecomeHidden) {
-                    _.report('optReturnIDsBecomeHidden is not implemented for hideAllChildren');
+                return result;
+            }
+
+            function toggleVisibleChildren(nodeView, optReturnIDs) {
+                if (hasHiddenChildren(nodeView)) {
+                    return showAllChildren(nodeView, optReturnIDs);
+                } else {
+                    return hideAllChildren(nodeView, optReturnIDs);
                 }
             }
 
-            function toggleVisibleChildren(nodeView, optReturnIDsBecomeHidden) {
-
-                if (hasVisibleChildren(nodeView)) {
-                    return hideAllChildren(nodeView, optReturnIDsBecomeHidden);
-                }
-
+            function toggleChildrenWithIds(nodeView, ids) {
                 var children = nodeView.treeInfo.children;
-                var temp = children.hidden;
-                children.hidden = children.visible; // FIXME: unique arrays?
-                children.visible = temp;
-                sortVisibleChildren(nodeView);
 
-                if (!optReturnIDsBecomeHidden) return;
-
-                var idsBecomeHidden = [];
-                children.hidden.forEach(function(nodeView) {
-                    TreeTools.forAllCurrentChildren(
-                        nodeView,
-                        getVisibleChildren,
-                        function(nodeView) {
-                            idsBecomeHidden.push(nodeView.treeInfo.id);
-                        }
-                    );
-                });
-
-                return idsBecomeHidden;
-
+                var childrenToShow = take(children.hidden,  ids);
+                var childrenToHide = take(children.visible, ids);
+                children.visible = children.visible.concat(childrenToShow);
+                children.hidden  = children.hidden.concat(childrenToHide);
+                if (childrenToShow.length > 0) {
+                    sortVisibleChildren(nodeView);
+                }
+                return childrenToShow.length > 0 || childrenToHide.length > 0;
+                function take(nodeViews, ids) {
+                    return _.take(nodeViews, function(nodeView) {
+                        return ids.indexOf(getId(nodeView)) >= 0;
+                    });
+                }
             }
 
         // ==================
