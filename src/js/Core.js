@@ -659,6 +659,7 @@ define(
 
                     'groupByNone': function groupByNone(event) {
                         // FIXME: support undo
+                        Executor.clearHistory();
                         NodeView.getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
                             NodeView.ungroup(stanceNodeView);
                         });
@@ -667,12 +668,14 @@ define(
 
                     'groupByDOA': function groupByDOA(event) {
                         // FIXME: support undo
+                        Executor.clearHistory();
                         NodeView.groupByType(rootNodeView, nodeViewGenerator);
                         update();
                     },
 
                     'groupBySC6': function groupBySC6(event) {
                         // FIXME: support undo
+                        Executor.clearHistory();
                         NodeView.groupByTypeSC6(rootNodeView, nodeViewGenerator);
                         update();
                     }

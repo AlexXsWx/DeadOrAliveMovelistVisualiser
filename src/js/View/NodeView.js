@@ -179,47 +179,59 @@ define(
             if (childrenToMove.visible.length > 0) {
                 sortVisibleChildren(stanceNodeView);
             }
+        }
 
-            return;
-
-            function getIsHidden(nodeView) {
-                var nodeViewI = nodeView;
-                while (getParentNodeView(nodeViewI)) {
-                    var parentNodeView = getParentNodeView(nodeViewI);
-                    if (getHiddenChildren(parentNodeView).indexOf(nodeViewI) >= 0) return true;
-                    nodeViewI = parentNodeView;
-                }
-                return false;
+        function getIsHidden(nodeView) {
+            var nodeViewI = nodeView;
+            while (getParentNodeView(nodeViewI)) {
+                var parentNodeView = getParentNodeView(nodeViewI);
+                if (getHiddenChildren(parentNodeView).indexOf(nodeViewI) >= 0) return true;
+                nodeViewI = parentNodeView;
             }
+            return false;
         }
 
 
         function groupBy(stanceNodeView, nodeViewGenerator, obj) {
+
+            var stanceWasCollapsed = !hasVisibleChildren(stanceNodeView);
 
             var obj2 = obj.map(function(entry) {
                 return {
                     name: entry.name,
                     func: entry.func,
                     hideByDefault: entry.hideByDefault,
-                    nodeViews: []
+                    nodeViews: {
+                        visible: [],
+                        hidden: []
+                    }
                 };
             });
 
             var allChildrenNodeViews = getAllChildren(stanceNodeView);
+            var visibles = new Array(allChildrenNodeViews.length);
             for (var i = 0; i < allChildrenNodeViews.length; ++i) {
 
                 var childNodeView = allChildrenNodeViews[i];
 
+                var visible = _.defined(visibles[i], !getIsHidden(childNodeView));
+
                 // If it is a group already, kill it but keep its children
                 if (isGroupingNodeView(childNodeView)) {
-                    allChildrenNodeViews = allChildrenNodeViews.concat(
-                        getAllChildren(childNodeView)
-                    );
+                    var childrenOfGroup = getAllChildren(childNodeView);
+                    allChildrenNodeViews = allChildrenNodeViews.concat(childrenOfGroup);
+                    childrenOfGroup.forEach(function(childNodeView) {
+                        visibles.push(!getIsHidden(childNodeView));
+                    });
                     removeChild(stanceNodeView, childNodeView);
                     continue;
                 }
 
-                getEntry(getNodeData(childNodeView)).nodeViews.push(childNodeView);
+                if (visible) {
+                    getEntry(getNodeData(childNodeView)).nodeViews.visible.push(childNodeView);
+                } else {
+                    getEntry(getNodeData(childNodeView)).nodeViews.hidden.push(childNodeView);
+                }
                 removeChild(stanceNodeView, childNodeView);
 
                 function getEntry(nodeData) {
@@ -247,19 +259,30 @@ define(
 
             // removeAllChildren(stanceNodeView);
 
+            var stanceGotNewVisibleNodes = false;
             obj2.forEach(function(entry, index) {
-                var childrenOfType = entry.nodeViews;
-                if (childrenOfType.length < 1) return;
+                if (entry.nodeViews.visible.length + entry.nodeViews.hidden.length < 1) return;
 
                 var groupingChild = nodeViewGenerator();
                 groupingChild.binding.group.name = entry.name;
                 groupingChild.binding.group.hideByDefault = entry.hideByDefault;
                 groupingChild.binding.group.order = index;
-                setChildren(groupingChild, childrenOfType);
+                setChildren(groupingChild, entry.nodeViews.visible, entry.nodeViews.hidden);
 
-                addVisibleChild(stanceNodeView, groupingChild);
-                sortVisibleChildren(groupingChild);
+                if (stanceWasCollapsed) {
+                    addHiddenChild(stanceNodeView, groupingChild);
+                } else {
+                    addVisibleChild(stanceNodeView, groupingChild);
+                    stanceGotNewVisibleNodes = true;
+                }
+                if (entry.nodeViews.visible.length > 0) {
+                    sortVisibleChildren(groupingChild);
+                }
             });
+
+            if (stanceGotNewVisibleNodes) {
+                sortVisibleChildren(stanceNodeView);
+            }
 
         }
 
@@ -421,28 +444,22 @@ define(
         // ==== Children ====
 
             /** Does not update `parent` of children it dumps away */
-            function setChildren(nodeView, newChildren) {
-
+            function setChildren(nodeView, newChildren, optNewHiddenChildren) {
                 nodeView.treeInfo.children.visible = newChildren;
-                nodeView.treeInfo.children.hidden = [];
-
-                newChildren.forEach(function(child) {
+                nodeView.treeInfo.children.hidden = optNewHiddenChildren || [];
+                getAllChildren(nodeView).forEach(function(child) {
                     setParentNodeView(child, nodeView);
-                    // child.treeInfo.parent = nodeView;
                 });
-
             }
 
             function addVisibleChild(nodeView, child) {
                 setParentNodeView(child, nodeView);
-                // child.treeInfo.parent = nodeView;
                 var children = nodeView.treeInfo.children;
                 children.visible.push(child);
             }
 
             function addHiddenChild(nodeView, child) {
                 setParentNodeView(child, nodeView);
-                // child.treeInfo.parent = nodeView;
                 var children = nodeView.treeInfo.children;
                 children.hidden.push(child);
             }
