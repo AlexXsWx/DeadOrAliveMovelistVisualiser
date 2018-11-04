@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1541262554492
+    "timeSaved": 1541331056218
   },
   "body": {
     "character": "Talim",
@@ -992,51 +992,6 @@
             "endsWith": "FC"
           },
           {
-            "input": "22A",
-            "frameData": [
-              11,
-              0,
-              17,
-              1,
-              0
-            ],
-            "actionSteps": [
-              {
-                "actionMask": "mid P",
-                "actionType": "strike",
-                "isTracking": true
-              }
-            ],
-            "followUps": [
-              {
-                "input": "*",
-                "frameData": [
-                  5,
-                  1,
-                  999
-                ],
-                "actionSteps": [
-                  {
-                    "actionMask": "mid P",
-                    "actionType": "strike",
-                    "isTracking": true
-                  }
-                ],
-                "followUps": [
-                  {
-                    "input": "...",
-                    "actionSteps": [
-                      {
-                        "actionType": "other"
-                      }
-                    ],
-                    "endsWith": "W..."
-                  }
-                ]
-              }
-            ]
-          },
-          {
             "input": "2K",
             "frameData": [
               15,
@@ -1059,23 +1014,6 @@
               }
             ],
             "endsWith": "FC"
-          },
-          {
-            "input": "22K",
-            "frameData": [
-              11,
-              0,
-              17,
-              1,
-              999
-            ],
-            "actionSteps": [
-              {
-                "actionMask": "high K",
-                "actionType": "strike",
-                "isTracking": true
-              }
-            ]
           },
           {
             "input": "1A",
@@ -2175,87 +2113,6 @@
             "endsWith": "BT"
           },
           {
-            "input": "22B",
-            "frameData": [
-              11,
-              0,
-              21,
-              1,
-              999
-            ],
-            "actionSteps": [
-              {
-                "actionMask": "mid P",
-                "actionType": "strike",
-                "isTracking": false,
-                "results": [
-                  {
-                    "condition": [
-                      "neutral"
-                    ],
-                    "tags": [
-                      "launch"
-                    ]
-                  }
-                ]
-              }
-            ],
-            "followUps": [
-              {
-                "input": "B",
-                "actionSteps": [
-                  {
-                    "actionMask": "mid P",
-                    "actionType": "strike",
-                    "isTracking": false,
-                    "results": [
-                      {
-                        "condition": [
-                          "neutral"
-                        ],
-                        "tags": [
-                          "force crouch"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "input": ":B",
-                "actionSteps": [
-                  {
-                    "actionMask": "mid P",
-                    "actionType": "strike",
-                    "isTracking": false
-                  }
-                ],
-                "followUps": [
-                  {
-                    "input": "*",
-                    "actionSteps": [
-                      {
-                        "actionMask": "mid P",
-                        "actionType": "strike",
-                        "isTracking": false,
-                        "results": [
-                          {
-                            "condition": [
-                              "airborne"
-                            ],
-                            "tags": [
-                              "hard knock down"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
             "input": "2A+B",
             "frameData": [
               19,
@@ -2481,77 +2338,6 @@
             ]
           },
           {
-            "input": "B+K",
-            "actionSteps": [
-              {
-                "actionType": "other"
-              }
-            ],
-            "endsWith": "WF"
-          },
-          {
-            "input": "6B+K",
-            "actionSteps": [
-              {
-                "actionType": "other"
-              }
-            ],
-            "endsWith": "WS"
-          },
-          {
-            "input": "4B+K",
-            "actionSteps": [
-              {
-                "actionType": "other"
-              }
-            ],
-            "endsWith": "WF"
-          },
-          {
-            "input": "2B+K",
-            "actionSteps": [
-              {
-                "actionType": "other"
-              }
-            ],
-            "endsWith": "WC"
-          },
-          {
-            "input": "A+G",
-            "actionSteps": [
-              {
-                "actionMask": "high",
-                "actionType": "throw"
-              }
-            ]
-          },
-          {
-            "input": "4A+G",
-            "actionSteps": [
-              {
-                "actionMask": "high",
-                "actionType": "throw"
-              }
-            ]
-          },
-          {
-            "input": "8B+K",
-            "actionSteps": [
-              {
-                "actionType": "other"
-              }
-            ],
-            "endsWith": "WC"
-          },
-          {
-            "input": "K+G",
-            "actionSteps": [
-              {
-                "actionType": "other"
-              }
-            ]
-          },
-          {
             "input": "B+G",
             "actionSteps": [
               {
@@ -2641,6 +2427,235 @@
                     "endsWith": "RE"
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "input": "88_22",
+            "frameData": [
+              11,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "88_22"
+          },
+          {
+            "input": "B+K",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "6B+K",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WS"
+          },
+          {
+            "input": "4B+K",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "2B+K",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WC"
+          },
+          {
+            "input": "A+G",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "4A+G",
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "8B+K",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WC"
+          },
+          {
+            "input": "K+G",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "88_22",
+        "description": "Freestepping",
+        "appliesExtraFrame": false,
+        "moves": [
+          {
+            "input": "A",
+            "frameData": [
+              17,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  5,
+                  1,
+                  999
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "...",
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "W..."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "B",
+            "frameData": [
+              21,
+              1,
+              999
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "B",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force crouch"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": ":B",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "hard knock down"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              17,
+              1,
+              999
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
               }
             ]
           }
