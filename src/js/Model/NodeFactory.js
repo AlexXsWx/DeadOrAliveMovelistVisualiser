@@ -60,10 +60,11 @@ define(
 
             removeGuardConditionFromActionStepResult: removeGuardConditionFromActionStepResult,
 
-            doesActionStepResultDescribeNeutralHit: doesActionStepResultDescribeNeutralHit,
-            doesActionStepResultDescribeGuard: doesActionStepResultDescribeGuard,
-            doesActionStepResultDescribeForcetech: doesActionStepResultDescribeForcetech,
-            doesActionStepResultDescribeGroundHit: doesActionStepResultDescribeGroundHit,
+            doesActionStepResultDescribeNeutralHit:     doesActionStepResultDescribeNeutralHit,
+            doesActionStepResultDescribeCounterHit:     doesActionStepResultDescribeCounterHit,
+            doesActionStepResultDescribeGuard:          doesActionStepResultDescribeGuard,
+            doesActionStepResultDescribeForcetech:      doesActionStepResultDescribeForcetech,
+            doesActionStepResultDescribeGroundHit:      doesActionStepResultDescribeGroundHit,
             doesActionStepResultDescribeGroundHitCombo: doesActionStepResultDescribeGroundHitCombo,
             getAdvantageRange: getAdvantageRange,
             getActiveFramesRangeThatIntersectsWith: getActiveFramesRangeThatIntersectsWith,
@@ -488,6 +489,10 @@ define(
 
         function doesActionStepResultDescribeNeutralHit(actionStepResult) {
             return actionStepResult && searchInStringArray(actionStepResult.condition, 'neutral') >= 0;
+        }
+
+        function doesActionStepResultDescribeCounterHit(actionStepResult) {
+            return actionStepResult && searchInStringArray(actionStepResult.condition, 'counter') >= 0;
         }
 
         function doesActionStepResultDescribeGuard(actionStepResult) {

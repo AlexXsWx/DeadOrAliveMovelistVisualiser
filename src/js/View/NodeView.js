@@ -8,7 +8,10 @@ define(
 
         var SORTING_ORDER = {
             DEFAULT: sortByDefault,
-            SPEED: sortBySpeed
+            SPEED: sortBySpeed,
+            ADVANTAGE_ON_BLOCK: sortByAdvantageOnBlock,
+            ADVANTAGE_ON_NEUTRAL_HIT: sortByAdvantageOnNeutralHit,
+            ADVANTAGE_ON_COUNTER_HIT: sortByAdvantageOnCounterHit,
         };
 
         var currentSortFunc = SORTING_ORDER.DEFAULT;
@@ -466,8 +469,7 @@ define(
                 };
             }
 
-            function sortByDefault(nodeView) {
-
+            function sortHelper(nodeView, optSortRest) {
                 var children = nodeView.treeInfo.children;
                 var byType = splitChildrenByType(children.visible);
 
@@ -477,53 +479,90 @@ define(
                         nodeViewB.binding.group.order
                     );
                 });
-                byType.rest.sort(function(nodeViewA, nodeViewB) {
-                    return compareOrderInData(nodeViewA, nodeViewB) || 0;
-                });
-
-                children.visible = byType.groups.concat(byType.rest).concat(byType.placeholders);
-            }
-
-            function sortBySpeed(nodeView) {
-
-                var children = nodeView.treeInfo.children;
-                var byType = splitChildrenByType(children.visible);
-
-                byType.groups.sort(function(nodeViewA, nodeViewB) {
-                    return _.sortFuncAscending(
-                        nodeViewA.binding.group.order,
-                        nodeViewB.binding.group.order
-                    );
-                });
-                var restUnsortable = byType.rest.slice(0);
-                var restSortable = _.take(restUnsortable, function(nodeView) {
-                    var nodeData = getNodeData(nodeView);
-                    return (
-                        nodeData &&
-                        NodeFactory.isMoveNode(nodeData) &&
-                        nodeData.frameData &&
-                        nodeData.frameData.length > 0
-                    );
-                });
-                restSortable.sort(function(nodeViewA, nodeViewB) {
-                    var nodeDataA = getNodeData(nodeViewA);
-                    var nodeDataB = getNodeData(nodeViewB);
-                    return _.sortFuncAscending(
-                        nodeDataA.frameData[0],
-                        nodeDataB.frameData[0]
-                    );
-                });
-                restUnsortable.sort(function(nodeViewA, nodeViewB) {
+                var rest = byType.rest;
+                var preRest = [];
+                if (optSortRest) {
+                    preRest = optSortRest(rest);
+                }
+                rest.sort(function(nodeViewA, nodeViewB) {
                     return compareOrderInData(nodeViewA, nodeViewB) || 0;
                 });
 
                 children.visible = (
                     byType.groups
-                        .concat(restSortable)
-                        .concat(restUnsortable)
+                        .concat(preRest)
+                        .concat(rest)
                         .concat(byType.placeholders)
                 );
+            }
 
+            function sortByDefault(nodeView) {
+                sortHelper(nodeView);
+            }
+
+            function sortBySpeed(nodeView) {
+                sortHelper(nodeView, function(rest) {
+                    return _.take(rest, function(nodeView) {
+                        var nodeData = getNodeData(nodeView);
+                        return (
+                            nodeData &&
+                            NodeFactory.isMoveNode(nodeData) &&
+                            nodeData.frameData &&
+                            nodeData.frameData.length > 0
+                        );
+                    }).sort(function(nodeViewA, nodeViewB) {
+                        return _.sortFuncAscending(
+                            getNodeData(nodeViewA).frameData[0],
+                            getNodeData(nodeViewB).frameData[0]
+                        );
+                    });
+                });
+            }
+
+            function sortByAdvantage(nodeView, getAdvantageRangeFunc) {
+                sortHelper(nodeView, function(rest) {
+                    return _.take(rest, function(nodeView) {
+                        var nodeData = getNodeData(nodeView);
+                        if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return false;
+                        var advantage = getAdvantageRangeFunc(nodeData);
+                        return Boolean(advantage);
+                    }).sort(function(nodeViewA, nodeViewB) {
+                        return -1 * _.sortFuncAscending(
+                            getAdvantageRangeFunc(getNodeData(nodeViewA)).min,
+                            getAdvantageRangeFunc(getNodeData(nodeViewB)).min
+                        );
+                    });
+                });
+            }
+
+            function sortByAdvantageOnBlock(nodeView) {
+                sortByAdvantage(nodeView, function(nodeData) {
+                    return NodeFactory.getAdvantageRange(
+                        nodeData,
+                        NodeFactory.doesActionStepResultDescribeGuard,
+                        NodeFactory.getActionStepResultHitBlock
+                    )
+                });
+            }
+
+            function sortByAdvantageOnNeutralHit(nodeView) {
+                sortByAdvantage(nodeView, function(nodeData) {
+                    return NodeFactory.getAdvantageRange(
+                        nodeData,
+                        NodeFactory.doesActionStepResultDescribeNeutralHit,
+                        NodeFactory.getActionStepResultHitBlock
+                    )
+                });
+            }
+
+            function sortByAdvantageOnCounterHit(nodeView) {
+                sortByAdvantage(nodeView, function(nodeData) {
+                    return NodeFactory.getAdvantageRange(
+                        nodeData,
+                        NodeFactory.doesActionStepResultDescribeCounterHit,
+                        NodeFactory.getActionStepResultHitBlock
+                    )
+                });
             }
 
             function compareOrderInData(nodeViewA, nodeViewB) {

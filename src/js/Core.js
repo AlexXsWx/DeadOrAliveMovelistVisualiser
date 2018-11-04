@@ -106,7 +106,7 @@ define(
                         switch(value) {
 
                             case 'safety':
-                                NodeSvgView.setRightTextToSafety();
+                                NodeSvgView.setRightTextToAdvantageOnBlock();
                             break;
 
                             case 'hardknockdowns':
@@ -644,6 +644,18 @@ define(
 
                     'sortBySpeed': function sortBySpeed(event) {
                         changeSorting(NodeView.SORTING_ORDER.SPEED);
+                    },
+
+                    'sortByAdvantageOnBlock': function sortByAdvantageOnBlock(event) {
+                        changeSorting(NodeView.SORTING_ORDER.ADVANTAGE_ON_BLOCK);
+                    },
+
+                    'sortByAdvantageOnNeutralHit': function sortByAdvantageOnNeutralHit(event) {
+                        changeSorting(NodeView.SORTING_ORDER.ADVANTAGE_ON_NEUTRAL_HIT);
+                    },
+
+                    'sortByAdvantageOnCounterHit': function sortByAdvantageOnCounterHit(event) {
+                        changeSorting(NodeView.SORTING_ORDER.ADVANTAGE_ON_COUNTER_HIT);
                     }
                 };
 

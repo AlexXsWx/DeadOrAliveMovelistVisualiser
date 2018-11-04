@@ -23,7 +23,7 @@ define(
             getTextEnding:       getTextEnding,
             getTextActiveFrames: getTextActiveFrames,
             getCooldown:         getCooldown,
-            getSafety:           getSafety,
+            getAdvantageOnBlock: getAdvantageOnBlock,
             getAdvantageOnHit:   getAdvantageOnHit,
             getReach:            getReach,
             getForcetechAdvantage: getForcetechAdvantage,
@@ -114,7 +114,7 @@ define(
             return cooldown + '-' + (cooldown + cooldownRange);
         }
 
-        function getSafety(nodeView) {
+        function getAdvantageOnBlock(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
             var advantageRange = NodeFactory.getAdvantageRange(

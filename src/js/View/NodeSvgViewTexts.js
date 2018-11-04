@@ -11,7 +11,7 @@ define(
             NodeSvgViewTextGetters.getTextEnding,
             NodeSvgViewTextGetters.getTextActiveFrames,
             NodeSvgViewTextGetters.getCooldown,
-            NodeSvgViewTextGetters.getSafety,
+            NodeSvgViewTextGetters.getAdvantageOnBlock,
             NodeSvgViewTextGetters.getAdvantageOnHit,
             NodeSvgViewTextGetters.getReach,
             NodeSvgViewTextGetters.getForcetechAdvantage,
@@ -34,13 +34,13 @@ define(
         var updateSignal = createSignal();
 
         return {
-            init:                         init,
-            onUpdate:                     updateSignal.listenersManager,
-            setRightTextToSafety:         setRightTextToSafety,
-            setRightTextToHardKnockdowns: setRightTextToHardKnockdowns,
-            hasTextAtTop:                 hasTextAtTop,
-            hasTextAtBottom:              hasTextAtBottom,
-            create:                       create
+            init:                           init,
+            onUpdate:                       updateSignal.listenersManager,
+            setRightTextToAdvantageOnBlock: setRightTextToAdvantageOnBlock,
+            setRightTextToHardKnockdowns:   setRightTextToHardKnockdowns,
+            hasTextAtTop:                   hasTextAtTop,
+            hasTextAtBottom:                hasTextAtBottom,
+            create:                         create
         };
 
 
@@ -73,10 +73,10 @@ define(
 
         }
 
-        function setRightTextToSafety() {
-            textGetters.right = NodeSvgViewTextGetters.getSafety;
+        function setRightTextToAdvantageOnBlock() {
+            textGetters.right = NodeSvgViewTextGetters.getAdvantageOnBlock;
             _.getDomElement('rightTextOption').selectedIndex = (
-                TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getSafety)
+                TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnBlock)
             );
         }
 

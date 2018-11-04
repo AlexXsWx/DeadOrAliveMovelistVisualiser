@@ -22,13 +22,13 @@ define(
         var updateSignal         = createSignal();
 
         return {
-            init:                         init,
-            create:                       create,
-            onUpdate:                     updateSignal.listenersManager,
-            onNodeClick:                  onNodeClick.listenersManager,
-            onNodeToggleChildren:         onNodeToggleChildren.listenersManager,
-            setRightTextToSafety:         NodeSvgViewTexts.setRightTextToSafety,
-            setRightTextToHardKnockdowns: NodeSvgViewTexts.setRightTextToHardKnockdowns,
+            init:                           init,
+            create:                         create,
+            onUpdate:                       updateSignal.listenersManager,
+            onNodeClick:                    onNodeClick.listenersManager,
+            onNodeToggleChildren:           onNodeToggleChildren.listenersManager,
+            setRightTextToAdvantageOnBlock: NodeSvgViewTexts.setRightTextToAdvantageOnBlock,
+            setRightTextToHardKnockdowns:   NodeSvgViewTexts.setRightTextToHardKnockdowns,
             getNodeWidth:  function() { return NODE_WIDTH; },
             getNodeHeight: function() {
                 var height = 1;
