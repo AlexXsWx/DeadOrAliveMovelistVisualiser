@@ -85,7 +85,7 @@ define(
 
             function updateByData() {
                 if (!NodeView.isPlaceholder(nodeView)) {
-                    circle.removeAttribute('stroke-dasharray');
+                    circle.classList.remove('placeholder');
                 }
                 texts2.updateByData(nodeView);
                 updateClassesByData();
@@ -195,9 +195,7 @@ define(
 
                 circle = _.createSvgElement({
                     tag: 'circle',
-                    // FIXME: CSS "stroke-dasharray: 2 2;"
-                    attributes: { 'stroke-dasharray': '2,2' },
-                    classes: [ 'node_circle' ]
+                    classes: [ 'node_circle', 'placeholder' ]
                 });
 
                 wrapper.appendChild(additionalHitbox);

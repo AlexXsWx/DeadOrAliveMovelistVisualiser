@@ -48,6 +48,11 @@ g.node {
         fill: @color-same-as-background;
         stroke: @color-gray-circle-perimeter;
         stroke-width: 2px;
+
+        &.placeholder {
+            stroke-width: 1px;
+            stroke-dasharray: 2, 2;
+        }
     }
 
     .node_mask_height_indicator, .node_knockback_indicator {

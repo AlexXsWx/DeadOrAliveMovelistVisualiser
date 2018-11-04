@@ -2,9 +2,9 @@ define(
 
     'View/NodeSvgViewTexts',
 
-    [ 'View/NodeSvgViewTextGetters', 'Tools/Signal', 'Tools/Tools' ],
+    [ 'View/NodeView', 'View/NodeSvgViewTextGetters', 'Tools/Signal', 'Tools/Tools' ],
 
-    function NodeSvgViewTexts(NodeSvgViewTextGetters, createSignal, _) {
+    function NodeSvgViewTexts(NodeView, NodeSvgViewTextGetters, createSignal, _) {
 
         var TEXT_GETTER_OPTIONS = [
             NodeSvgViewTextGetters.getEmptyText,
@@ -123,8 +123,12 @@ define(
             }
 
             function getActualLeftText(nodeView) {
+                var flipToRight = flipTextToRight;
+                if (!NodeView.getParentNodeView(nodeView)) {
+                    flipToRight = true;
+                }
                 var leftText = NodeSvgViewTextGetters.getTextMain(nodeView);
-                if (!flipTextToRight) {
+                if (!flipToRight) {
                     return leftText;
                 }
                 var rightText = textGetters.right(nodeView);
@@ -132,8 +136,12 @@ define(
             }
 
             function getActualRightText(nodeView) {
+                var flipToRight = flipTextToRight;
+                if (!NodeView.getParentNodeView(nodeView)) {
+                    flipToRight = true;
+                }
                 var rightText = textGetters.right(nodeView);
-                if (!flipTextToRight) {
+                if (!flipToRight) {
                     return rightText;
                 }
                 return rightText || NodeSvgViewTextGetters.getTextMain(nodeView);
