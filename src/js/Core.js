@@ -164,18 +164,17 @@ define(
                 // TODO: reset everything
                 // FIXME: update editor (selected element changed)
 
-                restructureByType(rootNodeView);
-                // NodeView.hideHiddenByDefault(rootNodeView);
+                // FIXME: get this value somehow
+                var sc6 = true;
+                if (sc6) {
+                    NodeView.groupByTypeSC6(rootNodeView, nodeViewGenerator);
+                } else {
+                    NodeView.groupByType(rootNodeView, nodeViewGenerator);
+                    NodeView.hideHiddenByDefault(rootNodeView);
+                }
 
                 update();
 
-            }
-
-
-            function restructureByType(rootNodeView) {
-                NodeView.getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
-                    NodeView.groupByType(stanceNodeView, nodeViewGenerator);
-                });
             }
 
 
@@ -656,6 +655,26 @@ define(
 
                     'sortByAdvantageOnCounterHit': function sortByAdvantageOnCounterHit(event) {
                         changeSorting(NodeView.SORTING_ORDER.ADVANTAGE_ON_COUNTER_HIT);
+                    },
+
+                    'groupByNone': function groupByNone(event) {
+                        // FIXME: support undo
+                        NodeView.getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
+                            NodeView.ungroup(stanceNodeView);
+                        });
+                        update();
+                    },
+
+                    'groupByDOA': function groupByDOA(event) {
+                        // FIXME: support undo
+                        NodeView.groupByType(rootNodeView, nodeViewGenerator);
+                        update();
+                    },
+
+                    'groupBySC6': function groupBySC6(event) {
+                        // FIXME: support undo
+                        NodeView.groupByTypeSC6(rootNodeView, nodeViewGenerator);
+                        update();
                     }
                 };
 
