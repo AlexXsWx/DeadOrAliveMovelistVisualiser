@@ -82,7 +82,8 @@ g.node {
             tspan.semisafe { font-weight: bold; fill: @color-semisafe; }
             tspan.unsafe   { font-weight: bold; fill: @color-unsafe;   }
 
-            tspan.gray     { fill: @color-gray-text; }
+            tspan.lightgray { fill: lighten(@color-gray-text, 20%); }
+            tspan.gray      { fill: @color-gray-text; }
         }
 
         &.node_text_center {

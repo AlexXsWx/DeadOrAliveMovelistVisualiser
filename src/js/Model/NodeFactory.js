@@ -31,6 +31,7 @@ define(
             isMoveNode:   isMoveNode,
 
             toString: toString,
+            toRichString: toRichString,
 
             isMoveHorizontal:    isMoveHorizontal,
             isMoveVertical:      isMoveVertical,
@@ -303,21 +304,52 @@ define(
 
 
         function toString(node) {
+            return toRichString(node).map(function(entry) { return entry.text; }).join('');
+        }
+
+
+        function toRichString(node) {
             if (isRootNode(node)) {
-                return node.character || 'character';
+                if (node.character) {
+                    return text(node.character);
+                } else {
+                    return placeholder('character');
+                }
             } else
             if (isStanceNode(node)) {
                 var abbreviation = node.abbreviation;
-                return abbreviation ? '{' + abbreviation + '}' : 'stance';
+                if (abbreviation) {
+                    return [
+                        { text: '{',          className: 'lightgray' },
+                        { text: abbreviation, className: 'gray'      },
+                        { text: '}',          className: 'lightgray' }
+                    ];
+                } else {
+                    return placeholder('stance');
+                }
             } else
             if (isMoveNode(node)) {
                 var input = node.input;
-                if (!input) return 'move';
+                if (!input) return placeholder('move');
                 var context = node.context.join(',');
-                if (context) return '{' + context + '}' + input;
-                return input;
+                if (context) {
+                    return [
+                        { text: '{',     className: 'lightgray' },
+                        { text: context, className: 'gray'      },
+                        { text: '}',     className: 'lightgray' },
+                        { text: input }
+                    ];
+                }
+                return text(input);
             }
             _.report('Can\'t represent node %O with a string', node);
+            return [];
+            function text(textValue) {
+                return [{ text: textValue }];
+            }
+            function placeholder(text) {
+                return [{ text: text, className: 'gray' }];
+            }
         }
 
 

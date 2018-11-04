@@ -252,7 +252,7 @@ define(
                 if (childrenOfType.length < 1) return;
 
                 var groupingChild = nodeViewGenerator();
-                groupingChild.binding.group.name = '<' + entry.name + '>';
+                groupingChild.binding.group.name = entry.name;
                 groupingChild.binding.group.hideByDefault = entry.hideByDefault;
                 groupingChild.binding.group.order = index;
                 setChildren(groupingChild, childrenOfType);
@@ -381,7 +381,21 @@ define(
 
         function getName(nodeView) {
             var nodeData = getNodeData(nodeView);
-            return nodeData ? NodeFactory.toString(nodeData) : nodeView.binding.group.name;
+            if (nodeData) {
+                return {
+                    raw:  NodeFactory.toString(nodeData),
+                    rich: NodeFactory.toRichString(nodeData)
+                };
+            } else {
+                return {
+                    raw:  nodeView.binding.group.name,
+                    rich: [
+                        { text: '<',                         className: 'lightgray' },
+                        { text: nodeView.binding.group.name, className: 'gray'      },
+                        { text: '>',                         className: 'lightgray' }
+                    ]
+                };
+            }
         }
 
         function getEnding(nodeView) {
@@ -732,7 +746,7 @@ define(
                         output.push({
                             parentNodeView: parentNodeView && getReadableId(parentNodeView),
                             id:    getId(nodeView),
-                            input: getName(nodeView),
+                            input: getName(nodeView).raw,
                             visibleChildren: childReadableIds(visibleChildren),
                             hiddenChildren:  childReadableIds(hiddenChildren),
                             x: nodeView.x,
@@ -757,7 +771,7 @@ define(
             }
 
             function getReadableId(nodeView) {
-                return getId(nodeView) + '#' + getName(nodeView);
+                return getId(nodeView) + '#' + getName(nodeView).raw;
             }
 
             function childReadableIds(children) {

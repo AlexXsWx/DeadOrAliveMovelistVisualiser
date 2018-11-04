@@ -54,16 +54,20 @@ define(
 
         function getTextMain(nodeView) {
             var result = document.createDocumentFragment();
-            var name = NodeView.getName(nodeView);
-            if (name) {
-                splitBy(name, /[\{\<][^\>\}]*[\}\>]/g).forEach(function(element, index) {
-                    if (!element || element === '*') return;
-                    var dim = Boolean(index % 2) || element === '*' || element === '...';
-                    result.appendChild(classedTSpan(element, dim ? 'gray' : undefined));
-                });
-            } else {
-                result.appendChild(classedTSpan('<unnamed>', 'gray'));
+            var name = NodeView.getName(nodeView).rich;
+            if (name.length === 0) {
+                name = [
+                    { text: '<',       className: 'lightgray' },
+                    { text: 'unnamed', className: 'gray'      },
+                    { text: '>',       className: 'lightgray' }
+                ];
             }
+            name.forEach(function(entry) {
+                if (!entry.text || entry.text === '*') return;
+                var forceDim = entry.text === '...';
+                var className = entry.className || (forceDim ? 'gray' : undefined);
+                result.appendChild(classedTSpan(entry.text, className));
+            });
             return result;
         }
 
@@ -71,7 +75,9 @@ define(
             var ending = NodeView.getEnding(nodeView);
             if (!ending) return '';
             var result = document.createDocumentFragment();
-            result.appendChild(classedTSpan('{' + ending + '}', 'gray'));
+            result.appendChild(classedTSpan('{', 'lightgray'));
+            result.appendChild(classedTSpan(ending, 'gray'));
+            result.appendChild(classedTSpan('}', 'lightgray'));
             return result;
         }
 
