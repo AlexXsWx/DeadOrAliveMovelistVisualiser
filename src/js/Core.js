@@ -626,8 +626,48 @@ define(
                         );
                         NodeView.hideHiddenByDefault(rootNodeView);
                         update();
+                    },
+
+                    'sortByDefault': function sortByDefault(event) {
+                        changeSorting(NodeView.SORTING_ORDER.DEFAULT);
+                    },
+
+                    'sortBySpeed': function sortBySpeed(event) {
+                        changeSorting(NodeView.SORTING_ORDER.SPEED);
                     }
                 };
+
+                return;
+
+                function changeSorting(newSortingOrder) {
+                    Executor.rememberAndExecute(
+                        'Change sorting',
+                        function() {
+                            var undo = NodeView.setSortingOrder(newSortingOrder);
+                            var acted = Boolean(undo);
+                            if (acted) {
+                                resortAll();
+                                return undo;
+                            }
+                        },
+                        function(undo) {
+                            if (undo) {
+                                undo();
+                                // FIXME: this is not accurate
+                                resortAll();
+                            }
+                        }
+                    );
+                    return;
+                    function resortAll() {
+                        TreeTools.forAllCurrentChildren(
+                            rootNodeView,
+                            NodeView.getAllChildren,
+                            NodeView.sortVisibleChildren
+                        );
+                        update();
+                    }
+                }
 
             }
 

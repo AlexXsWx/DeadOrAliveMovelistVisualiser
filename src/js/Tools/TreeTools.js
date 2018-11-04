@@ -114,7 +114,10 @@ define(
                 nodesAtNextDepth = [];
 
                 nodesAtIteratedDepth.forEach(function(node) {
-                    nodesAtNextDepth = nodesAtNextDepth.concat(childrenAccessor(node));
+                    Array.prototype.push.apply(
+                        nodesAtNextDepth,
+                        childrenAccessor(node)
+                    );
                 });
 
             } while (nodesAtNextDepth.length > 0);
@@ -123,27 +126,17 @@ define(
 
         }
 
-        // TODO: rename; misleading 'current'
+        /**
+         * Does not include children that are added by `action`;
+         * Still includes children removed by `action`
+         * Iteration happens in order of depth, root first, leaves last
+         */
         function forAllCurrentChildren(dataRoot, childrenAccessor, action) {
-
-            var nodesAtIteratedDepth = [dataRoot];
-
-            do {
-
-                var nodesAtNextDepth = [];
-
-                nodesAtIteratedDepth.forEach(function(node) {
-                    Array.prototype.push.apply(
-                        nodesAtNextDepth,
-                        childrenAccessor(node)
-                    );
-                    action(node);
-                });
-
-                nodesAtIteratedDepth = nodesAtNextDepth;
-
-            } while (nodesAtIteratedDepth.length > 0);
-
+            getChildrenMergedByDepth(dataRoot, childrenAccessor).forEach(
+                function(nodesAtIteratedDepth) {
+                    nodesAtIteratedDepth.forEach(function(node) { action(node); });
+                }
+            );
         }
 
     }

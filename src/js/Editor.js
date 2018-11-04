@@ -188,12 +188,12 @@ define(
 
 
         function moveNodeBy(delta) {
-            var acted = [];
+            if (!NodeView.sortsByDefault()) return;
             Executor.rememberAndExecute('move node by ' + delta, act, unact);
             return;
-            function act() { acted.push(doMoveNodeBy(delta)); }
+            function act() { return doMoveNodeBy(delta); }
             // FIXME: this is not accurate
-            function unact() { if (acted.pop()) doMoveNodeBy(-delta); }
+            function unact(actResult) { if (actResult) doMoveNodeBy(-delta); }
         }
 
 

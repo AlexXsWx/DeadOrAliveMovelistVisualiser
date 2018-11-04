@@ -20,11 +20,19 @@ define(
         };
 
         function createCommand(commandName, doFunc, undoFunc) {
+            var doResults = [];
             return {
-                doFunc: doFunc,
-                undoFunc: undoFunc,
+                doFunc: actuallyDo,
+                undoFunc: actuallyUndo,
                 commandName: commandName
             };
+            function actuallyDo() {
+                var result = doFunc();
+                doResults.push(result);
+            }
+            function actuallyUndo() {
+                undoFunc(doResults.pop());
+            }
         }
 
         function clearHistory() {
@@ -57,7 +65,7 @@ define(
 
             console.debug('do "%s"', commandName);
 
-            doFunc();
+            command.doFunc();
 
         }
 

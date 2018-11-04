@@ -6,7 +6,18 @@ define(
 
     function NodeView(NodeFactory, TreeTools, CommonStances, _) {
 
+        var SORTING_ORDER = {
+            DEFAULT: sortByDefault,
+            SPEED: sortBySpeed
+        };
+
+        var currentSortFunc = SORTING_ORDER.DEFAULT;
+
         return {
+
+            SORTING_ORDER: SORTING_ORDER,
+            sortsByDefault: sortsByDefault,
+            setSortingOrder: setSortingOrder,
 
             createNodeViewGenerator: createNodeViewGenerator,
 
@@ -44,6 +55,8 @@ define(
             showAllChildren:       showAllChildren,
             hideAllChildren:       hideAllChildren,
             toggleVisibleChildren: toggleVisibleChildren,
+
+            sortVisibleChildren: sortVisibleChildren,
 
             debugLogNodeView: debugLogNodeView
 
@@ -412,61 +425,123 @@ define(
                 }
             }
 
+            // Sorting
+
+            function sortsByDefault() {
+                return currentSortFunc === SORTING_ORDER.DEFAULT;
+            }
+
+            /** @param newValue {SORTING_ORDER} */
+            function setSortingOrder(newValue) {
+                var oldValue = currentSortFunc;
+                currentSortFunc = newValue;
+                if (oldValue !== newValue) {
+                    return undo;
+                } else {
+                    return null;
+                }
+                function undo() { currentSortFunc = oldValue; }
+            }
+
             function sortVisibleChildren(nodeView) {
-                var children = nodeView.treeInfo.children;
+                currentSortFunc(nodeView);
+            }
 
-                var temp = children.visible;
+            function splitChildrenByType(children) {
+                var temp = children.slice(0);
 
-                var groups = take(temp, function(nodeView) {
+                var groups = _.take(temp, function(nodeView) {
                     return Boolean(nodeView.binding.group.name);
                 });
-                var rest = take(temp, function(nodeView) {
+                var rest = _.take(temp, function(nodeView) {
                     return !nodeView.binding.isPlaceholder;
                 });
                 var placeholders = temp;
 
-                groups.sort(function(nodeViewA, nodeViewB) {
-                    return compare(
+                return {
+                    groups:       groups,
+                    placeholders: placeholders,
+                    rest:         rest
+                };
+            }
+
+            function sortByDefault(nodeView) {
+
+                var children = nodeView.treeInfo.children;
+                var byType = splitChildrenByType(children.visible);
+
+                byType.groups.sort(function(nodeViewA, nodeViewB) {
+                    return _.sortFuncAscending(
                         nodeViewA.binding.group.order,
                         nodeViewB.binding.group.order
                     );
                 });
-                rest.sort(function(nodeViewA, nodeViewB) {
-                    var parentNodeDataA = findAncestorNodeData(nodeViewA);
-                    var parentNodeDataB = findAncestorNodeData(nodeViewB);
-                    if (parentNodeDataA !== parentNodeDataB) return 0;
-                    var parentNodeData = parentNodeDataA;
-                    if (!parentNodeData) return 0;
-                    var parentNodeDataChildren = NodeFactory.getChildren(parentNodeData);
-                    return compare(
-                        parentNodeDataChildren.indexOf(getNodeData(nodeViewA)),
-                        parentNodeDataChildren.indexOf(getNodeData(nodeViewB))
-                    );
+                byType.rest.sort(function(nodeViewA, nodeViewB) {
+                    return compareOrderInData(nodeViewA, nodeViewB) || 0;
                 });
 
-                children.visible = groups.concat(rest).concat(placeholders);
-
-                return;
-
-                function compare(numberA, numberB) {
-                    if (numberA < numberB) return -1;
-                    if (numberA > numberB) return 1;
-                    return 0;
-                }
-
-                function take(array, predicate) {
-                    var i = 0;
-                    var result = [];
-                    while (i < array.length) {
-                        if (predicate(array[i])) {
-                            result = result.concat(array.splice(i, 1));
-                        } else {
-                            i++;
-                        }
-                    }
-                    return result;
-                }
+                children.visible = byType.groups.concat(byType.rest).concat(byType.placeholders);
             }
+
+            function sortBySpeed(nodeView) {
+
+                var children = nodeView.treeInfo.children;
+                var byType = splitChildrenByType(children.visible);
+
+                byType.groups.sort(function(nodeViewA, nodeViewB) {
+                    return _.sortFuncAscending(
+                        nodeViewA.binding.group.order,
+                        nodeViewB.binding.group.order
+                    );
+                });
+                var restUnsortable = byType.rest.slice(0);
+                var restSortable = _.take(restUnsortable, function(nodeView) {
+                    var nodeData = getNodeData(nodeView);
+                    return (
+                        nodeData &&
+                        NodeFactory.isMoveNode(nodeData) &&
+                        nodeData.frameData &&
+                        nodeData.frameData.length > 0
+                    );
+                });
+                restSortable.sort(function(nodeViewA, nodeViewB) {
+                    var nodeDataA = getNodeData(nodeViewA);
+                    var nodeDataB = getNodeData(nodeViewB);
+                    return _.sortFuncAscending(
+                        nodeDataA.frameData[0],
+                        nodeDataB.frameData[0]
+                    );
+                });
+                restUnsortable.sort(function(nodeViewA, nodeViewB) {
+                    return compareOrderInData(nodeViewA, nodeViewB) || 0;
+                });
+
+                children.visible = (
+                    byType.groups
+                        .concat(restSortable)
+                        .concat(restUnsortable)
+                        .concat(byType.placeholders)
+                );
+
+            }
+
+            function compareOrderInData(nodeViewA, nodeViewB) {
+                var parentNodeDataA = findAncestorNodeData(nodeViewA);
+                var parentNodeDataB = findAncestorNodeData(nodeViewB);
+                if (parentNodeDataA !== parentNodeDataB) return undefined;
+
+                var parentNodeData = parentNodeDataA;
+                if (!parentNodeData) return undefined;
+
+                var parentNodeDataChildren = NodeFactory.getChildren(parentNodeData);
+                var indexA = parentNodeDataChildren.indexOf(getNodeData(nodeViewA));
+                var indexB = parentNodeDataChildren.indexOf(getNodeData(nodeViewB));
+                if (indexA === -1 || indexB === -1) return undefined;
+
+                return _.sortFuncAscending(indexA, indexB);
+            }
+
+            //
 
             function showAllChildren(nodeView) {
                 var children = nodeView.treeInfo.children;

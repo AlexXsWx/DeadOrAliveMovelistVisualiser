@@ -27,6 +27,7 @@ define(
             moveArrayElement:                      moveArrayElement,
             arrayGroupedByFactor:                  arrayGroupedByFactor,
             arraysConsistOfSameStrings:            arraysConsistOfSameStrings,
+            take:                                  take,
             getDomElement:                         getDomElement,
             addClickListenerToElement:             addClickListenerToElement,
             addClickListenerToElementWithId:       addClickListenerToElementWithId,
@@ -356,6 +357,19 @@ define(
                 arrayA.some(function(element) { return !Object.hasOwnProperty(mapB, element); }) ||
                 arrayB.some(function(element) { return !Object.hasOwnProperty(mapA, element); })
             );
+        }
+
+        function take(array, predicate) {
+            var i = 0;
+            var result = [];
+            while (i < array.length) {
+                if (predicate(array[i])) {
+                    result = result.concat(array.splice(i, 1));
+                } else {
+                    i++;
+                }
+            }
+            return result;
         }
 
         function createDomElement(options) {
