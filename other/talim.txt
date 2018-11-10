@@ -1,4 +1,10 @@
 turning from back to facing takes 5 frames (RE effect would appear on 6th frame)
+GI is instant and lasts for 10 frames
+buffered freestepping takes 11 frames
+
+need to double check numbers:
+    standing up is instant (RE effect appears instantly)
+    RE doesn't work on moves that land 2-4 frames after activation, but iirc works on 6 frames
 
 talim
     B is +0 on neutral hit
