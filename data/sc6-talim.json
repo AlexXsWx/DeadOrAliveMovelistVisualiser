@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1541331056218
+    "timeSaved": 1541809877511
   },
   "body": {
     "character": "Talim",
@@ -36,11 +36,24 @@
               },
               {
                 "input": "A",
+                "frameData": [
+                  12,
+                  1,
+                  31
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 33
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -265,11 +278,16 @@
             "context": [
               "SG"
             ],
+            "frameData": [
+              4,
+              0,
+              12,
+              0,
+              0
+            ],
             "actionSteps": [
               {
-                "actionMask": "high P",
-                "actionType": "strike",
-                "isTracking": true,
+                "actionType": "other",
                 "tags": [
                   "CE"
                 ]
@@ -278,11 +296,19 @@
             "followUps": [
               {
                 "input": "*",
+                "frameData": [
+                  4,
+                  1,
+                  0
+                ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid P",
+                    "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": true,
+                    "tags": [
+                      "CE"
+                    ]
                   }
                 ],
                 "followUps": [
@@ -292,14 +318,27 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": true
+                        "isTracking": false
                       }
                     ],
-                    "comment": "restores health"
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": true
+                          }
+                        ],
+                        "comment": "restores health"
+                      }
+                    ]
                   }
                 ]
               }
-            ]
+            ],
+            "comment": "The part before cut scene"
           },
           {
             "input": "6A",
@@ -4119,9 +4158,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
-                "actionType": "strike",
-                "isTracking": true
+                "actionType": "other",
+                "tags": [
+                  "CE"
+                ]
               }
             ],
             "followUps": [
@@ -4129,9 +4169,12 @@
                 "input": "*",
                 "actionSteps": [
                   {
-                    "actionMask": "mid P",
+                    "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": true,
+                    "tags": [
+                      "CE"
+                    ]
                   }
                 ],
                 "followUps": [
@@ -4141,24 +4184,27 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": true,
-                        "results": [
-                          {
-                            "condition": [
-                              "neutral"
-                            ],
-                            "tags": [
-                              "knock back"
-                            ]
-                          }
-                        ]
+                        "isTracking": false
                       }
                     ],
-                    "comment": "restores health"
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": true
+                          }
+                        ],
+                        "comment": "restores health"
+                      }
+                    ]
                   }
                 ]
               }
-            ]
+            ],
+            "comment": "The part before cut scene"
           },
           {
             "input": "2A",
