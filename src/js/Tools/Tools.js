@@ -6,6 +6,8 @@ define(
 
     function() {
 
+        var mixinStorage = createMixinStorage('doa5lrMovelistMixinStorage');
+
         // TODO: split into sub packages like DOM, object, array etc
         return {
             report:                                report,
@@ -49,7 +51,9 @@ define(
             optimizedSliceArguments:               optimizedSliceArguments,
             removeElementFromParent:               removeElementFromParent,
             createArray:                           createArray,
-            sortFuncAscending:                     sortFuncAscending
+            sortFuncAscending:                     sortFuncAscending,
+            getCustomProperty:                     mixinStorage.getProperty,
+            setCustomProperty:                     mixinStorage.setProperty
         };
 
         function report(/*arguments*/) {
@@ -564,6 +568,30 @@ define(
             if (a > b) return 1;
             if (a < b) return -1;
             return 0;
+        }
+
+        function createMixinStorage(key) {
+            return {
+                getProperty: getProperty,
+                setProperty: setProperty
+            };
+
+            function getProperty(obj, propName, optDefaultValue) {
+                if (
+                    obj[key] &&
+                    obj[key].hasOwnProperty(propName)
+                ) {
+                    return obj[key][propName];
+                } else {
+                    return optDefaultValue;
+                }
+            }
+
+            function setProperty(obj, propName, value, optLazy) {
+                if (optLazy && getProperty(obj, propName, value) === value) return;
+                if (!obj[key]) obj[key] = {};
+                obj[key][propName] = value;
+            }
         }
 
     }

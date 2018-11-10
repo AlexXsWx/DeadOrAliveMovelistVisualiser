@@ -101,8 +101,14 @@ define(
 
             function blurInput() { input.blur(); }
 
-            function inputListener(event) { callOnInput(getValue()); }
-            function blurListener(event)  { handleBlurOrConfirm(); }
+            function inputListener(event) {
+                _.setCustomProperty(input, 'inputIsDirty', true);
+                callOnInput(getValue());
+            }
+            function blurListener(event) {
+                _.setCustomProperty(input, 'inputIsDirty', false, true);
+                handleBlurOrConfirm();
+            }
 
             function focusListener(event) {
                 valueConfirmed = getValue();

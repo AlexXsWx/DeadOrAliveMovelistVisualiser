@@ -2,12 +2,13 @@ define(
 
     'Hotkeys',
 
-    [ 'Input/KeyCodes', 'Tools/Signal', 'Localization/Strings' ],
+    [ 'Input/KeyCodes', 'Tools/Signal', 'Localization/Strings', 'Tools/Tools' ],
 
-    function Hotkeys(KeyCodes, createSignal, Strings) {
+    function Hotkeys(KeyCodes, createSignal, Strings, _) {
 
         return {
             isInputSelected: isInputSelected,
+            isActiveInputDirty: isActiveInputDirty,
             addInputEscListener:   addInputEscListener,
             addInputEnterListener: addInputEnterListener,
 
@@ -30,6 +31,14 @@ define(
             } else {
                 return false;
             }
+        }
+
+        function isActiveInputDirty() {
+            return _.getCustomProperty(
+                document.activeElement,
+                'inputIsDirty',
+                false
+            );
         }
 
         function addInputEscListener(element, onEsc) {
