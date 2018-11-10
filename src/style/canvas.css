@@ -42,7 +42,7 @@ g.node text {
   -moz-user-select: none;
   -ms-user-select: none;
   fill: black;
-  text-shadow: 0 0 2px white;
+  text-shadow: 0 0 10px white, 0 0 10px white, 0 0 10px white;
   dominant-baseline: central;
 }
 g.node text.duration {
