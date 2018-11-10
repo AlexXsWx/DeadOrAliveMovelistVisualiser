@@ -30,6 +30,7 @@ define(
         };
 
         var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
+        var copyBufferRootNode = null;
 
         /**
          * Dispatches {
@@ -44,7 +45,7 @@ define(
 
         var editorGroups = [
             EditorGroupCommonCreator.create(
-                onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren
+                onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren, cutNode, pasteNode
             ),
             EditorGroupRootCreator.create(modifySelectedNodesDataByFunc),
             EditorGroupStanceCreator.create(modifySelectedNodesDataByFunc),
@@ -69,6 +70,8 @@ define(
 
             moveNodeBy: moveNodeBy,
             deleteNode: onClickDeleteNode,
+            cutNode: cutNode,
+            pasteNode: pasteNode,
 
             onClickAddChild: onClickAddChild
         };
@@ -116,8 +119,17 @@ define(
 
 
         function onClickDeleteNode(optEvent) {
+            deleteNode();
+        }
 
-            if (!selectedSVGNode) return;
+        function deleteNode() {
+
+            var result = {
+                succeed: false,
+                refs: {}
+            };
+
+            if (!selectedSVGNode) return result;
 
             var nodeView = selectedSVGNode.nodeView;
             var nodeData = NodeView.getNodeData(nodeView);
@@ -125,41 +137,117 @@ define(
 
             if (
                 // TODO: or allow deleting placeholders?..
-                !NodeView.isPlaceholder(nodeView) &&
-                !NodeView.isGroupingNodeView(nodeView) &&
-                parentNodeView
+                NodeView.isPlaceholder(nodeView) ||
+                NodeView.isGroupingNodeView(nodeView) ||
+                !parentNodeView
             ) {
-
-                var firstParentData = NodeView.findAncestorNodeData(nodeView);
-
-                if (firstParentData) {
-                    var success = false;
-                    var children = NodeFactory.getChildren(firstParentData);
-                    if (children) {
-                        success = _.removeElement(children, nodeData);
-                    }
-                    if (!success) {
-                        console.warn(
-                            'Failed to remove %O: ' +
-                            'nearest parent with data of %O does not contain it',
-                            nodeData, parentNodeView
-                        );
-                        return;
-                    }
-                } else {
-                    console.warn('Couldn\'t find first parent data');
-                    return;
-                }
-
-                NodeView.removeChild(parentNodeView, nodeView);
-
-                onDataChanged.dispatch({ deleted: [ nodeView ] });
-
-                // TODO: treat as 1 action (for undo)
-                refs.selectNode(parentNodeView);
-
+                return result;
             }
 
+            var firstParentData = NodeView.findAncestorNodeData(nodeView);
+
+            if (!firstParentData) {
+                console.warn('Couldn\'t find first parent data');
+                return result;
+            }
+            var success = false;
+            var children = NodeFactory.getChildren(firstParentData);
+            if (children) {
+                success = _.removeElement(children, nodeData);
+            }
+            if (!success) {
+                console.warn(
+                    'Failed to remove %O: ' +
+                    'nearest parent with data of %O does not contain it',
+                    nodeData, parentNodeView
+                );
+                return result;
+            }
+
+            NodeView.removeChild(parentNodeView, nodeView);
+
+            onDataChanged.dispatch({ deleted: [ nodeView ] });
+
+            // TODO: treat as 1 action (for undo)
+            refs.selectNode(parentNodeView);
+
+            result.succeed = true;
+            result.refs.nodeView = nodeView;
+            result.refs.nodeData = nodeData;
+
+            // FIXME: support undo/redo
+            Executor.clearHistory();
+
+            return result;
+        }
+
+
+        function cutNode(optEvent) {
+
+            // FIXME: check if root
+
+            var result = deleteNode();
+            if (!result.succeed) {
+                return false;
+            }
+
+            copyBufferRootNode = result.refs.nodeView;
+
+            return true;
+        }
+
+
+        function pasteNode(optEvent) {
+            if (
+                !selectedSVGNode ||
+                !copyBufferRootNode
+            ) {
+                return false;
+            }
+
+            var nodeView = selectedSVGNode.nodeView;
+
+            if (NodeView.isPlaceholder(nodeView)) {
+                // TODO: instanciate?
+                return false;
+            }
+
+            var nodeData;
+            if (NodeView.isGroupingNodeView(nodeView)) {
+                nodeData = NodeView.findAncestorNodeData(nodeView);
+            } else {
+                nodeData = NodeView.getNodeData(nodeView);
+            }
+
+            if (!nodeData) {
+                console.warn(
+                    'Failed to paste to %O: ' +
+                    'can\'t find parent data for it',
+                    nodeView
+                );
+                return false;
+            }
+
+            var nodeDataToPaste = NodeView.getNodeData(copyBufferRootNode);
+
+            if (
+                NodeFactory.isStanceNode(nodeDataToPaste) && !NodeFactory.isRootNode(nodeData) ||
+                NodeFactory.isMoveNode(nodeDataToPaste)   && NodeFactory.isRootNode(nodeData)
+            ) {
+                return false;
+            }
+
+            var newNodeView = copyBufferRootNode;
+            copyBufferRootNode = null;
+
+            NodeFactory.getChildren(nodeData).push(nodeDataToPaste);
+            NodeView.addChild(nodeView, newNodeView, true);
+            onDataChanged.dispatch({ added: [ newNodeView ] });
+
+            // FIXME: support undo/redo
+            Executor.clearHistory();
+
+            return true;
         }
 
 

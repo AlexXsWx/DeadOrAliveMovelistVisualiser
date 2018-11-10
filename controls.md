@@ -6,6 +6,8 @@ Double `Left mouse button click` to toggle node's children
 Arrows left/right/up/down to navigate between children  
 `+` to create child node and focus on it  
 `Arrow right` to expand node that has its children collapsed
+`Ctrl+X` or `Ctrl+Shift+X` to cut selected node
+`Ctrl+V` or `Ctrl+Shift+V` to paste previously cut node
 
 When a property is highlighted:
 * Use `Tab` and `Shift+Tab` to navigate to neighbour properties

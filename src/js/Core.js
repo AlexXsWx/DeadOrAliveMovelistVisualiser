@@ -784,6 +784,24 @@ define(
                     event.stopPropagation();
                 } else
 
+                // Ctrl + X
+                if (
+                    (event.ctrlKey || event.metaKey) && keyCode === KeyCodes.X &&
+                    (!inputtingText || event.shiftKey)
+                ) {
+                    Editor.cutNode();
+                    event.stopPropagation();
+                } else
+
+                // Ctrl + V
+                if (
+                    (event.ctrlKey || event.metaKey) && keyCode === KeyCodes.V &&
+                    (!inputtingText || event.shiftKey)
+                ) {
+                    Editor.pasteNode();
+                    event.stopPropagation();
+                } else
+
                 // Esc
                 if (keyCode === KeyCodes.ESC) {
                     SelectionManager.deselectAll();
