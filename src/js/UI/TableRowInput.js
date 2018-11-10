@@ -35,6 +35,7 @@ define(
                     'blur':  blurListener
                 }
             });
+            _.setCustomProperty(input, 'inputHistory', createHistoryManager());
             setValue(valueConfirmed);
 
             Hotkeys.addInputEscListener(input, function() {
@@ -78,6 +79,50 @@ define(
                 clear:    clear
             };
 
+            function createHistoryManager() {
+
+                var values = [''];
+                var pointer = 0;
+                var warned = false;
+
+                return {
+                    reset: reset,
+                    undoRedo: undoRedo,
+                    push: push
+                };
+
+                function reset(initialValue) {
+                    values = [initialValue];
+                    pointer = 0;
+                    warned = false;
+                }
+
+                function undoRedo(redo) {
+                    var newPointer = pointer + (redo ? 1 : -1);
+                    if (newPointer >= 0 && newPointer <= values.length - 1) {
+                        warned = false;
+                        pointer = newPointer;
+                        var value = values[pointer];
+                        setValue(value);
+                        callOnInput(value);
+                        return true;
+                    } else {
+                        if (values.length > 1 && !warned) {
+                            warned = true;
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+
+                function push(value) {
+                    values.length = pointer + 1;
+                    values.push(value);
+                    pointer += 1;
+                    warned = false;
+                }
+            }
+
             function clear() {
                 setValue('');
             }
@@ -93,7 +138,12 @@ define(
                 // }
             }
 
+            function getHistoryManager() {
+                return _.getCustomProperty(input, 'inputHistory');
+            }
+
             function focusInput() {
+                getHistoryManager().reset(getValue());
                 input.focus();
                 // Select entire value to keep easy arrow keys navigation between nodes
                 input.setSelectionRange(0, input.value.length);
@@ -102,15 +152,17 @@ define(
             function blurInput() { input.blur(); }
 
             function inputListener(event) {
-                _.setCustomProperty(input, 'inputIsDirty', true);
-                callOnInput(getValue());
+                var value = getValue();
+
+                getHistoryManager().push(value);
+                callOnInput(value);
             }
             function blurListener(event) {
-                _.setCustomProperty(input, 'inputIsDirty', false, true);
                 handleBlurOrConfirm();
             }
 
             function focusListener(event) {
+                getHistoryManager().reset(getValue());
                 valueConfirmed = getValue();
                 onFocus && onFocus();
             }

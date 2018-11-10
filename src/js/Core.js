@@ -772,14 +772,14 @@ define(
                 var dontPreventDefault = false;
 
                 // Ctrl + Z
-                if (
-                    (event.ctrlKey || event.metaKey) && keyCode === KeyCodes.Z &&
-                    (!inputtingText || !Hotkeys.isActiveInputDirty())
-                ) {
-                    if (event.shiftKey) {
-                        Executor.redo();
-                    } else {
-                        Executor.undo()
+                if ((event.ctrlKey || event.metaKey) && keyCode === KeyCodes.Z) {
+                    var redo = Boolean(event.shiftKey);
+                    if (!inputtingText || !Hotkeys.undoRedoInput(redo)) {
+                        if (redo) {
+                            Executor.redo();
+                        } else {
+                            Executor.undo();
+                        }
                     }
                     event.stopPropagation();
                 } else

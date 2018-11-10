@@ -6,14 +6,21 @@ define(
 
     function Hotkeys(KeyCodes, createSignal, Strings, _) {
 
+        var undoRedoElement = null;
+
         return {
             isInputSelected: isInputSelected,
-            isActiveInputDirty: isActiveInputDirty,
             addInputEscListener:   addInputEscListener,
             addInputEnterListener: addInputEnterListener,
 
+            undoRedoInput: undoRedoInput,
+
             create: create
         };
+
+        function undoRedoInput(redo) {
+            return _.getCustomProperty(document.activeElement, 'inputHistory').undoRedo(redo);
+        }
 
         function isInputSelected(optType) {
             if (
@@ -31,14 +38,6 @@ define(
             } else {
                 return false;
             }
-        }
-
-        function isActiveInputDirty() {
-            return _.getCustomProperty(
-                document.activeElement,
-                'inputIsDirty',
-                false
-            );
         }
 
         function addInputEscListener(element, onEsc) {
