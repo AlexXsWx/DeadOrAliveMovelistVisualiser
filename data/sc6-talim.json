@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1541967165247
+    "timeSaved": 1541968344901
   },
   "body": {
     "character": "Talim",
@@ -2252,7 +2252,7 @@
             "frameData": [
               19,
               1,
-              0
+              999
             ],
             "actionSteps": [
               {
@@ -2424,7 +2424,7 @@
                 "frameData": [
                   21,
                   0,
-                  0
+                  31
                 ],
                 "actionSteps": [
                   {
@@ -2612,7 +2612,7 @@
             "frameData": [
               20,
               0,
-              999
+              31
             ],
             "actionSteps": [
               {
@@ -2841,6 +2841,11 @@
         "moves": [
           {
             "input": "6",
+            "frameData": [
+              0,
+              0,
+              31
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -2859,6 +2864,11 @@
           },
           {
             "input": "2",
+            "frameData": [
+              0,
+              0,
+              15
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -2868,6 +2878,11 @@
           },
           {
             "input": "8",
+            "frameData": [
+              0,
+              0,
+              15
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -3475,7 +3490,7 @@
                 "frameData": [
                   13,
                   0,
-                  0
+                  31
                 ],
                 "actionSteps": [
                   {
@@ -3511,7 +3526,7 @@
                 "frameData": [
                   14,
                   0,
-                  0
+                  31
                 ],
                 "actionSteps": [
                   {
@@ -3626,7 +3641,7 @@
             "input": "*",
             "frameData": [
               0,
-              1,
+              999,
               0
             ],
             "actionSteps": [
