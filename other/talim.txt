@@ -106,3 +106,30 @@ talim
     }
 
     wall splat soul charged 2_8 B+K, A A B B ~ 214 B is a true combo @Jeston
+
+
+-----
+
+WS K K    - 24
+WS K:G K  - 25
+6B+K K    - 31, 1st frame is when input appears
+B+G 6K    - 32
+BBB 6K    - 32
+WF 6K     - 32
+214B G K  - 32 frames, 1st being when BG gets lighter, 33rd is when hit lands
+44B 6K    - 35
+WC A 6K   - 39
+AABA 6K   - 39 frames after hit of AABA and before hit of WS K
+6AA 6K    - 39 frames
+66A 6K    - 41
+FC 3BB 6K - 41
+66A+B 6K  - 41
+RE A 6K   - 43
+WS A 6K   - 49
+6BB 6K    - 49
+22A 6K    - 57
+
+
+---
+
+8B+K A is 31 frames startup where 1st frame = appearing of B+K in the input history
