@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1542049182520
+    "timeSaved": 1542054860650
   },
   "body": {
     "character": "Talim",
@@ -164,6 +164,12 @@
                                 "tags": [
                                   "knock back"
                                 ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 23
                               }
                             ]
                           }
@@ -393,7 +399,7 @@
             "frameData": [
               17,
               1,
-              999
+              38
             ],
             "actionSteps": [
               {
@@ -408,7 +414,7 @@
                 "frameData": [
                   27,
                   1,
-                  999
+                  33
                 ],
                 "actionSteps": [
                   {
@@ -507,7 +513,7 @@
                 "frameData": [
                   11,
                   1,
-                  999
+                  33
                 ],
                 "actionSteps": [
                   {
@@ -1431,7 +1437,7 @@
             "frameData": [
               17,
               1,
-              999
+              38
             ],
             "actionSteps": [
               {
@@ -1456,7 +1462,7 @@
                 "frameData": [
                   27,
                   1,
-                  999
+                  43
                 ],
                 "actionSteps": [
                   {
@@ -1805,7 +1811,7 @@
                 "frameData": [
                   2,
                   1,
-                  999
+                  43
                 ],
                 "actionSteps": [
                   {
@@ -1968,7 +1974,7 @@
             "frameData": [
               25,
               1,
-              999
+              33
             ],
             "actionSteps": [
               {
@@ -2264,7 +2270,7 @@
             "frameData": [
               19,
               1,
-              0
+              39
             ],
             "actionSteps": [
               {
@@ -2290,7 +2296,7 @@
             "frameData": [
               19,
               1,
-              999
+              33
             ],
             "actionSteps": [
               {
@@ -2661,6 +2667,11 @@
           },
           {
             "input": "4B+K",
+            "frameData": [
+              34,
+              0,
+              0
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -2749,7 +2760,7 @@
                 "frameData": [
                   5,
                   1,
-                  999
+                  41
                 ],
                 "actionSteps": [
                   {
@@ -2893,6 +2904,11 @@
           },
           {
             "input": "4",
+            "frameData": [
+              14,
+              0,
+              0
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -2972,7 +2988,7 @@
                 "frameData": [
                   13,
                   1,
-                  999
+                  39
                 ],
                 "actionSteps": [
                   {
@@ -3345,7 +3361,7 @@
             "frameData": [
               19,
               1,
-              999
+              39
             ],
             "actionSteps": [
               {
@@ -3377,7 +3393,7 @@
             "frameData": [
               17,
               1,
-              999
+              39
             ],
             "actionSteps": [
               {
@@ -3410,7 +3426,7 @@
             "frameData": [
               17,
               1,
-              999
+              31
             ],
             "actionSteps": [
               {
@@ -3492,7 +3508,7 @@
             "frameData": [
               17,
               1,
-              999
+              31
             ],
             "actionSteps": [
               {
@@ -4061,7 +4077,7 @@
                     "frameData": [
                       3,
                       1,
-                      999
+                      41
                     ],
                     "actionSteps": [
                       {
@@ -4896,6 +4912,11 @@
         "moves": [
           {
             "input": "A",
+            "frameData": [
+              999,
+              1,
+              39
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
@@ -4998,6 +5019,11 @@
           },
           {
             "input": "G",
+            "frameData": [
+              4,
+              0,
+              0
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -5006,6 +5032,11 @@
           },
           {
             "input": "6",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -5015,6 +5046,11 @@
           },
           {
             "input": "4",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -5024,6 +5060,11 @@
           },
           {
             "input": "2",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -5033,6 +5074,11 @@
           },
           {
             "input": "8",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
