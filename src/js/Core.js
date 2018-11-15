@@ -586,6 +586,20 @@ define(
                         });
                     },
 
+                    'filterShowMovesPositiveOnBlock': function showMovesPositiveOnBlock(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            var nodeData = NodeView.getNodeData(nodeView);
+                            if (!nodeData) return false;
+                            var advantageRange = NodeFactory.getAdvantageRange(
+                                nodeData,
+                                NodeFactory.doesActionStepResultDescribeGuard,
+                                NodeFactory.getActionStepResultHitBlock
+                            );
+                            if (!advantageRange) return false;
+                            return advantageRange.min >= 0;
+                        });
+                    },
+
                     'filterShowSC6SoulChargeMoves': function showSC6SoulChargeMoves(event) {
                         showOnlyNodesThatMatch(function(nodeView) {
                             return Filter.isSC6SoulChargeMove(NodeView.getNodeData(nodeView));
