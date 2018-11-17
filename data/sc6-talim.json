@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1542054860650
+    "timeSaved": 1542232199091
   },
   "body": {
     "character": "Talim",
@@ -2350,7 +2350,7 @@
                         "condition": [
                           "neutral"
                         ],
-                        "hitBlock": 1005
+                        "hitBlock": 999
                       }
                     ]
                   }
