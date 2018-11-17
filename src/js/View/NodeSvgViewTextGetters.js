@@ -131,13 +131,20 @@ define(
             );
             if (!advantageRange) return '';
 
+            var styleFunction = (
+                NodeFactory.getNoInputFollowup(nodeData)
+                    ? function(text) { return classedTSpan(signedInteger(text), 'gray'); }
+                    : advantageInteger
+            );
+
             // FIXME: don't reference document here
             var result = document.createDocumentFragment();
-            result.appendChild(advantageInteger(advantageRange.min));
+            result.appendChild(styleFunction(advantageRange.min));
             if (advantageRange.min !== advantageRange.max) {
                 result.appendChild(_.createTextNode(CHARS.ELLIPSIS));
-                result.appendChild(advantageInteger(advantageRange.max));
+                result.appendChild(styleFunction(advantageRange.max));
             }
+
             return result;
         }
 
@@ -151,12 +158,18 @@ define(
             );
             if (!advantageRange) return '';
 
+            var styleFunction = (
+                NodeFactory.getNoInputFollowup(nodeData)
+                    ? function(text) { return classedTSpan(signedInteger(text), 'gray'); }
+                    : advantageInteger
+            );
+
             // FIXME: don't reference document here
             var result = document.createDocumentFragment();
-            result.appendChild(advantageInteger(advantageRange.min));
+            result.appendChild(styleFunction(advantageRange.min));
             if (advantageRange.min !== advantageRange.max) {
                 result.appendChild(_.createTextNode(CHARS.ELLIPSIS));
-                result.appendChild(advantageInteger(advantageRange.max));
+                result.appendChild(styleFunction(advantageRange.max));
             }
             return result;
         }

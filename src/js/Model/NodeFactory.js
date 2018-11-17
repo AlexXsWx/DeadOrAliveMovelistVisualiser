@@ -573,6 +573,9 @@ define(
 
             var stun = getStun(nodeData, getDuration, optActionStepResultFilter);
 
+            // FIXME: if !stun && hasNonOtherActionStepResult
+            if (stun === null) return;
+
             if (stun) {
                 activeFramesVarianceRoom = frameData[1 + stun.actionStep * 2] - 1;
                 recovery = sum(frameData, 1 + stun.actionStep * 2 + 1);
@@ -604,7 +607,12 @@ define(
                 var actionSteps = nodeData.actionSteps;
                 if (!actionSteps || actionSteps.length === 0) return;
 
+                var hasNonOtherActionStepResult = false;
+
                 for (var i = actionSteps.length - 1; i >= 0; --i) {
+                    if (actionSteps[i].actionType !== 'other') {
+                        hasNonOtherActionStepResult = true;
+                    }
                     var results = actionSteps[i].results;
                     if (!results) continue;
                     for (var j = 0; j < results.length; ++j) {
@@ -617,6 +625,10 @@ define(
                             };
                         }
                     }
+                }
+
+                if (hasNonOtherActionStepResult) {
+                    return null;
                 }
             }
 

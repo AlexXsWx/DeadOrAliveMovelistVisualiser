@@ -590,6 +590,7 @@ define(
                         showOnlyNodesThatMatch(function(nodeView) {
                             var nodeData = NodeView.getNodeData(nodeView);
                             if (!nodeData) return false;
+                            if (NodeFactory.getNoInputFollowup(nodeData)) return false;
                             var advantageRange = NodeFactory.getAdvantageRange(
                                 nodeData,
                                 NodeFactory.getActionStepResultHitBlock,
