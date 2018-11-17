@@ -557,29 +557,74 @@ define(
             return actionStepResult && searchInStringArray(actionStepResult.tags, /hard/i) >= 0;
         }
 
-        function getAdvantageRange(nodeData, optActionStepResultFilter, getDuration) {
+        function getAdvantageRange(
+            nodeData,
+            getDuration,
+            optActionStepResultFilter,
+            optParentNodeData
+        ) {
             console.assert(_.isObject(nodeData), 'nodeData is invalid');
+
             var frameData = nodeData.frameData;
             if (!frameData || frameData.length === 0) return;
-            var actionSteps = nodeData.actionSteps;
-            if (!actionSteps || actionSteps.length === 0) return;
-            var recovery = frameData[frameData.length - 1];
-            var activeFramesVarianceRoom = frameData[frameData.length - 2] - 1;
-            for (var i = actionSteps.length - 1; i >= 0; --i) {
-                var results = actionSteps[i].results;
-                if (!results) continue;
-                for (var j = 0; j < results.length; ++j) {
-                    if (!optActionStepResultFilter || optActionStepResultFilter(results[j])) {
-                        var blockStun = getDuration(results[j]);
-                        if (isNaN(blockStun) || !isFinite(blockStun)) continue;
-                        var maxAdvantage = blockStun - recovery;
-                        var minAdvantage = maxAdvantage - activeFramesVarianceRoom;
-                        return {
-                            min: minAdvantage,
-                            max: maxAdvantage
-                        };
+
+            var activeFramesVarianceRoom = 0;
+            var recovery = 0;
+
+            var stun = getStun(nodeData, getDuration, optActionStepResultFilter);
+
+            if (stun) {
+                activeFramesVarianceRoom = frameData[1 + stun.actionStep * 2] - 1;
+                recovery = sum(frameData, 1 + stun.actionStep * 2 + 1);
+            } else {
+                var parentNodeData = optParentNodeData;
+                if (!parentNodeData) return;
+                console.assert(_.isObject(parentNodeData), 'parentNodeData is invalid');
+                if (!isMoveNode(parentNodeData)) return;
+                var parentFrameData = parentNodeData.frameData;
+                if (!parentFrameData || parentFrameData.length === 0) return;
+                stun = getStun(parentNodeData, getDuration, optActionStepResultFilter);
+                if (!stun) {
+                    // FIXME: go on
+                    return;
+                }
+                activeFramesVarianceRoom = parentFrameData[1 + stun.actionStep * 2] - 1;
+                recovery = sum(frameData);
+            }
+
+            var maxAdvantage = stun.lockDuration - recovery;
+            var minAdvantage = maxAdvantage - activeFramesVarianceRoom;
+            return {
+                min: minAdvantage,
+                max: maxAdvantage
+            };
+
+            function getStun(nodeData, getDuration, optActionStepResultFilter) {
+
+                var actionSteps = nodeData.actionSteps;
+                if (!actionSteps || actionSteps.length === 0) return;
+
+                for (var i = actionSteps.length - 1; i >= 0; --i) {
+                    var results = actionSteps[i].results;
+                    if (!results) continue;
+                    for (var j = 0; j < results.length; ++j) {
+                        if (!optActionStepResultFilter || optActionStepResultFilter(results[j])) {
+                            var lockDuration = getDuration(results[j]);
+                            if (isNaN(lockDuration) || !isFinite(lockDuration)) continue;
+                            return {
+                                lockDuration: lockDuration,
+                                actionStep: i
+                            };
+                        }
                     }
                 }
+            }
+
+            function sum(arrayOfNumbers, optStartIndex) {
+                return arrayOfNumbers.slice(optStartIndex || 0).reduce(
+                    function(acc, curr) { return acc + curr; },
+                    0
+                );
             }
         }
 

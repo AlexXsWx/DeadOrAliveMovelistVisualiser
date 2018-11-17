@@ -125,8 +125,9 @@ define(
             if (!nodeData) return '';
             var advantageRange = NodeFactory.getAdvantageRange(
                 nodeData,
+                NodeFactory.getActionStepResultHitBlock,
                 NodeFactory.doesActionStepResultDescribeGuard,
-                NodeFactory.getActionStepResultHitBlock
+                NodeFactory.isMoveNode(nodeData) ? NodeView.findAncestorNodeData(nodeView) : null
             );
             if (!advantageRange) return '';
 
@@ -145,8 +146,8 @@ define(
             if (!nodeData) return '';
             var advantageRange = NodeFactory.getAdvantageRange(
                 nodeData,
-                NodeFactory.doesActionStepResultDescribeNeutralHit,
-                NodeFactory.getActionStepResultHitBlock
+                NodeFactory.getActionStepResultHitBlock,
+                NodeFactory.doesActionStepResultDescribeNeutralHit
             );
             if (!advantageRange) return '';
 
@@ -202,8 +203,8 @@ define(
             types.forEach(function(t) {
                 var advantage = NodeFactory.getAdvantageRange(
                     nodeData,
-                    t.filter,
-                    getGroundHitDuration
+                    getGroundHitDuration,
+                    t.filter
                 );
                 if (advantage) {
                     parts.push([
@@ -227,7 +228,6 @@ define(
                     var groundHitDuration = data[1];
                     var advantage = NodeFactory.getAdvantageRange(
                         nodeData,
-                        undefined,
                         function() { return groundHitDuration; }
                     );
                     if (advantage) {
@@ -269,8 +269,8 @@ define(
 
             var advantageRangeHardKnockdownTechroll = NodeFactory.getAdvantageRange(
                 nodeData,
-                NodeFactory.doesActionStepResultTagHasHardKnockDown,
-                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_TECHROLL; }
+                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_TECHROLL; },
+                NodeFactory.doesActionStepResultTagHasHardKnockDown
             );
             if (advantageRangeHardKnockdownTechroll) {
                 result.appendChild(advantageInteger(advantageRangeHardKnockdownTechroll.min));
@@ -278,8 +278,8 @@ define(
 
             var advantageRangeHardKnockdown = NodeFactory.getAdvantageRange(
                 nodeData,
-                NodeFactory.doesActionStepResultTagHasHardKnockDown,
-                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_MIN; }
+                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_MIN; },
+                NodeFactory.doesActionStepResultTagHasHardKnockDown
             );
             if (advantageRangeHardKnockdown) {
                 result.appendChild(_.createTextNode('/'));

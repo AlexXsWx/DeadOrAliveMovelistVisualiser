@@ -592,8 +592,11 @@ define(
                             if (!nodeData) return false;
                             var advantageRange = NodeFactory.getAdvantageRange(
                                 nodeData,
+                                NodeFactory.getActionStepResultHitBlock,
                                 NodeFactory.doesActionStepResultDescribeGuard,
-                                NodeFactory.getActionStepResultHitBlock
+                                NodeFactory.isMoveNode(nodeData)
+                                    ? NodeView.findAncestorNodeData(nodeView)
+                                    : null
                             );
                             if (!advantageRange) return false;
                             return advantageRange.min >= 0;

@@ -644,8 +644,8 @@ define(
                 sortByAdvantage(nodeView, function(nodeData) {
                     return NodeFactory.getAdvantageRange(
                         nodeData,
-                        NodeFactory.doesActionStepResultDescribeGuard,
-                        NodeFactory.getActionStepResultHitBlock
+                        NodeFactory.getActionStepResultHitBlock,
+                        NodeFactory.doesActionStepResultDescribeGuard
                     )
                 });
             }
@@ -654,8 +654,8 @@ define(
                 sortByAdvantage(nodeView, function(nodeData) {
                     return NodeFactory.getAdvantageRange(
                         nodeData,
-                        NodeFactory.doesActionStepResultDescribeNeutralHit,
-                        NodeFactory.getActionStepResultHitBlock
+                        NodeFactory.getActionStepResultHitBlock,
+                        NodeFactory.doesActionStepResultDescribeNeutralHit
                     )
                 });
             }
@@ -664,8 +664,8 @@ define(
                 sortByAdvantage(nodeView, function(nodeData) {
                     return NodeFactory.getAdvantageRange(
                         nodeData,
-                        NodeFactory.doesActionStepResultDescribeCounterHit,
-                        NodeFactory.getActionStepResultHitBlock
+                        NodeFactory.getActionStepResultHitBlock,
+                        NodeFactory.doesActionStepResultDescribeCounterHit
                     )
                 });
             }
