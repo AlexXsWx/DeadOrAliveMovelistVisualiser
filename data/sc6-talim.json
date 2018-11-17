@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1542232199091
+    "timeSaved": 1542496190162
   },
   "body": {
     "character": "Talim",
@@ -22,7 +22,15 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -52,6 +60,12 @@
                           "neutral"
                         ],
                         "hitBlock": 33
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 23
                       }
                     ]
                   }
@@ -68,7 +82,15 @@
                       {
                         "actionMask": "high P",
                         "actionType": "strike",
-                        "isTracking": true
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 100
+                          }
+                        ]
                       }
                     ],
                     "followUps": [
@@ -83,7 +105,15 @@
                           {
                             "actionMask": "high P",
                             "actionType": "strike",
-                            "isTracking": true
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 24
+                              }
+                            ]
                           }
                         ],
                         "endsWith": "BT"
@@ -101,7 +131,15 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 17
+                          }
+                        ]
                       }
                     ],
                     "followUps": [
@@ -195,6 +233,12 @@
                                 "tags": [
                                   "knock back"
                                 ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 23
                               }
                             ]
                           }
@@ -280,6 +324,12 @@
                                 "tags": [
                                   "stun"
                                 ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 41
                               }
                             ]
                           }
@@ -290,6 +340,11 @@
                   },
                   {
                     "input": "A+B",
+                    "frameData": [
+                      15,
+                      1,
+                      0
+                    ],
                     "actionSteps": [
                       {
                         "actionMask": "mid P",
@@ -297,12 +352,25 @@
                         "isTracking": false,
                         "tags": [
                           "special"
+                        ],
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 100
+                          }
                         ]
                       }
                     ],
                     "followUps": [
                       {
                         "input": "*",
+                        "frameData": [
+                          14,
+                          1,
+                          36
+                        ],
                         "actionSteps": [
                           {
                             "actionMask": "high P",
@@ -316,6 +384,12 @@
                                 "tags": [
                                   "knock behind"
                                 ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 20
                               }
                             ]
                           }
@@ -362,27 +436,64 @@
                     "isTracking": true,
                     "tags": [
                       "CE"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 100
+                      }
                     ]
                   }
                 ],
                 "followUps": [
                   {
                     "input": "*",
+                    "frameData": [
+                      30,
+                      1,
+                      0
+                    ],
                     "actionSteps": [
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "tags": [
+                          "ground attack"
+                        ],
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 22
+                          }
+                        ]
                       }
                     ],
                     "followUps": [
                       {
                         "input": "*",
+                        "frameData": [
+                          23,
+                          1,
+                          37
+                        ],
                         "actionSteps": [
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": true
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 41
+                              }
+                            ]
                           }
                         ],
                         "comment": "restores health"
@@ -405,7 +516,15 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 22
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -429,6 +548,12 @@
                         "tags": [
                           "knock back"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 31
                       }
                     ]
                   }
@@ -483,11 +608,24 @@
               },
               {
                 "input": "K",
+                "frameData": [
+                  25,
+                  1,
+                  33
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid K",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
                   }
                 ]
               }
@@ -504,7 +642,15 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 100
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -519,7 +665,15 @@
                   {
                     "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 25
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -560,7 +714,7 @@
                         "frameData": [
                           10,
                           1,
-                          999
+                          31
                         ],
                         "actionSteps": [
                           {
@@ -600,7 +754,7 @@
                                 "frameData": [
                                   10,
                                   1,
-                                  999
+                                  33
                                 ],
                                 "actionSteps": [
                                   {
@@ -727,7 +881,15 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 100
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -736,13 +898,21 @@
                 "frameData": [
                   14,
                   1,
-                  999
+                  24
                 ],
                 "actionSteps": [
                   {
                     "actionMask": "high P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 22
+                      }
+                    ]
                   }
                 ]
               }
@@ -753,23 +923,44 @@
             "frameData": [
               15,
               1,
-              999
+              29
             ],
             "actionSteps": [
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
               }
             ],
             "followUps": [
               {
                 "input": "K",
+                "frameData": [
+                  16,
+                  1,
+                  25
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid K",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 21
+                      }
+                    ]
                   }
                 ]
               }
@@ -780,7 +971,7 @@
             "frameData": [
               21,
               1,
-              999
+              35
             ],
             "actionSteps": [
               {
@@ -798,6 +989,12 @@
                     "tags": [
                       "skewer"
                     ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 23
                   }
                 ]
               }
@@ -805,6 +1002,11 @@
             "followUps": [
               {
                 "input": "A",
+                "frameData": [
+                  31,
+                  1,
+                  33
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
@@ -818,6 +1020,12 @@
                         "tags": [
                           "stun"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
                       }
                     ]
                   }
@@ -865,13 +1073,21 @@
             "frameData": [
               15,
               1,
-              999
+              23
             ],
             "actionSteps": [
               {
                 "actionMask": "high K",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
               }
             ]
           },
@@ -923,7 +1139,15 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 100
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -938,14 +1162,22 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 100
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
                   {
                     "input": "*",
                     "frameData": [
-                      4,
+                      3,
                       1,
                       0
                     ],
@@ -953,7 +1185,15 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": true
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 100
+                          }
+                        ]
                       }
                     ],
                     "followUps": [
@@ -962,7 +1202,7 @@
                         "frameData": [
                           4,
                           1,
-                          999
+                          27
                         ],
                         "actionSteps": [
                           {
@@ -985,6 +1225,12 @@
                                 "tags": [
                                   "skewer"
                                 ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 25
                               }
                             ]
                           }
@@ -1008,7 +1254,15 @@
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 100
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1017,7 +1271,7 @@
                 "frameData": [
                   3,
                   1,
-                  999
+                  37
                 ],
                 "actionSteps": [
                   {
@@ -1032,6 +1286,12 @@
                         "tags": [
                           "force BT"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 27
                       }
                     ]
                   }
@@ -1045,7 +1305,7 @@
                 "frameData": [
                   3,
                   1,
-                  999
+                  37
                 ],
                 "actionSteps": [
                   {
@@ -1077,7 +1337,7 @@
             "frameData": [
               11,
               1,
-              999
+              30
             ],
             "actionSteps": [
               {
@@ -1092,7 +1352,13 @@
                     "condition": [
                       "neutral"
                     ],
-                    "hitBlock": 1005
+                    "hitBlock": 36
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 24
                   }
                 ]
               }
@@ -1104,7 +1370,7 @@
             "frameData": [
               15,
               1,
-              999
+              30
             ],
             "actionSteps": [
               {
@@ -1116,7 +1382,13 @@
                     "condition": [
                       "neutral"
                     ],
-                    "hitBlock": 995
+                    "hitBlock": 26
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 16
                   }
                 ]
               }
@@ -1128,7 +1400,7 @@
             "frameData": [
               29,
               1,
-              999
+              33
             ],
             "actionSteps": [
               {
@@ -1140,7 +1412,13 @@
                     "condition": [
                       "neutral"
                     ],
-                    "hitBlock": 1003
+                    "hitBlock": 37
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 23
                   }
                 ]
               }
@@ -2484,7 +2762,7 @@
             "frameData": [
               17,
               1,
-              999
+              33
             ],
             "actionSteps": [
               {
@@ -2496,7 +2774,13 @@
                     "condition": [
                       "neutral"
                     ],
-                    "hitBlock": 999
+                    "hitBlock": 33
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 19
                   }
                 ]
               }
