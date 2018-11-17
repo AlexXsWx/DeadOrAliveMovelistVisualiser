@@ -1,6 +1,16 @@
+the game has frame perfect precision:
+    Azwel's AA is +0 on neutral hit
+    Azwel's 1A is i34
+    Sophitia's 1(K) is i35
+    Azwel's 4B is i36
+
+663214 is 44; 441236 is 66
+
 turning from back to facing takes 5 frames (RE effect would appear on 6th frame)
 GI is instant and lasts for 10 frames
 buffered freestepping takes 11 frames
+    ? "but apparently if you do 6(6)2A, you get 22A without having to sidestep
+    dont even need to hold the 2nd 6 for long either, like, same amount of time you'd need to for 66A to work"
 
 need to double check numbers:
     standing up is instant (RE effect appears instantly)
@@ -9,63 +19,6 @@ need to double check numbers:
 talim
     B is +0 on neutral hit
     K is +0 on neutral hit
-
-    speed:
-        A
-        K
-        -------------
-        B
-        4B
-        3K
-        -------------
-        4A
-        (6)A
-        4K
-        6K
-        2B
-        -------------
-        6A
-        6B
-        1A+B
-        A6
-        1K
-        (4)K
-        -------------
-        1B
-        3B
-        3A+B
-        4A+B
-        2A+B
-        ------------- 
-        (4)A
-        (6)B
-        -------------
-        6A+B
-        (4)A+B
-        236B
-        -------------
-        (4)B
-        -------------
-        (6)A+B
-
-
-        ???
-
-        A+B+K
-        4A+B+K
-        3A
-        3A+B
-        2A
-        (2)A
-        2K
-        (2)K
-        1A
-        A+B
-        (6)K
-        (6*)K
-        (2)B
-        214B
-
 
     launchers:
         3B - universal; slow recovery; high crush
@@ -107,29 +60,85 @@ talim
 
     wall splat soul charged 2_8 B+K, A A B B ~ 214 B is a true combo @Jeston
 
+    LH A+B (GI):
+        6(6) ~ {WNS} (K) ~ 4B (A) ~ {BT} B - 77 dmg; but requires timing to land
+
 
 -----
 
-WS K K    - 24
-WS K:G K  - 25
-6B+K K    - 31, 1st frame is when input appears
-B+G 6K    - 32
-BBB 6K    - 32
-WF 6K     - 32
-214B G K  - 32 frames, 1st being when BG gets lighter, 33rd is when hit lands
-44B 6K    - 35
-WC A 6K   - 39
-AABA 6K   - 39 frames after hit of AABA and before hit of WS K
-6AA 6K    - 39 frames
-66A 6K    - 41
-FC 3BB 6K - 41
-66A+B 6K  - 41
-RE A 6K   - 43
-WS A 6K   - 49
-6BB 6K    - 49
-22A 6K    - 57
+WS K K     - (13-1) = 12 + 12 = 24
+WS K:G K   - (14-1) = 13 + 12 = 25
+6B+K K     - (21-1) = 20 + 12 = 32, 1st frame is when input appears
+B+G 6K     - (21-1) = 20 + 12 = 32
+BBB 6K     - (21-1) = 20 + 12 = 32
+WF 6K      - (21-1) = 20 + 12 = 32
+214B G K   - (21-1) = 20 + 12 = 32 frames, 1st being when BG gets lighter, 33rd is when hit lands
+44B 6K     - (24-1) = 23 + 12 = 35
+WC A 6K    - (28-1) = 27 + 12 = 39
+AABA 6K    - (28-1) = 27 + 12 = 39 frames after hit of AABA and before hit of WS K
+6AA 6K     - (28-1) = 27 + 12 = 39 frames
+66A 6K     - (30-1) = 29 + 12 = 41
+FC 3BB 6K  - (30-1) = 29 + 12 = 41
+66A+B 6K   - (30-1) = 29 + 12 = 41
+RE A 6K    - (32-1) = 31 + 12 = 43
+WS A 6K    - (38-1) = 37 + 12 = 49
+6BB 6K     - (38-1) = 37 + 12 = 49
+6B(B) 6K   - (38-1) = 37 + 12 = 49
+22A 6K     - (46-1) = 45 + 12 = 57
+WC AKAA 6K - (47-1) = 46 + 12 = 58
 
 
 ---
 
+8B+K A   - 20 + 11
+8B+K A+B - 20 + 31
+8B+K B   - 20 + 19
+8B+K K   - 20 + 13
+8B+K A+G - 20 + 16
+
+6B+K A    - 20 + 19
+6B+K B    - 20 + 17
+6B+K K    - 20 + 11 + 1
+6B+K (K)  - 20 + 14 (1) 32
+6B+K A+B  - 20 + 7
+
+
+B+K G    - 20 + 10
+B+K A G  - 20 + 50 + 10
+B+K A    - 20 + 31 (1) 24
+B+K B    - 20 + 19 (1) 45
+B+K K    - 20 + 17 (1) 18 (1) 33
+B+K A+B  - 20 + 
+
+
+bot's crouching to 6B+K A stops on frame 32
+bot's crouching to FC K stops on frame 12
+
+---
+
 8B+K A is 31 frames startup where 1st frame = appearing of B+K in the input history
+
+
+---
+
+   Move   | block | neutral hit | counter hit | offset 
+----------+-------+-------------+-------------+---------------------------
+   2(A+B) | -10   | +8          | +12         | +  6
+     AABA | +4    | +8          | +8          | +  8
+   AAB(B) | -8    | +10         | +10         | +  8
+SC AAB(B) | +10   |             |             | +  8
+      6AA | +4    |             |             | +  6
+      66A | -4    | +6          | +6          | +  4
+      6BB | -14   | +6          | +6          | +  6
+    6B(B) | +4    |             |             | +  2
+    66A+B | +4    |             |             | + 14
+      44B | -4    | +16         | +16         | + 10
+      22A | -20   |             |             | -  4
+     WC A | -4    | +4          | +4          | + 12
+  WC AKAA | -23   |             |             | -  7
+     WS A | -18   | +6          | +6          | +  2
+   WS (B) | -6    |             |             | +  8
+SC WS (B) | +12   |             |             | +  8
+   FC 3BB | -10   |             |             | + 12
+     RE A | +4    | +14         | +14         | +  8
+     RE 6 |       |             |             | 4 frames faster than guard
