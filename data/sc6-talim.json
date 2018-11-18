@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1542496190162
+    "timeSaved": 1542555079695
   },
   "body": {
     "character": "Talim",
@@ -415,10 +415,10 @@
             ],
             "actionSteps": [
               {
-                "actionType": "other",
-                "tags": [
-                  "CE"
-                ]
+                "actionType": "other"
+              },
+              {
+                "actionType": "other"
               }
             ],
             "followUps": [
@@ -434,9 +434,6 @@
                     "actionMask": "high P",
                     "actionType": "strike",
                     "isTracking": true,
-                    "tags": [
-                      "CE"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -486,6 +483,9 @@
                             "actionMask": "mid P",
                             "actionType": "strike",
                             "isTracking": true,
+                            "tags": [
+                              "CE"
+                            ],
                             "results": [
                               {
                                 "condition": [
@@ -873,11 +873,16 @@
           {
             "input": "A6",
             "frameData": [
-              17,
+              14,
+              0,
+              3,
               1,
               0
             ],
             "actionSteps": [
+              {
+                "actionType": "other"
+              },
               {
                 "actionMask": "high P",
                 "actionType": "strike",
@@ -1436,12 +1441,7 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false,
-                "results": [
-                  {
-                    "hitBlock": 0
-                  }
-                ]
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -1832,11 +1832,16 @@
           {
             "input": "66B",
             "frameData": [
-              21,
+              10,
+              0,
+              11,
               1,
               999
             ],
             "actionSteps": [
+              {
+                "actionType": "other"
+              },
               {
                 "actionMask": "high P",
                 "actionType": "strike",
@@ -1919,11 +1924,16 @@
           {
             "input": "66K",
             "frameData": [
-              33,
+              12,
+              0,
+              21,
               1,
               999
             ],
             "actionSteps": [
+              {
+                "actionType": "other"
+              },
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
@@ -2250,11 +2260,16 @@
           {
             "input": "44B",
             "frameData": [
-              25,
+              8,
+              0,
+              17,
               1,
               33
             ],
             "actionSteps": [
+              {
+                "actionType": "other"
+              },
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
@@ -2938,11 +2953,16 @@
           {
             "input": "6B+K",
             "frameData": [
-              20,
+              10,
+              0,
+              10,
               0,
               0
             ],
             "actionSteps": [
+              {
+                "actionType": "other"
+              },
               {
                 "actionType": "other"
               }
@@ -2952,11 +2972,16 @@
           {
             "input": "4B+K",
             "frameData": [
-              34,
+              10,
+              0,
+              24,
               0,
               0
             ],
             "actionSteps": [
+              {
+                "actionType": "other"
+              },
               {
                 "actionType": "other"
               }
@@ -3016,6 +3041,20 @@
                 "actionType": "other"
               }
             ]
+          },
+          {
+            "input": "8G",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "JMP"
           }
         ]
       },
@@ -4562,6 +4601,11 @@
         "moves": [
           {
             "input": "*",
+            "frameData": [
+              8,
+              0,
+              999
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -4572,11 +4616,16 @@
           {
             "input": "A",
             "frameData": [
+              4,
+              0,
               999,
               1,
               999
             ],
             "actionSteps": [
+              {
+                "actionType": "other"
+              },
               {
                 "actionMask": "low P",
                 "actionType": "strike",
@@ -4596,11 +4645,16 @@
           {
             "input": "B",
             "frameData": [
-              23,
+              4,
+              0,
+              19,
               1,
               27
             ],
             "actionSteps": [
+              {
+                "actionType": "other"
+              },
               {
                 "actionMask": "high P",
                 "actionType": "strike",
@@ -4627,7 +4681,17 @@
           },
           {
             "input": "K",
+            "frameData": [
+              4,
+              0,
+              999,
+              1,
+              999
+            ],
             "actionSteps": [
+              {
+                "actionType": "other"
+              },
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
