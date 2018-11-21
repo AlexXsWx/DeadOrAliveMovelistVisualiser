@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1542555079695
+    "timeSaved": 1542831065454
   },
   "body": {
     "character": "Talim",
@@ -1435,13 +1435,21 @@
             "frameData": [
               13,
               1,
-              999
+              29
             ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
               }
             ],
             "followUps": [
@@ -1458,13 +1466,21 @@
                 "frameData": [
                   19,
                   1,
-                  999
+                  31
                 ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 23
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -1473,7 +1489,7 @@
                     "frameData": [
                       21,
                       19,
-                      999
+                      0
                     ],
                     "actionSteps": [
                       {
@@ -1526,6 +1542,13 @@
                   },
                   {
                     "input": "(B)",
+                    "frameData": [
+                      21,
+                      19,
+                      0,
+                      999,
+                      0
+                    ],
                     "actionSteps": [
                       {
                         "actionType": "hold"
@@ -1579,11 +1602,24 @@
               },
               {
                 "input": "K",
+                "frameData": [
+                  27,
+                  1,
+                  25
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "high K",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
@@ -2805,11 +2841,7 @@
             "input": "B+G",
             "frameData": [
               4,
-              0,
               23,
-              0,
-              999,
-              0,
               0
             ],
             "actionSteps": [
@@ -2865,11 +2897,9 @@
             "input": "(B+G)",
             "frameData": [
               4,
-              0,
               23,
               0,
               999,
-              0,
               0
             ],
             "actionSteps": [
@@ -5221,6 +5251,19 @@
                     ]
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "input": "G",
+            "frameData": [
+              5,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
               }
             ]
           },
