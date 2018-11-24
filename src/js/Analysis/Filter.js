@@ -2,9 +2,12 @@ define(
 
     'Analysis/Filter',
 
-    [ 'Model/NodeFactory', 'Model/CommonStances', 'Localization/Strings', 'Tools/Tools' ],
+    [
+        'Analysis/Parser',
+        'Model/NodeFactory', 'Model/CommonStances', 'Localization/Strings', 'Tools/Tools'
+    ],
 
-    function Filter(NodeFactory, CommonStances, Strings, _) {
+    function Filter(Parser, NodeFactory, CommonStances, Strings, _) {
 
         return {
             isTrackingMidKickNode:      isTrackingMidKickNode,

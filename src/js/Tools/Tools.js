@@ -22,6 +22,7 @@ define(
             addBetween:                            addBetween,
             last:                                  last,
             find:                                  find,
+            contains:                              contains,
             copyKeysInto:                          copyKeysInto,
             isNonEmptyArray:                       isNonEmptyArray,
             isBool:                                isBool,
@@ -53,7 +54,8 @@ define(
             createArray:                           createArray,
             sortFuncAscending:                     sortFuncAscending,
             getCustomProperty:                     mixinStorage.getProperty,
-            setCustomProperty:                     mixinStorage.setProperty
+            setCustomProperty:                     mixinStorage.setProperty,
+            getStack:                              getStack
         };
 
         function report(/*arguments*/) {
@@ -212,6 +214,10 @@ define(
                 var element = array[i];
                 if (predicate(element)) return element;
             }
+        }
+
+        function contains(array, val) {
+            return array.indexOf(val) >= 0;
         }
 
         function withoutFalsyProperties(obj) {
@@ -490,9 +496,7 @@ define(
         }
 
         function mapValues(obj) {
-            return Object.keys(obj).map(function(key) {
-                return obj[key]
-            });
+            return Object.keys(obj).map(function(key) { return obj[key]; });
         }
 
         function forEachOwnProperty(object, action) {
@@ -592,6 +596,11 @@ define(
                 if (!obj[key]) obj[key] = {};
                 obj[key][propName] = value;
             }
+        }
+
+        function getStack(optLevelOffset) {
+            var offset = 2 + (optLevelOffset || 0);
+            return (new Error()).stack.toString().split('\n').slice(offset).join('\n');
         }
 
     }
