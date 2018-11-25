@@ -27,6 +27,7 @@ define(
             isNonEmptyArray:                       isNonEmptyArray,
             isBool:                                isBool,
             isNumber:                              isNumber,
+            isString:                              isString,
             moveArrayElement:                      moveArrayElement,
             arrayGroupedByFactor:                  arrayGroupedByFactor,
             arraysConsistOfSameStrings:            arraysConsistOfSameStrings,
@@ -292,6 +293,10 @@ define(
             return typeof obj === 'number';
         }
 
+        function isString(obj) {
+            return typeof obj === 'string';
+        }
+
         function defined(/* arguments */) {
             for (i = 0; i < arguments.length; i++) {
                 if (arguments[i] !== undefined) return arguments[i];
@@ -302,6 +307,7 @@ define(
             Object.getOwnPropertyNames(source).forEach(function(key) {
                 target[key] = source[key];
             });
+            return target;
         }
 
         /**
