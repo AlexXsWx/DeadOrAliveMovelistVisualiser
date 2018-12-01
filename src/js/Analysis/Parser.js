@@ -60,9 +60,12 @@ define(
 
         // String
 
-        var stringBrackets = ['\'', '"', '`'];
+        var escapeParser = new EscapeParser();
 
         function StringParser() {
+
+            var stringBrackets = ['\'', '"', '`'];
+
             return {
                 canParse: canParse,
                 parse:    parse
@@ -104,9 +107,11 @@ define(
             '[': ']',
             '{': '}'
         };
-        var startingBrackets = Object.keys(brackets);
 
         function BracketsParser() {
+
+            var startingBrackets = Object.keys(brackets);
+
             return {
                 canParse: canParse,
                 parse:    parse
@@ -144,6 +149,23 @@ define(
 
         // All
 
+        var Type1 = {
+            Raw:     't1_raw',
+            Group:   't1_group',
+            String:  't1_string'
+        };
+
+        var Type2 = {
+            Keyword: 't2_keyword',
+            Other:   't2_other',
+            Group:   't2_group',
+            String:  't2_string'
+        };
+
+        var stringParser   = new StringParser();
+        var bracketsParser = new BracketsParser();
+        var restParser     = new Parser();
+
         function Parser() {
             return {
                 canParse: canParse,
@@ -159,16 +181,17 @@ define(
                 while (i < string.length) {
                     if (escapeParser.canParse(string, i)) {
                         var temp = escapeParser.parse(string, i);
-                        appendToLastString(temp.parsed);
+                        appendToLastString(result, temp.parsed);
                         i += temp.consumed;
                     } else
                     if (stringParser.canParse(string, i)) {
                         var temp = stringParser.parse(string, i);
                         result.push({
-                            startingChar: string[i],
-                            parsed: [temp.parsed],
-                            consumed: temp.consumed
+                            type: Type1.String,
+                            value: temp.parsed
+                            // startingChar: string[i]
                         });
+
                         i += temp.consumed;
                     } else
                     if (bracketsParser.canParse(string, i)) {
@@ -193,16 +216,16 @@ define(
                             }
                         );
                         result.push({
-                            startingChar: startingChar,
-                            parsed: temp.parsed,
-                            consumed: temp.consumed
+                            type: Type1.Group,
+                            content: temp.parsed
+                            // bracketType: startingChar
                         });
                         i += temp.consumed;
                     } else
                     if (optPredicate && optPredicate(string, i)) {
                         break;
                     } else {
-                        appendToLastString(string[i]);
+                        appendToLastString(result, string[i]);
                         i++;
                     }
                 }
@@ -210,11 +233,17 @@ define(
                     parsed: result,
                     consumed: i - offset
                 };
-                function appendToLastString(str) {
-                    if (result.length === 0 || !_.isString(result[result.length - 1])) {
-                        result.push('');
+                function appendToLastString(result, str) {
+                    if (
+                        result.length === 0 ||
+                        result[result.length - 1].type !== Type1.Raw
+                    ) {
+                        result.push({
+                            type: Type1.Raw,
+                            value: ''
+                        });
                     }
-                    result[result.length - 1] += str;
+                    result[result.length - 1].value += str;
                 }
             }
         }
@@ -245,7 +274,7 @@ define(
                 if (temp.consumed !== string.length) {
                     throw new Error('Parsing didn\'t finish');
                 }
-                return temp;
+                return temp.parsed;
             }
         }
 
@@ -254,21 +283,13 @@ define(
         // FIXME: debug
         window.parse = parse;
 
-        var keywords = ['or', 'and', 'is', 'contains'/*, 'not'*/];
-
-        var Type = {
-            Raw:     'raw',
-            Group:   'group',
-            Keyword: 'keyword',
-            String:  'string',
-            Number:  'number',
-            Other:   'other'
-        };
-
-        var escapeParser   = new EscapeParser();
-        var stringParser   = new StringParser();
-        var bracketsParser = new BracketsParser();
-        var restParser     = new Parser();
+        var keywords = [
+            'is'
+            // 'or',
+            // 'and',
+            // 'not',
+            // 'contains'
+        ];
 
         return { parse: parse };
 
@@ -276,101 +297,114 @@ define(
 
             var parsed = new RootParser().parse(string);
 
-            var categorized;
-            try {
-                categorized = parsed.parsed.map(categorize);
-            } catch(error) {
-                console.log(error.toString());
-            }
+            console.log('parsed', parsed);
 
-            return mapRecursively(
-                categorized,
-                function(entry, goRecursive) {
-                    if (_.isString(entry)) {
-                        return [entry];
-                    }
-                    if (entry.type === Type.String) {
-                        return [entry];
-                    }
-                    if (entry.type === Type.Raw) {
-                        return (
-                            entry.value.split(/\s+/)
-                                .map(function(str) { return str.trim(); })
-                                .filter(Boolean)
-                                .map(function(str) {
-                                    if (_.contains(keywords, str.toLowerCase())) {
-                                        return {
-                                            type: Type.Keyword,
-                                            value: str.toLowerCase()
-                                        };
-                                    } else {
-                                        return {
-                                            type: Type.Other,
-                                            value: str
-                                        };
-                                    }
-                                })
-                        );
-                    }
-                    if (entry.content) {
-                        var result = _.copyKeysInto({}, entry);
-                        result.content = goRecursive(entry.content);
-                        return [result];
-                    } else {
-                        return [entry];
+            var withKeywords = replaceRecursively(
+                parsed,
+                function(entry, _returnOne, _returnMultiple, _goRecursive) {
+                    switch (entry.type) {
+
+                        case Type1.String:
+                            return _returnOne({
+                                type: Type2.String,
+                                value: entry.value
+                            });
+
+                        case Type1.Group:
+                            return _returnOne({
+                                type: Type2.Group,
+                                content: _goRecursive(entry.content)
+                            });
+
+                        case Type1.Raw:
+                            return _returnMultiple(type1RawToType2Keywords(entry.value));
+
+                        default: throw new Error('Unexpected type');
                     }
                 }
             );
 
-            return categorized;
-        }
+            console.log('withKeywords', withKeywords);
 
-        function categorize(parseResult) {
-            if (_.isString(parseResult)) {
-                return {
-                    type: Type.Raw,
-                    value: parseResult
-                };
-            } else {
-                var mapped = parseResult.parsed.map(categorize);
-                if (parseResult.startingChar) {
-                    if (_.contains(startingBrackets, parseResult.startingChar)) {
-                        return {
-                            type: Type.Group,
-                            bracketType: parseResult.startingChar,
-                            content: mapped
-                        };
-                    } else
-                    if (_.contains(stringBrackets, parseResult.startingChar)) {
-                        console.assert(
-                            (
-                                mapped.length === 0 ||
-                                (mapped.length === 1 && mapped[0].type === Type.Raw)
-                            ),
-                            "unexpected content of string"
-                        );
-                        return {
-                            type: Type.String,
-                            value: mapped.length === 1 ? mapped[0].value : ''
-                        };
-                    } else {
-                        throw new Error('Unsupported starting char');
-                    }
-                } else {
-                    throw new Error('Missing starting char');
-                }
+            return withKeywords;
+
+            function type1RawToType2Keywords(value) {
+                var nonSpaceChunks = value.trim().split(/\s+/);
+                return (
+                    nonSpaceChunks.map(
+                        function toKeywordOrOther(nonSpaceChunk) {
+                            if (_.contains(keywords, nonSpaceChunk.toLowerCase())) {
+                                return {
+                                    type: Type2.Keyword,
+                                    value: nonSpaceChunk.toLowerCase()
+                                };
+                            } else {
+                                return {
+                                    type: Type2.Other,
+                                    value: nonSpaceChunk
+                                };
+                            }
+                        }
+                    ).reduce(
+                        function joinOthers(acc, curr) {
+                            if (
+                                curr.type === Type2.Other &&
+                                acc.length > 0 &&
+                                acc[acc.length - 1].type === Type2.Other
+                            ) {
+                                acc[acc.length - 1].value += ' ' + curr.value;
+                                return acc;
+                            }
+                            return acc.concat(curr);
+                        },
+                        []
+                    )
+                );
             }
         }
 
-        function mapRecursively(array, mapFunc, optTemp) {
-            var temp = (
-                optTemp ||
-                (function temp(array) { return mapRecursively(array, mapFunc, temp); })
-            );
-            return array.reduce(
-                function(acc, entry) { return acc.concat(mapFunc(entry, temp)); },
-                []
-            );
+        function replaceRecursively(array, replaceFunc) {
+
+            return goRecursively(array);
+
+            function goRecursively(array) {
+                return array.reduce(
+                    function(acc, element) {
+                        var result = replaceOne(function(returnOne, returnMultiple, getResult) {
+                            replaceFunc(element, returnOne, returnMultiple, goRecursively);
+                            return getResult([element]);
+                        });
+                        return acc.concat(result);
+                    },
+                    []
+                );
+            }
+
+            function replaceOne(func) {
+                var returnManager = createReturnManager();
+                return func(returnOne, returnMultiple, getResult);
+
+                function returnOne(returnValue)       { returnManager.setValue([returnValue]);   }
+                function returnMultiple(returnValues) { returnManager.setValue(returnValues);    }
+                function getResult(optValue)          { return returnManager.getValue(optValue); }
+
+                function createReturnManager() {
+                    var valueSet = false;
+                    var value;
+                    return {
+                        setValue: setValue,
+                        getValue: getValue
+                    };
+                    function setValue(newValue) {
+                        if (valueSet) throw new Error('Value already set');
+                        valueSet = true;
+                        value = newValue;
+                    }
+                    function getValue(optDefaultValue) {
+                        return valueSet ? value : optDefaultValue;
+                    }
+                }
+            }
         }
     }
 
