@@ -22,6 +22,7 @@ define(
             last:                                  last,
             find:                                  find,
             contains:                              contains,
+            getOrThrow:                            getOrThrow,
             copyKeysInto:                          copyKeysInto,
             isArray:                               isArray,
             isObject:                              isObject,
@@ -220,6 +221,11 @@ define(
 
         function contains(array, val) {
             return array.indexOf(val) >= 0;
+        }
+
+        function getOrThrow(array, index) {
+            if (index < 0 || index >= array.length) throw new Error('Index out of bounds');
+            return array[index];
         }
 
         function withoutFalsyProperties(obj) {

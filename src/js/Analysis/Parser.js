@@ -292,7 +292,7 @@ define(
                         case Type1.String:
                             return _returnOne({
                                 type: Type2.String,
-                                getValue: function(extra) { return entry.value; }
+                                getValue2: function(extra) { return entry.value; }
                             });
 
                         case Type1.Group:
@@ -325,26 +325,19 @@ define(
                         predicate: function(str) {
                             return operatorsPerPrio.some(function(operatorsGroup) {
                                 return operatorsGroup.operators.some(function(operator) {
-                                    return operator.str === str;
+                                    return _.contains(operator.str, str);
                                 });
                             });
                         },
-                        getValue: function(str, extra) {
-                            return str;
-                            // return _.find(operatorsPerPrio, function(operatorsGroup) {
-                            //     return operatorsGroup.operators.some(function(operator) {
-                            //         return operator.str === str;
-                            //     });
-                            // });
-                        }
+                        getValue1: function(str, extra) { return str; }
                     }, {
                         type:      Type2.Boolean,
                         predicate: function(str) { return /^(true|false)$/.test(str); },
-                        getValue:  function(str, extra) { return str === 'true'; }
+                        getValue1: function(str, extra) { return str === 'true'; }
                     }, {
                         type:      Type2.Integer,
-                        predicate: function(str) { return /^[+-]?\d+$/.test(str); },
-                        getValue:  function(str, extra) { return Number(str); }
+                        predicate: function(str) { return /^([+-]?(\d+|Infinity)|NaN)$/.test(str); },
+                        getValue1: function(str, extra) { return Number(str); }
                     }
                 ].concat(Operators.accessors);
 
@@ -358,8 +351,8 @@ define(
                         if (getter) {
                             return {
                                 type: getter.type,
-                                getValue: function(extra) {
-                                    return getter.getValue(nonSpaceChunk, extra);
+                                getValue2: function(extra) {
+                                    return getter.getValue1(nonSpaceChunk, extra);
                                 }
                             };
                         } else {
@@ -401,16 +394,17 @@ define(
                             types[i].type     = temp.type;
                             types[i].getValue = temp.getValue;
                         break;
-                        case Type2.Boolean: setPrimitive(types[i], Type3.Boolean, entry.getValue); break;
-                        case Type2.Integer: setPrimitive(types[i], Type3.Integer, entry.getValue); break;
-                        case Type2.String:  setPrimitive(types[i], Type3.String,  entry.getValue); break;
+                        case Type2.Boolean:     copy(types[i], Type3.Boolean,     entry.getValue2); break;
+                        case Type2.Integer:     copy(types[i], Type3.Integer,     entry.getValue2); break;
+                        case Type2.String:      copy(types[i], Type3.String,      entry.getValue2); break;
+                        case Type2.ArrayString: copy(types[i], Type3.ArrayString, entry.getValue2); break;
                         default: throw new Error('Unexpected type ' + entry.type);
                     }
                 }
 
-                function setPrimitive(type, type3, getValue) {
+                function copy(type, type3, getValueFunc) {
                     type.type = type3;
-                    type.getValue = getValue;
+                    type.getValue = getValueFunc;
                 }
 
                 //
@@ -418,13 +412,13 @@ define(
                 operatorsPerPrio.some(function(operatorsGroup) {
                     if (types.length <= 1) return true;
 
-                    var indexes = types.reduce(
+                    var indices = types.reduce(
                         function(acc, type, index, types) {
                             if (
                                 type.type === null &&
                                 type.entry.type === Type2.Operator &&
                                 operatorsGroup.operators.some(function(operator) {
-                                    return operator.str === type.entry.getValue();
+                                    return _.contains(operator.str, type.entry.getValue2());
                                 })
                             ) {
                                 acc.push(index);
@@ -434,38 +428,30 @@ define(
                         []
                     );
 
-                    if (indexes.length > 0) {
+                    if (indices.length > 0) {
                         var leftToRight = operatorsGroup.leftToRight;
-                        var start = leftToRight ? 0              : indexes.length - 1;
-                        var end   = leftToRight ? indexes.length : -1;
+                        var start = leftToRight ? 0              : indices.length - 1;
+                        var end   = leftToRight ? indices.length : -1;
                         var step  = leftToRight ? 1 : -1;
                         for (var k = start; k !== end; k += step) {
                             (function(){
+                                var operatorStr = types[indices[k]].entry.getValue2();
                                 var operator = _.find(operatorsGroup.operators, function(operator) {
-                                    return operator.str === types[indexes[k]].entry.getValue();
+                                    return _.contains(operator.str, operatorStr);
                                 });
+                                var checkResult = operator.check(types, indices[k]);
+                                if (!checkResult.valid) return;
                                 var left, right;
                                 if (leftToRight) {
-                                    if (operator.left.length > 0) {
-                                        left = take(operator.left, types, indexes[k] - 1, indexes);
-                                    }
-                                    if (operator.right.length > 0) {
-                                        right = take(operator.right, types, indexes[k] + 1, indexes);
-                                    }
+                                    if (checkResult.takeLeft)  left  = take(types, indices[k] - 1, indices);
+                                    if (checkResult.takeRight) right = take(types, indices[k] + 1, indices);
                                 } else {
-                                    if (operator.right.length > 0) {
-                                        right = take(operator.right, types, indexes[k] + 1, indexes);
-                                    }
-                                    if (operator.left.length > 0) {
-                                        left = take(operator.left, types, indexes[k] - 1, indexes);
-                                    }
+                                    if (checkResult.takeRight) right = take(types, indices[k] + 1, indices);
+                                    if (checkResult.takeLeft)  left  = take(types, indices[k] - 1, indices);
                                 }
-                                types[indexes[k]].type = operator.type;
-                                types[indexes[k]].getValue = function(extra) {
-                                    return operator.act(
-                                        left  && left.getValue(extra),
-                                        right && right.getValue(extra)
-                                    );
+                                types[indices[k]].type = operator.type;
+                                types[indices[k]].getValue = function(extra) {
+                                    return operator.act(left, right, extra);
                                 };
                             }());
                         }
@@ -473,19 +459,11 @@ define(
 
                     return false;
 
-                    function take(requirements, types, index, indexes) {
-                        if (index < 0 || index > types.length) throw new Error('invalid index');
-                        if (
-                            !requirements.some(function(type) {
-                                return types[index].type === type;
-                            })
-                        ) {
-                            throw new Error('invalid type');
-                        }
+                    function take(types, index, indices) {
                         var result = types.splice(index, 1)[0];
-                        for (var i = 0; i < indexes.length; i++) {
-                            if (indexes[i] >= index) {
-                                indexes[i]--;
+                        for (var i = 0; i < indices.length; i++) {
+                            if (indices[i] >= index) {
+                                indices[i]--;
                             }
                         }
                         return result;
@@ -503,7 +481,7 @@ define(
                     }
                 }
 
-                throw new Error('Failed to resolve type');
+                throw new Error('Invalid expression');
             }
 
         }
