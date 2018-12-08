@@ -411,42 +411,94 @@ define(
                 }
             },
 
-            // Advantage on block
+            // Tags
             {
-                type: Type2.Integer,
+                type: Type2.ArrayString,
                 predicate: function(str) {
-                    return (
-                        str === 'advantageOnBlock' ||
-                        str === 'advantageOnBlock.min'
-                    );
+                    return str === 'tags';
                 },
                 getValue1: function(str, extra) {
                     var nodeData = extra;
-                    if (!NodeFactory.isMoveNode(nodeData)) return NaN;
-                    var range = NodeFactory.getAdvantageRange(
-                        nodeData,
-                        NodeFactory.getActionStepResultHitBlock,
-                        NodeFactory.doesActionStepResultDescribeGuard
+                    if (!NodeFactory.isMoveNode(nodeData)) return '';
+                    return nodeData.actionSteps.filter(Boolean).reduce(
+                        function(acc, actionStep) {
+                            return acc.concat(actionStep.tags).concat(
+                                actionStep.results.filter(Boolean).reduce(
+                                    function(acc, actionStepResult) {
+                                        return acc.concat(actionStepResult.tags);
+                                    },
+                                    []
+                                )
+                            );
+                        },
+                        []
                     );
-                    if (!range) return NaN;
-                    return range.min;
-                }
-            }, {
-                type: Type2.Integer,
-                predicate: function(str) { return str === 'advantageOnBlock.max'; },
-                getValue1: function(str, extra) {
-                    var nodeData = extra;
-                    if (!NodeFactory.isMoveNode(nodeData)) return NaN;
-                    var range = NodeFactory.getAdvantageRange(
-                        nodeData,
-                        NodeFactory.getActionStepResultHitBlock,
-                        NodeFactory.doesActionStepResultDescribeGuard
-                    );
-                    if (!range) return NaN;
-                    return range.max;
                 }
             }
-        ];
+        ].concat(
+            // Advantage
+            [
+                {
+                    names: ['advantageOnBlock'],
+                    getDuration:            NodeFactory.getActionStepResultHitBlock,
+                    actionStepResultFilter: NodeFactory.doesActionStepResultDescribeGuard
+                }, {
+                    names: ['advantageOnHit', 'advantageOnNeutralHit'],
+                    getDuration:            NodeFactory.getActionStepResultHitBlock,
+                    actionStepResultFilter: NodeFactory.doesActionStepResultDescribeNeutralHit
+                }, {
+                    names: ['advantageOnCounterHit'],
+                    getDuration:            NodeFactory.getActionStepResultHitBlock,
+                    actionStepResultFilter: NodeFactory.doesActionStepResultDescribeCounterHit
+                }
+            ].reduce(
+                function(acc, info) {
+                    acc.push({
+                        type: Type2.Integer,
+                        predicate: function(str) {
+                            return info.names.some(function(name) {
+                                return (
+                                    str === name ||
+                                    str === name + '.' + 'min'
+                                );
+                            });
+                        },
+                        getValue1: function(str, extra) {
+                            var nodeData = extra;
+                            if (!NodeFactory.isMoveNode(nodeData)) return NaN;
+                            var range = NodeFactory.getAdvantageRange(
+                                nodeData,
+                                info.getDuration,
+                                info.actionStepResultFilter
+                            );
+                            if (!range) return NaN;
+                            return range.min;
+                        }
+                    });
+                    acc.push({
+                        type: Type2.Integer,
+                        predicate: function(str) {
+                            return info.names.some(function(name) {
+                                return str === name + '.' + 'max';
+                            });
+                        },
+                        getValue1: function(str, extra) {
+                            var nodeData = extra;
+                            if (!NodeFactory.isMoveNode(nodeData)) return NaN;
+                            var range = NodeFactory.getAdvantageRange(
+                                nodeData,
+                                info.getDuration,
+                                info.actionStepResultFilter
+                            );
+                            if (!range) return NaN;
+                            return range.max;
+                        }
+                    });
+                    return acc;
+                },
+                []
+            )
+        );
 
         return {
             Type1: Type1,
