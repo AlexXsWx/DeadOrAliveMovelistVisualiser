@@ -1,3 +1,48 @@
+Talim's minus:
+    3B:    -12 on block - can't dodge i12 low
+    66A+B: -10 on block - can't dodge i12 low
+    B:      -8 on block - can dodge i12 low with CE or 8K
+    BK:     -6 on block - can dodge i12 low with CE
+    4AK:    -4 on block - can dodge i12 low with 44B or jump
+    A6:     -2 on block - can dodge i12 low with 4B+K
+    K:       0 on neutral hit
+    6AB:    +2 on block
+    CE:     +4 on block
+    A6:     +6 on neutral hit
+
+A+B+K: 4
+44B: 8
+6B: 10
+6B+K: 10
+4B+K: 10
+8G: 
+66K: 12
+A6: 14
+
+K+G is 30...100 frames:
+    from -12 you can land 6A (frame 30)
+    from -12 you can't land 3B (frame 32)
+    from +0 you can block    RE 6 {WS} {STD} 8K  (frame 101)
+    from +0 you can't block  RE 6 {WS} {STD} 66B (frame 100)
+
+BT CE is i18:
+
+    3B      = -12 on block
+    4B+K 34 = 46
+    WF G 10 = 56
+    WR K 39 = 95
+              96 = block   - works
+
+    FC A+B = -14 on block
+    4B+K 34 = 48
+    WF G 10 = 58
+    WR K 39 = 97
+              98 = block   - doesn't work
+              
+    B+K G = 30 =  30
+    A+B G = 49 =  79
+    CE = 17+1  = i97
+
 the game has frame perfect precision:
     Azwel's AA is +0 on neutral hit
     Azwel's 1A is i34
