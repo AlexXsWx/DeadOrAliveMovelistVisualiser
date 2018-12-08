@@ -2,9 +2,9 @@ define(
 
     'Analysis/Operators',
 
-    [],
+    [ 'Model/NodeFactory' ],
 
-    function Operators() {
+    function Operators(NodeFactory) {
 
         var Type1 = {
             Raw:     't1_raw',
@@ -14,11 +14,10 @@ define(
 
         var Type2 = {
             Operator: 't2_operator',
-            // Other:   't2_other',
-            Group:   't2_group',
-            Boolean: 't2_boolean',
-            Integer: 't2_integer',
-            String:  't2_string'
+            Group:    't2_group',
+            Boolean:  't2_boolean',
+            Integer:  't2_integer',
+            String:   't2_string'
         };
 
         var Type3 = {
@@ -71,6 +70,11 @@ define(
             ... and ...
             ... or ...
             ... contains ...
+
+            ending is not "STD" or "WF"
+            ending is "W..." or "WF" or "WS" or "WC"
+            context contains "low hp"
+            ending is "BT" and advantageOnBlock >= 0
          */
 
         var operatorsPerPrio = [
@@ -213,17 +217,77 @@ define(
                         }
                     }
                 ]
+            }, {
+                leftToRight: true,
+                operators: [
+                    {
+                        str: 'is',
+                        left:  [Type3.String],
+                        right: [Type3.String],
+                        type: Type3.Boolean,
+                        act: function(left, right) {
+                            return left === right;
+                        }
+                    }
+                ]
             }
-            // 'is',
-            // 'not',
             // 'contains'
+        ];
+
+        var accessors = [
+            /*, {
+                type:      Type2.Boolean,
+                predicate: function(str) { return _.contains(['A', 'B', 'C', 'D'], str); },
+                getValue:  function(str, extra) { return str === 'A' || str === 'C'; }
+            }*/
+            {
+                type: Type2.String,
+                predicate: function(str) {
+                    return str === 'ending';
+                },
+                getValue: function(str, extra) {
+                    var nodeData = extra;
+                    if (!NodeFactory.isMoveNode(nodeData)) return '';
+                    return nodeData.endsWith || 'STD';
+                }
+            }, {
+                type: Type2.String,
+                predicate: function(str) {
+                    return str === 'context';
+                },
+                getValue: function(str, extra) {
+                    var nodeData = extra;
+                    if (!NodeFactory.isMoveNode(nodeData)) return '';
+                    return nodeData.context.join(',') || '';
+                }
+            }, {
+                type: Type2.Integer,
+                predicate: function(str) {
+                    return (
+                        str === 'advantageOnBlock' ||
+                        str === 'advantageOnBlock.min'
+                    );
+                },
+                getValue: function(str, extra) {
+                    var nodeData = extra;
+                    if (!NodeFactory.isMoveNode(nodeData)) return NaN;
+                    var range = NodeFactory.getAdvantageRange(
+                        nodeData,
+                        NodeFactory.getActionStepResultHitBlock,
+                        NodeFactory.doesActionStepResultDescribeGuard
+                    );
+                    if (!range) return NaN;
+                    return range.min;
+                }
+            }
         ];
 
         return {
             Type1: Type1,
             Type2: Type2,
             Type3: Type3,
-            operatorsPerPrio: operatorsPerPrio
+            operatorsPerPrio: operatorsPerPrio,
+            accessors: accessors
         };
     }
 

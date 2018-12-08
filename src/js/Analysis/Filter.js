@@ -3,11 +3,11 @@ define(
     'Analysis/Filter',
 
     [
-        'Analysis/Parser',
+        'Analysis/Parser', 'Analysis/Operators',
         'Model/NodeFactory', 'Model/CommonStances', 'Localization/Strings', 'Tools/Tools'
     ],
 
-    function Filter(Parser, NodeFactory, CommonStances, Strings, _) {
+    function Filter(Parser, Operators, NodeFactory, CommonStances, Strings, _) {
 
         return {
             isTrackingMidKickNode:      isTrackingMidKickNode,
@@ -19,8 +19,20 @@ define(
             doesNodeCauseHardKnockDown: doesNodeCauseHardKnockDown,
 
             findNodes:            findNodes,
-            findNodesToSpendTime: findNodesToSpendTime
+            findNodesToSpendTime: findNodesToSpendTime,
+            createQuery:          createQuery
         };
+
+        function createQuery(queryStr) {
+
+            var result = Parser.parse(queryStr);
+            if (result.type !== Operators.Type3.Boolean) {
+                return;
+            }
+            return function(nodeData) {
+                return Boolean(result.getValue(nodeData));
+            };
+        }
 
         //
 

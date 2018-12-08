@@ -292,7 +292,7 @@ define(
                         case Type1.String:
                             return _returnOne({
                                 type: Type2.String,
-                                value: entry.value
+                                getValue: function(extra) { return entry.value; }
                             });
 
                         case Type1.Group:
@@ -329,7 +329,7 @@ define(
                                 });
                             });
                         },
-                        getValue: function(str) {
+                        getValue: function(str, extra) {
                             return str;
                             // return _.find(operatorsPerPrio, function(operatorsGroup) {
                             //     return operatorsGroup.operators.some(function(operator) {
@@ -340,39 +340,32 @@ define(
                     }, {
                         type:      Type2.Boolean,
                         predicate: function(str) { return /^(true|false)$/.test(str); },
-                        getValue:  function(str) { return str === 'true'; }
+                        getValue:  function(str, extra) { return str === 'true'; }
                     }, {
                         type:      Type2.Integer,
                         predicate: function(str) { return /^[+-]?\d+$/.test(str); },
-                        getValue:  function(str) { return Number(str); }
-                    }, {
-                        type:      Type2.Boolean,
-                        predicate: function(str) { return _.contains(['A', 'B', 'C', 'D'], str); },
-                        getValue:  function(str) { return str === 'A' || str === 'C'; }
+                        getValue:  function(str, extra) { return Number(str); }
                     }
-                ];
+                ].concat(Operators.accessors);
+
                 // FIXME: when there is no space next to signed number
                 var nonSpaceChunks = value.trim().split(/\s+/).filter(Boolean);
-                return (
-                    nonSpaceChunks.map(
-                        function(nonSpaceChunk) {
-                            var getter = _.find(getters, function(getter) {
-                                return getter.predicate(nonSpaceChunk);
-                            });
-                            if (getter) {
-                                return {
-                                    type: getter.type,
-                                    value: getter.getValue(nonSpaceChunk)
-                                };
-                            } else {
-                                throw new Error('Unexpected part: ' + nonSpaceChunk)
-                                // return {
-                                //     type: Type2.Other,
-                                //     value: nonSpaceChunk
-                                // };
-                            }
+                return nonSpaceChunks.map(
+                    function(nonSpaceChunk) {
+                        var getter = _.find(getters, function(getter) {
+                            return getter.predicate(nonSpaceChunk);
+                        });
+                        if (getter) {
+                            return {
+                                type: getter.type,
+                                getValue: function(extra) {
+                                    return getter.getValue(nonSpaceChunk, extra);
+                                }
+                            };
+                        } else {
+                            throw new Error('Unexpected part: ' + nonSpaceChunk);
                         }
-                    )
+                    }
                 );
             }
         }
@@ -408,19 +401,16 @@ define(
                             types[i].type     = temp.type;
                             types[i].getValue = temp.getValue;
                         break;
-                        case Type2.Boolean: setPrimitive(types[i], Type3.Boolean, entry.value); break;
-                        case Type2.Integer: setPrimitive(types[i], Type3.Integer, entry.value); break;
-                        case Type2.String:  setPrimitive(types[i], Type3.String,  entry.value); break;
-                        // case Type2.Other: throw new Error('Unexpected part: ' + entry.value);
+                        case Type2.Boolean: setPrimitive(types[i], Type3.Boolean, entry.getValue); break;
+                        case Type2.Integer: setPrimitive(types[i], Type3.Integer, entry.getValue); break;
+                        case Type2.String:  setPrimitive(types[i], Type3.String,  entry.getValue); break;
                         default: throw new Error('Unexpected type ' + entry.type);
                     }
                 }
 
-                function setPrimitive(type, type3, value) {
+                function setPrimitive(type, type3, getValue) {
                     type.type = type3;
-                    type.getValue = function() {
-                        return value;
-                    };
+                    type.getValue = getValue;
                 }
 
                 //
@@ -434,7 +424,7 @@ define(
                                 type.type === null &&
                                 type.entry.type === Type2.Operator &&
                                 operatorsGroup.operators.some(function(operator) {
-                                    return operator.str === type.entry.value;
+                                    return operator.str === type.entry.getValue();
                                 })
                             ) {
                                 acc.push(index);
@@ -452,7 +442,7 @@ define(
                         for (var k = start; k !== end; k += step) {
                             (function(){
                                 var operator = _.find(operatorsGroup.operators, function(operator) {
-                                    return operator.str === types[indexes[k]].entry.value;
+                                    return operator.str === types[indexes[k]].entry.getValue();
                                 });
                                 var left, right;
                                 if (leftToRight) {
@@ -471,10 +461,10 @@ define(
                                     }
                                 }
                                 types[indexes[k]].type = operator.type;
-                                types[indexes[k]].getValue = function() {
+                                types[indexes[k]].getValue = function(extra) {
                                     return operator.act(
-                                        left  && left.getValue(),
-                                        right && right.getValue()
+                                        left  && left.getValue(extra),
+                                        right && right.getValue(extra)
                                     );
                                 };
                             }());
@@ -506,8 +496,8 @@ define(
                     if (types[0].type !== null) {
                         return {
                             type:     types[0].type,
-                            getValue: function() {
-                                return types[0].getValue();
+                            getValue: function(extra) {
+                                return types[0].getValue(extra);
                             }
                         };
                     }

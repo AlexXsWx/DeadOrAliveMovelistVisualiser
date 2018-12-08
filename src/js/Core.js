@@ -647,6 +647,25 @@ define(
                         update();
                     },
 
+                    'filterShowCustom': function showCustom(event) {
+                        var placeholder = (
+                            localStorage.showCustomQueryStr ||
+                            '(advantageOnBlock >= 0) or (ending is "BT")'
+                        );
+                        var queryStr = prompt(
+                            Strings('enterFilterQuery'),
+                            placeholder
+                        );
+                        if (!queryStr) return;
+                        localStorage.showCustomQueryStr = queryStr;
+                        var query = Filter.createQuery(queryStr);
+                        if (!query) return;
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            var nodeData = NodeView.getNodeData(nodeView);
+                            return nodeData && query(nodeData);
+                        });
+                    },
+
                     'filterShowDefault': function showAll(event) {
                         TreeTools.forAllCurrentChildren(
                             rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren

@@ -646,7 +646,7 @@ define(
                         nodeData,
                         NodeFactory.getActionStepResultHitBlock,
                         NodeFactory.doesActionStepResultDescribeGuard
-                    )
+                    );
                 });
             }
 
@@ -656,7 +656,7 @@ define(
                         nodeData,
                         NodeFactory.getActionStepResultHitBlock,
                         NodeFactory.doesActionStepResultDescribeNeutralHit
-                    )
+                    );
                 });
             }
 
@@ -666,7 +666,7 @@ define(
                         nodeData,
                         NodeFactory.getActionStepResultHitBlock,
                         NodeFactory.doesActionStepResultDescribeCounterHit
-                    )
+                    );
                 });
             }
 
