@@ -2,9 +2,9 @@ define(
 
     'Analysis/Parser',
 
-    [ 'Tools/Tools' ],
+    [ 'Analysis/Operators', 'Tools/Tools' ],
 
-    function Parser(_) {
+    function Parser(Operators, _) {
 
         // UnexpectedCharError
 
@@ -149,18 +149,9 @@ define(
 
         // All
 
-        var Type1 = {
-            Raw:     't1_raw',
-            Group:   't1_group',
-            String:  't1_string'
-        };
-
-        var Type2 = {
-            Keyword: 't2_keyword',
-            Other:   't2_other',
-            Group:   't2_group',
-            String:  't2_string'
-        };
+        var Type1 = Operators.Type1;
+        var Type2 = Operators.Type2;
+        var Type3 = Operators.Type3;
 
         var stringParser   = new StringParser();
         var bracketsParser = new BracketsParser();
@@ -283,13 +274,7 @@ define(
         // FIXME: debug
         window.parse = parse;
 
-        var keywords = [
-            'is'
-            // 'or',
-            // 'and',
-            // 'not',
-            // 'contains'
-        ];
+        var operatorsPerPrio = Operators.operatorsPerPrio;
 
         return { parse: parse };
 
@@ -299,7 +284,7 @@ define(
 
             console.log('parsed', parsed);
 
-            var withKeywords = replaceRecursively(
+            var withOperators = replaceRecursively(
                 parsed,
                 function(entry, _returnOne, _returnMultiple, _goRecursive) {
                     switch (entry.type) {
@@ -317,50 +302,220 @@ define(
                             });
 
                         case Type1.Raw:
-                            return _returnMultiple(type1RawToType2Keywords(entry.value));
+                            return _returnMultiple(type1RawToType2(entry.value));
 
                         default: throw new Error('Unexpected type');
                     }
                 }
             );
 
-            console.log('withKeywords', withKeywords);
+            console.log('withOperators', withOperators);
 
-            return withKeywords;
+            var type = getType(withOperators);
 
-            function type1RawToType2Keywords(value) {
-                var nonSpaceChunks = value.trim().split(/\s+/);
+            console.log('type', type.type);
+
+            return type;
+
+            function type1RawToType2(value) {
+
+                var getters = [
+                    {
+                        type: Type2.Operator,
+                        predicate: function(str) {
+                            return operatorsPerPrio.some(function(operatorsGroup) {
+                                return operatorsGroup.operators.some(function(operator) {
+                                    return operator.str === str;
+                                });
+                            });
+                        },
+                        getValue: function(str) {
+                            return str;
+                            // return _.find(operatorsPerPrio, function(operatorsGroup) {
+                            //     return operatorsGroup.operators.some(function(operator) {
+                            //         return operator.str === str;
+                            //     });
+                            // });
+                        }
+                    }, {
+                        type:      Type2.Boolean,
+                        predicate: function(str) { return /^(true|false)$/.test(str); },
+                        getValue:  function(str) { return str === 'true'; }
+                    }, {
+                        type:      Type2.Integer,
+                        predicate: function(str) { return /^[+-]?\d+$/.test(str); },
+                        getValue:  function(str) { return Number(str); }
+                    }, {
+                        type:      Type2.Boolean,
+                        predicate: function(str) { return _.contains(['A', 'B', 'C', 'D'], str); },
+                        getValue:  function(str) { return str === 'A' || str === 'C'; }
+                    }
+                ];
+                // FIXME: when there is no space next to signed number
+                var nonSpaceChunks = value.trim().split(/\s+/).filter(Boolean);
                 return (
                     nonSpaceChunks.map(
-                        function toKeywordOrOther(nonSpaceChunk) {
-                            if (_.contains(keywords, nonSpaceChunk.toLowerCase())) {
+                        function(nonSpaceChunk) {
+                            var getter = _.find(getters, function(getter) {
+                                return getter.predicate(nonSpaceChunk);
+                            });
+                            if (getter) {
                                 return {
-                                    type: Type2.Keyword,
-                                    value: nonSpaceChunk.toLowerCase()
+                                    type: getter.type,
+                                    value: getter.getValue(nonSpaceChunk)
                                 };
                             } else {
-                                return {
-                                    type: Type2.Other,
-                                    value: nonSpaceChunk
-                                };
+                                throw new Error('Unexpected part: ' + nonSpaceChunk)
+                                // return {
+                                //     type: Type2.Other,
+                                //     value: nonSpaceChunk
+                                // };
                             }
                         }
-                    ).reduce(
-                        function joinOthers(acc, curr) {
-                            if (
-                                curr.type === Type2.Other &&
-                                acc.length > 0 &&
-                                acc[acc.length - 1].type === Type2.Other
-                            ) {
-                                acc[acc.length - 1].value += ' ' + curr.value;
-                                return acc;
-                            }
-                            return acc.concat(curr);
-                        },
-                        []
                     )
                 );
             }
+        }
+
+        function getType(array) {
+            return new TypeParser().parse(array.map(function(entry) {
+                return {
+                    type: null,
+                    entry: entry,
+                    getValue: null
+                };
+            }));
+        }
+
+        function TypeParser() {
+
+            return { parse: parse };
+
+            function parse(types) {
+
+                // Special case: empty array
+
+                if (types.length === 0) throw new Error('Empty has no type');
+
+                // resolve primitive types
+
+                for (var i = 0; i < types.length; i++) {
+                    var entry = types[i].entry;
+                    switch (entry.type) {
+                        case Type2.Operator: break; // throw new Error('Operator has no type');
+                        case Type2.Group:
+                            var temp = getType(entry.content);
+                            types[i].type     = temp.type;
+                            types[i].getValue = temp.getValue;
+                        break;
+                        case Type2.Boolean: setPrimitive(types[i], Type3.Boolean, entry.value); break;
+                        case Type2.Integer: setPrimitive(types[i], Type3.Integer, entry.value); break;
+                        case Type2.String:  setPrimitive(types[i], Type3.String,  entry.value); break;
+                        // case Type2.Other: throw new Error('Unexpected part: ' + entry.value);
+                        default: throw new Error('Unexpected type ' + entry.type);
+                    }
+                }
+
+                function setPrimitive(type, type3, value) {
+                    type.type = type3;
+                    type.getValue = function() {
+                        return value;
+                    };
+                }
+
+                //
+
+                operatorsPerPrio.some(function(operatorsGroup) {
+                    if (types.length <= 1) return true;
+
+                    var indexes = types.reduce(
+                        function(acc, type, index, types) {
+                            if (
+                                type.type === null &&
+                                type.entry.type === Type2.Operator &&
+                                operatorsGroup.operators.some(function(operator) {
+                                    return operator.str === type.entry.value;
+                                })
+                            ) {
+                                acc.push(index);
+                            }
+                            return acc;
+                        },
+                        []
+                    );
+
+                    if (indexes.length > 0) {
+                        var leftToRight = operatorsGroup.leftToRight;
+                        var start = leftToRight ? 0              : indexes.length - 1;
+                        var end   = leftToRight ? indexes.length : -1;
+                        var step  = leftToRight ? 1 : -1;
+                        for (var k = start; k !== end; k += step) {
+                            (function(){
+                                var operator = _.find(operatorsGroup.operators, function(operator) {
+                                    return operator.str === types[indexes[k]].entry.value;
+                                });
+                                var left, right;
+                                if (leftToRight) {
+                                    if (operator.left.length > 0) {
+                                        left = take(operator.left, types, indexes[k] - 1, indexes);
+                                    }
+                                    if (operator.right.length > 0) {
+                                        right = take(operator.right, types, indexes[k] + 1, indexes);
+                                    }
+                                } else {
+                                    if (operator.right.length > 0) {
+                                        right = take(operator.right, types, indexes[k] + 1, indexes);
+                                    }
+                                    if (operator.left.length > 0) {
+                                        left = take(operator.left, types, indexes[k] - 1, indexes);
+                                    }
+                                }
+                                types[indexes[k]].type = operator.type;
+                                types[indexes[k]].getValue = function() {
+                                    return operator.act(
+                                        left  && left.getValue(),
+                                        right && right.getValue()
+                                    );
+                                };
+                            }());
+                        }
+                    }
+
+                    return false;
+
+                    function take(requirements, types, index, indexes) {
+                        if (index < 0 || index > types.length) throw new Error('invalid index');
+                        if (
+                            !requirements.some(function(type) {
+                                return types[index].type === type;
+                            })
+                        ) {
+                            throw new Error('invalid type');
+                        }
+                        var result = types.splice(index, 1)[0];
+                        for (var i = 0; i < indexes.length; i++) {
+                            if (indexes[i] >= index) {
+                                indexes[i]--;
+                            }
+                        }
+                        return result;
+                    }
+                });
+
+                if (types.length === 1) {
+                    if (types[0].type !== null) {
+                        return {
+                            type:     types[0].type,
+                            getValue: function() {
+                                return types[0].getValue();
+                            }
+                        };
+                    }
+                }
+
+                throw new Error('Failed to resolve type');
+            }
+
         }
 
         function replaceRecursively(array, replaceFunc) {
