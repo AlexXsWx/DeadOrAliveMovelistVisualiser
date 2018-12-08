@@ -607,11 +607,11 @@ define(
                 var actionSteps = nodeData.actionSteps;
                 if (!actionSteps || actionSteps.length === 0) return;
 
-                var hasNonOtherActionStepResult = false;
+                var hasNonOtherActionStepResult = true;
 
                 for (var i = actionSteps.length - 1; i >= 0; --i) {
-                    if (actionSteps[i].actionType !== 'other') {
-                        hasNonOtherActionStepResult = true;
+                    if (actionSteps[i].actionType === 'strike') {
+                        hasNonOtherActionStepResult = false;
                     }
                     var results = actionSteps[i].results;
                     if (!results) continue;
@@ -627,7 +627,7 @@ define(
                     }
                 }
 
-                if (hasNonOtherActionStepResult) {
+                if (!hasNonOtherActionStepResult) {
                     return null;
                 }
             }
