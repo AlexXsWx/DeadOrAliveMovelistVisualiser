@@ -101,9 +101,11 @@ define(
 
                     var params = _.getParameters(['show', 'example']);
 
+                    var showFilter = null;
+
                     if (params.has('show')) {
-                        var value = params.get('show').toLowerCase();
-                        switch(value) {
+                        var value = params.get('show');
+                        switch(value.toLowerCase()) {
 
                             case 'safety':
                                 NodeSvgView.setRightTextToAdvantageOnBlock();
@@ -117,6 +119,18 @@ define(
                         }
                     }
 
+                    if (params.has('filter')) {
+                        var query = Filter.createQuery(params.get('filter'));
+                        if (query) {
+                            showFilter = function() {
+                                showOnlyNodesThatMatch(function(nodeView) {
+                                    var nodeData = NodeView.getNodeData(nodeView);
+                                    return nodeData && query(nodeData);
+                                });
+                            };
+                        }
+                    }
+
                     var url = null;
                     if (params.has('data-url')) {
                         url = decodeURI(params.get('data-url'));
@@ -125,7 +139,23 @@ define(
                         url = GithubStuff.getExampleUrl(params.get('example', 'rig').toLowerCase());
                     }
 
-                    url && NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
+                    if (url) {
+                        NodeSerializer.deserializeFromUrl(
+                            url,
+                            function(data) {
+                                onDataDeserialized(data);
+                                applyShowFilter();
+                            }
+                        );
+                    } else {
+                        applyShowFilter();
+                    }
+
+                    return;
+
+                    function applyShowFilter() {
+                        showFilter && showFilter();
+                    }
 
                 }
 
@@ -660,6 +690,7 @@ define(
                         localStorage.showCustomQueryStr = queryStr;
                         var query = Filter.createQuery(queryStr);
                         if (!query) return;
+                        console.log(encodeURI(queryStr));
                         showOnlyNodesThatMatch(function(nodeView) {
                             var nodeData = NodeView.getNodeData(nodeView);
                             return nodeData && query(nodeData);

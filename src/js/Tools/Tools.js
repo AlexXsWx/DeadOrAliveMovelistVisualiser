@@ -69,7 +69,7 @@ define(
         }
 
         function getParameters(optAdaptList) {
-            var hashParameters = window.location.hash.toLowerCase().substr(1).split(',');
+            var hashParameters = window.location.hash.substr(1).split(',');
 
             var result = Object.create({
                 adapt: adapt,
@@ -82,7 +82,7 @@ define(
             for (var i = 0; i < hashParameters.length; ++i) {
                 var parts = hashParameters[i].split('=');
                 var paramName  = parts[0].toLowerCase();
-                var paramValue = parts[1];
+                var paramValue = decodeURI(parts.slice(1).join('='));
 
                 result[paramName] = paramValue;
             }
