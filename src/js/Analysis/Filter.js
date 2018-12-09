@@ -20,7 +20,9 @@ define(
 
             findNodes:            findNodes,
             findNodesToSpendTime: findNodesToSpendTime,
-            createQuery:          createQuery
+            createQuery:          createQuery,
+
+            filterResultsToString: filterResultsToString
         };
 
         function createQuery(queryStr) {
@@ -217,7 +219,7 @@ define(
 
             // TODO: treat 7h, 4h, 6h as the same
             // TODO: include +- of active frames (e.g landed on 3rd out of 5 total)
-            return filterResultsToString(results);
+            return results;
 
             /** Last element of `workingPath` must be a move node data */
             function checkMoveNodeActiveFrames(workingPath, workingStance, framesSpent) {

@@ -693,7 +693,10 @@ define(
                         console.log(encodeURI(queryStr));
                         showOnlyNodesThatMatch(function(nodeView) {
                             var nodeData = NodeView.getNodeData(nodeView);
-                            return nodeData && query(nodeData);
+                            return nodeData && query({
+                                rootNodeData: rootNodeData,
+                                nodeData: nodeData
+                            });
                         });
                     },
 

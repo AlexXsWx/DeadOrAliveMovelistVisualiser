@@ -117,11 +117,13 @@ define(
 
         function doFindMoves(rootNodeData, frameStart, frameEnd, filterFunc) {
             var warnings = {};
-            var result = Filter.findNodes(
-                rootNodeData,
-                frameStart, frameEnd,
-                filterFunc,
-                warnings
+            var result = Filter.filterResultsToString(
+                Filter.findNodes(
+                    rootNodeData,
+                    frameStart, frameEnd,
+                    filterFunc,
+                    warnings
+                )
             );
 
             showFilterResults(

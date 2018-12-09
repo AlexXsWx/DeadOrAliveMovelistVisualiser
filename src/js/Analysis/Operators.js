@@ -185,9 +185,13 @@ define(
             return function(args, extra) {
                 var left  = args[0];
                 var right = args[1];
-                var lv = type3Casters.castValue(left.getValue(extra),  left.type,  typeLeft);
-                var rv = type3Casters.castValue(right.getValue(extra), right.type, typeRight);
-                return func(lv, rv);
+                return func(getLeft, getRight);
+                function getLeft() {
+                    return type3Casters.castValue(left.getValue(extra), left.type, typeLeft);
+                }
+                function getRight() {
+                    return type3Casters.castValue(right.getValue(extra), right.type, typeRight);
+                }
             }
         }
 
@@ -217,8 +221,10 @@ define(
         function createActOnRight(typeRight, func) {
             return function(args, extra) {
                 var right = args[0];
-                var rv = type3Casters.castValue(right.getValue(extra), right.type, typeRight);
-                return func(rv);
+                return func(getRight);
+                function getRight() {
+                    return type3Casters.castValue(right.getValue(extra), right.type, typeRight);
+                }
             }
         }
 
@@ -232,31 +238,31 @@ define(
                 str: [ '-', 'neg', 'negate', 'inv', 'invert', 'inverse' ],
                 type: Type3.Integer,
                 check: createCheckRightFunction(Type3.Integer, Type3.Integer),
-                act: createActOnRight(Type3.Integer, function(right) { return -right; })
+                act: createActOnRight(Type3.Integer, function(getRight) { return -getRight(); })
             },
             unaryPlus: {
                 str: [ '+' ],
                 type: Type3.Integer,
                 check: createCheckRightFunction(Type3.Integer, Type3.Integer),
-                act: createActOnRight(Type3.Integer, function(right) { return right; })
+                act: createActOnRight(Type3.Integer, function(getRight) { return getRight(); })
             },
             absolute: {
                 str: [ 'abs', 'absolute' ],
                 type: Type3.Integer,
                 check: createCheckRightFunction(Type3.Integer),
-                act: createActOnRight(Type3.Integer, function(right) { return Math.abs(right); })
+                act: createActOnRight(Type3.Integer, function(getRight) { return Math.abs(getRight()); })
             },
             isNaN: {
                 str: [ 'isNaN', 'notNumber', 'not_a_number' ],
                 type: Type3.Boolean,
                 check: createCheckRightFunction(Type3.Integer),
-                act: createActOnRight(Type3.Integer, function(right) { return isNaN(right); })
+                act: createActOnRight(Type3.Integer, function(getRight) { return isNaN(getRight()); })
             },
             isFinite: {
                 str: [ 'finite', 'isFinite', 'is_finite' ],
                 type: Type3.Boolean,
                 check: createCheckRightFunction(Type3.Integer),
-                act: createActOnRight(Type3.Integer, function(right) { return isFinite(right); })
+                act: createActOnRight(Type3.Integer, function(getRight) { return isFinite(getRight()); })
             },
             multiply: {
                 str: [ '*', 'mul', 'multiply', 'times' ],
@@ -264,7 +270,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left * right; }
+                    function(getLeft, getRight) { return getLeft() * getRight(); }
                 )
             },
             divide: {
@@ -273,7 +279,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left / right; }
+                    function(getLeft, getRight) { return getLeft() / getRight(); }
                 )
             },
             modulo: {
@@ -282,7 +288,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left % right; }
+                    function(getLeft, getRight) { return getLeft() % getRight(); }
                 )
             },
             add: {
@@ -291,7 +297,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left + right; }
+                    function(getLeft, getRight) { return getLeft() + getRight(); }
                 )
             },
             subtract: {
@@ -300,7 +306,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left - right; }
+                    function(getLeft, getRight) { return getLeft() - getRight(); }
                 )
             },
             lessThan: {
@@ -309,7 +315,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left < right; }
+                    function(getLeft, getRight) { return getLeft() < getRight(); }
                 )
             },
             lessThanOrEqualTo: {
@@ -318,7 +324,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left <= right; }
+                    function(getLeft, getRight) { return getLeft() <= getRight(); }
                 )
             },
             greaterThan: {
@@ -327,7 +333,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left > right; }
+                    function(getLeft, getRight) { return getLeft() > getRight(); }
                 )
             },
             greaterThanOrEqualTo: {
@@ -336,7 +342,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left >= right; }
+                    function(getLeft, getRight) { return getLeft() >= getRight(); }
                 )
             },
             equalTo: {
@@ -345,7 +351,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left === right; }
+                    function(getLeft, getRight) { return getLeft() === getRight(); }
                 )
             },
             notEqualTo: {
@@ -354,7 +360,7 @@ define(
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
-                    function(left, right) { return left === right; }
+                    function(getLeft, getRight) { return getLeft() !== getRight(); }
                 )
             },
             // setNot: {
@@ -363,7 +369,7 @@ define(
             //     check: createCheckRightFunction(Type3.ArraySet),
             //     act: createActOnRight(
             //         Type3.ArraySet,
-            //         function(right) { return ArraySet.createNot(right); }
+            //         function(getRight) { return ArraySet.createNot(getRight()); }
             //     )
             // },
             setAnd: {
@@ -372,7 +378,7 @@ define(
                 check: createCheckBothFunction(Type3.ArraySet, Type3.ArraySet),
                 act: createActOnBoth(
                     Type3.ArraySet, Type3.ArraySet,
-                    function(left, right) { return ArraySet.createAnd(left, right); }
+                    function(getLeft, getRight) { return ArraySet.createAnd(getLeft(), getRight()); }
                 )
             },
             setOr: {
@@ -381,7 +387,7 @@ define(
                 check: createCheckBothFunction(Type3.ArraySet, Type3.ArraySet),
                 act: createActOnBoth(
                     Type3.ArraySet, Type3.ArraySet,
-                    function(left, right) { return ArraySet.createOr(left, right); }
+                    function(getLeft, getRight) { return ArraySet.createOr(getLeft(), getRight()); }
                 )
             },
             containsSet: {
@@ -390,14 +396,14 @@ define(
                 check: createCheckBothFunction(Type3.ArraySet, Type3.ArraySet),
                 act: createActOnBoth(
                     Type3.ArraySet, Type3.ArraySet,
-                    function(left, right) { return right.satisfiesContains(left); }
+                    function(getLeft, getRight) { return getRight().satisfiesContains(getLeft()); }
                 )
             },
             booleanNot: {
                 str: [ '!', 'not' ],
                 type: Type3.Boolean,
                 check: createCheckRightFunction(Type3.Boolean),
-                act: createActOnRight(Type3.Boolean, function(right) { return !right; })
+                act: createActOnRight(Type3.Boolean, function(getRight) { return !getRight(); })
             },
             stringIs: {
                 str: [ 'is', 'are', 'eq', '=', '==', '===' ],
@@ -405,7 +411,7 @@ define(
                 check: createCheckBothFunction(Type3.String, Type3.String),
                 act: createActOnBoth(
                     Type3.String, Type3.String,
-                    function(left, right) { return left === right; }
+                    function(getLeft, getRight) { return getLeft() === getRight(); }
                 )
             },
             stringArrayIs: {
@@ -414,7 +420,7 @@ define(
                 check: createCheckBothFunction(Type3.ArraySet, Type3.ArraySet),
                 act: createActOnBoth(
                     Type3.ArraySet, Type3.ArraySet,
-                    function(left, right) { return right.satisfiesIs(left); }
+                    function(getLeft, getRight) { return getRight().satisfiesIs(getLeft()); }
                 )
             },
             // containsStr: {
@@ -423,8 +429,8 @@ define(
             //     check: createCheckBothFunction(Type3.String, Type3.String),
             //     act: createActOnBoth(
             //         Type3.String, Type3.String,
-            //         function(left, right) {
-            //             return left.toLowerCase().indexOf(right.toLowerCase()) >= 0;
+            //         function(getLeft, getRight) {
+            //             return getLeft().toLowerCase().indexOf(getRight().toLowerCase()) >= 0;
             //         }
             //     )
             // },
@@ -434,7 +440,7 @@ define(
             //     check: createCheckBothFunction(Type3.ArrayString, Type3.String),
             //     act: createActOnBoth(
             //         Type3.ArrayString, Type3.String,
-            //         function(left, right) { return _.contains(left, right); }
+            //         function(getLeft, getRight) { return _.contains(getLeft(), getRight()); }
             //     )
             // },
             booleanAnd: {
@@ -443,7 +449,7 @@ define(
                 check: createCheckBothFunction(Type3.Boolean, Type3.Boolean),
                 act: createActOnBoth(
                     Type3.Boolean, Type3.Boolean,
-                    function(left, right) { return Boolean(left && right); }
+                    function(getLeft, getRight) { return Boolean(getLeft() && getRight()); }
                 )
             },
             booleanOr: {
@@ -452,7 +458,7 @@ define(
                 check: createCheckBothFunction(Type3.Boolean, Type3.Boolean),
                 act: createActOnBoth(
                     Type3.Boolean, Type3.Boolean,
-                    function(left, right) { return Boolean(left || right); }
+                    function(getLeft, getRight) { return Boolean(getLeft() || getRight()); }
                 )
             }
         };
@@ -509,11 +515,11 @@ define(
 
         var accessors = [
             // Debug
-            {
-                type:      Type2.String,
-                predicate: function(str) { return _.contains(['A', 'B', 'C', 'D'], str); },
-                getValue1:  function(str, extra) { return 'hardcodedString.' + str; }
-            },
+            // {
+            //     type:      Type2.String,
+            //     predicate: function(str) { return _.contains(['A', 'B', 'C', 'D'], str); },
+            //     getValue1:  function(str, extra) { return 'hardcodedString.' + str; }
+            // },
 
             {
                 type: Type2.ArrayString,
@@ -528,7 +534,7 @@ define(
                     return str === 'ending';
                 },
                 getValue1: function(str, extra) {
-                    var nodeData = extra;
+                    var nodeData = extra.nodeData;
                     if (!NodeFactory.isMoveNode(nodeData)) return '';
                     return nodeData.endsWith || 'STD';
                 }
@@ -541,7 +547,7 @@ define(
                     return str === 'context';
                 },
                 getValue1: function(str, extra) {
-                    var nodeData = extra;
+                    var nodeData = extra.nodeData;
                     if (!NodeFactory.isMoveNode(nodeData)) return '';
                     return nodeData.context || [];
                 }
@@ -554,7 +560,7 @@ define(
                     return str === 'tags';
                 },
                 getValue1: function(str, extra) {
-                    var nodeData = extra;
+                    var nodeData = extra.nodeData;
                     if (!NodeFactory.isMoveNode(nodeData)) return '';
                     return nodeData.actionSteps.filter(Boolean).reduce(
                         function(acc, actionStep) {
@@ -600,7 +606,7 @@ define(
                             });
                         },
                         getValue1: function(str, extra) {
-                            var nodeData = extra;
+                            var nodeData = extra.nodeData;
                             if (!NodeFactory.isMoveNode(nodeData)) return NaN;
                             var range = NodeFactory.getAdvantageRange(
                                 nodeData,
@@ -619,7 +625,7 @@ define(
                             });
                         },
                         getValue1: function(str, extra) {
-                            var nodeData = extra;
+                            var nodeData = extra.nodeData;
                             if (!NodeFactory.isMoveNode(nodeData)) return NaN;
                             var range = NodeFactory.getAdvantageRange(
                                 nodeData,
