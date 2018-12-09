@@ -18,34 +18,95 @@ define(
             Boolean:     't2_boolean',
             Integer:     't2_integer',
             String:      't2_string',
-            ArrayString: 't2_arrayString'
+            ArrayString: 't2_array_string'
         };
 
         var Type3 = {
             Boolean:     't3_boolean',
             Integer:     't3_integer',
             String:      't3_string',
-            ArrayString: 't3_arrayString'
+            ArrayString: 't3_array_string',
+            ArraySet:    't3_array_set'
         };
 
-        var castType3Map = {};
-        // castType3Map[Type3.String] = {};
-        // castType3Map[Type3.String][Type3.ArrayString] = function(value) {
-        //     return [value];
-        // };
+        //
 
-        function canCastType3FromTo(type3A, type3B) {
-            if (type3A === type3B) return true;
-            return (
-                castType3Map.hasOwnProperty(type3A) &&
-                castType3Map[type3A].hasOwnProperty(type3B)
-            );
-        }
+        var type3Casters = createCastingManager();
+        type3Casters.addCaster(
+            Type3.String, Type3.ArraySet,
+            function(value) { return ArraySet.createFromValue(value); }
+        );
+        type3Casters.addCaster(
+            Type3.String, Type3.ArrayString,
+            function(value) { return [value]; }
+        );
+        type3Casters.addCaster(
+            Type3.ArrayString, Type3.ArraySet,
+            function(value) { return ArraySet.createFromArray(value); }
+        );
 
-        function castType3ValueFromTo(value, type3A, type3B) {
-            if (type3A === type3B) return value;
-            return castType3Map[type3A][type3B](value);
+        //
+
+        function ArraySet(values) {
+            var arrays = values;
+            return {
+                _getArrays: _getArrays,
+                satisfiesIs:       satisfiesIs,
+                satisfiesContains: satisfiesContains
+            };
+            function _getArrays() {
+                return arrays;
+            }
+            function satisfiesIs(testSet) {
+                return testSet._getArrays().some(function(testArray) {
+                    return _getArrays().some(function(array) {
+                        return (
+                            testArray.length === 0 && array.length === 0 ||
+                            arrayContains(testArray, array) &&
+                            arrayContains(array, testArray)
+                        );
+                    });
+                });
+            }
+            function satisfiesContains(testSet) {
+                return testSet._getArrays().some(function(testArray) {
+                    return _getArrays().some(function(array) {
+                        return arrayContains(testArray, array);
+                    });
+                });
+            }
+            function arrayContains(array, values) {
+                return values.every(function(element) {
+                    return _.contains(array, element);
+                });
+            }
         }
+        ArraySet.createFromValue = function(value) {
+            return new ArraySet([[value]]);
+        };
+        ArraySet.createFromArray = function(values) {
+            return new ArraySet([values]);
+        };
+        ArraySet.createAnd = function(leftSet, rightSet) {
+            var leftArrays  = leftSet._getArrays();
+            var rightArrays = rightSet._getArrays();
+            var values = [];
+            leftArrays.forEach(function(leftArray) {
+                rightArrays.forEach(function(rightArray) {
+                    values.push(leftArray.concat(rightArray));
+                });
+            });
+            return new ArraySet(values);
+        };
+        ArraySet.createOr = function(leftSet, rightSet) {
+            var values = leftSet._getArrays().concat(rightSet._getArrays());
+            return new ArraySet(values);
+        };
+        ArraySet.createEmpty = function() {
+            return new ArraySet([[]]);
+        };
+
+        //
 
         /**
             move                                 // bool
@@ -96,29 +157,36 @@ define(
             ending is "W..." or "WF" or "WS" or "WC"
             context contains "low hp"
             ending is "BT" and advantageOnBlock >= 0
+
+            A and B contains "str"
+            (A contains "str") and (B contains "str")
+            [A, B] contains "str"
          */
 
         //
 
         function createCheckBothFunction(typeLeft, typeRight) {
             return function(array, index) {
-                var left  = _.getOrThrow(array, index - 1);
-                var right = _.getOrThrow(array, index + 1);
+                var leftOffset = -1;
+                var rightOffset = 1;
+                var left  = _.getOrThrow(array, index + leftOffset);
+                var right = _.getOrThrow(array, index + rightOffset);
                 return {
                     valid: (
-                        left  && canCastType3FromTo(left.type,  typeLeft) &&
-                        right && canCastType3FromTo(right.type, typeRight)
+                        left  && type3Casters.canCast(left.type,  typeLeft) &&
+                        right && type3Casters.canCast(right.type, typeRight)
                     ),
-                    takeLeft:  true,
-                    takeRight: true
+                    offsetsToTake: [leftOffset, rightOffset]
                 };
             };
         }
 
         function createActOnBoth(typeLeft, typeRight, func) {
-            return function(left, right, extra) {
-                var lv = castType3ValueFromTo(left.getValue(extra),  left.type,  typeLeft);
-                var rv = castType3ValueFromTo(right.getValue(extra), right.type, typeRight);
+            return function(args, extra) {
+                var left  = args[0];
+                var right = args[1];
+                var lv = type3Casters.castValue(left.getValue(extra),  left.type,  typeLeft);
+                var rv = type3Casters.castValue(right.getValue(extra), right.type, typeRight);
                 return func(lv, rv);
             }
         }
@@ -127,25 +195,29 @@ define(
 
         function createCheckRightFunction(typeRight, optExcludeTypeLeft) {
             return function(array, index) {
-                var right = _.getOrThrow(array, index + 1);
-                var valid = right && canCastType3FromTo(right.type, typeRight);
-                if (optExcludeTypeLeft && index - 1 >= 0) {
-                    var left = _.getOrThrow(array, index - 1);
-                    if (left && canCastType3FromTo(left.type, optExcludeTypeLeft)) {
-                        valid = false;
+                var rightOffset = 1;
+                var right = _.getOrThrow(array, index + rightOffset);
+                var valid = right && type3Casters.canCast(right.type, typeRight);
+                if (optExcludeTypeLeft) {
+                    var leftOffset = -1;
+                    if (index + leftOffset >= 0) {
+                        var left = _.getOrThrow(array, index + leftOffset);
+                        if (left && type3Casters.canCast(left.type, optExcludeTypeLeft)) {
+                            valid = false;
+                        }
                     }
                 }
                 return {
                     valid: valid,
-                    takeLeft:  false,
-                    takeRight: true
+                    offsetsToTake: [rightOffset]
                 };
             };
         }
 
         function createActOnRight(typeRight, func) {
-            return function(left, right, extra) {
-                var rv = castType3ValueFromTo(right.getValue(extra), right.type, typeRight);
+            return function(args, extra) {
+                var right = args[0];
+                var rv = type3Casters.castValue(right.getValue(extra), right.type, typeRight);
                 return func(rv);
             }
         }
@@ -153,6 +225,9 @@ define(
         //
 
         var operators = {
+            // max
+            // min
+            // ? :
             unaryMinus: {
                 str: [ '-', 'neg', 'negate', 'inv', 'invert', 'inverse' ],
                 type: Type3.Integer,
@@ -199,6 +274,15 @@ define(
                 act: createActOnBoth(
                     Type3.Integer, Type3.Integer,
                     function(left, right) { return left / right; }
+                )
+            },
+            modulo: {
+                str: [ '%', 'mod', 'modulo' ],
+                type: Type3.Integer,
+                check: createCheckBothFunction(Type3.Integer, Type3.Integer),
+                act: createActOnBoth(
+                    Type3.Integer, Type3.Integer,
+                    function(left, right) { return left % right; }
                 )
             },
             add: {
@@ -256,7 +340,7 @@ define(
                 )
             },
             equalTo: {
-                str: [ 'eq', 'is', '=', '==', '===' ],
+                str: [ 'is', 'are', 'eq', '=', '==', '===' ],
                 type: Type3.Boolean,
                 check: createCheckBothFunction(Type3.Integer, Type3.Integer),
                 act: createActOnBoth(
@@ -273,6 +357,42 @@ define(
                     function(left, right) { return left === right; }
                 )
             },
+            // setNot: {
+            //     str: [ '!', 'not' ],
+            //     type: Type3.ArraySet,
+            //     check: createCheckRightFunction(Type3.ArraySet),
+            //     act: createActOnRight(
+            //         Type3.ArraySet,
+            //         function(right) { return ArraySet.createNot(right); }
+            //     )
+            // },
+            setAnd: {
+                str: [ 'and', '&', '&&' ],
+                type: Type3.ArraySet,
+                check: createCheckBothFunction(Type3.ArraySet, Type3.ArraySet),
+                act: createActOnBoth(
+                    Type3.ArraySet, Type3.ArraySet,
+                    function(left, right) { return ArraySet.createAnd(left, right); }
+                )
+            },
+            setOr: {
+                str: [ 'or', '|', '||' ],
+                type: Type3.ArraySet,
+                check: createCheckBothFunction(Type3.ArraySet, Type3.ArraySet),
+                act: createActOnBoth(
+                    Type3.ArraySet, Type3.ArraySet,
+                    function(left, right) { return ArraySet.createOr(left, right); }
+                )
+            },
+            containsSet: {
+                str: [ 'contains', 'contain', 'includes', 'include', 'has', 'have' ],
+                type: Type3.Boolean,
+                check: createCheckBothFunction(Type3.ArraySet, Type3.ArraySet),
+                act: createActOnBoth(
+                    Type3.ArraySet, Type3.ArraySet,
+                    function(left, right) { return right.satisfiesContains(left); }
+                )
+            },
             booleanNot: {
                 str: [ '!', 'not' ],
                 type: Type3.Boolean,
@@ -280,7 +400,7 @@ define(
                 act: createActOnRight(Type3.Boolean, function(right) { return !right; })
             },
             stringIs: {
-                str: [ 'eq', 'is', '=', '==', '===' ],
+                str: [ 'is', 'are', 'eq', '=', '==', '===' ],
                 type: Type3.Boolean,
                 check: createCheckBothFunction(Type3.String, Type3.String),
                 act: createActOnBoth(
@@ -288,15 +408,35 @@ define(
                     function(left, right) { return left === right; }
                 )
             },
-            contains: {
-                str: [ 'contains', 'includes', 'has' ],
+            stringArrayIs: {
+                str: [ 'is', 'are', 'eq', '=', '==', '===' ],
                 type: Type3.Boolean,
-                check: createCheckBothFunction(Type3.ArrayString, Type3.String),
+                check: createCheckBothFunction(Type3.ArraySet, Type3.ArraySet),
                 act: createActOnBoth(
-                    Type3.ArrayString, Type3.String,
-                    function(left, right) { return _.contains(left, right); }
+                    Type3.ArraySet, Type3.ArraySet,
+                    function(left, right) { return right.satisfiesIs(left); }
                 )
             },
+            // containsStr: {
+            //     str: [ 'contains', 'contain', 'includes', 'include', 'has', 'have' ],
+            //     type: Type3.Boolean,
+            //     check: createCheckBothFunction(Type3.String, Type3.String),
+            //     act: createActOnBoth(
+            //         Type3.String, Type3.String,
+            //         function(left, right) {
+            //             return left.toLowerCase().indexOf(right.toLowerCase()) >= 0;
+            //         }
+            //     )
+            // },
+            // contains: {
+            //     str: [ 'contains', 'contain', 'includes', 'include', 'has', 'have' ],
+            //     type: Type3.Boolean,
+            //     check: createCheckBothFunction(Type3.ArrayString, Type3.String),
+            //     act: createActOnBoth(
+            //         Type3.ArrayString, Type3.String,
+            //         function(left, right) { return _.contains(left, right); }
+            //     )
+            // },
             booleanAnd: {
                 str: [ 'and', '&', '&&' ],
                 type: Type3.Boolean,
@@ -314,17 +454,7 @@ define(
                     Type3.Boolean, Type3.Boolean,
                     function(left, right) { return Boolean(left || right); }
                 )
-            },
-            // stringOr: {
-            //     str: [ 'or', '|', '||' ],
-            //     type: Type3.ArrayString,
-            //     check: createCheckBothFunction(Type3.String, Type3.String),
-            //     act: function(left, right, extra) {
-            //         var lv = castType3ValueFromTo(left.getValue(extra),  left.type,  Type3.String);
-            //         var rv = castType3ValueFromTo(right.getValue(extra), right.type, Type3.String);
-            //         return new Union(lv, rv);
-            //     }
-            // }
+            }
         };
 
         //
@@ -343,7 +473,9 @@ define(
                 leftToRight: true,
                 operators: [
                     operators.multiply,
-                    operators.divide
+                    operators.divide,
+                    operators.modulo
+
                 ]
             }, {
                 leftToRight: true,
@@ -362,28 +494,32 @@ define(
                     operators.notEqualTo
                 ]
             },
-            { leftToRight: false, operators: [ operators.booleanNot ] },
-            { leftToRight: true,  operators: [ operators.stringIs   ] },
-            { leftToRight: true,  operators: [ operators.contains   ] },
+            // { leftToRight: false, operators: [ operators.setNot      ] },
+            { leftToRight: true,  operators: [ operators.setAnd      ] },
+            { leftToRight: true,  operators: [ operators.setOr       ] },
+            { leftToRight: true,  operators: [ operators.containsSet ] },
+            { leftToRight: false, operators: [ operators.booleanNot  ] },
+            { leftToRight: true,  operators: [ operators.stringIs,    operators.stringArrayIs ] },
+            // { leftToRight: true,  operators: [ operators.containsStr, operators.contains      ] },
             { leftToRight: true,  operators: [ operators.booleanAnd ] },
-            {
-                leftToRight: true,
-                operators: [
-                    operators.booleanOr,
-                    // operators.stringOr
-                ]
-            }
+            { leftToRight: true,  operators: [ operators.booleanOr  ] }
         ];
 
         //
 
         var accessors = [
             // Debug
-            /*{
-                type:      Type3.Boolean,
+            {
+                type:      Type2.String,
                 predicate: function(str) { return _.contains(['A', 'B', 'C', 'D'], str); },
-                getValue1:  function(str, extra) { return str === 'A' || str === 'C'; }
-            }*/
+                getValue1:  function(str, extra) { return 'hardcodedString.' + str; }
+            },
+
+            {
+                type: Type2.ArrayString,
+                predicate: function(str) { return str === 'empty'; },
+                getValue1: function(str, extra) { return []; }
+            },
 
             // Ending
             {
@@ -503,14 +639,97 @@ define(
         return {
             Type1: Type1,
             Type2: Type2,
-
-            Type3:                Type3,
-            canCastType3FromTo:   canCastType3FromTo,
-            castType3ValueFromTo: castType3ValueFromTo,
-
+            Type3: Type3,
             operatorsPerPrio: operatorsPerPrio,
             accessors: accessors
         };
+
+        //
+
+        function createCastingManager() {
+            var castMap = {};
+            var existingCasters = [];
+
+            return {
+                addCaster: addCaster,
+                canCast:   canCast,
+                castValue: castValue
+            }
+
+            function addCaster(from, to, castFunc, optIndirect) {
+
+                var direct = !optIndirect;
+
+                if (canAdd(from, to, direct)) {
+
+                    castMap[from] = castMap[from] || {};
+                    castMap[from][to] = {
+                        castFunc: castFunc,
+                        direct: direct
+                    };
+
+                    existingCasters.push({ from: from, to: to });
+                }
+
+                connectCasters(from, to, castMap[from][to].castFunc);
+            }
+
+            function canAdd(from, to, direct) {
+                if (castMap.hasOwnProperty(from) && castMap[from].hasOwnProperty(to)) {
+                    if (direct) {
+                        if (castMap[from][to].direct) {
+                            console.error(
+                                'Replacing already existing caster: ' + from + ' -> ' + to
+                            );
+                        } else {
+                            console.warn(
+                                'Refining already existing caster: ' + from + ' -> ' + to
+                            );
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+                return true;
+            }
+
+            function connectCasters(from, to, castFunc) {
+                existingCasters
+                    .filter(function(t) {
+                        return t.to === from;
+                    })
+                    .forEach(function(t) {
+                        addCaster(
+                            t.from, to,
+                            function(value) { return castFunc(castValue(value, t.from, t.to)); },
+                            true
+                        );
+                    });
+
+                existingCasters
+                    .filter(function(t) { return to === t.from; })
+                    .forEach(function(t) {
+                        addCaster(
+                            from, t.to,
+                            function(value) { return castValue(castFunc(value), t.from, t.to); },
+                            true
+                        );
+                    });
+            }
+
+            function canCast(typeFrom, typeTo) {
+                if (typeFrom === typeTo) return true;
+                return (
+                    castMap.hasOwnProperty(typeFrom) &&
+                    castMap[typeFrom].hasOwnProperty(typeTo)
+                );
+            }
+
+            function castValue(value, typeFrom, typeTo) {
+                if (typeFrom === typeTo) return value;
+                return castMap[typeFrom][typeTo].castFunc(value);
+            }
+        }
     }
 
 );

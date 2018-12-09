@@ -315,7 +315,12 @@ define(
 
             console.log('type', type.type);
 
-            return type;
+            return {
+                type:     type.type,
+                getValue: function(extra) {
+                    return type.getValue(extra);
+                }
+            };
 
             function type1RawToType2(value) {
 
@@ -416,12 +421,16 @@ define(
                         function(acc, type, index, types) {
                             if (
                                 type.type === null &&
-                                type.entry.type === Type2.Operator &&
-                                operatorsGroup.operators.some(function(operator) {
-                                    return _.contains(operator.str, type.entry.getValue2());
-                                })
+                                type.entry.type === Type2.Operator
                             ) {
-                                acc.push(index);
+                                var operatorStr = type.entry.getValue2();
+                                if (
+                                    operatorsGroup.operators.some(function(operator) {
+                                        return _.contains(operator.str, operatorStr);
+                                    })
+                                ) {
+                                    acc.push(index);
+                                }
                             }
                             return acc;
                         },
@@ -437,22 +446,21 @@ define(
                             (function(){
                                 var operatorStr = types[indices[k]].entry.getValue2();
                                 var operator = _.find(operatorsGroup.operators, function(operator) {
-                                    return _.contains(operator.str, operatorStr);
+                                    return (
+                                        _.contains(operator.str, operatorStr) &&
+                                        operator.check(types, indices[k]).valid
+                                    );
                                 });
+                                if (!operator) return;
                                 var checkResult = operator.check(types, indices[k]);
-                                if (!checkResult.valid) return;
-                                var left, right;
-                                if (leftToRight) {
-                                    if (checkResult.takeLeft)  left  = take(types, indices[k] - 1, indices);
-                                    if (checkResult.takeRight) right = take(types, indices[k] + 1, indices);
-                                } else {
-                                    if (checkResult.takeRight) right = take(types, indices[k] + 1, indices);
-                                    if (checkResult.takeLeft)  left  = take(types, indices[k] - 1, indices);
-                                }
+                                var args = checkResult.offsetsToTake.map(function(offset) {
+                                    return take(types, indices[k] + offset, indices);
+                                });
                                 types[indices[k]].type = operator.type;
                                 types[indices[k]].getValue = function(extra) {
-                                    return operator.act(left, right, extra);
+                                    return operator.act(args, extra);
                                 };
+                                // TODO: restart from top prio?
                             }());
                         }
                     }
@@ -474,9 +482,7 @@ define(
                     if (types[0].type !== null) {
                         return {
                             type:     types[0].type,
-                            getValue: function(extra) {
-                                return types[0].getValue(extra);
-                            }
+                            getValue: types[0].getValue
                         };
                     }
                 }
