@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1543684868689
+    "timeSaved": 1544382398232
   },
   "body": {
     "character": "Talim",
@@ -194,6 +194,10 @@
                             "actionMask": "mid P",
                             "actionType": "strike",
                             "isTracking": false,
+                            "tags": [
+                              "ground attack",
+                              "guard crush"
+                            ],
                             "results": [
                               {
                                 "condition": [
@@ -225,6 +229,10 @@
                             "actionMask": "mid P",
                             "actionType": "strike",
                             "isTracking": false,
+                            "tags": [
+                              "ground attack",
+                              "guard crush"
+                            ],
                             "results": [
                               {
                                 "condition": [
@@ -261,7 +269,9 @@
                             "actionType": "strike",
                             "isTracking": false,
                             "tags": [
-                              "BA"
+                              "BA",
+                              "ground attack",
+                              "guard crush"
                             ],
                             "results": [
                               {
@@ -306,7 +316,9 @@
                             "actionType": "strike",
                             "isTracking": false,
                             "tags": [
-                              "BA"
+                              "BA",
+                              "ground attack",
+                              "guard crush"
                             ],
                             "results": [
                               {
@@ -434,6 +446,9 @@
                     "actionMask": "high P",
                     "actionType": "strike",
                     "isTracking": true,
+                    "tags": [
+                      "guard crush"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -458,7 +473,8 @@
                         "actionType": "strike",
                         "isTracking": false,
                         "tags": [
-                          "ground attack"
+                          "ground attack",
+                          "guard crush"
                         ],
                         "results": [
                           {
@@ -484,7 +500,8 @@
                             "actionType": "strike",
                             "isTracking": true,
                             "tags": [
-                              "CE"
+                              "CE",
+                              "guard crush"
                             ],
                             "results": [
                               {
@@ -587,6 +604,10 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "tags": [
+                      "ground attack",
+                      "guard crush"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -787,7 +808,8 @@
                                         "actionType": "strike",
                                         "isTracking": false,
                                         "tags": [
-                                          "BA"
+                                          "BA",
+                                          "guard crush"
                                         ],
                                         "results": [
                                           {
@@ -829,7 +851,8 @@
                                         "actionType": "strike",
                                         "isTracking": false,
                                         "tags": [
-                                          "BA"
+                                          "BA",
+                                          "guard crush"
                                         ],
                                         "results": [
                                           {
@@ -1114,7 +1137,8 @@
                 "tags": [
                   "SC",
                   "BA",
-                  "special"
+                  "special",
+                  "ground attack"
                 ],
                 "results": [
                   {
@@ -1382,6 +1406,9 @@
                 "actionMask": "low K",
                 "actionType": "strike",
                 "isTracking": true,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -1412,6 +1439,9 @@
                 "actionMask": "low P",
                 "actionType": "strike",
                 "isTracking": true,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -1783,7 +1813,9 @@
                     "isTracking": false,
                     "tags": [
                       "BA",
-                      "LH"
+                      "LH",
+                      "ground attack",
+                      "guard crush"
                     ],
                     "results": [
                       {
@@ -1819,6 +1851,9 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -1844,6 +1879,9 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "tags": [
+                      "guard crush"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -1886,7 +1924,8 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
-                      "BA"
+                      "BA",
+                      "guard crush"
                     ],
                     "results": [
                       {
@@ -1944,7 +1983,8 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "LH"
+                  "LH",
+                  "guard crush"
                 ],
                 "results": [
                   {
@@ -1976,7 +2016,8 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
-                      "BA"
+                      "BA",
+                      "guard crush"
                     ],
                     "results": [
                       {
@@ -2035,6 +2076,10 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack",
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -2061,6 +2106,9 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -2105,7 +2153,8 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "LH"
+                  "LH",
+                  "guard crush"
                 ],
                 "results": [
                   {
@@ -2150,7 +2199,10 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "ground attack"
+                ]
               }
             ],
             "followUps": [
@@ -2166,6 +2218,10 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "tags": [
+                      "ground attack",
+                      "guard crush"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -2311,6 +2367,9 @@
                         "actionMask": "high P",
                         "actionType": "strike",
                         "isTracking": true,
+                        "tags": [
+                          "guard crush"
+                        ],
                         "results": [
                           {
                             "condition": [
@@ -2348,6 +2407,10 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "tags": [
+                      "ground attack",
+                      "guard crush"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -2381,7 +2444,9 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "LH"
+                  "LH",
+                  "ground attack",
+                  "guard crush"
                 ]
               }
             ],
@@ -2431,6 +2496,9 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "tags": [
+                      "guard crush"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -2554,6 +2622,9 @@
                             "actionMask": "mid P",
                             "actionType": "strike",
                             "isTracking": false,
+                            "tags": [
+                              "guard crush"
+                            ],
                             "results": [
                               {
                                 "condition": [
@@ -2691,6 +2762,10 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack",
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -2717,6 +2792,10 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack",
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -2743,7 +2822,10 @@
               {
                 "actionMask": "low P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "ground attack"
+                ]
               }
             ],
             "followUps": [
@@ -2759,6 +2841,9 @@
                     "actionMask": "low P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "tags": [
+                      "ground attack"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -2786,7 +2871,8 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "LH"
+                  "LH",
+                  "guard crush"
                 ],
                 "results": [
                   {
@@ -2815,6 +2901,9 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -2841,7 +2930,8 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "LH"
+                  "LH",
+                  "guard crush"
                 ],
                 "results": [
                   {
@@ -2872,7 +2962,8 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "UA"
+                  "UA",
+                  "ground attack"
                 ],
                 "results": [
                   {
@@ -2915,6 +3006,9 @@
                 "actionMask": "low K",
                 "actionType": "strike",
                 "isTracking": true,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -3363,6 +3457,10 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "tags": [
+                      "ground attack",
+                      "guard crush"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -3403,6 +3501,9 @@
                         "actionMask": "mid P",
                         "actionType": "strike",
                         "isTracking": false,
+                        "tags": [
+                          "guard crush"
+                        ],
                         "results": [
                           {
                             "condition": [
@@ -3453,6 +3554,10 @@
                 "actionMask": "low K",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack",
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -3652,7 +3757,10 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "tags": [
+                          "guard crush"
+                        ]
                       }
                     ],
                     "endsWith": "BT",
@@ -3702,6 +3810,9 @@
                                     "actionMask": "mid P",
                                     "actionType": "strike",
                                     "isTracking": false,
+                                    "tags": [
+                                      "guard crush"
+                                    ],
                                     "results": [
                                       {
                                         "condition": [
@@ -3732,7 +3843,10 @@
                       {
                         "actionMask": "low K",
                         "actionType": "strike",
-                        "isTracking": true
+                        "isTracking": true,
+                        "tags": [
+                          "ground attack"
+                        ]
                       }
                     ],
                     "endsWith": "FC",
@@ -3865,7 +3979,10 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "tags": [
+                      "guard crush"
+                    ]
                   }
                 ]
               },
@@ -3882,7 +3999,8 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
-                      "BA"
+                      "BA",
+                      "guard crush"
                     ],
                     "results": [
                       {
@@ -3916,7 +4034,8 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
-                      "BA"
+                      "BA",
+                      "guard crush"
                     ],
                     "results": [
                       {
@@ -4022,7 +4141,10 @@
               {
                 "actionMask": "low P",
                 "actionType": "strike",
-                "isTracking": true
+                "isTracking": true,
+                "tags": [
+                  "ground attack"
+                ]
               }
             ],
             "endsWith": "FC",
@@ -4055,6 +4177,10 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack",
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -4088,6 +4214,10 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack",
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -4126,7 +4256,9 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "BA"
+                  "BA",
+                  "ground attack",
+                  "guard crush"
                 ],
                 "results": [
                   {
@@ -4171,7 +4303,9 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "BA"
+                  "BA",
+                  "ground attack",
+                  "guard crush"
                 ],
                 "results": [
                   {
@@ -4207,6 +4341,9 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -4256,7 +4393,7 @@
               {
                 "input": "*",
                 "context": [
-                  "whiff"
+                  "whiff|crush"
                 ],
                 "frameData": [
                   9,
@@ -4306,7 +4443,21 @@
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "ground attack",
+                  "guard crush"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "grounded"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
               }
             ],
             "endsWith": "BT"
@@ -4353,6 +4504,10 @@
                         "actionMask": "mid P",
                         "actionType": "strike",
                         "isTracking": false,
+                        "tags": [
+                          "ground attack",
+                          "guard crush"
+                        ],
                         "results": [
                           {
                             "condition": [
@@ -4492,6 +4647,9 @@
                     "actionMask": "low P",
                     "actionType": "strike",
                     "isTracking": true,
+                    "tags": [
+                      "ground attack"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -4518,6 +4676,9 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -4555,7 +4716,8 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
-                      "LH"
+                      "LH",
+                      "guard crush"
                     ],
                     "results": [
                       {
@@ -4585,6 +4747,9 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -4749,6 +4914,9 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -4850,6 +5018,9 @@
                 "actionMask": "low K",
                 "actionType": "strike",
                 "isTracking": true,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -4889,6 +5060,9 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "tags": [
+                      "guard crush"
+                    ],
                     "results": [
                       {
                         "condition": [
@@ -5061,6 +5235,9 @@
                 "actionMask": "high P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -5208,7 +5385,10 @@
                                       {
                                         "actionMask": "mid P",
                                         "actionType": "strike",
-                                        "isTracking": false
+                                        "isTracking": false,
+                                        "tags": [
+                                          "ground attack"
+                                        ]
                                       }
                                     ],
                                     "followUps": [
@@ -5290,7 +5470,8 @@
                 "isTracking": true,
                 "tags": [
                   "BA",
-                  "LH"
+                  "LH",
+                  "guard crush"
                 ],
                 "results": [
                   {
@@ -5326,7 +5507,8 @@
                 "isTracking": true,
                 "tags": [
                   "BA",
-                  "LH"
+                  "LH",
+                  "guard crush"
                 ],
                 "results": [
                   {
@@ -5374,7 +5556,7 @@
                     "actionType": "strike",
                     "isTracking": true,
                     "tags": [
-                      "CE"
+                      "guard crush"
                     ]
                   }
                 ],
@@ -5390,7 +5572,11 @@
                       {
                         "actionMask": "mid P",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "tags": [
+                          "ground attack",
+                          "guard crush"
+                        ]
                       }
                     ],
                     "followUps": [
@@ -5405,7 +5591,11 @@
                           {
                             "actionMask": "mid P",
                             "actionType": "strike",
-                            "isTracking": true
+                            "isTracking": true,
+                            "tags": [
+                              "CE",
+                              "guard crush"
+                            ]
                           }
                         ],
                         "comment": "restores health"
@@ -5456,6 +5646,9 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -5480,7 +5673,10 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "ground attack"
+                ]
               }
             ],
             "endsWith": "FC"
@@ -5497,6 +5693,9 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
+                "tags": [
+                  "guard crush"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -5531,6 +5730,9 @@
                 "actionMask": "low K",
                 "actionType": "strike",
                 "isTracking": true,
+                "tags": [
+                  "ground attack"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -5860,7 +6062,8 @@
                 "isTracking": false,
                 "tags": [
                   "BA",
-                  "LH"
+                  "LH",
+                  "guard crush"
                 ],
                 "results": [
                   {
@@ -5907,7 +6110,8 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "LH"
+                  "LH",
+                  "guard crush"
                 ],
                 "results": [
                   {
