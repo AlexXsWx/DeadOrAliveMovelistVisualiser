@@ -184,7 +184,9 @@ define(
             frameToBeActiveOnEnd,   // inclusive
             optNodeDataFilterFunc,
             optOutputWarnings,
-            optCurrentStance
+            optCurrentStance,
+            optCurrentPath,
+            optFramesSpent
         ) {
             var results = [];
 
@@ -213,7 +215,14 @@ define(
                     }
                 )
             );
-            traverseRecursive([], true, 0, optCurrentStance || CommonStances.DEFAULT);
+            if (optCurrentPath) {
+                traverseRecursive(optCurrentPath, false, optFramesSpent || 0, optCurrentStance || CommonStances.DEFAULT);
+                traverseRecursive(optCurrentPath, true,  optFramesSpent || 0, optCurrentStance || CommonStances.DEFAULT);
+            } else {
+                traverseRecursive(
+                    [], true, optFramesSpent || 0, optCurrentStance || CommonStances.DEFAULT
+                );
+            }
 
             // TODO: check if all stances are accessible
 
