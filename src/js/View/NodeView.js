@@ -2,9 +2,11 @@ define(
 
     'View/NodeView',
 
-    [ 'Model/NodeFactory', 'Tools/TreeTools', 'Model/CommonStances', 'Tools/Tools' ],
+    [
+        'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/CommonStances',
+        'Tools/TreeTools', 'Tools/Tools' ],
 
-    function NodeView(NodeFactory, TreeTools, CommonStances, _) {
+    function NodeView(NodeFactory, NodeFactoryMove, CommonStances, TreeTools, _) {
 
         var SORTING_ORDER = {
             DEFAULT: sortByDefault,
@@ -612,13 +614,12 @@ define(
                         return (
                             nodeData &&
                             NodeFactory.isMoveNode(nodeData) &&
-                            nodeData.frameData &&
-                            nodeData.frameData.length > 0
+                            NodeFactoryMove.hasFrameData(nodeData)
                         );
                     }).sort(function(nodeViewA, nodeViewB) {
                         return _.sortFuncAscending(
-                            getNodeData(nodeViewA).frameData[0],
-                            getNodeData(nodeViewB).frameData[0]
+                            NodeFactoryMove.getStartupFramesCount(getNodeData(nodeViewA)),
+                            NodeFactoryMove.getStartupFramesCount(getNodeData(nodeViewB))
                         );
                     });
                 });

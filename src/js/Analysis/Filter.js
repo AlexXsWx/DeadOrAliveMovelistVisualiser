@@ -4,10 +4,11 @@ define(
 
     [
         'Analysis/Parser', 'Analysis/Operators',
-        'Model/NodeFactory', 'Model/CommonStances', 'Localization/Strings', 'Tools/Tools'
+        'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/CommonStances',
+        'Localization/Strings', 'Tools/Tools'
     ],
 
-    function Filter(Parser, Operators, NodeFactory, CommonStances, Strings, _) {
+    function Filter(Parser, Operators, NodeFactory, NodeFactoryMove, CommonStances, Strings, _) {
 
         return {
             isTrackingMidKickNode:      isTrackingMidKickNode,
@@ -361,7 +362,7 @@ define(
             if (!doesContextQualify(nodeData, workingStance)) {
                 return checkPassed;
             }
-            if (nodeData.frameData && nodeData.frameData.length > 0) {
+            if (NodeFactoryMove.hasFrameData(nodeData)) {
 
                 checkPassed = true;
 

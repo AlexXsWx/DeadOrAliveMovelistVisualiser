@@ -2,9 +2,9 @@ define(
 
     'View/NodeSvgViewTextGetters',
 
-    [ 'View/NodeView', 'Model/NodeFactory', 'Tools/Tools' ],
+    [ 'View/NodeView', 'Model/NodeFactory', 'Model/NodeFactoryMove', 'Tools/Tools' ],
 
-    function NodeSvgViewTextGetters(NodeView, NodeFactory, _) {
+    function NodeSvgViewTextGetters(NodeView, NodeFactory, NodeFactoryMove, _) {
 
         var CHARS = {
             EXPAND:   '+',
@@ -84,20 +84,16 @@ define(
         function getTextActiveFrames(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
-            var frameData = nodeData.frameData;
-            if (!frameData || frameData.length === 0) return '';
-            var frames = 0;
-            if (doesParentStanceApplyExtraFrame()) frames += 1;
-            frames += frameData[0];
-            var activeFrames = [];
-            for (var i = 1; i < frameData.length; i += 2) {
-                var localFrames = frameData[i];
-                for (var j = 0; j < localFrames; ++j) {
-                    activeFrames.push(':' + (frames + j + 1));
-                }
-                frames += localFrames + frameData[i + 1];
+            if (!NodeFactoryMove.hasFrameData(nodeData)) return '';
+
+            var frames = NodeFactoryMove.getMoveDurationData(nodeData).total;
+            var activeFrames = NodeFactoryMove.getActiveFrames(nodeData);
+            if (doesParentStanceApplyExtraFrame()) {
+                activeFrames = activeFrames.map(function(frame) { return frame + 1; });
+                frames += 1;
             }
-            console.assert(!isNaN(frames), 'Frames are NaN');
+            activeFrames = activeFrames.map(function(frame) { return ':' + frame; });
+
             return activeFrames.join('') + ':/' + frames;
 
             function doesParentStanceApplyExtraFrame() {
@@ -112,11 +108,16 @@ define(
 
         function getCooldown(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
-            if (!nodeData) return '';
-            var frameData = nodeData.frameData;
-            if (!frameData || frameData.length === 0) return '';
-            var cooldown = frameData[frameData.length - 1];
-            var cooldownRange = frameData[frameData.length - 2] - 1;
+            if (
+                !nodeData ||
+                // !NodeFactoryMove.isMoveNode(nodeData) ||
+                !NodeFactoryMove.hasFrameData(nodeData) ||
+                !NodeFactoryMove.hasMinimalFrameDataInfo(nodeData)
+            ) {
+                return '';
+            }
+            var cooldown      = NodeFactoryMove.getRecoveryFramesCount(nodeData);
+            var cooldownRange = NodeFactoryMove.getActiveFramesCount(nodeData) - 1;
             return cooldown + '-' + (cooldown + cooldownRange);
         }
 

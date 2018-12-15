@@ -7,6 +7,7 @@ define(
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStep',
         'Model/NodeFactory',
+        'Model/NodeFactoryMove',
         'View/NodeView',
         'Localization/Strings',
         'Tools/Tools'
@@ -17,6 +18,7 @@ define(
         EditorCreatorBase,
         MoveActionStep,
         NodeFactory,
+        NodeFactoryMove,
         NodeView,
         Strings,
         _
@@ -285,18 +287,14 @@ define(
             }
 
 
-            function frameDataToText(nodeData) { return nodeData.frameData.join(' ') || ''; }
+            function frameDataToText(nodeData) {
+                return NodeFactoryMove.frameDataToString(nodeData);
+            }
             function changeFrameData(newValueRaw, nodeData) {
-
                 // FIXME: dont support negative framedata, use followup range instead
                 var numbers = newValueRaw.match(/-?\d+/g);
                 var newValue = numbers ? numbers.map(strToIntMapper) : [];
-                var oldValue = nodeData.frameData || [];
-
-                nodeData.frameData = newValue;
-
-                return !_.arraysAreEqual(oldValue, newValue);
-
+                return NodeFactoryMove.changeFrameData(nodeData, newValue);
             }
 
 
@@ -314,7 +312,7 @@ define(
                 var changed = false;
 
                 // Frame data is required to convert input to storable value
-                if (nodeData.frameData.length < 3) {
+                if (!NodeFactoryMove.hasMinimalFrameDataInfo(nodeData)) {
                     return changed;
                 }
 
@@ -332,8 +330,8 @@ define(
 
                     var advantage = Number(advantageStr);
                     if (advantageStr && !isNaN(advantage)) {
-                        var activeFramesCount   = nodeData.frameData[nodeData.frameData.length - 2];
-                        var recoveryFramesCount = nodeData.frameData[nodeData.frameData.length - 1];
+                        var activeFramesCount   = NodeFactoryMove.getActiveFramesCount(nodeData);
+                        var recoveryFramesCount = NodeFactoryMove.getRecoveryFramesCount(nodeData);
                         // Assuming advantage is given for situation where first active frame lands
                         var activeFramesAfterLanded = activeFramesCount - 1;
                         hitBlock = activeFramesAfterLanded + recoveryFramesCount + advantage;

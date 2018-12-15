@@ -34,7 +34,15 @@ define(
             getActiveFramesRangeThatIntersectsWith: getActiveFramesRangeThatIntersectsWith,
             getMoveDurationData: getMoveDurationData,
 
-            // doesMoveHaveFrameData: doesMoveHaveFrameData,
+            hasFrameData:            hasFrameData,
+            frameDataToString:       frameDataToString,
+            hasMinimalFrameDataInfo: hasMinimalFrameDataInfo,
+            getStartupFramesCount:   getStartupFramesCount,
+            getActiveFramesCount:    getActiveFramesCount,
+            getRecoveryFramesCount:  getRecoveryFramesCount,
+            getActiveFrames:         getActiveFrames,
+            changeFrameData:         changeFrameData
+
             // guessMoveTypeByInput: guessMoveTypeByInput
 
         };
@@ -130,8 +138,8 @@ define(
         ) {
             console.assert(_.isObject(nodeData), 'nodeData is invalid');
 
+            if (!hasFrameData(nodeData)) return;
             var frameData = nodeData.frameData;
-            if (!frameData || frameData.length === 0) return;
 
             var activeFramesVarianceRoom = 0;
             var recovery = 0;
@@ -149,8 +157,8 @@ define(
                 if (!parentNodeData) return;
                 console.assert(_.isObject(parentNodeData), 'parentNodeData is invalid');
                 if (!isMoveNode(parentNodeData)) return;
+                if (!hasFrameData(parentNodeData)) return;
                 var parentFrameData = parentNodeData.frameData;
-                if (!parentFrameData || parentFrameData.length === 0) return;
                 stun = getStun(parentNodeData, getDuration, optActionStepResultFilter);
                 if (!stun) {
                     // FIXME: go on
@@ -211,8 +219,8 @@ define(
          */
         function getActiveFramesRangeThatIntersectsWith(nodeData, frameStart, frameEnd) {
             console.assert(_.isObject(nodeData), 'nodeData is invalid');
+            console.assert(hasFrameData(nodeData), 'Frame data is not provided');
             var frameData = nodeData.frameData; 
-            console.assert(frameData.length > 0, 'Frame data is not provided');
             var t = frameData[0];
             for (var i = 1; i < frameData.length; i += 2) {
                 var activeFrames = frameData[i];
@@ -241,9 +249,50 @@ define(
             };
         }
 
-        // function doesMoveHaveFrameData(nodeData) {
-        //     return nodeData.frameData && nodeData.frameData.length > 0;
-        // }
+        function hasFrameData(nodeData) {
+            return nodeData.frameData && nodeData.frameData.length > 0;
+        }
+
+        function frameDataToString(nodeData) {
+            return nodeData.frameData.join(' ') || '';
+        }
+
+        function hasMinimalFrameDataInfo(nodeData) {
+            return nodeData.frameData.length >= 3;
+        }
+
+        function getStartupFramesCount(nodeData) {
+            return nodeData.frameData[0];
+        }
+
+        function getActiveFramesCount(nodeData) {
+            return nodeData.frameData[nodeData.frameData.length - 2];
+        }
+
+        function getRecoveryFramesCount(nodeData) {
+            return nodeData.frameData[nodeData.frameData.length - 1];
+        }
+
+        function getActiveFrames(nodeData) {
+            var frames = 0;
+            frames += nodeData.frameData[0];
+            var activeFrames = [];
+            for (var i = 1; i < nodeData.frameData.length; i += 2) {
+                var localFrames = nodeData.frameData[i];
+                for (var j = 0; j < localFrames; ++j) {
+                    activeFrames.push(frames + j + 1);
+                }
+                frames += localFrames + nodeData.frameData[i + 1];
+            }
+            console.assert(!isNaN(frames), 'Frames are NaN');
+            return activeFrames;
+        }
+
+        function changeFrameData(nodeData, newValue) {
+            var oldValue = nodeData.frameData || [];
+            nodeData.frameData = newValue;
+            return !_.arraysAreEqual(oldValue, newValue);
+        }
 
         // function guessMoveTypeByInput(nodeData) {
         //     var input = nodeData.input;
