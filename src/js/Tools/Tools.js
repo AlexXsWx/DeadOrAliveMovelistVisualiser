@@ -22,6 +22,7 @@ define(
             last:                                  last,
             find:                                  find,
             contains:                              contains,
+            searchInStringArray:                   searchInStringArray,
             getOrThrow:                            getOrThrow,
             copyKeysInto:                          copyKeysInto,
             isArray:                               isArray,
@@ -221,6 +222,14 @@ define(
 
         function contains(array, val) {
             return array.indexOf(val) >= 0;
+        }
+
+        function searchInStringArray(array, regexOrString) {
+            if (!array || !array.length) return -1;
+            for (var i = 0; i < array.length; ++i) {
+                if (array[i].search(regexOrString) >= 0) return i;
+            }
+            return -1;
         }
 
         function getOrThrow(array, index) {
