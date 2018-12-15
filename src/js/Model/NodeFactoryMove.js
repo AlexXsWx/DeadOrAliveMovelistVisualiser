@@ -18,14 +18,14 @@ define(
             createMoveNode: createMoveNode,
             isMoveNode:     isMoveNode,
 
-            isMoveHorizontal:    isMoveHorizontal,
-            isMoveVertical:      isMoveVertical,
-            isMovePunch:         isMovePunch,
-            isMoveKick:          isMoveKick,
-            isMoveThrow:         isMoveThrow,
-            isMoveOffensiveHold: isMoveOffensiveHold,
-            isMoveHold:          isMoveHold,
-            isMoveHoldOnly:      isMoveHoldOnly,
+            isMoveHorizontal:    actionStepsChecker(NodeFactoryActionStep.isActionStepHorizontal),
+            isMoveVertical:      actionStepsChecker(NodeFactoryActionStep.isActionStepVertical),
+            isMovePunch:         actionStepsChecker(NodeFactoryActionStep.isActionStepPunch),
+            isMoveKick:          actionStepsChecker(NodeFactoryActionStep.isActionStepKick),
+            isMoveThrow:         actionStepsChecker(NodeFactoryActionStep.isActionStepThrow),
+            isMoveOffensiveHold: actionStepsChecker(NodeFactoryActionStep.isActionStepOffensiveHold),
+            isMoveHold:          actionStepsChecker(NodeFactoryActionStep.isActionStepHold),
+            isMoveHoldOnly:      actionStepsChecker(NodeFactoryActionStep.isActionStepHold, true),
 
             canMoveHitGround: canMoveHitGround,
 
@@ -92,15 +92,6 @@ define(
         function isMoveNode(nodeData) {
             return nodeData.hasOwnProperty('input');
         }
-
-        function isMoveHorizontal(nodeData)    { return nodeData.actionSteps.some(NodeFactoryActionStep.isActionStepHorizontal); }
-        function isMoveVertical(nodeData)      { return nodeData.actionSteps.some(NodeFactoryActionStep.isActionStepVertical);  }
-        function isMovePunch(nodeData)         { return nodeData.actionSteps.some(NodeFactoryActionStep.isActionStepPunch); }
-        function isMoveKick(nodeData)          { return nodeData.actionSteps.some(NodeFactoryActionStep.isActionStepKick);  }
-        function isMoveThrow(nodeData)         { return nodeData.actionSteps.some(NodeFactoryActionStep.isActionStepThrow); }
-        function isMoveOffensiveHold(nodeData) { return nodeData.actionSteps.some(NodeFactoryActionStep.isActionStepOffensiveHold); }
-        function isMoveHold(nodeData)          { return nodeData.actionSteps.some(NodeFactoryActionStep.isActionStepHold);  }
-        function isMoveHoldOnly(nodeData)      { return nodeData.actionSteps.every(NodeFactoryActionStep.isActionStepHold);  }
 
         function canMoveHitGround(nodeData) {
             for (var i = 0; i < nodeData.actionSteps.length; ++i) {
@@ -293,6 +284,18 @@ define(
             nodeData.frameData = newValue;
             return !_.arraysAreEqual(oldValue, newValue);
         }
+
+        // Helpers
+
+        function actionStepsChecker(predicate, optRequireAll) {
+            if (optRequireAll) {
+                return function(nodeData) { return nodeData.actionSteps.every(predicate) };
+            } else {
+                return function(nodeData) { return nodeData.actionSteps.some(predicate) };
+            }
+        }
+
+        //
 
         // function guessMoveTypeByInput(nodeData) {
         //     var input = nodeData.input;

@@ -6,6 +6,9 @@ define(
 
     function NodeFactoryActionStep(NodeFactoryActionStepResult, ActionType, _) {
 
+        var isActionStepHold       = actionTypeChecker(ActionType.Hold);
+        var isActionStepJumpAttack = actionTypeChecker(ActionType.Jump);
+
         return {
             createMoveActionStep: createMoveActionStep,
 
@@ -13,15 +16,18 @@ define(
             isActionStepKick:          isActionStepKick,
             isActionStepThrow:         isActionStepThrow,
             isActionStepOffensiveHold: isActionStepOffensiveHold,
+
             isActionStepHold:          isActionStepHold,
             isActionStepJumpAttack:    isActionStepJumpAttack,
-            isActionStepGroundAttack:  isActionStepGroundAttack,
-            isActionStepOther:         isActionStepOther,
+            isActionStepGroundAttack:  actionTypeChecker(ActionType.Ground),
+            isActionStepOther:         actionTypeChecker(ActionType.Other),
+
             isActionStepHigh:          isActionStepHigh,
             isActionStepMid:           isActionStepMid,
             isActionStepLow:           isActionStepLow,
             isActionStepHorizontal:    isActionStepHorizontal,
             isActionStepVertical:      isActionStepVertical,
+
 
             canActionStepHitGround: canActionStepHitGround,
             getActionStepSummary:   getActionStepSummary,
@@ -128,11 +134,6 @@ define(
             );
         }
 
-        function isActionStepHold(actionStep)         { return checkActionStepTypeForWord(actionStep, ActionType.Hold);   }
-        function isActionStepJumpAttack(actionStep)   { return checkActionStepTypeForWord(actionStep, ActionType.Jump);   }
-        function isActionStepGroundAttack(actionStep) { return checkActionStepTypeForWord(actionStep, ActionType.Ground); }
-        function isActionStepOther(actionStep)        { return checkActionStepTypeForWord(actionStep, ActionType.Other);  }
-
         function isActionStepHigh(actionStep) { return /\bhigh\b/i.test(actionStep.actionMask); }
         function isActionStepMid(actionStep)  { return /\bmid\b/i.test(actionStep.actionMask);  }
         function isActionStepLow(actionStep)  { return /\blow\b/i.test(actionStep.actionMask);  }
@@ -191,10 +192,6 @@ define(
 
         // Helpers
 
-        function checkActionStepTypeForWord(actionStep, word) {
-            return actionStep.actionType && actionStep.actionType.toLowerCase().search(word) >= 0;
-        }
-
         function summarizeActionStepMask(actionStepMask) {
             var result = '';
             var lowCased = actionStepMask.toLowerCase();
@@ -206,6 +203,15 @@ define(
             if (lowCased.search(/\bp(?:unch)?/) >= 0) result += 'p';
             if (lowCased.search(/\bk(?:ick)?/)  >= 0) result += 'k';
             return result;
+        }
+
+        function actionTypeChecker(word) {
+            return function(actionStep) {
+                return (
+                    actionStep.actionType &&
+                    actionStep.actionType.toLowerCase().search(word) >= 0
+                );
+            };
         }
 
     }
