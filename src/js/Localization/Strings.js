@@ -21,7 +21,7 @@ define(
             'enterFilterQuery': 'Enter filter query:',
 
             'warnings': 'warnings',
-            'hasNoFrameData': 'has no frameData, probabilities that use it are excluded',
+            'hasNoFrameData': 'has no frame data, probabilities that use it are excluded',
             'stance': 'stance',
             'undefinedInitialFrame': 'did not define appliesExtraFrame, assuming it does',
             'skippingFreeCancel': 'has no-input followup and defines no ending stance',

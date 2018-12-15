@@ -4,7 +4,8 @@ define(
 
     [
         'CanvasManager', 'SelectionManager', 'Editor', 'Hotkeys', 'Input/KeyCodes',
-        'Model/NodeFactory', 'Model/NodeSerializer', 'Model/ActionType',
+        'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/NodeFactoryActionStepResult',
+        'Model/NodeSerializer', 'Model/ActionType',
         'View/NodeView', 'View/NodeSvgView',
         'Analysis/Analyser', 'Analysis/Filter',
         'Localization/Strings',
@@ -14,7 +15,8 @@ define(
 
     function Core(
         CanvasManager, SelectionManager, Editor, Hotkeys, KeyCodes,
-        NodeFactory, NodeSerializer, ActionType,
+        NodeFactory, NodeFactoryMove, NodeFactoryActionStepResult,
+        NodeSerializer, ActionType,
         NodeView, NodeSvgView,
         Analyser, Filter,
         Strings,
@@ -253,7 +255,9 @@ define(
                 _.showDomElement(domCache.popupWelcome);
             }
             function hideWelcomePopup(optEvent) {
-                localStorage.showWelcomePopupOnStart = Boolean(domCache.showWelcomePopupOnStart.checked);
+                localStorage.showWelcomePopupOnStart = Boolean(
+                    domCache.showWelcomePopupOnStart.checked
+                );
                 _.hideDomElement(domCache.popupWelcome);
                 Editor.focus();
             }
@@ -586,7 +590,7 @@ define(
                     'filterShowTracking': function showTrackingMoves(event) {
                         showOnlyNodesThatMatch(function(nodeView) {
                             var nodeData = NodeView.getNodeData(nodeView);
-                            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                                 var someTracking = nodeData.actionSteps.some(
                                     function(actionStep) { return actionStep.isTracking; }
                                 );
@@ -621,11 +625,11 @@ define(
                             var nodeData = NodeView.getNodeData(nodeView);
                             if (!nodeData) return false;
                             if (NodeFactory.getNoInputFollowup(nodeData)) return false;
-                            var advantageRange = NodeFactory.getAdvantageRange(
+                            var advantageRange = NodeFactoryMove.getAdvantageRange(
                                 nodeData,
-                                NodeFactory.getActionStepResultHitBlock,
-                                NodeFactory.doesActionStepResultDescribeGuard,
-                                NodeFactory.isMoveNode(nodeData)
+                                NodeFactoryActionStepResult.getHitBlock,
+                                NodeFactoryActionStepResult.doesDescribeGuard,
+                                NodeFactoryMove.isMoveNode(nodeData)
                                     ? NodeView.findAncestorNodeData(nodeView)
                                     : null
                             );

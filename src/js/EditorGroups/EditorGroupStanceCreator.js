@@ -5,13 +5,15 @@ define(
     [
         'EditorGroups/EditorGroup',
         'EditorGroups/EditorCreatorBase',
-        'Model/NodeFactory',
+        'Model/NodeFactoryStance',
         'View/NodeView',
         'Localization/Strings',
         'Tools/Tools'
     ],
 
-    function EditorGroupStanceCreator(EditorGroup, EditorCreatorBase, NodeFactory, NodeView, Strings, _) {
+    function EditorGroupStanceCreator(
+        EditorGroup, EditorCreatorBase, NodeFactoryStance, NodeView, Strings, _
+    ) {
 
         return { create: create };
 
@@ -57,7 +59,7 @@ define(
 
             return editorGroupStance;
 
-            function filter(data) { return data && NodeFactory.isStanceNode(data); }
+            function filter(data) { return data && NodeFactoryStance.isStanceNode(data); }
 
             function updateView(keepActiveSummaryContent) {
 

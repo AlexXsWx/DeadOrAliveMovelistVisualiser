@@ -2,9 +2,18 @@ define(
 
     'View/NodeSvgViewTextGetters',
 
-    [ 'View/NodeView', 'Model/NodeFactory', 'Model/NodeFactoryMove', 'Tools/Tools' ],
+    [
+        'View/NodeView',
+        'Model/NodeFactory',
+        'Model/NodeFactoryMove',
+        'Model/NodeFactoryStance',
+        'Model/NodeFactoryActionStepResult',
+        'Tools/Tools'
+    ],
 
-    function NodeSvgViewTextGetters(NodeView, NodeFactory, NodeFactoryMove, _) {
+    function NodeSvgViewTextGetters(
+        NodeView, NodeFactory, NodeFactoryMove, NodeFactoryStance, NodeFactoryActionStepResult, _
+    ) {
 
         var CHARS = {
             EXPAND:   '+',
@@ -100,7 +109,7 @@ define(
                 var parentNodeData = NodeView.findAncestorNodeData(nodeView);
                 return (
                     parentNodeData &&
-                    NodeFactory.isStanceNode(parentNodeData) &&
+                    NodeFactoryStance.isStanceNode(parentNodeData) &&
                     parentNodeData.appliesExtraFrame
                 );
             }
@@ -124,11 +133,11 @@ define(
         function getAdvantageOnBlock(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
-            var advantageRange = NodeFactory.getAdvantageRange(
+            var advantageRange = NodeFactoryMove.getAdvantageRange(
                 nodeData,
-                NodeFactory.getActionStepResultHitBlock,
-                NodeFactory.doesActionStepResultDescribeGuard,
-                NodeFactory.isMoveNode(nodeData) ? NodeView.findAncestorNodeData(nodeView) : null
+                NodeFactoryActionStepResult.getHitBlock,
+                NodeFactoryActionStepResult.doesDescribeGuard,
+                NodeFactoryMove.isMoveNode(nodeData) ? NodeView.findAncestorNodeData(nodeView) : null
             );
             if (!advantageRange) return '';
 
@@ -152,10 +161,10 @@ define(
         function getAdvantageOnHit(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
-            var advantageRange = NodeFactory.getAdvantageRange(
+            var advantageRange = NodeFactoryMove.getAdvantageRange(
                 nodeData,
-                NodeFactory.getActionStepResultHitBlock,
-                NodeFactory.doesActionStepResultDescribeNeutralHit
+                NodeFactoryActionStepResult.getHitBlock,
+                NodeFactoryActionStepResult.doesDescribeNeutralHit
             );
             if (!advantageRange) return '';
 
@@ -191,7 +200,7 @@ define(
             var nodeData = NodeView.getNodeData(nodeView);
             if (
                 !nodeData ||
-                !NodeFactory.isMoveNode(nodeData)
+                !NodeFactoryMove.isMoveNode(nodeData)
             ) {
                 return '';
             }
@@ -201,21 +210,21 @@ define(
             var types = [
                 {
                     prefix: 'f',
-                    filter: NodeFactory.doesActionStepResultDescribeForcetech
+                    filter: NodeFactoryActionStepResult.doesDescribeForcetech
                 }, {
                     prefix: 'g',
-                    filter: NodeFactory.doesActionStepResultDescribeGroundHit
+                    filter: NodeFactoryActionStepResult.doesDescribeGroundHit
                 }, {
                     prefix: 'gc',
-                    filter: NodeFactory.doesActionStepResultDescribeGroundHitCombo
+                    filter: NodeFactoryActionStepResult.doesDescribeGroundHitCombo
                 }
             ];
 
             // Ground hit duration is expected to be written in to "hit block" field
-            var getGroundHitDuration = NodeFactory.getActionStepResultHitBlock;
+            var getGroundHitDuration = NodeFactoryActionStepResult.getHitBlock;
 
             types.forEach(function(t) {
-                var advantage = NodeFactory.getAdvantageRange(
+                var advantage = NodeFactoryMove.getAdvantageRange(
                     nodeData,
                     getGroundHitDuration,
                     t.filter
@@ -230,7 +239,7 @@ define(
 
             if (
                 parts.length === 0 &&
-                NodeFactory.canMoveHitGround(nodeData)
+                NodeFactoryMove.canMoveHitGround(nodeData)
             ) {
                 var DEFAULT_GROUND_HIT_DURATION = 50;
                 var DEFAULT_FORCETECH_DURATION = 45;
@@ -240,7 +249,7 @@ define(
                 ].forEach(function(data) {
                     var prefix = data[0];
                     var groundHitDuration = data[1];
-                    var advantage = NodeFactory.getAdvantageRange(
+                    var advantage = NodeFactoryMove.getAdvantageRange(
                         nodeData,
                         function() { return groundHitDuration; }
                     );
@@ -281,19 +290,19 @@ define(
             // FIXME: don't reference document here
             var result = document.createDocumentFragment();
 
-            var advantageRangeHardKnockdownTechroll = NodeFactory.getAdvantageRange(
+            var advantageRangeHardKnockdownTechroll = NodeFactoryMove.getAdvantageRange(
                 nodeData,
                 function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_TECHROLL; },
-                NodeFactory.doesActionStepResultTagHasHardKnockDown
+                NodeFactoryActionStepResult.doesTagHasHardKnockDown
             );
             if (advantageRangeHardKnockdownTechroll) {
                 result.appendChild(advantageInteger(advantageRangeHardKnockdownTechroll.min));
             }
 
-            var advantageRangeHardKnockdown = NodeFactory.getAdvantageRange(
+            var advantageRangeHardKnockdown = NodeFactoryMove.getAdvantageRange(
                 nodeData,
                 function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_MIN; },
-                NodeFactory.doesActionStepResultTagHasHardKnockDown
+                NodeFactoryActionStepResult.doesTagHasHardKnockDown
             );
             if (advantageRangeHardKnockdown) {
                 result.appendChild(_.createTextNode('/'));
@@ -306,7 +315,7 @@ define(
         function getFollowupDelay(nodeView) {
 
             var nodeData = NodeView.getNodeData(nodeView);
-            if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return '';
+            if (!nodeData || !NodeFactoryMove.isMoveNode(nodeData)) return '';
 
             if (nodeData.followUpInterval.length === 0) return '';
 
@@ -321,14 +330,14 @@ define(
 
         function getComment(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
-            if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return '';
+            if (!nodeData || !NodeFactoryMove.isMoveNode(nodeData)) return '';
 
             return nodeData.comment || '';
         }
 
         function getMainTags(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
-            if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return '';
+            if (!nodeData || !NodeFactoryMove.isMoveNode(nodeData)) return '';
 
             if (nodeData.actionSteps.length === 0) return '';
 

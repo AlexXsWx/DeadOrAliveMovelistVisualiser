@@ -3,13 +3,15 @@ define(
     'View/NodeSvgView',
 
     [
-        'View/NodeView', 'Model/NodeFactory',
+        'View/NodeView',
+        'Model/NodeFactoryMove', 'Model/NodeFactoryActionStep',
         'View/NodeSvgIndicatorsView', 'View/NodeSvgViewTexts', 'View/NodeSvgViewAnimator',
         'Tools/Signal', 'Tools/SvgTools', 'Tools/Tools'
     ],
 
     function NodeSvgView(
-        NodeView, NodeFactory,
+        NodeView,
+        NodeFactoryMove, NodeFactoryActionStep,
         NodeSvgIndicatorsView, NodeSvgViewTexts, NodeSvgViewAnimator,
         createSignal, SvgTools, _
     ) {
@@ -128,34 +130,34 @@ define(
 
                 var nodeData = NodeView.getNodeData(nodeView);
 
-                if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
 
-                    var isPunch = NodeFactory.isMovePunch(nodeData);
-                    var isKick  = NodeFactory.isMoveKick(nodeData);
+                    var isPunch = NodeFactoryMove.isMovePunch(nodeData);
+                    var isKick  = NodeFactoryMove.isMoveKick(nodeData);
 
                     // FIXME: mid P mid K
                     if (isPunch) mark('punch');
                     if (isKick)  mark('kick');
                     if (isPunch || isKick) mark('strike');
 
-                    if (NodeFactory.isMoveOffensiveHold(nodeData)) {
+                    if (NodeFactoryMove.isMoveOffensiveHold(nodeData)) {
                         mark('OHGrab');
                     }
                     else
-                    if (NodeFactory.isMoveThrow(nodeData)) {
+                    if (NodeFactoryMove.isMoveThrow(nodeData)) {
                         mark('throw');
                     }
 
                     // FIXME: sabaki - parry & attack
-                    if (NodeFactory.isMoveHold(nodeData)) mark('hold');
+                    if (NodeFactoryMove.isMoveHold(nodeData)) mark('hold');
 
                     nodeData.actionSteps.forEach(function(actionStep) {
-                        if (NodeFactory.isActionStepJumpAttack(actionStep))   mark('jumpAttack');
-                        if (NodeFactory.isActionStepGroundAttack(actionStep)) mark('groundAttack');
-                        if (NodeFactory.isActionStepOther(actionStep))        mark('other');
-                        if (NodeFactory.isActionStepHigh(actionStep))         mark('high');
-                        if (NodeFactory.isActionStepMid(actionStep))          mark('mid');
-                        if (NodeFactory.isActionStepLow(actionStep))          mark('low');
+                        if (NodeFactoryActionStep.isActionStepJumpAttack(actionStep))   mark('jumpAttack');
+                        if (NodeFactoryActionStep.isActionStepGroundAttack(actionStep)) mark('groundAttack');
+                        if (NodeFactoryActionStep.isActionStepOther(actionStep))        mark('other');
+                        if (NodeFactoryActionStep.isActionStepHigh(actionStep))         mark('high');
+                        if (NodeFactoryActionStep.isActionStepMid(actionStep))          mark('mid');
+                        if (NodeFactoryActionStep.isActionStepLow(actionStep))          mark('low');
                     });
 
                 }

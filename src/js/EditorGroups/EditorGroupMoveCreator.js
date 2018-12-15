@@ -6,8 +6,9 @@ define(
         'EditorGroups/EditorGroup',
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStep',
-        'Model/NodeFactory',
         'Model/NodeFactoryMove',
+        'Model/NodeFactoryActionStep',
+        'Model/NodeFactoryActionStepResult',
         'View/NodeView',
         'Localization/Strings',
         'Tools/Tools'
@@ -17,8 +18,9 @@ define(
         EditorGroup,
         EditorCreatorBase,
         MoveActionStep,
-        NodeFactory,
         NodeFactoryMove,
+        NodeFactoryActionStep,
+        NodeFactoryActionStepResult,
         NodeView,
         Strings,
         _
@@ -133,7 +135,7 @@ define(
                     },
 
                     getChildrenArray:    function(nodeData) { return nodeData.actionSteps; },
-                    childrenDataCreator: function() { return NodeFactory.createMoveActionStep(); },
+                    childrenDataCreator: function() { return NodeFactoryActionStep.createMoveActionStep(); },
                     childEditorCreator:  function(changeSelectedNodesSubDataByAction, removeFunc) {
                         return MoveActionStep.create(changeSelectedNodesSubDataByAction, removeFunc);
                     }
@@ -146,7 +148,7 @@ define(
 
             return editorGroupMove;
 
-            function filter(data) { return data && NodeFactory.isMoveNode(data); }
+            function filter(data) { return data && NodeFactoryMove.isMoveNode(data); }
 
 
             function updateView(keepActiveSummaryContent) {
@@ -165,7 +167,7 @@ define(
             }
 
 
-            function summaryToText(nodeData) { return NodeFactory.getMoveSummary(nodeData); }
+            function summaryToText(nodeData) { return NodeFactoryMove.getMoveSummary(nodeData); }
             function changeSummary(newValue, nodeData) {
 
                 var changed = false;
@@ -299,10 +301,10 @@ define(
 
 
             function actionStepResultToAdvantageOnBlock(nodeData) {
-                var advantageRange = NodeFactory.getAdvantageRange(
+                var advantageRange = NodeFactoryMove.getAdvantageRange(
                     nodeData,
-                    NodeFactory.getActionStepResultHitBlock,
-                    NodeFactory.doesActionStepResultDescribeGuard
+                    NodeFactoryActionStepResult.getHitBlock,
+                    NodeFactoryActionStepResult.doesDescribeGuard
                 );
                 return advantageRange ? advantageRange.min : '';
             }
@@ -343,7 +345,7 @@ define(
                     // Try to find existing action step result that describes guard
                     for (var i = 0; i < actionStep.results.length; ++i) {
                         var result = actionStep.results[i];
-                        if (result && NodeFactory.doesActionStepResultDescribeGuard(result)) {
+                        if (result && NodeFactoryActionStepResult.doesDescribeGuard(result)) {
                             actionStepResult = result;
                             break;
                         }
@@ -367,7 +369,7 @@ define(
                             // Try to find empty action step result to use
                             for (var i = 0; i < actionStep.results.length; ++i) {
                                 var result = actionStep.results[i];
-                                if (NodeFactory.isActionStepResultEmpty(result)) {
+                                if (NodeFactoryActionStepResult.isEmpty(result)) {
                                     actionStepResult = result;
                                     addGuardCondition = true;
                                     break;
@@ -384,21 +386,23 @@ define(
 
                     if (cleanupGuard) {
                         changed = true;
-                        NodeFactory.removeGuardConditionFromActionStepResult(actionStepResult);
+                        NodeFactoryActionStepResult.removeGuardCondition(actionStepResult);
                         if (actionStepResult.condition.length === 0) {
                             actionStep.results.splice(
                                 actionStep.results.indexOf(actionStepResult), 1
                             );
                             if (actionStep.results.length === 0) {
                                 // Create default placeholder
-                                actionStep.results.push(NodeFactory.createMoveActionStepResult());
+                                actionStep.results.push(
+                                    NodeFactoryActionStepResult.createMoveActionStepResult()
+                                );
                             }
                         }
                     }
 
                     if (createNewActionStepResult) {
                         changed = true;
-                        actionStepResult = NodeFactory.createMoveActionStepResult();
+                        actionStepResult = NodeFactoryActionStepResult.createMoveActionStepResult();
                         actionStep.results.push(actionStepResult); 
                         addGuardCondition = true;
                     }

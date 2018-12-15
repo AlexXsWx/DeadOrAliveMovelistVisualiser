@@ -12,19 +12,19 @@ define(
 
             createMoveActionStepResult: createMoveActionStepResult,
 
-            removeGuardConditionFromActionStepResult: removeGuardConditionFromActionStepResult,
+            removeGuardCondition: removeGuardCondition,
 
-            doesActionStepResultDescribeNeutralHit:     doesActionStepResultDescribeNeutralHit,
-            doesActionStepResultDescribeCounterHit:     doesActionStepResultDescribeCounterHit,
-            doesActionStepResultDescribeGuard:          doesActionStepResultDescribeGuard,
-            doesActionStepResultDescribeForcetech:      doesActionStepResultDescribeForcetech,
-            doesActionStepResultDescribeGroundHit:      doesActionStepResultDescribeGroundHit,
-            doesActionStepResultDescribeGroundHitCombo: doesActionStepResultDescribeGroundHitCombo,
-            doesActionStepResultTagHasHardKnockDown:    doesActionStepResultTagHasHardKnockDown,
+            doesDescribeNeutralHit:     doesDescribeNeutralHit,
+            doesDescribeCounterHit:     doesDescribeCounterHit,
+            doesDescribeGuard:          doesDescribeGuard,
+            doesDescribeForcetech:      doesDescribeForcetech,
+            doesDescribeGroundHit:      doesDescribeGroundHit,
+            doesDescribeGroundHitCombo: doesDescribeGroundHitCombo,
+            doesTagHasHardKnockDown:    doesTagHasHardKnockDown,
             
-            isActionStepResultEmpty: isActionStepResultEmpty,
+            isEmpty: isEmpty,
 
-            getActionStepResultHitBlock: getActionStepResultHitBlock
+            getHitBlock: getHitBlock
 
         };
 
@@ -68,7 +68,7 @@ define(
             });
         }
 
-        function removeGuardConditionFromActionStepResult(actionStepResult) {
+        function removeGuardCondition(actionStepResult) {
             var changed = false;
             while (true) {
                 var index = _.searchInStringArray(actionStepResult.condition, guardRegex);
@@ -79,25 +79,25 @@ define(
             return changed;
         }
 
-        function doesActionStepResultDescribeNeutralHit(actionStepResult) {
+        function doesDescribeNeutralHit(actionStepResult) {
             return actionStepResult && _.searchInStringArray(actionStepResult.condition, 'neutral') >= 0;
         }
 
-        function doesActionStepResultDescribeCounterHit(actionStepResult) {
+        function doesDescribeCounterHit(actionStepResult) {
             return actionStepResult && _.searchInStringArray(actionStepResult.condition, 'counter') >= 0;
         }
 
-        function doesActionStepResultDescribeGuard(actionStepResult) {
+        function doesDescribeGuard(actionStepResult) {
             return actionStepResult && _.searchInStringArray(actionStepResult.condition, guardRegex) >= 0;
         }
 
         // When a move forces to get up from first hit
-        function doesActionStepResultDescribeForcetech(actionStepResult) {
+        function doesDescribeForcetech(actionStepResult) {
             return actionStepResult && _.searchInStringArray(actionStepResult.condition, /forcetech/i) >= 0;
         }
 
         // When a move doesn't force to get up and opponent chooses to remain grounded
-        function doesActionStepResultDescribeGroundHit(actionStepResult) {
+        function doesDescribeGroundHit(actionStepResult) {
             return (
                 actionStepResult &&
                 _.searchInStringArray(actionStepResult.condition, /grounded/i) >= 0 &&
@@ -106,22 +106,22 @@ define(
         }
 
         // When a move that normally doesn't force to get up hits as a combo and so forces to ge tup
-        function doesActionStepResultDescribeGroundHitCombo(actionStepResult) {
+        function doesDescribeGroundHitCombo(actionStepResult) {
             return (
                 actionStepResult &&
                 _.searchInStringArray(actionStepResult.condition, /grounded\ combo/i) >= 0
             );
         }
 
-        function doesActionStepResultTagHasHardKnockDown(actionStepResult) {
+        function doesTagHasHardKnockDown(actionStepResult) {
             return actionStepResult && _.searchInStringArray(actionStepResult.tags, /hard/i) >= 0;
         }
 
-        function isActionStepResultEmpty(actionStepResult) {
+        function isEmpty(actionStepResult) {
             return !_.withoutFalsyProperties(actionStepResult);
         }
 
-        function getActionStepResultHitBlock(actionStepResult) {
+        function getHitBlock(actionStepResult) {
             return actionStepResult.hitBlock;
         }
 

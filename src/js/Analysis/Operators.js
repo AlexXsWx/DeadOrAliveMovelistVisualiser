@@ -2,9 +2,13 @@ define(
 
     'Analysis/Operators',
 
-    [ 'Model/NodeFactory', 'Tools/Tools' ],
+    [
+        'Model/NodeFactoryMove',
+        'Model/NodeFactoryActionStepResult',
+        'Tools/Tools'
+    ],
 
-    function Operators(NodeFactory, _) {
+    function Operators(NodeFactoryMove, NodeFactoryActionStepResult, _) {
 
         var Type1 = {
             Raw:     't1_raw',
@@ -535,7 +539,7 @@ define(
                 },
                 getValue1: function(str, extra) {
                     var nodeData = extra.nodeData;
-                    if (!NodeFactory.isMoveNode(nodeData)) return '';
+                    if (!NodeFactoryMove.isMoveNode(nodeData)) return '';
                     return nodeData.endsWith || 'STD';
                 }
             },
@@ -548,7 +552,7 @@ define(
                 },
                 getValue1: function(str, extra) {
                     var nodeData = extra.nodeData;
-                    if (!NodeFactory.isMoveNode(nodeData)) return '';
+                    if (!NodeFactoryMove.isMoveNode(nodeData)) return '';
                     return nodeData.context || [];
                 }
             },
@@ -561,7 +565,7 @@ define(
                 },
                 getValue1: function(str, extra) {
                     var nodeData = extra.nodeData;
-                    if (!NodeFactory.isMoveNode(nodeData)) return '';
+                    if (!NodeFactoryMove.isMoveNode(nodeData)) return '';
                     return nodeData.actionSteps.filter(Boolean).reduce(
                         function(acc, actionStep) {
                             return acc.concat(actionStep.tags).concat(
@@ -582,16 +586,16 @@ define(
             [
                 {
                     names: ['advantageOnBlock'],
-                    getDuration:            NodeFactory.getActionStepResultHitBlock,
-                    actionStepResultFilter: NodeFactory.doesActionStepResultDescribeGuard
+                    getDuration:            NodeFactoryActionStepResult.getHitBlock,
+                    actionStepResultFilter: NodeFactoryActionStepResult.doesDescribeGuard
                 }, {
                     names: ['advantageOnHit', 'advantageOnNeutralHit'],
-                    getDuration:            NodeFactory.getActionStepResultHitBlock,
-                    actionStepResultFilter: NodeFactory.doesActionStepResultDescribeNeutralHit
+                    getDuration:            NodeFactoryActionStepResult.getHitBlock,
+                    actionStepResultFilter: NodeFactoryActionStepResult.doesDescribeNeutralHit
                 }, {
                     names: ['advantageOnCounterHit'],
-                    getDuration:            NodeFactory.getActionStepResultHitBlock,
-                    actionStepResultFilter: NodeFactory.doesActionStepResultDescribeCounterHit
+                    getDuration:            NodeFactoryActionStepResult.getHitBlock,
+                    actionStepResultFilter: NodeFactoryActionStepResult.doesDescribeCounterHit
                 }
             ].reduce(
                 function(acc, info) {
@@ -607,8 +611,8 @@ define(
                         },
                         getValue1: function(str, extra) {
                             var nodeData = extra.nodeData;
-                            if (!NodeFactory.isMoveNode(nodeData)) return NaN;
-                            var range = NodeFactory.getAdvantageRange(
+                            if (!NodeFactoryMove.isMoveNode(nodeData)) return NaN;
+                            var range = NodeFactoryMove.getAdvantageRange(
                                 nodeData,
                                 info.getDuration,
                                 info.actionStepResultFilter
@@ -626,8 +630,8 @@ define(
                         },
                         getValue1: function(str, extra) {
                             var nodeData = extra.nodeData;
-                            if (!NodeFactory.isMoveNode(nodeData)) return NaN;
-                            var range = NodeFactory.getAdvantageRange(
+                            if (!NodeFactoryMove.isMoveNode(nodeData)) return NaN;
+                            var range = NodeFactoryMove.getAdvantageRange(
                                 nodeData,
                                 info.getDuration,
                                 info.actionStepResultFilter

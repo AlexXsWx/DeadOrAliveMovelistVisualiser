@@ -4,11 +4,27 @@ define(
 
     [
         'Analysis/Parser', 'Analysis/Operators',
-        'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/CommonStances',
+        'Model/NodeFactory',
+        'Model/NodeFactoryRoot',
+        'Model/NodeFactoryStance',
+        'Model/NodeFactoryMove',
+        'Model/NodeFactoryActionStep',
+        'Model/NodeFactoryActionStepResult',
+        'Model/CommonStances',
         'Localization/Strings', 'Tools/Tools'
     ],
 
-    function Filter(Parser, Operators, NodeFactory, NodeFactoryMove, CommonStances, Strings, _) {
+    function Filter(
+        Parser, Operators,
+        NodeFactory,
+        NodeFactoryRoot,
+        NodeFactoryStance,
+        NodeFactoryMove,
+        NodeFactoryActionStep,
+        NodeFactoryActionStepResult,
+        CommonStances,
+        Strings, _
+    ) {
 
         return {
             isTrackingMidKickNode:      isTrackingMidKickNode,
@@ -40,13 +56,13 @@ define(
         //
 
         function isTrackingMidKickNode(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 for (var i = 0; i < nodeData.actionSteps.length; ++i) {
                     var actionStep = nodeData.actionSteps[i];
                     if (
                         actionStep.isTracking &&
-                        NodeFactory.isActionStepKick(actionStep) &&
-                        NodeFactory.isActionStepMid(actionStep)
+                        NodeFactoryActionStep.isActionStepKick(actionStep) &&
+                        NodeFactoryActionStep.isActionStepMid(actionStep)
                     ) {
                         return true;
                     }
@@ -56,11 +72,11 @@ define(
         }
 
         function doesNodeCauseHardKnockDown(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 for (var i = 0; i < nodeData.actionSteps.length; ++i) {
                     var actionStep = nodeData.actionSteps[i];
                     for (var j = 0; j < actionStep.results.length; ++j) {
-                        if (NodeFactory.doesActionStepResultTagHasHardKnockDown(actionStep.results[j])) {
+                        if (NodeFactoryActionStepResult.doesTagHasHardKnockDown(actionStep.results[j])) {
                             return true;
                         }
                     }
@@ -70,10 +86,10 @@ define(
         }
 
         function isGroundAttackNode(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 for (var i = 0; i < nodeData.actionSteps.length; ++i) {
                     var actionStep = nodeData.actionSteps[i];
-                    if (NodeFactory.canActionStepHitGround(actionStep)) {
+                    if (NodeFactoryActionStep.canActionStepHitGround(actionStep)) {
                         return true;
                     }
                 }
@@ -82,7 +98,7 @@ define(
         }
 
         function isSC6SoulChargeMove(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 return nodeData.context.some(function(ctx) {
                     return ctx.toLowerCase() === 'sc';
                 });
@@ -91,21 +107,21 @@ define(
         }
 
         function isSC6BreakAttack(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 return hasActionStepWithTag(nodeData, 'ba');
             }
             return false;
         }
 
         function isSC6UnblockableAttack(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 return hasActionStepWithTag(nodeData, 'ua');
             }
             return false;
         }
 
         function isSC6LethalHit(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 return hasActionStepWithTag(nodeData, 'lh');
             }
             return false;
@@ -131,7 +147,7 @@ define(
             function warn(fullPath, message) {
                 var fullMessage;
                 var nodeData = fullPath[fullPath.length - 1];
-                if (NodeFactory.isStanceNode(nodeData)) {
+                if (NodeFactoryStance.isStanceNode(nodeData)) {
                     fullMessage = (
                         Strings('stance') + ' ' + NodeFactory.toString(nodeData) + ' ' +
                         message
@@ -166,10 +182,10 @@ define(
                 var workingParentNodeData = workingPath[workingPath.length - 1];
                 NodeFactory.getChildren(workingParentNodeData).forEach(function(childNodeData) {
                     var childWorkingPath = workingPath.concat(childNodeData);
-                    if (NodeFactory.isMoveNode(childNodeData)) {
+                    if (NodeFactoryMove.isMoveNode(childNodeData)) {
                         checkMoveNodeFunc(childWorkingPath, stance, framesSpent);
                     } else
-                    if (NodeFactory.isStanceNode(childNodeData)) {
+                    if (NodeFactoryStance.isStanceNode(childNodeData)) {
                         checkStanceNodeFunc(childWorkingPath, stance, framesSpent);
                     }
                 });
@@ -247,7 +263,7 @@ define(
                     // FIXME: filterFunc can be specific to action step
                     // E.g. Honoka's 214P+K doesn't have ground hit property on 2nd active frames group
                     if (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) {
-                        var actionLocalRange = NodeFactory.getActiveFramesRangeThatIntersectsWith(
+                        var actionLocalRange = NodeFactoryMove.getActiveFramesRangeThatIntersectsWith(
                             nodeData,
                             frameToBeActiveOnStart - framesSpent,
                             frameToBeActiveOnEnd   - framesSpent
@@ -326,7 +342,7 @@ define(
                     )
                 ) {
                     var nodeData = workingPath[workingPath.length - 1];
-                    var moveDurationData = NodeFactory.getMoveDurationData(nodeData);
+                    var moveDurationData = NodeFactoryMove.getMoveDurationData(nodeData);
                     if (filter(nodeData)) {
                         if (framesSpent + moveDurationData.total === framesToSpend) {
                             result = true;
@@ -366,7 +382,7 @@ define(
 
                 checkPassed = true;
 
-                var moveDurationData = NodeFactory.getMoveDurationData(nodeData);
+                var moveDurationData = NodeFactoryMove.getMoveDurationData(nodeData);
 
                 // Check followups of this move
                 traverseRecursive(
@@ -435,15 +451,15 @@ define(
             var firstStance = undefined;
             for (var j = 0; j < pathHistory.length; ++j) {
                 var nodeData = pathHistory[j];
-                if (NodeFactory.isMoveNode(nodeData)) {
+                if (NodeFactoryMove.isMoveNode(nodeData)) {
                     moves.push(NodeFactory.toString(nodeData));
                 } else
-                if (NodeFactory.isRootNode(nodeData)) {
+                if (NodeFactoryRoot.isRootNode(nodeData)) {
                     if (moves.length > 0) {
                         moves = [moves.join(' ') + ','];
                     }
                 } else
-                if (!firstStance && NodeFactory.isStanceNode(nodeData)) {
+                if (!firstStance && NodeFactoryStance.isStanceNode(nodeData)) {
                     firstStance = nodeData;
                 }
             }
@@ -456,7 +472,7 @@ define(
 
         function getRelativePath(pathHistory) {
             for (var i = pathHistory.length - 1; i >= 0; --i) {
-                if (NodeFactory.isRootNode(pathHistory[i])) {
+                if (NodeFactoryRoot.isRootNode(pathHistory[i])) {
                     return pathHistory.slice(i);
                 }
             }

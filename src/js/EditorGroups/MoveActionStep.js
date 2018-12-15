@@ -3,7 +3,8 @@ define(
     'EditorGroups/MoveActionStep',
 
     [
-        'Model/NodeFactory',
+        'Model/NodeFactoryActionStep',
+        'Model/NodeFactoryActionStepResult',
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStepResult',
         'Model/ActionType',
@@ -12,7 +13,8 @@ define(
     ],
 
     function MoveActionStep(
-        NodeFactory,
+        NodeFactoryActionStep,
+        NodeFactoryActionStepResult,
         EditorCreatorBase,
         MoveActionStepResult,
         ActionType,
@@ -133,7 +135,7 @@ define(
                     },
 
                     getChildrenArray: function(actionStep) { return actionStep.results; },
-                    childrenDataCreator: function() { return NodeFactory.createMoveActionStepResult(); },
+                    childrenDataCreator: function() { return NodeFactoryActionStepResult.createMoveActionStepResult(); },
                     childEditorCreator: function(changeSelectedNodesSubDataByAction, removeFunc) {
                         return MoveActionStepResult.create(
                             changeSelectedNodesSubDataByAction,
@@ -152,7 +154,7 @@ define(
 
 
             function actionStepToSummaryText(actionStep) {
-                return NodeFactory.getActionStepSummary(actionStep);
+                return NodeFactoryActionStep.getActionStepSummary(actionStep);
             }
 
             function changeActionSummary(newValue, actionStep) {

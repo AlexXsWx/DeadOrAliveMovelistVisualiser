@@ -3,23 +3,37 @@ define(
     'Editor',
 
     [
-        'Tools/Signal', 'Model/NodeFactory', 'View/NodeView', 'Tools/TreeTools',
+        'Tools/Signal',
+        'Model/NodeFactory',
+        'Model/NodeFactoryRoot',
+        'Model/NodeFactoryStance',
+        'Model/NodeFactoryMove',
+        'View/NodeView',
+        'Tools/TreeTools',
         'EditorGroups/EditorGroupRootCreator',
         'EditorGroups/EditorGroupStanceCreator',
         'EditorGroups/EditorGroupMoveCreator',
         'EditorGroups/EditorGroupCommonCreator',
         'Input/KeyCodes',
-        'Tools/Executor', 'Tools/Tools'
+        'Tools/Executor',
+        'Tools/Tools'
     ],
 
     function(
-        createSignal, NodeFactory, NodeView, TreeTools,
+        createSignal,
+        NodeFactory,
+        NodeFactoryRoot,
+        NodeFactoryStance,
+        NodeFactoryMove,
+        NodeView,
+        TreeTools,
         EditorGroupRootCreator,
         EditorGroupStanceCreator,
         EditorGroupMoveCreator,
         EditorGroupCommonCreator,
         KeyCodes,
-        Executor, _
+        Executor,
+        _
     ) {
 
         var refs = {
@@ -231,8 +245,8 @@ define(
             var nodeDataToPaste = NodeView.getNodeData(copyBufferRootNode);
 
             if (
-                NodeFactory.isStanceNode(nodeDataToPaste) && !NodeFactory.isRootNode(nodeData) ||
-                NodeFactory.isMoveNode(nodeDataToPaste)   && NodeFactory.isRootNode(nodeData)
+                NodeFactoryStance.isStanceNode(nodeDataToPaste) && !NodeFactoryRoot.isRootNode(nodeData) ||
+                NodeFactoryMove.isMoveNode(nodeDataToPaste)   && NodeFactoryRoot.isRootNode(nodeData)
             ) {
                 return false;
             }
@@ -408,11 +422,11 @@ define(
             var parentIsRoot = !NodeView.getParentNodeView(parent);
             if (parentIsRoot) {
                 placeholderNodeView = refs.nodeDataGenerator();
-                var nodeData = NodeFactory.createStanceNode();
+                var nodeData = NodeFactoryStance.createStanceNode();
                 NodeView.setNodeData(placeholderNodeView, nodeData);
             } else {
                 placeholderNodeView = refs.nodeDataGenerator();
-                var nodeData = NodeFactory.createMoveNode();
+                var nodeData = NodeFactoryMove.createMoveNode();
                 NodeView.setNodeData(placeholderNodeView, nodeData);
             }
             NodeView.setIsPlaceholder(placeholderNodeView, isEditorElement);

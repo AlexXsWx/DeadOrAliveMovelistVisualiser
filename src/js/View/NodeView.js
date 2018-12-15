@@ -3,10 +3,13 @@ define(
     'View/NodeView',
 
     [
-        'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/CommonStances',
+        'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/NodeFactoryActionStepResult',
+        'Model/CommonStances',
         'Tools/TreeTools', 'Tools/Tools' ],
 
-    function NodeView(NodeFactory, NodeFactoryMove, CommonStances, TreeTools, _) {
+    function NodeView(
+        NodeFactory, NodeFactoryMove, NodeFactoryActionStepResult, CommonStances, TreeTools, _
+    ) {
 
         var SORTING_ORDER = {
             DEFAULT: sortByDefault,
@@ -295,10 +298,10 @@ define(
                     stanceNodeView,
                     nodeViewGenerator,
                     [
-                        { name: 'punches', func: NodeFactory.isMovePunch },
-                        { name: 'kicks',   func: NodeFactory.isMoveKick  },
-                        { name: 'throws',  func: NodeFactory.isMoveThrow, hideByDefault: true },
-                        { name: 'holds',   func: NodeFactory.isMoveHold,  hideByDefault: true },
+                        { name: 'punches', func: NodeFactoryMove.isMovePunch },
+                        { name: 'kicks',   func: NodeFactoryMove.isMoveKick  },
+                        { name: 'throws',  func: NodeFactoryMove.isMoveThrow, hideByDefault: true },
+                        { name: 'holds',   func: NodeFactoryMove.isMoveHold,  hideByDefault: true },
                         { name: 'other' }
                     ]
                 );
@@ -312,10 +315,10 @@ define(
                     stanceNodeView,
                     nodeViewGenerator,
                     [
-                        { name: 'horizontal',    func: NodeFactory.isMoveHorizontal },
-                        { name: 'vertical',      func: NodeFactory.isMoveVertical   },
-                        { name: 'throws',        func: NodeFactory.isMoveThrow, hideByDefault: true },
-                        { name: 'guard impacts', func: NodeFactory.isMoveHold },
+                        { name: 'horizontal',    func: NodeFactoryMove.isMoveHorizontal },
+                        { name: 'vertical',      func: NodeFactoryMove.isMoveVertical   },
+                        { name: 'throws',        func: NodeFactoryMove.isMoveThrow, hideByDefault: true },
+                        { name: 'guard impacts', func: NodeFactoryMove.isMoveHold },
                         { name: 'other' }
                     ]
                 );
@@ -425,7 +428,7 @@ define(
 
         function getEnding(nodeView) {
             var nodeData = getNodeData(nodeView);
-            var result = nodeData && NodeFactory.isMoveNode(nodeData) && nodeData.endsWith;
+            var result = nodeData && NodeFactoryMove.isMoveNode(nodeData) && nodeData.endsWith;
             return result || null;
         }
 
@@ -613,7 +616,7 @@ define(
                         var nodeData = getNodeData(nodeView);
                         return (
                             nodeData &&
-                            NodeFactory.isMoveNode(nodeData) &&
+                            NodeFactoryMove.isMoveNode(nodeData) &&
                             NodeFactoryMove.hasFrameData(nodeData)
                         );
                     }).sort(function(nodeViewA, nodeViewB) {
@@ -629,7 +632,7 @@ define(
                 sortHelper(nodeView, function(rest) {
                     return _.take(rest, function(nodeView) {
                         var nodeData = getNodeData(nodeView);
-                        if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return false;
+                        if (!nodeData || !NodeFactoryMove.isMoveNode(nodeData)) return false;
                         var advantage = getAdvantageRangeFunc(nodeData);
                         return Boolean(advantage);
                     }).sort(function(nodeViewA, nodeViewB) {
@@ -643,30 +646,30 @@ define(
 
             function sortByAdvantageOnBlock(nodeView) {
                 sortByAdvantage(nodeView, function(nodeData) {
-                    return NodeFactory.getAdvantageRange(
+                    return NodeFactoryMove.getAdvantageRange(
                         nodeData,
-                        NodeFactory.getActionStepResultHitBlock,
-                        NodeFactory.doesActionStepResultDescribeGuard
+                        NodeFactoryActionStepResult.getHitBlock,
+                        NodeFactoryActionStepResult.doesDescribeGuard
                     );
                 });
             }
 
             function sortByAdvantageOnNeutralHit(nodeView) {
                 sortByAdvantage(nodeView, function(nodeData) {
-                    return NodeFactory.getAdvantageRange(
+                    return NodeFactoryMove.getAdvantageRange(
                         nodeData,
-                        NodeFactory.getActionStepResultHitBlock,
-                        NodeFactory.doesActionStepResultDescribeNeutralHit
+                        NodeFactoryActionStepResult.getHitBlock,
+                        NodeFactoryActionStepResult.doesDescribeNeutralHit
                     );
                 });
             }
 
             function sortByAdvantageOnCounterHit(nodeView) {
                 sortByAdvantage(nodeView, function(nodeData) {
-                    return NodeFactory.getAdvantageRange(
+                    return NodeFactoryMove.getAdvantageRange(
                         nodeData,
-                        NodeFactory.getActionStepResultHitBlock,
-                        NodeFactory.doesActionStepResultDescribeCounterHit
+                        NodeFactoryActionStepResult.getHitBlock,
+                        NodeFactoryActionStepResult.doesDescribeCounterHit
                     );
                 });
             }

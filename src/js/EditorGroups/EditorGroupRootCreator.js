@@ -5,7 +5,7 @@ define(
     [
         'EditorGroups/EditorGroup',
         'EditorGroups/EditorCreatorBase',
-        'Model/NodeFactory',
+        'Model/NodeFactoryRoot',
         'View/NodeView',
         'Localization/Strings',
         'Tools/Tools'
@@ -14,7 +14,7 @@ define(
     function EditorGroupRootCreator(
         EditorGroup,
         EditorCreatorBase,
-        NodeFactory,
+        NodeFactoryRoot,
         NodeView,
         Strings,
         _
@@ -64,7 +64,7 @@ define(
 
             return editorGroupRoot;
 
-            function filter(data) { return data && NodeFactory.isRootNode(data); }
+            function filter(data) { return data && NodeFactoryRoot.isRootNode(data); }
 
             function updateView(keepActiveSummaryContent) {
 
