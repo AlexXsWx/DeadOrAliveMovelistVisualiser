@@ -7,7 +7,6 @@ define(
         'Model/NodeFactoryActionStepResult',
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStepResult',
-        'Model/ActionType',
         'Localization/Strings',
         'Tools/Tools'
     ],
@@ -17,7 +16,6 @@ define(
         NodeFactoryActionStepResult,
         EditorCreatorBase,
         MoveActionStepResult,
-        ActionType,
         Strings,
         _
     ) {
@@ -104,7 +102,7 @@ define(
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: Strings('moveActionTags'),
                     description: Strings('moveActionTagsDescription'),
-                    placeholderText: 'e.g. ground attack',
+                    placeholderText: 'e.g. guard break',
                     datalist: 'actionSupportedTags',
                     fill: actionStepToTagsText,
                     parameterModifier: changeActionStepTags
@@ -170,9 +168,9 @@ define(
                 if (lowCased.search('h') >= 0) maskValue.push('high');
                 if (lowCased.search('m') >= 0) maskValue.push('mid');
                 if (lowCased.search('l') >= 0) maskValue.push('low');
-                if (lowCased.search('f') >= 0) maskValue.push('ground'); // for Floor
                 if (lowCased.search('p') >= 0) maskValue.push('P');
                 if (lowCased.search('k') >= 0) maskValue.push('K');
+                if (lowCased.search('f') >= 0) maskValue.push('ground'); // 'f' for Floor
 
                 changed = changeActionMask(maskValue.join(' '), actionStep) || changed;
 

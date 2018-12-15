@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1530960574454
+    "timeSaved": 1530960571632
   },
   "body": {
     "character": "rig",
@@ -231,13 +231,10 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "low K",
+                            "actionMask": "low K ground",
                             "actionType": "strike",
                             "isTracking": true,
                             "reach": 1.81,
-                            "tags": [
-                              "ground attack"
-                            ],
                             "results": [
                               {
                                 "condition": [
@@ -513,13 +510,10 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "low K",
+                            "actionMask": "low K ground",
                             "actionType": "strike",
                             "isTracking": true,
                             "reach": 1.9,
-                            "tags": [
-                              "ground attack"
-                            ],
                             "results": [
                               {
                                 "condition": [
@@ -574,13 +568,10 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "low K",
+                        "actionMask": "low K ground",
                         "actionType": "strike",
                         "isTracking": false,
                         "reach": 1.48,
-                        "tags": [
-                          "ground attack"
-                        ],
                         "results": [
                           {
                             "condition": [
@@ -766,13 +757,10 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "low K",
+                        "actionMask": "low K ground",
                         "actionType": "strike",
                         "isTracking": true,
                         "reach": 1.63,
-                        "tags": [
-                          "ground attack"
-                        ],
                         "results": [
                           {
                             "condition": [
@@ -1175,13 +1163,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "reach": 1.44,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -1440,13 +1425,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "reach": 1.81,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -1503,13 +1485,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "reach": 1.72,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -1879,13 +1858,10 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "mid K",
+                        "actionMask": "mid K ground",
                         "actionType": "strike",
                         "isTracking": false,
                         "reach": 1.6,
-                        "tags": [
-                          "ground attack"
-                        ],
                         "results": [
                           {
                             "condition": [
@@ -1914,13 +1890,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "reach": 1.46,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -2034,13 +2007,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid K",
+                    "actionMask": "mid K ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "reach": 1.6,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -2069,13 +2039,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid K",
+                "actionMask": "mid K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "reach": 2.33,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -2106,13 +2073,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid K",
+                    "actionMask": "mid K ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "reach": 1.81,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -2423,13 +2387,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "reach": 1.67,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -2490,13 +2451,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "reach": 1.54,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -2557,13 +2515,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
                     "reach": 1.9,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -2592,13 +2547,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "reach": 1.43,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -2769,12 +2721,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid K",
+                "actionMask": "mid K ground",
                 "actionType": "strike",
                 "reach": 2.35,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -3029,13 +2978,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
                     "reach": 1.63,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -3096,13 +3042,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "reach": 1.63,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -3129,13 +3072,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "reach": 1.83,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -3478,13 +3418,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "reach": 1.63,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -3569,13 +3506,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
                     "reach": 1.63,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -3634,13 +3568,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "reach": 1.63,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -3748,12 +3679,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K",
+                "actionMask": "K ground",
                 "actionType": "ground attack",
-                "damage": 12,
-                "tags": [
-                  "ground attack"
-                ]
+                "damage": 12
               }
             ]
           },
@@ -3769,12 +3697,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "K",
+                "actionMask": "K ground",
                 "actionType": "ground attack",
-                "damage": 20,
-                "tags": [
-                  "ground attack"
-                ]
+                "damage": 20
               }
             ]
           }
@@ -4019,13 +3944,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid K",
+                "actionMask": "mid K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "reach": 1.95,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -4052,14 +3974,11 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid K",
+                "actionMask": "mid K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "damage": 25,
                 "reach": 1.22,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -4308,13 +4227,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "reach": 1.57,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -4493,13 +4409,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
                     "reach": 1.63,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -4635,13 +4548,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "reach": 2.16,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -4759,13 +4669,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "reach": 1.57,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -4822,13 +4729,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "reach": 1.66,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -5203,13 +5107,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "reach": 1.76,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [

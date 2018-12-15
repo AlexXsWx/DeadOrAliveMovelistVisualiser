@@ -109,10 +109,9 @@ define(
                             input: '2K',
                             actionSteps: [
                                 NodeFactoryActionStep.createMoveActionStep({
-                                    actionMask: 'low K',
+                                    actionMask: 'low K ground',
                                     actionType: ActionType.Strike,
-                                    isTracking: true,
-                                    tags: ['ground attack']
+                                    isTracking: true
                                 })
                             ]
                         }, true)

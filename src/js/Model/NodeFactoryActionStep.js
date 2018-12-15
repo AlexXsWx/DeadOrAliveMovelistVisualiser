@@ -19,7 +19,7 @@ define(
 
             isActionStepHold:          isActionStepHold,
             isActionStepJumpAttack:    isActionStepJumpAttack,
-            isActionStepGroundAttack:  actionTypeChecker(ActionType.Ground),
+            isActionStepGroundAttack:  actionTypeChecker(ActionType.HelperGround),
             isActionStepOther:         actionTypeChecker(ActionType.Other),
 
             isActionStepHigh:          isActionStepHigh,
@@ -28,9 +28,8 @@ define(
             isActionStepHorizontal:    isActionStepHorizontal,
             isActionStepVertical:      isActionStepVertical,
 
-
             canActionStepHitGround: canActionStepHitGround,
-            getActionStepSummary:   getActionStepSummary,
+            getActionStepSummary:   getActionStepSummary
         };
 
         function createMoveActionStep(optSource) {
@@ -171,7 +170,11 @@ define(
         }
 
         function canActionStepHitGround(actionStep) {
-            return _.searchInStringArray(actionStep.tags, /ground/i) >= 0;
+            return (
+                actionStep.actionMask && actionStep.actionMask.toLowerCase().search('ground') >= 0 ||
+                // legacy
+                _.searchInStringArray(actionStep.tags, /ground/i) >= 0
+            );
         }
 
         function getActionStepSummary(actionStep) {

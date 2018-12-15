@@ -8,7 +8,7 @@ define(
 
         return {
             createRootNode: createRootNode,
-            isRootNode:     isRootNode,
+            isRootNode:     isRootNode
         };
 
         function createRootNode(optSource, optValidateChildren) {

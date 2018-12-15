@@ -191,11 +191,10 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "mid P",
+                            "actionMask": "mid P ground",
                             "actionType": "strike",
                             "isTracking": false,
                             "tags": [
-                              "ground attack",
                               "guard crush"
                             ],
                             "results": [
@@ -226,11 +225,10 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "mid P",
+                            "actionMask": "mid P ground",
                             "actionType": "strike",
                             "isTracking": false,
                             "tags": [
-                              "ground attack",
                               "guard crush"
                             ],
                             "results": [
@@ -265,12 +263,11 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "mid P",
+                            "actionMask": "mid P ground",
                             "actionType": "strike",
                             "isTracking": false,
                             "tags": [
                               "BA",
-                              "ground attack",
                               "guard crush"
                             ],
                             "results": [
@@ -312,12 +309,11 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionMask": "mid P",
+                            "actionMask": "mid P ground",
                             "actionType": "strike",
                             "isTracking": false,
                             "tags": [
                               "BA",
-                              "ground attack",
                               "guard crush"
                             ],
                             "results": [
@@ -469,11 +465,10 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "mid P",
+                        "actionMask": "mid P ground",
                         "actionType": "strike",
                         "isTracking": false,
                         "tags": [
-                          "ground attack",
                           "guard crush"
                         ],
                         "results": [
@@ -601,11 +596,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid P",
+                    "actionMask": "mid P ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
-                      "ground attack",
                       "guard crush"
                     ],
                     "results": [
@@ -1131,14 +1125,13 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "tags": [
                   "SC",
                   "BA",
-                  "special",
-                  "ground attack"
+                  "special"
                 ],
                 "results": [
                   {
@@ -1403,12 +1396,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -1436,12 +1426,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": true,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -1808,13 +1795,12 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid P",
+                    "actionMask": "mid P ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
                       "BA",
                       "LH",
-                      "ground attack",
                       "guard crush"
                     ],
                     "results": [
@@ -1848,12 +1834,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -2073,11 +2056,10 @@
                 "actionType": "other"
               },
               {
-                "actionMask": "mid K",
+                "actionMask": "mid K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "ground attack",
                   "guard crush"
                 ],
                 "results": [
@@ -2197,12 +2179,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
-                "isTracking": false,
-                "tags": [
-                  "ground attack"
-                ]
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -2215,11 +2194,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid P",
+                    "actionMask": "mid P ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
-                      "ground attack",
                       "guard crush"
                     ],
                     "results": [
@@ -2404,11 +2382,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid P",
+                    "actionMask": "mid P ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
-                      "ground attack",
                       "guard crush"
                     ],
                     "results": [
@@ -2440,12 +2417,11 @@
                 "actionType": "other"
               },
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
                   "LH",
-                  "ground attack",
                   "guard crush"
                 ]
               }
@@ -2661,12 +2637,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
-                "isTracking": false,
-                "tags": [
-                  "ground attack"
-                ]
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -2762,11 +2735,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "ground attack",
                   "guard crush"
                 ],
                 "results": [
@@ -2792,11 +2764,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "ground attack",
                   "guard crush"
                 ],
                 "results": [
@@ -2823,12 +2794,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
-                "isTracking": false,
-                "tags": [
-                  "ground attack"
-                ]
+                "isTracking": false
               }
             ],
             "followUps": [
@@ -2841,12 +2809,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low P",
+                    "actionMask": "low P ground",
                     "actionType": "strike",
                     "isTracking": false,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -2961,12 +2926,11 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "UA",
-                  "ground attack"
+                  "UA"
                 ],
                 "results": [
                   {
@@ -3006,12 +2970,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -3457,11 +3418,10 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid P",
+                    "actionMask": "mid P ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "tags": [
-                      "ground attack",
                       "guard crush"
                     ],
                     "results": [
@@ -3554,11 +3514,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "ground attack",
                   "guard crush"
                 ],
                 "results": [
@@ -3844,12 +3803,9 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "low K",
+                        "actionMask": "low K ground",
                         "actionType": "strike",
-                        "isTracking": true,
-                        "tags": [
-                          "ground attack"
-                        ]
+                        "isTracking": true
                       }
                     ],
                     "endsWith": "FC",
@@ -4142,12 +4098,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
-                "isTracking": true,
-                "tags": [
-                  "ground attack"
-                ]
+                "isTracking": true
               }
             ],
             "endsWith": "FC",
@@ -4177,11 +4130,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "ground attack",
                   "guard crush"
                 ],
                 "results": [
@@ -4214,11 +4166,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "ground attack",
                   "guard crush"
                 ],
                 "results": [
@@ -4255,12 +4206,11 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
                   "BA",
-                  "ground attack",
                   "guard crush"
                 ],
                 "results": [
@@ -4302,12 +4252,11 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
                   "BA",
-                  "ground attack",
                   "guard crush"
                 ],
                 "results": [
@@ -4405,12 +4354,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "K",
+                    "actionMask": "K ground",
                     "actionType": "strike",
-                    "isTracking": false,
-                    "tags": [
-                      "ground attack"
-                    ]
+                    "isTracking": false
                   }
                 ],
                 "endsWith": "DWN"
@@ -4444,11 +4390,10 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid K",
+                "actionMask": "mid K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "ground attack",
                   "guard crush"
                 ],
                 "results": [
@@ -4504,11 +4449,10 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "mid P",
+                        "actionMask": "mid P ground",
                         "actionType": "strike",
                         "isTracking": false,
                         "tags": [
-                          "ground attack",
                           "guard crush"
                         ],
                         "results": [
@@ -4647,12 +4591,9 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low P",
+                    "actionMask": "low P ground",
                     "actionType": "strike",
                     "isTracking": true,
-                    "tags": [
-                      "ground attack"
-                    ],
                     "results": [
                       {
                         "condition": [
@@ -4747,12 +4688,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid K",
+                "actionMask": "mid K ground",
                 "actionType": "strike",
                 "isTracking": false,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -4914,12 +4852,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -5018,12 +4953,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
@@ -5386,12 +5318,9 @@
                                     ],
                                     "actionSteps": [
                                       {
-                                        "actionMask": "mid P",
+                                        "actionMask": "mid P ground",
                                         "actionType": "strike",
                                         "isTracking": false,
-                                        "tags": [
-                                          "ground attack"
-                                        ],
                                         "results": [
                                           {
                                             "condition": [
@@ -5583,11 +5512,10 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "mid P",
+                        "actionMask": "mid P ground",
                         "actionType": "strike",
                         "isTracking": false,
                         "tags": [
-                          "ground attack",
                           "guard crush"
                         ]
                       }
@@ -5684,12 +5612,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
-                "isTracking": false,
-                "tags": [
-                  "ground attack"
-                ]
+                "isTracking": false
               }
             ],
             "endsWith": "FC"
@@ -5740,12 +5665,9 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
-                "tags": [
-                  "ground attack"
-                ],
                 "results": [
                   {
                     "condition": [
