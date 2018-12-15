@@ -3,12 +3,16 @@ define(
     'View/NodeView',
 
     [
+        'Analysis/Parser', 'Analysis/Operators',
         'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/NodeFactoryActionStepResult',
         'Model/CommonStances',
         'Tools/TreeTools', 'Tools/Tools' ],
 
     function NodeView(
-        NodeFactory, NodeFactoryMove, NodeFactoryActionStepResult, CommonStances, TreeTools, _
+        Parser, Operators,
+        NodeFactory, NodeFactoryMove, NodeFactoryActionStepResult,
+        CommonStances,
+        TreeTools, _
     ) {
 
         var SORTING_ORDER = {
@@ -26,6 +30,7 @@ define(
             SORTING_ORDER: SORTING_ORDER,
             sortsByDefault: sortsByDefault,
             setSortingOrder: setSortingOrder,
+            createCustomSortingOrder: createCustomSortingOrder,
 
             createNodeViewGenerator: createNodeViewGenerator,
 
@@ -608,6 +613,33 @@ define(
 
             function sortByDefault(nodeView) {
                 sortHelper(nodeView);
+            }
+
+            function createCustomSortingOrder(queryStr) {
+                var result = Parser.parse(queryStr);
+                if (result.type !== Operators.Type3.Integer) {
+                    return sortByDefault;
+                }
+                return sort;
+                function runQuery(nodeData) {
+                    return result.getValue({ nodeData: nodeData });
+                }
+                function sort(nodeView) {
+                    sortHelper(nodeView, function(rest) {
+                        return _.take(rest, function(nodeView) {
+                            var nodeData = getNodeData(nodeView);
+                            return nodeData && isValidNumber(runQuery(nodeData));
+                        }).sort(function(nodeViewA, nodeViewB) {
+                            return _.sortFuncAscending(
+                                runQuery(getNodeData(nodeViewA)),
+                                runQuery(getNodeData(nodeViewB))
+                            );
+                        });
+                    });
+                    function isValidNumber(obj) {
+                        return typeof obj === 'number' && !isNaN(obj);
+                    }
+                }
             }
 
             function sortBySpeed(nodeView) {

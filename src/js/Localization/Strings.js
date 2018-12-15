@@ -19,6 +19,7 @@ define(
             'enterFramesToLandOn': 'Your frames to land on: e.g. "17-19"',
             'enterStanceToShow': 'Enter stance name: (e.g. "${EXAMPLE_STANCE}")',
             'enterFilterQuery': 'Enter filter query:',
+            'enterSortQuery': 'Enter sort query:',
 
             'warnings': 'warnings',
             'hasNoFrameData': 'has no frame data, probabilities that use it are excluded',

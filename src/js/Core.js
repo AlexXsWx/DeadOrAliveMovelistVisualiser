@@ -697,10 +697,7 @@ define(
                         console.log(encodeURI(queryStr));
                         showOnlyNodesThatMatch(function(nodeView) {
                             var nodeData = NodeView.getNodeData(nodeView);
-                            return nodeData && query({
-                                rootNodeData: rootNodeData,
-                                nodeData: nodeData
-                            });
+                            return nodeData && query({ nodeData: nodeData });
                         });
                     },
 
@@ -714,6 +711,20 @@ define(
 
                     'sortByDefault': function sortByDefault(event) {
                         changeSorting(NodeView.SORTING_ORDER.DEFAULT);
+                    },
+
+                    'sortByCustom': function sortByCustom(event) {
+                        var placeholder = (
+                            localStorage.sortCustomQueryStr ||
+                            '- advantageOnBlock'
+                        );
+                        var queryStr = prompt(
+                            Strings('enterSortQuery'),
+                            placeholder
+                        );
+                        if (!queryStr) return;
+                        localStorage.sortCustomQueryStr = queryStr;
+                        changeSorting(NodeView.createCustomSortingOrder(queryStr));
                     },
 
                     'sortBySpeed': function sortBySpeed(event) {
