@@ -126,8 +126,9 @@ define(
                 return '';
             }
             var cooldown      = NodeFactoryMove.getRecoveryFramesCount(nodeData);
-            var cooldownRange = NodeFactoryMove.getActiveFramesCount(nodeData) - 1;
-            return cooldown + '-' + (cooldown + cooldownRange);
+            var cooldownRange = Math.max(0, NodeFactoryMove.getActiveFramesCount(nodeData) - 1);
+            if (cooldown === 0 && cooldownRange === 0) return '';
+            return cooldown + (cooldownRange === 0 ? '' : '..' + (cooldown + cooldownRange));
         }
 
         function getAdvantageOnBlock(nodeView) {
