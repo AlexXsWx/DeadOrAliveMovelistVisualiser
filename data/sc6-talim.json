@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1544382398232
+    "timeSaved": 1544729468960
   },
   "body": {
     "character": "Talim",
@@ -2663,7 +2663,10 @@
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "tags": [
+                  "ground attack"
+                ]
               }
             ],
             "followUps": [
@@ -5388,6 +5391,16 @@
                                         "isTracking": false,
                                         "tags": [
                                           "ground attack"
+                                        ],
+                                        "results": [
+                                          {
+                                            "condition": [
+                                              "grounded"
+                                            ],
+                                            "tags": [
+                                              "launch"
+                                            ]
+                                          }
                                         ]
                                       }
                                     ],
