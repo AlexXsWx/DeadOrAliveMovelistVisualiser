@@ -5,10 +5,12 @@ define(
     [
         'Model/NodeFactoryMove',
         'Model/NodeFactoryActionStepResult',
+        'Tools/ArraySet',
+        'Tools/CastingManager',
         'Tools/Tools'
     ],
 
-    function Operators(NodeFactoryMove, NodeFactoryActionStepResult, _) {
+    function Operators(NodeFactoryMove, NodeFactoryActionStepResult, ArraySet, CastingManager, _) {
 
         var Type1 = {
             Raw:     't1_raw',
@@ -35,7 +37,7 @@ define(
 
         //
 
-        var type3Casters = createCastingManager();
+        var type3Casters = CastingManager.createCastingManager();
         type3Casters.addCaster(
             Type3.String, Type3.ArraySet,
             function(value) { return ArraySet.createFromValue(value); }
@@ -48,67 +50,6 @@ define(
             Type3.ArrayString, Type3.ArraySet,
             function(value) { return ArraySet.createFromArray(value); }
         );
-
-        //
-
-        function ArraySet(values) {
-            var arrays = values;
-            return {
-                _getArrays: _getArrays,
-                satisfiesIs:       satisfiesIs,
-                satisfiesContains: satisfiesContains
-            };
-            function _getArrays() {
-                return arrays;
-            }
-            function satisfiesIs(testSet) {
-                return testSet._getArrays().some(function(testArray) {
-                    return _getArrays().some(function(array) {
-                        return (
-                            testArray.length === 0 && array.length === 0 ||
-                            arrayContains(testArray, array) &&
-                            arrayContains(array, testArray)
-                        );
-                    });
-                });
-            }
-            function satisfiesContains(testSet) {
-                return testSet._getArrays().some(function(testArray) {
-                    return _getArrays().some(function(array) {
-                        return arrayContains(testArray, array);
-                    });
-                });
-            }
-            function arrayContains(array, values) {
-                return values.every(function(element) {
-                    return _.contains(array, element);
-                });
-            }
-        }
-        ArraySet.createFromValue = function(value) {
-            return new ArraySet([[value]]);
-        };
-        ArraySet.createFromArray = function(values) {
-            return new ArraySet([values]);
-        };
-        ArraySet.createAnd = function(leftSet, rightSet) {
-            var leftArrays  = leftSet._getArrays();
-            var rightArrays = rightSet._getArrays();
-            var values = [];
-            leftArrays.forEach(function(leftArray) {
-                rightArrays.forEach(function(rightArray) {
-                    values.push(leftArray.concat(rightArray));
-                });
-            });
-            return new ArraySet(values);
-        };
-        ArraySet.createOr = function(leftSet, rightSet) {
-            var values = leftSet._getArrays().concat(rightSet._getArrays());
-            return new ArraySet(values);
-        };
-        ArraySet.createEmpty = function() {
-            return new ArraySet([[]]);
-        };
 
         //
 
@@ -653,93 +594,6 @@ define(
             operatorsPerPrio: operatorsPerPrio,
             accessors: accessors
         };
-
-        //
-
-        function createCastingManager() {
-            var castMap = {};
-            var existingCasters = [];
-
-            return {
-                addCaster: addCaster,
-                canCast:   canCast,
-                castValue: castValue
-            }
-
-            function addCaster(from, to, castFunc, optIndirect) {
-
-                var direct = !optIndirect;
-
-                if (canAdd(from, to, direct)) {
-
-                    castMap[from] = castMap[from] || {};
-                    castMap[from][to] = {
-                        castFunc: castFunc,
-                        direct: direct
-                    };
-
-                    existingCasters.push({ from: from, to: to });
-                }
-
-                connectCasters(from, to, castMap[from][to].castFunc);
-            }
-
-            function canAdd(from, to, direct) {
-                if (castMap.hasOwnProperty(from) && castMap[from].hasOwnProperty(to)) {
-                    if (direct) {
-                        if (castMap[from][to].direct) {
-                            console.error(
-                                'Replacing already existing caster: ' + from + ' -> ' + to
-                            );
-                        } else {
-                            console.warn(
-                                'Refining already existing caster: ' + from + ' -> ' + to
-                            );
-                        }
-                        return true;
-                    }
-                    return false;
-                }
-                return true;
-            }
-
-            function connectCasters(from, to, castFunc) {
-                existingCasters
-                    .filter(function(t) {
-                        return t.to === from;
-                    })
-                    .forEach(function(t) {
-                        addCaster(
-                            t.from, to,
-                            function(value) { return castFunc(castValue(value, t.from, t.to)); },
-                            true
-                        );
-                    });
-
-                existingCasters
-                    .filter(function(t) { return to === t.from; })
-                    .forEach(function(t) {
-                        addCaster(
-                            from, t.to,
-                            function(value) { return castValue(castFunc(value), t.from, t.to); },
-                            true
-                        );
-                    });
-            }
-
-            function canCast(typeFrom, typeTo) {
-                if (typeFrom === typeTo) return true;
-                return (
-                    castMap.hasOwnProperty(typeFrom) &&
-                    castMap[typeFrom].hasOwnProperty(typeTo)
-                );
-            }
-
-            function castValue(value, typeFrom, typeTo) {
-                if (typeFrom === typeTo) return value;
-                return castMap[typeFrom][typeTo].castFunc(value);
-            }
-        }
     }
 
 );
