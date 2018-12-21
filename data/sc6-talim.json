@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1544729468960
+    "timeSaved": 1545427517314
   },
   "body": {
     "character": "Talim",
@@ -626,7 +626,7 @@
                 "frameData": [
                   25,
                   1,
-                  33
+                  32
                 ],
                 "actionSteps": [
                   {
@@ -638,7 +638,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": 19
+                        "hitBlock": 18
                       }
                     ]
                   }
@@ -3518,7 +3518,8 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "GC"
+                  "GC",
+                  "TJ"
                 ],
                 "results": [
                   {
@@ -3538,13 +3539,20 @@
             "context": [
               "low hp"
             ],
+            "frameData": [
+              19,
+              1,
+              34
+            ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "tags": [
-                  "LH"
+                  "LH",
+                  "GC",
+                  "TJ"
                 ]
               }
             ],
@@ -4360,24 +4368,6 @@
                   }
                 ],
                 "endsWith": "DWN"
-              },
-              {
-                "input": ":G",
-                "context": [
-                  "whiff|guard"
-                ],
-                "frameData": [
-                  13,
-                  0,
-                  0
-                ],
-                "actionSteps": [
-                  {
-                    "actionType": "other"
-                  }
-                ],
-                "endsWith": "WS",
-                "comment": "secret"
               }
             ]
           },
