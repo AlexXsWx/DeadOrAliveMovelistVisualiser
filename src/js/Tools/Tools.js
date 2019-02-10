@@ -482,7 +482,7 @@ define(
 
         }
 
-        function createMergedRow(colspan, children) {
+        function createMergedRow(colspan, children, classes) {
             return createDomElement({
                 tag: 'tr',
                 children: [
@@ -491,7 +491,8 @@ define(
                         attributes: { 'colspan': colspan },
                         children: children
                     })
-                ]
+                ],
+                classes: classes
             });
         }
 

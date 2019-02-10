@@ -14,6 +14,7 @@ define(
             var name        = parameters.name;
             var description = parameters.description;
             var onClick     = parameters.onClick;
+            var classes     = parameters.classes;
 
             var input = _.createDomElement({
                 tag: 'input',
@@ -27,7 +28,7 @@ define(
                 }
             });
 
-            var tr = _.createMergedRow(2, [ input ]);
+            var tr = _.createMergedRow(2, [ input ], classes);
 
             return {
                 domRoot: tr,

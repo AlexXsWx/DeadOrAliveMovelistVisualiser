@@ -43,7 +43,8 @@ define(
                     label: Strings('stanceExtraFrame'),
                     description: Strings('stanceExtraFrameDescription'),
                     fill: appliesExtraFrameToIsChecked,
-                    parameterModifier: changeStanceExtraFrame
+                    parameterModifier: changeStanceExtraFrame,
+                    classes: ['specific-to-doa']
                 }
             ];
 

@@ -85,6 +85,7 @@ define(
                 var nodeDataParameterChanger = editorInputDescription.parameterModifier;
                 var onClick                  = editorInputDescription.onClick; // button only
                 var focused                  = editorInputDescription.focused || false;
+                var classes                  = editorInputDescription.classes;
 
                 if (filler !== undefined) editorInputFillers[editorInputId] = filler;
                 if (focused) setDefaultFocus(editorInputId);
@@ -99,7 +100,7 @@ define(
                         datalist: datalist,
                         onInput: textInputHandler,
                         onFocus: rememberFocusedElement,
-                        classes: isSummary ? ['summary'] : [],
+                        classes: (isSummary ? ['summary'] : []).concat(classes || []),
                         multiline: multiline
                     });
                 } else
@@ -109,7 +110,8 @@ define(
                         description: description,
                         isIndeterminate: true,
                         onChange: checkboxChangeHandler,
-                        onFocus: rememberFocusedElement
+                        onFocus: rememberFocusedElement,
+                        classes: classes
                     });
                 } else
                 if (inputType === INPUT_TYPES.button) {
@@ -117,7 +119,8 @@ define(
                         name: name,
                         description: description,
                         onClick: onClick,
-                        onFocus: rememberFocusedElement
+                        onFocus: rememberFocusedElement,
+                        classes: classes
                     });
                 }
 

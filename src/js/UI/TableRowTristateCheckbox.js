@@ -16,6 +16,7 @@ define(
             var description     = parameters.description;
             var onChange        = parameters.onChange;
             var onFocus         = parameters.onFocus;
+            var classes         = parameters.classes;
 
             var input = _.createDomElement({
                 tag: 'input',
@@ -62,7 +63,8 @@ define(
                     _.createDomElement({ tag: 'td', children: [label] }),
                     _.createDomElement({ tag: 'td', children: [input, buttonIndeterminate] })
                 ],
-                attributes: { 'title': description }
+                attributes: { 'title': description },
+                classes: classes
             });
 
             return {

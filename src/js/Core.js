@@ -196,9 +196,7 @@ define(
                 // TODO: reset everything
                 // FIXME: update editor (selected element changed)
 
-                // FIXME: get this value somehow
-                var sc6 = true;
-                if (sc6) {
+                if (document.body.classList.contains("mode-sc6")) {
                     NodeView.groupByTypeSC6(rootNodeView, nodeViewGenerator);
                 } else {
                     NodeView.groupByType(rootNodeView, nodeViewGenerator);

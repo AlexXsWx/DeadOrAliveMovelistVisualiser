@@ -7,6 +7,12 @@
 .clickThrough > * {
   pointer-events: initial;
 }
+body.mode-doa .specific-to-sc6 {
+  display: none !important;
+}
+body.mode-sc6 .specific-to-doa {
+  display: none !important;
+}
 html {
   font-family: arial;
   height: 100%;
