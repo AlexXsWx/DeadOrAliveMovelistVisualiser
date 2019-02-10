@@ -680,23 +680,7 @@ define(
                     },
 
                     'filterShowCustom': function showCustom(event) {
-                        var placeholder = (
-                            localStorage.showCustomQueryStr ||
-                            '(advantageOnBlock >= 0) or (ending is "BT")'
-                        );
-                        var queryStr = prompt(
-                            Strings('enterFilterQuery'),
-                            placeholder
-                        );
-                        if (!queryStr) return;
-                        localStorage.showCustomQueryStr = queryStr;
-                        var query = Filter.createQuery(queryStr);
-                        if (!query) return;
-                        console.log(encodeURI(queryStr));
-                        showOnlyNodesThatMatch(function(nodeView) {
-                            var nodeData = NodeView.getNodeData(nodeView);
-                            return nodeData && query({ nodeData: nodeData });
-                        });
+                        startFilterDialog('(advantageOnBlock >= 0) or (ending is "BT")', true);
                     },
 
                     'filterShowDefault': function showAll(event) {
@@ -762,6 +746,15 @@ define(
                         Executor.clearHistory();
                         NodeView.groupByTypeSC6(rootNodeView, nodeViewGenerator);
                         update();
+                    },
+
+                    'listAllUsedTags': function listAllUsedTags(event) {
+                        Analyser.listAllUsedTags(
+                            rootNodeData,
+                            function suggestTagFilter(tag) {
+                                startFilterDialog('tags include "' + tag + '"');
+                            }
+                        );
                     }
                 };
 
@@ -795,6 +788,29 @@ define(
                         );
                         update();
                     }
+                }
+
+                function startFilterDialog(suggestion, optUseLocalStorage) {
+
+                    var placeholder = (
+                        optUseLocalStorage && localStorage.showCustomQueryStr || suggestion
+                    );
+                    var queryStr = prompt(
+                        Strings('enterFilterQuery'),
+                        placeholder
+                    );
+                    if (!queryStr) return;
+                    if (optUseLocalStorage) {
+                        localStorage.showCustomQueryStr = queryStr;
+                    }
+                    var query = Filter.createQuery(queryStr);
+                    if (!query) return;
+                    console.log(encodeURI(queryStr));
+                    showOnlyNodesThatMatch(function(nodeView) {
+                        var nodeData = NodeView.getNodeData(nodeView);
+                        return nodeData && query({ nodeData: nodeData });
+                    });
+
                 }
 
             }

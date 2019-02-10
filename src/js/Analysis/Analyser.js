@@ -4,11 +4,11 @@ define(
 
     [
         'Analysis/Filter',
-        'Model/NodeFactoryMove', 'Model/CommonStances',
-        'Localization/Strings', 'Tools/Tools'
+        'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/CommonStances',
+        'Localization/Strings', 'Tools/TreeTools', 'Tools/Tools'
     ],
 
-    function Analyser(Filter, NodeFactoryMove, CommonStances, Strings, _) {
+    function Analyser(Filter, NodeFactory, NodeFactoryMove, CommonStances, Strings, TreeTools, _) {
 
         var domCache = {
             popupFilterResult: null,
@@ -19,7 +19,8 @@ define(
             init: init,
             findForceTechMoves: findForceTechMoves,
             findMovesToSpendTime: findMovesToSpendTime,
-            findMoves: findMoves
+            findMoves: findMoves,
+            listAllUsedTags: listAllUsedTags
         };
 
         function init() {
@@ -157,13 +158,110 @@ define(
             }
 
             output += prefix;
-            output += result;
 
             _.setTextContent(domCache.filterOutput, output);
+
+            if (
+                result instanceof DocumentFragment ||
+                result instanceof HTMLElement
+            ) {
+                domCache.filterOutput.appendChild(_.createTextNode('\n'));
+                domCache.filterOutput.appendChild(result);
+            } else {
+                domCache.filterOutput.appendChild(_.createTextNode(result));
+            }
+
             _.showDomElement(domCache.popupFilterResult);
 
             function amountStr(amount) {
                 return 'x' + amount;
+            }
+        }
+
+        function listAllUsedTags(rootNodeData, suggestTagFilter) {
+            var counter = createCounter();
+            TreeTools.forAllCurrentChildren(
+                rootNodeData,
+                NodeFactory.getChildren,
+                function(nodeData) {
+                    if (!NodeFactoryMove.isMoveNode(nodeData)) return;
+                    if (!nodeData.actionSteps) return;
+                    nodeData.actionSteps.forEach(function(actionStep) {
+                        if (!actionStep) return;
+                        if (actionStep.tags) {
+                            actionStep.tags.forEach(function(actionStepTag) {
+                                counter.count(actionStepTag);
+                            });
+                        }
+                        if (actionStep.results) {
+                            actionStep.results.forEach(function(actionStepResult) {
+                                if (!actionStepResult) return;
+                                actionStepResult.tags.forEach(function(actionStepResultTag) {
+                                    counter.count(actionStepResultTag);
+                                });
+                            });
+                        }
+                    });
+                }
+            );
+            console.log(counter.getResult());
+
+            // FIXME: localize
+            showFilterResults(
+                {},
+                'Tags:',
+                counter.getResult().reduce(
+                    function(fragment, result, index, array) {
+                        var link = _.createDomElement({
+                            tag: 'a',
+                            attributes: { 'href': 'javascript:void 0;' },
+                            listeners: {
+                                'click': function(event) {
+                                    suggestTagFilter(result.name);
+                                }
+                            }
+                        });
+                        link.appendChild(_.createTextNode(result.name));
+                        fragment.appendChild(link);
+                        fragment.appendChild(
+                            _.createTextNode(' (x' + result.count + ')')
+                        );
+                        if (index !== array.length - 1) {
+                            fragment.appendChild(_.createTextNode('\n'));
+                        }
+                        return fragment;
+                    },
+                    document.createDocumentFragment()
+                )
+            );
+
+            return;
+
+            function createCounter() {
+                var map = {};
+                return {
+                    count: count,
+                    getResult: getResult
+                };
+                function count(name) {
+                    map[name] = (map[name] || 0) + 1;
+                }
+                function getResult() {
+                    return Object.keys(map).map(function(name) {
+                        return {
+                            name: name,
+                            count: map[name]
+                        };
+                    }).sort(function(a, b) {
+                        var diff = b.count - a.count;
+                        if (diff !== 0) return diff;
+                        return compareStrings(a.name, b.name);
+                    });
+                }
+                function compareStrings(a, b) {
+                    if (a === b) return 0;
+                    return [a, b].sort()[0] === a ? -1 : 1;
+                }
             }
         }
 
