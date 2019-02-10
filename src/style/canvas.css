@@ -1,3 +1,4 @@
+/* ======== */
 .unclickable {
   pointer-events: none !important;
 }
@@ -7,9 +8,9 @@
 g.canvas {
   transition: transform 500ms;
 }
-path.link {
+.node_link {
   fill: none;
-  stroke: #ddd;
+  stroke: #dfdfdf;
 }
 g.node {
   cursor: default;
@@ -26,98 +27,123 @@ g.node .node_circle {
   stroke: #777;
   stroke-width: 2px;
 }
-g.node.punch .node_circle {
-  fill: #ff7;
-  stroke: white;
-}
-g.node.kick .node_circle {
-  fill: #f77;
-  stroke: white;
-}
-g.node.hold .node_circle {
-  fill: #7f7;
-  stroke: white;
-}
-g.node.throw .node_circle {
-  fill: #77f;
-  stroke: white;
-}
-g.node.OHGrab .node_circle {
-  fill: #70f;
-  stroke: white;
+g.node .node_circle.placeholder {
+  stroke-width: 1px;
+  stroke-dasharray: 2, 2;
 }
 g.node .node_mask_height_indicator,
 g.node .node_knockback_indicator {
   stroke-width: 1px;
   fill: none;
-  stroke: black;
+  stroke: #a8a8a8;
 }
 g.node text {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   fill: black;
-  text-shadow: 0 0 2px white;
+  text-shadow: 0 0 10px white, 0 0 10px white, 0 0 10px white;
   dominant-baseline: central;
 }
 g.node text.duration {
   font-size: small;
 }
-g.node.selection text {
-  font-weight: bold;
-  fill: blue;
-}
-.node_link {
-  fill: none;
-  stroke: #ddd;
-}
-.node_circle {
-  fill: white;
-  stroke: #777;
-  stroke-width: 2px;
-}
-.node_text {
+g.node text.node_text {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   font-family: arial;
 }
-.node_text tspan.positive {
+g.node text.node_text tspan.positive {
   font-weight: bold;
   fill: #00a800;
 }
-.node_text tspan.safe {
+g.node text.node_text tspan.safe {
   font-weight: bold;
   fill: #8fbf00;
 }
-.node_text tspan.semisafe {
+g.node text.node_text tspan.semisafe {
   font-weight: bold;
   fill: #bf8000;
 }
-.node_text tspan.unsafe {
+g.node text.node_text tspan.unsafe {
   font-weight: bold;
   fill: #bf0000;
 }
-.text_white_shadow {
-  text-shadow: 0 0 2px white;
+g.node text.node_text tspan.lightgray {
+  fill: #dbdbdb;
 }
-.node_text_center {
+g.node text.node_text tspan.gray {
+  fill: #a8a8a8;
+}
+g.node text.node_text_center {
   text-anchor: middle;
   dominant-baseline: central;
+  fill: #a8a8a8;
+  text-shadow: none;
 }
-.node_text_left {
+g.node text.node_text_left {
   dominant-baseline: middle;
   text-anchor: end;
 }
-.node_text_right {
+g.node text.node_text_right {
   dominant-baseline: middle;
   text-anchor: start;
 }
-.node_text_top {
+g.node text.node_text_top {
   text-anchor: middle;
   dominant-baseline: text-after-edge;
 }
-.node_text_bottom {
+g.node text.node_text_bottom {
   text-anchor: middle;
   dominant-baseline: text-before-edge;
+}
+g.node.punch .node_circle,
+g.node.kick .node_circle,
+g.node.hold .node_circle,
+g.node.throw .node_circle,
+g.node.OHGrab .node_circle {
+  stroke: white;
+}
+g.node.punch .node_circle {
+  fill: #ff7;
+}
+g.node.kick .node_circle {
+  fill: #f77;
+}
+g.node.hold .node_circle {
+  fill: #7f7;
+}
+g.node.throw .node_circle {
+  fill: #77f;
+}
+g.node.OHGrab .node_circle {
+  fill: #70f;
+}
+g.node.punch .node_text_center {
+  fill: #a8a8a8;
+}
+g.node.kick .node_text_center {
+  fill: #575757;
+}
+g.node.hold .node_text_center {
+  fill: #a8a8a8;
+}
+g.node.throw .node_text_center {
+  fill: #575757;
+}
+g.node.OHGrab .node_text_center {
+  fill: #575757;
+}
+g.node.selection text,
+g.node.selection text.node_text tspan.gray {
+  font-weight: bold;
+  fill: blue;
+}
+g.node.selection .node_circle {
+  stroke: #a8a8ff;
+}
+g.node.selection .node_mask_height_indicator,
+g.node.selection .node_knockback_indicator {
+  stroke: blue;
 }

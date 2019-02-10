@@ -2,20 +2,23 @@ define(
 
     'View/NodeSvgViewTexts',
 
-    [ 'View/NodeSvgViewTextGetters', 'Tools/Signal', 'Tools/Tools' ],
+    [ 'View/NodeView', 'View/NodeSvgViewTextGetters', 'Tools/Signal', 'Tools/Tools' ],
 
-    function NodeSvgViewTexts(NodeSvgViewTextGetters, createSignal, _) {
+    function NodeSvgViewTexts(NodeView, NodeSvgViewTextGetters, createSignal, _) {
 
         var TEXT_GETTER_OPTIONS = [
             NodeSvgViewTextGetters.getEmptyText,
             NodeSvgViewTextGetters.getTextEnding,
-            NodeSvgViewTextGetters.getTextDuration,
+            NodeSvgViewTextGetters.getTextActiveFrames,
             NodeSvgViewTextGetters.getCooldown,
-            NodeSvgViewTextGetters.getSafety,
+            NodeSvgViewTextGetters.getAdvantageOnBlock,
+            NodeSvgViewTextGetters.getAdvantageOnHit,
             NodeSvgViewTextGetters.getReach,
             NodeSvgViewTextGetters.getForcetechAdvantage,
             NodeSvgViewTextGetters.getHardKnockdownAdvantage,
             NodeSvgViewTextGetters.getFollowupDelay,
+            NodeSvgViewTextGetters.getComment,
+            NodeSvgViewTextGetters.getMainTags,
             NodeSvgViewTextGetters.getEmptyText, // TODO: stun depth
             NodeSvgViewTextGetters.getEmptyText  // TODO: unhold duration
         ];
@@ -26,18 +29,18 @@ define(
             bottom: TEXT_GETTER_OPTIONS[0]
         };
 
-        var flipTextToRight = true;
+        var flipTextToRight = false;
 
         var updateSignal = createSignal();
 
         return {
-            init:                         init,
-            onUpdate:                     updateSignal.listenersManager,
-            setRightTextToSafety:         setRightTextToSafety,
-            setRightTextToHardKnockdowns: setRightTextToHardKnockdowns,
-            hasTextAtTop:                 hasTextAtTop,
-            hasTextAtBottom:              hasTextAtBottom,
-            create:                       create
+            init:                           init,
+            onUpdate:                       updateSignal.listenersManager,
+            setRightTextToAdvantageOnBlock: setRightTextToAdvantageOnBlock,
+            setRightTextToHardKnockdowns:   setRightTextToHardKnockdowns,
+            hasTextAtTop:                   hasTextAtTop,
+            hasTextAtBottom:                hasTextAtBottom,
+            create:                         create
         };
 
 
@@ -70,10 +73,10 @@ define(
 
         }
 
-        function setRightTextToSafety() {
-            textGetters.right = NodeSvgViewTextGetters.getSafety;
+        function setRightTextToAdvantageOnBlock() {
+            textGetters.right = NodeSvgViewTextGetters.getAdvantageOnBlock;
             _.getDomElement('rightTextOption').selectedIndex = (
-                TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getSafety)
+                TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnBlock)
             );
         }
 
@@ -120,8 +123,12 @@ define(
             }
 
             function getActualLeftText(nodeView) {
+                var flipToRight = flipTextToRight;
+                if (!NodeView.getParentNodeView(nodeView)) {
+                    flipToRight = true;
+                }
                 var leftText = NodeSvgViewTextGetters.getTextMain(nodeView);
-                if (!flipTextToRight) {
+                if (!flipToRight) {
                     return leftText;
                 }
                 var rightText = textGetters.right(nodeView);
@@ -129,8 +136,12 @@ define(
             }
 
             function getActualRightText(nodeView) {
+                var flipToRight = flipTextToRight;
+                if (!NodeView.getParentNodeView(nodeView)) {
+                    flipToRight = true;
+                }
                 var rightText = textGetters.right(nodeView);
-                if (!flipTextToRight) {
+                if (!flipToRight) {
                     return rightText;
                 }
                 return rightText || NodeSvgViewTextGetters.getTextMain(nodeView);

@@ -4,3 +4,4 @@ project.sublime-workspace
 other/ignore
 
 dist
+lib/codemirror

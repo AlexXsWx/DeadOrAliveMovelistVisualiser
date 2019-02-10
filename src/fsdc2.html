@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title>DOA5LR FSDC#2</title>
+
+        <link rel="stylesheet" type="text/css" href="style/fsdc.css">
+
+        <script data-main="js/fsdc/loader" src="../lib/require/2.1.20/require.min.js"></script>
+
+    </head>
+
+    <body>
+
+        <div id="content">
+
+            <table id="data">
+                <thead>
+                    <tr></tr>
+                    <tr></tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <div id="controls">
+                <input type="button" id="export" value="Export .ahk (Ctrl+Shift+E)" />
+                <input type="button" id="changeMapping" value="Change key mapping" />
+            </div>
+
+            <div id="footer">
+                <sub class="credits">Credit for the used images goes to community at <a href="http://www.freestepdodge.com">FreeStepDodge.com</a></sub>
+            </div>
+
+        </div>
+
+        <!-- ==== Overlays ==== -->
+
+        <div id="popups" class="hidden">
+
+            <div id="overlay"></div>
+            <div id="mappingPopup">
+                <a href="https://autohotkey.com/docs/KeyList.htm" target="_blank">Help</a>
+                <table id="mappingPopupTable"></table>
+                <input id="mappingPopup_reset" type="button" value="Reset to default" />
+                <input id="mappingPopup_close" type="button" value="OK" />
+            </div>
+
+        </div>
+
+        <div id="loading">
+            <span>Loading bunch of script files<br />through a slow service... (<span id="loading-loaded">0</span> / <span id="loading-amount"></span>?)</span>
+        </div>
+
+        <!-- /================= -->
+
+    </body>
+
+</html>

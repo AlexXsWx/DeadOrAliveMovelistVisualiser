@@ -4,7 +4,8 @@ define(
 
     [
         'CanvasManager', 'SelectionManager', 'Editor', 'Hotkeys', 'Input/KeyCodes',
-        'Model/NodeFactory', 'Model/NodeSerializer', 'Model/ActionType',
+        'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/NodeFactoryActionStepResult',
+        'Model/NodeSerializer', 'Model/ActionType',
         'View/NodeView', 'View/NodeSvgView',
         'Analysis/Analyser', 'Analysis/Filter',
         'Localization/Strings',
@@ -14,7 +15,8 @@ define(
 
     function Core(
         CanvasManager, SelectionManager, Editor, Hotkeys, KeyCodes,
-        NodeFactory, NodeSerializer, ActionType,
+        NodeFactory, NodeFactoryMove, NodeFactoryActionStepResult,
+        NodeSerializer, ActionType,
         NodeView, NodeSvgView,
         Analyser, Filter,
         Strings,
@@ -69,7 +71,7 @@ define(
                 loadData(NodeFactory.createEmptyData());
                 bindUIActions();
 
-                Hotkeys.create(handleFilteredKeyDown);
+                Hotkeys.create(handleFilteredKeyDown, true);
 
                 initUI();
 
@@ -101,12 +103,14 @@ define(
 
                     var params = _.getParameters(['show', 'example']);
 
+                    var showFilter = null;
+
                     if (params.has('show')) {
-                        var value = params.get('show').toLowerCase();
-                        switch(value) {
+                        var value = params.get('show');
+                        switch(value.toLowerCase()) {
 
                             case 'safety':
-                                NodeSvgView.setRightTextToSafety();
+                                NodeSvgView.setRightTextToAdvantageOnBlock();
                             break;
 
                             case 'hardknockdowns':
@@ -114,6 +118,18 @@ define(
                             break;
 
                             default: _.report('Invalid "show" param value: "' + value + '"');
+                        }
+                    }
+
+                    if (params.has('filter')) {
+                        var query = Filter.createQuery(params.get('filter'));
+                        if (query) {
+                            showFilter = function() {
+                                showOnlyNodesThatMatch(function(nodeView) {
+                                    var nodeData = NodeView.getNodeData(nodeView);
+                                    return nodeData && query(nodeData);
+                                });
+                            };
                         }
                     }
 
@@ -125,7 +141,23 @@ define(
                         url = GithubStuff.getExampleUrl(params.get('example', 'rig').toLowerCase());
                     }
 
-                    url && NodeSerializer.deserializeFromUrl(url, onDataDeserialized);
+                    if (url) {
+                        NodeSerializer.deserializeFromUrl(
+                            url,
+                            function(data) {
+                                onDataDeserialized(data);
+                                applyShowFilter();
+                            }
+                        );
+                    } else {
+                        applyShowFilter();
+                    }
+
+                    return;
+
+                    function applyShowFilter() {
+                        showFilter && showFilter();
+                    }
 
                 }
 
@@ -164,18 +196,17 @@ define(
                 // TODO: reset everything
                 // FIXME: update editor (selected element changed)
 
-                restructureByType(rootNodeView);
-                NodeView.hideHiddenByDefault(rootNodeView);
+                // FIXME: get this value somehow
+                var sc6 = true;
+                if (sc6) {
+                    NodeView.groupByTypeSC6(rootNodeView, nodeViewGenerator);
+                } else {
+                    NodeView.groupByType(rootNodeView, nodeViewGenerator);
+                    NodeView.hideHiddenByDefault(rootNodeView);
+                }
 
                 update();
 
-            }
-
-
-            function restructureByType(rootNodeView) {
-                NodeView.getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
-                    NodeView.groupByType(stanceNodeView, nodeViewGenerator);
-                });
             }
 
 
@@ -224,7 +255,9 @@ define(
                 _.showDomElement(domCache.popupWelcome);
             }
             function hideWelcomePopup(optEvent) {
-                localStorage.showWelcomePopupOnStart = Boolean(domCache.showWelcomePopupOnStart.checked);
+                localStorage.showWelcomePopupOnStart = Boolean(
+                    domCache.showWelcomePopupOnStart.checked
+                );
                 _.hideDomElement(domCache.popupWelcome);
                 Editor.focus();
             }
@@ -263,7 +296,9 @@ define(
 
                 function onButtonSave(optEvent) {
                     domCache.download.download = (
-                        rootNodeData.character.toLowerCase() || 'someCharacter'
+                        rootNodeData.character
+                            ? rootNodeData.character.toLowerCase()
+                            : 'someCharacter'
                     ) + '.json';
                     domCache.download.href = NodeSerializer.serializeToBase64Url(rootNodeData);
                     // FIXME: may not be compatible with browsers other than chrome
@@ -389,16 +424,16 @@ define(
                 );
 
                 nodeSvgViewsToHide.forEach(function(nodeSvgView) {
-                    var parentView = NodeView.getParentNodeView(nodeSvgView.nodeView);
-                    while (parentView) {
-                        var parentId = NodeView.getId(parentView);
+                    var parentNodeView = NodeView.getParentNodeView(nodeSvgView.nodeView);
+                    while (parentNodeView) {
+                        var parentId = NodeView.getId(parentNodeView);
                         if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
                             var parentSvgView = visibleNodesSvgViews[parentId];
                             var position = parentSvgView.getPositionTarget();
                             nodeSvgView.destroy(position.x, position.y);
                             return;
                         }
-                        parentView = NodeView.getParentNodeView(parentView);
+                        parentNodeView = NodeView.getParentNodeView(parentNodeView);
                     }
                 });
 
@@ -463,16 +498,16 @@ define(
                     canvas.addNode(nodeSvgView.link, nodeSvgView.wrapper);
                     visibleNodesSvgViews[id] = nodeSvgView;
 
-                    var parentView = NodeView.getParentNodeView(nodeSvgView.nodeView);
-                    while (parentView) {
-                        var parentId = NodeView.getId(parentView);
+                    var parentNodeView = NodeView.getParentNodeView(nodeSvgView.nodeView);
+                    while (parentNodeView) {
+                        var parentId = NodeView.getId(parentNodeView);
                         if (idsSvgVisibleBeforeUpdate.hasOwnProperty(parentId)) {
                             var parentSvgView = visibleNodesSvgViews[parentId];
                             var position = parentSvgView.getPositionStart();
                             nodeSvgView.animate(position.x, position.y, position.x, position.y, 0);
                             break;
                         }
-                        parentView = NodeView.getParentNodeView(parentView);
+                        parentNodeView = NodeView.getParentNodeView(parentNodeView);
                     }
                 }
 
@@ -500,13 +535,23 @@ define(
             }
 
             function toggleChildren(nodeSvgView) {
-                if (_.isNonEmptyArray(NodeView.getAllChildren(nodeSvgView.nodeView))) {
-                    Executor.rememberAndExecute('toggle children', act, act);
-                    function act() {
-                        // FIXME: this operation is not always symmetric due to filters
-                        NodeView.toggleVisibleChildren(nodeSvgView.nodeView);
-                        update();
-                    }
+                if (NodeView.hasAnyChildren(nodeSvgView.nodeView)) {
+                    Executor.rememberAndExecute(
+                        'toggle children',
+                        function act() {
+                            var ids = NodeView.toggleVisibleChildren(nodeSvgView.nodeView, true);
+                            if (ids.length > 0) {
+                                update();
+                            }
+                            return ids;
+                        },
+                        function unact(ids) {
+                            var acted = NodeView.toggleChildrenWithIds(nodeSvgView.nodeView, ids);
+                            if (acted) {
+                                update();
+                            }
+                        }
+                    );
                 }
             }
 
@@ -545,7 +590,7 @@ define(
                     'filterShowTracking': function showTrackingMoves(event) {
                         showOnlyNodesThatMatch(function(nodeView) {
                             var nodeData = NodeView.getNodeData(nodeView);
-                            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                                 var someTracking = nodeData.actionSteps.some(
                                     function(actionStep) { return actionStep.isTracking; }
                                 );
@@ -575,6 +620,48 @@ define(
                         });
                     },
 
+                    'filterShowMovesPositiveOnBlock': function showMovesPositiveOnBlock(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            var nodeData = NodeView.getNodeData(nodeView);
+                            if (!nodeData) return false;
+                            if (NodeFactory.getNoInputFollowup(nodeData)) return false;
+                            var advantageRange = NodeFactoryMove.getAdvantageRange(
+                                nodeData,
+                                NodeFactoryActionStepResult.getHitBlock,
+                                NodeFactoryActionStepResult.doesDescribeGuard,
+                                NodeFactoryMove.isMoveNode(nodeData)
+                                    ? NodeView.findAncestorNodeData(nodeView)
+                                    : null
+                            );
+                            if (!advantageRange) return false;
+                            return advantageRange.min >= 0;
+                        });
+                    },
+
+                    'filterShowSC6SoulChargeMoves': function showSC6SoulChargeMoves(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isSC6SoulChargeMove(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
+                    'filterShowSC6BreakAttacks': function showSC6BreakAttacks(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isSC6BreakAttack(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
+                    'filterShowSC6UnblockableAttacks': function showSC6UnblockableAttacks(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isSC6UnblockableAttack(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
+                    'filterShowSC6LethalHits': function showSC6LethalHits(event) {
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            return Filter.isSC6LethalHit(NodeView.getNodeData(nodeView));
+                        });
+                    },
+
                     'filterShowStance': function showStance(event) {
                         var stance = prompt(
                             Strings('enterStanceToShow', { EXAMPLE_STANCE: 'BT' }),
@@ -594,14 +681,123 @@ define(
                         update();
                     },
 
+                    'filterShowCustom': function showCustom(event) {
+                        var placeholder = (
+                            localStorage.showCustomQueryStr ||
+                            '(advantageOnBlock >= 0) or (ending is "BT")'
+                        );
+                        var queryStr = prompt(
+                            Strings('enterFilterQuery'),
+                            placeholder
+                        );
+                        if (!queryStr) return;
+                        localStorage.showCustomQueryStr = queryStr;
+                        var query = Filter.createQuery(queryStr);
+                        if (!query) return;
+                        console.log(encodeURI(queryStr));
+                        showOnlyNodesThatMatch(function(nodeView) {
+                            var nodeData = NodeView.getNodeData(nodeView);
+                            return nodeData && query({ nodeData: nodeData });
+                        });
+                    },
+
                     'filterShowDefault': function showAll(event) {
                         TreeTools.forAllCurrentChildren(
                             rootNodeView, NodeView.getAllChildren, NodeView.showAllChildren
                         );
                         NodeView.hideHiddenByDefault(rootNodeView);
                         update();
+                    },
+
+                    'sortByDefault': function sortByDefault(event) {
+                        changeSorting(NodeView.SORTING_ORDER.DEFAULT);
+                    },
+
+                    'sortByCustom': function sortByCustom(event) {
+                        var placeholder = (
+                            localStorage.sortCustomQueryStr ||
+                            '- advantageOnBlock'
+                        );
+                        var queryStr = prompt(
+                            Strings('enterSortQuery'),
+                            placeholder
+                        );
+                        if (!queryStr) return;
+                        localStorage.sortCustomQueryStr = queryStr;
+                        changeSorting(NodeView.createCustomSortingOrder(queryStr));
+                    },
+
+                    'sortBySpeed': function sortBySpeed(event) {
+                        changeSorting(NodeView.SORTING_ORDER.SPEED);
+                    },
+
+                    'sortByAdvantageOnBlock': function sortByAdvantageOnBlock(event) {
+                        changeSorting(NodeView.SORTING_ORDER.ADVANTAGE_ON_BLOCK);
+                    },
+
+                    'sortByAdvantageOnNeutralHit': function sortByAdvantageOnNeutralHit(event) {
+                        changeSorting(NodeView.SORTING_ORDER.ADVANTAGE_ON_NEUTRAL_HIT);
+                    },
+
+                    'sortByAdvantageOnCounterHit': function sortByAdvantageOnCounterHit(event) {
+                        changeSorting(NodeView.SORTING_ORDER.ADVANTAGE_ON_COUNTER_HIT);
+                    },
+
+                    'groupByNone': function groupByNone(event) {
+                        // FIXME: support undo
+                        Executor.clearHistory();
+                        NodeView.getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
+                            NodeView.ungroup(stanceNodeView);
+                        });
+                        update();
+                    },
+
+                    'groupByDOA': function groupByDOA(event) {
+                        // FIXME: support undo
+                        Executor.clearHistory();
+                        NodeView.groupByType(rootNodeView, nodeViewGenerator);
+                        update();
+                    },
+
+                    'groupBySC6': function groupBySC6(event) {
+                        // FIXME: support undo
+                        Executor.clearHistory();
+                        NodeView.groupByTypeSC6(rootNodeView, nodeViewGenerator);
+                        update();
                     }
                 };
+
+                return;
+
+                function changeSorting(newSortingOrder) {
+                    Executor.rememberAndExecute(
+                        'Change sorting',
+                        function() {
+                            var undo = NodeView.setSortingOrder(newSortingOrder);
+                            var acted = Boolean(undo);
+                            if (acted) {
+                                resortAll();
+                                return undo;
+                            }
+                        },
+                        function(undo) {
+                            if (undo) {
+                                undo();
+                                // FIXME: this is not accurate
+                                resortAll();
+                            }
+                        }
+                    );
+                    return;
+                    function resortAll() {
+                        TreeTools.forAllCurrentChildren(
+                            rootNodeView,
+                            NodeView.getAllChildren,
+                            NodeView.sortVisibleChildren
+                        );
+                        update();
+                    }
+                }
 
             }
 
@@ -663,11 +859,32 @@ define(
 
                 // Ctrl + Z
                 if ((event.ctrlKey || event.metaKey) && keyCode === KeyCodes.Z) {
-                    if (event.shiftKey) {
-                        Executor.redo();
-                    } else {
-                        Executor.undo()
-                    };
+                    var redo = Boolean(event.shiftKey);
+                    if (!inputtingText || !Hotkeys.undoRedoInput(redo)) {
+                        if (redo) {
+                            Executor.redo();
+                        } else {
+                            Executor.undo();
+                        }
+                    }
+                    event.stopPropagation();
+                } else
+
+                // Ctrl + X
+                if (
+                    (event.ctrlKey || event.metaKey) && keyCode === KeyCodes.X &&
+                    (!inputtingText || event.shiftKey)
+                ) {
+                    Editor.cutNode();
+                    event.stopPropagation();
+                } else
+
+                // Ctrl + V
+                if (
+                    (event.ctrlKey || event.metaKey) && keyCode === KeyCodes.V &&
+                    (!inputtingText || event.shiftKey)
+                ) {
+                    Editor.pasteNode();
                     event.stopPropagation();
                 } else
 

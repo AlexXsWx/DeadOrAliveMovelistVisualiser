@@ -19,7 +19,6 @@ define(
 
         var result = {
 
-            getSupportedTypes: function() { return supportedTypes; },
             fillDatalist: fillDatalist,
 
             Strike: 'strike',
@@ -28,9 +27,9 @@ define(
             Throw: 'throw',
             Other: 'other',
 
-            Ground: 'ground',
             Jump: 'jump',
 
+            HelperGround: 'ground',
             HelperAttack: 'attack',
             HelperOffensive: 'offensive',
             HelperOH: /\boh\b/i,

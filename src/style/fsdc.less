@@ -1,0 +1,170 @@
+// Helpers
+
+.hidden { display: none !important; }
+
+.click-through {
+    pointer-events: none !important;
+    & > * { pointer-events: initial; }
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+// Main
+
+html {
+    font-family: arial;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+
+    position: absolute;
+    top:    0;
+    bottom: 0;
+    right:  0;
+    left:   0;
+
+    background-color: white;
+    color: black;
+}
+
+#loading {
+    cursor: default;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background: #777;
+    span {
+        color: white;
+        font-size: 48px;
+        align-self: center;
+    }
+}
+
+//
+
+#popups {
+    z-index: 2;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+#mappingPopup {
+    z-index: 3;
+    background-color: white;
+    display: inline-block;
+    text-align: center;
+    table {
+        text-align: right;
+    }
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid gray;
+}
+
+//
+
+#content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+table#data {
+
+    display: initial;
+
+    tbody {
+        position: relative;
+        th {
+            position: fixed;
+            border-bottom: none;
+        }
+    }
+
+    thead tr:first-child { vertical-align: bottom; }
+
+    tr { height: 25px; }
+    th, td { min-width: 25px; max-width: 25px; }
+    tbody th { height: 25px; z-index: 1; }
+    tr th:first-child { min-width: 125px; }
+    thead tr:first-child { height: 125px; }
+
+    td, th { padding: 0; }
+
+    border-collapse: collapse;
+    th, td { box-sizing: border-box; }
+
+    // th { background-color: #faa; }
+    tbody th { background-color: white; }
+    td { background-color: white; }
+    tr:nth-child(odd) td, tr:nth-child(odd) th { background-color: white; }
+    tr:nth-child(even) td, tr:nth-child(even) th { background-color: #eee; }
+    th, td { border-left: 1px solid lightgray; }
+    th:last-child, td:last-child { border-right: 1px solid lightgray; }
+    tr:last-child { border-bottom: 1px solid lightgray; }
+
+    tbody th {
+        border-right: 1px solid lightgray;
+        opacity: 0.9;
+    }
+
+    thead tr:first-child th {
+        border: 0;
+    }
+
+    thead th { font-size: 0.75em; }
+    
+}
+
+.inputDiv {
+    background-color: black;
+    border-radius: 10px 10px;
+    opacity: 0.5;
+}
+
+tbody .inputDiv {
+    border-radius: 3px 3px;
+    background: url(../../media/div-bg.png) 9px;
+}
+
+//
+
+#controls {
+    margin: 5px;
+}
+
+//
+
+#footer {
+    flex-grow: 2;
+    display: flex;
+    align-items: flex-end;
+}
+
+.credits {
+    color: lightgray;
+    a { color: lightgray; }
+}

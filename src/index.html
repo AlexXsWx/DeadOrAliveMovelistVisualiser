@@ -45,7 +45,6 @@
         </datalist>
 
         <datalist id="actionSupportedTags">
-            <option value="ground attack" title="Means move can hit grounded opponents" />
             <option
                 value="unholdable"
                 title="Means attempting to hold this move will perform sidestep"
@@ -120,10 +119,22 @@
                     <table>
 
                         <tr>
-                            <td><input id="flipTextToRight" type="checkbox" checked /></td>
+                            <!-- <td><input id="flipTextToRight" type="checkbox" checked /></td> -->
+                            <td><input id="flipTextToRight" type="checkbox" /></td>
                             <td><label for="flipTextToRight">Prefer labeling at right</label></td>
                         </tr>
 
+                    </table>
+
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                Group by:
+                                <input id="groupByNone" type="button" value="None" />
+                                <input id="groupByDOA" type="button" value="DOA" />
+                                <input id="groupBySC6" type="button" value="SC6" />
+                            </td>
+                        </tr>
                     </table>
 
                     <table>
@@ -137,13 +148,16 @@
                                     <option value="1">Ending</option>
                                     <option value="2">Active frames</option>
                                     <option value="3">Cooldown</option>
-                                    <option value="4">Safety</option>
-                                    <option value="5">Reach</option>
-                                    <option value="6">Forcetech advantage</option>
-                                    <option value="7">Hard knockdown advantage</option>
-                                    <option value="8">Followup delay</option>
-                                    <!-- <option value="9">Stun depth</option>
-                                    <option value="10">Unhold duration</option> -->
+                                    <option value="4">Advantage on block</option>
+                                    <option value="5">Advantage on hit</option>
+                                    <option value="6">Reach</option>
+                                    <option value="7">Forcetech advantage</option>
+                                    <option value="8">Hard knockdown advantage</option>
+                                    <option value="9">Followup delay</option>
+                                    <option value="10">Comment</option>
+                                    <option value="11">Tags</option>
+                                    <!-- <option value="12">Stun depth</option>
+                                    <option value="13">Unhold duration</option> -->
                                 </select>
                             </td>
                         </tr>
@@ -156,13 +170,16 @@
                                     <option value="1" selected>Ending</option>
                                     <option value="2">Active frames</option>
                                     <option value="3">Cooldown</option>
-                                    <option value="4">Safety</option>
-                                    <option value="5">Reach</option>
-                                    <option value="6">Forcetech advantage</option>
-                                    <option value="7">Hard knockdown advantage</option>
-                                    <option value="8">Followup delay</option>
-                                    <!-- <option value="9">Stun depth</option>
-                                    <option value="10">Unhold duration</option> -->
+                                    <option value="4">Advantage on block</option>
+                                    <option value="5">Advantage on hit</option>
+                                    <option value="6">Reach</option>
+                                    <option value="7">Forcetech advantage</option>
+                                    <option value="8">Hard knockdown advantage</option>
+                                    <option value="9">Followup delay</option>
+                                    <option value="10">Comment</option>
+                                    <option value="11">Tags</option>
+                                    <!-- <option value="12">Stun depth</option>
+                                    <option value="13">Unhold duration</option> -->
                                 </select>
                             </td>
                         </tr>
@@ -175,13 +192,16 @@
                                     <option value="1">Ending</option>
                                     <option value="2">Active frames</option>
                                     <option value="3">Cooldown</option>
-                                    <option value="4">Safety</option>
-                                    <option value="5">Reach</option>
-                                    <option value="6">Forcetech advantage</option>
-                                    <option value="7">Hard knockdown advantage</option>
-                                    <option value="8">Followup delay</option>
-                                    <!-- <option value="9">Stun depth</option>
-                                    <option value="10">Unhold duration</option> -->
+                                    <option value="4">Advantage on block</option>
+                                    <option value="5">Advantage on hit</option>
+                                    <option value="6">Reach</option>
+                                    <option value="7">Forcetech advantage</option>
+                                    <option value="8">Hard knockdown advantage</option>
+                                    <option value="9">Followup delay</option>
+                                    <option value="10">Comment</option>
+                                    <option value="11">Tags</option>
+                                    <!-- <option value="12">Stun depth</option>
+                                    <option value="13">Unhold duration</option> -->
                                 </select>
                             </td>
                         </tr>
@@ -224,16 +244,35 @@
             <fieldset>
                 <legend> Analysis </legend>
                 <div class="fieldsetContent">
-                    <input id="filterFrame" type="button" value="Find moves to land on frame" /><br />
-                    <input id="filter" type="button" value="Find moves to forcetech" /><br />
-                    <input id="filterTime" type="button" value="Find moves to spend time" /><br />
-                    <input id="filterShowTracking" type="button" value="Show tracking moves" /><br />
-                    <input id="filterShowTrackingMidKicks" type="button" value="Show tracking mid kicks" /><br />
-                    <input id="filterShowHardKnockDowns" type="button" value="Show hard knock-downs" /><br />
-                    <input id="filterShowGroundAttacks" type="button" value="Show ground attacks" /><br />
-                    <input id="filterShowStance" type="button" value="Show stance" /><br />
-                    <input id="filterShowDefault" type="button" value="Show default" /><br />
-                    <input id="filterShowAll" type="button" value="Show all" /><br />
+                    Find moves:<br />
+                    <input id="filterFrame" type="button" value="To land on frame"
+                    /><input id="filter" type="button" value="To forcetech" />
+                    <br />
+                    <input id="filterTime" type="button" value="To spend time" />
+                    <hr>
+                    Show:
+                    <input id="filterShowDefault" type="button" value="Default"
+                    /><input id="filterShowAll" type="button" value="All"
+                    /><input id="filterShowCustom" type="button" value="Custom" /><br />
+                    <input id="filterShowStance" type="button" value="Moves ending with stance" /><br />
+                    <input id="filterShowTracking" type="button" value="Tracking moves" /><br />
+                    <input id="filterShowTrackingMidKicks" type="button" value="Tracking mid kicks" /><br />
+                    <input id="filterShowHardKnockDowns" type="button" value="Hard knock-downs" /><br />
+                    <input id="filterShowGroundAttacks" type="button" value="Ground attacks" /><br />
+                    <input id="filterShowMovesPositiveOnBlock" type="button" value=">= +0 on guard" /><br />
+                    <br />
+                    <input id="filterShowSC6SoulChargeMoves" type="button" value="SC6 soul charge moves" /><br />
+                    <input id="filterShowSC6BreakAttacks" type="button" value="SC6 break attacks" /><br />
+                    <input id="filterShowSC6UnblockableAttacks" type="button" value="SC6 unblockable attacks" /><br />
+                    <input id="filterShowSC6LethalHits" type="button" value="SC6 lethal hits" /><br />
+                    <hr>
+                    Sort by:
+                    <input id="sortByDefault" type="button" value="Default"
+                    /><input id="sortByCustom" type="button" value="Custom" /><br />
+                    <input id="sortBySpeed" type="button" value="Speed" /><br />
+                    <input id="sortByAdvantageOnBlock" type="button" value="Advantage on block" /><br />
+                    <input id="sortByAdvantageOnNeutralHit" type="button" value="Advantage on neutral hit" /><br />
+                    <input id="sortByAdvantageOnCounterHit" type="button" value="Advantage on counter hit" />
                 </div>
             </fieldset>
 
@@ -249,7 +288,7 @@
                     <table>
                         <tr>
                             <td><b>Warning:</b></td>
-                            <td><pre>[Ctrl]+[Z]</pre> is disabled (undo can break the program), so save often.</td>
+                            <td><pre>[Ctrl]+[Z]</pre> is implemenet only partially, so save often.</td>
                         </tr>
                         <tr>
                             <td><b>Usage hints:</b></td>

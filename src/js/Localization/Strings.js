@@ -18,9 +18,11 @@ define(
             ),
             'enterFramesToLandOn': 'Your frames to land on: e.g. "17-19"',
             'enterStanceToShow': 'Enter stance name: (e.g. "${EXAMPLE_STANCE}")',
+            'enterFilterQuery': 'Enter filter query:',
+            'enterSortQuery': 'Enter sort query:',
 
             'warnings': 'warnings',
-            'hasNoFrameData': 'has no frameData, probabilities that use it are excluded',
+            'hasNoFrameData': 'has no frame data, probabilities that use it are excluded',
             'stance': 'stance',
             'undefinedInitialFrame': 'did not define appliesExtraFrame, assuming it does',
             'skippingFreeCancel': 'has no-input followup and defines no ending stance',
@@ -49,7 +51,7 @@ define(
             'stanceExtraFrame': 'Extra frame',
             'stanceExtraFrameDescription': (
                 'If moves from this stance have an idle frame.\n' +
-                'For most stances, including default (standing), they are'
+                'In DOA for most stances, including default (standing), they are'
             ),
 
             'moveSummary': 'Summary',
@@ -60,7 +62,7 @@ define(
                 '  1st action step summary (optional)\n' +
                 'Examples: "p hp", "33K dmk", "OBT,OCr: 2T tlg"'
             ),
-            'moveSummaryPlaceholder': '(<Ctx>:) <Input> (<AS sum.>)',
+            'moveSummaryPlaceholder': '(<Ctx>: )<Input>( <AS sum.>)',
 
             'moveSummary2': 'Summary2',
             'moveSummary2Description': '// FIXME: TBD', // FIXME

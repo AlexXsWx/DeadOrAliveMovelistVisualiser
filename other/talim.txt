@@ -1,0 +1,189 @@
+Talim's minus:
+    3B:    -12 on block - can't dodge i12 low
+    66A+B: -10 on block - can't dodge i12 low
+    B:      -8 on block - can dodge i12 low with CE or 8K
+    BK:     -6 on block - can dodge i12 low with CE
+    4AK:    -4 on block - can dodge i12 low with 44B or jump
+    A6:     -2 on block - can dodge i12 low with 4B+K
+    K:       0 on neutral hit
+    6AB:    +2 on block
+    CE:     +4 on block
+    A6:     +6 on neutral hit
+
+A+B+K: 4
+44B: 8
+6B: 10
+6B+K: 10
+4B+K: 10
+8G: 
+66K: 12
+A6: 14
+
+K+G is 30...100 frames:
+    from -12 you can land 6A (frame 30)
+    from -12 you can't land 3B (frame 32)
+    from +0 you can block    RE 6 {WS} {STD} 8K  (frame 101)
+    from +0 you can't block  RE 6 {WS} {STD} 66B (frame 100)
+
+BT CE is i18:
+
+    3B      = -12 on block
+    4B+K 34 = 46
+    WF G 10 = 56
+    WR K 39 = 95
+              96 = block   - works
+
+    FC A+B = -14 on block
+    4B+K 34 = 48
+    WF G 10 = 58
+    WR K 39 = 97
+              98 = block   - doesn't work
+              
+    B+K G = 30 =  30
+    A+B G = 49 =  79
+    CE = 17+1  = i97
+
+the game has frame perfect precision:
+    Azwel's AA is +0 on neutral hit
+    Azwel's 1A is i34
+    Sophitia's 1(K) is i35
+    Azwel's 4B is i36
+
+663214 is 44; 441236 is 66
+
+turning from back to facing takes 5 frames (RE effect would appear on 6th frame)
+GI is instant and lasts for 10 frames
+buffered freestepping takes 11 frames
+    ? "but apparently if you do 6(6)2A, you get 22A without having to sidestep
+    dont even need to hold the 2nd 6 for long either, like, same amount of time you'd need to for 66A to work"
+
+need to double check numbers:
+    standing up is instant (RE effect appears instantly)
+    RE doesn't work on moves that land 2-4 frames after activation, but iirc works on 6 frames
+
+talim
+    B is +0 on neutral hit
+    K is +0 on neutral hit
+
+    launchers:
+        3B - universal; slow recovery; high crush
+        236B - very high & fast
+        236(B) - very high & fast
+        {WF} K - slow fall; stun
+        {WC} B *B
+        (6) K - FA
+        (6) A+B - WC/WS/WF or slow recovery
+        {CR} A+B
+        {RE} B B - FA
+        {JMP} B
+        {SC} (6)A A A B
+        {SC} (6)B B
+        {SC} {WC} A B B
+        {SC} {WS} B
+        (counter) 1 A+B
+        (lh) 1 A+B
+    juggles BNB:
+        A A A+B
+        {SC} (6)A A A B
+
+    236B 6A+B
+    66A+B 8 B*B
+    66A+B 6 K B
+    66A+B 6 (B) K | A+B
+    {SC} {WS} (B) B B
+
+    6BB delay A+B (@Jaxel)
+        A+B is free damage anyway; but if delayed can tech catch and ring out
+
+    LH 236B ??? -> wind cannon
+
+    {
+        "tech trap" from @Jaxel:
+        CH 4B,B into A+B catches techs and knocks them back
+        6B,B*
+    }
+
+    wall splat soul charged 2_8 B+K, A A B B ~ 214 B is a true combo @Jeston
+
+    LH A+B (GI):
+        6(6) ~ {WNS} (K) ~ 4B (A) ~ {BT} B - 77 dmg; but requires timing to land
+
+
+-----
+
+WS K K     - (13-1) = 12 + 12 = 24
+WS K:G K   - (14-1) = 13 + 12 = 25
+6B+K K     - (21-1) = 20 + 12 = 32, 1st frame is when input appears
+B+G 6K     - (21-1) = 20 + 12 = 32
+BBB 6K     - (21-1) = 20 + 12 = 32
+WF 6K      - (21-1) = 20 + 12 = 32
+214B G K   - (21-1) = 20 + 12 = 32 frames, 1st being when BG gets lighter, 33rd is when hit lands
+44B 6K     - (24-1) = 23 + 12 = 35
+WC A 6K    - (28-1) = 27 + 12 = 39
+AABA 6K    - (28-1) = 27 + 12 = 39 frames after hit of AABA and before hit of WS K
+6AA 6K     - (28-1) = 27 + 12 = 39 frames
+66A 6K     - (30-1) = 29 + 12 = 41
+FC 3BB 6K  - (30-1) = 29 + 12 = 41
+66A+B 6K   - (30-1) = 29 + 12 = 41
+RE A 6K    - (32-1) = 31 + 12 = 43
+WS A 6K    - (38-1) = 37 + 12 = 49
+6BB 6K     - (38-1) = 37 + 12 = 49
+6B(B) 6K   - (38-1) = 37 + 12 = 49
+22A 6K     - (46-1) = 45 + 12 = 57
+WC AKAA 6K - (47-1) = 46 + 12 = 58
+
+
+---
+
+8B+K A   - 20 + 11
+8B+K A+B - 20 + 31
+8B+K B   - 20 + 19
+8B+K K   - 20 + 13
+8B+K A+G - 20 + 16
+
+6B+K A    - 20 + 19
+6B+K B    - 20 + 17
+6B+K K    - 20 + 11 + 1
+6B+K (K)  - 20 + 14 (1) 32
+6B+K A+B  - 20 + 7
+
+
+B+K G    - 20 + 10
+B+K A G  - 20 + 50 + 10
+B+K A    - 20 + 31 (1) 24
+B+K B    - 20 + 19 (1) 45
+B+K K    - 20 + 17 (1) 18 (1) 33
+B+K A+B  - 20 + 
+
+
+bot's crouching to 6B+K A stops on frame 32
+bot's crouching to FC K stops on frame 12
+
+---
+
+8B+K A is 31 frames startup where 1st frame = appearing of B+K in the input history
+
+
+---
+
+   Move   | block | neutral hit | counter hit | offset 
+----------+-------+-------------+-------------+---------------------------
+   2(A+B) | -10   | +8          | +12         | +  6
+     AABA | +4    | +8          | +8          | +  8
+   AAB(B) | -8    | +10         | +10         | +  8
+SC AAB(B) | +10   |             |             | +  8
+      6AA | +4    |             |             | +  6
+      66A | -4    | +6          | +6          | +  4
+      6BB | -14   | +6          | +6          | +  6
+    6B(B) | +4    |             |             | +  2
+    66A+B | +4    |             |             | + 14
+      44B | -4    | +16         | +16         | + 10
+      22A | -20   |             |             | -  4
+     WC A | -4    | +4          | +4          | + 12
+  WC AKAA | -23   |             |             | -  7
+     WS A | -18   | +6          | +6          | +  2
+   WS (B) | -6    |             |             | +  8
+SC WS (B) | +12   |             |             | +  8
+   FC 3BB | -10   |             |             | + 12
+     RE A | +4    | +14         | +14         | +  8
+     RE 6 |       |             |             | 4 frames faster than guard

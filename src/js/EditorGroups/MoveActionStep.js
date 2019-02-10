@@ -3,19 +3,19 @@ define(
     'EditorGroups/MoveActionStep',
 
     [
-        'Model/NodeFactory',
+        'Model/NodeFactoryActionStep',
+        'Model/NodeFactoryActionStepResult',
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStepResult',
-        'Model/ActionType',
         'Localization/Strings',
         'Tools/Tools'
     ],
 
     function MoveActionStep(
-        NodeFactory,
+        NodeFactoryActionStep,
+        NodeFactoryActionStepResult,
         EditorCreatorBase,
         MoveActionStepResult,
-        ActionType,
         Strings,
         _
     ) {
@@ -102,7 +102,7 @@ define(
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: Strings('moveActionTags'),
                     description: Strings('moveActionTagsDescription'),
-                    placeholderText: 'e.g. ground attack',
+                    placeholderText: 'e.g. guard break',
                     datalist: 'actionSupportedTags',
                     fill: actionStepToTagsText,
                     parameterModifier: changeActionStepTags
@@ -133,7 +133,7 @@ define(
                     },
 
                     getChildrenArray: function(actionStep) { return actionStep.results; },
-                    childrenDataCreator: function() { return NodeFactory.createMoveActionStepResult(); },
+                    childrenDataCreator: function() { return NodeFactoryActionStepResult.createMoveActionStepResult(); },
                     childEditorCreator: function(changeSelectedNodesSubDataByAction, removeFunc) {
                         return MoveActionStepResult.create(
                             changeSelectedNodesSubDataByAction,
@@ -152,7 +152,7 @@ define(
 
 
             function actionStepToSummaryText(actionStep) {
-                return NodeFactory.getActionStepSummary(actionStep);
+                return NodeFactoryActionStep.getActionStepSummary(actionStep);
             }
 
             function changeActionSummary(newValue, actionStep) {
@@ -168,9 +168,9 @@ define(
                 if (lowCased.search('h') >= 0) maskValue.push('high');
                 if (lowCased.search('m') >= 0) maskValue.push('mid');
                 if (lowCased.search('l') >= 0) maskValue.push('low');
-                if (lowCased.search('f') >= 0) maskValue.push('ground'); // for Floor
                 if (lowCased.search('p') >= 0) maskValue.push('P');
                 if (lowCased.search('k') >= 0) maskValue.push('K');
+                if (lowCased.search('f') >= 0) maskValue.push('ground'); // 'f' for Floor
 
                 changed = changeActionMask(maskValue.join(' '), actionStep) || changed;
 

@@ -2,9 +2,9 @@ define(
 
     'View/NodeSvgIndicatorsView',
 
-    [ 'Model/NodeFactory', 'Tools/Tools' ],
+    [ 'Model/NodeFactoryMove', 'Model/NodeFactoryActionStep', 'Tools/Tools' ],
 
-    function NodeSvgIndicatorsView(NodeFactory, _) {
+    function NodeSvgIndicatorsView(NodeFactoryMove, NodeFactoryActionStep, _) {
 
         var HEIGHT_MASK_SHAPE = '-2,3 2,0 -2,-3';
         var HEIGHT_MASK_GROUND_SHAPE = '-5,0 5,0';
@@ -46,7 +46,7 @@ define(
                 var lowType    = HEIGHT_INDICATOR_TYPE.none;
                 var groundType = HEIGHT_INDICATOR_TYPE.none;
 
-                if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+                if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
 
                     nodeData.actionSteps.forEach(function(actionStep) {
 
@@ -59,10 +59,10 @@ define(
                             }
                         }
 
-                        if (NodeFactory.isActionStepHigh(actionStep)) highType = type;
-                        if (NodeFactory.isActionStepMid(actionStep))  midType  = type;
-                        if (NodeFactory.isActionStepLow(actionStep))  lowType  = type;
-                        if (NodeFactory.canActionStepHitGround(actionStep)) groundType = type;
+                        if (NodeFactoryActionStep.isActionStepHigh(actionStep))       highType = type;
+                        if (NodeFactoryActionStep.isActionStepMid(actionStep))        midType  = type;
+                        if (NodeFactoryActionStep.isActionStepLow(actionStep))        lowType  = type;
+                        if (NodeFactoryActionStep.canActionStepHitGround(actionStep)) groundType = type;
 
                     });
 

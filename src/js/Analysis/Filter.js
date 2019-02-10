@@ -2,29 +2,67 @@ define(
 
     'Analysis/Filter',
 
-    [ 'Model/NodeFactory', 'Model/CommonStances', 'Localization/Strings', 'Tools/Tools' ],
+    [
+        'Analysis/Parser', 'Analysis/Operators',
+        'Model/NodeFactory',
+        'Model/NodeFactoryRoot',
+        'Model/NodeFactoryStance',
+        'Model/NodeFactoryMove',
+        'Model/NodeFactoryActionStep',
+        'Model/NodeFactoryActionStepResult',
+        'Model/CommonStances',
+        'Localization/Strings', 'Tools/Tools'
+    ],
 
-    function Filter(NodeFactory, CommonStances, Strings, _) {
+    function Filter(
+        Parser, Operators,
+        NodeFactory,
+        NodeFactoryRoot,
+        NodeFactoryStance,
+        NodeFactoryMove,
+        NodeFactoryActionStep,
+        NodeFactoryActionStepResult,
+        CommonStances,
+        Strings, _
+    ) {
 
         return {
             isTrackingMidKickNode:      isTrackingMidKickNode,
             isGroundAttackNode:         isGroundAttackNode,
+            isSC6SoulChargeMove:        isSC6SoulChargeMove,
+            isSC6BreakAttack:           isSC6BreakAttack,
+            isSC6UnblockableAttack:     isSC6UnblockableAttack,
+            isSC6LethalHit:             isSC6LethalHit,
             doesNodeCauseHardKnockDown: doesNodeCauseHardKnockDown,
 
             findNodes:            findNodes,
-            findNodesToSpendTime: findNodesToSpendTime
+            findNodesToSpendTime: findNodesToSpendTime,
+            createQuery:          createQuery,
+
+            filterResultsToString: filterResultsToString
         };
+
+        function createQuery(queryStr) {
+
+            var result = Parser.parse(queryStr);
+            if (result.type !== Operators.Type3.Boolean) {
+                return;
+            }
+            return function(nodeData) {
+                return Boolean(result.getValue(nodeData));
+            };
+        }
 
         //
 
         function isTrackingMidKickNode(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 for (var i = 0; i < nodeData.actionSteps.length; ++i) {
                     var actionStep = nodeData.actionSteps[i];
                     if (
                         actionStep.isTracking &&
-                        NodeFactory.isActionStepKick(actionStep) &&
-                        NodeFactory.isActionStepMid(actionStep)
+                        NodeFactoryActionStep.isActionStepKick(actionStep) &&
+                        NodeFactoryActionStep.isActionStepMid(actionStep)
                     ) {
                         return true;
                     }
@@ -34,11 +72,11 @@ define(
         }
 
         function doesNodeCauseHardKnockDown(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 for (var i = 0; i < nodeData.actionSteps.length; ++i) {
                     var actionStep = nodeData.actionSteps[i];
                     for (var j = 0; j < actionStep.results.length; ++j) {
-                        if (NodeFactory.doesActionStepResultTagHasHardKnockDown(actionStep.results[j])) {
+                        if (NodeFactoryActionStepResult.doesTagHasHardKnockDown(actionStep.results[j])) {
                             return true;
                         }
                     }
@@ -48,13 +86,55 @@ define(
         }
 
         function isGroundAttackNode(nodeData) {
-            if (nodeData && NodeFactory.isMoveNode(nodeData)) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
                 for (var i = 0; i < nodeData.actionSteps.length; ++i) {
                     var actionStep = nodeData.actionSteps[i];
-                    if (NodeFactory.canActionStepHitGround(actionStep)) {
+                    if (NodeFactoryActionStep.canActionStepHitGround(actionStep)) {
                         return true;
                     }
                 }
+            }
+            return false;
+        }
+
+        function isSC6SoulChargeMove(nodeData) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
+                return nodeData.context.some(function(ctx) {
+                    return ctx.toLowerCase() === 'sc';
+                });
+            }
+            return false;
+        }
+
+        function isSC6BreakAttack(nodeData) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
+                return hasActionStepWithTag(nodeData, 'ba');
+            }
+            return false;
+        }
+
+        function isSC6UnblockableAttack(nodeData) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
+                return hasActionStepWithTag(nodeData, 'ua');
+            }
+            return false;
+        }
+
+        function isSC6LethalHit(nodeData) {
+            if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
+                return hasActionStepWithTag(nodeData, 'lh');
+            }
+            return false;
+        }
+
+        function hasActionStepWithTag(nodeData, givenTag) {
+            for (var i = 0; i < nodeData.actionSteps.length; ++i) {
+                var actionStep = nodeData.actionSteps[i];
+                if (
+                    actionStep.tags && actionStep.tags.some(function(tag) {
+                        return tag.toLowerCase() === givenTag.toLowerCase();
+                    })
+                ) return true;
             }
             return false;
         }
@@ -67,7 +147,7 @@ define(
             function warn(fullPath, message) {
                 var fullMessage;
                 var nodeData = fullPath[fullPath.length - 1];
-                if (NodeFactory.isStanceNode(nodeData)) {
+                if (NodeFactoryStance.isStanceNode(nodeData)) {
                     fullMessage = (
                         Strings('stance') + ' ' + NodeFactory.toString(nodeData) + ' ' +
                         message
@@ -102,10 +182,10 @@ define(
                 var workingParentNodeData = workingPath[workingPath.length - 1];
                 NodeFactory.getChildren(workingParentNodeData).forEach(function(childNodeData) {
                     var childWorkingPath = workingPath.concat(childNodeData);
-                    if (NodeFactory.isMoveNode(childNodeData)) {
+                    if (NodeFactoryMove.isMoveNode(childNodeData)) {
                         checkMoveNodeFunc(childWorkingPath, stance, framesSpent);
                     } else
-                    if (NodeFactory.isStanceNode(childNodeData)) {
+                    if (NodeFactoryStance.isStanceNode(childNodeData)) {
                         checkStanceNodeFunc(childWorkingPath, stance, framesSpent);
                     }
                 });
@@ -121,7 +201,9 @@ define(
             frameToBeActiveOnEnd,   // inclusive
             optNodeDataFilterFunc,
             optOutputWarnings,
-            optCurrentStance
+            optCurrentStance,
+            optCurrentPath,
+            optFramesSpent
         ) {
             var results = [];
 
@@ -150,13 +232,20 @@ define(
                     }
                 )
             );
-            traverseRecursive([], true, 0, optCurrentStance || CommonStances.DEFAULT);
+            if (optCurrentPath) {
+                traverseRecursive(optCurrentPath, false, optFramesSpent || 0, optCurrentStance || CommonStances.DEFAULT);
+                traverseRecursive(optCurrentPath, true,  optFramesSpent || 0, optCurrentStance || CommonStances.DEFAULT);
+            } else {
+                traverseRecursive(
+                    [], true, optFramesSpent || 0, optCurrentStance || CommonStances.DEFAULT
+                );
+            }
 
             // TODO: check if all stances are accessible
 
             // TODO: treat 7h, 4h, 6h as the same
             // TODO: include +- of active frames (e.g landed on 3rd out of 5 total)
-            return filterResultsToString(results);
+            return results;
 
             /** Last element of `workingPath` must be a move node data */
             function checkMoveNodeActiveFrames(workingPath, workingStance, framesSpent) {
@@ -174,7 +263,7 @@ define(
                     // FIXME: filterFunc can be specific to action step
                     // E.g. Honoka's 214P+K doesn't have ground hit property on 2nd active frames group
                     if (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) {
-                        var actionLocalRange = NodeFactory.getActiveFramesRangeThatIntersectsWith(
+                        var actionLocalRange = NodeFactoryMove.getActiveFramesRangeThatIntersectsWith(
                             nodeData,
                             frameToBeActiveOnStart - framesSpent,
                             frameToBeActiveOnEnd   - framesSpent
@@ -253,7 +342,7 @@ define(
                     )
                 ) {
                     var nodeData = workingPath[workingPath.length - 1];
-                    var moveDurationData = NodeFactory.getMoveDurationData(nodeData);
+                    var moveDurationData = NodeFactoryMove.getMoveDurationData(nodeData);
                     if (filter(nodeData)) {
                         if (framesSpent + moveDurationData.total === framesToSpend) {
                             result = true;
@@ -289,11 +378,11 @@ define(
             if (!doesContextQualify(nodeData, workingStance)) {
                 return checkPassed;
             }
-            if (nodeData.frameData && nodeData.frameData.length > 0) {
+            if (NodeFactoryMove.hasFrameData(nodeData)) {
 
                 checkPassed = true;
 
-                var moveDurationData = NodeFactory.getMoveDurationData(nodeData);
+                var moveDurationData = NodeFactoryMove.getMoveDurationData(nodeData);
 
                 // Check followups of this move
                 traverseRecursive(
@@ -304,7 +393,7 @@ define(
                 );
 
                 if (
-                    NodeFactory.hasNoInputFollowup(nodeData) &&
+                    Boolean(NodeFactory.getNoInputFollowup(nodeData)) &&
                     !nodeData.endsWith
                 ) {
                     // free cancel unavailable
@@ -362,15 +451,15 @@ define(
             var firstStance = undefined;
             for (var j = 0; j < pathHistory.length; ++j) {
                 var nodeData = pathHistory[j];
-                if (NodeFactory.isMoveNode(nodeData)) {
+                if (NodeFactoryMove.isMoveNode(nodeData)) {
                     moves.push(NodeFactory.toString(nodeData));
                 } else
-                if (NodeFactory.isRootNode(nodeData)) {
+                if (NodeFactoryRoot.isRootNode(nodeData)) {
                     if (moves.length > 0) {
                         moves = [moves.join(' ') + ','];
                     }
                 } else
-                if (!firstStance && NodeFactory.isStanceNode(nodeData)) {
+                if (!firstStance && NodeFactoryStance.isStanceNode(nodeData)) {
                     firstStance = nodeData;
                 }
             }
@@ -383,7 +472,7 @@ define(
 
         function getRelativePath(pathHistory) {
             for (var i = pathHistory.length - 1; i >= 0; --i) {
-                if (NodeFactory.isRootNode(pathHistory[i])) {
+                if (NodeFactoryRoot.isRootNode(pathHistory[i])) {
                     return pathHistory.slice(i);
                 }
             }

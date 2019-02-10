@@ -6,24 +6,35 @@ define(
 
     function() {
 
+        var mixinStorage = createMixinStorage('doa5lrMovelistMixinStorage');
+
         // TODO: split into sub packages like DOM, object, array etc
         return {
             report:                                report,
             getParameters:                         getParameters,
             isDevBuild:                            isDevBuild,
-            isObject:                              isObject,
             defined:                               defined,
             defaults:                              defaults,
             withoutFalsyProperties:                withoutFalsyProperties,
             arraysAreEqual:                        arraysAreEqual,
             removeElement:                         removeElement,
+            addBetween:                            addBetween,
+            last:                                  last,
+            find:                                  find,
+            contains:                              contains,
+            searchInStringArray:                   searchInStringArray,
+            getOrThrow:                            getOrThrow,
             copyKeysInto:                          copyKeysInto,
+            isArray:                               isArray,
+            isObject:                              isObject,
             isNonEmptyArray:                       isNonEmptyArray,
             isBool:                                isBool,
             isNumber:                              isNumber,
+            isString:                              isString,
             moveArrayElement:                      moveArrayElement,
             arrayGroupedByFactor:                  arrayGroupedByFactor,
             arraysConsistOfSameStrings:            arraysConsistOfSameStrings,
+            take:                                  take,
             getDomElement:                         getDomElement,
             addClickListenerToElement:             addClickListenerToElement,
             addClickListenerToElementWithId:       addClickListenerToElementWithId,
@@ -43,7 +54,12 @@ define(
             flattenRecursionDirty:                 flattenRecursionDirty,
             takeSomeArrayElement:                  takeSomeArrayElement,
             optimizedSliceArguments:               optimizedSliceArguments,
-            removeElementFromParent:               removeElementFromParent
+            removeElementFromParent:               removeElementFromParent,
+            createArray:                           createArray,
+            sortFuncAscending:                     sortFuncAscending,
+            getCustomProperty:                     mixinStorage.getProperty,
+            setCustomProperty:                     mixinStorage.setProperty,
+            getStack:                              getStack
         };
 
         function report(/*arguments*/) {
@@ -55,7 +71,7 @@ define(
         }
 
         function getParameters(optAdaptList) {
-            var hashParameters = window.location.hash.toLowerCase().substr(1).split(',');
+            var hashParameters = window.location.hash.substr(1).split(',');
 
             var result = Object.create({
                 adapt: adapt,
@@ -68,7 +84,7 @@ define(
             for (var i = 0; i < hashParameters.length; ++i) {
                 var parts = hashParameters[i].split('=');
                 var paramName  = parts[0].toLowerCase();
-                var paramValue = parts[1];
+                var paramValue = decodeURI(parts.slice(1).join('='));
 
                 result[paramName] = paramValue;
             }
@@ -161,6 +177,66 @@ define(
             return true;
         }
 
+        function addBetween(array, element, a, b, optFallbackIsStart) {
+
+            var indexA = array.indexOf(a);
+            var indexB = array.indexOf(b);
+
+            var aExists = indexA !== -1;
+            var bExists = indexB !== -1;
+
+            if (!aExists && !bExists) {
+                if (optFallbackIsStart) {
+                    array.unshift(element);
+                } else {
+                    array.push(element);
+                }
+            } else
+            if (aExists && bExists) {
+                var minIndex = Math.min(indexA, indexB);
+                insertAfter(array, minIndex, element);
+            } else {
+                if (aExists) {
+                    insertAfter(array, indexA, element);
+                } else {
+                    insertBefore(array, indexB, element);
+                }
+            }
+            return array;
+
+            function insertAfter(array, index, element)  { array.splice(index + 1, 0, element); }
+            function insertBefore(array, index, element) { array.splice(index, 0, element);     }
+        }
+
+        function last(array) {
+            if (array.length === 0) return undefined;
+            return array[array.length - 1];
+        }
+
+        function find(array, predicate) {
+            for (var i = 0; i < array.length; i++) {
+                var element = array[i];
+                if (predicate(element)) return element;
+            }
+        }
+
+        function contains(array, val) {
+            return array.indexOf(val) >= 0;
+        }
+
+        function searchInStringArray(array, regexOrString) {
+            if (!array || !array.length) return -1;
+            for (var i = 0; i < array.length; ++i) {
+                if (array[i].search(regexOrString) >= 0) return i;
+            }
+            return -1;
+        }
+
+        function getOrThrow(array, index) {
+            if (index < 0 || index >= array.length) throw new Error('Index out of bounds');
+            return array[index];
+        }
+
         function withoutFalsyProperties(obj) {
             var result;
             if (isArray(obj)) {
@@ -233,6 +309,10 @@ define(
             return typeof obj === 'number';
         }
 
+        function isString(obj) {
+            return typeof obj === 'string';
+        }
+
         function defined(/* arguments */) {
             for (i = 0; i < arguments.length; i++) {
                 if (arguments[i] !== undefined) return arguments[i];
@@ -243,6 +323,7 @@ define(
             Object.getOwnPropertyNames(source).forEach(function(key) {
                 target[key] = source[key];
             });
+            return target;
         }
 
         /**
@@ -308,6 +389,19 @@ define(
                 arrayA.some(function(element) { return !Object.hasOwnProperty(mapB, element); }) ||
                 arrayB.some(function(element) { return !Object.hasOwnProperty(mapA, element); })
             );
+        }
+
+        function take(array, predicate) {
+            var i = 0;
+            var result = [];
+            while (i < array.length) {
+                if (predicate(array[i])) {
+                    result = result.concat(array.splice(i, 1));
+                } else {
+                    i++;
+                }
+            }
+            return result;
         }
 
         function createDomElement(options) {
@@ -424,9 +518,7 @@ define(
         }
 
         function mapValues(obj) {
-            return Object.keys(obj).map(function(key) {
-                return obj[key]
-            });
+            return Object.keys(obj).map(function(key) { return obj[key]; });
         }
 
         function forEachOwnProperty(object, action) {
@@ -488,6 +580,49 @@ define(
 
         function removeElementFromParent(element) {
             element.parentNode.removeChild(element);
+        }
+
+        function createArray(size, elementCreator) {
+            var result = [];
+            for (var i = 0; i < size; ++i) {
+                result.push(elementCreator(i));
+            }
+            return result;
+        }
+
+        function sortFuncAscending(a, b) {
+            if (a > b) return 1;
+            if (a < b) return -1;
+            return 0;
+        }
+
+        function createMixinStorage(key) {
+            return {
+                getProperty: getProperty,
+                setProperty: setProperty
+            };
+
+            function getProperty(obj, propName, optDefaultValue) {
+                if (
+                    obj[key] &&
+                    obj[key].hasOwnProperty(propName)
+                ) {
+                    return obj[key][propName];
+                } else {
+                    return optDefaultValue;
+                }
+            }
+
+            function setProperty(obj, propName, value, optLazy) {
+                if (optLazy && getProperty(obj, propName, value) === value) return;
+                if (!obj[key]) obj[key] = {};
+                obj[key][propName] = value;
+            }
+        }
+
+        function getStack(optLevelOffset) {
+            var offset = 2 + (optLevelOffset || 0);
+            return (new Error()).stack.toString().split('\n').slice(offset).join('\n');
         }
 
     }

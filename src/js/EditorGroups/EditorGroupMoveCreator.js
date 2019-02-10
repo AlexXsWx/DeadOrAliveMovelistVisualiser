@@ -6,7 +6,9 @@ define(
         'EditorGroups/EditorGroup',
         'EditorGroups/EditorCreatorBase',
         'EditorGroups/MoveActionStep',
-        'Model/NodeFactory',
+        'Model/NodeFactoryMove',
+        'Model/NodeFactoryActionStep',
+        'Model/NodeFactoryActionStepResult',
         'View/NodeView',
         'Localization/Strings',
         'Tools/Tools'
@@ -16,7 +18,9 @@ define(
         EditorGroup,
         EditorCreatorBase,
         MoveActionStep,
-        NodeFactory,
+        NodeFactoryMove,
+        NodeFactoryActionStep,
+        NodeFactoryActionStepResult,
         NodeView,
         Strings,
         _
@@ -131,7 +135,7 @@ define(
                     },
 
                     getChildrenArray:    function(nodeData) { return nodeData.actionSteps; },
-                    childrenDataCreator: function() { return NodeFactory.createMoveActionStep(); },
+                    childrenDataCreator: function() { return NodeFactoryActionStep.createMoveActionStep(); },
                     childEditorCreator:  function(changeSelectedNodesSubDataByAction, removeFunc) {
                         return MoveActionStep.create(changeSelectedNodesSubDataByAction, removeFunc);
                     }
@@ -144,7 +148,7 @@ define(
 
             return editorGroupMove;
 
-            function filter(data) { return data && NodeFactory.isMoveNode(data); }
+            function filter(data) { return data && NodeFactoryMove.isMoveNode(data); }
 
 
             function updateView(keepActiveSummaryContent) {
@@ -163,13 +167,13 @@ define(
             }
 
 
-            function summaryToText(nodeData) { return NodeFactory.getMoveSummary(nodeData); }
+            function summaryToText(nodeData) { return NodeFactoryMove.getMoveSummary(nodeData); }
             function changeSummary(newValue, nodeData) {
 
                 var changed = false;
 
                 var rest = newValue.trim();
-                var parts = rest.split(':');
+                var parts = rest.split(': ');
                 if (parts.length > 1) {
                     changed = changeContext(parts[0], nodeData) || changed;
                     rest = parts[1].trim();
@@ -285,26 +289,22 @@ define(
             }
 
 
-            function frameDataToText(nodeData) { return nodeData.frameData.join(' ') || ''; }
+            function frameDataToText(nodeData) {
+                return NodeFactoryMove.frameDataToString(nodeData);
+            }
             function changeFrameData(newValueRaw, nodeData) {
-
                 // FIXME: dont support negative framedata, use followup range instead
                 var numbers = newValueRaw.match(/-?\d+/g);
                 var newValue = numbers ? numbers.map(strToIntMapper) : [];
-                var oldValue = nodeData.frameData || [];
-
-                nodeData.frameData = newValue;
-
-                return !_.arraysAreEqual(oldValue, newValue);
-
+                return NodeFactoryMove.changeFrameData(nodeData, newValue);
             }
 
 
             function actionStepResultToAdvantageOnBlock(nodeData) {
-                var advantageRange = NodeFactory.getAdvantageRange(
+                var advantageRange = NodeFactoryMove.getAdvantageRange(
                     nodeData,
-                    NodeFactory.doesActionStepResultDescribeGuard,
-                    NodeFactory.getActionStepResultHitBlock
+                    NodeFactoryActionStepResult.getHitBlock,
+                    NodeFactoryActionStepResult.doesDescribeGuard
                 );
                 return advantageRange ? advantageRange.min : '';
             }
@@ -314,7 +314,7 @@ define(
                 var changed = false;
 
                 // Frame data is required to convert input to storable value
-                if (nodeData.frameData.length < 3) {
+                if (!NodeFactoryMove.hasMinimalFrameDataInfo(nodeData)) {
                     return changed;
                 }
 
@@ -332,8 +332,8 @@ define(
 
                     var advantage = Number(advantageStr);
                     if (advantageStr && !isNaN(advantage)) {
-                        var activeFramesCount   = nodeData.frameData[nodeData.frameData.length - 2];
-                        var recoveryFramesCount = nodeData.frameData[nodeData.frameData.length - 1];
+                        var activeFramesCount   = NodeFactoryMove.getActiveFramesCount(nodeData);
+                        var recoveryFramesCount = NodeFactoryMove.getRecoveryFramesCount(nodeData);
                         // Assuming advantage is given for situation where first active frame lands
                         var activeFramesAfterLanded = activeFramesCount - 1;
                         hitBlock = activeFramesAfterLanded + recoveryFramesCount + advantage;
@@ -345,7 +345,7 @@ define(
                     // Try to find existing action step result that describes guard
                     for (var i = 0; i < actionStep.results.length; ++i) {
                         var result = actionStep.results[i];
-                        if (result && NodeFactory.doesActionStepResultDescribeGuard(result)) {
+                        if (result && NodeFactoryActionStepResult.doesDescribeGuard(result)) {
                             actionStepResult = result;
                             break;
                         }
@@ -369,7 +369,7 @@ define(
                             // Try to find empty action step result to use
                             for (var i = 0; i < actionStep.results.length; ++i) {
                                 var result = actionStep.results[i];
-                                if (NodeFactory.isActionStepResultEmpty(result)) {
+                                if (NodeFactoryActionStepResult.isEmpty(result)) {
                                     actionStepResult = result;
                                     addGuardCondition = true;
                                     break;
@@ -386,21 +386,23 @@ define(
 
                     if (cleanupGuard) {
                         changed = true;
-                        NodeFactory.removeGuardConditionFromActionStepResult(actionStepResult);
+                        NodeFactoryActionStepResult.removeGuardCondition(actionStepResult);
                         if (actionStepResult.condition.length === 0) {
                             actionStep.results.splice(
                                 actionStep.results.indexOf(actionStepResult), 1
                             );
                             if (actionStep.results.length === 0) {
                                 // Create default placeholder
-                                actionStep.results.push(NodeFactory.createMoveActionStepResult());
+                                actionStep.results.push(
+                                    NodeFactoryActionStepResult.createMoveActionStepResult()
+                                );
                             }
                         }
                     }
 
                     if (createNewActionStepResult) {
                         changed = true;
-                        actionStepResult = NodeFactory.createMoveActionStepResult();
+                        actionStepResult = NodeFactoryActionStepResult.createMoveActionStepResult();
                         actionStep.results.push(actionStepResult); 
                         addGuardCondition = true;
                     }

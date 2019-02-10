@@ -3,23 +3,37 @@ define(
     'Editor',
 
     [
-        'Tools/Signal', 'Model/NodeFactory', 'View/NodeView', 'Tools/TreeTools',
+        'Tools/Signal',
+        'Model/NodeFactory',
+        'Model/NodeFactoryRoot',
+        'Model/NodeFactoryStance',
+        'Model/NodeFactoryMove',
+        'View/NodeView',
+        'Tools/TreeTools',
         'EditorGroups/EditorGroupRootCreator',
         'EditorGroups/EditorGroupStanceCreator',
         'EditorGroups/EditorGroupMoveCreator',
         'EditorGroups/EditorGroupCommonCreator',
         'Input/KeyCodes',
-        'Tools/Executor', 'Tools/Tools'
+        'Tools/Executor',
+        'Tools/Tools'
     ],
 
     function(
-        createSignal, NodeFactory, NodeView, TreeTools,
+        createSignal,
+        NodeFactory,
+        NodeFactoryRoot,
+        NodeFactoryStance,
+        NodeFactoryMove,
+        NodeView,
+        TreeTools,
         EditorGroupRootCreator,
         EditorGroupStanceCreator,
         EditorGroupMoveCreator,
         EditorGroupCommonCreator,
         KeyCodes,
-        Executor, _
+        Executor,
+        _
     ) {
 
         var refs = {
@@ -30,6 +44,7 @@ define(
         };
 
         var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
+        var copyBufferRootNode = null;
 
         /**
          * Dispatches {
@@ -44,7 +59,7 @@ define(
 
         var editorGroups = [
             EditorGroupCommonCreator.create(
-                onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren
+                onClickAddChild, onClickDeleteNode, moveNodeBy, toggleChildren, cutNode, pasteNode
             ),
             EditorGroupRootCreator.create(modifySelectedNodesDataByFunc),
             EditorGroupStanceCreator.create(modifySelectedNodesDataByFunc),
@@ -69,6 +84,8 @@ define(
 
             moveNodeBy: moveNodeBy,
             deleteNode: onClickDeleteNode,
+            cutNode: cutNode,
+            pasteNode: pasteNode,
 
             onClickAddChild: onClickAddChild
         };
@@ -116,8 +133,17 @@ define(
 
 
         function onClickDeleteNode(optEvent) {
+            deleteNode();
+        }
 
-            if (!selectedSVGNode) return;
+        function deleteNode() {
+
+            var result = {
+                succeed: false,
+                refs: {}
+            };
+
+            if (!selectedSVGNode) return result;
 
             var nodeView = selectedSVGNode.nodeView;
             var nodeData = NodeView.getNodeData(nodeView);
@@ -125,41 +151,117 @@ define(
 
             if (
                 // TODO: or allow deleting placeholders?..
-                !NodeView.isPlaceholder(nodeView) &&
-                !NodeView.isGroupingNodeView(nodeView) &&
-                parentNodeView
+                NodeView.isPlaceholder(nodeView) ||
+                NodeView.isGroupingNodeView(nodeView) ||
+                !parentNodeView
             ) {
-
-                var firstParentData = NodeView.findAncestorNodeData(nodeView);
-
-                if (firstParentData) {
-                    var success = false;
-                    var children = NodeFactory.getChildren(firstParentData);
-                    if (children) {
-                        success = _.removeElement(children, nodeData);
-                    }
-                    if (!success) {
-                        console.warn(
-                            'Failed to remove %O: ' +
-                            'nearest parent with data of %O does not contain it',
-                            nodeData, parentNodeView
-                        );
-                        return;
-                    }
-                } else {
-                    console.warn('Couldn\'t find first parent data');
-                    return;
-                }
-
-                NodeView.removeChild(parentNodeView, nodeView);
-
-                onDataChanged.dispatch({ deleted: [ nodeView ] });
-
-                // TODO: treat as 1 action (for undo)
-                refs.selectNode(parentNodeView);
-
+                return result;
             }
 
+            var firstParentData = NodeView.findAncestorNodeData(nodeView);
+
+            if (!firstParentData) {
+                console.warn('Couldn\'t find first parent data');
+                return result;
+            }
+            var success = false;
+            var children = NodeFactory.getChildren(firstParentData);
+            if (children) {
+                success = _.removeElement(children, nodeData);
+            }
+            if (!success) {
+                console.warn(
+                    'Failed to remove %O: ' +
+                    'nearest parent with data of %O does not contain it',
+                    nodeData, parentNodeView
+                );
+                return result;
+            }
+
+            NodeView.removeChild(parentNodeView, nodeView);
+
+            onDataChanged.dispatch({ deleted: [ nodeView ] });
+
+            // TODO: treat as 1 action (for undo)
+            refs.selectNode(parentNodeView);
+
+            result.succeed = true;
+            result.refs.nodeView = nodeView;
+            result.refs.nodeData = nodeData;
+
+            // FIXME: support undo/redo
+            Executor.clearHistory();
+
+            return result;
+        }
+
+
+        function cutNode(optEvent) {
+
+            // FIXME: check if root
+
+            var result = deleteNode();
+            if (!result.succeed) {
+                return false;
+            }
+
+            copyBufferRootNode = result.refs.nodeView;
+
+            return true;
+        }
+
+
+        function pasteNode(optEvent) {
+            if (
+                !selectedSVGNode ||
+                !copyBufferRootNode
+            ) {
+                return false;
+            }
+
+            var nodeView = selectedSVGNode.nodeView;
+
+            if (NodeView.isPlaceholder(nodeView)) {
+                // TODO: instanciate?
+                return false;
+            }
+
+            var nodeData;
+            if (NodeView.isGroupingNodeView(nodeView)) {
+                nodeData = NodeView.findAncestorNodeData(nodeView);
+            } else {
+                nodeData = NodeView.getNodeData(nodeView);
+            }
+
+            if (!nodeData) {
+                console.warn(
+                    'Failed to paste to %O: ' +
+                    'can\'t find parent data for it',
+                    nodeView
+                );
+                return false;
+            }
+
+            var nodeDataToPaste = NodeView.getNodeData(copyBufferRootNode);
+
+            if (
+                NodeFactoryStance.isStanceNode(nodeDataToPaste) && !NodeFactoryRoot.isRootNode(nodeData) ||
+                NodeFactoryMove.isMoveNode(nodeDataToPaste)   && NodeFactoryRoot.isRootNode(nodeData)
+            ) {
+                return false;
+            }
+
+            var newNodeView = copyBufferRootNode;
+            copyBufferRootNode = null;
+
+            NodeFactory.getChildren(nodeData).push(nodeDataToPaste);
+            NodeView.addChild(nodeView, newNodeView, true);
+            onDataChanged.dispatch({ added: [ newNodeView ] });
+
+            // FIXME: support undo/redo
+            Executor.clearHistory();
+
+            return true;
         }
 
 
@@ -188,43 +290,51 @@ define(
 
 
         function moveNodeBy(delta) {
+            if (!NodeView.sortsByDefault()) return;
             Executor.rememberAndExecute('move node by ' + delta, act, unact);
-            function act() { doMoveNodeBy(delta); }
-            // FIXME: this is not symmetric
-            // e.g. when you move down last node 3 times and then undo 3 times
-            function unact() { doMoveNodeBy(-delta); }
+            return;
+            function act() { return doMoveNodeBy(delta); }
+            // FIXME: this is not accurate
+            function unact(actResult) { if (actResult) doMoveNodeBy(-delta); }
         }
 
 
         // TODO: consider multiselection
         function doMoveNodeBy(delta) {
 
-            if (!selectedSVGNode) return;
+            if (!selectedSVGNode) return false;
 
             var nodeView = selectedSVGNode.nodeView;
-            var parentView = NodeView.getParentNodeView(nodeView);
+            var parentNodeView = NodeView.getParentNodeView(nodeView);
 
-            if (!parentView) return;
+            if (!parentNodeView) return false;
 
-            var allChildren     = NodeView.getAllChildren(parentView);
-            var visibleChildren = NodeView.getVisibleChildren(parentView);
-            var changed = false;
-            if (_.moveArrayElement(allChildren,     nodeView, delta)) changed = true;
-            if (_.moveArrayElement(visibleChildren, nodeView, delta)) changed = true;
+            var visibleChildren = NodeView.getVisibleChildren(parentNodeView);
+            var changed = _.moveArrayElement(visibleChildren, nodeView, delta);
 
-            if (!changed) return;
+            if (!changed) return false;
 
             onDataChanged.dispatch({ moved: [ nodeView ] });
 
-            if (NodeView.isGroupingNodeView(nodeView)) return;
+            if (!NodeView.isGroupingNodeView(nodeView)) {
+                var adjacentVisibleNodeDatas = NodeView.getAdjacentVisibleNodeDatas(nodeView);
 
-            var nodeData = NodeView.getNodeData(nodeView);
-            var parentData = NodeView.findAncestorNodeData(nodeView);
-            var children = NodeFactory.getChildren(parentData);
-            if (children) _.moveArrayElement(children, nodeData, delta);
+                var nodeData = NodeView.getNodeData(nodeView);
+                var parentData = NodeView.findAncestorNodeData(nodeView);
+                var children = NodeFactory.getChildren(parentData);
+                console.assert(Boolean(children), 'Couldn\'t get children array');
+                if (children.indexOf(nodeData) >= 0) {
+                    _.removeElement(children, nodeData);
+                    _.addBetween(
+                        children,
+                        nodeData,
+                        adjacentVisibleNodeDatas.previous,
+                        adjacentVisibleNodeDatas.next
+                    );
+                }
+            }
 
-            // FIXME: When nodes are grouped by type (punches/kicks),
-            // this still acts over limit of the group...
+            return true;
 
         }
 
@@ -234,9 +344,9 @@ define(
             var newNodes = [];
             var placeholderNodeView;
 
-            var parentView = NodeView.getParentNodeView(nodeView);
+            var parentNodeView = NodeView.getParentNodeView(nodeView);
 
-            placeholderNodeView = addPlaceholderNode(parentView, true);
+            placeholderNodeView = addPlaceholderNode(parentNodeView, true);
             newNodes.push(placeholderNodeView);
 
             // turn node from placeholder to actual node
@@ -254,10 +364,18 @@ define(
 
 
         function addNodeDataToParentData(nodeView) {
+            var adjacentVisibleNodeDatas = NodeView.getAdjacentVisibleNodeDatas(nodeView);
+
             var nodeData = NodeView.getNodeData(nodeView);
             var parentData = NodeView.findAncestorNodeData(nodeView);
             var children = NodeFactory.getChildren(parentData);
-            if (children) children.push(nodeData);
+            console.assert(Boolean(children), 'Couldn\'t get children array');
+            _.addBetween(
+                children,
+                nodeData,
+                adjacentVisibleNodeDatas.previous,
+                adjacentVisibleNodeDatas.next
+            );
         }
 
 
@@ -304,15 +422,15 @@ define(
             var parentIsRoot = !NodeView.getParentNodeView(parent);
             if (parentIsRoot) {
                 placeholderNodeView = refs.nodeDataGenerator();
-                var nodeData = NodeFactory.createStanceNode();
+                var nodeData = NodeFactoryStance.createStanceNode();
                 NodeView.setNodeData(placeholderNodeView, nodeData);
             } else {
                 placeholderNodeView = refs.nodeDataGenerator();
-                var nodeData = NodeFactory.createMoveNode();
+                var nodeData = NodeFactoryMove.createMoveNode();
                 NodeView.setNodeData(placeholderNodeView, nodeData);
             }
             NodeView.setIsPlaceholder(placeholderNodeView, isEditorElement);
-            NodeView.addChild(parent, placeholderNodeView);
+            NodeView.addChild(parent, placeholderNodeView, !isEditorElement);
             return placeholderNodeView;
         }
 

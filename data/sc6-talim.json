@@ -1,0 +1,6148 @@
+{
+  "header": {
+    "format": 3,
+    "timeSaved": 1545427517314
+  },
+  "body": {
+    "character": "Talim",
+    "stances": [
+      {
+        "abbreviation": "STD",
+        "description": "Standing",
+        "appliesExtraFrame": false,
+        "moves": [
+          {
+            "input": "A",
+            "frameData": [
+              11,
+              1,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              },
+              {
+                "input": "A",
+                "frameData": [
+                  12,
+                  1,
+                  31
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 33
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 23
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "A",
+                    "frameData": [
+                      23,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 100
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          11,
+                          1,
+                          28
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 24
+                              }
+                            ]
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "B",
+                    "frameData": [
+                      21,
+                      1,
+                      33
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 17
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "A",
+                        "frameData": [
+                          23,
+                          1,
+                          35
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 31
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "...",
+                            "frameData": [
+                              27,
+                              0,
+                              0
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionType": "other"
+                              }
+                            ],
+                            "endsWith": "W..."
+                          }
+                        ]
+                      },
+                      {
+                        "input": "B",
+                        "frameData": [
+                          22,
+                          1,
+                          39
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P ground",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "tags": [
+                              "GC"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 23
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "(B)",
+                        "frameData": [
+                          22,
+                          1,
+                          31
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P ground",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "tags": [
+                              "GC"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 23
+                              }
+                            ]
+                          }
+                        ],
+                        "endsWith": "WF"
+                      },
+                      {
+                        "input": "B",
+                        "context": [
+                          "SC"
+                        ],
+                        "frameData": [
+                          22,
+                          1,
+                          39
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P ground",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "tags": [
+                              "BA",
+                              "GC"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "stun"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 41
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "(B)",
+                        "context": [
+                          "SC"
+                        ],
+                        "frameData": [
+                          22,
+                          1,
+                          31
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P ground",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "tags": [
+                              "BA",
+                              "GC"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "stun"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 41
+                              }
+                            ]
+                          }
+                        ],
+                        "endsWith": "WF"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "A+B",
+                    "frameData": [
+                      15,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "tags": [
+                          "special"
+                        ],
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 100
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          14,
+                          1,
+                          36
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock behind"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 20
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "A+B+K",
+            "context": [
+              "SG"
+            ],
+            "frameData": [
+              4,
+              0,
+              12,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionType": "other"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  3,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "tags": [
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 100
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      30,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P ground",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "tags": [
+                          "GC"
+                        ],
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 22
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          23,
+                          1,
+                          37
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "tags": [
+                              "CE",
+                              "GC"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 41
+                              }
+                            ]
+                          }
+                        ],
+                        "comment": "restores health"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "The part before cut scene"
+          },
+          {
+            "input": "6A",
+            "frameData": [
+              17,
+              1,
+              38
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 22
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "A",
+                "frameData": [
+                  27,
+                  1,
+                  33
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 31
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "...",
+                    "frameData": [
+                      27,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "W..."
+                  }
+                ]
+              },
+              {
+                "input": "B",
+                "frameData": [
+                  41,
+                  1,
+                  31
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P ground",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 33
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  25,
+                  1,
+                  32
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 18
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "66A",
+            "frameData": [
+              15,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 100
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  11,
+                  1,
+                  33
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 25
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "...",
+                    "frameData": [
+                      29,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "W..."
+                  },
+                  {
+                    "input": "A",
+                    "context": [
+                      "SC"
+                    ],
+                    "frameData": [
+                      29,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": true
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          10,
+                          1,
+                          31
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "skewer"
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "A",
+                            "frameData": [
+                              21,
+                              1,
+                              0
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike",
+                                "isTracking": true
+                              }
+                            ],
+                            "followUps": [
+                              {
+                                "input": "*",
+                                "frameData": [
+                                  10,
+                                  1,
+                                  33
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "strike",
+                                    "isTracking": true,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "airborne"
+                                        ],
+                                        "tags": [
+                                          "skewer"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ],
+                                "followUps": [
+                                  {
+                                    "input": "B",
+                                    "frameData": [
+                                      15,
+                                      1,
+                                      43
+                                    ],
+                                    "actionSteps": [
+                                      {
+                                        "actionMask": "mid P",
+                                        "actionType": "strike",
+                                        "isTracking": false,
+                                        "tags": [
+                                          "BA",
+                                          "GC"
+                                        ],
+                                        "results": [
+                                          {
+                                            "condition": [
+                                              "neutral"
+                                            ],
+                                            "tags": [
+                                              "launch"
+                                            ]
+                                          },
+                                          {
+                                            "condition": [
+                                              "airborne"
+                                            ],
+                                            "tags": [
+                                              "skewer"
+                                            ]
+                                          },
+                                          {
+                                            "condition": [
+                                              "guard"
+                                            ],
+                                            "hitBlock": 45
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "input": ":B",
+                                    "frameData": [
+                                      15,
+                                      1,
+                                      43
+                                    ],
+                                    "actionSteps": [
+                                      {
+                                        "actionMask": "mid P",
+                                        "actionType": "strike",
+                                        "isTracking": false,
+                                        "tags": [
+                                          "BA",
+                                          "GC"
+                                        ],
+                                        "results": [
+                                          {
+                                            "condition": [
+                                              "neutral"
+                                            ],
+                                            "tags": [
+                                              "launch"
+                                            ]
+                                          },
+                                          {
+                                            "condition": [
+                                              "airborne"
+                                            ],
+                                            "tags": [
+                                              "skewer"
+                                            ]
+                                          },
+                                          {
+                                            "condition": [
+                                              "guard"
+                                            ],
+                                            "hitBlock": 45
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "A6",
+            "frameData": [
+              14,
+              0,
+              3,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 100
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  14,
+                  1,
+                  24
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 22
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4A",
+            "frameData": [
+              15,
+              1,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  16,
+                  1,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 21
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "44A",
+            "frameData": [
+              21,
+              1,
+              35
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 23
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "A",
+                "frameData": [
+                  31,
+                  1,
+                  33
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "stun"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "(A)",
+                "frameData": [
+                  62,
+                  1,
+                  33
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "tags": [
+                      "BA"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "stun"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 41
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on hitting an opponent who missed a high attack"
+          },
+          {
+            "input": "4K",
+            "frameData": [
+              15,
+              1,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4A+B+K",
+            "context": [
+              "SG"
+            ],
+            "frameData": [
+              4,
+              1,
+              44
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": true,
+                "tags": [
+                  "SC",
+                  "BA",
+                  "special"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 44
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 52
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3A",
+            "frameData": [
+              21,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 100
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  4,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 100
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      3,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 100
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          4,
+                          1,
+                          27
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "stun"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "skewer"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 25
+                              }
+                            ]
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3A+B",
+            "frameData": [
+              19,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 100
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  3,
+                  1,
+                  37
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force BT"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 27
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "*",
+                "context": [
+                  "LH"
+                ],
+                "frameData": [
+                  3,
+                  1,
+                  37
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "tags": [
+                      "LH"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "stun",
+                          "knock down"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "comment": "LH if previous strike missed"
+              }
+            ]
+          },
+          {
+            "input": "2A",
+            "frameData": [
+              11,
+              1,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": true,
+                "tags": [
+                  "special"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 36
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 24
+                  }
+                ]
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "2K",
+            "frameData": [
+              15,
+              1,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K ground",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 26
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 16
+                  }
+                ]
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "1A",
+            "frameData": [
+              29,
+              1,
+              33
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P ground",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 37
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 23
+                  }
+                ]
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "B",
+            "frameData": [
+              13,
+              1,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              },
+              {
+                "input": "B",
+                "frameData": [
+                  19,
+                  1,
+                  31
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 23
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "B",
+                    "frameData": [
+                      21,
+                      19,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "hold"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "...",
+                        "frameData": [
+                          20,
+                          0,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ],
+                        "endsWith": "W..."
+                      },
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          11,
+                          17,
+                          1,
+                          33
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "hold"
+                          },
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "tags": [
+                              "RE"
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "context": [
+                              "hit"
+                            ],
+                            "frameData": [
+                              0,
+                              0,
+                              0
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionType": "other"
+                              }
+                            ],
+                            "endsWith": "RE"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "(B)",
+                    "frameData": [
+                      21,
+                      19,
+                      0,
+                      50,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "hold"
+                      },
+                      {
+                        "actionType": "hold"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "...",
+                        "frameData": [
+                          20,
+                          0,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ],
+                        "endsWith": "W..."
+                      },
+                      {
+                        "input": "*",
+                        "frameData": [
+                          17,
+                          1,
+                          33
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "tags": [
+                              "BA",
+                              "RE"
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "context": [
+                              "hit|guard"
+                            ],
+                            "frameData": [
+                              0,
+                              0,
+                              0
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionType": "other"
+                              }
+                            ],
+                            "endsWith": "RE"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  27,
+                  1,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "A",
+                    "context": [
+                      "SC"
+                    ],
+                    "frameData": [
+                      23,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low P",
+                        "actionType": "strike",
+                        "isTracking": true
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          9,
+                          1,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "low P",
+                            "actionType": "strike",
+                            "isTracking": true
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              23,
+                              1,
+                              39
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "low P",
+                                "actionType": "strike",
+                                "isTracking": true,
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "neutral"
+                                    ],
+                                    "tags": [
+                                      "knock down"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              11,
+              1,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "A+B",
+            "frameData": [
+              22,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "frameData": [
+                  27,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "BT"
+              },
+              {
+                "input": "*",
+                "frameData": [
+                  17,
+                  1,
+                  41
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P ground",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "BA",
+                      "LH",
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 43
+                      }
+                    ]
+                  }
+                ],
+                "comment": "LH on impact counter"
+              }
+            ]
+          },
+          {
+            "input": "6B",
+            "frameData": [
+              17,
+              1,
+              38
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "force crouch"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "B",
+                "frameData": [
+                  27,
+                  1,
+                  43
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "...",
+                    "frameData": [
+                      37,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "W..."
+                  }
+                ]
+              },
+              {
+                "input": "(B)",
+                "frameData": [
+                  43,
+                  1,
+                  39
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "BA",
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back",
+                          "stun"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 41
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "...",
+                    "frameData": [
+                      37,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "W..."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "66B",
+            "frameData": [
+              10,
+              0,
+              11,
+              1,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "LH",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back",
+                      "hard knock down"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "B",
+                "context": [
+                  "SC"
+                ],
+                "frameData": [
+                  34,
+                  1,
+                  41
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "BA",
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 45
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on running counter while moving back"
+          },
+          {
+            "input": "6K",
+            "frameData": [
+              15,
+              1,
+              35
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "force crouch",
+                      "knock back"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "66K",
+            "frameData": [
+              12,
+              0,
+              21,
+              1,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionMask": "mid K ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "endsWith": "BT"
+          },
+          {
+            "input": "6A+B",
+            "frameData": [
+              23,
+              1,
+              37
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "6(A+B)",
+            "frameData": [
+              32,
+              1,
+              35
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "LH",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on hitting an opponent who missed an attack"
+          },
+          {
+            "input": "66A+B",
+            "frameData": [
+              27,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  2,
+                  1,
+                  43
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P ground",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "...",
+                    "frameData": [
+                      29,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "W..."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4B",
+            "frameData": [
+              13,
+              1,
+              35
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "A",
+                "frameData": [
+                  13,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "G",
+                    "frameData": [
+                      20,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "BT"
+                  },
+                  {
+                    "input": "*",
+                    "frameData": [
+                      11,
+                      1,
+                      33
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "tags": [
+                              "force BT"
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "endsWith": "BT"
+                  }
+                ]
+              },
+              {
+                "input": "(A)",
+                "frameData": [
+                  13,
+                  0,
+                  0
+                ],
+                "followUps": [
+                  {
+                    "input": "G",
+                    "frameData": [
+                      20,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "BT"
+                  },
+                  {
+                    "input": "*",
+                    "frameData": [
+                      28,
+                      1,
+                      31
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "tags": [
+                          "GC"
+                        ],
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "tags": [
+                              "stun",
+                              "force BT"
+                            ]
+                          },
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "hard knock down"
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "endsWith": "BT"
+                  }
+                ]
+              },
+              {
+                "input": "B",
+                "frameData": [
+                  35,
+                  1,
+                  27
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P ground",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force crouch"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "44B",
+            "frameData": [
+              8,
+              0,
+              17,
+              1,
+              33
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "LH",
+                  "GC"
+                ]
+              }
+            ],
+            "endsWith": "BT",
+            "followUps": [
+              {
+                "input": "...",
+                "frameData": [
+                  23,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "W..."
+              }
+            ],
+            "comment": "LH on hitting an opponent who missed a low attack"
+          },
+          {
+            "input": "44K",
+            "frameData": [
+              17,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  7,
+                  1,
+                  33
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "skewer"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4A+B",
+            "frameData": [
+              19,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  5,
+                  2,
+                  29
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force crouch"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "BT"
+              }
+            ]
+          },
+          {
+            "input": "44A+B",
+            "frameData": [
+              23,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  9,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      6,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          3,
+                          1,
+                          35
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "tags": [
+                              "GC"
+                            ],
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "tags": [
+                                  "knock back"
+                                ]
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "hard knock down"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3B",
+            "frameData": [
+              19,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  5,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      8,
+                      1,
+                      38
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "tags": [
+                              "launch"
+                            ]
+                          },
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "skewer"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3K",
+            "frameData": [
+              13,
+              1,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "2B",
+            "frameData": [
+              15,
+              1,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "endsWith": "BT"
+          },
+          {
+            "input": "2A+B",
+            "frameData": [
+              19,
+              1,
+              39
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "force crouch",
+                      "knock back"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2(A+B)",
+            "frameData": [
+              19,
+              1,
+              33
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "force crouch",
+                      "knock back"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "1B",
+            "frameData": [
+              19,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P ground",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  7,
+                  1,
+                  31
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low P ground",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 999
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "FC"
+              }
+            ]
+          },
+          {
+            "input": "1A+B",
+            "frameData": [
+              17,
+              1,
+              37
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "LH",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "counter",
+                      "LH"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on hitting an opponent whose guard stamina is low"
+          },
+          {
+            "input": "236B",
+            "frameData": [
+              23,
+              1,
+              41
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "236(B)",
+            "frameData": [
+              44,
+              1,
+              39
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "LH",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on hit after opponent misses a guard impact"
+          },
+          {
+            "input": "214B",
+            "frameData": [
+              20,
+              0,
+              41,
+              1,
+              34
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "UA"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "frameData": [
+                  20,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "WS"
+              }
+            ]
+          },
+          {
+            "input": "1K",
+            "frameData": [
+              17,
+              1,
+              33
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K ground",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 33
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 19
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "6G",
+            "frameData": [
+              1,
+              9,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionType": "hold"
+              }
+            ]
+          },
+          {
+            "input": "B+G",
+            "frameData": [
+              4,
+              23,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "hold"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "...",
+                "frameData": [
+                  20,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "W..."
+              },
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  3,
+                  17,
+                  1,
+                  33
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "hold"
+                  },
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "RE"
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "context": [
+                      "hit"
+                    ],
+                    "frameData": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "RE"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "(B+G)",
+            "frameData": [
+              4,
+              23,
+              0,
+              23,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "hold"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "...",
+                "frameData": [
+                  20,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "W..."
+              },
+              {
+                "input": "*",
+                "frameData": [
+                  17,
+                  1,
+                  33
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "BA",
+                      "RE"
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "context": [
+                      "hit|guard"
+                    ],
+                    "frameData": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "RE"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "88_22",
+            "frameData": [
+              11,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "88_22"
+          },
+          {
+            "input": "(6)~",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "(6)~"
+          },
+          {
+            "input": "8G",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "JMP"
+          },
+          {
+            "input": "B+K",
+            "frameData": [
+              20,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "6B+K",
+            "frameData": [
+              10,
+              0,
+              10,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WS"
+          },
+          {
+            "input": "4B+K",
+            "frameData": [
+              10,
+              0,
+              24,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "2B+K",
+            "frameData": [
+              20,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WC"
+          },
+          {
+            "input": "A+G",
+            "frameData": [
+              17,
+              1,
+              36
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "4A+G",
+            "frameData": [
+              17,
+              1,
+              36
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "context": [
+                  "front throw"
+                ],
+                "frameData": [
+                  158,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "8B+K",
+            "frameData": [
+              20,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WC"
+          },
+          {
+            "input": "K+G",
+            "frameData": [
+              30,
+              0,
+              70
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "frameData": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "88_22",
+        "description": "Freestepping",
+        "appliesExtraFrame": false,
+        "moves": [
+          {
+            "input": "A",
+            "frameData": [
+              17,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  5,
+                  1,
+                  41
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "...",
+                    "frameData": [
+                      45,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "W..."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "B",
+            "frameData": [
+              21,
+              1,
+              38
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "B",
+                "frameData": [
+                  23,
+                  1,
+                  38
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P ground",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "force crouch"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": ":B",
+                "frameData": [
+                  23,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      0,
+                      1,
+                      37
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "tags": [
+                          "GC"
+                        ],
+                        "results": [
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "hard knock down"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              17,
+              1,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "(6)~",
+        "description": "Running",
+        "moves": [
+          {
+            "input": "K",
+            "frameData": [
+              19,
+              1,
+              41
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC",
+                  "TJ"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "context": [
+              "low hp"
+            ],
+            "frameData": [
+              19,
+              1,
+              34
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "LH",
+                  "GC",
+                  "TJ"
+                ]
+              }
+            ],
+            "comment": "LH on hitting an opponent during a standing guard"
+          }
+        ]
+      },
+      {
+        "abbreviation": "W...",
+        "description": "Wind ...",
+        "moves": [
+          {
+            "input": "6",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WS"
+          },
+          {
+            "input": "4",
+            "frameData": [
+              14,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "2",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WC"
+          },
+          {
+            "input": "8",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WC"
+          }
+        ]
+      },
+      {
+        "abbreviation": "WC",
+        "description": "Wind Charmer",
+        "moves": [
+          {
+            "input": "A+G",
+            "frameData": [
+              16,
+              1,
+              49
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "tags": [
+                  "unbreakable"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "force BT"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "context": [
+                  "front throw"
+                ],
+                "frameData": [
+                  51,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "BT"
+              }
+            ]
+          },
+          {
+            "input": "A",
+            "frameData": [
+              11,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  13,
+                  1,
+                  39
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "...",
+                    "frameData": [
+                      27,
+                      0,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "W..."
+                  },
+                  {
+                    "input": "B",
+                    "frameData": [
+                      26,
+                      1,
+                      24
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "tags": [
+                          "GC"
+                        ]
+                      }
+                    ],
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "B",
+                        "context": [
+                          "SC"
+                        ],
+                        "frameData": [
+                          16,
+                          1,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": false
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              5,
+                              1,
+                              0
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike",
+                                "isTracking": false
+                              }
+                            ],
+                            "followUps": [
+                              {
+                                "input": "*",
+                                "frameData": [
+                                  21,
+                                  1,
+                                  37
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "strike",
+                                    "isTracking": false,
+                                    "tags": [
+                                      "GC"
+                                    ],
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "neutral"
+                                        ],
+                                        "tags": [
+                                          "launch"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "K",
+                    "frameData": [
+                      26,
+                      1,
+                      35
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "low K ground",
+                        "actionType": "strike",
+                        "isTracking": true
+                      }
+                    ],
+                    "endsWith": "FC",
+                    "followUps": [
+                      {
+                        "input": "A",
+                        "frameData": [
+                          20,
+                          1,
+                          27
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high K",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "hitBlock": 33
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "A",
+                            "context": [
+                              "SC"
+                            ],
+                            "frameData": [
+                              21,
+                              1,
+                              0
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike",
+                                "isTracking": true
+                              }
+                            ],
+                            "followUps": [
+                              {
+                                "input": "*",
+                                "frameData": [
+                                  5,
+                                  1,
+                                  39
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "strike",
+                                    "isTracking": true,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "neutral"
+                                        ],
+                                        "tags": [
+                                          "knock back"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ],
+                                "followUps": [
+                                  {
+                                    "input": "...",
+                                    "frameData": [
+                                      46,
+                                      0,
+                                      0
+                                    ],
+                                    "actionSteps": [
+                                      {
+                                        "actionType": "other"
+                                      }
+                                    ],
+                                    "endsWith": "W..."
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "B",
+            "frameData": [
+              19,
+              1,
+              33
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "B",
+                "frameData": [
+                  17,
+                  1,
+                  37
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "GC"
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "~B",
+                "frameData": [
+                  25,
+                  1,
+                  39
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "BA",
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 35
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": ":B",
+                "frameData": [
+                  26,
+                  1,
+                  39
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "BA",
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 35
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              13,
+              1,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "LH"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on hitting an opponent who missed a middle attack"
+          },
+          {
+            "input": "A+B",
+            "frameData": [
+              31,
+              1,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 29
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "*",
+            "frameData": [
+              15,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "STD"
+          }
+        ]
+      },
+      {
+        "abbreviation": "WS",
+        "description": "Wind Sault",
+        "moves": [
+          {
+            "input": "A",
+            "frameData": [
+              19,
+              1,
+              39
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P ground",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "endsWith": "FC",
+            "followUps": [
+              {
+                "input": "...",
+                "frameData": [
+                  37,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "W..."
+              }
+            ]
+          },
+          {
+            "input": "B",
+            "frameData": [
+              17,
+              1,
+              39
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock down"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "(B)",
+            "frameData": [
+              17,
+              1,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock down"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "B",
+            "context": [
+              "SC"
+            ],
+            "frameData": [
+              17,
+              1,
+              39
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "BA",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 43
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "(B)",
+            "context": [
+              "SC"
+            ],
+            "frameData": [
+              17,
+              1,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "BA",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "K",
+            "frameData": [
+              12,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "context": [
+                  "guard"
+                ],
+                "frameData": [
+                  0,
+                  0,
+                  41
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              },
+              {
+                "input": "*",
+                "context": [
+                  "hit"
+                ],
+                "frameData": [
+                  12,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "WS"
+              },
+              {
+                "input": "*",
+                "context": [
+                  "whiff|crush"
+                ],
+                "frameData": [
+                  9,
+                  1,
+                  19
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K ground",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "endsWith": "DWN"
+              }
+            ]
+          },
+          {
+            "input": "(K)",
+            "frameData": [
+              14,
+              1,
+              32
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "grounded"
+                    ],
+                    "tags": [
+                      "launch"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "endsWith": "BT"
+          },
+          {
+            "input": "A+B",
+            "frameData": [
+              7,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  8,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      8,
+                      1,
+                      39
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P ground",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "tags": [
+                          "GC"
+                        ],
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "tags": [
+                              "knock back"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "*",
+            "frameData": [
+              31,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "STD"
+          }
+        ]
+      },
+      {
+        "abbreviation": "WF",
+        "description": "Wind Fury",
+        "moves": [
+          {
+            "input": "...",
+            "frameData": [
+              20,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "W..."
+          },
+          {
+            "input": "G",
+            "frameData": [
+              10,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "*",
+            "frameData": [
+              0,
+              999,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high mid",
+                "actionType": "hold"
+              }
+            ],
+            "endsWith": "WF",
+            "followUps": [
+              {
+                "input": "*",
+                "context": [
+                  "GI"
+                ],
+                "frameData": [
+                  0,
+                  40,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "hold"
+                  }
+                ],
+                "endsWith": "WF"
+              }
+            ],
+            "comment": "GI on high attacks and mid horizontal (except kicks)"
+          },
+          {
+            "input": "A",
+            "frameData": [
+              25,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "frameData": [
+                  25,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "WF"
+              },
+              {
+                "input": "*",
+                "frameData": [
+                  6,
+                  1,
+                  24
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low P ground",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 38
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "FC"
+              }
+            ]
+          },
+          {
+            "input": "B",
+            "frameData": [
+              19,
+              1,
+              45
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "B",
+                "context": [
+                  "hit|guard"
+                ],
+                "frameData": [
+                  21,
+                  1,
+                  50
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "LH",
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "comment": "LH on hitting an opponent knocked off balance with a guard crush"
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              17,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  18,
+                  1,
+                  33
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock down"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "A+B",
+            "frameData": [
+              50,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "G",
+                "frameData": [
+                  19,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "FC"
+              },
+              {
+                "input": "*",
+                "frameData": [
+                  9,
+                  1,
+                  38
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "UA"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "knock back"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "FC",
+        "description": "Full crouching",
+        "moves": [
+          {
+            "input": "*",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WR"
+          },
+          {
+            "input": "A",
+            "frameData": [
+              11,
+              1,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": true,
+                "tags": [
+                  "special"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 36
+                  }
+                ]
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "B",
+            "frameData": [
+              13,
+              1,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 1001
+                  }
+                ]
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "3B",
+            "frameData": [
+              15,
+              1,
+              35
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "endsWith": "FC",
+            "followUps": [
+              {
+                "input": "B",
+                "frameData": [
+                  20,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      3,
+                      1,
+                      41
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "tags": [
+                              "knock back"
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "...",
+                        "frameData": [
+                          29,
+                          0,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ],
+                        "endsWith": "W..."
+                      }
+                    ]
+                  }
+                ],
+                "comment": "delayable"
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              15,
+              1,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K ground",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 995
+                  }
+                ]
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "A+B",
+            "frameData": [
+              21,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  5,
+                  1,
+                  35
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "tags": [
+                      "GC"
+                    ],
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "WR",
+        "description": "While Rising",
+        "moves": [
+          {
+            "input": "*",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "STD"
+          },
+          {
+            "input": "A",
+            "frameData": [
+              17,
+              1,
+              33
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "B",
+            "frameData": [
+              11,
+              1,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 31
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              13,
+              1,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 33
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "JMP",
+        "description": "During jump",
+        "moves": [
+          {
+            "input": "*",
+            "frameData": [
+              8,
+              0,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "STD"
+          },
+          {
+            "input": "A",
+            "frameData": [
+              4,
+              0,
+              31,
+              1,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 1003
+                  }
+                ]
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "B",
+            "frameData": [
+              4,
+              0,
+              19,
+              1,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "launch",
+                      "knock behind"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 29
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              4,
+              0,
+              18,
+              1,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              },
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "BT",
+        "description": "Facing Away",
+        "moves": [
+          {
+            "input": "A",
+            "frameData": [
+              17,
+              1,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  2,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      3,
+                      1,
+                      39
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": true
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "A",
+                        "frameData": [
+                          20,
+                          1,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": true
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              3,
+                              1,
+                              0
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike",
+                                "isTracking": true
+                              }
+                            ],
+                            "followUps": [
+                              {
+                                "input": "*",
+                                "frameData": [
+                                  2,
+                                  1,
+                                  37
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "strike",
+                                    "isTracking": true
+                                  }
+                                ],
+                                "followUps": [
+                                  {
+                                    "input": "B",
+                                    "frameData": [
+                                      22,
+                                      1,
+                                      0
+                                    ],
+                                    "actionSteps": [
+                                      {
+                                        "actionMask": "mid P ground",
+                                        "actionType": "strike",
+                                        "isTracking": false,
+                                        "results": [
+                                          {
+                                            "condition": [
+                                              "grounded"
+                                            ],
+                                            "tags": [
+                                              "launch"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ],
+                                    "followUps": [
+                                      {
+                                        "input": "*",
+                                        "frameData": [
+                                          3,
+                                          1,
+                                          0
+                                        ],
+                                        "actionSteps": [
+                                          {
+                                            "actionMask": "mid P",
+                                            "actionType": "strike",
+                                            "isTracking": false
+                                          }
+                                        ],
+                                        "followUps": [
+                                          {
+                                            "input": "*",
+                                            "frameData": [
+                                              2,
+                                              1,
+                                              43
+                                            ],
+                                            "actionSteps": [
+                                              {
+                                                "actionMask": "mid P",
+                                                "actionType": "strike",
+                                                "isTracking": false,
+                                                "results": [
+                                                  {
+                                                    "condition": [
+                                                      "neutral"
+                                                    ],
+                                                    "tags": [
+                                                      "stun"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "condition": [
+                                                      "airborne"
+                                                    ],
+                                                    "tags": [
+                                                      "skewer"
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "A+B",
+            "frameData": [
+              23,
+              1,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "tags": [
+                  "BA",
+                  "LH",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 33
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on hitting opponent during an attack"
+          },
+          {
+            "input": "(A+B)",
+            "frameData": [
+              43,
+              1,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "tags": [
+                  "BA",
+                  "LH",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "skewer"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on hitting opponent during an attack"
+          },
+          {
+            "input": "A+B+K",
+            "context": [
+              "SG"
+            ],
+            "frameData": [
+              14,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other",
+                "tags": [
+                  "CE"
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  3,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "tags": [
+                      "GC"
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      30,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P ground",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "tags": [
+                          "GC"
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          23,
+                          1,
+                          37
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "tags": [
+                              "CE",
+                              "GC"
+                            ]
+                          }
+                        ],
+                        "comment": "restores health"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "The part before cut scene"
+          },
+          {
+            "input": "2A",
+            "frameData": [
+              13,
+              1,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low P",
+                "actionType": "strike",
+                "isTracking": true,
+                "tags": [
+                  "special"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 1005
+                  }
+                ]
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "B",
+            "frameData": [
+              19,
+              1,
+              37
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2B",
+            "frameData": [
+              15,
+              1,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P ground",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "K",
+            "frameData": [
+              15,
+              1,
+              35
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high K",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock down"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock down"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "endsWith": "BT"
+          },
+          {
+            "input": "2K",
+            "frameData": [
+              17,
+              1,
+              33
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low K ground",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 999
+                  }
+                ]
+              }
+            ],
+            "endsWith": "FC"
+          },
+          {
+            "input": "B+K",
+            "frameData": [
+              34,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "BT",
+            "followUps": [
+              {
+                "input": "A+B",
+                "frameData": [
+                  22,
+                  1,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      4,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": true
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          3,
+                          1,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": true
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              2,
+                              1,
+                              27
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike",
+                                "isTracking": true,
+                                "tags": [
+                                  "BA"
+                                ],
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "neutral"
+                                    ],
+                                    "tags": [
+                                      "stun"
+                                    ]
+                                  },
+                                  {
+                                    "condition": [
+                                      "guard"
+                                    ],
+                                    "hitBlock": 39
+                                  }
+                                ]
+                              }
+                            ],
+                            "endsWith": "BT"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "(B+K)",
+            "frameData": [
+              34,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  33,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "BT",
+                "followUps": [
+                  {
+                    "input": "A+B",
+                    "frameData": [
+                      22,
+                      1,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "tags": [
+                          "UA"
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          2,
+                          1,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": true
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              3,
+                              1,
+                              0
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid P",
+                                "actionType": "strike",
+                                "isTracking": true
+                              }
+                            ],
+                            "followUps": [
+                              {
+                                "input": "*",
+                                "frameData": [
+                                  2,
+                                  1,
+                                  27
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionMask": "mid P",
+                                    "actionType": "strike",
+                                    "isTracking": true,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "neutral"
+                                        ],
+                                        "tags": [
+                                          "stun"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ],
+                                "endsWith": "BT"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "G",
+            "frameData": [
+              5,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ]
+          },
+          {
+            "input": "A+G",
+            "frameData": [
+              19,
+              1,
+              999
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ]
+          },
+          {
+            "input": "4A+G",
+            "frameData": [
+              19,
+              1,
+              999
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "4A",
+                "context": [
+                  "front throw"
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "throw"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "RE",
+        "description": "Reversal Edge",
+        "moves": [
+          {
+            "input": "A",
+            "frameData": [
+              999,
+              1,
+              39
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "tags": [
+                  "LH"
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "...",
+                "frameData": [
+                  31,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "W..."
+              }
+            ],
+            "comment": "LH on 2nd strike hitting during special phase as attacker"
+          },
+          {
+            "input": "B",
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "BA",
+                  "LH",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "stun"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "endsWith": "BT",
+            "followUps": [
+              {
+                "input": "B",
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "tags": [
+                          "launch behind"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on 2nd strike hitting during special phase as attacker"
+          },
+          {
+            "input": "K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "tags": [
+                  "LH",
+                  "GC"
+                ],
+                "results": [
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "tags": [
+                      "knock back"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "comment": "LH on 2nd strike hitting during special phase as attacker"
+          },
+          {
+            "input": "G",
+            "frameData": [
+              4,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ]
+          },
+          {
+            "input": "6",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "4",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "2",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WF"
+          },
+          {
+            "input": "8",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "WF"
+          }
+        ]
+      },
+      {
+        "abbreviation": "GND",
+        "description": "Grounded",
+        "moves": [
+          {
+            "input": "G",
+            "frameData": [
+              15,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "FC"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,3 +1,26 @@
+@color-same-as-background: white;
+@color-text-default: black;
+
+@color-gray-text: hsl(0, 0, 0.66);
+@color-gray-link: hsl(0, 0, 0.875);
+@color-gray-circle-perimeter: #777;
+
+@color-punch:  #ff7;
+@color-kick:   #f77;
+@color-hold:   #7f7;
+@color-throw:  #77f;
+@color-OHGrab: #70f;
+
+@color-positive: hsl(120, 1, 0.33);
+@color-safe:     hsl(75,  1, 0.375);
+@color-semisafe: hsl(40,  1, 0.375);
+@color-unsafe:   hsl(0,   1, 0.375);
+
+@color-selection: blue;
+@color-selection-secondary: lighten(@color-selection, 33%);
+
+/* ======== */
+
 .unclickable {
     pointer-events: none !important;
     * { pointer-events: none !important; }
@@ -5,9 +28,9 @@
 
 g.canvas { transition: transform 500ms; }
 
-path.link {
+.node_link {
     fill: none;
-    stroke: #ddd;
+    stroke: @color-gray-link;
 }
 
 g.node {
@@ -22,21 +45,20 @@ g.node {
     }
 
     .node_circle {
-        fill: white;
-        stroke: #777;
+        fill: @color-same-as-background;
+        stroke: @color-gray-circle-perimeter;
         stroke-width: 2px;
-    }
 
-    &.punch  .node_circle { fill: #ff7; stroke: white; }
-    &.kick   .node_circle { fill: #f77; stroke: white; }
-    &.hold   .node_circle { fill: #7f7; stroke: white; }
-    &.throw  .node_circle { fill: #77f; stroke: white; }
-    &.OHGrab .node_circle { fill: #70f; stroke: white; }
+        &.placeholder {
+            stroke-width: 1px;
+            stroke-dasharray: 2, 2;
+        }
+    }
 
     .node_mask_height_indicator, .node_knockback_indicator {
         stroke-width: 1px;
         fill: none;
-        stroke: black;
+        stroke: @color-gray-text;
     }
 
     text {
@@ -44,77 +66,87 @@ g.node {
         -moz-user-select: none;
         -ms-user-select: none;
 
-        fill: black;
-        text-shadow: 0 0 2px white;
+        fill: @color-text-default;
+        text-shadow: 0 0 10px @color-same-as-background, 0 0 10px @color-same-as-background, 0 0 10px @color-same-as-background;
 
         dominant-baseline: central;
 
         &.duration {
             font-size: small;
         }
-    }
 
+        &.node_text {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
 
-    &.selection {
-        text {
-            font-weight: bold;
-            fill: blue;
+            font-family: arial;
+
+            tspan.positive { font-weight: bold; fill: @color-positive; }
+            tspan.safe     { font-weight: bold; fill: @color-safe;     }
+            tspan.semisafe { font-weight: bold; fill: @color-semisafe; }
+            tspan.unsafe   { font-weight: bold; fill: @color-unsafe;   }
+
+            tspan.lightgray { fill: lighten(@color-gray-text, 20%); }
+            tspan.gray      { fill: @color-gray-text; }
+        }
+
+        &.node_text_center {
+            text-anchor: middle;
+            dominant-baseline: central;
+            fill: @color-gray-text;
+            text-shadow: none;
+        }
+
+        &.node_text_left {
+            dominant-baseline: middle;
+            text-anchor: end;
+        }
+
+        &.node_text_right {
+            dominant-baseline: middle;
+            text-anchor: start;
+        }
+
+        &.node_text_top {
+            text-anchor: middle;
+            dominant-baseline: text-after-edge;
+        }
+
+        &.node_text_bottom {
+            text-anchor: middle;
+            dominant-baseline: text-before-edge; // hanging;
         }
     }
-}
 
-.node_link {
-    fill: none;
-    stroke: #ddd;
-}
+    &.punch  .node_circle,
+    &.kick   .node_circle,
+    &.hold   .node_circle,
+    &.throw  .node_circle,
+    &.OHGrab .node_circle { stroke: @color-same-as-background; }
 
-// TODO: cleanup
-.node_circle {
-    fill: white;
-    stroke: #777;
-    stroke-width: 2px;
-}
+    &.punch  .node_circle { fill: @color-punch;  }
+    &.kick   .node_circle { fill: @color-kick;   }
+    &.hold   .node_circle { fill: @color-hold;   }
+    &.throw  .node_circle { fill: @color-throw;  }
+    &.OHGrab .node_circle { fill: @color-OHGrab; }
 
-.node_text {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    &.punch  .node_text_center { fill: difference(#fff, contrast(@color-punch,  @color-gray-text, difference(#fff, @color-gray-text))); }
+    &.kick   .node_text_center { fill: difference(#fff, contrast(@color-kick,   @color-gray-text, difference(#fff, @color-gray-text))); }
+    &.hold   .node_text_center { fill: difference(#fff, contrast(@color-hold,   @color-gray-text, difference(#fff, @color-gray-text))); }
+    &.throw  .node_text_center { fill: difference(#fff, contrast(@color-throw,  @color-gray-text, difference(#fff, @color-gray-text))); }
+    &.OHGrab .node_text_center { fill: difference(#fff, contrast(@color-OHGrab, @color-gray-text, difference(#fff, @color-gray-text))); }
 
-    font-family: arial;
-
-    // fill: black;
-
-    tspan.positive { font-weight: bold; fill: hsl(120, 1, 0.33);  }
-    tspan.safe     { font-weight: bold; fill: hsl(75,  1, 0.375); }
-    tspan.semisafe { font-weight: bold; fill: hsl(40,  1, 0.375); }
-    tspan.unsafe   { font-weight: bold; fill: hsl(0,   1, 0.375); }
-}
-
-.text_white_shadow {
-    text-shadow: 0 0 2px white;
-}
-
-.node_text_center {
-    text-anchor: middle;
-    dominant-baseline: central;
-}
-
-.node_text_left  {
-    dominant-baseline: middle;
-    text-anchor: end;
-}
-
-.node_text_right {
-    dominant-baseline: middle;
-    text-anchor: start;
-}
-
-.node_text_top {
-    text-anchor: middle;
-    dominant-baseline: text-after-edge;
-}
-
-.node_text_bottom {
-    text-anchor: middle;
-    dominant-baseline: text-before-edge; // hanging;
+    &.selection {
+        text, text.node_text tspan.gray {
+            font-weight: bold;
+            fill: @color-selection;
+        }
+        .node_circle {
+            stroke: @color-selection-secondary;
+        }
+        .node_mask_height_indicator, .node_knockback_indicator {
+            stroke: @color-selection;
+        }
+    }
 }

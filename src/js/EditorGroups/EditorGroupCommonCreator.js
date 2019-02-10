@@ -8,7 +8,7 @@ define(
 
         return { create: create };
 
-        function create(onAdd, onDelete, moveNodeBy, toggleChildren) {
+        function create(onAdd, onDelete, moveNodeBy, toggleChildren, cutNode, pasteNode) {
 
             var editorGroupCommon = new EditorGroup('common', filter, focus, updateView);
 
@@ -77,6 +77,32 @@ define(
                     listeners: {
                         'click': function(event) {
                             moveNodeBy(1);
+                        }
+                    }
+                }),
+                _.createDomElement({
+                    tag: 'input',
+                    attributes: {
+                        'type': 'button',
+                        'value': 'Cut',
+                        'title': 'Hotkey: Ctrl X / Ctrl Shift X'
+                    },
+                    listeners: {
+                        'click': function(event) {
+                            cutNode();
+                        }
+                    }
+                }),
+                _.createDomElement({
+                    tag: 'input',
+                    attributes: {
+                        'type': 'button',
+                        'value': 'Paste',
+                        'title': 'Hotkey: Ctrl V / Ctrl Shift V'
+                    },
+                    listeners: {
+                        'click': function(event) {
+                            pasteNode();
                         }
                     }
                 })

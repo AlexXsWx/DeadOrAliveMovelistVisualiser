@@ -4,11 +4,11 @@ define(
 
     [
         'Analysis/Filter',
-        'Model/NodeFactory', 'Model/CommonStances',
+        'Model/NodeFactoryMove', 'Model/CommonStances',
         'Localization/Strings', 'Tools/Tools'
     ],
 
-    function Analyser(Filter, NodeFactory, CommonStances, Strings, _) {
+    function Analyser(Filter, NodeFactoryMove, CommonStances, Strings, _) {
 
         var domCache = {
             popupFilterResult: null,
@@ -42,7 +42,7 @@ define(
                         rootNodeData,
                         vulnerabilityStarts,
                         vulnerabilityEnds,
-                        NodeFactory.canMoveHitGround
+                        NodeFactoryMove.canMoveHitGround
                     );
                 }
             }
@@ -109,7 +109,7 @@ define(
                     var endFrame = (parts.length > 1) ? Number(parts[1]) : startFrame;
                     doFindMoves(
                         rootNodeData, startFrame, endFrame,
-                        function(nodeData) { return !NodeFactory.isMoveHoldOnly(nodeData); }
+                        function(nodeData) { return !NodeFactoryMove.isMoveHoldOnly(nodeData); }
                     );
                 }
             }
@@ -117,11 +117,13 @@ define(
 
         function doFindMoves(rootNodeData, frameStart, frameEnd, filterFunc) {
             var warnings = {};
-            var result = Filter.findNodes(
-                rootNodeData,
-                frameStart, frameEnd,
-                filterFunc,
-                warnings
+            var result = Filter.filterResultsToString(
+                Filter.findNodes(
+                    rootNodeData,
+                    frameStart, frameEnd,
+                    filterFunc,
+                    warnings
+                )
             );
 
             showFilterResults(

@@ -3,12 +3,12 @@ define(
     'Model/NodeSerializer',
 
     [
-        'Model/NodeFactory',
+        'Model/NodeFactoryRoot',
         'Localization/Strings',
         'Tools/JsonFileReader', 'Tools/Request', 'Tools/Tools'
     ],
 
-    function NodeSerializer(NodeFactory, Strings, JsonFileReader, Request, _) {
+    function NodeSerializer(NodeFactoryRoot, Strings, JsonFileReader, Request, _) {
 
         // FIXME: no alerts
 
@@ -46,7 +46,7 @@ define(
                         return;
                     }
 
-                    var extendedData = NodeFactory.createRootNode(sparseData, true);
+                    var extendedData = NodeFactoryRoot.createRootNode(sparseData, true);
                     onDataReady(extendedData);
 
                 },
@@ -67,7 +67,7 @@ define(
                         alert(Strings('failedToImportJson'));
                         return;
                     }
-                    var extendedData = NodeFactory.createRootNode(sparseData, true);
+                    var extendedData = NodeFactoryRoot.createRootNode(sparseData, true);
                     onDataReady(extendedData);
                 },
                 function(error) { console.error(error); }

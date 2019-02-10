@@ -124,7 +124,10 @@ define(
         }
 
         function selectFirstChild() {
-            selectFirstChildOfNode(selectionCurrent);
+            if (selectionCurrent) {
+                selectFirstChildOfNode(selectionCurrent);
+            }
+            // TODO: select root otherwise?
         }
 
         function selectParent() {
@@ -143,8 +146,6 @@ define(
         // TODO: select mid child?
         function selectFirstChildOfNode(nodeSvgView) {
 
-            if (!nodeSvgView) return; // FIXME: select root
-
             var visibleNodesSvgViews = refs.getVisibleNodesSvgViews();
 
             var nodeView = nodeSvgView.nodeView;
@@ -156,9 +157,8 @@ define(
                     selectNode(visibleNodesSvgViews[childId]);
                 }
             } else {
-                // FIXME: this doesn't belong here
-                children = NodeView.getHiddenChildren(nodeView);
-                if (children.length > 0) {
+                // FIXME: this doesn't belong here (changed something; does it still?)
+                if (NodeView.hasHiddenChildren(nodeView)) {
                     refs.toggleChildren(nodeSvgView);
                 }
             }

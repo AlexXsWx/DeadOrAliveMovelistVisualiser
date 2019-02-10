@@ -2,9 +2,18 @@ define(
 
     'View/NodeSvgViewTextGetters',
 
-    [ 'View/NodeView', 'Model/NodeFactory', 'Tools/Tools' ],
+    [
+        'View/NodeView',
+        'Model/NodeFactory',
+        'Model/NodeFactoryMove',
+        'Model/NodeFactoryStance',
+        'Model/NodeFactoryActionStepResult',
+        'Tools/Tools'
+    ],
 
-    function NodeSvgViewTextGetters(NodeView, NodeFactory, _) {
+    function NodeSvgViewTextGetters(
+        NodeView, NodeFactory, NodeFactoryMove, NodeFactoryStance, NodeFactoryActionStepResult, _
+    ) {
 
         var CHARS = {
             EXPAND:   '+',
@@ -19,84 +28,159 @@ define(
 
             getTextMain: getTextMain,
 
-            getEmptyText:    getEmptyText,
-            getTextEnding:   getTextEnding,
-            getTextDuration: getTextDuration,
-            getCooldown:     getCooldown,
-            getSafety:       getSafety,
-            getReach:        getReach,
+            getEmptyText:        getEmptyText,
+            getTextEnding:       getTextEnding,
+            getTextActiveFrames: getTextActiveFrames,
+            getCooldown:         getCooldown,
+            getAdvantageOnBlock: getAdvantageOnBlock,
+            getAdvantageOnHit:   getAdvantageOnHit,
+            getReach:            getReach,
             getForcetechAdvantage: getForcetechAdvantage,
             getHardKnockdownAdvantage: getHardKnockdownAdvantage,
-            getFollowupDelay: getFollowupDelay
+            getFollowupDelay: getFollowupDelay,
+            getComment: getComment,
+            getMainTags: getMainTags
 
         };
 
         function getTextToggle(nodeView) {
 
-            if (!_.isNonEmptyArray(NodeView.getAllChildren(nodeView))) return '';
-
             var hasVisible = NodeView.hasVisibleChildren(nodeView);
             var hasHidden  = NodeView.hasHiddenChildren(nodeView);
-            if (hasVisible && !hasHidden)  return CHARS.HIDE;
-            if (hasHidden  && !hasVisible) return CHARS.EXPAND;
 
-            return CHARS.MIXED;
+            if (!hasVisible && !hasHidden) return '';
+
+            var str;
+            if (hasVisible === hasHidden) {
+                str = CHARS.MIXED;
+            } else {
+                str = hasVisible ? CHARS.HIDE : CHARS.EXPAND;
+            }
+
+            return str;
 
         }
 
         function getTextMain(nodeView) {
-            return NodeView.getName(nodeView) || '<unnamed>';
+            var result = document.createDocumentFragment();
+            var name = NodeView.getName(nodeView).rich;
+            if (name.length === 0) {
+                name = [
+                    { text: '<',       className: 'lightgray' },
+                    { text: 'unnamed', className: 'gray'      },
+                    { text: '>',       className: 'lightgray' }
+                ];
+            }
+            name.forEach(function(entry) {
+                if (!entry.text || entry.text === '*') return;
+                var forceDim = entry.text === '...';
+                var className = entry.className || (forceDim ? 'gray' : undefined);
+                result.appendChild(classedTSpan(entry.text, className));
+            });
+            return result;
         }
 
         function getTextEnding(nodeView) {
             var ending = NodeView.getEnding(nodeView);
-            return ending ? '{' + ending + '}' : '';
+            if (!ending) return '';
+            var result = document.createDocumentFragment();
+            result.appendChild(classedTSpan('{', 'lightgray'));
+            result.appendChild(classedTSpan(ending, 'gray'));
+            result.appendChild(classedTSpan('}', 'lightgray'));
+            return result;
         }
 
-        function getTextDuration(nodeView) {
+        function getTextActiveFrames(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
-            var frameData = nodeData.frameData;
-            if (!frameData || frameData.length === 0) return '';
-            var frames = frameData[0] + 1;
-            var activeFrames = [];
-            for (var i = 1; i < frameData.length; i += 2) {
-                var localFrames = frameData[i];
-                for (var j = 0; j < localFrames; ++j) {
-                    activeFrames.push(':' + (frames + j + 1));
-                }
-                frames += localFrames + frameData[i + 1];
+            if (!NodeFactoryMove.hasFrameData(nodeData)) return '';
+
+            var frames = NodeFactoryMove.getMoveDurationData(nodeData).total;
+            var activeFrames = NodeFactoryMove.getActiveFrames(nodeData);
+            if (doesParentStanceApplyExtraFrame()) {
+                activeFrames = activeFrames.map(function(frame) { return frame + 1; });
+                frames += 1;
             }
-            console.assert(!isNaN(frames), 'Frames are NaN');
+            activeFrames = activeFrames.map(function(frame) { return ':' + frame; });
+
             return activeFrames.join('') + ':/' + frames;
+
+            function doesParentStanceApplyExtraFrame() {
+                var parentNodeData = NodeView.findAncestorNodeData(nodeView);
+                return (
+                    parentNodeData &&
+                    NodeFactoryStance.isStanceNode(parentNodeData) &&
+                    parentNodeData.appliesExtraFrame
+                );
+            }
         }
 
         function getCooldown(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
-            if (!nodeData) return '';
-            var frameData = nodeData.frameData;
-            if (!frameData || frameData.length === 0) return '';
-            var cooldown = frameData[frameData.length - 1];
-            var cooldownRange = frameData[frameData.length - 2] - 1;
-            return cooldown + '-' + (cooldown + cooldownRange);
+            if (
+                !nodeData ||
+                // !NodeFactoryMove.isMoveNode(nodeData) ||
+                !NodeFactoryMove.hasFrameData(nodeData) ||
+                !NodeFactoryMove.hasMinimalFrameDataInfo(nodeData)
+            ) {
+                return '';
+            }
+            var cooldown      = NodeFactoryMove.getRecoveryFramesCount(nodeData);
+            var cooldownRange = Math.max(0, NodeFactoryMove.getActiveFramesCount(nodeData) - 1);
+            if (cooldown === 0 && cooldownRange === 0) return '';
+            return cooldown + (cooldownRange === 0 ? '' : '..' + (cooldown + cooldownRange));
         }
 
-        function getSafety(nodeView) {
+        function getAdvantageOnBlock(nodeView) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
-            var advantageRange = NodeFactory.getAdvantageRange(
+            var advantageRange = NodeFactoryMove.getAdvantageRange(
                 nodeData,
-                NodeFactory.doesActionStepResultDescribeGuard,
-                NodeFactory.getActionStepResultHitBlock
+                NodeFactoryActionStepResult.getHitBlock,
+                NodeFactoryActionStepResult.doesDescribeGuard,
+                NodeFactoryMove.isMoveNode(nodeData) ? NodeView.findAncestorNodeData(nodeView) : null
             );
             if (!advantageRange) return '';
 
+            var styleFunction = (
+                NodeFactory.getNoInputFollowup(nodeData)
+                    ? function(text) { return classedTSpan(signedInteger(text), 'gray'); }
+                    : advantageInteger
+            );
+
             // FIXME: don't reference document here
             var result = document.createDocumentFragment();
-            result.appendChild(advantageInteger(advantageRange.min));
+            result.appendChild(styleFunction(advantageRange.min));
             if (advantageRange.min !== advantageRange.max) {
                 result.appendChild(_.createTextNode(CHARS.ELLIPSIS));
-                result.appendChild(advantageInteger(advantageRange.max));
+                result.appendChild(styleFunction(advantageRange.max));
+            }
+
+            return result;
+        }
+
+        function getAdvantageOnHit(nodeView) {
+            var nodeData = NodeView.getNodeData(nodeView);
+            if (!nodeData) return '';
+            var advantageRange = NodeFactoryMove.getAdvantageRange(
+                nodeData,
+                NodeFactoryActionStepResult.getHitBlock,
+                NodeFactoryActionStepResult.doesDescribeNeutralHit
+            );
+            if (!advantageRange) return '';
+
+            var styleFunction = (
+                NodeFactory.getNoInputFollowup(nodeData)
+                    ? function(text) { return classedTSpan(signedInteger(text), 'gray'); }
+                    : advantageInteger
+            );
+
+            // FIXME: don't reference document here
+            var result = document.createDocumentFragment();
+            result.appendChild(styleFunction(advantageRange.min));
+            if (advantageRange.min !== advantageRange.max) {
+                result.appendChild(_.createTextNode(CHARS.ELLIPSIS));
+                result.appendChild(styleFunction(advantageRange.max));
             }
             return result;
         }
@@ -117,7 +201,7 @@ define(
             var nodeData = NodeView.getNodeData(nodeView);
             if (
                 !nodeData ||
-                !NodeFactory.isMoveNode(nodeData)
+                !NodeFactoryMove.isMoveNode(nodeData)
             ) {
                 return '';
             }
@@ -127,24 +211,24 @@ define(
             var types = [
                 {
                     prefix: 'f',
-                    filter: NodeFactory.doesActionStepResultDescribeForcetech
+                    filter: NodeFactoryActionStepResult.doesDescribeForcetech
                 }, {
                     prefix: 'g',
-                    filter: NodeFactory.doesActionStepResultDescribeGroundHit
+                    filter: NodeFactoryActionStepResult.doesDescribeGroundHit
                 }, {
                     prefix: 'gc',
-                    filter: NodeFactory.doesActionStepResultDescribeGroundHitCombo
+                    filter: NodeFactoryActionStepResult.doesDescribeGroundHitCombo
                 }
             ];
 
             // Ground hit duration is expected to be written in to "hit block" field
-            var getGroundHitDuration = NodeFactory.getActionStepResultHitBlock;
+            var getGroundHitDuration = NodeFactoryActionStepResult.getHitBlock;
 
             types.forEach(function(t) {
-                var advantage = NodeFactory.getAdvantageRange(
+                var advantage = NodeFactoryMove.getAdvantageRange(
                     nodeData,
-                    t.filter,
-                    getGroundHitDuration
+                    getGroundHitDuration,
+                    t.filter
                 );
                 if (advantage) {
                     parts.push([
@@ -156,7 +240,7 @@ define(
 
             if (
                 parts.length === 0 &&
-                NodeFactory.canMoveHitGround(nodeData)
+                NodeFactoryMove.canMoveHitGround(nodeData)
             ) {
                 var DEFAULT_GROUND_HIT_DURATION = 50;
                 var DEFAULT_FORCETECH_DURATION = 45;
@@ -166,9 +250,8 @@ define(
                 ].forEach(function(data) {
                     var prefix = data[0];
                     var groundHitDuration = data[1];
-                    var advantage = NodeFactory.getAdvantageRange(
+                    var advantage = NodeFactoryMove.getAdvantageRange(
                         nodeData,
-                        undefined,
                         function() { return groundHitDuration; }
                     );
                     if (advantage) {
@@ -208,19 +291,19 @@ define(
             // FIXME: don't reference document here
             var result = document.createDocumentFragment();
 
-            var advantageRangeHardKnockdownTechroll = NodeFactory.getAdvantageRange(
+            var advantageRangeHardKnockdownTechroll = NodeFactoryMove.getAdvantageRange(
                 nodeData,
-                NodeFactory.doesActionStepResultTagHasHardKnockDown,
-                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_TECHROLL; }
+                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_TECHROLL; },
+                NodeFactoryActionStepResult.doesTagHasHardKnockDown
             );
             if (advantageRangeHardKnockdownTechroll) {
                 result.appendChild(advantageInteger(advantageRangeHardKnockdownTechroll.min));
             }
 
-            var advantageRangeHardKnockdown = NodeFactory.getAdvantageRange(
+            var advantageRangeHardKnockdown = NodeFactoryMove.getAdvantageRange(
                 nodeData,
-                NodeFactory.doesActionStepResultTagHasHardKnockDown,
-                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_MIN; }
+                function(actionStepResult) { return HARD_KNOCKDOWN_DURATION_MIN; },
+                NodeFactoryActionStepResult.doesTagHasHardKnockDown
             );
             if (advantageRangeHardKnockdown) {
                 result.appendChild(_.createTextNode('/'));
@@ -233,7 +316,7 @@ define(
         function getFollowupDelay(nodeView) {
 
             var nodeData = NodeView.getNodeData(nodeView);
-            if (!nodeData || !NodeFactory.isMoveNode(nodeData)) return '';
+            if (!nodeData || !NodeFactoryMove.isMoveNode(nodeData)) return '';
 
             if (nodeData.followUpInterval.length === 0) return '';
 
@@ -244,6 +327,27 @@ define(
 
             return Math.max(0, followUpIntervalEnd - followUpIntervalStart);
 
+        }
+
+        function getComment(nodeView) {
+            var nodeData = NodeView.getNodeData(nodeView);
+            if (!nodeData || !NodeFactoryMove.isMoveNode(nodeData)) return '';
+
+            return nodeData.comment || '';
+        }
+
+        function getMainTags(nodeView) {
+            var nodeData = NodeView.getNodeData(nodeView);
+            if (!nodeData || !NodeFactoryMove.isMoveNode(nodeData)) return '';
+
+            if (nodeData.actionSteps.length === 0) return '';
+
+            return (
+                nodeData.actionSteps.map(
+                    function(actionStep) { return actionStep.tags; }
+                ).join(', ') ||
+                ''
+            );
         }
 
         function getEmptyText(nodeView) {
@@ -262,11 +366,32 @@ define(
                 case value >= -7: className = 'semisafe'; break;
                 default: className = 'unsafe';
             }
+            return classedTSpan(signedInteger(value), className);
+        }
+
+        function classedTSpan(text, optClassName) {
+            var classes = [];
+            if (optClassName) classes.push(optClassName);
             return _.createSvgElement({
                 tag: 'tspan',
-                classes: [ className ],
-                children: [ _.createTextNode(signedInteger(value)) ]
+                classes: classes,
+                children: [ _.createTextNode(text) ]
             });
+        }
+
+        function splitBy(text, rgx) {
+            var result = [];
+            var rest = text;
+            while (true) {
+                var start = rgx.lastIndex;
+                var match = rgx.exec(text);
+                if (!match) break;
+                result.push(text.substring(start, match.index));
+                result.push(text.substr(match.index, match[0].length));
+                rest = text.substr(match.index + match[0].length, match.lastIndex);
+            }
+            result.push(rest);
+            return result;
         }
 
     }
