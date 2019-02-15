@@ -10,7 +10,8 @@ define(
             layoutTree:               layoutTree,
             layoutTreeWithD3:         layoutTreeWithD3,
             getChildrenMergedByDepth: getChildrenMergedByDepth,
-            forAllCurrentChildren:    forAllCurrentChildren
+            forAllCurrentChildren:    forAllCurrentChildren,
+            isDescendant:             isDescendant
         };
 
         // FIXME: get rid of d3...
@@ -135,6 +136,15 @@ define(
             getChildrenMergedByDepth(dataRoot, childrenAccessor).forEach(
                 function(nodesAtIteratedDepth) {
                     nodesAtIteratedDepth.forEach(function(node) { action(node); });
+                }
+            );
+        }
+
+        function isDescendant(parent, child, childrenAccessor) {
+            if (child === parent) return true;
+            return getChildrenMergedByDepth(parent, childrenAccessor).some(
+                function(nodesAtIteratedDepth) {
+                    return nodesAtIteratedDepth.indexOf(child) >= 0;
                 }
             );
         }

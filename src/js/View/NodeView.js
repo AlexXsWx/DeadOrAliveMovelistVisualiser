@@ -4,13 +4,21 @@ define(
 
     [
         'Analysis/Parser', 'Analysis/Operators',
-        'Model/NodeFactory', 'Model/NodeFactoryMove', 'Model/NodeFactoryActionStepResult',
+        'Model/NodeFactory',
+        'Model/NodeFactoryRoot',
+        'Model/NodeFactoryStance',
+        'Model/NodeFactoryMove',
+        'Model/NodeFactoryActionStepResult',
         'Model/CommonStances',
         'Tools/TreeTools', 'Tools/Tools' ],
 
     function NodeView(
         Parser, Operators,
-        NodeFactory, NodeFactoryMove, NodeFactoryActionStepResult,
+        NodeFactory,
+        NodeFactoryRoot,
+        NodeFactoryStance,
+        NodeFactoryMove,
+        NodeFactoryActionStepResult,
         CommonStances,
         TreeTools, _
     ) {
@@ -132,34 +140,40 @@ define(
         }
 
 
-        function createViewFromData(dataRoot, nodeViewGenerator) {
-
-            var wrappedDataRoot = nodeViewGenerator();
-            setChildren(wrappedDataRoot, dataRoot.stances.map(wrapStance));
-            setNodeData(wrappedDataRoot, dataRoot);
+        function createViewFromData(nodeData, nodeViewGenerator) {
 
             // TODO: fill classes and other cached info
 
-            return wrappedDataRoot;
+            if (NodeFactoryRoot.isRootNode(nodeData))     return wrapRoot(nodeData);
+            if (NodeFactoryStance.isStanceNode(nodeData)) return wrapStance(nodeData);
+            if (NodeFactoryMove.isMoveNode(nodeData))     return wrapMove(nodeData);
 
+            throw new Error("Unexpected node data type");
 
-            function wrapStance(stance) {
-                var stanceNode = nodeViewGenerator();
-                setChildren(stanceNode, stance.moves.map(wrapMove));
-                setNodeData(stanceNode, stance);
-                return stanceNode;
+            return;
+
+            function wrapRoot(nodeDataRoot) {
+                var nodeView = nodeViewGenerator();
+                setChildren(nodeView, nodeDataRoot.stances.map(wrapStance));
+                setNodeData(nodeView, nodeDataRoot);
+                return nodeView;
             }
 
+            function wrapStance(nodeDataStance) {
+                var nodeView = nodeViewGenerator();
+                setChildren(nodeView, nodeDataStance.moves.map(wrapMove));
+                setNodeData(nodeView, nodeDataStance);
+                return nodeView;
+            }
 
-            function wrapMove(move) {
-                var moveNode = nodeViewGenerator();
-                if (_.isNonEmptyArray(move.followUps)) {
-                    setChildren(moveNode, move.followUps.map(wrapMove));
+            function wrapMove(nodeDataMove) {
+                var nodeView = nodeViewGenerator();
+                if (_.isNonEmptyArray(nodeDataMove.followUps)) {
+                    setChildren(nodeView, nodeDataMove.followUps.map(wrapMove));
                 }
-                setNodeData(moveNode, move);
-                return moveNode;
+                setNodeData(nodeView, nodeDataMove);
+                return nodeView;
             }
-
         }
 
         function ungroup(stanceNodeView) {

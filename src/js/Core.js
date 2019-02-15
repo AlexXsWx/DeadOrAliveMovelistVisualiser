@@ -884,6 +884,15 @@ define(
                     event.stopPropagation();
                 } else
 
+                // Ctrl + C
+                if (
+                    (event.ctrlKey || event.metaKey) && keyCode === KeyCodes.C &&
+                    (!inputtingText || event.shiftKey)
+                ) {
+                    Editor.copyNode();
+                    event.stopPropagation();
+                } else
+
                 // Ctrl + X
                 if (
                     (event.ctrlKey || event.metaKey) && keyCode === KeyCodes.X &&

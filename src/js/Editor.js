@@ -44,7 +44,10 @@ define(
         };
 
         var selectedSVGNode; // FIXME: use editorGroups[].matchingSelectedViews instead
-        var copyBufferRootNode = null;
+        var buffer = {
+            rootNode: null,
+            cut: false
+        };
 
         /**
          * Dispatches {
@@ -84,6 +87,7 @@ define(
 
             moveNodeBy: moveNodeBy,
             deleteNode: onClickDeleteNode,
+            copyNode: copyNode,
             cutNode: cutNode,
             pasteNode: pasteNode,
 
@@ -196,6 +200,24 @@ define(
         }
 
 
+        function copyNode(optEvent) {
+
+            // FIXME: check if root
+
+            // FIXME: cases when e.g. deleting node from a parent which is a soft-copy/link doesn't
+            // remove the node view from the source parent
+
+            // if (!selectedSVGNode) {
+                return false;
+            // }
+
+            // buffer.rootNode = selectedSVGNode.nodeView;
+            // buffer.cut = false;
+
+            // return true;
+        }
+
+
         function cutNode(optEvent) {
 
             // FIXME: check if root
@@ -205,7 +227,8 @@ define(
                 return false;
             }
 
-            copyBufferRootNode = result.refs.nodeView;
+            buffer.rootNode = result.refs.nodeView;
+            buffer.cut = true;
 
             return true;
         }
@@ -214,7 +237,7 @@ define(
         function pasteNode(optEvent) {
             if (
                 !selectedSVGNode ||
-                !copyBufferRootNode
+                !buffer.rootNode
             ) {
                 return false;
             }
@@ -242,20 +265,28 @@ define(
                 return false;
             }
 
-            var nodeDataToPaste = NodeView.getNodeData(copyBufferRootNode);
+            var nodeDataToPaste = NodeView.getNodeData(buffer.rootNode);
 
-            if (
-                NodeFactoryStance.isStanceNode(nodeDataToPaste) && !NodeFactoryRoot.isRootNode(nodeData) ||
-                NodeFactoryMove.isMoveNode(nodeDataToPaste)   && NodeFactoryRoot.isRootNode(nodeData)
-            ) {
-                return false;
+            if (!NodeFactory.canBeDirectParent(nodeData, nodeDataToPaste)) return false;
+
+            var newNodeView;
+
+            if (buffer.cut) {
+                newNodeView = buffer.rootNode;
+                buffer.rootNode = null;
+                NodeView.addChild(nodeView, newNodeView, true);
+                addNodeDataToParentData(newNodeView);
+            } else {
+                if (TreeTools.isDescendant(nodeDataToPaste, nodeData, NodeFactory.getChildren)) {
+                    console.log("This would go recursively")
+                    return false;
+                }
+
+                buffer.rootNode = null;
+
+                newNodeView = addNewNodeView(nodeView, nodeDataToPaste, true);
+                addNodeDataToParentData(newNodeView);
             }
-
-            var newNodeView = copyBufferRootNode;
-            copyBufferRootNode = null;
-
-            NodeFactory.getChildren(nodeData).push(nodeDataToPaste);
-            NodeView.addChild(nodeView, newNodeView, true);
             onDataChanged.dispatch({ added: [ newNodeView ] });
 
             // FIXME: support undo/redo
@@ -417,21 +448,30 @@ define(
         }
 
 
-        function addPlaceholderNode(parent, isEditorElement) {
-            var placeholderNodeView;
-            var parentIsRoot = !NodeView.getParentNodeView(parent);
-            if (parentIsRoot) {
-                placeholderNodeView = refs.nodeDataGenerator();
-                var nodeData = NodeFactoryStance.createStanceNode();
-                NodeView.setNodeData(placeholderNodeView, nodeData);
-            } else {
-                placeholderNodeView = refs.nodeDataGenerator();
-                var nodeData = NodeFactoryMove.createMoveNode();
-                NodeView.setNodeData(placeholderNodeView, nodeData);
-            }
-            NodeView.setIsPlaceholder(placeholderNodeView, isEditorElement);
-            NodeView.addChild(parent, placeholderNodeView, !isEditorElement);
-            return placeholderNodeView;
+        // WARNING: doesn't link node data to parent's node data
+        function addNewNodeView(parentNodeView, nodeData, optForceVisible) {
+            var nodeView = NodeView.createViewFromData(nodeData, refs.nodeDataGenerator);
+            NodeView.addChild(parentNodeView, nodeView, optForceVisible);
+            return nodeView;
+        }
+
+
+        function addPlaceholderNode(parentNodeView, isEditorElement) {
+            var nodeView = addNewNodeView(
+                parentNodeView,
+                createNodeData(parentNodeView),
+                !isEditorElement
+            );
+            NodeView.setIsPlaceholder(nodeView, isEditorElement);
+            return nodeView;
+        }
+
+
+        function createNodeData(parentNodeView) {
+            var hasParent = Boolean(NodeView.getParentNodeView(parentNodeView));
+            var parentIsRoot = !hasParent;
+            if (parentIsRoot) return NodeFactoryStance.createStanceNode();
+            return NodeFactoryMove.createMoveNode();
         }
 
 

@@ -27,7 +27,8 @@ define(
             getChildren:        getChildren,
             toString:           toString,
             toRichString:       toRichString,
-            getNoInputFollowup: getNoInputFollowup
+            getNoInputFollowup: getNoInputFollowup,
+            canBeDirectParent:  canBeDirectParent
         };
 
         function createEmptyData() {
@@ -187,6 +188,20 @@ define(
                     });
                 }
             }
+        }
+
+        function canBeDirectParent(parentNodeData, childNodeData) {
+            return (
+                (
+                    NodeFactoryStance.isStanceNode(childNodeData) &&
+                    NodeFactoryRoot.isRootNode(parentNodeData)
+                ) || (
+                    NodeFactoryMove.isMoveNode(childNodeData) && (
+                        NodeFactoryStance.isStanceNode(parentNodeData) ||
+                        NodeFactoryMove.isMoveNode(parentNodeData)
+                    )
+                )
+            );
         }
 
     }
