@@ -5,8 +5,6 @@ define(
     [
         'Analysis/Parser', 'Analysis/Operators',
         'Model/NodeFactory',
-        'Model/NodeFactoryRoot',
-        'Model/NodeFactoryStance',
         'Model/NodeFactoryMove',
         'Model/NodeFactoryActionStepResult',
         'Model/CommonStances',
@@ -15,8 +13,6 @@ define(
     function NodeView(
         Parser, Operators,
         NodeFactory,
-        NodeFactoryRoot,
-        NodeFactoryStance,
         NodeFactoryMove,
         NodeFactoryActionStepResult,
         CommonStances,
@@ -34,6 +30,12 @@ define(
         var currentSortFunc = SORTING_ORDER.DEFAULT;
 
         return {
+
+            text: {
+                getName:   getName,
+                getEnding: getEnding,
+                getToggle: getToggle
+            },
 
             SORTING_ORDER: SORTING_ORDER,
             sortsByDefault: sortsByDefault,
@@ -60,11 +62,10 @@ define(
             getAdjacentVisibleNodeDatas: getAdjacentVisibleNodeDatas,
 
             getId: getId,
-            getName: getName,
-            getEnding: getEnding,
             setIsPlaceholder:   setIsPlaceholder,
             isPlaceholder:      isPlaceholder,
             isGroupingNodeView: isGroupingNodeView,
+            isRootNodeView:     isRootNodeView,
 
             addChild: addChild,
             removeChild:       removeChild,
@@ -150,34 +151,15 @@ define(
 
             // TODO: fill classes and other cached info
 
-            if (NodeFactoryRoot.isRootNode(nodeData))     return wrapRoot(nodeData);
-            if (NodeFactoryStance.isStanceNode(nodeData)) return wrapStance(nodeData);
-            if (NodeFactoryMove.isMoveNode(nodeData))     return wrapMove(nodeData);
+            return wrapNodeDataInNewNodeView(nodeData);
 
-            throw new Error("Unexpected node data type");
-
-            return;
-
-            function wrapRoot(nodeDataRoot) {
+            function wrapNodeDataInNewNodeView(nodeData) {
                 var nodeView = nodeViewGenerator();
-                setChildren(nodeView, nodeDataRoot.stances.map(wrapStance));
-                setNodeData(nodeView, nodeDataRoot);
-                return nodeView;
-            }
-
-            function wrapStance(nodeDataStance) {
-                var nodeView = nodeViewGenerator();
-                setChildren(nodeView, nodeDataStance.moves.map(wrapMove));
-                setNodeData(nodeView, nodeDataStance);
-                return nodeView;
-            }
-
-            function wrapMove(nodeDataMove) {
-                var nodeView = nodeViewGenerator();
-                if (_.isNonEmptyArray(nodeDataMove.followUps)) {
-                    setChildren(nodeView, nodeDataMove.followUps.map(wrapMove));
+                var children = NodeFactory.getChildren(nodeData);
+                if (_.isNonEmptyArray(children)) {
+                    setChildren(nodeView, children.map(wrapNodeDataInNewNodeView));
                 }
-                setNodeData(nodeView, nodeDataMove);
+                setNodeData(nodeView, nodeData);
                 return nodeView;
             }
         }
@@ -484,6 +466,30 @@ define(
             return result || null;
         }
 
+        function getToggle(nodeView) {
+
+            var CHARS = {
+                EXPAND:   '+',
+                HIDE:     String.fromCharCode(0x2212), // minus sign
+                MIXED:    String.fromCharCode(0x00D7), // cross sign
+            };
+
+            var hasVisible = hasVisibleChildren(nodeView);
+            var hasHidden  = hasHiddenChildren(nodeView);
+
+            if (!hasVisible && !hasHidden) return '';
+
+            var str;
+            if (hasVisible === hasHidden) {
+                str = CHARS.MIXED;
+            } else {
+                str = hasVisible ? CHARS.HIDE : CHARS.EXPAND;
+            }
+
+            return str;
+
+        }
+
         function setIsPlaceholder(nodeView, isPlaceholder) {
             nodeView.binding.isPlaceholder = isPlaceholder;
         }
@@ -495,6 +501,10 @@ define(
         function isGroupingNodeView(nodeView) {
             // FIXME: how does this work with placeholders?
             return !getNodeData(nodeView);
+        }
+
+        function isRootNodeView(nodeView) {
+            return !getParentNodeView(nodeView);
         }
 
 

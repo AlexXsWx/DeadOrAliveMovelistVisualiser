@@ -16,15 +16,10 @@ define(
     ) {
 
         var CHARS = {
-            EXPAND:   '+',
-            HIDE:     String.fromCharCode(0x2212), // minus sign
-            MIXED:    String.fromCharCode(0x00D7), // cross sign
-            ELLIPSIS: '..', // String.fromCharCode(0x2026); // triple dot
+            ELLIPSIS: '..' // String.fromCharCode(0x2026); // triple dot
         };
 
         return {
-
-            getTextToggle: getTextToggle,
 
             getTextMain: getTextMain,
 
@@ -43,27 +38,9 @@ define(
 
         };
 
-        function getTextToggle(nodeView) {
-
-            var hasVisible = NodeView.hasVisibleChildren(nodeView);
-            var hasHidden  = NodeView.hasHiddenChildren(nodeView);
-
-            if (!hasVisible && !hasHidden) return '';
-
-            var str;
-            if (hasVisible === hasHidden) {
-                str = CHARS.MIXED;
-            } else {
-                str = hasVisible ? CHARS.HIDE : CHARS.EXPAND;
-            }
-
-            return str;
-
-        }
-
         function getTextMain(nodeView) {
             var result = document.createDocumentFragment();
-            var name = NodeView.getName(nodeView).rich;
+            var name = NodeView.text.getName(nodeView).rich;
             if (name.length === 0) {
                 name = [
                     { text: '<',       className: 'lightgray' },
@@ -81,7 +58,7 @@ define(
         }
 
         function getTextEnding(nodeView) {
-            var ending = NodeView.getEnding(nodeView);
+            var ending = NodeView.text.getEnding(nodeView);
             if (!ending) return '';
             var result = document.createDocumentFragment();
             result.appendChild(classedTSpan('{', 'lightgray'));

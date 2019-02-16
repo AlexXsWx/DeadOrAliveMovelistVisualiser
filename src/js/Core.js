@@ -650,7 +650,7 @@ define(
                         );
                         if (!stance) return;
                         showOnlyNodesThatMatch(function(nodeView) {
-                            var ending = NodeView.getEnding(nodeView);
+                            var ending = NodeView.text.getEnding(nodeView);
                             return ending && ending.toLowerCase() === stance.toLowerCase();
                         });
                     },

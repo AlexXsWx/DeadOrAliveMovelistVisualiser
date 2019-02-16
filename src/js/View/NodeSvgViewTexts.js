@@ -116,7 +116,7 @@ define(
 
             function updateByData(nodeView) {
                 _.setTextContent(texts.left,   getActualLeftText(nodeView));
-                _.setTextContent(texts.center, NodeSvgViewTextGetters.getTextToggle(nodeView));
+                _.setTextContent(texts.center, NodeView.text.getToggle(nodeView));
                 _.setTextContent(texts.right,  getActualRightText(nodeView));
                 _.setTextContent(texts.top,    textGetters.top(nodeView));
                 _.setTextContent(texts.bottom, textGetters.bottom(nodeView));
@@ -124,7 +124,7 @@ define(
 
             function getActualLeftText(nodeView) {
                 var flipToRight = flipTextToRight;
-                if (!NodeView.getParentNodeView(nodeView)) {
+                if (NodeView.isRootNodeView(nodeView)) {
                     flipToRight = true;
                 }
                 var leftText = NodeSvgViewTextGetters.getTextMain(nodeView);
@@ -137,7 +137,7 @@ define(
 
             function getActualRightText(nodeView) {
                 var flipToRight = flipTextToRight;
-                if (!NodeView.getParentNodeView(nodeView)) {
+                if (NodeView.isRootNodeView(nodeView)) {
                     flipToRight = true;
                 }
                 var rightText = textGetters.right(nodeView);
