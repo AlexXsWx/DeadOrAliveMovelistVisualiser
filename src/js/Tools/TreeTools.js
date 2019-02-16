@@ -7,11 +7,10 @@ define(
     function TreeTools(d3) {
 
         return {
-            layoutTree:               layoutTree,
             layoutTreeWithD3:         layoutTreeWithD3,
             getChildrenMergedByDepth: getChildrenMergedByDepth,
             forAllCurrentChildren:    forAllCurrentChildren,
-            isDescendant:             isDescendant
+            createVisitedTracker:     createVisitedTracker
         };
 
         // FIXME: get rid of d3...
@@ -53,55 +52,10 @@ define(
 
         }
 
-        function layoutTree(root, getChildren, getChildSize, setCoordinates, setLink) {
+        // Warning: skips repeated entries
+        function getChildrenMergedByDepth(dataRoot, childrenAccessor, optOnce) {
 
-            layoutChildren(root, 0, 0, null, null);
-
-            // var childrenMergedByDepth = getChildrenMergedByDepth(root, getChildren);
-
-            // for (var i = childrenMergedByDepth.length - 2; i >= 0; --i) {
-            //     var childrenAtCurrentDepth = childrenMergedByDepth[i];
-            //     for (var j = 0; j < childrenAtCurrentDepth.length; ++j) {
-            //         var child = childrenAtCurrentDepth[j]
-            //         var children = getChildren(child);
-            //         if (children.length > 1) {
-            //             var pos = child.getPositionTarget();
-            //             setCoordinates(
-            //                 child,
-            //                 pos.x,
-            //                 0.5 * (children[0].getPositionTarget().y + children[children.length - 1].getPositionTarget().y)
-            //             );
-            //         }
-            //     }
-            // }
-
-            function layoutChildren(element, x, y, parentX, parentY) {
-
-                setCoordinates(element, x, y);
-                if (parentX !== null && parentY !== null) {
-                    setLink(element, x, y, parentX, parentY);
-                }
-
-                var childX = x + getChildSize(element).width;
-                var childY = y;
-                var childYOffset = 0;
-
-                var children = getChildren(element);
-                if (children.length > 0) {
-                    for (var i = 0; i < children.length; ++i) {
-                        var child = children[i];
-                        childYOffset += layoutChildren(child, childX, childY + childYOffset, x, y);
-                    }
-                    return childYOffset;
-                } else {
-                    return getChildSize(element).height;
-                }
-
-            }
-
-        }
-
-        function getChildrenMergedByDepth(dataRoot, childrenAccessor) {
+            var visitedTracker = createVisitedTracker();
 
             var result = [];
 
@@ -110,15 +64,17 @@ define(
             do {
 
                 result.push(nodesAtNextDepth);
+                nodesAtNextDepth.forEach(function(node) {
+                    visitedTracker.markVisited(node);
+                });
 
                 var nodesAtIteratedDepth = nodesAtNextDepth;
                 nodesAtNextDepth = [];
 
                 nodesAtIteratedDepth.forEach(function(node) {
-                    Array.prototype.push.apply(
-                        nodesAtNextDepth,
-                        childrenAccessor(node)
-                    );
+                    var children = childrenAccessor(node);
+                    if (optOnce) children = children.filter(visitedTracker.isNotVisited)
+                    Array.prototype.push.apply(nodesAtNextDepth, children);
                 });
 
             } while (nodesAtNextDepth.length > 0);
@@ -132,23 +88,24 @@ define(
          * Still includes children removed by `action`
          * Iteration happens in order of depth, root first, leaves last
          */
-        function forAllCurrentChildren(dataRoot, childrenAccessor, action) {
-            getChildrenMergedByDepth(dataRoot, childrenAccessor).forEach(
+        function forAllCurrentChildren(dataRoot, childrenAccessor, action, optOnce) {
+            getChildrenMergedByDepth(dataRoot, childrenAccessor, optOnce).forEach(
                 function(nodesAtIteratedDepth) {
                     nodesAtIteratedDepth.forEach(function(node) { action(node); });
                 }
             );
         }
 
-        function isDescendant(parent, child, childrenAccessor) {
-            if (child === parent) return true;
-            return getChildrenMergedByDepth(parent, childrenAccessor).some(
-                function(nodesAtIteratedDepth) {
-                    return nodesAtIteratedDepth.indexOf(child) >= 0;
-                }
-            );
+        function createVisitedTracker() {
+            var visited = [];
+            return {
+                isVisited:    isVisited,
+                isNotVisited: isNotVisited,
+                markVisited:  markVisited
+            };
+            function isVisited(object)    { return visited.indexOf(object) >= 0;   }
+            function isNotVisited(object) { return visited.indexOf(object) === -1; }
+            function markVisited(object) { visited.push(object); }
         }
-
     }
-
 );

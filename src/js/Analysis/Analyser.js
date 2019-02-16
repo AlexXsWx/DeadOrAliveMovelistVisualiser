@@ -202,7 +202,8 @@ define(
                             });
                         }
                     });
-                }
+                },
+                true
             );
             console.log(counter.getResult());
 

@@ -59,7 +59,8 @@ define(
             sortFuncAscending:                     sortFuncAscending,
             getCustomProperty:                     mixinStorage.getProperty,
             setCustomProperty:                     mixinStorage.setProperty,
-            getStack:                              getStack
+            getStack:                              getStack,
+            debugTraceCollapsed:                   debugTraceCollapsed
         };
 
         function report(/*arguments*/) {
@@ -624,6 +625,12 @@ define(
         function getStack(optLevelOffset) {
             var offset = 2 + (optLevelOffset || 0);
             return (new Error()).stack.toString().split('\n').slice(offset).join('\n');
+        }
+
+        function debugTraceCollapsed(msg) {
+            console.groupCollapsed(msg);
+            console.trace(msg);
+            console.groupEnd();
         }
 
     }

@@ -69,11 +69,9 @@ define(
 
             addChild: addChild,
             removeChild:       removeChild,
-            removeAllChildren: removeAllChildren,
 
             getAllChildren:     getAllChildren,
             getVisibleChildren: getVisibleChildren,
-            getHiddenChildren:  getHiddenChildren,
 
             hasAnyChildren:     hasAnyChildren,
             hasVisibleChildren: hasVisibleChildren,
@@ -85,13 +83,7 @@ define(
             toggleVisibleChildren: toggleVisibleChildren,
             toggleChildrenWithIds: toggleChildrenWithIds,
 
-            sortVisibleChildren: sortVisibleChildren,
-
-            debugLogNodeView: debugLogNodeView
-
-            // fillScrollRange: fillScrollRange,
-            // resetScrollRange: resetScrollRange
-
+            sortVisibleChildren: sortVisibleChildren
         };
 
 
@@ -108,16 +100,13 @@ define(
                         /** Array<NodeView> */
                         visible: [], // FIXME: unique arrays?
                         /** Array<NodeView> */
-                        hidden:  []
+                        hidden:  [],
+                        lazy: false
                     }
                 },
 
                 // Do not reference directly - use getter for whatever you need
                 appearance: {
-                    // scrollRange: {
-                    //     from: undefined,
-                    //     to:   undefined
-                    // }
                     totalChildren: 0,
                     deepness:      0,
                     branchesAfter: 0
@@ -147,18 +136,60 @@ define(
         }
 
 
-        function createViewFromData(nodeData, nodeViewGenerator) {
+        function createViewFromData(
+            nodeData,
+            nodeViewGenerator,
+            optVisitedNodeDatasTracker,
+            optParentNodeView,
+            optForceVisible
+        ) {
+            var visitedTracker = optVisitedNodeDatasTracker || TreeTools.createVisitedTracker();
 
-            // TODO: fill classes and other cached info
+            var nodeView = wrapNodeDataInNewNodeView(
+                nodeData,
+                optParentNodeView && getNodeData(optParentNodeView)
+            );
 
-            return wrapNodeDataInNewNodeView(nodeData);
+            if (optParentNodeView) {
+                addChild(optParentNodeView, nodeView, optForceVisible);
+            }
 
-            function wrapNodeDataInNewNodeView(nodeData) {
+            return nodeView;
+
+            function wrapNodeDataInNewNodeView(nodeData, optParentNodeData) {
                 var nodeView = nodeViewGenerator();
-                var children = NodeFactory.getChildren(nodeData);
-                if (_.isNonEmptyArray(children)) {
-                    setChildren(nodeView, children.map(wrapNodeDataInNewNodeView));
+                var goLazy = false;
+                if (visitedTracker.isNotVisited(nodeData)) {
+                    visitedTracker.markVisited(nodeData);
+                    var children = NodeFactory.getChildren(nodeData);
+                    if (_.isNonEmptyArray(children)) {
+                        if (children.every(visitedTracker.isVisited)) {
+                            goLazy = true;
+                        } else {
+                            setChildren(
+                                nodeView,
+                                children.map(function(childNodeData) {
+                                    return wrapNodeDataInNewNodeView(childNodeData, nodeData);
+                                })
+                            );
+                        }
+                    }
+                } else {
+                    goLazy = true;
                 }
+
+                if (goLazy) {
+                    console.assert(
+                        NodeFactoryMove.isMoveNode(nodeData),
+                        "Only move nodes are supported to be lazy"
+                    );
+                    console.assert(
+                        optParentNodeData && NodeFactoryMove.isMoveNode(optParentNodeData),
+                        "Only children of move nodes are supported to be lazy"
+                    );
+                    nodeView.treeInfo.children.lazy = true;
+                }
+
                 setNodeData(nodeView, nodeData);
                 return nodeView;
             }
@@ -178,7 +209,7 @@ define(
             function updateAppearance(nodeView) {
                 var parentAppearance = getParentNodeView(nodeView).appearance;
                 parentAppearance.branchesAfter += Math.max(1, nodeView.appearance.branchesAfter);
-                parentAppearance.totalChildren += 1 + getAllChildren(nodeView).length;
+                parentAppearance.totalChildren += 1 + getAllChildrenCount(nodeView);
                 parentAppearance.deepness = Math.max(
                     parentAppearance.deepness,
                     nodeView.appearance.deepness + 1
@@ -196,16 +227,14 @@ define(
                 visible: [],
                 hidden: []
             };
-            getAllChildren(stanceNodeView).forEach(function(nodeView) {
-                if (isGroupingNodeView(nodeView)) {
-                    if (getIsHidden(nodeView)) {
-                        childrenToMove.hidden = childrenToMove.hidden.concat(getAllChildren(nodeView));
-                    } else {
-                        childrenToMove.visible = childrenToMove.visible.concat(getVisibleChildren(nodeView));
-                        childrenToMove.hidden  = childrenToMove.hidden.concat(getHiddenChildren(nodeView));
-                    }
-                    removeChild(stanceNodeView, nodeView);
+            getGroupingChildren(stanceNodeView).forEach(function(nodeView) {
+                if (getIsHidden(nodeView)) {
+                    childrenToMove.hidden = childrenToMove.hidden.concat(getAllChildren(nodeView));
+                } else {
+                    childrenToMove.visible = childrenToMove.visible.concat(getVisibleChildren(nodeView));
+                    childrenToMove.hidden  = childrenToMove.hidden.concat(getHiddenChildren(nodeView));
                 }
+                removeChild(stanceNodeView, nodeView);
             });
 
             var children = stanceNodeView.treeInfo.children;
@@ -266,11 +295,8 @@ define(
                     continue;
                 }
 
-                if (visible) {
-                    getEntry(getNodeData(childNodeView)).nodeViews.visible.push(childNodeView);
-                } else {
-                    getEntry(getNodeData(childNodeView)).nodeViews.hidden.push(childNodeView);
-                }
+                var nodeViews = getEntry(getNodeData(childNodeView)).nodeViews;
+                (visible ? nodeViews.visible : nodeViews.hidden).push(childNodeView);
                 removeChild(stanceNodeView, childNodeView);
 
                 function getEntry(nodeData) {
@@ -300,7 +326,12 @@ define(
 
             var stanceGotNewVisibleNodes = false;
             obj2.forEach(function(entry, index) {
-                if (entry.nodeViews.visible.length + entry.nodeViews.hidden.length < 1) return;
+                if (
+                    entry.nodeViews.visible.length === 0 &&
+                    entry.nodeViews.hidden.length === 0
+                ) {
+                    return;
+                }
 
                 var groupingChild = nodeViewGenerator();
                 groupingChild.binding.group.name = entry.name;
@@ -322,7 +353,6 @@ define(
             if (stanceGotNewVisibleNodes) {
                 sortVisibleChildren(stanceNodeView);
             }
-
         }
 
 
@@ -373,7 +403,7 @@ define(
                     hideAllChildren(stanceView);
                 } else
                 if (nodeData.abbreviation === CommonStances.Standing) {
-                    var groupViews = getAllChildren(stanceView);
+                    var groupViews = getGroupingChildren(stanceView);
                     for (var j = 0; j < groupViews.length; ++j) {
                         var groupView = groupViews[j];
                         if (groupView.binding.group.hideByDefault) {
@@ -514,6 +544,7 @@ define(
             function setChildren(nodeView, newChildren, optNewHiddenChildren) {
                 nodeView.treeInfo.children.visible = newChildren;
                 nodeView.treeInfo.children.hidden = optNewHiddenChildren || [];
+                nodeView.treeInfo.children.lazy = false;
                 getAllChildren(nodeView).forEach(function(child) {
                     setParentNodeView(child, nodeView);
                 });
@@ -556,36 +587,70 @@ define(
                 });
             }
 
-            /** Does not update `parent` of its old children */
-            function removeAllChildren(nodeView) {
-                nodeView.treeInfo.children.visible = [];
-                nodeView.treeInfo.children.hidden  = [];
-            }
 
-
+            // WARNING: doesn't include "lazy" children
             function getAllChildren(nodeView) {
                 return getVisibleChildren(nodeView).concat(getHiddenChildren(nodeView));
+            }
+
+            function getGroupingChildren(stanceNodeView) {
+                return getAllChildren(stanceNodeView).filter(isGroupingNodeView);
+            }
+
+            function getAllChildrenCount(nodeView) {
+                return (
+                    getVisibleChildren(nodeView).length +
+                    getHiddenChildren(nodeView).length +
+                    getLazyChildrenCount(nodeView)
+                );
+            }
+
+            function getLazyChildren(nodeView) {
+                if (!nodeView.treeInfo.children.lazy) return [];
+                var childrenNodeDatas = NodeFactory.getChildren(getNodeData(nodeView));
+                var visibleChildren = getVisibleChildren(nodeView);
+                var hiddenChildren  = getHiddenChildren(nodeView);
+                return childrenNodeDatas.filter(function(nodeData) {
+                    return (
+                        visibleChildren.every(isNotThisNodeData) &&
+                        hiddenChildren.every(isNotThisNodeData)
+                    );
+                    function isNotThisNodeData(childNodeView) {
+                        return getNodeData(childNodeView) !== nodeData;
+                    }
+                });
+            }
+
+            function getLazyChildrenCount(nodeView) {
+                return getLazyChildren(nodeView).length;
             }
 
             function getVisibleChildren(nodeView) {
                 return nodeView.treeInfo.children.visible;
             }
 
+            // WARNING: doesn't include "lazy" children
             function getHiddenChildren(nodeView) {
                 return nodeView.treeInfo.children.hidden;
             }
 
 
             function hasAnyChildren(nodeView) {
-                return hasVisibleChildren(nodeView) || hasHiddenChildren(nodeView);
+                return (
+                    hasVisibleChildren(nodeView) ||
+                    hasHiddenChildren(nodeView)
+                );
             }
 
             function hasVisibleChildren(nodeView) {
                 return getVisibleChildren(nodeView).length > 0;
             }
 
-            function hasHiddenChildren(nodeView) {
-                return getHiddenChildren(nodeView).length > 0;
+            function hasHiddenChildren(nodeView, optExcludeLazy) {
+                return (
+                    getHiddenChildren(nodeView).length > 0 ||
+                    !optExcludeLazy && getLazyChildrenCount(nodeView) > 0
+                );
             }
 
 
@@ -781,7 +846,7 @@ define(
 
             //
 
-            function showAllChildren(nodeView, optReturnIDs) {
+            function showAllChildren(nodeView, optReturnIDs, optDontSort) {
                 var children = nodeView.treeInfo.children;
                 var result;
                 if (optReturnIDs) {
@@ -789,7 +854,9 @@ define(
                 }
                 children.visible = children.visible.concat(children.hidden);
                 children.hidden = [];
-                sortVisibleChildren(nodeView);
+                if (!optDontSort) {
+                    sortVisibleChildren(nodeView);
+                }
                 return result;
             }
 
@@ -804,11 +871,31 @@ define(
                 return result;
             }
 
-            function toggleVisibleChildren(nodeView, optReturnIDs) {
-                if (hasHiddenChildren(nodeView)) {
-                    return showAllChildren(nodeView, optReturnIDs);
+            function createAndShowLazyAndHiddenChildren(nodeView, nodeViewGenerator) {
+
+                var ids = showAllChildren(nodeView, true, true);
+
+                var visitedTracker = TreeTools.createVisitedTracker();
+                var newNodeViews = getLazyChildren(nodeView).map(function(childNodeData) {
+                    return createViewFromData(
+                        childNodeData, nodeViewGenerator, visitedTracker, nodeView, true
+                    );
+                });
+                ids = ids.concat(newNodeViews.map(getId));
+
+                sortVisibleChildren(nodeView);
+
+                return ids;
+            }
+
+            function toggleVisibleChildren(nodeView, nodeViewGenerator) {
+                if (getLazyChildrenCount(nodeView) > 0) {
+                    return createAndShowLazyAndHiddenChildren(nodeView, nodeViewGenerator);
+                } else
+                if (hasHiddenChildren(nodeView, true)) {
+                    return showAllChildren(nodeView, true);
                 } else {
-                    return hideAllChildren(nodeView, optReturnIDs);
+                    return hideAllChildren(nodeView, true);
                 }
             }
 
@@ -831,90 +918,5 @@ define(
             }
 
         // ==================
-
-
-        // ==== Logging ====
-
-            function debugLogNodeView(nodeView) {
-
-                console.group(nodeView);
-
-                var output = [];
-
-                var nodesAtIteratedDepth = [nodeView];
-
-                do {
-
-                    var nodesAtNextDepth = [];
-
-                    nodesAtIteratedDepth.forEach(function(nodeView) {
-
-                        var parentNodeView = getParentNodeView(nodeView);
-                        var visibleChildren = getVisibleChildren(nodeView);
-                        var hiddenChildren  = getHiddenChildren(nodeView);
-
-                        output.push({
-                            parentNodeView: parentNodeView && getReadableId(parentNodeView),
-                            id:    getId(nodeView),
-                            input: getName(nodeView).raw,
-                            visibleChildren: childReadableIds(visibleChildren),
-                            hiddenChildren:  childReadableIds(hiddenChildren),
-                            x: nodeView.x,
-                            y: nodeView.y,
-                            depth: nodeView.depth
-                        });
-
-                        Array.prototype.push.apply(
-                            nodesAtNextDepth,
-                            getAllChildren(nodeView)
-                        );
-
-                    });
-
-                    nodesAtIteratedDepth = nodesAtNextDepth;
-
-                } while (nodesAtIteratedDepth.length > 0);
-
-                console.table(output);
-                console.groupEnd();
-
-            }
-
-            function getReadableId(nodeView) {
-                return getId(nodeView) + '#' + getName(nodeView).raw;
-            }
-
-            function childReadableIds(children) {
-                return children.map(getReadableId).join(',');
-            }
-
-        // =================
-
-
-        // function resetScrollRange(nodeView) {
-        //     nodeView.appearance.scrollRange.from = nodeView.y;
-        //     nodeView.appearance.scrollRange.to   = nodeView.y;
-        // }
-
-        // function fillScrollRange(data) {
-
-        //     var childrenByDepth = TreeTools.getChildrenMergedByDepth(
-        //         data,
-        //         getVisibleChildren
-        //     );
-
-        //     for (var i = childrenByDepth.length - 1; i > 0; --i) {
-        //         var children = childrenByDepth[i];
-        //         children.forEach(function(child) {
-        //             var parentSr = getParentNodeView(child).appearance.scrollRange;
-        //             var childSr = child.appearance.scrollRange;
-        //             parentSr.from = Math.min(parentSr.from, child.y); // childSr.from);
-        //             parentSr.to   = Math.max(parentSr.to,   child.y); // childSr.to);
-        //         });
-        //     }
-
-        // }
-
     }
-
 );

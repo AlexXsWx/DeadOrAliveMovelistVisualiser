@@ -73,14 +73,11 @@ define(
 
         function doesNodeCauseHardKnockDown(nodeData) {
             if (nodeData && NodeFactoryMove.isMoveNode(nodeData)) {
-                for (var i = 0; i < nodeData.actionSteps.length; ++i) {
-                    var actionStep = nodeData.actionSteps[i];
-                    for (var j = 0; j < actionStep.results.length; ++j) {
-                        if (NodeFactoryActionStepResult.doesTagHasHardKnockDown(actionStep.results[j])) {
-                            return true;
-                        }
-                    }
-                }
+                return nodeData.actionSteps.some(function(actionStep) {
+                    return actionStep.results.some(
+                        NodeFactoryActionStepResult.doesTagHasHardKnockDown
+                    );
+                });
             }
             return false;
         }
@@ -205,6 +202,9 @@ define(
             optCurrentPath,
             optFramesSpent
         ) {
+            var currentStance      = optCurrentStance || CommonStances.DEFAULT;
+            var currentFramesSpent = optFramesSpent   || 0;
+
             var results = [];
 
             var warnFunc = createWarner(optOutputWarnings);
@@ -233,12 +233,10 @@ define(
                 )
             );
             if (optCurrentPath) {
-                traverseRecursive(optCurrentPath, false, optFramesSpent || 0, optCurrentStance || CommonStances.DEFAULT);
-                traverseRecursive(optCurrentPath, true,  optFramesSpent || 0, optCurrentStance || CommonStances.DEFAULT);
+                traverseRecursive(optCurrentPath, false, currentFramesSpent, currentStance);
+                traverseRecursive(optCurrentPath, true,  currentFramesSpent, currentStance);
             } else {
-                traverseRecursive(
-                    [], true, optFramesSpent || 0, optCurrentStance || CommonStances.DEFAULT
-                );
+                traverseRecursive([], true, currentFramesSpent, currentStance);
             }
 
             // TODO: check if all stances are accessible

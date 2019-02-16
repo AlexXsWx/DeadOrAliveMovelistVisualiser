@@ -365,9 +365,7 @@ define(
 
             function update() {
 
-                console.groupCollapsed('update');
-                console.trace('update');
-                console.groupEnd();
+                _.debugTraceCollapsed('update');
 
                 limitsFinder.invalidate();
 
@@ -435,8 +433,6 @@ define(
                     }
                 });
 
-                // NodeView.fillScrollRange(rootNodeView);
-
                 canvas.normalize(
                     0, -limitsFinder.y.min,
                     limitsFinder.x.max - limitsFinder.x.min,
@@ -496,7 +492,6 @@ define(
                 nodeSvgView.animate(x, y, parentX, parentY, 1);
 
                 limitsFinder.expandToContain(x, y);
-                // NodeView.resetScrollRange(nodeView);
 
             }
 
@@ -516,24 +511,26 @@ define(
             }
 
             function toggleChildren(nodeSvgView) {
-                if (NodeView.hasAnyChildren(nodeSvgView.nodeView)) {
-                    Executor.rememberAndExecute(
-                        'toggle children',
-                        function act() {
-                            var ids = NodeView.toggleVisibleChildren(nodeSvgView.nodeView, true);
-                            if (ids.length > 0) {
-                                update();
-                            }
-                            return ids;
-                        },
-                        function unact(ids) {
-                            var acted = NodeView.toggleChildrenWithIds(nodeSvgView.nodeView, ids);
-                            if (acted) {
-                                update();
-                            }
+                if (!NodeView.hasAnyChildren(nodeSvgView.nodeView)) return;
+                Executor.rememberAndExecute(
+                    'toggle children',
+                    function act() {
+                        var ids = NodeView.toggleVisibleChildren(
+                            nodeSvgView.nodeView,
+                            nodeViewGenerator
+                        );
+                        if (ids.length > 0) {
+                            update();
                         }
-                    );
-                }
+                        return ids;
+                    },
+                    function unact(ids) {
+                        var acted = NodeView.toggleChildrenWithIds(nodeSvgView.nodeView, ids);
+                        if (acted) {
+                            update();
+                        }
+                    }
+                );
             }
 
         // ================

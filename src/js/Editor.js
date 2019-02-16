@@ -277,15 +277,14 @@ define(
                 NodeView.addChild(nodeView, newNodeView, true);
                 addNodeDataToParentData(newNodeView);
             } else {
-                if (TreeTools.isDescendant(nodeDataToPaste, nodeData, NodeFactory.getChildren)) {
-                    console.log("This would go recursively")
-                    return false;
-                }
+                var children = NodeFactory.getChildren(nodeData);
+                if (_.contains(children, nodeDataToPaste)) return false;
 
                 buffer.rootNode = null;
 
+                NodeFactory.getChildren(nodeData).push(nodeDataToPaste);
                 newNodeView = addNewNodeView(nodeView, nodeDataToPaste, true);
-                addNodeDataToParentData(newNodeView);
+                updateNodeDataPosition(newNodeView);
             }
             onDataChanged.dispatch({ added: [ newNodeView ] });
 
@@ -348,25 +347,30 @@ define(
             onDataChanged.dispatch({ moved: [ nodeView ] });
 
             if (!NodeView.isGroupingNodeView(nodeView)) {
-                var adjacentVisibleNodeDatas = NodeView.getAdjacentVisibleNodeDatas(nodeView);
-
-                var nodeData = NodeView.getNodeData(nodeView);
-                var parentData = NodeView.findAncestorNodeData(nodeView);
-                var children = NodeFactory.getChildren(parentData);
-                console.assert(Boolean(children), 'Couldn\'t get children array');
-                if (children.indexOf(nodeData) >= 0) {
-                    _.removeElement(children, nodeData);
-                    _.addBetween(
-                        children,
-                        nodeData,
-                        adjacentVisibleNodeDatas.previous,
-                        adjacentVisibleNodeDatas.next
-                    );
-                }
+                updateNodeDataPosition(nodeView);
             }
 
             return true;
 
+        }
+
+
+        function updateNodeDataPosition(nodeView) {
+            var adjacentVisibleNodeDatas = NodeView.getAdjacentVisibleNodeDatas(nodeView);
+
+            var nodeData = NodeView.getNodeData(nodeView);
+            var parentData = NodeView.findAncestorNodeData(nodeView);
+            var children = NodeFactory.getChildren(parentData);
+            console.assert(Boolean(children), 'Couldn\'t get children array');
+            if (children.indexOf(nodeData) >= 0) {
+                _.removeElement(children, nodeData);
+                _.addBetween(
+                    children,
+                    nodeData,
+                    adjacentVisibleNodeDatas.previous,
+                    adjacentVisibleNodeDatas.next
+                );
+            }
         }
 
 
@@ -450,9 +454,9 @@ define(
 
         // WARNING: doesn't link node data to parent's node data
         function addNewNodeView(parentNodeView, nodeData, optForceVisible) {
-            var nodeView = NodeView.createViewFromData(nodeData, refs.nodeDataGenerator);
-            NodeView.addChild(parentNodeView, nodeView, optForceVisible);
-            return nodeView;
+            return NodeView.createViewFromData(
+                nodeData, refs.nodeDataGenerator, undefined, parentNodeView, optForceVisible
+            );
         }
 
 
