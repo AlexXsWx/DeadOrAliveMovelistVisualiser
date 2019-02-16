@@ -279,7 +279,7 @@ define(
             function contextToText(nodeData) { return nodeData.context || ''; }
             function changeContext(newValueRaw, nodeData) {
 
-                var newValue = newValueRaw.split(/\s*,\s*/);
+                var newValue = newValueRaw ? newValueRaw.split(/\s*,\s*/) : [];
                 var oldValue = nodeData.context || [];
 
                 nodeData.context = newValue;
