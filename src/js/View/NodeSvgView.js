@@ -244,9 +244,8 @@ define(
 
             // TODO: optimize
             function updateLinkThickness() {
-                var branchesAfter = nodeView.appearance.branchesAfter;
                 // Mimic wires passing through the node; using circle area formula
-                var width = 2 * Math.sqrt((branchesAfter + 1) / Math.PI);
+                var width = 2 * Math.sqrt((NodeView.getBranchesAfter(nodeView) + 1) / Math.PI);
                 var minWidth = 2 * Math.sqrt(1 / Math.PI);
                 var result = width / minWidth;
                 var scale = 1.5;

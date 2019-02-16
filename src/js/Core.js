@@ -377,7 +377,7 @@ define(
                 TreeTools.forAllCurrentChildren(
                     rootNodeView,
                     NodeView.getAllChildren,
-                    resetNodeViewAppearance
+                    NodeView.resetAppearance
                 );
 
                 TreeTools.forAllCurrentChildren(
@@ -396,7 +396,7 @@ define(
                     rootNodeView, NodeView.getAllChildren
                 );
                 for (var i = childrenByDepth.length - 1; i > 0; --i) {
-                    childrenByDepth[i].forEach(reversedDepthUpdateNodeViewIteration);
+                    childrenByDepth[i].forEach(NodeView.updateAppearance);
                 }
 
                 TreeTools.layoutTreeWithD3(
@@ -450,23 +450,6 @@ define(
 
             }
 
-
-            function resetNodeViewAppearance(nodeView) {
-                var appearance = nodeView.appearance
-                appearance.totalChildren = 0;
-                appearance.deepness      = 0;
-                appearance.branchesAfter = 0;
-            }
-
-            function reversedDepthUpdateNodeViewIteration(nodeView, index, array) {
-                var parentAppearance = NodeView.getParentNodeView(nodeView).appearance;
-                parentAppearance.branchesAfter += Math.max(1, nodeView.appearance.branchesAfter);
-                parentAppearance.totalChildren += 1 + NodeView.getAllChildren(nodeView).length;
-                parentAppearance.deepness = Math.max(
-                    parentAppearance.deepness,
-                    nodeView.appearance.deepness + 1
-                );
-            }
 
             function getNodeViewSize(nodeView) {
                 var nodeHeight = NodeSvgView.getNodeHeight();

@@ -44,6 +44,10 @@ define(
 
             createViewFromData: createViewFromData,
 
+            resetAppearance:  resetAppearance,
+            updateAppearance: updateAppearance,
+            getBranchesAfter: getBranchesAfter,
+
             ungroup: ungroup,
             groupByType: groupByType,
             groupByTypeSC6: groupByTypeSC6,
@@ -107,6 +111,7 @@ define(
                     }
                 },
 
+                // Do not reference directly - use getter for whatever you need
                 appearance: {
                     // scrollRange: {
                     //     from: undefined,
@@ -117,6 +122,7 @@ define(
                     branchesAfter: 0
                 },
 
+                // Do not reference directly - use getter for whatever you need
                 binding: {
                     isPlaceholder: undefined, // bool
                     targetNodeData: null,
@@ -175,6 +181,33 @@ define(
                 return nodeView;
             }
         }
+
+
+        // ==== Appearance ====
+
+            function resetAppearance(nodeView) {
+                var appearance = nodeView.appearance;
+                appearance.totalChildren = 0;
+                appearance.deepness      = 0;
+                appearance.branchesAfter = 0;
+            }
+
+
+            function updateAppearance(nodeView) {
+                var parentAppearance = getParentNodeView(nodeView).appearance;
+                parentAppearance.branchesAfter += Math.max(1, nodeView.appearance.branchesAfter);
+                parentAppearance.totalChildren += 1 + getAllChildren(nodeView).length;
+                parentAppearance.deepness = Math.max(
+                    parentAppearance.deepness,
+                    nodeView.appearance.deepness + 1
+                );
+            }
+
+            function getBranchesAfter(nodeView) {
+                return nodeView.appearance.branchesAfter;
+            }
+
+        // ====================
 
         function ungroup(stanceNodeView) {
             var childrenToMove = {
