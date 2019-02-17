@@ -39,7 +39,7 @@ define(
                     createSidestepStance(),
                     createGroundedStance()
                 ]
-            }, true);
+            });
 
             function createStandingStance() {
                 return NodeFactoryStance.createStanceNode({
@@ -60,7 +60,7 @@ define(
                         NodeFactoryMove.createMoveNode({
                             input: 'P',
                             actionSteps: [ createSidestepPunchMoveActionStep() ]
-                        }, true),
+                        }),
                         NodeFactoryMove.createMoveNode({
                             input: 'K',
                             actionSteps: [
@@ -69,14 +69,14 @@ define(
                                     actionType: ActionType.Strike
                                 })
                             ]
-                        }, true),
+                        }),
                         NodeFactoryMove.createMoveNode({
                             input: '*',
                             frameData: [ 0, 0, 25 ],
                             endsWith: CommonStances.Standing
-                        }, true)
+                        })
                     ]
-                }, true);
+                });
 
                 function createSidestepPunchMoveActionStep() {
                     return NodeFactoryActionStep.createMoveActionStep({
@@ -105,7 +105,7 @@ define(
                                     isTracking: true
                                 })
                             ]
-                        }, true),
+                        }),
                         NodeFactoryMove.createMoveNode({
                             input: '2K',
                             actionSteps: [
@@ -115,9 +115,9 @@ define(
                                     isTracking: true
                                 })
                             ]
-                        }, true)
+                        })
                     ]
-                }, true);
+                });
             }
         }
 

@@ -11,8 +11,8 @@ define(
         function create(parameters) {
 
             var name            = parameters.name;
-            var isChecked       = !!parameters.isChecked;
-            var isIndeterminate = !!parameters.isIndeterminate;
+            var isChecked       = Boolean(parameters.isChecked);
+            var isIndeterminate = Boolean(parameters.isIndeterminate);
             var description     = parameters.description;
             var onChange        = parameters.onChange;
             var onFocus         = parameters.onFocus;

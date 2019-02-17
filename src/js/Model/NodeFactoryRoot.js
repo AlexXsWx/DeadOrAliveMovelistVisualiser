@@ -8,33 +8,43 @@ define(
 
         return {
             createRootNode: createRootNode,
-            isRootNode:     isRootNode
+            isRootNode:     isRootNode,
+            serialize:      serialize
         };
 
-        function createRootNode(optSource, optValidateChildren) {
-
-            var result = _.defaults(optSource, {
+        function getDefaultData() {
+            return {
                 character: undefined,
                 version:   undefined,
-                abbreviations: {},
                 stances: []
-                // TODO: comment
-            });
+            };
+        }
 
-            if (optValidateChildren) {
-                for (var i = 0; i < result.stances.length; ++i) {
-                    result.stances[i] = NodeFactoryStance.createStanceNode(result.stances[i], true);
-                }
+        function createRootNode(optSource, optShared, optSharedStorage) {
+            var result = _.defaults(optSource, getDefaultData());
+            for (var i = 0; i < result.stances.length; ++i) {
+                result.stances[i] = NodeFactoryStance.createStanceNode(result.stances[i]);
             }
-
             return result;
-
         }
 
         function isRootNode(nodeData) {
             return nodeData.hasOwnProperty('character');
         }
 
+        function serialize(nodeData, shared) {
+            return _.withoutFalsyProperties(
+                nodeData,
+                {
+                    stances: function(stanceNodeDatas) {
+                        return _.withoutFalsyElements(
+                            stanceNodeDatas.map(function(stanceNodeData) {
+                                return NodeFactoryStance.serialize(stanceNodeData, shared);
+                            })
+                        );
+                    }
+                }
+            );
+        }
     }
-
 );

@@ -11,6 +11,7 @@ define(
         return {
 
             createMoveActionStepResult: createMoveActionStepResult,
+            serialize:                  serialize,
 
             removeGuardCondition: removeGuardCondition,
 
@@ -33,8 +34,8 @@ define(
 
         };
 
-        function createMoveActionStepResult(optSource) {
-            return _.defaults(optSource, {
+        function getDefaultData() {
+            return {
 
                 // stance: any / open / closed
                 // facing: forward / back turned
@@ -85,8 +86,18 @@ define(
                 //   Making Critical Finish with move that causes sit-down results in
                 //   sit-down bounce that is vulnerable to Close Hit
                 tags: []
-            });
+            };
         }
+
+        function createMoveActionStepResult(optSource) {
+            return _.defaults(optSource, getDefaultData());
+        }
+
+        function serialize(actionStepResult) {
+            return _.withoutFalsyProperties(actionStepResult);
+        }
+
+        //
 
         function removeGuardCondition(actionStepResult) {
             var changed = false;

@@ -15,8 +15,9 @@ define(
 
         return {
 
-            createMoveNode: createMoveNode,
             isMoveNode:     isMoveNode,
+            createMoveNode: createMoveNode,
+            serialize:      serialize,
 
             isMoveHorizontal:    actionStepsChecker(NodeFactoryActionStep.isActionStepHorizontal),
             isMoveVertical:      actionStepsChecker(NodeFactoryActionStep.isActionStepVertical),
@@ -47,10 +48,12 @@ define(
 
         };
 
-        function createMoveNode(optSource, optValidateChildren) {
+        function isMoveNode(nodeData) {
+            return nodeData.hasOwnProperty('input');
+        }
 
-            var result = _.defaults(optSource, {
-
+        function getDefaultData() {
+            return {
                 input: undefined,
 
                 /** gen fu - having hat; zack - having teletubie outfit; etc */
@@ -70,28 +73,40 @@ define(
 
                 /** string */
                 comment: undefined
+            };
+        }
 
-            });
-
+        function createMoveNode(optSource) {
+            var result = _.defaults(optSource, getDefaultData());
             for (var i = 0; i < result.actionSteps.length; ++i) {
                 result.actionSteps[i] = NodeFactoryActionStep.createMoveActionStep(
                     result.actionSteps[i]
                 );
             }
-
-            if (optValidateChildren) {
-                for (var i = 0; i < result.followUps.length; ++i) {
-                    result.followUps[i] = createMoveNode(result.followUps[i], true);
-                }
+            for (var i = 0; i < result.followUps.length; ++i) {
+                result.followUps[i] = createMoveNode(result.followUps[i]);
             }
-
             return result;
-
         }
 
-        function isMoveNode(nodeData) {
-            return nodeData.hasOwnProperty('input');
+        function serialize(nodeData) {
+            return _.withoutFalsyProperties(
+                nodeData,
+                {
+                    actionSteps: function(actionSteps) {
+                        return _.withoutFalsyElements(
+                            actionSteps.map(NodeFactoryActionStep.serialize),
+                            true
+                        );
+                    },
+                    followUps: function(moveNodeDatas) {
+                        return _.withoutFalsyElements(moveNodeDatas.map(serialize));
+                    }
+                }
+            );
         }
+
+        //
 
         function canMoveHitGround(nodeData) {
             for (var i = 0; i < nodeData.actionSteps.length; ++i) {

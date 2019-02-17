@@ -10,9 +10,7 @@ define(
 
     function NodeSerializer(NodeFactoryRoot, Strings, JsonFileReader, Request, _) {
 
-        // FIXME: no alerts
-
-        var CURRENT_FORMAT_VERSION = 3;
+        var CURRENT_FORMAT_VERSION = 4;
 
         return {
             serializeToBase64Url: serializeToBase64Url,
@@ -21,9 +19,10 @@ define(
         };
 
         function serializeToBase64Url(rootNodeData) {
+            var shared; // = _.createObjectStorage();
             var exportedJsonObj = exportJson(
-                // FIXME: this will move action step if previous is not filled
-                _.withoutFalsyProperties(rootNodeData)
+                NodeFactoryRoot.serialize(rootNodeData, shared),
+                shared
             );
 
             var url = (
@@ -35,74 +34,107 @@ define(
         }
 
         function deserializeFromLocalFile(file, onDataReady) {
-
             file && JsonFileReader.readJson(file).then(
-
-                function onSuccess2(parsedJson) {
-
-                    var sparseData = importJson(parsedJson);
-                    if (!sparseData) {
-                        alert(Strings('failedToImportJson'));
-                        return;
-                    }
-
-                    var extendedData = NodeFactoryRoot.createRootNode(sparseData, true);
-                    onDataReady(extendedData);
-
-                },
-
-                function onFail(error) {
-                    alert(Strings('invalidJson', { ERROR_DATA: error }));
-                }
-
+                function onSuccess(parsedJson) { deserialize(parsedJson, onDataReady); },
+                function onFail(error)         { reportLoadError(error); }
             );
-
         }
 
         function deserializeFromUrl(url, onDataReady) {
-            Request.getJSON(url).then(
-                function(parsedJson) {
-                    var sparseData = importJson(parsedJson);
-                    if (!sparseData) {
-                        alert(Strings('failedToImportJson'));
-                        return;
-                    }
-                    var extendedData = NodeFactoryRoot.createRootNode(sparseData, true);
-                    onDataReady(extendedData);
-                },
-                function(error) { console.error(error); }
-            );
+            Request.getJSON(url).then(function(parsedJson) {
+                deserialize(parsedJson, onDataReady);
+            }).catch(function(error) {
+                reportLoadError(error);
+            });
         }
 
-        function exportJson(root) {
+        function deserialize(parsedJson, onSuccess) {
+            var importResult = importJson(parsedJson);
+            if (!importResult.success) {
+                reportLoadError(importResult.error);
+                return;
+            }
+
+            var sharedStorage = _.createObjectStorage(function(key) { return _.isObject(key); });
+
+            var rootNodeData;
+            try {
+                rootNodeData = NodeFactoryRoot.createRootNode(
+                    importResult.body,
+                    importResult.shared,
+                    sharedStorage
+                );
+            } catch(error) {
+                reportLoadError(error);
+                return;
+            }
+            onSuccess(rootNodeData);
+        }
+
+        function reportLoadError(error) {
+            // FIXME: no alerts
+            alert(Strings('failedToImportJson', { ERROR_DATA: importResult.error }));
+        }
+
+        function exportJson(optRoot, shared) {
             return {
                 header: {
                     format: CURRENT_FORMAT_VERSION,
                     timeSaved: Date.now()
                 },
-                body: root
+                body:  optRoot || undefined,
+                shared: shared || undefined
             };
         }
 
 
         function importJson(jsonData) {
 
+            var result = {
+                success: false,
+                error:   undefined,
+                body:    undefined,
+                shared:  undefined
+            };
+
             if (!_.isObject(jsonData)) {
-                console.log('Invalid data');
-                return null;
+                result.error = 'Invalid data';
+                return result;
             }
 
-            if (!_.isObject(jsonData.header) || jsonData.header.format !== CURRENT_FORMAT_VERSION) {
-                console.log('Not compatible JSON format');
-                return null;
+            if (
+                !_.isObject(jsonData.header) ||
+                !isFormatSupported(jsonData.header.format)
+            ) {
+                result.error = 'Not compatible JSON format';
+                return result;
             }
 
-            if (!_.isObject(jsonData.body)) {
-                console.log('Invalid data');
-                return null;
+            if (
+                jsonData.body   !== undefined && !_.isObject(jsonData.body) ||
+                jsonData.shared !== undefined && !_.isObject(jsonData.shared)
+            ) {
+                result.error = 'Invalid data';
+                return result;
             }
 
-            return jsonData.body;
+            result.success = true;
+            result.body    = jsonData.body;
+            result.shared  = jsonData.shared;
+
+            return result;
+
+            function isFormatSupported(format) {
+                if (format === CURRENT_FORMAT_VERSION) return true;
+                if (
+                    // Backwards compatible change - recursive structures via `shared`
+                    format === 3 &&
+                    CURRENT_FORMAT_VERSION === 4
+                ) {
+                    return true;
+                }
+                return false;
+            }
 
         }
 

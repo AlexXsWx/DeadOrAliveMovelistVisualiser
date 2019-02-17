@@ -16,6 +16,7 @@ define(
             defined:                               defined,
             defaults:                              defaults,
             withoutFalsyProperties:                withoutFalsyProperties,
+            withoutFalsyElements:                  withoutFalsyElements,
             arraysAreEqual:                        arraysAreEqual,
             removeElement:                         removeElement,
             addBetween:                            addBetween,
@@ -144,7 +145,7 @@ define(
 
         function getDomElement(id) {
             var result = document.getElementById(id);
-            console.assert(!!result, 'element #"' + id + '" not found');
+            console.assert(Boolean(result), 'element #"' + id + '" not found');
             return result;
         }
 
@@ -239,7 +240,7 @@ define(
             return array[index];
         }
 
-        function withoutFalsyProperties(obj) {
+        function withoutFalsyProperties(obj, optCustomHandlers) {
             var result;
             if (isArray(obj)) {
                 result = [];
@@ -256,8 +257,12 @@ define(
                 result = {};
                 Object.getOwnPropertyNames(obj).forEach(function(key) {
                     var value = obj[key];
-                    if (isArray(value) || isObject(value)) {
-                        value = withoutFalsyProperties(value);
+                    if (optCustomHandlers && optCustomHandlers[key]) {
+                        value = optCustomHandlers[key](value);
+                    } else {
+                        if (isArray(value) || isObject(value)) {
+                            value = withoutFalsyProperties(value);
+                        }
                     }
                     if (isTruthyValue(value)) {
                         result[key] = value;
@@ -267,12 +272,25 @@ define(
             return isTruthyValue(result) ? result : undefined;
         }
 
+        function withoutFalsyElements(array, optSaveOrder) {
+            var filtered;
+            if (optSaveOrder) {
+                filtered = [];
+                for (var i = array.length - 1; i >= 0; --i) {
+                    if (isTruthyValue(array[i])) filtered[i] = array[i];
+                }
+            } else {
+                filtered = array.filter(isTruthyValue);
+            }
+            return filtered.length > 0 ? filtered : undefined;
+        }
+
         function isTruthyValue(obj) {
             if (obj === 0)     return true;
             if (obj === false) return true;
             if (isArray(obj))  return obj.length > 0;
             if (isObject(obj)) return Object.getOwnPropertyNames(obj).length > 0;
-            return !!obj;
+            return Boolean(obj);
         }
 
         // TODO: revisit names
@@ -296,7 +314,10 @@ define(
 
         function isObject(obj) {
             var type = typeof obj;
-            return type === 'function' || type === 'object' && !!obj;
+            return (
+                type === 'function' ||
+                type === 'object' && Boolean(obj)
+            );
         }
 
         function isNonEmptyArray(obj) {
@@ -436,7 +457,7 @@ define(
             var listeners  = options.listeners;
             var classes    = options.classes;
 
-            console.assert(!!tag, 'invalid tag');
+            console.assert(Boolean(tag), 'invalid tag');
 
             var element = elementCreator(tag);
 
@@ -634,7 +655,7 @@ define(
             console.groupEnd();
         }
 
-        function createObjectStorage() {
+        function createObjectStorage(optKeyFilter) {
 
             var keys   = [];
             var values = [];
@@ -650,6 +671,7 @@ define(
             };
 
             function set(object, optValue) {
+                if (optKeyFilter && !optKeyFilter(object)) return false;
                 var index;
                 if (has(object)) {
                     index = getIndex(object);
@@ -658,21 +680,28 @@ define(
                     keys.push(object);
                 }
                 values[index] = optValue;
+                return true;
             }
 
-            function has(object) { return contains(keys, object); }
+            function has(object) {
+                if (optKeyFilter && !optKeyFilter(object)) return false;
+                return contains(keys, object);
+            }
 
             function get(object) {
+                if (optKeyFilter && !optKeyFilter(object)) throw new Error("Invalid access");
                 var index = getIndex(object);
                 if (index < 0 || index >= values.length) throw new Error("Out of bounds");
                 return values[index];
             }
 
             function clear(object) {
+                if (optKeyFilter && !optKeyFilter(object)) return false;
                 var index = getIndex(object);
                 if (index < 0 || index >= values.length) throw new Error("Out of bounds");
                 keys.splice(index, 1);
                 values.splice(index, 1);
+                return true;
             }
 
             function clearAll() {

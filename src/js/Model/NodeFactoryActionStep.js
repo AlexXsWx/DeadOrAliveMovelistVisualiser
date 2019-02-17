@@ -11,6 +11,7 @@ define(
 
         return {
             createMoveActionStep: createMoveActionStep,
+            serialize:            serialize,
 
             isActionStepPunch:         isActionStepPunch,
             isActionStepKick:          isActionStepKick,
@@ -32,9 +33,8 @@ define(
             getActionStepSummary:   getActionStepSummary
         };
 
-        function createMoveActionStep(optSource) {
-
-            var actionStep = _.defaults(optSource, {
+        function getDefaultData() {
+            return {
 
                 // Brad's 66k, Alpha-152's 66p
                 // condition: [],
@@ -80,7 +80,12 @@ define(
                 // condition-specific results
                 results: [ undefined ]
 
-            });
+            };
+        }
+
+        function createMoveActionStep(optSource) {
+
+            var actionStep = _.defaults(optSource, getDefaultData());
 
             // critical holds have longer recovery than normal holds
 
@@ -95,6 +100,21 @@ define(
             return actionStep;
 
         }
+
+        function serialize(actionStep) {
+            return _.withoutFalsyProperties(
+                actionStep,
+                {
+                    results: function(actionStepResults) {
+                        return _.withoutFalsyElements(
+                            actionStepResults.map(NodeFactoryActionStepResult.serialize)
+                        );
+                    }
+                }
+            );
+        }
+
+        //
 
         function isActionStepPunch(actionStep) {
             if (!actionStep.actionMask || !actionStep.actionType) return false;

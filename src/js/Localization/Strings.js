@@ -29,8 +29,7 @@ define(
 
             'undoIsBorked': '[Ctrl]+[Z] is disabled since it may corrupt the entered data',
 
-            'failedToImportJson': 'Failed to import json',
-            'invalidJson': 'Error: Invalid JSON file\n${ERROR_DATA}',
+            'failedToImportJson': 'Failed to load json:\n${ERROR_DATA}',
 
             'characterName': 'Character',
             'characterNameDescription': 'Character name - e.g. "Kasumi" or "Hayabusa"',

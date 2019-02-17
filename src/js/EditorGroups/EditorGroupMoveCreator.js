@@ -160,7 +160,7 @@ define(
                 var nodeView = editorGroup.matchingSelectedViews[0];
                 var nodeData = NodeView.getNodeData(nodeView);
 
-                console.assert(!!nodeData, 'nodeData is not expected to be falsy');
+                console.assert(Boolean(nodeData), 'nodeData is not expected to be falsy');
 
                 editorGroupMove2.fill(nodeData, keepActiveSummaryContent);
 
