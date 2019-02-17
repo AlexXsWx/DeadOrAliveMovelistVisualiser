@@ -25,9 +25,7 @@ define(
     ) {
 
         var canvas;
-        var visibleNodesSvgViews = {};
-
-        var nodeViewGenerator = null;
+        var visibleNodesSvgViews = _.createObjectStorage();
 
         var domCache = {
             download:                null,
@@ -51,19 +49,14 @@ define(
                 cacheDomElements();
 
                 canvas = CanvasManager.create(parentElement);
-                SelectionManager.init(
-                    parentElement,
-                    function getVisibleNodesSvgView() { return visibleNodesSvgViews; },
-                    toggleChildren
-                );
+                SelectionManager.init(parentElement, visibleNodesSvgViews, toggleChildren);
 
-                nodeViewGenerator = NodeView.createNodeViewGenerator();
                 NodeSvgView.onNodeClick.addListener(onClickNodeView);
                 NodeSvgView.onNodeToggleChildren.addListener(onDoubleClickNodeView);
 
                 ActionType.fillDatalist(_.getDomElement('actionStepSupportedTypes'));
 
-                Editor.init(nodeViewGenerator, toggleChildren, selectNodeView);
+                Editor.init(toggleChildren, selectNodeView);
                 Editor.onDataChanged.addListener(onDataChange);
 
                 SelectionManager.onSelectionChanged.addListener(selectionChangedListener);
@@ -191,15 +184,15 @@ define(
                 destroyExistingNodes();
 
                 rootNodeData = data;
-                rootNodeView = NodeView.createViewFromData(rootNodeData, nodeViewGenerator);
+                rootNodeView = NodeView.createViewFromData(rootNodeData);
 
                 // TODO: reset everything
                 // FIXME: update editor (selected element changed)
 
                 if (document.body.classList.contains("mode-sc6")) {
-                    NodeView.groupByTypeSC6(rootNodeView, nodeViewGenerator);
+                    NodeView.groupByTypeSC6(rootNodeView);
                 } else {
-                    NodeView.groupByType(rootNodeView, nodeViewGenerator);
+                    NodeView.groupByType(rootNodeView);
                     NodeView.hideHiddenByDefault(rootNodeView);
                 }
 
@@ -209,10 +202,8 @@ define(
 
 
             function destroyExistingNodes() {
-                _.forEachOwnProperty(visibleNodesSvgViews, function(key, value) {
-                    value.destroy();
-                });
-                visibleNodesSvgViews = {};
+                visibleNodesSvgViews.forEachValue(function(nodeSvgView) { nodeSvgView.destroy(); });
+                visibleNodesSvgViews.clearAll();
             }
 
         // ==============
@@ -369,8 +360,8 @@ define(
 
                 limitsFinder.invalidate();
 
-                var idsVisibleBeforeUpdate = {};
-                var idsSvgVisibleBeforeUpdate = {};
+                var nodeViewsVisibleBeforeUpdate    = _.createObjectStorage();
+                var nodeSvgViewsVisibleBeforeUpdate = _.createObjectStorage();
 
                 TreeTools.forAllCurrentChildren(
                     rootNodeView,
@@ -382,10 +373,9 @@ define(
                     rootNodeView,
                     NodeView.getVisibleChildren,
                     function rememberCurrentlyVisibleNodes(nodeView) {
-                        var id = NodeView.getId(nodeView);
-                        idsVisibleBeforeUpdate[id] = true;
-                        if (visibleNodesSvgViews.hasOwnProperty(id)) {
-                            idsSvgVisibleBeforeUpdate[id] = true;
+                        nodeViewsVisibleBeforeUpdate.set(nodeView);
+                        if (visibleNodesSvgViews.has(nodeView)) {
+                            nodeSvgViewsVisibleBeforeUpdate.set(nodeView);
                         }
                     }
                 );
@@ -399,22 +389,21 @@ define(
 
                 TreeTools.layoutTreeWithD3(
                     rootNodeView,
-                    NodeView.getId,
                     NodeView.getVisibleChildren,
                     getNodeViewSize,
                     function(nodeView, x, y, parentX, parentY) {
                         updateNodeViewAndSetCoordinates(
-                            nodeView, x, y, parentX, parentY, idsSvgVisibleBeforeUpdate
+                            nodeView, x, y, parentX, parentY, nodeSvgViewsVisibleBeforeUpdate
                         );
                     }
                 );
 
                 var nodeSvgViewsToHide = [];
-                Object.keys(visibleNodesSvgViews).forEach(
-                    function removeHidedSvgNodeViews(id) {
-                        if (!idsVisibleBeforeUpdate.hasOwnProperty(id)) {
-                            nodeSvgViewsToHide.push(visibleNodesSvgViews[id]);
-                            delete visibleNodesSvgViews[id];
+                visibleNodesSvgViews.getKeys().forEach(
+                    function removeHidedSvgNodeViews(nodeView) {
+                        if (!nodeViewsVisibleBeforeUpdate.has(nodeView)) {
+                            nodeSvgViewsToHide.push(visibleNodesSvgViews.get(nodeView));
+                            visibleNodesSvgViews.clear(nodeView);
                         }
                     }
                 );
@@ -422,9 +411,8 @@ define(
                 nodeSvgViewsToHide.forEach(function(nodeSvgView) {
                     var parentNodeView = NodeView.getParentNodeView(nodeSvgView.nodeView);
                     while (parentNodeView) {
-                        var parentId = NodeView.getId(parentNodeView);
-                        if (visibleNodesSvgViews.hasOwnProperty(parentId)) {
-                            var parentSvgView = visibleNodesSvgViews[parentId];
+                        if (visibleNodesSvgViews.has(parentNodeView)) {
+                            var parentSvgView = visibleNodesSvgViews.get(parentNodeView);
                             var position = parentSvgView.getPositionTarget();
                             nodeSvgView.destroy(position.x, position.y);
                             return;
@@ -463,23 +451,25 @@ define(
             }
 
             function updateNodeViewAndSetCoordinates(
-                nodeView, x, y, parentX, parentY, idsSvgVisibleBeforeUpdate
+                nodeView, x, y, parentX, parentY, nodeSvgViewsVisibleBeforeUpdate
             ) {
 
-                var id = NodeView.getId(nodeView);
-                var nodeSvgView = visibleNodesSvgViews[id];
+                var nodeSvgView;
+
+                if (visibleNodesSvgViews.has(nodeView)) {
+                    nodeSvgView = visibleNodesSvgViews.get(nodeView);
+                }
 
                 if (!nodeSvgView) {
 
                     nodeSvgView = NodeSvgView.create(nodeView);
                     canvas.addNode(nodeSvgView.link, nodeSvgView.wrapper);
-                    visibleNodesSvgViews[id] = nodeSvgView;
+                    visibleNodesSvgViews.set(nodeView, nodeSvgView);
 
                     var parentNodeView = NodeView.getParentNodeView(nodeSvgView.nodeView);
                     while (parentNodeView) {
-                        var parentId = NodeView.getId(parentNodeView);
-                        if (idsSvgVisibleBeforeUpdate.hasOwnProperty(parentId)) {
-                            var parentSvgView = visibleNodesSvgViews[parentId];
+                        if (nodeSvgViewsVisibleBeforeUpdate.has(parentNodeView)) {
+                            var parentSvgView = visibleNodesSvgViews.get(parentNodeView);
                             var position = parentSvgView.getPositionStart();
                             nodeSvgView.animate(position.x, position.y, position.x, position.y, 0);
                             break;
@@ -496,7 +486,7 @@ define(
             }
 
             function selectNodeView(nodeView) {
-                SelectionManager.selectNode(visibleNodesSvgViews[NodeView.getId(nodeView)]);
+                SelectionManager.selectNode(visibleNodesSvgViews.get(nodeView));
             }
 
             function onClickNodeView(nodeSvgView) {
@@ -515,17 +505,14 @@ define(
                 Executor.rememberAndExecute(
                     'toggle children',
                     function act() {
-                        var ids = NodeView.toggleVisibleChildren(
-                            nodeSvgView.nodeView,
-                            nodeViewGenerator
-                        );
-                        if (ids.length > 0) {
+                        var nodeViews = NodeView.toggleVisibleChildren(nodeSvgView.nodeView);
+                        if (nodeViews.length > 0) {
                             update();
                         }
-                        return ids;
+                        return nodeViews;
                     },
-                    function unact(ids) {
-                        var acted = NodeView.toggleChildrenWithIds(nodeSvgView.nodeView, ids);
+                    function unact(nodeViews) {
+                        var acted = NodeView.toggleGivenChildren(nodeSvgView.nodeView, nodeViews);
                         if (acted) {
                             update();
                         }
@@ -717,14 +704,14 @@ define(
                     'groupByDOA': function groupByDOA(event) {
                         // FIXME: support undo
                         Executor.clearHistory();
-                        NodeView.groupByType(rootNodeView, nodeViewGenerator);
+                        NodeView.groupByType(rootNodeView);
                         update();
                     },
 
                     'groupBySC6': function groupBySC6(event) {
                         // FIXME: support undo
                         Executor.clearHistory();
-                        NodeView.groupByTypeSC6(rootNodeView, nodeViewGenerator);
+                        NodeView.groupByTypeSC6(rootNodeView);
                         update();
                     },
 

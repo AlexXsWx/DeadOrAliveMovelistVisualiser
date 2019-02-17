@@ -37,7 +37,6 @@ define(
     ) {
 
         var refs = {
-            nodeDataGenerator: undefined,
             // FIXME: find a better way to pass this func
             toggleChildren: undefined,
             selectNode:     undefined
@@ -95,8 +94,7 @@ define(
         };
 
 
-        function init(nodeDataGeneratorFunc, toggleChildrenFunc, selectNodeFunc) {
-            refs.nodeDataGenerator = nodeDataGeneratorFunc;
+        function init(toggleChildrenFunc, selectNodeFunc) {
             refs.toggleChildren    = toggleChildrenFunc;
             refs.selectNode        = selectNodeFunc;
             updateEditorDomGroups(false, false);
@@ -201,8 +199,6 @@ define(
 
 
         function copyNode(optEvent) {
-
-            // FIXME: check if root
 
             // FIXME: cases when e.g. deleting node from a parent which is a soft-copy/link doesn't
             // remove the node view from the source parent
@@ -455,7 +451,7 @@ define(
         // WARNING: doesn't link node data to parent's node data
         function addNewNodeView(parentNodeView, nodeData, optForceVisible) {
             return NodeView.createViewFromData(
-                nodeData, refs.nodeDataGenerator, undefined, parentNodeView, optForceVisible
+                nodeData, undefined, parentNodeView, optForceVisible
             );
         }
 

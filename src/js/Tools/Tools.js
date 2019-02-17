@@ -60,7 +60,8 @@ define(
             getCustomProperty:                     mixinStorage.getProperty,
             setCustomProperty:                     mixinStorage.setProperty,
             getStack:                              getStack,
-            debugTraceCollapsed:                   debugTraceCollapsed
+            debugTraceCollapsed:                   debugTraceCollapsed,
+            createObjectStorage:                   createObjectStorage
         };
 
         function report(/*arguments*/) {
@@ -631,6 +632,61 @@ define(
             console.groupCollapsed(msg);
             console.trace(msg);
             console.groupEnd();
+        }
+
+        function createObjectStorage() {
+
+            var keys   = [];
+            var values = [];
+
+            return {
+                set: set,
+                has: has,
+                get: get,
+                clear:    clear,
+                clearAll: clearAll,
+                forEachValue: forEachValue,
+                getKeys:      getKeys
+            };
+
+            function set(object, optValue) {
+                var index;
+                if (has(object)) {
+                    index = getIndex(object);
+                } else {
+                    index = keys.length;
+                    keys.push(object);
+                }
+                values[index] = optValue;
+            }
+
+            function has(object) { return contains(keys, object); }
+
+            function get(object) {
+                var index = getIndex(object);
+                if (index < 0 || index >= values.length) throw new Error("Out of bounds");
+                return values[index];
+            }
+
+            function clear(object) {
+                var index = getIndex(object);
+                if (index < 0 || index >= values.length) throw new Error("Out of bounds");
+                keys.splice(index, 1);
+                values.splice(index, 1);
+            }
+
+            function clearAll() {
+                keys.length   = 0;
+                values.length = 0;
+            }
+
+            function forEachValue(action) {
+                values.forEach(function(value) { action(value); });
+            }
+
+            function getKeys() { return keys.slice(); }
+
+            function getIndex(object) { return keys.indexOf(object); }
         }
 
     }

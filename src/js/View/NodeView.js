@@ -8,7 +8,8 @@ define(
         'Model/NodeFactoryMove',
         'Model/NodeFactoryActionStepResult',
         'Model/CommonStances',
-        'Tools/TreeTools', 'Tools/Tools' ],
+        'Tools/TreeTools', 'Tools/Tools'
+    ],
 
     function NodeView(
         Parser, Operators,
@@ -42,8 +43,6 @@ define(
             setSortingOrder: setSortingOrder,
             createCustomSortingOrder: createCustomSortingOrder,
 
-            createNodeViewGenerator: createNodeViewGenerator,
-
             createViewFromData: createViewFromData,
 
             resetAppearance:  resetAppearance,
@@ -55,47 +54,43 @@ define(
             groupByTypeSC6: groupByTypeSC6,
             hideHiddenByDefault: hideHiddenByDefault,
 
-            setNodeData: setNodeData,
             getNodeData: getNodeData,
             getParentNodeView: getParentNodeView,
             findAncestorNodeData: findAncestorNodeData,
             getAdjacentVisibleNodeDatas: getAdjacentVisibleNodeDatas,
 
-            getId: getId,
             setIsPlaceholder:   setIsPlaceholder,
             isPlaceholder:      isPlaceholder,
             isGroupingNodeView: isGroupingNodeView,
             isRootNodeView:     isRootNodeView,
 
-            addChild: addChild,
-            removeChild:       removeChild,
+            addChild:    addChild,
+            removeChild: removeChild,
 
             getAllChildren:     getAllChildren,
             getVisibleChildren: getVisibleChildren,
 
-            hasAnyChildren:     hasAnyChildren,
-            hasVisibleChildren: hasVisibleChildren,
-            hasHiddenChildren:  hasHiddenChildren,
+            hasAnyChildren:    hasAnyChildren,
+            hasHiddenChildren: hasHiddenChildren,
 
             showChild:             showChild,
             showAllChildren:       showAllChildren,
             hideAllChildren:       hideAllChildren,
             toggleVisibleChildren: toggleVisibleChildren,
-            toggleChildrenWithIds: toggleChildrenWithIds,
+            toggleGivenChildren:   toggleGivenChildren,
 
             sortVisibleChildren: sortVisibleChildren
         };
 
 
-        function createNodeView(id, parentNodeView) {
+        function createNodeView(optParentNodeView) {
 
             return {
 
                 // Do not reference directly - use getter for whatever you need
                 treeInfo: {
-                    id: id,
                     /** NodeView */
-                    parent: parentNodeView || null,
+                    parent: optParentNodeView || null,
                     children: {
                         /** Array<NodeView> */
                         visible: [], // FIXME: unique arrays?
@@ -128,17 +123,8 @@ define(
         }
 
 
-        function createNodeViewGenerator() {
-            var counter = 0;
-            return function generate(parentNodeView) {
-                return createNodeView(counter++, parentNodeView || null);
-            };
-        }
-
-
         function createViewFromData(
             nodeData,
-            nodeViewGenerator,
             optVisitedNodeDatasTracker,
             optParentNodeView,
             optForceVisible
@@ -157,7 +143,7 @@ define(
             return nodeView;
 
             function wrapNodeDataInNewNodeView(nodeData, optParentNodeData) {
-                var nodeView = nodeViewGenerator();
+                var nodeView = createNodeView();
                 var goLazy = false;
                 if (visitedTracker.isNotVisited(nodeData)) {
                     visitedTracker.markVisited(nodeData);
@@ -260,7 +246,7 @@ define(
         }
 
 
-        function groupBy(stanceNodeView, nodeViewGenerator, obj) {
+        function groupBy(stanceNodeView, obj) {
 
             var stanceWasCollapsed = !hasVisibleChildren(stanceNodeView);
 
@@ -333,7 +319,7 @@ define(
                     return;
                 }
 
-                var groupingChild = nodeViewGenerator();
+                var groupingChild = createNodeView();
                 groupingChild.binding.group.name = entry.name;
                 groupingChild.binding.group.hideByDefault = entry.hideByDefault;
                 groupingChild.binding.group.order = index;
@@ -356,11 +342,10 @@ define(
         }
 
 
-        function groupByType(rootNodeView, nodeViewGenerator) {
+        function groupByType(rootNodeView) {
             getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
                 groupBy(
                     stanceNodeView,
-                    nodeViewGenerator,
                     [
                         { name: 'punches', func: NodeFactoryMove.isMovePunch },
                         { name: 'kicks',   func: NodeFactoryMove.isMoveKick  },
@@ -373,11 +358,10 @@ define(
         }
 
 
-        function groupByTypeSC6(rootNodeView, nodeViewGenerator) {
+        function groupByTypeSC6(rootNodeView) {
             getAllChildren(rootNodeView).forEach(function(stanceNodeView) {
                 groupBy(
                     stanceNodeView,
-                    nodeViewGenerator,
                     [
                         { name: 'horizontal',    func: NodeFactoryMove.isMoveHorizontal },
                         { name: 'vertical',      func: NodeFactoryMove.isMoveVertical   },
@@ -466,10 +450,6 @@ define(
             };
         }
 
-
-        function getId(nodeView) {
-            return nodeView.treeInfo.id;
-        }
 
         function getName(nodeView) {
             var nodeData = getNodeData(nodeView);
@@ -850,7 +830,7 @@ define(
                 var children = nodeView.treeInfo.children;
                 var result;
                 if (optReturnIDs) {
-                    result = children.hidden.map(getId);
+                    result = children.hidden.slice();
                 }
                 children.visible = children.visible.concat(children.hidden);
                 children.hidden = [];
@@ -864,33 +844,31 @@ define(
                 var children = nodeView.treeInfo.children;
                 var result;
                 if (optReturnIDs) {
-                    result = children.visible.map(getId);
+                    result = children.visible.slice();
                 }
                 children.hidden = children.hidden.concat(children.visible);
                 children.visible = [];
                 return result;
             }
 
-            function createAndShowLazyAndHiddenChildren(nodeView, nodeViewGenerator) {
+            function createAndShowLazyAndHiddenChildren(nodeView) {
 
-                var ids = showAllChildren(nodeView, true, true);
+                var nodeViews = showAllChildren(nodeView, true, true);
 
                 var visitedTracker = TreeTools.createVisitedTracker();
                 var newNodeViews = getLazyChildren(nodeView).map(function(childNodeData) {
-                    return createViewFromData(
-                        childNodeData, nodeViewGenerator, visitedTracker, nodeView, true
-                    );
+                    return createViewFromData(childNodeData, visitedTracker, nodeView, true);
                 });
-                ids = ids.concat(newNodeViews.map(getId));
+                nodeViews = nodeViews.concat(newNodeViews);
 
                 sortVisibleChildren(nodeView);
 
-                return ids;
+                return nodeViews;
             }
 
-            function toggleVisibleChildren(nodeView, nodeViewGenerator) {
+            function toggleVisibleChildren(nodeView) {
                 if (getLazyChildrenCount(nodeView) > 0) {
-                    return createAndShowLazyAndHiddenChildren(nodeView, nodeViewGenerator);
+                    return createAndShowLazyAndHiddenChildren(nodeView);
                 } else
                 if (hasHiddenChildren(nodeView, true)) {
                     return showAllChildren(nodeView, true);
@@ -899,20 +877,20 @@ define(
                 }
             }
 
-            function toggleChildrenWithIds(nodeView, ids) {
+            function toggleGivenChildren(nodeView, nodeViewsToToggle) {
                 var children = nodeView.treeInfo.children;
 
-                var childrenToShow = take(children.hidden,  ids);
-                var childrenToHide = take(children.visible, ids);
+                var childrenToShow = take(children.hidden,  nodeViewsToToggle);
+                var childrenToHide = take(children.visible, nodeViewsToToggle);
                 children.visible = children.visible.concat(childrenToShow);
                 children.hidden  = children.hidden.concat(childrenToHide);
                 if (childrenToShow.length > 0) {
                     sortVisibleChildren(nodeView);
                 }
                 return childrenToShow.length > 0 || childrenToHide.length > 0;
-                function take(nodeViews, ids) {
+                function take(nodeViews, nodeViewsToToggle) {
                     return _.take(nodeViews, function(nodeView) {
-                        return ids.indexOf(getId(nodeView)) >= 0;
+                        return _.contains(nodeViewsToToggle, nodeView);
                     });
                 }
             }

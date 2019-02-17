@@ -14,42 +14,41 @@ define(
         };
 
         // FIXME: get rid of d3...
-        function layoutTreeWithD3(root, getId, getChildren, getChildSize, setCoordinates) {
+        function layoutTreeWithD3(root, getChildren, getChildSize, setCoordinates) {
 
             var treeGenerator = d3.layout.tree();
             var rootSize = getChildSize(root);
             treeGenerator.nodeSize([rootSize.height, rootSize.width]);
 
-            var originalsById = {};
-            var fakeRootDatum = fakeNode(root, getId, getChildren, originalsById);
+            var wrappedRoot = wrapData(root, getChildren);
 
-            var nodes = treeGenerator.nodes(fakeRootDatum);
+            treeGenerator.nodes(wrappedRoot);
 
-            forAllCurrentChildren(fakeRootDatum, function(e) { return e.children; }, function(datum) {
-
-                var swap = datum.y;
-                datum.y = datum.x;
-                datum.x = swap;
-
-                if (datum.parent) {
-                    setCoordinates(originalsById[datum.id], datum.x, datum.y, datum.parent.x, datum.parent.y);
-                } else {
-                    setCoordinates(originalsById[datum.id], datum.x, datum.y, datum.x, datum.y);
+            forAllCurrentChildren(
+                wrappedRoot,
+                function(e) { return e.children; },
+                function(datum) {
+                    var parentX = getX(datum.parent ? datum.parent : datum);
+                    var parentY = getY(datum.parent ? datum.parent : datum);
+                    setCoordinates(datum.originalData, getX(datum), getY(datum), parentX, parentY);
                 }
+            );
 
-            });
+            return;
 
-            function fakeNode(datum, getId, getChildren, originalsById) {
-                var result = {
-                    id: getId(datum),
-                    children: getChildren(datum).map(function(child) {
-                        return fakeNode(child, getId, getChildren, originalsById);
+            function wrapData(originalData, getChildren) {
+                var datum = {
+                    originalData: originalData,
+                    children: getChildren(originalData).map(function(child) {
+                        return wrapData(child, getChildren);
                     })
                 };
-                originalsById[result.id] = datum;
-                return result;
+                return datum;
             }
 
+            // Rotate 90 deg
+            function getX(datum) { return datum.y; }
+            function getY(datum) { return datum.x; }
         }
 
         // Warning: skips repeated entries
