@@ -10,6 +10,46 @@ define(
 
     function NodeSerializer(NodeFactoryRoot, Strings, JsonFileReader, Request, _) {
 
+        // ==== Link ====
+
+            function Link(getter) {
+                this.getter = getter;
+                this.objectId = Link.objectIdCounter++;
+                Object.defineProperty(this, 'usage', {
+                    value: 0,
+                    writable: true
+                });
+            }
+
+            Link.objectIdCounter = 0;
+
+            Link.serialize2 = function(link) {
+                return {
+                    key: link.objectId,
+                    value: link.getter()
+                };
+            };
+
+            Link.isSerializedLink = function(obj) {
+                return (
+                    obj &&
+                    typeof obj === 'object' &&
+                    Object.keys(obj) === 1 &&
+                    obj.hasOwnProperty('objectId')
+                );
+            };
+
+            Link.prototype.bump = function bump() {
+                this.usage += 1;
+                return this;
+            };
+
+            function createLink(getter) {
+                return new Link(getter);
+            }
+
+        // ==============
+
         var CURRENT_FORMAT_VERSION = 4;
 
         return {
@@ -19,10 +59,27 @@ define(
         };
 
         function serializeToBase64Url(rootNodeData) {
-            var shared; // = _.createObjectStorage();
+
+            Link.objectIdCounter = 0;
+
+            var shared = _.createObjectStorage();
+
+            var temp1 = NodeFactoryRoot.serialize(rootNodeData, shared, createLink);
+            var usedLinks = shared.getValues().filter(function(link) { return link.usage > 0; });
+
+            replaceDuplicates(
+                temp1,
+                function(obj) {
+                    return usedLinks.some(function(link) { return link.getter() === obj; });
+                },
+                function(obj) {
+                    return _.find(usedLinks, function(link) { return link.getter() === obj; });
+                }
+            );
+
             var exportedJsonObj = exportJson(
-                NodeFactoryRoot.serialize(rootNodeData, shared),
-                shared
+                temp1,
+                _.withoutFalsyElements(usedLinks.map(Link.serialize2))
             );
 
             var url = (
@@ -31,6 +88,19 @@ define(
             );
 
             return url;
+
+            function replaceDuplicates(obj, isDuplicate, replace) {
+                if (typeof obj !== "object" || !obj) return;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        if (isDuplicate(obj[key])) {
+                            obj[key] = replace(obj[key]);
+                        } else {
+                            replaceDuplicates(obj[key], isDuplicate, replace);
+                        }
+                    }
+                }
+            }
         }
 
         function deserializeFromLocalFile(file, onDataReady) {
@@ -61,7 +131,7 @@ define(
             try {
                 rootNodeData = NodeFactoryRoot.createRootNode(
                     importResult.body,
-                    importResult.shared,
+                    getObj,
                     sharedStorage
                 );
             } catch(error) {
@@ -69,6 +139,29 @@ define(
                 return;
             }
             onSuccess(rootNodeData);
+
+            return;
+
+            function getObj(obj) {
+                var result = {
+                    link: false,
+                    linkId: null,
+                    value: null
+                };
+                if (Link.isSerializedLink(obj)) {
+                    result.link = true;
+                    if (importResult.shared) {
+                        var tmp = _.find(importResult.shared, function(ehm) {
+                            return ehm.objectId === obj.objectId;
+                        });
+                        if (tmp) {
+                            result.value = tmp.value;
+                            result.linkId = tmp.objectId;
+                        }
+                    }
+                }
+                return result;
+            }
         }
 
         function reportLoadError(error) {
@@ -79,7 +172,7 @@ define(
         function exportJson(optRoot, shared) {
             return {
                 header: {
-                    format: CURRENT_FORMAT_VERSION,
+                    format: shared ? CURRENT_FORMAT_VERSION : 3,
                     timeSaved: Date.now()
                 },
                 body:  optRoot || undefined,
@@ -112,7 +205,7 @@ define(
 
             if (
                 jsonData.body   !== undefined && !_.isObject(jsonData.body) ||
-                jsonData.shared !== undefined && !_.isObject(jsonData.shared)
+                jsonData.shared !== undefined && !_.isArray(jsonData.shared)
             ) {
                 result.error = 'Invalid data';
                 return result;

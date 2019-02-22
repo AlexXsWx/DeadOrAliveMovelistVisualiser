@@ -20,7 +20,7 @@ define(
             };
         }
 
-        function createRootNode(optSource, optShared, optSharedStorage) {
+        function createRootNode(optSource, optGetObj, optSharedStorage) {
             var result = _.defaults(optSource, getDefaultData());
             for (var i = 0; i < result.stances.length; ++i) {
                 result.stances[i] = NodeFactoryStance.createStanceNode(result.stances[i]);
@@ -32,19 +32,23 @@ define(
             return nodeData.hasOwnProperty('character');
         }
 
-        function serialize(nodeData, shared) {
-            return _.withoutFalsyProperties(
+        function serialize(nodeData, shared, createLink) {
+            if (shared.has(nodeData)) return shared.get(nodeData).bump();
+            var result;
+            shared.set(nodeData, createLink(function() { return result; }));
+            result = _.withoutFalsyProperties(
                 nodeData,
                 {
                     stances: function(stanceNodeDatas) {
                         return _.withoutFalsyElements(
                             stanceNodeDatas.map(function(stanceNodeData) {
-                                return NodeFactoryStance.serialize(stanceNodeData, shared);
+                                return NodeFactoryStance.serialize(stanceNodeData, shared, createLink);
                             })
                         );
                     }
                 }
             );
+            return result;
         }
     }
 );

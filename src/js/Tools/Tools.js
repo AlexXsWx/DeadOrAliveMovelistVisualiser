@@ -667,7 +667,8 @@ define(
                 clear:    clear,
                 clearAll: clearAll,
                 forEachValue: forEachValue,
-                getKeys:      getKeys
+                getKeys:      getKeys,
+                getValues:    getValues
             };
 
             function set(object, optValue) {
@@ -714,6 +715,8 @@ define(
             }
 
             function getKeys() { return keys.slice(); }
+
+            function getValues() { return values.slice(); }
 
             function getIndex(object) { return keys.indexOf(object); }
         }

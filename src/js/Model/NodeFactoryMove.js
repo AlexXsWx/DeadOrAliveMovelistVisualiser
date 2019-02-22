@@ -89,21 +89,29 @@ define(
             return result;
         }
 
-        function serialize(nodeData) {
-            return _.withoutFalsyProperties(
+        function serialize(nodeData, shared, createLink) {
+            if (shared.has(nodeData)) return shared.get(nodeData).bump();
+            var result;
+            shared.set(nodeData, createLink(function() { return result; }));
+            result = _.withoutFalsyProperties(
                 nodeData,
                 {
                     actionSteps: function(actionSteps) {
                         return _.withoutFalsyElements(
-                            actionSteps.map(NodeFactoryActionStep.serialize),
+                            actionSteps.map(function(actionStep) {
+                                return NodeFactoryActionStep.serialize(actionStep, shared, createLink);
+                            }),
                             true
                         );
                     },
                     followUps: function(moveNodeDatas) {
-                        return _.withoutFalsyElements(moveNodeDatas.map(serialize));
+                        return _.withoutFalsyElements(moveNodeDatas.map(function(nd) {
+                            return serialize(nd, shared, createLink);
+                        }));
                     }
                 }
             );
+            return result;
         }
 
         //

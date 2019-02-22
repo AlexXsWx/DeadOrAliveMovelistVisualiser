@@ -93,8 +93,12 @@ define(
             return _.defaults(optSource, getDefaultData());
         }
 
-        function serialize(actionStepResult) {
-            return _.withoutFalsyProperties(actionStepResult);
+        function serialize(actionStepResult, shared, createLink) {
+            if (shared.has(actionStepResult)) return shared.get(actionStepResult).bump();
+            var result;
+            shared.set(actionStepResult, createLink(function() { return result; }));
+            result = _.withoutFalsyProperties(actionStepResult);
+            return result;
         }
 
         //

@@ -33,19 +33,23 @@ define(
             return result;
         }
 
-        function serialize(nodeData, shared) {
-            return _.withoutFalsyProperties(
+        function serialize(nodeData, shared, createLink) {
+            if (shared.has(nodeData)) return shared.get(nodeData).bump();
+            var result;
+            shared.set(nodeData, createLink(function() { return result; }));
+            result = _.withoutFalsyProperties(
                 nodeData,
                 {
                     moves: function(moveNodeDatas) {
                         return _.withoutFalsyElements(
                             moveNodeDatas.map(function(moveNodeData) {
-                                return NodeFactoryMove.serialize(moveNodeData);
+                                return NodeFactoryMove.serialize(moveNodeData, shared, createLink);
                             })
                         );
                     }
                 }
             );
+            return result;
         }
     }
 );

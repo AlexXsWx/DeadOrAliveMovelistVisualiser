@@ -101,17 +101,25 @@ define(
 
         }
 
-        function serialize(actionStep) {
-            return _.withoutFalsyProperties(
+        function serialize(actionStep, shared, createLink) {
+            if (shared.has(actionStep)) return shared.get(actionStep).bump();
+            var result;
+            shared.set(actionStep, createLink(function() { return result; }));
+            result = _.withoutFalsyProperties(
                 actionStep,
                 {
                     results: function(actionStepResults) {
                         return _.withoutFalsyElements(
-                            actionStepResults.map(NodeFactoryActionStepResult.serialize)
+                            actionStepResults.map(function(actionStepResult) {
+                                return NodeFactoryActionStepResult.serialize(
+                                    actionStepResult, shared, createLink
+                                );
+                            })
                         );
                     }
                 }
             );
+            return result;
         }
 
         //
