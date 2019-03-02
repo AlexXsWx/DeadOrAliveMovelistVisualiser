@@ -2,9 +2,15 @@ define(
 
     'Model/NodeFactoryActionStep',
 
-    [ 'Model/NodeFactoryActionStepResult', 'Model/ActionType', 'Tools/Tools' ],
+    [
+        'Model/NodeFactoryActionStepResult', 'Model/ActionType', 'Model/NodeFactoryHelpers',
+        'Tools/Tools'
+    ],
 
-    function NodeFactoryActionStep(NodeFactoryActionStepResult, ActionType, _) {
+    function NodeFactoryActionStep(
+        NodeFactoryActionStepResult, ActionType, NodeFactoryHelpers,
+        _
+    ) {
 
         var isActionStepHold       = actionTypeChecker(ActionType.Hold);
         var isActionStepJumpAttack = actionTypeChecker(ActionType.Jump);
@@ -83,22 +89,26 @@ define(
             };
         }
 
-        function createMoveActionStep(optSource) {
+        function createMoveActionStep(optSource, optCreator) {
 
-            var actionStep = _.defaults(optSource, getDefaultData());
+            var creator = optCreator || NodeFactoryHelpers.defaultCreator;
 
-            // critical holds have longer recovery than normal holds
+            return creator(createSelf, createChildren, optSource);
 
-            // all attacks that land on sidestepping becomes countering
-
-            for (var i = 0; i < actionStep.results.length; ++i) {
-                actionStep.results[i] = NodeFactoryActionStepResult.createMoveActionStepResult(
-                    actionStep.results[i]
-                );
+            function createSelf(source) {
+                return _.defaults(optSource, getDefaultData());
             }
+            function createChildren(self) {
+                // critical holds have longer recovery than normal holds
 
-            return actionStep;
+                // all attacks that land on sidestepping becomes countering
 
+                for (var i = 0; i < self.results.length; ++i) {
+                    self.results[i] = NodeFactoryActionStepResult.createMoveActionStepResult(
+                        self.results[i], optCreator
+                    );
+                }
+            }
         }
 
         function serialize(actionStep, shared, createLink) {

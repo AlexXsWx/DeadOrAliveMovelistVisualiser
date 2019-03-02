@@ -2,9 +2,9 @@ define(
 
     'Model/NodeFactoryMove',
 
-    [ 'Model/NodeFactoryActionStep', 'Model/ActionType', 'Tools/Tools' ],
+    [ 'Model/NodeFactoryActionStep', 'Model/ActionType', 'Model/NodeFactoryHelpers', 'Tools/Tools' ],
 
-    function NodeFactoryMove(NodeFactoryActionStep, ActionType, _) {
+    function NodeFactoryMove(NodeFactoryActionStep, ActionType, NodeFactoryHelpers, _) {
 
         // var RGX = {
         //     PUNCH: /^\d*p(?:\+k)?$/i,
@@ -76,17 +76,25 @@ define(
             };
         }
 
-        function createMoveNode(optSource) {
-            var result = _.defaults(optSource, getDefaultData());
-            for (var i = 0; i < result.actionSteps.length; ++i) {
-                result.actionSteps[i] = NodeFactoryActionStep.createMoveActionStep(
-                    result.actionSteps[i]
-                );
+        function createMoveNode(optSource, optCreator) {
+
+            var creator = optCreator || NodeFactoryHelpers.defaultCreator;
+
+            return creator(createSelf, createChildren, optSource);
+
+            function createSelf(source) {
+                return _.defaults(source, getDefaultData());
             }
-            for (var i = 0; i < result.followUps.length; ++i) {
-                result.followUps[i] = createMoveNode(result.followUps[i]);
+            function createChildren(self) {
+                for (var i = 0; i < self.actionSteps.length; ++i) {
+                    self.actionSteps[i] = NodeFactoryActionStep.createMoveActionStep(
+                        self.actionSteps[i], optCreator
+                    );
+                }
+                for (var i = 0; i < self.followUps.length; ++i) {
+                    self.followUps[i] = createMoveNode(self.followUps[i], optCreator);
+                }
             }
-            return result;
         }
 
         function serialize(nodeData, shared, createLink) {

@@ -31,6 +31,12 @@ define(
             canBeDirectParent:  canBeDirectParent
         };
 
+        function defaultCreator(createSelf, createChildren, optSource) {
+            var self = createSelf(optSource);
+            createChildren(self);
+            return self;
+        }
+
         function createEmptyData() {
 
             return NodeFactoryRoot.createRootNode({

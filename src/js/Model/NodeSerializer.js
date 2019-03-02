@@ -25,18 +25,13 @@ define(
 
             Link.serialize2 = function(link) {
                 return {
-                    key: link.objectId,
+                    objectId: link.objectId,
                     value: link.getter()
                 };
             };
 
-            Link.isSerializedLink = function(obj) {
-                return (
-                    obj &&
-                    typeof obj === 'object' &&
-                    Object.keys(obj) === 1 &&
-                    obj.hasOwnProperty('objectId')
-                );
+            Link.isSerializedLink2 = function(obj) {
+                return obj && Object.prototype.hasOwnProperty.call(obj, 'objectId');
             };
 
             Link.prototype.bump = function bump() {
@@ -125,15 +120,11 @@ define(
                 return;
             }
 
-            var sharedStorage = _.createObjectStorage(function(key) { return _.isObject(key); });
+            var sharedStorage = _.createObjectStorage(/*function(key) { return _.isObject(key); }*/);
 
             var rootNodeData;
             try {
-                rootNodeData = NodeFactoryRoot.createRootNode(
-                    importResult.body,
-                    getObj,
-                    sharedStorage
-                );
+                rootNodeData = NodeFactoryRoot.createRootNode(importResult.body, creator);
             } catch(error) {
                 reportLoadError(error);
                 return;
@@ -142,13 +133,37 @@ define(
 
             return;
 
+            function creator(createSelf, createChildren, optSource) {
+                var linkId = null;
+                var source = optSource;
+
+                if (source) {
+                    var obj = getObj(source);
+                    if (obj.link) {
+                        linkId = obj.linkId;
+                        if (sharedStorage.has(linkId)) {
+                            return sharedStorage.get(linkId);
+                        }
+                        source = obj.value;
+                    }
+                }
+
+                var self = createSelf(source);
+
+                if (linkId !== null) sharedStorage.set(linkId, self);
+
+                createChildren(self);
+
+                return self;
+            }
+
             function getObj(obj) {
                 var result = {
                     link: false,
                     linkId: null,
                     value: null
                 };
-                if (Link.isSerializedLink(obj)) {
+                if (Link.isSerializedLink2(obj)) {
                     result.link = true;
                     if (importResult.shared) {
                         var tmp = _.find(importResult.shared, function(ehm) {

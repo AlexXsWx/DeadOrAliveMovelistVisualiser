@@ -2,9 +2,9 @@ define(
 
     'Model/NodeFactoryStance',
 
-    [ 'Model/NodeFactoryMove', 'Tools/Tools' ],
+    [ 'Model/NodeFactoryMove', 'Model/NodeFactoryHelpers', 'Tools/Tools' ],
 
-    function NodeFactoryStance(NodeFactoryMove, _) {
+    function NodeFactoryStance(NodeFactoryMove, NodeFactoryHelpers, _) {
 
         return {
             isStanceNode:     isStanceNode,
@@ -25,12 +25,20 @@ define(
             };
         }
 
-        function createStanceNode(optSource) {
-            var result = _.defaults(optSource, getDefaultData());
-            for (var i = 0; i < result.moves.length; ++i) {
-                result.moves[i] = NodeFactoryMove.createMoveNode(result.moves[i]);
+        function createStanceNode(optSource, optCreator) {
+
+            var creator = optCreator || NodeFactoryHelpers.defaultCreator;
+
+            return creator(createSelf, createChildren, optSource);
+
+            function createSelf(source) {
+                return _.defaults(source, getDefaultData());
             }
-            return result;
+            function createChildren(self) {
+                for (var i = 0; i < self.moves.length; ++i) {
+                    self.moves[i] = NodeFactoryMove.createMoveNode(self.moves[i], optCreator);
+                }
+            }
         }
 
         function serialize(nodeData, shared, createLink) {

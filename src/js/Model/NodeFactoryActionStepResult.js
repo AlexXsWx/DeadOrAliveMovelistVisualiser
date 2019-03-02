@@ -2,9 +2,9 @@ define(
 
     'Model/NodeFactoryActionStepResult',
 
-    [ 'Tools/Tools' ],
+    [ 'Model/NodeFactoryHelpers', 'Tools/Tools' ],
 
-    function NodeFactoryActionStepResult(_) {
+    function NodeFactoryActionStepResult(NodeFactoryHelpers, _) {
 
         var guardRegex = /block|guard/i;
 
@@ -89,8 +89,18 @@ define(
             };
         }
 
-        function createMoveActionStepResult(optSource) {
-            return _.defaults(optSource, getDefaultData());
+        function createMoveActionStepResult(optSource, optCreator) {
+
+            var creator = optCreator || NodeFactoryHelpers.defaultCreator;
+
+            return creator(createSelf, createChildren, optSource);
+
+            function createSelf(source) {
+                return _.defaults(optSource, getDefaultData());
+            }
+
+            function createChildren(self) {
+            }
         }
 
         function serialize(actionStepResult, shared, createLink) {

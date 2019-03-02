@@ -2,9 +2,9 @@ define(
 
     'Model/NodeFactoryRoot',
 
-    [ 'Model/NodeFactoryStance', 'Tools/Tools' ],
+    [ 'Model/NodeFactoryStance', 'Model/NodeFactoryHelpers', 'Tools/Tools' ],
 
-    function NodeFactoryRoot(NodeFactoryStance, _) {
+    function NodeFactoryRoot(NodeFactoryStance, NodeFactoryHelpers, _) {
 
         return {
             createRootNode: createRootNode,
@@ -20,12 +20,20 @@ define(
             };
         }
 
-        function createRootNode(optSource, optGetObj, optSharedStorage) {
-            var result = _.defaults(optSource, getDefaultData());
-            for (var i = 0; i < result.stances.length; ++i) {
-                result.stances[i] = NodeFactoryStance.createStanceNode(result.stances[i]);
+        function createRootNode(optSource, optCreator) {
+
+            var creator = optCreator || NodeFactoryHelpers.defaultCreator;
+
+            return creator(createSelf, createChildren, optSource);
+
+            function createSelf(source) {
+                return _.defaults(source, getDefaultData());
             }
-            return result;
+            function createChildren(self) {
+                for (var i = 0; i < self.stances.length; ++i) {
+                    self.stances[i] = NodeFactoryStance.createStanceNode(self.stances[i], optCreator);
+                }
+            }
         }
 
         function isRootNode(nodeData) {
