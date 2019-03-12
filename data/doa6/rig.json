@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1552344971953
+    "timeSaved": 1552417173700
   },
   "body": {
     "character": "Rig",
@@ -372,6 +372,7 @@
                             "actionMask": "mid K",
                             "actionType": "strike",
                             "isTracking": false,
+                            "damage": 24,
                             "reach": 2.2,
                             "results": [
                               {
@@ -430,6 +431,7 @@
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": false,
+                        "damage": 16,
                         "reach": 1.89,
                         "results": [
                           {
@@ -482,6 +484,7 @@
                             "actionMask": "high K",
                             "actionType": "strike",
                             "isTracking": false,
+                            "damage": 22,
                             "reach": 1.38,
                             "results": [
                               {
@@ -551,6 +554,7 @@
                                 "actionMask": "mid K",
                                 "actionType": "strike",
                                 "isTracking": true,
+                                "damage": 24,
                                 "reach": 2.11,
                                 "results": [
                                   {
@@ -606,6 +610,7 @@
                             "actionMask": "low K ground",
                             "actionType": "strike",
                             "isTracking": true,
+                            "damage": 22,
                             "reach": 1.9,
                             "results": [
                               {
@@ -664,6 +669,7 @@
                         "actionMask": "low K ground",
                         "actionType": "strike",
                         "isTracking": false,
+                        "damage": 12,
                         "reach": 1.48,
                         "results": [
                           {
@@ -730,6 +736,7 @@
                             "actionMask": "mid K",
                             "actionType": "strike",
                             "isTracking": false,
+                            "damage": 28,
                             "reach": 1.93,
                             "results": [
                               {
@@ -776,6 +783,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": true,
+                    "damage": 22,
                     "reach": 1.95,
                     "results": [
                       {
@@ -814,6 +822,7 @@
                         "actionMask": "high K",
                         "actionType": "jump attack",
                         "isTracking": true,
+                        "damage": 30,
                         "reach": 1.84,
                         "results": [
                           {
@@ -853,6 +862,7 @@
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": false,
+                        "damage": 30,
                         "results": [
                           {
                             "condition": [
@@ -876,6 +886,7 @@
                         "actionMask": "low K ground",
                         "actionType": "strike",
                         "isTracking": true,
+                        "damage": 22,
                         "reach": 1.63,
                         "results": [
                           {
@@ -936,6 +947,7 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.67,
                     "results": [
                       {
@@ -979,6 +991,7 @@
                 "actionMask": "high P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 15,
                 "reach": 1.6,
                 "results": [
                   {
@@ -1022,6 +1035,7 @@
                     "actionMask": "high P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 26,
                     "reach": 2.07,
                     "results": [
                       {
@@ -1058,6 +1072,7 @@
                 "actionMask": "high P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 18,
                 "reach": 1.87,
                 "results": [
                   {
@@ -1092,6 +1107,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 20,
                 "reach": 1.77,
                 "results": [
                   {
@@ -1131,6 +1147,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 18,
                 "reach": 1.56,
                 "results": [
                   {
@@ -1183,6 +1200,7 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.92,
                     "results": [
                       {
@@ -1233,6 +1251,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 16,
                     "reach": 1.35,
                     "results": [
                       {
@@ -1282,6 +1301,7 @@
                     "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 10,
                     "reach": 1.44,
                     "results": [
                       {
@@ -1333,6 +1353,7 @@
                         "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": false,
+                        "damage": 22,
                         "reach": 1.36,
                         "results": [
                           {
@@ -1372,6 +1393,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 16,
                 "reach": 1.83,
                 "results": [
                   {
@@ -1430,6 +1452,7 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.49,
                     "results": [
                       {
@@ -1472,12 +1495,14 @@
                     "actionMask": "high K",
                     "actionType": "jump attack",
                     "isTracking": false,
+                    "damage": 16,
                     "reach": 1.93
                   },
                   {
                     "actionMask": "high K",
                     "actionType": "jump attack",
                     "isTracking": false,
+                    "damage": 20,
                     "reach": 2.58,
                     "results": [
                       {
@@ -1504,6 +1529,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 15,
                 "reach": 1.7,
                 "results": [
                   {
@@ -1548,6 +1574,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 20,
                     "results": [
                       {
                         "condition": [
@@ -1582,17 +1609,20 @@
                       {
                         "actionMask": "mid K",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "damage": 6
                       },
                       {
                         "actionMask": "mid K",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "damage": 6
                       },
                       {
                         "actionMask": "mid K",
                         "actionType": "strike",
-                        "isTracking": false
+                        "isTracking": false,
+                        "damage": 10
                       }
                     ],
                     "endsWith": "BT"
@@ -1613,6 +1643,7 @@
                 "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 5,
                 "reach": 1.81,
                 "results": [
                   {
@@ -1673,6 +1704,7 @@
                 "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 18,
                 "reach": 1.72,
                 "results": [
                   {
@@ -1723,6 +1755,7 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.5,
                     "results": [
                       {
@@ -1765,6 +1798,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 22,
                 "reach": 2.15,
                 "results": [
                   {
@@ -1805,6 +1839,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 20,
                 "reach": 1.63,
                 "results": [
                   {
@@ -1834,6 +1869,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 18,
                     "reach": 1.28,
                     "results": [
                       {
@@ -1922,6 +1958,7 @@
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": true,
+                        "damage": 22,
                         "reach": 1.82,
                         "results": [
                           {
@@ -1994,6 +2031,7 @@
                                 "actionMask": "mid K",
                                 "actionType": "strike",
                                 "isTracking": true,
+                                "damage": 24,
                                 "reach": 1.96,
                                 "results": [
                                   {
@@ -2032,6 +2070,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 18,
                     "reach": 1.88,
                     "results": [
                       {
@@ -2060,6 +2099,7 @@
                         "actionMask": "mid K ground",
                         "actionType": "strike",
                         "isTracking": false,
+                        "damage": 22,
                         "reach": 1.6,
                         "results": [
                           {
@@ -2092,6 +2132,7 @@
                     "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 10,
                     "reach": 1.46,
                     "results": [
                       {
@@ -2127,6 +2168,7 @@
                         "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": false,
+                        "damage": 24,
                         "reach": 1.36,
                         "results": [
                           {
@@ -2156,6 +2198,7 @@
                 "actionMask": "high K",
                 "actionType": "jump attack",
                 "isTracking": false,
+                "damage": 22,
                 "reach": 1.73,
                 "results": [
                   {
@@ -2181,6 +2224,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 18,
                 "reach": 1.69,
                 "results": [
                   {
@@ -2209,6 +2253,7 @@
                     "actionMask": "mid K ground",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.6,
                     "results": [
                       {
@@ -2241,6 +2286,7 @@
                 "actionMask": "mid K ground",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 25,
                 "reach": 2.33,
                 "results": [
                   {
@@ -2275,6 +2321,7 @@
                     "actionMask": "mid K ground",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 30,
                     "reach": 1.81,
                     "results": [
                       {
@@ -2308,6 +2355,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 15,
                 "reach": 1.72,
                 "results": [
                   {
@@ -2336,6 +2384,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 18,
                     "reach": 1.58,
                     "results": [
                       {
@@ -2398,6 +2447,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.84,
                     "results": [
                       {
@@ -2425,6 +2475,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 20,
                 "reach": 1.74,
                 "results": [
                   {
@@ -2454,6 +2505,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.48,
                     "results": [
                       {
@@ -2481,6 +2533,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 22,
                 "reach": 1.92,
                 "results": [
                   {
@@ -2517,6 +2570,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.38,
                     "results": [
                       {
@@ -2569,6 +2623,7 @@
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": true,
+                        "damage": 24,
                         "reach": 2.14,
                         "results": [
                           {
@@ -2607,6 +2662,7 @@
                     "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 10,
                     "reach": 1.67,
                     "results": [
                       {
@@ -2642,6 +2698,7 @@
                         "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": false,
+                        "damage": 24,
                         "reach": 1.36,
                         "results": [
                           {
@@ -2671,6 +2728,7 @@
                 "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 10,
                 "reach": 1.54,
                 "results": [
                   {
@@ -2711,6 +2769,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 28,
                     "reach": 1.93,
                     "results": [
                       {
@@ -2735,6 +2794,7 @@
                     "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
+                    "damage": 25,
                     "reach": 1.9,
                     "results": [
                       {
@@ -2767,6 +2827,7 @@
                 "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 10,
                 "reach": 1.43,
                 "results": [
                   {
@@ -2808,6 +2869,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.36,
                     "results": [
                       {
@@ -2878,6 +2940,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 25,
                     "reach": 2.49,
                     "results": [
                       {
@@ -2912,6 +2975,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 22,
                 "reach": 2,
                 "results": [
                   {
@@ -2943,17 +3007,20 @@
                   {
                     "actionMask": "mid K",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "damage": 6
                   },
                   {
                     "actionMask": "mid K",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "damage": 6
                   },
                   {
                     "actionMask": "mid K",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "damage": 10
                   }
                 ]
               }
@@ -2971,6 +3038,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 20,
                 "reach": 1.95,
                 "results": [
                   {
@@ -2995,6 +3063,7 @@
                 "actionMask": "high K",
                 "actionType": "jump attack",
                 "isTracking": false,
+                "damage": 55,
                 "reach": 3.64,
                 "results": [
                   {
@@ -3019,6 +3088,7 @@
               {
                 "actionMask": "mid K ground",
                 "actionType": "strike",
+                "damage": 28,
                 "reach": 2.35,
                 "results": [
                   {
@@ -3049,6 +3119,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 24,
                 "reach": 2.29,
                 "tags": [
                   "critical burst"
@@ -3088,6 +3159,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 20,
                     "reach": 1.61,
                     "results": [
                       {
@@ -3157,6 +3229,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 1.95,
                 "results": [
                   {
@@ -3185,6 +3258,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": true,
+                    "damage": 30,
                     "reach": 1.84,
                     "results": [
                       {
@@ -3212,6 +3286,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 30,
                     "results": [
                       {
                         "condition": [
@@ -3235,6 +3310,7 @@
                     "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
+                    "damage": 22,
                     "reach": 1.63,
                     "results": [
                       {
@@ -3269,6 +3345,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 16,
                 "reach": 1.92,
                 "results": [
                   {
@@ -3283,6 +3360,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 20,
                 "reach": 2.57,
                 "results": [
                   {
@@ -3307,6 +3385,7 @@
                 "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 1.63,
                 "results": [
                   {
@@ -3337,6 +3416,7 @@
                 "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 25,
                 "reach": 1.83,
                 "results": [
                   {
@@ -3367,6 +3447,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 15,
                 "results": [
                   {
                     "condition": [
@@ -3507,7 +3588,7 @@
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "other"
+                                    "actionType": "OH"
                                   }
                                 ]
                               }
@@ -3549,6 +3630,7 @@
                 "actionMask": "high",
                 "actionType": "throw",
                 "isTracking": true,
+                "damage": 40,
                 "reach": 1.52
               }
             ]
@@ -3565,6 +3647,7 @@
                 "actionMask": "high",
                 "actionType": "throw",
                 "isTracking": true,
+                "damage": 45,
                 "reach": 1.67
               }
             ]
@@ -3581,6 +3664,7 @@
                 "actionMask": "high",
                 "actionType": "throw",
                 "isTracking": true,
+                "damage": 52,
                 "reach": 1.47
               }
             ]
@@ -3597,7 +3681,24 @@
                 "actionMask": "high",
                 "actionType": "throw",
                 "isTracking": true,
+                "damage": 20,
                 "reach": 1.82
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "throw",
+                    "damage": 15
+                  }
+                ]
               }
             ]
           },
@@ -3613,6 +3714,7 @@
                 "actionMask": "low",
                 "actionType": "throw",
                 "isTracking": true,
+                "damage": 45,
                 "reach": 1.67
               }
             ]
@@ -3627,7 +3729,8 @@
             "actionSteps": [
               {
                 "actionMask": "high",
-                "actionType": "hold"
+                "actionType": "hold",
+                "damage": 52
               }
             ]
           },
@@ -3641,7 +3744,8 @@
             "actionSteps": [
               {
                 "actionMask": "mid K",
-                "actionType": "hold"
+                "actionType": "hold",
+                "damage": 20
               }
             ]
           },
@@ -3655,7 +3759,8 @@
             "actionSteps": [
               {
                 "actionMask": "mid P",
-                "actionType": "hold"
+                "actionType": "hold",
+                "damage": 52
               }
             ]
           },
@@ -3669,7 +3774,8 @@
             "actionSteps": [
               {
                 "actionMask": "low",
-                "actionType": "hold"
+                "actionType": "hold",
+                "damage": 52
               }
             ]
           },
@@ -3683,7 +3789,8 @@
             "actionSteps": [
               {
                 "actionMask": "mid K",
-                "actionType": "hold"
+                "actionType": "hold",
+                "damage": 60
               }
             ]
           },
@@ -3700,7 +3807,8 @@
             "actionSteps": [
               {
                 "actionMask": "high low mid",
-                "actionType": "hold"
+                "actionType": "hold",
+                "damage": 5
               }
             ]
           },
@@ -3717,7 +3825,8 @@
             "actionSteps": [
               {
                 "actionMask": "high mid",
-                "actionType": "hold"
+                "actionType": "hold",
+                "damage": 0
               }
             ],
             "followUps": [
@@ -3733,6 +3842,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 30,
                     "results": [
                       {
                         "condition": [
@@ -3780,7 +3890,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionType": "other"
+                        "actionType": "OH",
+                        "damage": 50
                       }
                     ]
                   }
@@ -3803,6 +3914,7 @@
                 "actionMask": "high P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 12,
                 "reach": 1.4,
                 "results": [
                   {
@@ -3830,6 +3942,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 25,
                 "reach": 1.62,
                 "results": [
                   {
@@ -3866,6 +3979,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 16,
                 "reach": 1.68,
                 "results": [
                   {
@@ -3901,6 +4015,7 @@
                 "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 9,
                 "reach": 1.63,
                 "results": [
                   {
@@ -3934,6 +4049,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 1.82,
                 "results": [
                   {
@@ -3962,6 +4078,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": true,
+                    "damage": 30,
                     "reach": 1.84,
                     "results": [
                       {
@@ -3989,6 +4106,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 30,
                     "results": [
                       {
                         "condition": [
@@ -4012,6 +4130,7 @@
                     "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
+                    "damage": 22,
                     "reach": 1.63,
                     "results": [
                       {
@@ -4047,6 +4166,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 25,
                 "reach": 2.1,
                 "results": [
                   {
@@ -4074,6 +4194,7 @@
                 "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 1.63,
                 "results": [
                   {
@@ -4134,6 +4255,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 30,
                 "reach": 2.29,
                 "results": [
                   {
@@ -4171,6 +4293,7 @@
                     "actionMask": "mid P",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 30,
                     "results": [
                       {
                         "condition": [
@@ -4270,6 +4393,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 20,
                 "reach": 1.79,
                 "results": [
                   {
@@ -4294,6 +4418,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 10,
                 "reach": 1.43,
                 "results": [
                   {
@@ -4323,6 +4448,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 10,
                     "reach": 1.14,
                     "results": [
                       {
@@ -4352,6 +4478,7 @@
                         "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": true,
+                        "damage": 22,
                         "reach": 1.74,
                         "results": [
                           {
@@ -4406,6 +4533,7 @@
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": false,
+                        "damage": 24,
                         "reach": 1.95,
                         "results": [
                           {
@@ -4434,6 +4562,7 @@
                 "actionMask": "mid K ground",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 26,
                 "reach": 1.95,
                 "results": [
                   {
@@ -4563,6 +4692,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 25,
                     "reach": 1.92,
                     "results": [
                       {
@@ -4601,6 +4731,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 20,
                 "reach": 1.51,
                 "results": [
                   {
@@ -4630,6 +4761,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.48,
                     "results": [
                       {
@@ -4657,6 +4789,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 1.83,
                 "results": [
                   {
@@ -4729,6 +4862,7 @@
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": true,
+                        "damage": 24,
                         "reach": 1.96,
                         "results": [
                           {
@@ -4769,6 +4903,7 @@
                 "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 10,
                 "reach": 1.57,
                 "results": [
                   {
@@ -4810,6 +4945,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 22,
                     "reach": 1.36,
                     "results": [
                       {
@@ -4837,6 +4973,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 24,
                 "reach": 1.61,
                 "tags": [
                   "critical burst"
@@ -4896,6 +5033,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 2.14,
                 "results": [
                   {
@@ -4924,6 +5062,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": true,
+                    "damage": 30,
                     "reach": 1.84,
                     "results": [
                       {
@@ -4951,6 +5090,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 30,
                     "results": [
                       {
                         "condition": [
@@ -4974,6 +5114,7 @@
                     "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
+                    "damage": 22,
                     "reach": 1.63,
                     "results": [
                       {
@@ -5008,12 +5149,14 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 15,
                 "reach": 1.84
               },
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 10,
                 "reach": 2.48,
                 "results": [
                   {
@@ -5051,6 +5194,7 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
+                    "damage": 20,
                     "reach": 2.04,
                     "results": [
                       {
@@ -5078,6 +5222,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 30,
                 "reach": 2.23,
                 "results": [
                   {
@@ -5113,6 +5258,7 @@
                 "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 2.16,
                 "results": [
                   {
@@ -5143,6 +5289,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 15,
                 "results": [
                   {
                     "condition": [
@@ -5283,7 +5430,7 @@
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "other"
+                                    "actionType": "OH"
                                   }
                                 ]
                               }
@@ -5309,6 +5456,7 @@
                 "actionMask": "high",
                 "actionType": "throw",
                 "isTracking": true,
+                "damage": 36,
                 "reach": 1.87
               }
             ],
@@ -5337,6 +5485,7 @@
                 "actionMask": "high P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 12,
                 "reach": 1.1,
                 "results": [
                   {
@@ -5364,6 +5513,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 16,
                 "reach": 1.35,
                 "results": [
                   {
@@ -5399,6 +5549,7 @@
                 "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 18,
                 "reach": 1.57,
                 "results": [
                   {
@@ -5432,6 +5583,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 1.24,
                 "results": [
                   {
@@ -5459,6 +5611,7 @@
                 "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 1.66,
                 "results": [
                   {
@@ -5504,6 +5657,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 30,
                 "reach": 1.06,
                 "results": [
                   {
@@ -5543,6 +5697,7 @@
                 "actionMask": "mid P",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 16,
                 "reach": 1.39,
                 "results": [
                   {
@@ -5575,6 +5730,7 @@
                 "actionMask": "high P",
                 "actionType": "strike",
                 "isTracking": false,
+                "damage": 22,
                 "results": [
                   {
                     "condition": [
@@ -5598,6 +5754,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 10,
                 "reach": 1.04,
                 "results": [
                   {
@@ -5626,6 +5783,7 @@
                     "actionMask": "high K",
                     "actionType": "jump attack",
                     "isTracking": true,
+                    "damage": 10,
                     "reach": 1.6,
                     "results": [
                       {
@@ -5654,6 +5812,7 @@
                         "actionMask": "high K",
                         "actionType": "jump attack",
                         "isTracking": true,
+                        "damage": 30,
                         "reach": 1.69,
                         "results": [
                           {
@@ -5678,6 +5837,7 @@
                         "actionMask": "mid K",
                         "actionType": "jump attack",
                         "isTracking": false,
+                        "damage": 26,
                         "reach": 1.5,
                         "results": [
                           {
@@ -5704,6 +5864,7 @@
                     "actionMask": "high K",
                     "actionType": "jump attack",
                     "isTracking": true,
+                    "damage": 40,
                     "reach": 1.91,
                     "results": [
                       {
@@ -5730,6 +5891,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 1.83,
                 "results": [
                   {
@@ -5758,6 +5920,7 @@
                     "actionMask": "high K",
                     "actionType": "strike",
                     "isTracking": true,
+                    "damage": 20,
                     "reach": 2.68,
                     "results": [
                       {
@@ -5786,6 +5949,7 @@
                         "actionMask": "high K",
                         "actionType": "strike",
                         "isTracking": true,
+                        "damage": 20,
                         "reach": 2.68,
                         "results": [
                           {
@@ -5810,6 +5974,7 @@
                         "actionMask": "high K",
                         "actionType": "jump attack",
                         "isTracking": true,
+                        "damage": 30,
                         "reach": 2.94,
                         "results": [
                           {
@@ -5836,6 +6001,7 @@
                     "actionMask": "high K",
                     "actionType": "jump attack",
                     "isTracking": true,
+                    "damage": 30,
                     "reach": 2.94,
                     "results": [
                       {
@@ -5862,6 +6028,7 @@
                 "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 22,
                 "reach": 1.76,
                 "results": [
                   {
@@ -5892,6 +6059,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 30,
                 "reach": 1.83,
                 "results": [
                   {
@@ -5916,6 +6084,7 @@
                 "actionMask": "high K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 40,
                 "reach": 2.18,
                 "results": [
                   {
@@ -5946,6 +6115,7 @@
                 "actionMask": "mid K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 20,
                 "results": [
                   {
                     "condition": [
@@ -5969,6 +6139,7 @@
                 "actionMask": "low K",
                 "actionType": "strike",
                 "isTracking": true,
+                "damage": 20,
                 "results": [
                   {
                     "condition": [
@@ -5987,13 +6158,42 @@
         "description": "Jumping over fence",
         "moves": [
           {
-            "input": "P"
+            "input": "P",
+            "frameData": [
+              40,
+              3,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "jump attack",
+                "isTracking": false
+              }
+            ]
           },
           {
-            "input": "K"
+            "input": "K",
+            "frameData": [
+              37,
+              3,
+              18
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K ground",
+                "actionType": "jump attack",
+                "isTracking": false
+              }
+            ]
           },
           {
             "input": "*",
+            "frameData": [
+              0,
+              0,
+              0
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -6001,15 +6201,57 @@
             ],
             "followUps": [
               {
-                "input": "*P",
+                "input": "P",
+                "frameData": [
+                  49,
+                  3,
+                  23
+                ],
                 "actionSteps": [
                   {
-                    "actionType": "other"
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false
                   }
                 ]
               },
               {
-                "input": "*K",
+                "input": "K",
+                "frameData": [
+                  51,
+                  2,
+                  29
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "low K ground",
+                    "actionType": "strike",
+                    "isTracking": true
+                  }
+                ]
+              },
+              {
+                "input": "T",
+                "frameData": [
+                  45,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high",
+                    "actionType": "throw",
+                    "isTracking": true
+                  }
+                ]
+              },
+              {
+                "input": "*",
+                "frameData": [
+                  21,
+                  0,
+                  0
+                ],
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -6021,7 +6263,7 @@
           {
             "input": "T",
             "frameData": [
-              33,
+              35,
               2,
               27
             ],
