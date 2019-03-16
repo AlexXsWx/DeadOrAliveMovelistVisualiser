@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1552750787566
+    "timeSaved": 1552753897844
   },
   "body": {
     "character": "Rig",
@@ -25,6 +25,7 @@
                 "isTracking": false,
                 "damage": 10,
                 "reach": 1.31,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -54,6 +55,7 @@
                     "isTracking": false,
                     "damage": 10,
                     "reach": 1.22,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -107,9 +109,7 @@
                         "isTracking": false,
                         "damage": 15,
                         "reach": 2.07,
-                        "tags": [
-                          "toggle stance"
-                        ],
+                        "togglesStance": true,
                         "results": [
                           {
                             "condition": [
@@ -139,9 +139,7 @@
                             "isTracking": false,
                             "damage": 18,
                             "reach": 1.74,
-                            "tags": [
-                              "toggle stance"
-                            ],
+                            "togglesStance": true,
                             "results": [
                               {
                                 "condition": [
@@ -168,6 +166,7 @@
                             "isTracking": true,
                             "damage": 22,
                             "reach": 1.82,
+                            "togglesStance": false,
                             "results": [
                               {
                                 "condition": [
@@ -194,6 +193,7 @@
                             "isTracking": false,
                             "damage": 24,
                             "reach": 2.2,
+                            "togglesStance": false,
                             "results": [
                               {
                                 "condition": [
@@ -222,6 +222,7 @@
                         "isTracking": false,
                         "damage": 16,
                         "reach": 1.89,
+                        "togglesStance": true,
                         "results": [
                           {
                             "condition": [
@@ -251,6 +252,7 @@
                             "isTracking": false,
                             "damage": 22,
                             "reach": 1.38,
+                            "togglesStance": false,
                             "results": [
                               {
                                 "condition": [
@@ -272,7 +274,8 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionType": "other"
+                            "actionType": "other",
+                            "togglesStance": true
                           }
                         ],
                         "followUpInterval": [
@@ -303,6 +306,7 @@
                                 "isTracking": true,
                                 "damage": 24,
                                 "reach": 2.11,
+                                "togglesStance": false,
                                 "results": [
                                   {
                                     "condition": [
@@ -330,6 +334,7 @@
                             "isTracking": true,
                             "damage": 22,
                             "reach": 1.9,
+                            "togglesStance": true,
                             "results": [
                               {
                                 "condition": [
@@ -357,6 +362,7 @@
                         "isTracking": false,
                         "damage": 12,
                         "reach": 1.48,
+                        "togglesStance": true,
                         "results": [
                           {
                             "condition": [
@@ -386,6 +392,7 @@
                             "isTracking": false,
                             "damage": 28,
                             "reach": 1.93,
+                            "togglesStance": false,
                             "results": [
                               {
                                 "condition": [
@@ -415,6 +422,7 @@
                     "isTracking": true,
                     "damage": 22,
                     "reach": 1.95,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -444,6 +452,7 @@
                         "isTracking": true,
                         "damage": 30,
                         "reach": 1.84,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -471,6 +480,7 @@
                         "actionType": "strike",
                         "isTracking": false,
                         "damage": 30,
+                        "togglesStance": true,
                         "results": [
                           {
                             "condition": [
@@ -496,6 +506,7 @@
                         "isTracking": true,
                         "damage": 22,
                         "reach": 1.63,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -523,6 +534,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.67,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -550,6 +562,7 @@
                 "isTracking": false,
                 "damage": 15,
                 "reach": 1.6,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -579,6 +592,7 @@
                     "isTracking": false,
                     "damage": 26,
                     "reach": 2.07,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -606,6 +620,7 @@
                 "isTracking": false,
                 "damage": 18,
                 "reach": 1.87,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -631,6 +646,7 @@
                 "isTracking": false,
                 "damage": 20,
                 "reach": 1.77,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -656,6 +672,7 @@
                 "isTracking": false,
                 "damage": 18,
                 "reach": 1.56,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -685,6 +702,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.92,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -711,6 +729,7 @@
                     "isTracking": false,
                     "damage": 16,
                     "reach": 1.35,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -736,6 +755,7 @@
                     "isTracking": false,
                     "damage": 10,
                     "reach": 1.44,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -766,6 +786,7 @@
                         "isTracking": false,
                         "damage": 22,
                         "reach": 1.36,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -796,6 +817,7 @@
                 "isTracking": true,
                 "damage": 16,
                 "reach": 1.83,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -825,6 +847,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.49,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -851,7 +874,8 @@
                     "actionType": "jump attack",
                     "isTracking": false,
                     "damage": 16,
-                    "reach": 1.93
+                    "reach": 1.93,
+                    "togglesStance": false
                   },
                   {
                     "actionMask": "high K",
@@ -859,6 +883,7 @@
                     "isTracking": false,
                     "damage": 20,
                     "reach": 2.58,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -886,6 +911,7 @@
                 "isTracking": false,
                 "damage": 15,
                 "reach": 1.7,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -914,6 +940,7 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "damage": 20,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -949,19 +976,22 @@
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": false,
-                        "damage": 6
+                        "damage": 6,
+                        "togglesStance": false
                       },
                       {
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": false,
-                        "damage": 6
+                        "damage": 6,
+                        "togglesStance": false
                       },
                       {
                         "actionMask": "mid K",
                         "actionType": "strike",
                         "isTracking": false,
-                        "damage": 10
+                        "damage": 10,
+                        "togglesStance": false
                       }
                     ],
                     "endsWith": "BT"
@@ -984,6 +1014,7 @@
                 "isTracking": false,
                 "damage": 5,
                 "reach": 1.81,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -1009,6 +1040,7 @@
                 "isTracking": true,
                 "damage": 18,
                 "reach": 1.72,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -1038,6 +1070,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.5,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -1065,6 +1098,7 @@
                 "isTracking": false,
                 "damage": 22,
                 "reach": 2.15,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -1090,6 +1124,7 @@
                 "isTracking": false,
                 "damage": 20,
                 "reach": 1.63,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -1120,6 +1155,7 @@
                     "isTracking": false,
                     "damage": 18,
                     "reach": 1.28,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -1174,6 +1210,7 @@
                         "isTracking": false,
                         "damage": 16,
                         "reach": 1.86,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -1199,6 +1236,7 @@
                         "isTracking": true,
                         "damage": 22,
                         "reach": 1.82,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -1232,7 +1270,8 @@
                         ],
                         "actionSteps": [
                           {
-                            "actionType": "other"
+                            "actionType": "other",
+                            "togglesStance": false
                           }
                         ],
                         "followUps": [
@@ -1245,7 +1284,8 @@
                             ],
                             "actionSteps": [
                               {
-                                "actionType": "other"
+                                "actionType": "other",
+                                "togglesStance": false
                               }
                             ],
                             "endsWith": "BND"
@@ -1264,6 +1304,7 @@
                                 "isTracking": true,
                                 "damage": 24,
                                 "reach": 1.96,
+                                "togglesStance": false,
                                 "results": [
                                   {
                                     "condition": [
@@ -1295,6 +1336,7 @@
                     "isTracking": false,
                     "damage": 18,
                     "reach": 1.88,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -1324,6 +1366,7 @@
                         "isTracking": false,
                         "damage": 22,
                         "reach": 1.6,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -1351,6 +1394,7 @@
                     "isTracking": false,
                     "damage": 10,
                     "reach": 1.46,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -1381,6 +1425,7 @@
                         "isTracking": false,
                         "damage": 24,
                         "reach": 1.36,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -1411,6 +1456,7 @@
                 "isTracking": false,
                 "damage": 22,
                 "reach": 1.73,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -1437,6 +1483,7 @@
                 "isTracking": false,
                 "damage": 18,
                 "reach": 1.69,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -1466,6 +1513,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.6,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -1493,6 +1541,7 @@
                 "isTracking": false,
                 "damage": 25,
                 "reach": 2.33,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -1522,6 +1571,7 @@
                     "isTracking": false,
                     "damage": 30,
                     "reach": 1.81,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -1550,6 +1600,7 @@
                 "isTracking": false,
                 "damage": 15,
                 "reach": 1.72,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -1579,6 +1630,7 @@
                     "isTracking": false,
                     "damage": 18,
                     "reach": 1.58,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -1634,6 +1686,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.84,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -1662,6 +1715,7 @@
                 "isTracking": false,
                 "damage": 20,
                 "reach": 1.74,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -1692,6 +1746,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.48,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -1720,6 +1775,7 @@
                 "isTracking": false,
                 "damage": 22,
                 "reach": 1.92,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -1749,6 +1805,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.38,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -1770,7 +1827,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionType": "other"
+                    "actionType": "other",
+                    "togglesStance": true
                   }
                 ],
                 "followUps": [
@@ -1783,7 +1841,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionType": "other"
+                        "actionType": "other",
+                        "togglesStance": false
                       }
                     ],
                     "endsWith": "BND"
@@ -1802,6 +1861,7 @@
                         "isTracking": true,
                         "damage": 24,
                         "reach": 2.14,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -1833,6 +1893,7 @@
                     "isTracking": false,
                     "damage": 10,
                     "reach": 1.67,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -1863,6 +1924,7 @@
                         "isTracking": false,
                         "damage": 24,
                         "reach": 1.36,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -1893,6 +1955,7 @@
                 "isTracking": false,
                 "damage": 10,
                 "reach": 1.54,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -1922,6 +1985,7 @@
                     "isTracking": false,
                     "damage": 28,
                     "reach": 1.93,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -1947,6 +2011,7 @@
                     "isTracking": true,
                     "damage": 25,
                     "reach": 1.9,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -1974,6 +2039,7 @@
                 "isTracking": false,
                 "damage": 10,
                 "reach": 1.43,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2004,6 +2070,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.36,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -2027,7 +2094,8 @@
             ],
             "actionSteps": [
               {
-                "actionType": "other"
+                "actionType": "other",
+                "togglesStance": true
               }
             ],
             "followUps": [
@@ -2040,7 +2108,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionType": "other"
+                    "actionType": "other",
+                    "togglesStance": false
                   }
                 ],
                 "endsWith": "BT",
@@ -2054,7 +2123,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionType": "other"
+                        "actionType": "other",
+                        "togglesStance": false
                       }
                     ],
                     "endsWith": "BT"
@@ -2075,6 +2145,7 @@
                     "isTracking": false,
                     "damage": 25,
                     "reach": 2.49,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -2102,6 +2173,7 @@
                 "isTracking": false,
                 "damage": 22,
                 "reach": 2,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2133,19 +2205,22 @@
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "damage": 6
+                    "damage": 6,
+                    "togglesStance": false
                   },
                   {
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "damage": 6
+                    "damage": 6,
+                    "togglesStance": false
                   },
                   {
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "damage": 10
+                    "damage": 10,
+                    "togglesStance": false
                   }
                 ]
               }
@@ -2165,6 +2240,7 @@
                 "isTracking": false,
                 "damage": 20,
                 "reach": 1.95,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2190,6 +2266,7 @@
                 "isTracking": false,
                 "damage": 55,
                 "reach": 3.64,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2218,6 +2295,7 @@
                 "actionType": "strike",
                 "damage": 28,
                 "reach": 2.35,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -2243,6 +2321,7 @@
                 "isTracking": false,
                 "damage": 24,
                 "reach": 2.29,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -2272,6 +2351,7 @@
                     "isTracking": false,
                     "damage": 20,
                     "reach": 1.61,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -2326,6 +2406,11 @@
               0,
               0
             ],
+            "actionSteps": [
+              {
+                "togglesStance": true
+              }
+            ],
             "endsWith": "BND"
           },
           {
@@ -2342,6 +2427,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 1.95,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2371,6 +2457,7 @@
                     "isTracking": true,
                     "damage": 30,
                     "reach": 1.84,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -2398,6 +2485,7 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "damage": 30,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -2423,6 +2511,7 @@
                     "isTracking": true,
                     "damage": 22,
                     "reach": 1.63,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -2452,6 +2541,7 @@
                 "isTracking": false,
                 "damage": 16,
                 "reach": 1.92,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2467,6 +2557,7 @@
                 "isTracking": false,
                 "damage": 20,
                 "reach": 2.57,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2492,6 +2583,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 1.63,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2517,6 +2609,7 @@
                 "isTracking": true,
                 "damage": 25,
                 "reach": 1.83,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2541,6 +2634,7 @@
                 "actionType": "strike",
                 "isTracking": true,
                 "damage": 15,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -2570,7 +2664,8 @@
                   {
                     "actionMask": "high K",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "togglesStance": false
                   }
                 ],
                 "followUps": [
@@ -2590,7 +2685,8 @@
                       {
                         "actionMask": "high K",
                         "actionType": "strike",
-                        "isTracking": true
+                        "isTracking": true,
+                        "togglesStance": false
                       }
                     ],
                     "followUps": [
@@ -2608,7 +2704,8 @@
                           {
                             "actionMask": "high K",
                             "actionType": "strike",
-                            "isTracking": true
+                            "isTracking": true,
+                            "togglesStance": true
                           }
                         ]
                       },
@@ -2626,7 +2723,8 @@
                         "actionSteps": [
                           {
                             "actionMask": "high mid",
-                            "actionType": "hold"
+                            "actionType": "hold",
+                            "togglesStance": false
                           }
                         ],
                         "followUps": [
@@ -2641,7 +2739,8 @@
                               {
                                 "actionMask": "mid K",
                                 "actionType": "strike",
-                                "isTracking": false
+                                "isTracking": false,
+                                "togglesStance": true
                               }
                             ],
                             "followUps": [
@@ -2654,7 +2753,8 @@
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "other"
+                                    "actionType": "other",
+                                    "togglesStance": false
                                   }
                                 ]
                               },
@@ -2670,7 +2770,8 @@
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "other"
+                                    "actionType": "other",
+                                    "togglesStance": false
                                   }
                                 ]
                               },
@@ -2681,7 +2782,8 @@
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "OH"
+                                    "actionType": "OH",
+                                    "togglesStance": true
                                   }
                                 ]
                               }
@@ -2724,7 +2826,8 @@
                 "actionType": "throw",
                 "isTracking": true,
                 "damage": 40,
-                "reach": 1.52
+                "reach": 1.52,
+                "togglesStance": false
               }
             ]
           },
@@ -2741,7 +2844,8 @@
                 "actionType": "throw",
                 "isTracking": true,
                 "damage": 45,
-                "reach": 1.67
+                "reach": 1.67,
+                "togglesStance": false
               }
             ]
           },
@@ -2758,7 +2862,8 @@
                 "actionType": "throw",
                 "isTracking": true,
                 "damage": 52,
-                "reach": 1.47
+                "reach": 1.47,
+                "togglesStance": false
               }
             ]
           },
@@ -2775,7 +2880,8 @@
                 "actionType": "throw",
                 "isTracking": true,
                 "damage": 20,
-                "reach": 1.82
+                "reach": 1.82,
+                "togglesStance": true
               }
             ],
             "followUps": [
@@ -2789,7 +2895,8 @@
                 "actionSteps": [
                   {
                     "actionType": "throw",
-                    "damage": 15
+                    "damage": 15,
+                    "togglesStance": false
                   }
                 ]
               }
@@ -2808,7 +2915,8 @@
                 "actionType": "throw",
                 "isTracking": true,
                 "damage": 45,
-                "reach": 1.67
+                "reach": 1.67,
+                "togglesStance": false
               }
             ]
           },
@@ -2823,7 +2931,8 @@
               {
                 "actionMask": "high",
                 "actionType": "hold",
-                "damage": 52
+                "damage": 52,
+                "togglesStance": false
               }
             ]
           },
@@ -2838,7 +2947,8 @@
               {
                 "actionMask": "mid K",
                 "actionType": "hold",
-                "damage": 20
+                "damage": 20,
+                "togglesStance": false
               }
             ]
           },
@@ -2853,7 +2963,8 @@
               {
                 "actionMask": "mid P",
                 "actionType": "hold",
-                "damage": 52
+                "damage": 52,
+                "togglesStance": false
               }
             ]
           },
@@ -2868,7 +2979,8 @@
               {
                 "actionMask": "low",
                 "actionType": "hold",
-                "damage": 52
+                "damage": 52,
+                "togglesStance": false
               }
             ]
           },
@@ -2883,7 +2995,8 @@
               {
                 "actionMask": "mid K",
                 "actionType": "hold",
-                "damage": 60
+                "damage": 60,
+                "togglesStance": false
               }
             ]
           },
@@ -2901,7 +3014,8 @@
               {
                 "actionMask": "high low mid",
                 "actionType": "hold",
-                "damage": 5
+                "damage": 5,
+                "togglesStance": false
               }
             ]
           },
@@ -2919,7 +3033,8 @@
               {
                 "actionMask": "high mid",
                 "actionType": "hold",
-                "damage": 0
+                "damage": 0,
+                "togglesStance": false
               }
             ],
             "followUps": [
@@ -2936,6 +3051,7 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "damage": 30,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -2959,7 +3075,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionType": "other"
+                        "actionType": "other",
+                        "togglesStance": false
                       }
                     ]
                   },
@@ -2975,7 +3092,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionType": "other"
+                        "actionType": "other",
+                        "togglesStance": false
                       }
                     ]
                   },
@@ -2987,7 +3105,8 @@
                     "actionSteps": [
                       {
                         "actionType": "OH",
-                        "damage": 50
+                        "damage": 50,
+                        "togglesStance": true
                       }
                     ]
                   }
@@ -3012,6 +3131,7 @@
                 "isTracking": false,
                 "damage": 12,
                 "reach": 1.4,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -3040,6 +3160,7 @@
                 "isTracking": false,
                 "damage": 25,
                 "reach": 1.62,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3069,6 +3190,7 @@
                 "isTracking": true,
                 "damage": 16,
                 "reach": 1.68,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3097,6 +3219,7 @@
                 "isTracking": true,
                 "damage": 9,
                 "reach": 1.63,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3125,6 +3248,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 1.82,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -3154,6 +3278,7 @@
                     "isTracking": true,
                     "damage": 30,
                     "reach": 1.84,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -3181,6 +3306,7 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "damage": 30,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -3206,6 +3332,7 @@
                     "isTracking": true,
                     "damage": 22,
                     "reach": 1.63,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -3236,6 +3363,7 @@
                 "isTracking": false,
                 "damage": 25,
                 "reach": 2.1,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -3264,6 +3392,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 1.63,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -3284,6 +3413,11 @@
               15,
               0,
               0
+            ],
+            "actionSteps": [
+              {
+                "togglesStance": true
+              }
             ],
             "endsWith": "TLC",
             "followUpInterval": [
@@ -3319,6 +3453,7 @@
                 "isTracking": true,
                 "damage": 30,
                 "reach": 2.29,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -3339,7 +3474,8 @@
             ],
             "actionSteps": [
               {
-                "actionType": "other"
+                "actionType": "other",
+                "togglesStance": false
               }
             ],
             "followUps": [
@@ -3356,6 +3492,7 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "damage": 30,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -3378,6 +3515,28 @@
               15,
               0,
               0
+            ],
+            "actionSteps": [
+              {
+                "togglesStance": true
+              }
+            ]
+          },
+          {
+            "input": "H",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              5,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other",
+                "togglesStance": true
+              }
             ]
           },
           {
@@ -3394,7 +3553,8 @@
               {
                 "actionMask": "K ground",
                 "actionType": "ground attack",
-                "damage": 12
+                "damage": 12,
+                "togglesStance": false
               }
             ]
           },
@@ -3412,7 +3572,8 @@
               {
                 "actionMask": "K ground",
                 "actionType": "ground attack",
-                "damage": 20
+                "damage": 20,
+                "togglesStance": true
               }
             ],
             "followUps": [
@@ -3423,7 +3584,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionType": "other"
+                    "actionType": "other",
+                    "togglesStance": false
                   }
                 ]
               },
@@ -3431,7 +3593,8 @@
                 "input": "*",
                 "actionSteps": [
                   {
-                    "actionType": "other"
+                    "actionType": "other",
+                    "togglesStance": false
                   }
                 ]
               }
@@ -3457,6 +3620,7 @@
                 "isTracking": false,
                 "damage": 20,
                 "reach": 1.79,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3482,6 +3646,7 @@
                 "isTracking": false,
                 "damage": 10,
                 "reach": 1.43,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3512,6 +3677,7 @@
                     "isTracking": false,
                     "damage": 10,
                     "reach": 1.14,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -3542,6 +3708,7 @@
                         "isTracking": true,
                         "damage": 22,
                         "reach": 1.74,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -3597,6 +3764,7 @@
                         "isTracking": false,
                         "damage": 24,
                         "reach": 1.95,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -3626,6 +3794,7 @@
                 "isTracking": false,
                 "damage": 26,
                 "reach": 1.95,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3651,6 +3820,7 @@
                 "isTracking": false,
                 "damage": 25,
                 "reach": 1.22,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3676,6 +3846,7 @@
                 "isTracking": false,
                 "damage": 45,
                 "reach": 1.1,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3699,7 +3870,8 @@
             ],
             "actionSteps": [
               {
-                "actionType": "other"
+                "actionType": "other",
+                "togglesStance": false
               }
             ],
             "followUps": [
@@ -3712,7 +3884,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionType": "other"
+                    "actionType": "other",
+                    "togglesStance": false
                   }
                 ],
                 "endsWith": "BND",
@@ -3726,7 +3899,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionType": "other"
+                        "actionType": "other",
+                        "togglesStance": false
                       }
                     ],
                     "endsWith": "BND"
@@ -3747,6 +3921,7 @@
                     "isTracking": false,
                     "damage": 25,
                     "reach": 1.92,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -3778,6 +3953,7 @@
                 "isTracking": false,
                 "damage": 20,
                 "reach": 1.51,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3808,6 +3984,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.48,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -3836,6 +4013,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 1.83,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3869,7 +4047,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionType": "other"
+                    "actionType": "other",
+                    "togglesStance": false
                   }
                 ],
                 "followUps": [
@@ -3882,7 +4061,8 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionType": "other"
+                        "actionType": "other",
+                        "togglesStance": false
                       }
                     ],
                     "endsWith": "BND"
@@ -3901,6 +4081,7 @@
                         "isTracking": true,
                         "damage": 24,
                         "reach": 1.96,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -3934,6 +4115,7 @@
                 "isTracking": false,
                 "damage": 10,
                 "reach": 1.57,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -3964,6 +4146,7 @@
                     "isTracking": false,
                     "damage": 22,
                     "reach": 1.36,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -3992,6 +4175,7 @@
                 "isTracking": false,
                 "damage": 24,
                 "reach": 1.61,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4041,6 +4225,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 2.14,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4070,6 +4255,7 @@
                     "isTracking": true,
                     "damage": 30,
                     "reach": 1.84,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -4097,6 +4283,7 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "damage": 30,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -4122,6 +4309,7 @@
                     "isTracking": true,
                     "damage": 22,
                     "reach": 1.63,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -4150,7 +4338,8 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "damage": 15,
-                "reach": 1.84
+                "reach": 1.84,
+                "togglesStance": false
               },
               {
                 "actionMask": "mid K",
@@ -4158,6 +4347,7 @@
                 "isTracking": false,
                 "damage": 10,
                 "reach": 2.48,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4188,6 +4378,7 @@
                     "isTracking": false,
                     "damage": 20,
                     "reach": 2.04,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -4216,6 +4407,7 @@
                 "isTracking": true,
                 "damage": 30,
                 "reach": 2.23,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4244,6 +4436,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 2.16,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4268,6 +4461,7 @@
                 "actionType": "strike",
                 "isTracking": true,
                 "damage": 15,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4297,7 +4491,8 @@
                   {
                     "actionMask": "high K",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "togglesStance": false
                   }
                 ],
                 "followUps": [
@@ -4317,7 +4512,8 @@
                       {
                         "actionMask": "high K",
                         "actionType": "strike",
-                        "isTracking": true
+                        "isTracking": true,
+                        "togglesStance": false
                       }
                     ],
                     "followUps": [
@@ -4335,7 +4531,8 @@
                           {
                             "actionMask": "high K",
                             "actionType": "strike",
-                            "isTracking": true
+                            "isTracking": true,
+                            "togglesStance": true
                           }
                         ]
                       },
@@ -4353,7 +4550,8 @@
                         "actionSteps": [
                           {
                             "actionMask": "high mid",
-                            "actionType": "hold"
+                            "actionType": "hold",
+                            "togglesStance": false
                           }
                         ],
                         "followUps": [
@@ -4368,7 +4566,8 @@
                               {
                                 "actionMask": "mid K",
                                 "actionType": "strike",
-                                "isTracking": false
+                                "isTracking": false,
+                                "togglesStance": true
                               }
                             ],
                             "followUps": [
@@ -4381,7 +4580,8 @@
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "other"
+                                    "actionType": "other",
+                                    "togglesStance": false
                                   }
                                 ]
                               },
@@ -4397,7 +4597,8 @@
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "other"
+                                    "actionType": "other",
+                                    "togglesStance": false
                                   }
                                 ]
                               },
@@ -4408,7 +4609,8 @@
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "OH"
+                                    "actionType": "OH",
+                                    "togglesStance": true
                                   }
                                 ]
                               }
@@ -4435,7 +4637,8 @@
                 "actionType": "throw",
                 "isTracking": true,
                 "damage": 36,
-                "reach": 1.87
+                "reach": 1.87,
+                "togglesStance": false
               }
             ],
             "endsWith": "BND"
@@ -4465,6 +4668,7 @@
                 "isTracking": false,
                 "damage": 12,
                 "reach": 1.1,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -4493,6 +4697,7 @@
                 "isTracking": true,
                 "damage": 16,
                 "reach": 1.35,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4521,6 +4726,7 @@
                 "isTracking": true,
                 "damage": 18,
                 "reach": 1.57,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4549,6 +4755,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 1.24,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -4577,6 +4784,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 1.66,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4617,6 +4825,7 @@
                 "isTracking": true,
                 "damage": 30,
                 "reach": 1.06,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -4657,6 +4866,7 @@
                 "isTracking": true,
                 "damage": 16,
                 "reach": 1.39,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -4681,6 +4891,7 @@
                 "actionType": "strike",
                 "isTracking": false,
                 "damage": 22,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -4706,6 +4917,7 @@
                 "isTracking": true,
                 "damage": 10,
                 "reach": 1.04,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -4735,6 +4947,7 @@
                     "isTracking": true,
                     "damage": 10,
                     "reach": 1.6,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -4764,6 +4977,7 @@
                         "isTracking": true,
                         "damage": 30,
                         "reach": 1.69,
+                        "togglesStance": true,
                         "results": [
                           {
                             "condition": [
@@ -4789,6 +5003,7 @@
                         "isTracking": false,
                         "damage": 26,
                         "reach": 1.5,
+                        "togglesStance": true,
                         "results": [
                           {
                             "condition": [
@@ -4816,6 +5031,7 @@
                     "isTracking": true,
                     "damage": 40,
                     "reach": 1.91,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -4846,6 +5062,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 1.83,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -4875,6 +5092,7 @@
                     "isTracking": true,
                     "damage": 20,
                     "reach": 2.68,
+                    "togglesStance": false,
                     "results": [
                       {
                         "condition": [
@@ -4904,6 +5122,7 @@
                         "isTracking": true,
                         "damage": 20,
                         "reach": 2.68,
+                        "togglesStance": false,
                         "results": [
                           {
                             "condition": [
@@ -4929,6 +5148,7 @@
                         "isTracking": true,
                         "damage": 30,
                         "reach": 2.94,
+                        "togglesStance": true,
                         "results": [
                           {
                             "condition": [
@@ -4956,6 +5176,7 @@
                     "isTracking": true,
                     "damage": 30,
                     "reach": 2.94,
+                    "togglesStance": true,
                     "results": [
                       {
                         "condition": [
@@ -4983,6 +5204,7 @@
                 "isTracking": true,
                 "damage": 22,
                 "reach": 1.76,
+                "togglesStance": true,
                 "results": [
                   {
                     "condition": [
@@ -5008,6 +5230,7 @@
                 "isTracking": true,
                 "damage": 30,
                 "reach": 1.83,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -5033,6 +5256,7 @@
                 "isTracking": true,
                 "damage": 40,
                 "reach": 2.18,
+                "togglesStance": false,
                 "results": [
                   {
                     "condition": [
@@ -5051,57 +5275,7 @@
       },
       {
         "abbreviation": "GND",
-        "description": "On the ground",
-        "moves": [
-          {
-            "input": "K",
-            "frameData": [
-              35,
-              4,
-              18
-            ],
-            "actionSteps": [
-              {
-                "actionMask": "mid K",
-                "actionType": "strike",
-                "isTracking": true,
-                "damage": 20,
-                "results": [
-                  {
-                    "condition": [
-                      "guard"
-                    ],
-                    "hitBlock": 15
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "input": "K",
-            "frameData": [
-              34,
-              4,
-              18
-            ],
-            "actionSteps": [
-              {
-                "actionMask": "low K",
-                "actionType": "strike",
-                "isTracking": true,
-                "damage": 20,
-                "results": [
-                  {
-                    "condition": [
-                      "guard"
-                    ],
-                    "hitBlock": 11
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "description": "On the ground"
       },
       {
         "abbreviation": "FNC",
@@ -5118,7 +5292,8 @@
               {
                 "actionMask": "mid P",
                 "actionType": "jump attack",
-                "isTracking": false
+                "isTracking": false,
+                "togglesStance": false
               }
             ]
           },
@@ -5133,7 +5308,8 @@
               {
                 "actionMask": "mid K ground",
                 "actionType": "jump attack",
-                "isTracking": false
+                "isTracking": false,
+                "togglesStance": true
               }
             ]
           },
@@ -5146,7 +5322,8 @@
             ],
             "actionSteps": [
               {
-                "actionType": "other"
+                "actionType": "other",
+                "togglesStance": false
               }
             ],
             "followUps": [
@@ -5161,7 +5338,8 @@
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "togglesStance": true
                   }
                 ]
               },
@@ -5176,7 +5354,8 @@
                   {
                     "actionMask": "low K ground",
                     "actionType": "strike",
-                    "isTracking": true
+                    "isTracking": true,
+                    "togglesStance": false
                   }
                 ]
               },
@@ -5191,7 +5370,8 @@
                   {
                     "actionMask": "high",
                     "actionType": "throw",
-                    "isTracking": true
+                    "isTracking": true,
+                    "togglesStance": false
                   }
                 ]
               },
@@ -5204,7 +5384,8 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionType": "other"
+                    "actionType": "other",
+                    "togglesStance": false
                   }
                 ]
               }
@@ -5221,7 +5402,8 @@
               {
                 "actionMask": "high",
                 "actionType": "throw",
-                "isTracking": true
+                "isTracking": true,
+                "togglesStance": false
               }
             ]
           }

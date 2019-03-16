@@ -98,6 +98,14 @@ define(
                     fill: actionStepToReachText,
                     parameterModifier: changeActionStepReach
                 }, {
+                    id: 'togglesStance',
+                    inputType: EditorCreatorBase.INPUT_TYPES.checkbox,
+                    // FIXME: localize
+                    label: 'Toggles stance',
+                    description: 'Whether or not changes leading leg',
+                    fill: actionStepToTogglesStanceChecked,
+                    parameterModifier: changeActionStepTogglesStance
+                }, {
                     id: 'tags',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: Strings('moveActionTags'),
@@ -259,6 +267,16 @@ define(
                 var oldValue = actionStep.damage;
                 actionStep.damage = newDamage;
                 return oldValue !== newDamage;
+            }
+
+
+            // undefined, true or false
+            function actionStepToTogglesStanceChecked(actionStep) { return actionStep.togglesStance; }
+            function changeActionStepTogglesStance(isChecked, isIndeterminate, actionStep) {
+                var newValue = isIndeterminate ? undefined : isChecked;
+                var oldValue = actionStep.togglesStance;
+                actionStep.togglesStance = newValue;
+                return oldValue !== newValue;
             }
 
 

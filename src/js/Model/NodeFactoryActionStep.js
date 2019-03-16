@@ -80,6 +80,8 @@ define(
 
                 reach: undefined, // float
 
+                togglesStance: undefined, // boolean
+
                 // condition: undefined,
                 tags: [],
 
