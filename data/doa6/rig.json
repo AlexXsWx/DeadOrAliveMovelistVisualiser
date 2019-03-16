@@ -2195,7 +2195,10 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "35"
+                    "hitBlock": "35",
+                    "tags": [
+                      "guard break"
+                    ]
                   }
                 ]
               }
@@ -2938,7 +2941,10 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": 45
+                        "hitBlock": 45,
+                        "tags": [
+                          "guard break"
+                        ]
                       }
                     ]
                   }
@@ -3675,7 +3681,10 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": 35
+                    "hitBlock": 35,
+                    "tags": [
+                      "guard break"
+                    ]
                   }
                 ]
               }
@@ -4812,7 +4821,10 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": 36
+                        "hitBlock": 36,
+                        "tags": [
+                          "guard break"
+                        ]
                       }
                     ]
                   }
@@ -5026,7 +5038,10 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": 35
+                    "hitBlock": 35,
+                    "tags": [
+                      "guard break"
+                    ]
                   }
                 ]
               }
