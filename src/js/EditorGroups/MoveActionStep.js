@@ -291,7 +291,9 @@ define(
 
             function actionStepToTagsText(actionStep) { return actionStep.tags.join(', ') || ''; }
             function changeActionStepTags(newValue, actionStep) {
-                var newTags = newValue.split(/,\s*/);
+                var newTags = newValue.split(/,\s*/).map(
+                    function(string) { return string.trim(); }
+                ).filter(Boolean);
                 var changed = _.arraysConsistOfSameStrings(actionStep.tags, newTags);
                 actionStep.tags = newTags;
                 return changed;

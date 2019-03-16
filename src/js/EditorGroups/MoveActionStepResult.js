@@ -181,7 +181,9 @@ define(
             }
 
             function changeTags(newValue, actionStepResult) {
-                var newTags = newValue.split(/,\s*/);
+                var newTags = newValue.split(/,\s*/).map(
+                    function(string) { return string.trim(); }
+                ).filter(Boolean);
                 var changed = _.arraysConsistOfSameStrings(actionStepResult.tags, newTags);
                 actionStepResult.tags = newTags;
                 return changed;
