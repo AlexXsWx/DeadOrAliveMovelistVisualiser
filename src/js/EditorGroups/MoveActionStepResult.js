@@ -64,6 +64,14 @@ define(
                     fill: actionStepResultToStunDurationMax,
                     parameterModifier: changeStunDurationMax
                 }, {
+                    id: 'launchHeight',
+                    inputType: EditorCreatorBase.INPUT_TYPES.text,
+                    label: 'Launch height',
+                    description: 'Height reported by 2nd page in Skill info (left side) vs Welter weight (e.g. Zack)',
+                    placeholderText: 'e.g. 1.76',
+                    fill: actionStepResultToLaunchHeight,
+                    parameterModifier: changeLaunchHeight
+                }, {
                     id: 'tags',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: Strings('moveActionResultTags'),
@@ -103,10 +111,17 @@ define(
             }
 
             function changeHitBlock(newValue, actionStepResult) {
+                var changed = (
+                    actionStepResult.stunDurationMin !== undefined ||
+                    actionStepResult.stunDurationMax !== undefined
+                );
+                actionStepResult.stunDurationMin = undefined;
+                actionStepResult.stunDurationMax = undefined;
+
                 var oldValue = actionStepResult.hitBlock;
-                var newValueAsNumber = Number(newValue);
+                var newValueAsNumber = newValue ? Number(newValue) : undefined;
                 actionStepResult.hitBlock = newValueAsNumber;
-                return newValueAsNumber === oldValue;
+                return changed || newValueAsNumber === oldValue;
             }
 
 
@@ -126,9 +141,12 @@ define(
             }
 
             function changeStunDurationMin(newValue, actionStepResult) {
+                var changed = actionStepResult.hitBlock !== undefined;
+                actionStepResult.hitBlock = undefined;
                 var oldValue = actionStepResult.stunDurationMin;
-                actionStepResult.stunDurationMin = newValue;
-                return newValue === oldValue;
+                var newValueAsNumber = newValue ? Number(newValue) : undefined;
+                actionStepResult.stunDurationMin = newValueAsNumber;
+                return changed || newValue === oldValue;
             }
 
 
@@ -137,8 +155,23 @@ define(
             }
 
             function changeStunDurationMax(newValue, actionStepResult) {
+                var changed = actionStepResult.hitBlock !== undefined;
+                actionStepResult.hitBlock = undefined;
                 var oldValue = actionStepResult.stunDurationMax;
-                actionStepResult.stunDurationMax = newValue;
+                var newValueAsNumber = newValue ? Number(newValue) : undefined;
+                actionStepResult.stunDurationMax = newValueAsNumber;
+                return changed || newValue === oldValue;
+            }
+
+
+            function actionStepResultToLaunchHeight(actionStepResult) {
+                return actionStepResult.launchHeight || '';
+            }
+
+            function changeLaunchHeight(newValue, actionStepResult) {
+                var oldValue = actionStepResult.launchHeight;
+                var newValueAsNumber = newValue ? Number(newValue) : undefined;
+                actionStepResult.launchHeight = newValueAsNumber;
                 return newValue === oldValue;
             }
 

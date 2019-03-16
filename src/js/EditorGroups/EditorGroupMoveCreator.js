@@ -91,15 +91,6 @@ define(
                     fill: frameDataToText,
                     parameterModifier: changeFrameData
                 }, {
-                    id: 'summaryAdvantageOnBlock',
-                    inputType: EditorCreatorBase.INPUT_TYPES.text,
-                    label: Strings('summaryAdvantageOnBlock'),
-                    description: Strings('summaryAdvantageOnBlockDescription'),
-                    isSummary: true,
-                    placeholderText: 'e.g. "-8"',
-                    fill: actionStepResultToAdvantageOnBlock,
-                    parameterModifier: changeAdvantageOnBlock
-                }, {
                     id: 'followUpInterval',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: Strings('followUpInterval'),
@@ -217,51 +208,48 @@ define(
 
                 result.push(frameDataToText(nodeData));
 
-                var safety = actionStepResultToAdvantageOnBlock(nodeData);
-                if (safety) {
-                    result.push('/' + safety);
-                }
+                var map = {
+                    'g': NodeFactoryActionStepResult.CONDITION.GUARD,
+                    'n': NodeFactoryActionStepResult.CONDITION.NEUTRAL_HIT
+                };
+
+                Object.keys(map).forEach(function(prefix) {
+                    var condition = map[prefix];
+                    var advantage = actionStepResultToAdvantage(nodeData, condition);
+                    if (advantage.value || advantage.value === 0) {
+                        var str = prefix + signed(advantage.value);
+                        if (advantage.stun) str += 's';
+                        result.push(str);
+                    }
+                });
 
                 return result.join(' ');
 
+            }
+
+            function signed(number) {
+                return String(number)[0] === '-' ? number : '+' + number;
             }
 
             function changeSummary2(newValueRaw, nodeData) {
 
                 var changed = false;
 
-                var trackingPart  = '';
-                var frameDataPart = '';
-                var safetyPart    = '';
+                var matchResult = /^(t|d)?\s*(?:([\d+\(\)\s*]+)(.*)?)?$/.exec(newValueRaw);
 
-                var safetyStart = newValueRaw.indexOf('/');
-                var numbersStart = newValueRaw.search(/-?\d/);
-                if (safetyStart >= 0 && safetyStart < numbersStart) {
-                    numbersStart = -1;
-                }
+                var trackingPart  = (matchResult && matchResult[1] || '').trim();
+                var frameDataPart = (matchResult && matchResult[2] || '').trim();
+                var advantagePart = (matchResult && matchResult[3] || '').trim();
 
-                if (numbersStart > 0) {
-                    trackingPart = newValueRaw.substring(0, numbersStart);
-                }
-
-                if (numbersStart >= 0) {
-                    frameDataPart = newValueRaw.substring(
-                        numbersStart,
-                        safetyStart >= 0 ? safetyStart : numbersStart.length
-                    );
-                }
-
-                if (safetyStart >= 0) {
-                    safetyPart = newValueRaw.substring(safetyStart + 1);
-                }
-
-                changed = editorGroupMove2.getFirstChildrenEditor().extension.changeTrackingFromSummary(
-                    trackingPart,
-                    nodeData.actionSteps[0]
-                ) || changed;
+                changed = (
+                    editorGroupMove2.getFirstChildrenEditor().extension.changeTrackingFromSummary(
+                        trackingPart,
+                        nodeData.actionSteps[0]
+                    ) || changed
+                );
 
                 changed = changeFrameData(frameDataPart, nodeData) || changed;
-                changed = changeAdvantageOnBlock(safetyPart, nodeData) || changed;
+                changed = changeAdvantage(advantagePart, nodeData) || changed;
 
                 return changed;
 
@@ -300,20 +288,82 @@ define(
             }
 
 
-            function actionStepResultToAdvantageOnBlock(nodeData) {
-                var advantageRange = NodeFactoryMove.getAdvantageRange(
-                    nodeData,
-                    NodeFactoryActionStepResult.getHitBlock,
+            function actionStepResultToAdvantage(nodeData, condition) {
+                var map = {};
+                map[NodeFactoryActionStepResult.CONDITION.GUARD] = (
                     NodeFactoryActionStepResult.doesDescribeGuard
                 );
-                return advantageRange ? advantageRange.min : '';
+                map[NodeFactoryActionStepResult.CONDITION.NEUTRAL_HIT] = (
+                    NodeFactoryActionStepResult.doesDescribeNeutralHit
+                );
+                map[NodeFactoryActionStepResult.CONDITION.COUNTER_HIT] = (
+                    NodeFactoryActionStepResult.doesDescribeCounterHit
+                );
+                var advantageRange = NodeFactoryMove.getAdvantageRange(
+                    nodeData,
+                    NodeFactoryActionStepResult.getHitBlockOrStun,
+                    map[condition]
+                );
+                return {
+                    value: advantageRange ? advantageRange.min : '',
+                    stun:  advantageRange ? advantageRange.stun : false
+                };
             }
 
-            function changeAdvantageOnBlock(advantageStr, nodeData) {
+            function changeAdvantage(advantageStr, nodeData) {
+                var changed = false;
+
+                var map = {
+                    'g': function(advantageOnGuard, stun) {
+                        return changeAdvantageHelper(
+                            advantageOnGuard, nodeData,
+                            NodeFactoryActionStepResult.doesDescribeGuard,
+                            NodeFactoryActionStepResult.CONDITION.GUARD,
+                            stun
+                        );
+                    },
+                    'n': function(advantageOnNeutralHit, stun) {
+                        return changeAdvantageHelper(
+                            advantageOnNeutralHit, nodeData,
+                            NodeFactoryActionStepResult.doesDescribeNeutralHit,
+                            NodeFactoryActionStepResult.CONDITION.NEUTRAL_HIT,
+                            stun
+                        );
+                    }
+                };
+                Object.keys(map).forEach(function(prefix) {
+                    var regex = new RegExp(prefix + '\\s*([-+]?\\s*\\d+)(s)?', 'i');
+                    var matchResult = regex.exec(advantageStr);
+                    var numberStr = (matchResult && matchResult[1] || '').replace(/\s*/g, '');
+                    var stun = matchResult && matchResult[2];
+                    changed = map[prefix](numberStr, stun) || changed;
+                });
+                return changed;
+            }
+
+            function changeAdvantageHelper(
+                advantageStr,
+                nodeData,
+                actionStepResultPredicate,
+                condition,
+                stun
+            ) {
+                var getHitBlockOrStun = stun ? getStun : getHitBlock;
+                var setHitBlockOrStun = stun ? setStun : setHitBlock;
+                function getHitBlock(actionStepResult) { return actionStepResult.hitBlock; }
+                function setHitBlock(actionStepResult, value) {
+                    actionStepResult.hitBlock = value;
+                    actionStepResult.stunDurationMax = undefined;
+                }
+                function getStun(actionStepResult) { return actionStepResult.stunDurationMax; }
+                function setStun(actionStepResult, value) {
+                    actionStepResult.hitBlock = undefined;
+                    actionStepResult.stunDurationMax = value;
+                }
 
                 var changed = false;
 
-                // Frame data is required to convert input to storable value
+                // Frame data is required to convert advantage to hitblock/stun duration
                 if (!NodeFactoryMove.hasMinimalFrameDataInfo(nodeData)) {
                     return changed;
                 }
@@ -323,12 +373,97 @@ define(
                 for (var i = nodeData.actionSteps.length - 1; i >= 0 && !actionStep; --i) {
                     actionStep = nodeData.actionSteps[i];
                 }
+                if (!actionStep) return changed;
 
-                // if there's one
-                if (actionStep) {
+                var actionStepResult = null;
 
-                    var isNewHitBlockProvided = false;
-                    var hitBlock = 0;
+                // Try to find existing action step result that describes given condition
+                for (var i = 0; i < actionStep.results.length; ++i) {
+                    var result = actionStep.results[i];
+                    if (result && actionStepResultPredicate(result)) {
+                        actionStepResult = result;
+                        break;
+                    }
+                }
+
+                var hitBlockOrStun = getHitBlockOrStunDuration(advantageStr, nodeData);
+
+                var needToCleanUpCondition  = false;
+                var needToAddCondition      = false;
+                var needNewActionStepResult = false;
+
+                if (hitBlockOrStun.provided) {
+                    if (actionStepResult) {
+                        if (
+                            hitBlockOrStun.provided &&
+                            actionStepResult.condition.length > 1 &&
+                            getHitBlockOrStun(actionStepResult) !== hitBlockOrStun.duration
+                        ) {
+                            needToCleanUpCondition  = true;
+                            needNewActionStepResult = true;
+                        }
+                    } else {
+                        // Try to find empty action step result to use
+                        for (var i = 0; i < actionStep.results.length; ++i) {
+                            var result = actionStep.results[i];
+                            if (NodeFactoryActionStepResult.isEmpty(result)) {
+                                actionStepResult = result;
+                                needToAddCondition = true;
+                                break;
+                            }
+                        }
+                        if (!actionStepResult) {
+                            needNewActionStepResult = true;
+                        }
+                    }
+                } else
+                if (actionStepResult) {
+                    needToCleanUpCondition = true;
+                }
+
+                if (needToCleanUpCondition) {
+                    changed = true;
+                    NodeFactoryActionStepResult.removeCondition(actionStepResult, condition);
+                    if (actionStepResult.condition.length === 0) {
+                        actionStep.results.splice(
+                            actionStep.results.indexOf(actionStepResult), 1
+                        );
+                        if (actionStep.results.length === 0) {
+                            // Create default placeholder
+                            actionStep.results.push(
+                                NodeFactoryActionStepResult.createMoveActionStepResult()
+                            );
+                        }
+                    }
+                }
+
+                if (needNewActionStepResult) {
+                    changed = true;
+                    actionStepResult = NodeFactoryActionStepResult.createMoveActionStepResult();
+                    actionStep.results.push(actionStepResult);
+                    needToAddCondition = true;
+                }
+
+                if (needToAddCondition) {
+                    changed = true;
+                    NodeFactoryActionStepResult.addCondition(actionStepResult, condition);
+                }
+
+                if (
+                    hitBlockOrStun.provided &&
+                    getHitBlockOrStun(actionStepResult) !== hitBlockOrStun.duration
+                ) {
+                    changed = true;
+                    setHitBlockOrStun(actionStepResult, hitBlockOrStun.duration);
+                }
+
+                return changed;
+
+                function getHitBlockOrStunDuration(advantageStr, nodeData) {
+                    var result = {
+                        duration: 0,
+                        provided: false
+                    };
 
                     var advantage = Number(advantageStr);
                     if (advantageStr && !isNaN(advantage)) {
@@ -336,90 +471,12 @@ define(
                         var recoveryFramesCount = NodeFactoryMove.getRecoveryFramesCount(nodeData);
                         // Assuming advantage is given for situation where first active frame lands
                         var activeFramesAfterLanded = activeFramesCount - 1;
-                        hitBlock = activeFramesAfterLanded + recoveryFramesCount + advantage;
-                        isNewHitBlockProvided = true;
+                        result.duration = activeFramesAfterLanded + recoveryFramesCount + advantage;
+                        result.provided = true;
                     }
 
-                    var actionStepResult = null;
-
-                    // Try to find existing action step result that describes guard
-                    for (var i = 0; i < actionStep.results.length; ++i) {
-                        var result = actionStep.results[i];
-                        if (result && NodeFactoryActionStepResult.doesDescribeGuard(result)) {
-                            actionStepResult = result;
-                            break;
-                        }
-                    }
-
-                    var cleanupGuard = false;
-                    var addGuardCondition = false;
-                    var createNewActionStepResult = false;
-
-                    if (isNewHitBlockProvided) {
-                        if (actionStepResult) {
-                            if (
-                                isNewHitBlockProvided &&
-                                actionStepResult.condition.length > 1 &&
-                                actionStepResult.hitBlock !== hitBlock
-                            ) {
-                                cleanupGuard = true;
-                                createNewActionStepResult = true;
-                            }
-                        } else {
-                            // Try to find empty action step result to use
-                            for (var i = 0; i < actionStep.results.length; ++i) {
-                                var result = actionStep.results[i];
-                                if (NodeFactoryActionStepResult.isEmpty(result)) {
-                                    actionStepResult = result;
-                                    addGuardCondition = true;
-                                    break;
-                                }
-                            }
-                            if (!actionStepResult) {
-                                createNewActionStepResult = true;
-                            }
-                        }
-                    } else
-                    if (actionStepResult) {
-                        cleanupGuard = true;
-                    }
-
-                    if (cleanupGuard) {
-                        changed = true;
-                        NodeFactoryActionStepResult.removeGuardCondition(actionStepResult);
-                        if (actionStepResult.condition.length === 0) {
-                            actionStep.results.splice(
-                                actionStep.results.indexOf(actionStepResult), 1
-                            );
-                            if (actionStep.results.length === 0) {
-                                // Create default placeholder
-                                actionStep.results.push(
-                                    NodeFactoryActionStepResult.createMoveActionStepResult()
-                                );
-                            }
-                        }
-                    }
-
-                    if (createNewActionStepResult) {
-                        changed = true;
-                        actionStepResult = NodeFactoryActionStepResult.createMoveActionStepResult();
-                        actionStep.results.push(actionStepResult); 
-                        addGuardCondition = true;
-                    }
-
-                    if (addGuardCondition) {
-                        changed = true;
-                        actionStepResult.condition.push('guard');
-                    }
-
-                    if (isNewHitBlockProvided && actionStepResult.hitBlock !== hitBlock) {
-                        changed = true;
-                        actionStepResult.hitBlock = hitBlock;
-                    }
+                    return result;
                 }
-
-                return changed;
-
             }
 
 
@@ -434,7 +491,8 @@ define(
             function followUpIntervalToText(nodeData) { return nodeData.followUpInterval.join('~'); }
             function changeFollowUpInterval(newValueRaw, nodeData) {
                 var oldValue = nodeData.followUpInterval;
-                var newValue = newValueRaw.match(/\d+/g).map(strToIntMapper);
+                var numbers = newValueRaw.match(/\d+/g);
+                var newValue = numbers ? numbers.map(strToIntMapper) : [];
                 nodeData.followUpInterval = newValue;
                 return !_.arraysAreEqual(oldValue, newValue);
             }

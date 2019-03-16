@@ -75,13 +75,6 @@ define(
             'moveFrameDataDescription': 'Frame data of the move - e.g. "11 (2) 15"',
             'moveFrameDataPlaceholder': 'e.g. "11 (2) 15"',
 
-            'summaryAdvantageOnBlock': 'Advantage on block',
-            'summaryAdvantageOnBlockDescription': (
-                'Helper field, uses entered number to calculate hit block duration.\n' +
-                'It assumes that move landed on the first active frame.\n' +
-                'Frame data for this move has to be already entered for it to work'
-            ),
-
             'followUpInterval': 'Followup interval',
             'followUpIntervalDescription': 'When doing followup, how many frames total without initial',
             'followUpIntervalPlaceholder': 'e.g. "12~23"',

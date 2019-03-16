@@ -65,8 +65,7 @@
                       "bt hch"
                     ],
                     "criticalHoldDelay": "6",
-                    "stunDurationMax": "25",
-                    "switchFrameBT": 7
+                    "stunDurationMax": "25"
                   }
                 ]
               }
@@ -130,8 +129,7 @@
                           "bt hch"
                         ],
                         "criticalHoldDelay": "6",
-                        "stunDurationMax": "25",
-                        "switchFrameBT": 7
+                        "stunDurationMax": "25"
                       }
                     ]
                   }
@@ -218,8 +216,7 @@
                               "bt hch"
                             ],
                             "criticalHoldDelay": "14",
-                            "stunDurationMax": "41",
-                            "switchFrameBT": 27
+                            "stunDurationMax": "41"
                           }
                         ]
                       }
@@ -276,8 +273,7 @@
                                   "bt hch"
                                 ],
                                 "criticalHoldDelay": "14",
-                                "stunDurationMax": "41",
-                                "switchFrameBT": 27
+                                "stunDurationMax": "41"
                               },
                               {
                                 "condition": [
@@ -318,8 +314,7 @@
                                   "closed ch"
                                 ],
                                 "criticalHoldDelay": "29",
-                                "stunDurationMax": "38",
-                                "switchFrameCr": 13
+                                "stunDurationMax": "38"
                               },
                               {
                                 "condition": [
@@ -348,15 +343,10 @@
                                   "open ch"
                                 ],
                                 "criticalHoldDelay": "29",
-                                "stunDurationMax": "38",
-                                "switchFrameCr": 17
+                                "stunDurationMax": "38"
                               }
                             ]
                           }
-                        ],
-                        "techCrouch": [
-                          1,
-                          50
                         ],
                         "comment": "has followup interval"
                       },

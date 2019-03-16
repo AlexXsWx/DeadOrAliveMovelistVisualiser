@@ -68,7 +68,6 @@ define(
             var childrenEditors = []; // or keep undefined for when without children?
             var editorInputs = {};
             var editorInputFillers = {};
-            var editorInputChangers = {};
 
             editorInputsDescription.forEach(function(editorInputDescription, index) {
 
@@ -126,7 +125,6 @@ define(
 
                 if (tableRow) {
                     editorInputs[editorInputId] = tableRow;
-                    editorInputChangers[editorInputId] = nodeDataParameterChanger;
                     table.appendChild(tableRow.domRoot);
                 }
 

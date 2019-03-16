@@ -8,16 +8,25 @@ define(
 
         var guardRegex = /block|guard/i;
 
+        var CONDITION = {
+            GUARD:       'guard',
+            NEUTRAL_HIT: 'neutral',
+            COUNTER_HIT: 'counter'
+        };
+
         return {
+
+            CONDITION: CONDITION,
 
             createMoveActionStepResult: createMoveActionStepResult,
             serialize:                  serialize,
 
-            removeGuardCondition: removeGuardCondition,
+            addCondition:    addCondition,
+            removeCondition: removeCondition,
 
             doesDescribeGuard:      conditionChecker(guardRegex),
-            doesDescribeNeutralHit: conditionChecker('neutral'),
-            doesDescribeCounterHit: conditionChecker('counter'),
+            doesDescribeNeutralHit: conditionChecker(CONDITION.NEUTRAL_HIT),
+            doesDescribeCounterHit: conditionChecker(CONDITION.COUNTER_HIT),
 
             // When a move forces to get up from first hit
             doesDescribeForcetech: conditionChecker(/forcetech/i),
@@ -30,7 +39,8 @@ define(
             
             isEmpty: isEmpty,
 
-            getHitBlock: getHitBlock
+            getHitBlock:       getHitBlock,
+            getHitBlockOrStun: getHitBlockOrStun
 
         };
 
@@ -77,6 +87,8 @@ define(
                 // second number in critical hold interval with stagger escape on
                 stunDurationMax: undefined,
 
+                launchHeight: undefined, // Float
+
                 // tags
                 // turnsOpponentAround: undefined, // bool
                 // turnsAround:         undefined, // bool
@@ -113,10 +125,16 @@ define(
 
         //
 
-        function removeGuardCondition(actionStepResult) {
+        function addCondition(actionStepResult, condition) {
+            actionStepResult.condition.push(condition);
+        }
+
+        function removeCondition(actionStepResult, condition) {
+            var search = condition;
+            if (condition === CONDITION.GUARD) search = guardRegex;
             var changed = false;
             while (true) {
-                var index = _.searchInStringArray(actionStepResult.condition, guardRegex);
+                var index = _.searchInStringArray(actionStepResult.condition, search);
                 if (index < 0) break;
                 changed = true;
                 actionStepResult.condition.splice(index, 1);
@@ -134,6 +152,10 @@ define(
 
         function getHitBlock(actionStepResult) {
             return actionStepResult.hitBlock;
+        }
+
+        function getHitBlockOrStun(actionStepResult) {
+            return _.defined(actionStepResult.hitBlock, actionStepResult.stunDurationMax);
         }
 
         // Helpers

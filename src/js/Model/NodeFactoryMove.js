@@ -194,7 +194,8 @@ define(
             var minAdvantage = maxAdvantage - activeFramesVarianceRoom;
             return {
                 min: minAdvantage,
-                max: maxAdvantage
+                max: maxAdvantage,
+                stun: stun.stun
             };
 
             function getStun(nodeData, getDuration, optActionStepResultFilter) {
@@ -216,7 +217,8 @@ define(
                             if (isNaN(lockDuration) || !isFinite(lockDuration)) continue;
                             return {
                                 lockDuration: lockDuration,
-                                actionStep: i
+                                actionStep: i,
+                                stun: results[j].stunDurationMax !== undefined
                             };
                         }
                     }
@@ -276,7 +278,9 @@ define(
         }
 
         function frameDataToString(nodeData) {
-            return nodeData.frameData.join(' ') || '';
+            return nodeData.frameData.map(function(number, index) {
+                return index % 2 ? '(' + number + ')' : number;
+            }).join(' ') || '';
         }
 
         function hasMinimalFrameDataInfo(nodeData) {
