@@ -1,11 +1,11 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1552417173700
+    "timeSaved": 1552750787566
   },
   "body": {
     "character": "Rig",
-    "version": "DOA6 v1.0.1 #76 (steam)",
+    "version": "DOA6 v1.0.2 #20 (steam)",
     "stances": [
       {
         "abbreviation": "STD",
@@ -28,44 +28,9 @@
                 "results": [
                   {
                     "condition": [
-                      "neutral"
-                    ],
-                    "hitBlock": "14"
-                  },
-                  {
-                    "condition": [
-                      "stun",
-                      "hi-counter"
-                    ],
-                    "criticalHoldDelay": "6",
-                    "stunDurationMax": "50"
-                  },
-                  {
-                    "condition": [
-                      "counter"
-                    ],
-                    "hitBlock": "16"
-                  },
-                  {
-                    "condition": [
                       "guard"
                     ],
                     "hitBlock": "14"
-                  },
-                  {
-                    "condition": [
-                      "critical reversal"
-                    ],
-                    "launchHeight": 0.92
-                  },
-                  {
-                    "condition": [
-                      "bt n",
-                      "bt ch",
-                      "bt hch"
-                    ],
-                    "criticalHoldDelay": "6",
-                    "stunDurationMax": "25"
                   }
                 ]
               }
@@ -92,44 +57,9 @@
                     "results": [
                       {
                         "condition": [
-                          "neutral"
-                        ],
-                        "hitBlock": "12"
-                      },
-                      {
-                        "condition": [
-                          "stun",
-                          "hi-counter"
-                        ],
-                        "criticalHoldDelay": "6",
-                        "stunDurationMax": "50"
-                      },
-                      {
-                        "condition": [
-                          "counter"
-                        ],
-                        "hitBlock": "16"
-                      },
-                      {
-                        "condition": [
                           "guard"
                         ],
                         "hitBlock": "9"
-                      },
-                      {
-                        "condition": [
-                          "critical reversal"
-                        ],
-                        "launchHeight": 0.99
-                      },
-                      {
-                        "condition": [
-                          "bt n",
-                          "bt ch",
-                          "bt hch"
-                        ],
-                        "criticalHoldDelay": "6",
-                        "stunDurationMax": "25"
                       }
                     ]
                   }
@@ -183,40 +113,9 @@
                         "results": [
                           {
                             "condition": [
-                              "neutral"
-                            ],
-                            "hitBlock": "14"
-                          },
-                          {
-                            "condition": [
-                              "counter",
-                              "hi-counter",
-                              "stun"
-                            ],
-                            "criticalHoldDelay": "12",
-                            "stunDurationMax": "35"
-                          },
-                          {
-                            "condition": [
                               "guard"
                             ],
                             "hitBlock": "12"
-                          },
-                          {
-                            "condition": [
-                              "critical reversal"
-                            ],
-                            "criticalHoldDelay": "14",
-                            "stunDurationMax": "30"
-                          },
-                          {
-                            "condition": [
-                              "bt n",
-                              "bt ch",
-                              "bt hch"
-                            ],
-                            "criticalHoldDelay": "14",
-                            "stunDurationMax": "41"
                           }
                         ]
                       }
@@ -246,40 +145,9 @@
                             "results": [
                               {
                                 "condition": [
-                                  "neutral"
-                                ],
-                                "criticalHoldDelay": "6",
-                                "stunDurationMax": "27"
-                              },
-                              {
-                                "condition": [
-                                  "counter",
-                                  "hi-counter",
-                                  "stun"
-                                ],
-                                "criticalHoldDelay": "6",
-                                "stunDurationMax": "50"
-                              },
-                              {
-                                "condition": [
                                   "guard"
                                 ],
                                 "hitBlock": "19"
-                              },
-                              {
-                                "condition": [
-                                  "bt n",
-                                  "bt ch",
-                                  "bt hch"
-                                ],
-                                "criticalHoldDelay": "14",
-                                "stunDurationMax": "41"
-                              },
-                              {
-                                "condition": [
-                                  "critical reversal"
-                                ],
-                                "launchHeight": 0.92
                               }
                             ]
                           }
@@ -303,47 +171,9 @@
                             "results": [
                               {
                                 "condition": [
-                                  "neutral",
-                                  "crouching"
-                                ],
-                                "criticalHoldDelay": "6",
-                                "stunDurationMax": "36"
-                              },
-                              {
-                                "condition": [
-                                  "closed ch"
-                                ],
-                                "criticalHoldDelay": "29",
-                                "stunDurationMax": "38"
-                              },
-                              {
-                                "condition": [
                                   "guard"
                                 ],
                                 "hitBlock": "10"
-                              },
-                              {
-                                "condition": [
-                                  "forcetech"
-                                ],
-                                "hitBlock": 45
-                              },
-                              {
-                                "condition": [
-                                  "hi-counter",
-                                  "stun",
-                                  "critical finish"
-                                ],
-                                "tags": [
-                                  "side back drop"
-                                ]
-                              },
-                              {
-                                "condition": [
-                                  "open ch"
-                                ],
-                                "criticalHoldDelay": "29",
-                                "stunDurationMax": "38"
                               }
                             ]
                           }
@@ -367,40 +197,9 @@
                             "results": [
                               {
                                 "condition": [
-                                  "neutral"
-                                ],
-                                "hitBlock": "25",
-                                "tags": [
-                                  "force crouch"
-                                ]
-                              },
-                              {
-                                "condition": [
-                                  "counter",
-                                  "hi-counter",
-                                  "stun",
-                                  "crouching"
-                                ],
-                                "criticalHoldDelay": "44",
-                                "stunDurationMin": "42",
-                                "stunDurationMax": "50",
-                                "tags": [
-                                  "sit-down stun"
-                                ]
-                              },
-                              {
-                                "condition": [
                                   "guard"
                                 ],
                                 "hitBlock": "9"
-                              },
-                              {
-                                "condition": [
-                                  "critical finish"
-                                ],
-                                "tags": [
-                                  "fall back bounce"
-                                ]
                               }
                             ]
                           }
@@ -426,33 +225,9 @@
                         "results": [
                           {
                             "condition": [
-                              "neutral"
-                            ],
-                            "hitBlock": "16"
-                          },
-                          {
-                            "condition": [
-                              "counter",
-                              "hi-counter",
-                              "stun",
-                              "crouching"
-                            ],
-                            "criticalHoldDelay": "6",
-                            "stunDurationMax": "49"
-                          },
-                          {
-                            "condition": [
                               "guard"
                             ],
                             "hitBlock": "15"
-                          },
-                          {
-                            "condition": [
-                              "critical finish"
-                            ],
-                            "tags": [
-                              "hard knock-down"
-                            ]
                           }
                         ]
                       }
@@ -479,27 +254,9 @@
                             "results": [
                               {
                                 "condition": [
-                                  "neutral",
-                                  "counter",
-                                  "hi counter",
-                                  "stun"
-                                ],
-                                "criticalHoldDelay": "12",
-                                "stunDurationMax": "35"
-                              },
-                              {
-                                "condition": [
                                   "guard"
                                 ],
                                 "hitBlock": "20"
-                              },
-                              {
-                                "condition": [
-                                  "critical finish"
-                                ],
-                                "tags": [
-                                  "stun reset"
-                                ]
                               }
                             ]
                           }
@@ -549,38 +306,9 @@
                                 "results": [
                                   {
                                     "condition": [
-                                      "neutral",
-                                      "counter",
-                                      "crouching"
-                                    ],
-                                    "criticalHoldDelay": "6",
-                                    "stunDurationMax": "50"
-                                  },
-                                  {
-                                    "condition": [
-                                      "hi counter",
-                                      "stun"
-                                    ],
-                                    "criticalHoldDelay": "6",
-                                    "stunDurationMin": "59",
-                                    "stunDurationMax": "59",
-                                    "tags": [
-                                      "fall down stun"
-                                    ]
-                                  },
-                                  {
-                                    "condition": [
                                       "guard"
                                     ],
                                     "hitBlock": 9
-                                  },
-                                  {
-                                    "condition": [
-                                      "critical finish"
-                                    ],
-                                    "tags": [
-                                      "hard knock-down"
-                                    ]
                                   }
                                 ]
                               }
@@ -605,41 +333,9 @@
                             "results": [
                               {
                                 "condition": [
-                                  "neutral",
-                                  "crouching"
-                                ],
-                                "criticalHoldDelay": "6",
-                                "stunDurationMax": "39"
-                              },
-                              {
-                                "condition": [
-                                  "counter"
-                                ],
-                                "criticalHoldDelay": "29",
-                                "stunDurationMin": "38",
-                                "stunDurationMax": "45"
-                              },
-                              {
-                                "condition": [
                                   "guard"
                                 ],
                                 "hitBlock": "9"
-                              },
-                              {
-                                "condition": [
-                                  "forcetech"
-                                ],
-                                "hitBlock": 45
-                              },
-                              {
-                                "condition": [
-                                  "stun",
-                                  "hi-counter",
-                                  "critical finish"
-                                ],
-                                "tags": [
-                                  "side back drop"
-                                ]
                               }
                             ]
                           }
@@ -664,47 +360,9 @@
                         "results": [
                           {
                             "condition": [
-                              "neutral",
-                              "neutral crouching"
-                            ],
-                            "hitBlock": "17"
-                          },
-                          {
-                            "condition": [
-                              "counter"
-                            ],
-                            "hitBlock": "18"
-                          },
-                          {
-                            "condition": [
-                              "hi counter",
-                              "stun",
-                              "counter crouching",
-                              "hi-counter crouching"
-                            ],
-                            "criticalHoldDelay": "6",
-                            "stunDurationMin": "34",
-                            "stunDurationMax": "40"
-                          },
-                          {
-                            "condition": [
                               "guard"
                             ],
                             "hitBlock": "12"
-                          },
-                          {
-                            "condition": [
-                              "grounded"
-                            ],
-                            "hitBlock": 50
-                          },
-                          {
-                            "condition": [
-                              "critical finish"
-                            ],
-                            "tags": [
-                              "face-down drop"
-                            ]
                           }
                         ]
                       }
@@ -731,27 +389,9 @@
                             "results": [
                               {
                                 "condition": [
-                                  "neutral",
-                                  "crouching"
-                                ],
-                                "criticalHoldDelay": "14",
-                                "stunDurationMax": "60"
-                              },
-                              {
-                                "condition": [
                                   "guard"
                                 ],
                                 "hitBlock": "14"
-                              },
-                              {
-                                "condition": [
-                                  "stun",
-                                  "counter",
-                                  "hi-counter"
-                                ],
-                                "tags": [
-                                  "launcher"
-                                ]
                               }
                             ]
                           }
@@ -776,16 +416,6 @@
                     "damage": 22,
                     "reach": 1.95,
                     "results": [
-                      {
-                        "condition": [
-                          "neutral",
-                          "counter",
-                          "hi counter",
-                          "stun"
-                        ],
-                        "criticalHoldDelay": "14",
-                        "stunDurationMax": "61"
-                      },
                       {
                         "condition": [
                           "guard"
@@ -822,18 +452,6 @@
                             "hitBlock": "30",
                             "tags": [
                               "guard break"
-                            ]
-                          },
-                          {
-                            "condition": [
-                              "neutral",
-                              "counter",
-                              "hi-counter",
-                              "stun",
-                              "critical finish"
-                            ],
-                            "tags": [
-                              "backflip drop"
                             ]
                           }
                         ]
@@ -881,43 +499,9 @@
                         "results": [
                           {
                             "condition": [
-                              "neutral"
-                            ],
-                            "criticalHoldDelay": "6",
-                            "stunDurationMin": "33",
-                            "stunDurationMax": "39"
-                          },
-                          {
-                            "condition": [
-                              "counter",
-                              "half-hit hi-counter"
-                            ],
-                            "criticalHoldDelay": "29",
-                            "stunDurationMin": "38",
-                            "stunDurationMax": "45",
-                            "tags": [
-                              "trip stun"
-                            ]
-                          },
-                          {
-                            "condition": [
                               "guard"
                             ],
                             "hitBlock": "11"
-                          },
-                          {
-                            "condition": [
-                              "forcetech"
-                            ],
-                            "hitBlock": 45
-                          },
-                          {
-                            "condition": [
-                              "hi-counter"
-                            ],
-                            "tags": [
-                              "side back drop"
-                            ]
                           }
                         ]
                       }
@@ -942,26 +526,9 @@
                     "results": [
                       {
                         "condition": [
-                          "neutral",
-                          "crouching"
-                        ],
-                        "criticalHoldDelay": "6",
-                        "stunDurationMax": "30"
-                      },
-                      {
-                        "condition": [
                           "guard"
                         ],
                         "hitBlock": "20"
-                      },
-                      {
-                        "condition": [
-                          "stun",
-                          "critical finish"
-                        ],
-                        "tags": [
-                          "hard knock-down"
-                        ]
                       }
                     ]
                   }
@@ -984,21 +551,6 @@
                 "damage": 15,
                 "reach": 1.6,
                 "results": [
-                  {
-                    "condition": [
-                      "neutral"
-                    ],
-                    "hitBlock": "14"
-                  },
-                  {
-                    "condition": [
-                      "counter",
-                      "hi-counter",
-                      "stun"
-                    ],
-                    "criticalHoldDelay": "14",
-                    "stunDurationMax": "61"
-                  },
                   {
                     "condition": [
                       "guard"
@@ -1030,16 +582,6 @@
                     "results": [
                       {
                         "condition": [
-                          "neutral",
-                          "counter",
-                          "hi-counter",
-                          "stun"
-                        ],
-                        "criticalHoldDelay": "24",
-                        "stunDurationMax": "60"
-                      },
-                      {
-                        "condition": [
                           "guard"
                         ],
                         "hitBlock": "19"
@@ -1067,16 +609,6 @@
                 "results": [
                   {
                     "condition": [
-                      "neutral",
-                      "counter",
-                      "hi-counter",
-                      "stun"
-                    ],
-                    "criticalHoldDelay": "24",
-                    "stunDurationMax": "60"
-                  },
-                  {
-                    "condition": [
                       "guard"
                     ],
                     "hitBlock": "12"
@@ -1100,21 +632,6 @@
                 "damage": 20,
                 "reach": 1.77,
                 "results": [
-                  {
-                    "condition": [
-                      "neutral",
-                      "counter",
-                      "hi-counter",
-                      "stun",
-                      "crouching"
-                    ],
-                    "criticalHoldDelay": "44",
-                    "stunDurationMin": "42",
-                    "stunDurationMax": "50",
-                    "tags": [
-                      "sit-down stun"
-                    ]
-                  },
                   {
                     "condition": [
                       "guard"
@@ -1142,33 +659,9 @@
                 "results": [
                   {
                     "condition": [
-                      "neutral"
-                    ],
-                    "hitBlock": "17"
-                  },
-                  {
-                    "condition": [
-                      "counter",
-                      "hi-counter",
-                      "stun",
-                      "crouching"
-                    ],
-                    "criticalHoldDelay": "6",
-                    "stunDurationMax": "49"
-                  },
-                  {
-                    "condition": [
                       "guard"
                     ],
                     "hitBlock": "16"
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -1193,31 +686,6 @@
                     "damage": 22,
                     "reach": 1.92,
                     "results": [
-                      {
-                        "condition": [
-                          "neutral"
-                        ],
-                        "criticalHoldDelay": "6",
-                        "stunDurationMax": "30"
-                      },
-                      {
-                        "condition": [
-                          "counter",
-                          "hi-counter",
-                          "stun",
-                          "crouching"
-                        ],
-                        "criticalHoldDelay": "6",
-                        "stunDurationMax": "50"
-                      },
-                      {
-                        "condition": [
-                          "critical finish"
-                        ],
-                        "tags": [
-                          "hard knock-down"
-                        ]
-                      },
                       {
                         "condition": [
                           "guard"
@@ -1246,34 +714,9 @@
                     "results": [
                       {
                         "condition": [
-                          "neutral"
-                        ],
-                        "criticalHoldDelay": "14",
-                        "stunDurationMax": "41"
-                      },
-                      {
-                        "condition": [
-                          "counter",
-                          "hi-counter",
-                          "stun",
-                          "crouching"
-                        ],
-                        "criticalHoldDelay": "6",
-                        "stunDurationMax": "50"
-                      },
-                      {
-                        "condition": [
                           "guard"
                         ],
                         "hitBlock": "9"
-                      },
-                      {
-                        "condition": [
-                          "critical finish"
-                        ],
-                        "tags": [
-                          "hard knock-down"
-                        ]
                       }
                     ]
                   }
@@ -1296,31 +739,9 @@
                     "results": [
                       {
                         "condition": [
-                          "neutral",
-                          "crouching"
-                        ],
-                        "hitBlock": "18"
-                      },
-                      {
-                        "condition": [
-                          "counter",
-                          "hi-counter",
-                          "stun"
-                        ],
-                        "criticalHoldDelay": "6",
-                        "stunDurationMax": "50"
-                      },
-                      {
-                        "condition": [
                           "guard"
                         ],
                         "hitBlock": "17"
-                      },
-                      {
-                        "condition": [
-                          "grounded"
-                        ],
-                        "hitBlock": 50
                       }
                     ]
                   }
@@ -1346,16 +767,6 @@
                         "damage": 22,
                         "reach": 1.36,
                         "results": [
-                          {
-                            "condition": [
-                              "neutral",
-                              "counter",
-                              "hi-counter",
-                              "stun"
-                            ],
-                            "criticalHoldDelay": "6",
-                            "stunDurationMax": "27"
-                          },
                           {
                             "condition": [
                               "guard"
@@ -1388,39 +799,9 @@
                 "results": [
                   {
                     "condition": [
-                      "neutral"
-                    ],
-                    "hitBlock": "18"
-                  },
-                  {
-                    "condition": [
-                      "counter",
-                      "hi-counter",
-                      "stun"
-                    ],
-                    "criticalHoldDelay": "6",
-                    "stunDurationMax": "50"
-                  },
-                  {
-                    "condition": [
-                      "crouching"
-                    ],
-                    "criticalHoldDelay": "6",
-                    "stunDurationMax": "42"
-                  },
-                  {
-                    "condition": [
                       "guard"
                     ],
                     "hitBlock": "11"
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -1447,25 +828,9 @@
                     "results": [
                       {
                         "condition": [
-                          "neutral",
-                          "crouching"
-                        ],
-                        "criticalHoldDelay": "6",
-                        "stunDurationMax": "30"
-                      },
-                      {
-                        "condition": [
                           "guard"
                         ],
                         "hitBlock": "20"
-                      },
-                      {
-                        "condition": [
-                          "critical finish"
-                        ],
-                        "tags": [
-                          "hard knock-down"
-                        ]
                       }
                     ]
                   }
@@ -1522,22 +887,6 @@
                 "damage": 15,
                 "reach": 1.7,
                 "results": [
-                  {
-                    "condition": [
-                      "neutral"
-                    ],
-                    "hitBlock": "21"
-                  },
-                  {
-                    "condition": [
-                      "counter",
-                      "hi-counter",
-                      "stun",
-                      "crouching"
-                    ],
-                    "criticalHoldDelay": "14",
-                    "stunDurationMax": "61"
-                  },
                   {
                     "condition": [
                       "guard"
@@ -1638,45 +987,9 @@
                 "results": [
                   {
                     "condition": [
-                      "neutral",
-                      "crouching"
-                    ],
-                    "hitBlock": "21"
-                  },
-                  {
-                    "condition": [
-                      "counter",
-                      "hi-counter",
-                      "stun",
-                      "critical finish"
-                    ],
-                    "criticalHoldDelay": "6",
-                    "stunDurationMax": "25"
-                  },
-                  {
-                    "condition": [
-                      "Critical Burst"
-                    ],
-                    "criticalHoldDelay": "6",
-                    "stunDurationMax": "30"
-                  },
-                  {
-                    "condition": [
                       "guard"
                     ],
                     "hitBlock": "17"
-                  },
-                  {
-                    "condition": [
-                      "grounded"
-                    ],
-                    "hitBlock": 50
-                  },
-                  {
-                    "condition": [
-                      "grounded combo"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -1699,31 +1012,9 @@
                 "results": [
                   {
                     "condition": [
-                      "neutral",
-                      "crouching"
-                    ],
-                    "hitBlock": "19"
-                  },
-                  {
-                    "condition": [
-                      "counter",
-                      "hi-counter",
-                      "stun"
-                    ],
-                    "criticalHoldDelay": "6",
-                    "stunDurationMax": "39"
-                  },
-                  {
-                    "condition": [
                       "guard"
                     ],
                     "hitBlock": 13
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -1750,25 +1041,9 @@
                     "results": [
                       {
                         "condition": [
-                          "neutral",
-                          "crouching"
-                        ],
-                        "criticalHoldDelay": "6",
-                        "stunDurationMax": "30"
-                      },
-                      {
-                        "condition": [
                           "guard"
                         ],
                         "hitBlock": 22
-                      },
-                      {
-                        "condition": [
-                          "critical finish"
-                        ],
-                        "tags": [
-                          "hard knock-down"
-                        ]
                       }
                     ]
                   }
@@ -1793,25 +1068,9 @@
                 "results": [
                   {
                     "condition": [
-                      "neutral",
-                      "crouching"
-                    ],
-                    "criticalHoldDelay": "6",
-                    "stunDurationMax": "30"
-                  },
-                  {
-                    "condition": [
                       "guard"
                     ],
                     "hitBlock": "20"
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -1921,16 +1180,6 @@
                               "guard"
                             ],
                             "hitBlock": 12
-                          },
-                          {
-                            "condition": [
-                              "neutral",
-                              "counter",
-                              "hi-counter"
-                            ],
-                            "criticalHoldDelay": "24",
-                            "stunDurationMin": "50",
-                            "stunDurationMax": "60"
                           }
                         ]
                       }
@@ -1956,14 +1205,6 @@
                               "guard"
                             ],
                             "hitBlock": "17"
-                          },
-                          {
-                            "condition": [
-                              "critical finish"
-                            ],
-                            "tags": [
-                              "hard knock-down"
-                            ]
                           }
                         ]
                       }
@@ -2029,14 +1270,6 @@
                                       "guard"
                                     ],
                                     "hitBlock": "9"
-                                  },
-                                  {
-                                    "condition": [
-                                      "critical finish"
-                                    ],
-                                    "tags": [
-                                      "hard knock-down"
-                                    ]
                                   }
                                 ]
                               }
@@ -2097,12 +1330,6 @@
                               "guard"
                             ],
                             "hitBlock": "13"
-                          },
-                          {
-                            "condition": [
-                              "forcetech"
-                            ],
-                            "hitBlock": 45
                           }
                         ]
                       }
@@ -2130,12 +1357,6 @@
                           "guard"
                         ],
                         "hitBlock": "16"
-                      },
-                      {
-                        "condition": [
-                          "grounded"
-                        ],
-                        "hitBlock": 50
                       }
                     ]
                   }
@@ -2251,12 +1472,6 @@
                           "guard"
                         ],
                         "hitBlock": "13"
-                      },
-                      {
-                        "condition": [
-                          "forcetech"
-                        ],
-                        "hitBlock": 45
                       }
                     ]
                   }
@@ -2284,12 +1499,6 @@
                       "guard"
                     ],
                     "hitBlock": "11"
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 46
                   }
                 ]
               }
@@ -2319,12 +1528,6 @@
                           "guard"
                         ],
                         "hitBlock": "10"
-                      },
-                      {
-                        "condition": [
-                          "forcetech"
-                        ],
-                        "hitBlock": 46
                       }
                     ]
                   }
@@ -2382,14 +1585,6 @@
                           "guard"
                         ],
                         "hitBlock": "9"
-                      },
-                      {
-                        "condition": [
-                          "critical finish"
-                        ],
-                        "tags": [
-                          "hard knock-down"
-                        ]
                       }
                     ]
                   }
@@ -2531,14 +1726,6 @@
                       "guard"
                     ],
                     "hitBlock": "10"
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -2621,14 +1808,6 @@
                               "guard"
                             ],
                             "hitBlock": "9"
-                          },
-                          {
-                            "condition": [
-                              "critical finish"
-                            ],
-                            "tags": [
-                              "hard knock-down"
-                            ]
                           }
                         ]
                       }
@@ -2660,12 +1839,6 @@
                           "guard"
                         ],
                         "hitBlock": "17"
-                      },
-                      {
-                        "condition": [
-                          "grounded"
-                        ],
-                        "hitBlock": 50
                       }
                     ]
                   }
@@ -2726,18 +1899,6 @@
                       "guard"
                     ],
                     "hitBlock": "13"
-                  },
-                  {
-                    "condition": [
-                      "grounded"
-                    ],
-                    "hitBlock": 50
-                  },
-                  {
-                    "condition": [
-                      "grounded combo"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -2792,12 +1953,6 @@
                           "guard"
                         ],
                         "hitBlock": "11"
-                      },
-                      {
-                        "condition": [
-                          "forcetech"
-                        ],
-                        "hitBlock": 45
                       }
                     ]
                   }
@@ -2825,18 +1980,6 @@
                       "guard"
                     ],
                     "hitBlock": "17"
-                  },
-                  {
-                    "condition": [
-                      "grounded"
-                    ],
-                    "hitBlock": 50
-                  },
-                  {
-                    "condition": [
-                      "grounded combo"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -2938,14 +2081,6 @@
                           "guard"
                         ],
                         "hitBlock": "10"
-                      },
-                      {
-                        "condition": [
-                          "critical finish"
-                        ],
-                        "tags": [
-                          "hard knock-down"
-                        ]
                       }
                     ]
                   }
@@ -3086,12 +2221,6 @@
                       "guard"
                     ],
                     "hitBlock": "22"
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -3111,23 +2240,12 @@
                 "isTracking": false,
                 "damage": 24,
                 "reach": 2.29,
-                "tags": [
-                  "critical burst"
-                ],
                 "results": [
                   {
                     "condition": [
                       "guard"
                     ],
                     "hitBlock": 17
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -3308,12 +2426,6 @@
                           "guard"
                         ],
                         "hitBlock": "11"
-                      },
-                      {
-                        "condition": [
-                          "forcetech"
-                        ],
-                        "hitBlock": 45
                       }
                     ]
                   }
@@ -3383,12 +2495,6 @@
                       "guard"
                     ],
                     "hitBlock": "13"
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -3414,12 +2520,6 @@
                       "guard"
                     ],
                     "hitBlock": "11"
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -3940,14 +3040,6 @@
                       "guard"
                     ],
                     "hitBlock": "23"
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -3977,14 +3069,6 @@
                       "guard"
                     ],
                     "hitBlock": "15"
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -4013,12 +3097,6 @@
                       "guard"
                     ],
                     "hitBlock": "11"
-                  },
-                  {
-                    "condition": [
-                      "grounded"
-                    ],
-                    "hitBlock": 50
                   }
                 ]
               }
@@ -4128,12 +3206,6 @@
                           "guard"
                         ],
                         "hitBlock": "11"
-                      },
-                      {
-                        "condition": [
-                          "forcetech"
-                        ],
-                        "hitBlock": 45
                       }
                     ]
                   }
@@ -4192,12 +3264,6 @@
                       "guard"
                     ],
                     "hitBlock": "21"
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -4560,12 +3626,6 @@
                       "guard"
                     ],
                     "hitBlock": "12"
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 46
                   }
                 ]
               }
@@ -4586,12 +3646,6 @@
                 "damage": 25,
                 "reach": 1.22,
                 "results": [
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 46
-                  },
                   {
                     "condition": [
                       "guard"
@@ -4687,14 +3741,6 @@
                     "results": [
                       {
                         "condition": [
-                          "critical finish"
-                        ],
-                        "tags": [
-                          "hard knock-down"
-                        ]
-                      },
-                      {
-                        "condition": [
                           "guard"
                         ],
                         "hitBlock": 9
@@ -4787,14 +3833,6 @@
                       "guard"
                     ],
                     "hitBlock": "14"
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -4860,14 +3898,6 @@
                               "guard"
                             ],
                             "hitBlock": "9"
-                          },
-                          {
-                            "condition": [
-                              "critical finish"
-                            ],
-                            "tags": [
-                              "hard knock-down"
-                            ]
                           }
                         ]
                       }
@@ -4901,18 +3931,6 @@
                       "guard"
                     ],
                     "hitBlock": "17"
-                  },
-                  {
-                    "condition": [
-                      "grounded"
-                    ],
-                    "hitBlock": 50
-                  },
-                  {
-                    "condition": [
-                      "grounded combo"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -4965,18 +3983,7 @@
                 "isTracking": false,
                 "damage": 24,
                 "reach": 1.61,
-                "tags": [
-                  "critical burst"
-                ],
                 "results": [
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
-                  },
                   {
                     "condition": [
                       "guard"
@@ -5112,12 +4119,6 @@
                           "guard"
                         ],
                         "hitBlock": "11"
-                      },
-                      {
-                        "condition": [
-                          "forcetech"
-                        ],
-                        "hitBlock": 45
                       }
                     ]
                   }
@@ -5149,14 +4150,6 @@
                 "damage": 10,
                 "reach": 2.48,
                 "results": [
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
-                  },
                   {
                     "condition": [
                       "guard"
@@ -5223,14 +4216,6 @@
                     "tags": [
                       "guard break"
                     ]
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -5256,12 +4241,6 @@
                       "guard"
                     ],
                     "hitBlock": "10"
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
@@ -5511,14 +4490,6 @@
                       "guard"
                     ],
                     "hitBlock": 15
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -5542,12 +4513,6 @@
                 "damage": 18,
                 "reach": 1.57,
                 "results": [
-                  {
-                    "condition": [
-                      "grounded"
-                    ],
-                    "hitBlock": 50
-                  },
                   {
                     "condition": [
                       "guard"
@@ -5604,12 +4569,6 @@
                 "damage": 22,
                 "reach": 1.66,
                 "results": [
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 45
-                  },
                   {
                     "condition": [
                       "guard"
@@ -5695,14 +4654,6 @@
                       "guard"
                     ],
                     "hitBlock": "15"
-                  },
-                  {
-                    "condition": [
-                      "critical finish"
-                    ],
-                    "tags": [
-                      "hard knock-down"
-                    ]
                   }
                 ]
               }
@@ -6026,12 +4977,6 @@
                       "guard"
                     ],
                     "hitBlock": "21"
-                  },
-                  {
-                    "condition": [
-                      "forcetech"
-                    ],
-                    "hitBlock": 45
                   }
                 ]
               }
