@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1552753897844
+    "timeSaved": 1552757562249
   },
   "body": {
     "character": "Rig",
@@ -31,7 +31,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "14"
+                    "hitBlock": 14
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 14
                   }
                 ]
               }
@@ -61,7 +67,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "9"
+                        "hitBlock": 9
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 12
                       }
                     ]
                   }
@@ -115,7 +127,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "12"
+                            "hitBlock": 12
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "hitBlock": 14
                           }
                         ]
                       }
@@ -145,7 +163,13 @@
                                 "condition": [
                                   "guard"
                                 ],
-                                "hitBlock": "19"
+                                "hitBlock": 19
+                              },
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "stunDurationMax": 27
                               }
                             ]
                           }
@@ -172,7 +196,13 @@
                                 "condition": [
                                   "guard"
                                 ],
-                                "hitBlock": "10"
+                                "hitBlock": 10
+                              },
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "stunDurationMax": 36
                               }
                             ]
                           }
@@ -199,7 +229,13 @@
                                 "condition": [
                                   "guard"
                                 ],
-                                "hitBlock": "9"
+                                "hitBlock": 9
+                              },
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "hitBlock": 25
                               }
                             ]
                           }
@@ -228,7 +264,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "15"
+                            "hitBlock": 15
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "hitBlock": 16
                           }
                         ]
                       }
@@ -258,7 +300,13 @@
                                 "condition": [
                                   "guard"
                                 ],
-                                "hitBlock": "20"
+                                "hitBlock": 20
+                              },
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "stunDurationMax": 35
                               }
                             ]
                           }
@@ -313,6 +361,12 @@
                                       "guard"
                                     ],
                                     "hitBlock": 9
+                                  },
+                                  {
+                                    "condition": [
+                                      "neutral"
+                                    ],
+                                    "stunDurationMax": 45
                                   }
                                 ]
                               }
@@ -340,7 +394,13 @@
                                 "condition": [
                                   "guard"
                                 ],
-                                "hitBlock": "9"
+                                "hitBlock": 9
+                              },
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "stunDurationMax": 36
                               }
                             ]
                           }
@@ -368,7 +428,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "12"
+                            "hitBlock": 12
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "hitBlock": 17
                           }
                         ]
                       }
@@ -398,7 +464,13 @@
                                 "condition": [
                                   "guard"
                                 ],
-                                "hitBlock": "14"
+                                "hitBlock": 14
+                              },
+                              {
+                                "condition": [
+                                  "neutral"
+                                ],
+                                "stunDurationMax": 56
                               }
                             ]
                           }
@@ -428,7 +500,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "12"
+                        "hitBlock": 12
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 61
                       }
                     ]
                   }
@@ -487,6 +565,12 @@
                               "guard"
                             ],
                             "hitBlock": 15
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "hitBlock": 24
                           }
                         ]
                       }
@@ -512,7 +596,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "11"
+                            "hitBlock": 11
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 36
                           }
                         ]
                       }
@@ -540,7 +630,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "20"
+                        "hitBlock": 20
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 30
                       }
                     ]
                   }
@@ -568,7 +664,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "9"
+                    "hitBlock": 9
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 14
                   }
                 ]
               }
@@ -598,7 +700,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "19"
+                        "hitBlock": 19
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 60
                       }
                     ]
                   }
@@ -626,7 +734,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "12"
+                    "hitBlock": 12
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 60
                   }
                 ]
               }
@@ -678,7 +792,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "16"
+                    "hitBlock": 16
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 17
                   }
                 ]
               }
@@ -709,6 +829,12 @@
                           "guard"
                         ],
                         "hitBlock": 23
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 30
                       }
                     ]
                   }
@@ -735,7 +861,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "9"
+                        "hitBlock": 9
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 38
                       }
                     ]
                   }
@@ -761,7 +893,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "17"
+                        "hitBlock": 17
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 18
                       }
                     ]
                   }
@@ -792,7 +930,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "19"
+                            "hitBlock": 19
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 27
                           }
                         ]
                       }
@@ -823,7 +967,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "11"
+                    "hitBlock": 11
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 18
                   }
                 ]
               }
@@ -853,7 +1003,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "20"
+                        "hitBlock": 20
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 30
                       }
                     ]
                   }
@@ -918,6 +1074,12 @@
                       "guard"
                     ],
                     "hitBlock": 15
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 15
                   }
                 ]
               }
@@ -947,6 +1109,12 @@
                           "guard"
                         ],
                         "hitBlock": 20
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 56
                       }
                     ]
                   }
@@ -1020,7 +1188,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "17"
+                    "hitBlock": 17
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 21
                   }
                 ]
               }
@@ -1047,6 +1221,12 @@
                       "guard"
                     ],
                     "hitBlock": 13
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 19
                   }
                 ]
               }
@@ -1077,6 +1257,12 @@
                           "guard"
                         ],
                         "hitBlock": 22
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 30
                       }
                     ]
                   }
@@ -1104,7 +1290,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "20"
+                    "hitBlock": 20
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 30
                   }
                 ]
               }
@@ -1130,7 +1322,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "10"
+                    "hitBlock": 10
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 12
                   }
                 ]
               }
@@ -1162,6 +1360,20 @@
                           "guard"
                         ],
                         "hitBlock": "24"
+                      },
+                      {
+                        "condition": [
+                          "neutral/open"
+                        ],
+                        "criticalHoldDelay": "14",
+                        "stunDurationMax": 56
+                      },
+                      {
+                        "condition": [
+                          "neutral/closed"
+                        ],
+                        "criticalHoldDelay": "14",
+                        "stunDurationMax": 61
                       }
                     ]
                   }
@@ -1217,6 +1429,12 @@
                               "guard"
                             ],
                             "hitBlock": 12
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 60
                           }
                         ]
                       }
@@ -1242,7 +1460,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "17"
+                            "hitBlock": 17
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 45
                           }
                         ]
                       }
@@ -1310,7 +1534,13 @@
                                     "condition": [
                                       "guard"
                                     ],
-                                    "hitBlock": "9"
+                                    "hitBlock": 9
+                                  },
+                                  {
+                                    "condition": [
+                                      "neutral"
+                                    ],
+                                    "stunDurationMax": 45
                                   }
                                 ]
                               }
@@ -1342,7 +1572,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "14"
+                        "hitBlock": 14
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 56
                       }
                     ]
                   }
@@ -1400,7 +1636,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "16"
+                        "hitBlock": 16
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 18
                       }
                     ]
                   }
@@ -1431,7 +1673,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "19"
+                            "hitBlock": 19
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 27
                           }
                         ]
                       }
@@ -1462,7 +1710,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "10"
+                    "hitBlock": 10
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 56
                   }
                 ]
               }
@@ -1489,7 +1743,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "14"
+                    "hitBlock": 14
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 56
                   }
                 ]
               }
@@ -1547,7 +1807,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "11"
+                    "hitBlock": 11
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 45
                   }
                 ]
               }
@@ -1606,7 +1872,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "15"
+                    "hitBlock": 15
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 15
                   }
                 ]
               }
@@ -1636,7 +1908,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "9"
+                        "hitBlock": 9
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 20
                       }
                     ]
                   }
@@ -1692,7 +1970,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "10"
+                        "hitBlock": 10
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 56
                       }
                     ]
                   }
@@ -1721,7 +2005,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "8"
+                    "hitBlock": 8
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 14
                   }
                 ]
               }
@@ -1752,7 +2042,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "20"
+                        "hitBlock": 20
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 35
                       }
                     ]
                   }
@@ -1781,7 +2077,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "10"
+                    "hitBlock": 10
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 13
                   }
                 ]
               }
@@ -1811,7 +2113,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "20"
+                        "hitBlock": 20
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 35
                       }
                     ]
                   }
@@ -1867,7 +2175,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "9"
+                            "hitBlock": 9
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 45
                           }
                         ]
                       }
@@ -1899,7 +2213,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "17"
+                        "hitBlock": 17
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 18
                       }
                     ]
                   }
@@ -1930,7 +2250,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "19"
+                            "hitBlock": 19
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 27
                           }
                         ]
                       }
@@ -1961,7 +2287,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "13"
+                    "hitBlock": 13
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 14
                   }
                 ]
               }
@@ -1991,7 +2323,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "14"
+                        "hitBlock": 14
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 56
                       }
                     ]
                   }
@@ -2017,7 +2355,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "11"
+                        "hitBlock": 11
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 36
                       }
                     ]
                   }
@@ -2045,7 +2389,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "17"
+                    "hitBlock": 17
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 18
                   }
                 ]
               }
@@ -2076,7 +2426,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "19"
+                        "hitBlock": 19
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 27
                       }
                     ]
                   }
@@ -2151,7 +2507,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "10"
+                        "hitBlock": 10
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 30
                       }
                     ]
                   }
@@ -2179,7 +2541,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "20"
+                    "hitBlock": 20
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 56
                   }
                 ]
               }
@@ -2328,6 +2696,12 @@
                       "guard"
                     ],
                     "hitBlock": 17
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 46
                   }
                 ]
               }
@@ -2357,7 +2731,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "11"
+                        "hitBlock": 11
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 36
                       }
                     ]
                   }
@@ -2434,6 +2814,20 @@
                       "guard"
                     ],
                     "hitBlock": "12"
+                  },
+                  {
+                    "condition": [
+                      "neutral/open"
+                    ],
+                    "criticalHoldDelay": "14",
+                    "stunDurationMax": 56
+                  },
+                  {
+                    "condition": [
+                      "neutral/closed"
+                    ],
+                    "criticalHoldDelay": "14",
+                    "stunDurationMax": 61
                   }
                 ]
               }
@@ -2492,6 +2886,12 @@
                           "guard"
                         ],
                         "hitBlock": 15
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 24
                       }
                     ]
                   }
@@ -2517,7 +2917,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "11"
+                        "hitBlock": 11
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 36
                       }
                     ]
                   }
@@ -2589,7 +2995,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "13"
+                    "hitBlock": 13
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 36
                   }
                 ]
               }
@@ -2615,7 +3027,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "11"
+                    "hitBlock": 11
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 36
                   }
                 ]
               }
@@ -3138,6 +3556,12 @@
                       "guard"
                     ],
                     "hitBlock": 14
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 30
                   }
                 ]
               }
@@ -3166,7 +3590,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "23"
+                    "hitBlock": 23
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 30
                   }
                 ]
               }
@@ -3196,7 +3626,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "15"
+                    "hitBlock": 15
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 30
                   }
                 ]
               }
@@ -3225,7 +3661,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "11"
+                    "hitBlock": 11
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 19
                   }
                 ]
               }
@@ -3254,7 +3696,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "9"
+                    "hitBlock": 9
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 35
                   }
                 ]
               }
@@ -3313,6 +3761,12 @@
                           "guard"
                         ],
                         "hitBlock": 15
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 24
                       }
                     ]
                   }
@@ -3338,7 +3792,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "11"
+                        "hitBlock": 11
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 36
                       }
                     ]
                   }
@@ -3370,6 +3830,12 @@
                       "guard"
                     ],
                     "hitBlock": 24
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 45
                   }
                 ]
               }
@@ -3398,7 +3864,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "21"
+                    "hitBlock": 21
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 36
                   }
                 ]
               }
@@ -3652,7 +4124,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "15"
+                    "hitBlock": 15
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 35
                   }
                 ]
               }
@@ -3683,7 +4161,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "20"
+                        "hitBlock": 20
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 35
                       }
                     ]
                   }
@@ -3714,7 +4198,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "12"
+                            "hitBlock": 12
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 40
                           }
                         ]
                       }
@@ -3770,7 +4260,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "11"
+                            "hitBlock": 11
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 45
                           }
                         ]
                       }
@@ -3827,6 +4323,12 @@
                       "guard"
                     ],
                     "hitBlock": 24
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 45
                   }
                 ]
               }
@@ -3856,6 +4358,12 @@
                     "tags": [
                       "GB"
                     ]
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 45
                   }
                 ]
               }
@@ -3928,6 +4436,12 @@
                           "guard"
                         ],
                         "hitBlock": 9
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 30
                       }
                     ]
                   }
@@ -3959,7 +4473,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "8"
+                    "hitBlock": 8
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 14
                   }
                 ]
               }
@@ -3990,7 +4510,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "20"
+                        "hitBlock": 20
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 35
                       }
                     ]
                   }
@@ -4019,7 +4545,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "14"
+                    "hitBlock": 14
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 45
                   }
                 ]
               }
@@ -4087,7 +4619,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "9"
+                            "hitBlock": 9
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 45
                           }
                         ]
                       }
@@ -4121,7 +4659,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "17"
+                    "hitBlock": 17
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 40
                   }
                 ]
               }
@@ -4152,7 +4696,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "19"
+                        "hitBlock": 19
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 27
                       }
                     ]
                   }
@@ -4182,6 +4732,12 @@
                       "guard"
                     ],
                     "hitBlock": 20
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 45
                   }
                 ]
               }
@@ -4231,7 +4787,21 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "12"
+                    "hitBlock": 12
+                  },
+                  {
+                    "condition": [
+                      "neutral/open"
+                    ],
+                    "criticalHoldDelay": "14",
+                    "stunDurationMax": 56
+                  },
+                  {
+                    "condition": [
+                      "neutral/closed"
+                    ],
+                    "criticalHoldDelay": "14",
+                    "stunDurationMax": 61
                   }
                 ]
               }
@@ -4290,6 +4860,12 @@
                           "guard"
                         ],
                         "hitBlock": 15
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 24
                       }
                     ]
                   }
@@ -4315,7 +4891,13 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "11"
+                        "hitBlock": 11
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 36
                       }
                     ]
                   }
@@ -4354,6 +4936,12 @@
                       "guard"
                     ],
                     "hitBlock": 19
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 45
                   }
                 ]
               }
@@ -4413,10 +5001,16 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "30",
+                    "hitBlock": 30,
                     "tags": [
                       "GB"
                     ]
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 70
                   }
                 ]
               }
@@ -4442,7 +5036,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "10"
+                    "hitBlock": 10
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 36
                   }
                 ]
               }
@@ -4675,6 +5275,12 @@
                       "guard"
                     ],
                     "hitBlock": 14
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 30
                   }
                 ]
               }
@@ -4704,6 +5310,12 @@
                       "guard"
                     ],
                     "hitBlock": 15
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 30
                   }
                 ]
               }
@@ -4733,6 +5345,12 @@
                       "guard"
                     ],
                     "hitBlock": 11
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "hitBlock": 19
                   }
                 ]
               }
@@ -4762,6 +5380,12 @@
                       "guard"
                     ],
                     "hitBlock": 9
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 35
                   }
                 ]
               }
@@ -4791,6 +5415,12 @@
                       "guard"
                     ],
                     "hitBlock": 21
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 36
                   }
                 ]
               }
@@ -4872,7 +5502,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "15"
+                    "hitBlock": 15
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 30
                   }
                 ]
               }
@@ -4898,6 +5534,12 @@
                       "guard"
                     ],
                     "hitBlock": 15
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 60
                   }
                 ]
               }
@@ -4922,6 +5564,12 @@
                   {
                     "condition": [
                       "guard"
+                    ],
+                    "hitBlock": 14
+                  },
+                  {
+                    "condition": [
+                      "neutral"
                     ],
                     "hitBlock": 14
                   }
@@ -4954,6 +5602,12 @@
                           "guard"
                         ],
                         "hitBlock": 5
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 35
                       }
                     ]
                   }
@@ -5069,6 +5723,12 @@
                       "guard"
                     ],
                     "hitBlock": 8
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 70
                   }
                 ]
               }
@@ -5099,6 +5759,12 @@
                           "guard"
                         ],
                         "hitBlock": 8
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "stunDurationMax": 70
                       }
                     ]
                   }
@@ -5128,7 +5794,13 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "8"
+                            "hitBlock": 8
+                          },
+                          {
+                            "condition": [
+                              "neutral"
+                            ],
+                            "stunDurationMax": 70
                           }
                         ]
                       }
@@ -5210,7 +5882,13 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "21"
+                    "hitBlock": 21
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 36
                   }
                 ]
               }
