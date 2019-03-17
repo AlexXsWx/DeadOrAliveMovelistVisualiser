@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1552842428509
+    "timeSaved": 1552864551896
   },
   "body": {
     "character": "Rig",
@@ -39,6 +39,12 @@
                       "counter"
                     ],
                     "hitBlock": 16
+                  },
+                  {
+                    "condition": [
+                      "hi-counter"
+                    ],
+                    "stunDurationMax": 50
                   }
                 ]
               }
@@ -81,6 +87,12 @@
                           "counter"
                         ],
                         "hitBlock": 16
+                      },
+                      {
+                        "condition": [
+                          "hi-counter"
+                        ],
+                        "stunDurationMax": 50
                       }
                     ]
                   }
@@ -144,7 +156,8 @@
                           },
                           {
                             "condition": [
-                              "counter"
+                              "counter",
+                              "hi-counter"
                             ],
                             "stunDurationMax": 35
                           }
@@ -186,7 +199,8 @@
                               },
                               {
                                 "condition": [
-                                  "counter"
+                                  "counter",
+                                  "hi-counter"
                                 ],
                                 "stunDurationMax": 50
                               }
@@ -299,7 +313,8 @@
                           },
                           {
                             "condition": [
-                              "counter"
+                              "counter",
+                              "hi-counter"
                             ],
                             "stunDurationMax": 45
                           }
@@ -336,7 +351,8 @@
                               {
                                 "condition": [
                                   "neutral",
-                                  "counter"
+                                  "counter",
+                                  "hi-counter"
                                 ],
                                 "stunDurationMax": 35
                               }
@@ -480,6 +496,12 @@
                               "counter"
                             ],
                             "hitBlock": 18
+                          },
+                          {
+                            "condition": [
+                              "hi-counter"
+                            ],
+                            "stunDurationMax": 35
                           }
                         ]
                       }
@@ -550,18 +572,20 @@
                       {
                         "condition": [
                           "neutral/open",
-                          "counter/open"
+                          "counter/open",
+                          "hi-counter/open"
                         ],
-                        "criticalHoldDelay": "14",
-                        "stunDurationMax": 61
+                        "criticalHoldDelay": 14,
+                        "stunDurationMax": 56
                       },
                       {
                         "condition": [
                           "neutral/closed",
-                          "counter/closed"
+                          "counter/closed",
+                          "hi-counter/closed"
                         ],
-                        "criticalHoldDelay": "14",
-                        "stunDurationMax": 56
+                        "criticalHoldDelay": 14,
+                        "stunDurationMax": 61
                       }
                     ]
                   }
@@ -591,7 +615,7 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "30",
+                            "hitBlock": 30,
                             "tags": [
                               "GB"
                             ]
@@ -735,7 +759,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 56
                   }
@@ -772,7 +797,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 60
                       }
@@ -807,7 +833,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 60
                   }
@@ -871,7 +898,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -913,7 +941,8 @@
                       },
                       {
                         "condition": [
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 45
                       }
@@ -952,7 +981,8 @@
                       },
                       {
                         "condition": [
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 45
                       }
@@ -990,7 +1020,8 @@
                       },
                       {
                         "condition": [
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 45
                       }
@@ -1028,7 +1059,8 @@
                           {
                             "condition": [
                               "neutral",
-                              "counter"
+                              "counter",
+                              "hi-counter"
                             ],
                             "stunDurationMax": 27
                           }
@@ -1071,7 +1103,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -1145,7 +1178,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "11"
+                        "hitBlock": 11
                       }
                     ]
                   }
@@ -1178,7 +1211,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 56
                   }
@@ -1214,7 +1248,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 56
                       }
@@ -1300,7 +1335,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 26
                   }
@@ -1341,6 +1377,12 @@
                       "counter"
                     ],
                     "hitBlock": 27
+                  },
+                  {
+                    "condition": [
+                      "hi-counter"
+                    ],
+                    "stunDurationMax": 36
                   }
                 ]
               }
@@ -1446,7 +1488,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 50
                   }
@@ -1484,17 +1527,19 @@
                       {
                         "condition": [
                           "neutral/open",
-                          "counter/open"
+                          "counter/open",
+                          "hi-counter/open"
                         ],
-                        "criticalHoldDelay": "14",
+                        "criticalHoldDelay": 14,
                         "stunDurationMax": 56
                       },
                       {
                         "condition": [
                           "neutral/closed",
-                          "counter/closed"
+                          "counter/closed",
+                          "hi-counter/closed"
                         ],
-                        "criticalHoldDelay": "14",
+                        "criticalHoldDelay": 14,
                         "stunDurationMax": 61
                       }
                     ]
@@ -1555,7 +1600,8 @@
                           {
                             "condition": [
                               "neutral",
-                              "counter"
+                              "counter",
+                              "hi-counter"
                             ],
                             "stunDurationMax": 60
                           }
@@ -1731,7 +1777,7 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "13"
+                            "hitBlock": 13
                           }
                         ]
                       }
@@ -1769,7 +1815,8 @@
                       },
                       {
                         "condition": [
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 45
                       }
@@ -1807,7 +1854,8 @@
                           {
                             "condition": [
                               "neutral",
-                              "counter"
+                              "counter",
+                              "hi-counter"
                             ],
                             "stunDurationMax": 27
                           }
@@ -1909,7 +1957,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "13"
+                        "hitBlock": 13
                       }
                     ]
                   }
@@ -1942,7 +1990,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -1974,7 +2023,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "10"
+                        "hitBlock": 10
                       }
                     ]
                   }
@@ -2008,7 +2057,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 36
                   }
@@ -2050,7 +2100,8 @@
                       },
                       {
                         "condition": [
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 45
                       }
@@ -2153,7 +2204,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 36
                   }
@@ -2191,7 +2243,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 35
                       }
@@ -2232,7 +2285,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -2269,7 +2323,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 35
                       }
@@ -2376,7 +2431,8 @@
                       },
                       {
                         "condition": [
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 45
                       }
@@ -2414,7 +2470,8 @@
                           {
                             "condition": [
                               "neutral",
-                              "counter"
+                              "counter",
+                              "hi-counter"
                             ],
                             "stunDurationMax": 27
                           }
@@ -2457,7 +2514,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 35
                   }
@@ -2571,7 +2629,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -2609,7 +2668,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 27
                       }
@@ -2696,7 +2756,8 @@
                       },
                       {
                         "condition": [
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 45
                       }
@@ -2731,7 +2792,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 56
                   }
@@ -2800,7 +2862,7 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "14"
+                    "hitBlock": 14
                   }
                 ]
               }
@@ -2826,7 +2888,7 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "35",
+                    "hitBlock": 35,
                     "tags": [
                       "GB"
                     ]
@@ -2855,7 +2917,7 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "22"
+                    "hitBlock": 22
                   }
                 ]
               }
@@ -2886,7 +2948,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -2923,7 +2986,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 36
                       }
@@ -3006,17 +3070,19 @@
                   {
                     "condition": [
                       "neutral/open",
-                      "counter/open"
+                      "counter/open",
+                      "hi-counter/open"
                     ],
-                    "criticalHoldDelay": "14",
+                    "criticalHoldDelay": 14,
                     "stunDurationMax": 56
                   },
                   {
                     "condition": [
                       "neutral/closed",
-                      "counter/closed"
+                      "counter/closed",
+                      "hi-counter/closed"
                     ],
-                    "criticalHoldDelay": "14",
+                    "criticalHoldDelay": 14,
                     "stunDurationMax": 61
                   }
                 ]
@@ -3047,7 +3113,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "30",
+                        "hitBlock": 30,
                         "tags": [
                           "GB"
                         ]
@@ -3149,7 +3215,7 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "11"
+                    "hitBlock": 11
                   }
                 ]
               },
@@ -3773,7 +3839,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 50
                   }
@@ -3814,7 +3881,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -3856,7 +3924,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -3897,7 +3966,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 36
                   }
@@ -3938,7 +4008,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 50
                   }
@@ -3970,7 +4041,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "35",
+                        "hitBlock": 35,
                         "tags": [
                           "GB"
                         ]
@@ -4078,7 +4149,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -4182,7 +4254,7 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "11"
+                    "hitBlock": 11
                   }
                 ]
               }
@@ -4385,7 +4457,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 50
                   }
@@ -4423,7 +4496,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 35
                       }
@@ -4461,7 +4535,8 @@
                           {
                             "condition": [
                               "neutral",
-                              "counter"
+                              "counter",
+                              "hi-counter"
                             ],
                             "stunDurationMax": 40
                           }
@@ -4524,7 +4599,8 @@
                           {
                             "condition": [
                               "neutral",
-                              "counter"
+                              "counter",
+                              "hi-counter"
                             ],
                             "stunDurationMax": 45
                           }
@@ -4556,7 +4632,7 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": "12"
+                    "hitBlock": 12
                   }
                 ]
               }
@@ -4587,7 +4663,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -4623,7 +4700,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -4707,7 +4785,8 @@
                       },
                       {
                         "condition": [
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 45
                       }
@@ -4751,7 +4830,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 36
                   }
@@ -4789,7 +4869,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 35
                       }
@@ -4944,7 +5025,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -4982,7 +5064,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 27
                       }
@@ -5018,7 +5101,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -5075,17 +5159,19 @@
                   {
                     "condition": [
                       "neutral/open",
-                      "counter/open"
+                      "counter/open",
+                      "hi-counter/open"
                     ],
-                    "criticalHoldDelay": "14",
+                    "criticalHoldDelay": 14,
                     "stunDurationMax": 56
                   },
                   {
                     "condition": [
                       "neutral/closed",
-                      "counter/closed"
+                      "counter/closed",
+                      "hi-counter/closed"
                     ],
-                    "criticalHoldDelay": "14",
+                    "criticalHoldDelay": 14,
                     "stunDurationMax": 61
                   }
                 ]
@@ -5116,7 +5202,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "30",
+                        "hitBlock": 30,
                         "tags": [
                           "GB"
                         ]
@@ -5231,7 +5317,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -5264,7 +5351,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "12"
+                        "hitBlock": 12
                       }
                     ]
                   }
@@ -5301,7 +5388,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 70
                   }
@@ -5583,7 +5671,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 50
                   }
@@ -5624,7 +5713,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -5665,7 +5755,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 36
                   }
@@ -5706,7 +5797,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 50
                   }
@@ -5841,7 +5933,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 45
                   }
@@ -5873,7 +5966,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 60
                   }
@@ -5906,7 +6000,8 @@
                   },
                   {
                     "condition": [
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 38
                   }
@@ -5943,7 +6038,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 35
                       }
@@ -5975,7 +6071,7 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "22"
+                            "hitBlock": 22
                           }
                         ]
                       }
@@ -6001,7 +6097,7 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": "13"
+                            "hitBlock": 13
                           }
                         ]
                       }
@@ -6065,7 +6161,8 @@
                   {
                     "condition": [
                       "neutral",
-                      "counter"
+                      "counter",
+                      "hi-counter"
                     ],
                     "stunDurationMax": 70
                   }
@@ -6102,7 +6199,8 @@
                       {
                         "condition": [
                           "neutral",
-                          "counter"
+                          "counter",
+                          "hi-counter"
                         ],
                         "stunDurationMax": 70
                       }
@@ -6139,7 +6237,8 @@
                           {
                             "condition": [
                               "neutral",
-                              "counter"
+                              "counter",
+                              "hi-counter"
                             ],
                             "stunDurationMax": 70
                           }
@@ -6195,7 +6294,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": "11"
+                        "hitBlock": 11
                       }
                     ]
                   }
