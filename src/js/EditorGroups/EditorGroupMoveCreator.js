@@ -209,8 +209,10 @@ define(
                 result.push(frameDataToText(nodeData));
 
                 var map = {
-                    'g': NodeFactoryActionStepResult.CONDITION.GUARD,
-                    'n': NodeFactoryActionStepResult.CONDITION.NEUTRAL_HIT
+                    'g':  NodeFactoryActionStepResult.CONDITION.GUARD,
+                    'n':  NodeFactoryActionStepResult.CONDITION.NEUTRAL_HIT,
+                    'c':  NodeFactoryActionStepResult.CONDITION.COUNTER_HIT,
+                    'hc': NodeFactoryActionStepResult.CONDITION.HI_COUNTER_HIT
                 };
 
                 Object.keys(map).forEach(function(prefix) {
@@ -299,10 +301,15 @@ define(
                 map[NodeFactoryActionStepResult.CONDITION.COUNTER_HIT] = (
                     NodeFactoryActionStepResult.doesDescribeCounterHit
                 );
+                map[NodeFactoryActionStepResult.CONDITION.HI_COUNTER_HIT] = (
+                    NodeFactoryActionStepResult.doesDescribeHiCounterHit
+                );
+                var predicate = map[condition];
+                console.assert(predicate, "Missing predicate");
                 var advantageRange = NodeFactoryMove.getAdvantageRange(
                     nodeData,
                     NodeFactoryActionStepResult.getHitBlockOrStun,
-                    map[condition]
+                    predicate
                 );
                 return {
                     value: advantageRange ? advantageRange.min : '',
@@ -329,10 +336,26 @@ define(
                             NodeFactoryActionStepResult.CONDITION.NEUTRAL_HIT,
                             stun
                         );
+                    },
+                    'c': function(advantageOnCounterHit, stun) {
+                        return changeAdvantageHelper(
+                            advantageOnCounterHit, nodeData,
+                            NodeFactoryActionStepResult.doesDescribeCounterHit,
+                            NodeFactoryActionStepResult.CONDITION.COUNTER_HIT,
+                            stun
+                        );
+                    },
+                    'hc': function(advantageOnCounterHit, stun) {
+                        return changeAdvantageHelper(
+                            advantageOnCounterHit, nodeData,
+                            NodeFactoryActionStepResult.doesDescribeHiCounterHit,
+                            NodeFactoryActionStepResult.CONDITION.HI_COUNTER_HIT,
+                            stun
+                        );
                     }
                 };
                 Object.keys(map).forEach(function(prefix) {
-                    var regex = new RegExp(prefix + '\\s*([-+]?\\s*\\d+)(s)?', 'i');
+                    var regex = new RegExp('\\b' + prefix + '\\s*([-+]?\\s*\\d+)(s)?', 'i');
                     var matchResult = regex.exec(advantageStr);
                     var numberStr = (matchResult && matchResult[1] || '').replace(/\s*/g, '');
                     var stun = matchResult && matchResult[2];
@@ -348,19 +371,6 @@ define(
                 condition,
                 stun
             ) {
-                var getHitBlockOrStun = stun ? getStun : getHitBlock;
-                var setHitBlockOrStun = stun ? setStun : setHitBlock;
-                function getHitBlock(actionStepResult) { return actionStepResult.hitBlock; }
-                function setHitBlock(actionStepResult, value) {
-                    actionStepResult.hitBlock = value;
-                    actionStepResult.stunDurationMax = undefined;
-                }
-                function getStun(actionStepResult) { return actionStepResult.stunDurationMax; }
-                function setStun(actionStepResult, value) {
-                    actionStepResult.hitBlock = undefined;
-                    actionStepResult.stunDurationMax = value;
-                }
-
                 var changed = false;
 
                 // Frame data is required to convert advantage to hitblock/stun duration
@@ -368,23 +378,11 @@ define(
                     return changed;
                 }
 
-                // find last action step
-                var actionStep = null;
-                for (var i = nodeData.actionSteps.length - 1; i >= 0 && !actionStep; --i) {
-                    actionStep = nodeData.actionSteps[i];
-                }
-                if (!actionStep) return changed;
+                var bla = findActionStepAndActionStepResult(nodeData, actionStepResultPredicate);
+                if (!bla) return changed;
 
-                var actionStepResult = null;
-
-                // Try to find existing action step result that describes given condition
-                for (var i = 0; i < actionStep.results.length; ++i) {
-                    var result = actionStep.results[i];
-                    if (result && actionStepResultPredicate(result)) {
-                        actionStepResult = result;
-                        break;
-                    }
-                }
+                var getHitBlockOrStun = stun ? getStun : getHitBlock;
+                var setHitBlockOrStun = stun ? setStun : setHitBlock;
 
                 var hitBlockOrStun = getHitBlockOrStunDuration(advantageStr, nodeData);
 
@@ -393,71 +391,109 @@ define(
                 var needNewActionStepResult = false;
 
                 if (hitBlockOrStun.provided) {
-                    if (actionStepResult) {
+                    if (bla.actionStepResult) {
                         if (
-                            hitBlockOrStun.provided &&
-                            actionStepResult.condition.length > 1 &&
-                            getHitBlockOrStun(actionStepResult) !== hitBlockOrStun.duration
+                            getHitBlockOrStun(bla.actionStepResult) !== hitBlockOrStun.duration &&
+                            bla.actionStepResult.condition.length > 1
                         ) {
                             needToCleanUpCondition  = true;
                             needNewActionStepResult = true;
                         }
                     } else {
-                        // Try to find empty action step result to use
-                        for (var i = 0; i < actionStep.results.length; ++i) {
-                            var result = actionStep.results[i];
-                            if (NodeFactoryActionStepResult.isEmpty(result)) {
-                                actionStepResult = result;
-                                needToAddCondition = true;
-                                break;
-                            }
-                        }
-                        if (!actionStepResult) {
+                        // Try to find existing action step result to use
+                        bla.actionStepResult = _.find(
+                            bla.actionStep.results,
+                            NodeFactoryActionStepResult.isEmpty
+                        );
+                        if (bla.actionStepResult) {
+                            needToAddCondition = true;
+                        } else {
                             needNewActionStepResult = true;
                         }
                     }
                 } else
-                if (actionStepResult) {
+                if (bla.actionStepResult) {
                     needToCleanUpCondition = true;
                 }
 
                 if (needToCleanUpCondition) {
                     changed = true;
-                    NodeFactoryActionStepResult.removeCondition(actionStepResult, condition);
-                    if (actionStepResult.condition.length === 0) {
-                        actionStep.results.splice(
-                            actionStep.results.indexOf(actionStepResult), 1
-                        );
-                        if (actionStep.results.length === 0) {
-                            // Create default placeholder
-                            actionStep.results.push(
-                                NodeFactoryActionStepResult.createMoveActionStepResult()
-                            );
-                        }
-                    }
+                    NodeFactoryActionStep.removeActionStepResultCondition(
+                        bla.actionStep, bla.actionStepResult, condition
+                    );
                 }
 
                 if (needNewActionStepResult) {
                     changed = true;
-                    actionStepResult = NodeFactoryActionStepResult.createMoveActionStepResult();
-                    actionStep.results.push(actionStepResult);
+                    bla.actionStepResult = NodeFactoryActionStepResult.createMoveActionStepResult();
+                    bla.actionStep.results.push(bla.actionStepResult);
                     needToAddCondition = true;
                 }
 
                 if (needToAddCondition) {
                     changed = true;
-                    NodeFactoryActionStepResult.addCondition(actionStepResult, condition);
+                    NodeFactoryActionStepResult.addCondition(bla.actionStepResult, condition);
                 }
 
-                if (
-                    hitBlockOrStun.provided &&
-                    getHitBlockOrStun(actionStepResult) !== hitBlockOrStun.duration
-                ) {
-                    changed = true;
-                    setHitBlockOrStun(actionStepResult, hitBlockOrStun.duration);
+                if (hitBlockOrStun.provided) {
+                    changed = (
+                        setHitBlockOrStun(bla.actionStepResult, hitBlockOrStun.duration) || changed
+                    );
                 }
+
+                changed = NodeFactoryActionStep.groupSimilarResults(bla.actionStep) || changed;
 
                 return changed;
+
+                function findActionStepAndActionStepResult(nodeData, actionStepResultPredicate) {
+                    // find last action step
+                    var actionStep = null;
+                    for (var i = nodeData.actionSteps.length - 1; i >= 0 && !actionStep; --i) {
+                        actionStep = nodeData.actionSteps[i];
+                    }
+                    if (!actionStep) return null;
+
+                    var actionStepResult = null;
+
+                    // Try to find existing action step result that describes given condition
+                    for (var i = 0; i < actionStep.results.length; ++i) {
+                        var result = actionStep.results[i];
+                        if (result && actionStepResultPredicate(result)) {
+                            actionStepResult = result;
+                            break;
+                        }
+                    }
+
+                    return {
+                        actionStep:       actionStep,
+                        actionStepResult: actionStepResult
+                    };
+                }
+
+                function getHitBlock(actionStepResult) { return actionStepResult.hitBlock; }
+                function setHitBlock(actionStepResult, value) {
+                    var changed = (
+                        actionStepResult.hitBlock !== value ||
+                        actionStepResult.criticalHoldDelay !== undefined ||
+                        actionStepResult.stunDurationMin   !== undefined ||
+                        actionStepResult.stunDurationMax   !== undefined
+                    );
+                    actionStepResult.hitBlock = value;
+                    actionStepResult.criticalHoldDelay = undefined;
+                    actionStepResult.stunDurationMin   = undefined;
+                    actionStepResult.stunDurationMax   = undefined;
+                    return changed;
+                }
+                function getStun(actionStepResult) { return actionStepResult.stunDurationMax; }
+                function setStun(actionStepResult, value) {
+                    var changed = (
+                        actionStepResult.hitBlock !== undefined ||
+                        actionStepResult.stunDurationMax !== value
+                    );
+                    actionStepResult.hitBlock = undefined;
+                    actionStepResult.stunDurationMax = value;
+                    return changed;
+                }
 
                 function getHitBlockOrStunDuration(advantageStr, nodeData) {
                     var result = {

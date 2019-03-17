@@ -27,9 +27,11 @@ define(
             getTextEnding:       getTextEnding,
             getTextActiveFrames: getTextActiveFrames,
             getCooldown:         getCooldown,
-            getAdvantageOnBlock: getAdvantageOnBlock,
-            getAdvantageOnHit:   getAdvantageOnHit,
-            getReach:            getReach,
+            getAdvantageOnBlock:        getAdvantageOnBlock,
+            getAdvantageOnNeutralHit:   getAdvantageOnNeutralHit,
+            getAdvantageOnCounterHit:   getAdvantageOnCounterHit,
+            getAdvantageOnHiCounterHit: getAdvantageOnHiCounterHit,
+            getReach: getReach,
             getForcetechAdvantage: getForcetechAdvantage,
             getHardKnockdownAdvantage: getHardKnockdownAdvantage,
             getFollowupDelay: getFollowupDelay,
@@ -109,40 +111,26 @@ define(
         }
 
         function getAdvantageOnBlock(nodeView) {
-            var nodeData = NodeView.getNodeData(nodeView);
-            if (!nodeData) return '';
-            var advantageRange = NodeFactoryMove.getAdvantageRange(
-                nodeData,
-                NodeFactoryActionStepResult.getHitBlock,
-                NodeFactoryActionStepResult.doesDescribeGuard,
-                NodeFactoryMove.isMoveNode(nodeData) ? NodeView.findAncestorNodeData(nodeView) : null
-            );
-            if (!advantageRange) return '';
-
-            var styleFunction = (
-                NodeFactory.getNoInputFollowup(nodeData)
-                    ? function(text) { return classedTSpan(signedInteger(text), 'gray'); }
-                    : advantageInteger
-            );
-
-            // FIXME: don't reference document here
-            var result = document.createDocumentFragment();
-            result.appendChild(styleFunction(advantageRange.min));
-            if (advantageRange.min !== advantageRange.max) {
-                result.appendChild(_.createTextNode(CHARS.ELLIPSIS));
-                result.appendChild(styleFunction(advantageRange.max));
-            }
-
-            return result;
+            return getAdvantageHelper(nodeView, NodeFactoryActionStepResult.doesDescribeGuard);
+        }
+        function getAdvantageOnNeutralHit(nodeView) {
+            return getAdvantageHelper(nodeView, NodeFactoryActionStepResult.doesDescribeNeutralHit);
+        }
+        function getAdvantageOnCounterHit(nodeView) {
+            return getAdvantageHelper(nodeView, NodeFactoryActionStepResult.doesDescribeCounterHit);
+        }
+        function getAdvantageOnHiCounterHit(nodeView) {
+            return getAdvantageHelper(nodeView, NodeFactoryActionStepResult.doesDescribeHiCounterHit);
         }
 
-        function getAdvantageOnHit(nodeView) {
+        function getAdvantageHelper(nodeView, actionStepResultPredicate) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
             var advantageRange = NodeFactoryMove.getAdvantageRange(
                 nodeData,
-                NodeFactoryActionStepResult.getHitBlock,
-                NodeFactoryActionStepResult.doesDescribeNeutralHit
+                NodeFactoryActionStepResult.getHitBlockOrStun,
+                actionStepResultPredicate,
+                NodeFactoryMove.isMoveNode(nodeData) ? NodeView.findAncestorNodeData(nodeView) : null
             );
             if (!advantageRange) return '';
 

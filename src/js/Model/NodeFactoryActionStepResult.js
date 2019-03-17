@@ -9,9 +9,10 @@ define(
         var guardRegex = /block|guard/i;
 
         var CONDITION = {
-            GUARD:       'guard',
-            NEUTRAL_HIT: 'neutral',
-            COUNTER_HIT: 'counter'
+            GUARD:          'guard',
+            NEUTRAL_HIT:    'neutral',
+            COUNTER_HIT:    'counter',
+            HI_COUNTER_HIT: 'hi-counter'
         };
 
         return {
@@ -24,9 +25,10 @@ define(
             addCondition:    addCondition,
             removeCondition: removeCondition,
 
-            doesDescribeGuard:      conditionChecker(guardRegex),
-            doesDescribeNeutralHit: conditionChecker(CONDITION.NEUTRAL_HIT),
-            doesDescribeCounterHit: conditionChecker(CONDITION.COUNTER_HIT),
+            doesDescribeGuard:        conditionChecker(guardRegex),
+            doesDescribeNeutralHit:   conditionChecker(CONDITION.NEUTRAL_HIT),
+            doesDescribeCounterHit:   conditionChecker(CONDITION.COUNTER_HIT),
+            doesDescribeHiCounterHit: conditionChecker(CONDITION.HI_COUNTER_HIT),
 
             // When a move forces to get up from first hit
             doesDescribeForcetech: conditionChecker(/forcetech/i),

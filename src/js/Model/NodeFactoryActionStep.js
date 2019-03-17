@@ -36,7 +36,10 @@ define(
             isActionStepVertical:      isActionStepVertical,
 
             canActionStepHitGround: canActionStepHitGround,
-            getActionStepSummary:   getActionStepSummary
+            getActionStepSummary:   getActionStepSummary,
+
+            groupSimilarResults: groupSimilarResults,
+            removeActionStepResultCondition: removeActionStepResultCondition
         };
 
         function getDefaultData() {
@@ -231,6 +234,70 @@ define(
 
             return result;
 
+        }
+
+        function groupSimilarResults(actionStep) {
+            var changed = false;
+            if (!actionStep.results) return changed;
+            outer: do {
+                for (var i = actionStep.results.length - 1; i >= 0; --i) {
+                    for (var j = i - 1; j >= 0; --j) {
+                        var bla = test(i, j);
+                        if (bla) {
+                            changed = true;
+                            join(actionStep.results[bla[0]], actionStep.results[bla[1]]);
+                            _.removeElementAtIndex(actionStep.results, bla[1]);
+                            continue outer;
+                        }
+                    }
+                }
+            } while (false);
+            changed = ensurePlaceholderResult(actionStep) || changed;
+            return changed;
+            function test(i, j) {
+                if (covers(actionStep.results[j], actionStep.results[i])) { return [j, i]; } else
+                if (covers(actionStep.results[i], actionStep.results[j])) { return [i, j]; }
+                return null;
+            }
+            function covers(actionStepResultA, actionStepResultB) {
+                var a = actionStepResultA;
+                var b = actionStepResultB;
+                return (
+                    sameOrBetter(a.hitBlock,          b.hitBlock)          &&
+                    sameOrBetter(a.criticalHoldDelay, b.criticalHoldDelay) &&
+                    sameOrBetter(a.stunDurationMin,   b.stunDurationMin)   &&
+                    sameOrBetter(a.stunDurationMax,   b.stunDurationMax)   &&
+                    sameOrBetter(a.launchHeight,      b.launchHeight)      &&
+                    _.arraysConsistOfSameStrings(a.tags, b.tags)
+                );
+                function sameOrBetter(a, b) {
+                    return a === b || b === undefined;
+                }
+            }
+            function join(outActionStepResult, otherActionStepResult) {
+                return _.addUnique(outActionStepResult.condition, otherActionStepResult.condition);
+            }
+        }
+
+        function removeActionStepResultCondition(actionStep, actionStepResult, condition) {
+            NodeFactoryActionStepResult.removeCondition(actionStepResult, condition);
+            if (actionStepResult.condition.length === 0) {
+                actionStep.results.splice(
+                    actionStep.results.indexOf(actionStepResult), 1
+                );
+                ensurePlaceholderResult(actionStep);
+            }
+        }
+
+        function ensurePlaceholderResult(actionStep) {
+            if (actionStep.results.length === 0) {
+                // Create default placeholder
+                actionStep.results.push(
+                    NodeFactoryActionStepResult.createMoveActionStepResult()
+                );
+                return true;
+            }
+            return false;
         }
 
         // Helpers

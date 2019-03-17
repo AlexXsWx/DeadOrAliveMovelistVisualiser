@@ -10,59 +10,98 @@ define(
 
         // TODO: split into sub packages like DOM, object, array etc
         return {
-            report:                                report,
-            getParameters:                         getParameters,
-            isDevBuild:                            isDevBuild,
-            defined:                               defined,
-            defaults:                              defaults,
-            withoutFalsyProperties:                withoutFalsyProperties,
-            withoutFalsyElements:                  withoutFalsyElements,
-            arraysAreEqual:                        arraysAreEqual,
-            removeElement:                         removeElement,
-            addBetween:                            addBetween,
-            last:                                  last,
-            find:                                  find,
-            contains:                              contains,
-            searchInStringArray:                   searchInStringArray,
-            getOrThrow:                            getOrThrow,
-            copyKeysInto:                          copyKeysInto,
-            isArray:                               isArray,
-            isObject:                              isObject,
-            isNonEmptyArray:                       isNonEmptyArray,
-            isBool:                                isBool,
-            isNumber:                              isNumber,
-            isString:                              isString,
-            moveArrayElement:                      moveArrayElement,
-            arrayGroupedByFactor:                  arrayGroupedByFactor,
-            arraysConsistOfSameStrings:            arraysConsistOfSameStrings,
-            take:                                  take,
-            getDomElement:                         getDomElement,
-            addClickListenerToElement:             addClickListenerToElement,
-            addClickListenerToElementWithId:       addClickListenerToElementWithId,
-            hideDomElement:                        hideDomElement,
-            showDomElement:                        showDomElement,
-            createDomElement:                      createDomElement,
-            createTextNode:                        createTextNode,
-            createSvgElement:                      createSvgElement,
-            applyAttributesClassesAndAddListeners: applyAttributesClassesAndAddListeners,
-            createMergedRow:                       createMergedRow,
-            setTextContent:                        setTextContent,
-            removeAllChildren:                     removeAllChildren,
-            lerp:                                  lerp,
-            dispatchInputEvent:                    dispatchInputEvent,
-            mapValues:                             mapValues,
-            forEachOwnProperty:                    forEachOwnProperty,
-            flattenRecursionDirty:                 flattenRecursionDirty,
-            takeSomeArrayElement:                  takeSomeArrayElement,
-            optimizedSliceArguments:               optimizedSliceArguments,
-            removeElementFromParent:               removeElementFromParent,
-            createArray:                           createArray,
-            sortFuncAscending:                     sortFuncAscending,
-            getCustomProperty:                     mixinStorage.getProperty,
-            setCustomProperty:                     mixinStorage.setProperty,
-            getStack:                              getStack,
-            debugTraceCollapsed:                   debugTraceCollapsed,
-            createObjectStorage:                   createObjectStorage
+
+            // Other
+
+            debugTraceCollapsed:     debugTraceCollapsed,
+            report:                  report,
+            getStack:                getStack,
+            defined:                 defined,
+            optimizedSliceArguments: optimizedSliceArguments,
+
+            // Window
+
+            getParameters: getParameters,
+            isDevBuild:    isDevBuild,
+
+            // FP
+
+            flattenRecursionDirty: flattenRecursionDirty,
+
+            // Types
+
+            isArray:         isArray,
+            isObject:        isObject,
+            isNonEmptyArray: isNonEmptyArray,
+            isBool:          isBool,
+            isNumber:        isNumber,
+            isString:        isString,
+
+            // Object
+
+            withoutFalsyProperties: withoutFalsyProperties,
+
+            defaults:           defaults,
+            copyKeysInto:       copyKeysInto,
+            mapValues:          mapValues,
+            forEachOwnProperty: forEachOwnProperty,
+
+            getCustomProperty: mixinStorage.getProperty,
+            setCustomProperty: mixinStorage.setProperty,
+
+            // Array
+
+            withoutFalsyElements: withoutFalsyElements,
+
+            arraysAreEqual:             arraysAreEqual,
+            arraysConsistOfSameStrings: arraysConsistOfSameStrings,
+            contains:                   contains,
+            find:                       find,
+
+            createArray: createArray,
+
+            last:          last,
+            getOrThrow:    getOrThrow,
+
+            moveArrayElement:     moveArrayElement,
+            addBetween:           addBetween,
+            addUnique:            addUnique,
+            take:                 take,
+            takeSomeArrayElement: takeSomeArrayElement,
+            removeElement:        removeElement,
+            removeElementAtIndex: removeElementAtIndex,
+
+            sortFuncAscending:    sortFuncAscending,
+            arrayGroupedByFactor: arrayGroupedByFactor,
+
+            searchInStringArray: searchInStringArray,
+
+            createObjectStorage: createObjectStorage,
+
+            // DOM
+
+            getDomElement: getDomElement,
+
+            createDomElement: createDomElement,
+            createTextNode:   createTextNode,
+            createMergedRow:  createMergedRow,
+            createSvgElement: createSvgElement,
+
+            removeAllChildren:       removeAllChildren,
+            removeElementFromParent: removeElementFromParent,
+
+            hideDomElement: hideDomElement,
+            showDomElement: showDomElement,
+
+            setTextContent: setTextContent,
+
+            addClickListenerToElement:       addClickListenerToElement,
+            addClickListenerToElementWithId: addClickListenerToElementWithId,
+            dispatchInputEvent:              dispatchInputEvent,
+
+            // Math
+
+            lerp: lerp
         };
 
         function report(/*arguments*/) {
@@ -180,6 +219,11 @@ define(
             return true;
         }
 
+        function removeElementAtIndex(array, index) {
+            array.splice(index, 1);
+            return true;
+        }
+
         function addBetween(array, element, a, b, optFallbackIsStart) {
 
             var indexA = array.indexOf(a);
@@ -209,6 +253,17 @@ define(
 
             function insertAfter(array, index, element)  { array.splice(index + 1, 0, element); }
             function insertBefore(array, index, element) { array.splice(index, 0, element);     }
+        }
+
+        function addUnique(outArray, elements) {
+            var changed = false;
+            elements.forEach(function(element) {
+                if (!contains(outArray, element)) {
+                    changed = true;
+                    outArray.push(element);
+                }
+            });
+            return changed;
         }
 
         function last(array) {
