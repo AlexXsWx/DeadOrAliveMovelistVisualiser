@@ -206,7 +206,11 @@ define(
                 var hasNonOtherActionStepResult = true;
 
                 for (var i = actionSteps.length - 1; i >= 0; --i) {
-                    if (actionSteps[i].actionType === 'strike') {
+                    if (
+                        actionSteps[i].actionType === 'strike' ||
+                        actionSteps[i].actionType === 'jump attack'
+                        // FIXME: other conditions
+                    ) {
                         hasNonOtherActionStepResult = false;
                     }
                     var results = actionSteps[i].results;
