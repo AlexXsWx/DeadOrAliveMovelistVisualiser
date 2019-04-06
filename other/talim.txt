@@ -1,3 +1,39 @@
+Throws
+    A+G front throw
+    BT A+G
+    BT 4A+G 4A
+    WC A+G (OBT)
+
+RE
+    A
+    B B
+    K
+    6
+    4
+    2
+    8
+
+
+FyreNecromancer 20dec18 at 7:18 AM
+
+    WNC B:B is now +0  on block instead of -4
+    3A      is now +2  on block instead of -2
+    WNC K   is now -8  on block instead of -10
+    1A+B    is now -12 on block instead of -16+
+    BT B    is now -7  on block instead of -20
+    WNC BB  is now -14 on block instead of -18
+
+    6AK causes knockdown on normal hit
+    6BB is now a NC and allows for followups
+    WNS B no longer allows you to combo off it on airborne hit
+
+
+
+
+--------------------
+
+
+
 Talim's minus:
     3B:    -12 on block - can't dodge i12 low
     66A+B: -10 on block - can't dodge i12 low
