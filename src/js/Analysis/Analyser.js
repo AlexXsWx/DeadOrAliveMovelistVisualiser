@@ -57,6 +57,7 @@ define(
             if (input.succeed) {
                 act(
                     input.data.framesCountToSpend,
+                    input.data.framesCountToSpendMax,
                     input.data.stanceToEndIn || CommonStances.DEFAULT
                 );
             }
@@ -67,8 +68,9 @@ define(
                 var result = {
                     succeed: false,
                     data: {
-                        framesCountToSpend: undefined,
-                        stanceToEndIn:      undefined
+                        framesCountToSpend:    undefined,
+                        framesCountToSpendMax: undefined,
+                        stanceToEndIn:         undefined
                     }
                 };
                 var textInput = prompt(
@@ -78,26 +80,31 @@ define(
                     )
                 );
                 if (textInput) {
-                    var parts = textInput.trim().split(/\s+/);
-                    result.succeed = true;
-                    result.data.framesCountToSpend = Number(parts[0]);
-                    result.data.stanceToEndIn = parts[1];
+                    var matchResult = /(\d+)[\s\-,:~\.]*(\d+)?\s*(.*)?$/.exec(textInput.trim());
+                    result.succeed = Boolean(matchResult);
+                    result.data.framesCountToSpend = Number(matchResult[1]);
+                    result.data.framesCountToSpendMax = (
+                        matchResult[2] ? Number(matchResult[2]) : result.data.framesCountToSpend
+                    );
+                    result.data.stanceToEndIn = matchResult[3];
                 }
                 return result;
             }
 
-            function act(framesCountToSpend, stanceToEndIn) {
+            function act(framesCountToSpend, framesCountToSpendMax, stanceToEndIn) {
                 var warnings = {};
                 var result = Filter.findNodesToSpendTime(
                     rootNodeData,
-                    framesCountToSpend, stanceToEndIn,
+                    framesCountToSpend,
+                    framesCountToSpendMax,
+                    stanceToEndIn,
                     undefined,
                     warnings
                 );
 
                 showFilterResults(
                     warnings,
-                    framesCountToSpend + 'f -> ' + stanceToEndIn + ':\n',
+                    framesCountToSpend + '-' + framesCountToSpendMax + 'f -> ' + stanceToEndIn + ':\n',
                     result
                 );
             }

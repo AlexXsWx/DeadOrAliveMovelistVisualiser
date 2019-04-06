@@ -286,6 +286,7 @@ define(
         function findNodesToSpendTime(
             rootNodeData,
             framesToSpend,
+            framesToSpendMax,
             endingStance,
             optNodeDataFilterFunc,
             optOutputWarnings,
@@ -298,16 +299,18 @@ define(
             var traverseRecursive = _.flattenRecursionDirty(
                 createTraverser(
                     rootNodeData,
-                    framesToSpend,
+                    framesToSpendMax,
                     function checkMoveNodeFunc(childWorkingPath, stance, framesSpent) {
-                        if (
-                            checkMoveNodeDuration(
-                                childWorkingPath,
-                                stance,
-                                framesSpent
-                            )
-                        ) {
-                            results.push(childWorkingPath);
+                        var temp = checkMoveNodeDuration(
+                            childWorkingPath,
+                            stance,
+                            framesSpent
+                        );
+                        if (temp.matches) {
+                            results.push({
+                                path: childWorkingPath,
+                                range: [temp.duration, temp.duration]
+                            });
                         }
                     },
                     function checkStanceNodeFunc(childWorkingPath, stance, framesSpent) {
@@ -320,9 +323,7 @@ define(
             );
             traverseRecursive([], true, 0, optCurrentStance || CommonStances.DEFAULT);
 
-            return results.map(function(r) {
-                return pathHistoryToString(r);
-            }).join('\n');
+            return filterResultsToString(results);
 
             /** Last elements of `workingPath` must be a move node data */
             function checkMoveNodeDuration(
@@ -331,7 +332,7 @@ define(
                 framesSpent
             ) {
 
-                var result = false;
+                var result = { matches: false, duration: undefined };
                 if (
                     genericCheckMoveNode(
                         workingPath, workingStance, framesSpent,
@@ -342,8 +343,12 @@ define(
                     var nodeData = workingPath[workingPath.length - 1];
                     var moveDurationData = NodeFactoryMove.getMoveDurationData(nodeData);
                     if (filter(nodeData)) {
-                        if (framesSpent + moveDurationData.total === framesToSpend) {
-                            result = true;
+                        if (
+                            framesSpent + moveDurationData.total >= framesToSpend &&
+                            framesSpent + moveDurationData.total <= framesToSpendMax
+                        ) {
+                            result.matches = true;
+                            result.duration = framesSpent + moveDurationData.total;
                         }
                     }
                 }
