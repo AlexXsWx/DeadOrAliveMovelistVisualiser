@@ -22,6 +22,9 @@ define(
             createMoveActionStepResult: createMoveActionStepResult,
             serialize:                  serialize,
 
+            covers: covers,
+            join:   join,
+
             addCondition:    addCondition,
             removeCondition: removeCondition,
 
@@ -126,6 +129,26 @@ define(
         }
 
         //
+
+        function covers(actionStepResultA, actionStepResultB) {
+            var a = actionStepResultA;
+            var b = actionStepResultB;
+            return (
+                sameOrBetter(a.hitBlock,          b.hitBlock)          &&
+                sameOrBetter(a.criticalHoldDelay, b.criticalHoldDelay) &&
+                sameOrBetter(a.stunDurationMin,   b.stunDurationMin)   &&
+                sameOrBetter(a.stunDurationMax,   b.stunDurationMax)   &&
+                sameOrBetter(a.launchHeight,      b.launchHeight)      &&
+                _.arraysConsistOfSameStrings(a.tags, b.tags)
+            );
+            function sameOrBetter(a, b) {
+                return a === b || b === undefined;
+            }
+        }
+
+        function join(outActionStepResult, otherActionStepResult) {
+            return _.addUnique(outActionStepResult.condition, otherActionStepResult.condition);
+        }
 
         function addCondition(actionStepResult, condition) {
             actionStepResult.condition.push(condition);

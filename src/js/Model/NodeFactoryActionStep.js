@@ -245,7 +245,10 @@ define(
                         var bla = test(i, j);
                         if (bla) {
                             changed = true;
-                            join(actionStep.results[bla[0]], actionStep.results[bla[1]]);
+                            NodeFactoryActionStepResult.join(
+                                actionStep.results[bla[0]],
+                                actionStep.results[bla[1]]
+                            );
                             _.removeElementAtIndex(actionStep.results, bla[1]);
                             continue outer;
                         }
@@ -255,27 +258,10 @@ define(
             changed = ensurePlaceholderResult(actionStep) || changed;
             return changed;
             function test(i, j) {
+                var covers = NodeFactoryActionStepResult.covers;
                 if (covers(actionStep.results[j], actionStep.results[i])) { return [j, i]; } else
                 if (covers(actionStep.results[i], actionStep.results[j])) { return [i, j]; }
                 return null;
-            }
-            function covers(actionStepResultA, actionStepResultB) {
-                var a = actionStepResultA;
-                var b = actionStepResultB;
-                return (
-                    sameOrBetter(a.hitBlock,          b.hitBlock)          &&
-                    sameOrBetter(a.criticalHoldDelay, b.criticalHoldDelay) &&
-                    sameOrBetter(a.stunDurationMin,   b.stunDurationMin)   &&
-                    sameOrBetter(a.stunDurationMax,   b.stunDurationMax)   &&
-                    sameOrBetter(a.launchHeight,      b.launchHeight)      &&
-                    _.arraysConsistOfSameStrings(a.tags, b.tags)
-                );
-                function sameOrBetter(a, b) {
-                    return a === b || b === undefined;
-                }
-            }
-            function join(outActionStepResult, otherActionStepResult) {
-                return _.addUnique(outActionStepResult.condition, otherActionStepResult.condition);
             }
         }
 
