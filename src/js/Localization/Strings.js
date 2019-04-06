@@ -10,13 +10,13 @@ define(
 
             'enterUrl': 'Enter URL:',
 
-            'enterFramesToForceTech': 'Your frames to land on: e.g. "43" or "43-45"',
+            'enterFramesToForceTech': 'Your frames to land on: e.g. "43", "43-45" or "BT: 43"',
             'enterFramesToSpend': (
                 'Amount of frames to spend and stance to end in ' +
                 '(leave empty for "${DEFAULT_STANCE}")' +
                 ':'
             ),
-            'enterFramesToLandOn': 'Your frames to land on: e.g. "17-19"',
+            'enterFramesToLandOn': 'Your frames to land on: e.g. "17-19" or "BT: 17-19"',
             'enterStanceToShow': 'Enter stance name: (e.g. "${EXAMPLE_STANCE}")',
             'enterFilterQuery': 'Enter filter query:',
             'enterSortQuery': 'Enter sort query:',

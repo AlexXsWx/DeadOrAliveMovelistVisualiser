@@ -35,6 +35,7 @@ define(
         function findForceTechMoves(rootNodeData) {
             var input = prompt(Strings('enterFramesToForceTech'));
             if (input) {
+                var optStartingStance = input.substr(0, input.indexOf(':'));
                 var parts = input.match(/\d+/g);
                 if (parts) {
                     var vulnerabilityStarts = Number(parts[0]);
@@ -43,7 +44,8 @@ define(
                         rootNodeData,
                         vulnerabilityStarts,
                         vulnerabilityEnds,
-                        NodeFactoryMove.canMoveHitGround
+                        NodeFactoryMove.canMoveHitGround,
+                        optStartingStance
                     );
                 }
             }
@@ -104,26 +106,29 @@ define(
         function findMoves(rootNodeData) {
             var input = prompt(Strings('enterFramesToLandOn'));
             if (input) {
+                var optStartingStance = input.substr(0, input.indexOf(':'));
                 var parts = input.match(/\d+/g);
                 if (parts) {
                     var startFrame = Number(parts[0]);
                     var endFrame = (parts.length > 1) ? Number(parts[1]) : startFrame;
                     doFindMoves(
                         rootNodeData, startFrame, endFrame,
-                        function(nodeData) { return !NodeFactoryMove.isMoveHoldOnly(nodeData); }
+                        function(nodeData) { return !NodeFactoryMove.isMoveHoldOnly(nodeData); },
+                        optStartingStance
                     );
                 }
             }
         }
 
-        function doFindMoves(rootNodeData, frameStart, frameEnd, filterFunc) {
+        function doFindMoves(rootNodeData, frameStart, frameEnd, filterFunc, optStartingStance) {
             var warnings = {};
             var result = Filter.filterResultsToString(
                 Filter.findNodes(
                     rootNodeData,
                     frameStart, frameEnd,
                     filterFunc,
-                    warnings
+                    warnings,
+                    optStartingStance
                 )
             );
 
