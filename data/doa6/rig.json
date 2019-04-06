@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1552864551896
+    "timeSaved": 1553892082193
   },
   "body": {
     "character": "Rig",
@@ -2707,7 +2707,7 @@
                     "togglesStance": false
                   }
                 ],
-                "endsWith": "BT",
+                "endsWith": "BND",
                 "followUps": [
                   {
                     "input": "*",
@@ -2722,7 +2722,7 @@
                         "togglesStance": false
                       }
                     ],
-                    "endsWith": "BT"
+                    "endsWith": "BND"
                   }
                 ]
               },
@@ -3564,7 +3564,7 @@
             "frameData": [
               12,
               3,
-              28
+              0
             ],
             "actionSteps": [
               {
@@ -3582,7 +3582,7 @@
                 "frameData": [
                   0,
                   0,
-                  0
+                  28
                 ],
                 "actionSteps": [
                   {
