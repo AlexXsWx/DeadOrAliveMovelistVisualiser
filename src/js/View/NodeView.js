@@ -23,6 +23,7 @@ define(
         var SORTING_ORDER = {
             DEFAULT: sortByDefault,
             SPEED: sortBySpeed,
+            DAMAGE: sortByDamage,
             ADVANTAGE_ON_BLOCK: sortByAdvantageOnBlock,
             ADVANTAGE_ON_NEUTRAL_HIT: sortByAdvantageOnNeutralHit,
             ADVANTAGE_ON_COUNTER_HIT: sortByAdvantageOnCounterHit,
@@ -757,6 +758,24 @@ define(
                         return _.sortFuncAscending(
                             NodeFactoryMove.getStartupFramesCount(getNodeData(nodeViewA)),
                             NodeFactoryMove.getStartupFramesCount(getNodeData(nodeViewB))
+                        );
+                    });
+                });
+            }
+
+            function sortByDamage(nodeView) {
+                sortHelper(nodeView, function(rest) {
+                    return _.take(rest, function(nodeView) {
+                        var nodeData = getNodeData(nodeView);
+                        return (
+                            nodeData &&
+                            NodeFactoryMove.isMoveNode(nodeData) &&
+                            NodeFactoryMove.hasFrameData(nodeData)
+                        );
+                    }).sort(function(nodeViewA, nodeViewB) {
+                        return _.sortFuncAscending(
+                            NodeFactoryMove.getDamage(getNodeData(nodeViewB)),
+                            NodeFactoryMove.getDamage(getNodeData(nodeViewA))
                         );
                     });
                 });

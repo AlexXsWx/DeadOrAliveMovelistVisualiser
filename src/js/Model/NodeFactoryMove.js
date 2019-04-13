@@ -42,6 +42,7 @@ define(
             getActiveFramesCount:    getActiveFramesCount,
             getRecoveryFramesCount:  getRecoveryFramesCount,
             getActiveFrames:         getActiveFrames,
+            getDamage:               getDamage,
             changeFrameData:         changeFrameData
 
             // guessMoveTypeByInput: guessMoveTypeByInput
@@ -316,6 +317,15 @@ define(
             }
             console.assert(!isNaN(frames), 'Frames are NaN');
             return activeFrames;
+        }
+
+        function getDamage(nodeData) {
+            return nodeData.actionSteps.reduce(
+                function(sum, actionStep) {
+                    return sum + (actionStep && Number(actionStep.damage) || NaN);
+                },
+                0
+            );
         }
 
         function changeFrameData(nodeData, newValue) {

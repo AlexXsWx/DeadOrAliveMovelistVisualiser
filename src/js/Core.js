@@ -680,6 +680,10 @@ define(
                         changeSorting(NodeView.SORTING_ORDER.SPEED);
                     },
 
+                    'sortByDamage': function sortByDamage(event) {
+                        changeSorting(NodeView.SORTING_ORDER.DAMAGE);
+                    },
+
                     'sortByAdvantageOnBlock': function sortByAdvantageOnBlock(event) {
                         changeSorting(NodeView.SORTING_ORDER.ADVANTAGE_ON_BLOCK);
                     },
