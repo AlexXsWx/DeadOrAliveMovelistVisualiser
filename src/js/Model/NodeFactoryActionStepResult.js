@@ -30,9 +30,9 @@ define(
             removeCondition: removeCondition,
 
             doesDescribeGuard:        conditionChecker(guardRegex),
-            doesDescribeNeutralHit:   conditionChecker(CONDITION.NEUTRAL_HIT),
-            doesDescribeCounterHit:   conditionChecker(CONDITION.COUNTER_HIT),
-            doesDescribeHiCounterHit: conditionChecker(CONDITION.HI_COUNTER_HIT),
+            doesDescribeNeutralHit:   conditionChecker(CONDITION.NEUTRAL_HIT,    CONDITION.BACK),
+            doesDescribeCounterHit:   conditionChecker(CONDITION.COUNTER_HIT,    CONDITION.BACK),
+            doesDescribeHiCounterHit: conditionChecker(CONDITION.HI_COUNTER_HIT, CONDITION.BACK),
             doesDescribeBackHit:      conditionChecker(CONDITION.BACK),
 
             // When a move forces to get up from first hit
