@@ -15,6 +15,7 @@ define(
             NodeSvgViewTextGetters.getAdvantageOnNeutralHit,
             NodeSvgViewTextGetters.getAdvantageOnCounterHit,
             NodeSvgViewTextGetters.getAdvantageOnHiCounterHit,
+            NodeSvgViewTextGetters.getGuaranteedAdvantageOnBackHit,
             NodeSvgViewTextGetters.getReach,
             NodeSvgViewTextGetters.getForcetechAdvantage,
             NodeSvgViewTextGetters.getHardKnockdownAdvantage,

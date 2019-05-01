@@ -12,7 +12,8 @@ define(
             GUARD:          'guard',
             NEUTRAL_HIT:    'neutral',
             COUNTER_HIT:    'counter',
-            HI_COUNTER_HIT: 'hi-counter'
+            HI_COUNTER_HIT: 'hi-counter',
+            BACK:           'backturned'
         };
 
         return {
@@ -32,6 +33,7 @@ define(
             doesDescribeNeutralHit:   conditionChecker(CONDITION.NEUTRAL_HIT),
             doesDescribeCounterHit:   conditionChecker(CONDITION.COUNTER_HIT),
             doesDescribeHiCounterHit: conditionChecker(CONDITION.HI_COUNTER_HIT),
+            doesDescribeBackHit:      conditionChecker(CONDITION.BACK),
 
             // When a move forces to get up from first hit
             doesDescribeForcetech: conditionChecker(/forcetech/i),

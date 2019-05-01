@@ -27,10 +27,11 @@ define(
             getTextEnding:       getTextEnding,
             getTextActiveFrames: getTextActiveFrames,
             getCooldown:         getCooldown,
-            getAdvantageOnBlock:        getAdvantageOnBlock,
-            getAdvantageOnNeutralHit:   getAdvantageOnNeutralHit,
-            getAdvantageOnCounterHit:   getAdvantageOnCounterHit,
-            getAdvantageOnHiCounterHit: getAdvantageOnHiCounterHit,
+            getAdvantageOnBlock:             getAdvantageOnBlock,
+            getAdvantageOnNeutralHit:        getAdvantageOnNeutralHit,
+            getAdvantageOnCounterHit:        getAdvantageOnCounterHit,
+            getAdvantageOnHiCounterHit:      getAdvantageOnHiCounterHit,
+            getGuaranteedAdvantageOnBackHit: getGuaranteedAdvantageOnBackHit,
             getReach: getReach,
             getForcetechAdvantage: getForcetechAdvantage,
             getHardKnockdownAdvantage: getHardKnockdownAdvantage,
@@ -122,13 +123,23 @@ define(
         function getAdvantageOnHiCounterHit(nodeView) {
             return getAdvantageHelper(nodeView, NodeFactoryActionStepResult.doesDescribeHiCounterHit);
         }
+        function getGuaranteedAdvantageOnBackHit(nodeView) {
+            return getAdvantageHelper(nodeView, NodeFactoryActionStepResult.doesDescribeBackHit, true);
+        }
 
-        function getAdvantageHelper(nodeView, actionStepResultPredicate) {
+        function getAdvantageHelper(nodeView, actionStepResultPredicate, optGuaranteed) {
             var nodeData = NodeView.getNodeData(nodeView);
             if (!nodeData) return '';
             var advantageRange = NodeFactoryMove.getAdvantageRange(
                 nodeData,
-                NodeFactoryActionStepResult.getHitBlockOrStun,
+                optGuaranteed
+                    ? function(actionStepResult) {
+                        return (
+                            actionStepResult.criticalHoldDelay ||
+                            NodeFactoryActionStepResult.getHitBlockOrStun(actionStepResult)
+                        );
+                    }
+                    : NodeFactoryActionStepResult.getHitBlockOrStun,
                 actionStepResultPredicate,
                 NodeFactoryMove.isMoveNode(nodeData) ? NodeView.findAncestorNodeData(nodeView) : null
             );

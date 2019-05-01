@@ -43,7 +43,7 @@ define(
                     id: 'criticalHoldDelay',
                     inputType: EditorCreatorBase.INPUT_TYPES.text,
                     label: 'Critical hold delay',
-                    description: 'First number in critical hold interval',
+                    description: '2nd number minus one in critical hold interval when opponent does hold',
                     placeholderText: 'e.g. 6',
                     fill: actionStepResultToCriticalHoldDelay,
                     parameterModifier: changeCriticalHoldDelay

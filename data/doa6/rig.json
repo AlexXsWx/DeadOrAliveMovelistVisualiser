@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1553892082193
+    "timeSaved": 1556715429271
   },
   "body": {
     "character": "Rig",
@@ -45,6 +45,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 50
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "6"
                   }
                 ]
               }
@@ -93,6 +99,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 50
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "6"
                       }
                     ]
                   }
@@ -160,6 +172,12 @@
                               "hi-counter"
                             ],
                             "stunDurationMax": 35
+                          },
+                          {
+                            "condition": [
+                              "backturned/hi-counter"
+                            ],
+                            "criticalHoldDelay": "26"
                           }
                         ]
                       }
@@ -203,6 +221,12 @@
                                   "hi-counter"
                                 ],
                                 "stunDurationMax": 50
+                              },
+                              {
+                                "condition": [
+                                  "backturned/hi-counter"
+                                ],
+                                "criticalHoldDelay": "26"
                               }
                             ]
                           }
@@ -317,6 +341,12 @@
                               "hi-counter"
                             ],
                             "stunDurationMax": 45
+                          },
+                          {
+                            "condition": [
+                              "backturned/hi-counter"
+                            ],
+                            "criticalHoldDelay": "26"
                           }
                         ]
                       }
@@ -355,6 +385,12 @@
                                   "hi-counter"
                                 ],
                                 "stunDurationMax": 35
+                              },
+                              {
+                                "condition": [
+                                  "backturned/hi-counter"
+                                ],
+                                "criticalHoldDelay": "26"
                               }
                             ]
                           }
@@ -416,6 +452,12 @@
                                       "counter"
                                     ],
                                     "stunDurationMax": 45
+                                  },
+                                  {
+                                    "condition": [
+                                      "backturned/hi-counter"
+                                    ],
+                                    "criticalHoldDelay": "26"
                                   }
                                 ]
                               }
@@ -502,6 +544,12 @@
                               "hi-counter"
                             ],
                             "stunDurationMax": 35
+                          },
+                          {
+                            "condition": [
+                              "backturned/hi-counter"
+                            ],
+                            "criticalHoldDelay": "28"
                           }
                         ]
                       }
@@ -586,6 +634,12 @@
                         ],
                         "criticalHoldDelay": 14,
                         "stunDurationMax": 61
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "36"
                       }
                     ]
                   }
@@ -763,6 +817,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 56
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -801,6 +861,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 60
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "36"
                       }
                     ]
                   }
@@ -837,6 +903,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 60
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "36"
                   }
                 ]
               }
@@ -863,6 +935,12 @@
                       "guard"
                     ],
                     "hitBlock": 9
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "34"
                   }
                 ]
               }
@@ -902,6 +980,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -945,6 +1029,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 45
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -985,6 +1075,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 45
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -1024,6 +1120,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 45
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "29"
                       }
                     ]
                   }
@@ -1107,6 +1209,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -1215,6 +1323,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 56
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -1339,6 +1453,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 26
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "28"
                   }
                 ]
               }
@@ -1383,6 +1503,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 36
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "29"
                   }
                 ]
               }
@@ -1492,6 +1618,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 50
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "36"
                   }
                 ]
               }
@@ -1541,6 +1673,12 @@
                         ],
                         "criticalHoldDelay": 14,
                         "stunDurationMax": 61
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -1604,6 +1742,12 @@
                               "hi-counter"
                             ],
                             "stunDurationMax": 60
+                          },
+                          {
+                            "condition": [
+                              "backturned/hi-counter"
+                            ],
+                            "criticalHoldDelay": "36"
                           }
                         ]
                       }
@@ -1636,6 +1780,12 @@
                               "neutral"
                             ],
                             "stunDurationMax": 45
+                          },
+                          {
+                            "condition": [
+                              "backturned/hi-counter"
+                            ],
+                            "criticalHoldDelay": "26"
                           }
                         ]
                       }
@@ -1710,6 +1860,12 @@
                                       "neutral"
                                     ],
                                     "stunDurationMax": 45
+                                  },
+                                  {
+                                    "condition": [
+                                      "backturned/hi-counter"
+                                    ],
+                                    "criticalHoldDelay": "26"
                                   }
                                 ]
                               }
@@ -1819,6 +1975,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 45
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "29"
                       }
                     ]
                   }
@@ -1994,6 +2156,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -2061,6 +2229,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 36
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -2104,6 +2278,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 45
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -2208,6 +2388,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 36
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -2247,6 +2433,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 35
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -2289,6 +2481,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -2327,6 +2525,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 35
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -2390,6 +2594,12 @@
                               "counter"
                             ],
                             "stunDurationMax": 45
+                          },
+                          {
+                            "condition": [
+                              "backturned/hi-counter"
+                            ],
+                            "criticalHoldDelay": "26"
                           }
                         ]
                       }
@@ -2435,6 +2645,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 45
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "29"
                       }
                     ]
                   }
@@ -2518,6 +2734,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 35
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "28"
                   }
                 ]
               }
@@ -2633,6 +2855,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "29"
                   }
                 ]
               }
@@ -2760,6 +2988,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 45
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -2952,6 +3186,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "hitBlock": 55
                   }
                 ]
               }
@@ -2990,6 +3230,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 36
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -3084,6 +3330,12 @@
                     ],
                     "criticalHoldDelay": 14,
                     "stunDurationMax": 61
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "36"
                   }
                 ]
               }
@@ -3333,6 +3585,12 @@
                       "guard"
                     ],
                     "hitBlock": 17
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "14"
                   }
                 ]
               }
@@ -3753,6 +4011,12 @@
                         "tags": [
                           "GB"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "38"
                       }
                     ]
                   }
@@ -3843,6 +4107,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 50
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "36"
                   }
                 ]
               }
@@ -3885,6 +4155,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -3928,6 +4204,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -3970,6 +4252,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 36
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "28"
                   }
                 ]
               }
@@ -4153,6 +4441,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -4422,6 +4716,12 @@
                       "guard"
                     ],
                     "hitBlock": 9
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "34"
                   }
                 ]
               }
@@ -4461,6 +4761,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 50
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "36"
                   }
                 ]
               }
@@ -4500,6 +4806,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 35
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "36"
                       }
                     ]
                   }
@@ -4539,6 +4851,12 @@
                               "hi-counter"
                             ],
                             "stunDurationMax": 40
+                          },
+                          {
+                            "condition": [
+                              "backturned/hi-counter"
+                            ],
+                            "criticalHoldDelay": "26"
                           }
                         ]
                       }
@@ -4603,6 +4921,12 @@
                               "hi-counter"
                             ],
                             "stunDurationMax": 45
+                          },
+                          {
+                            "condition": [
+                              "backturned/hi-counter"
+                            ],
+                            "criticalHoldDelay": "26"
                           }
                         ]
                       }
@@ -4667,6 +4991,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -4704,6 +5034,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -4789,6 +5125,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 45
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -4834,6 +5176,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 36
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -4873,6 +5221,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 35
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "26"
                       }
                     ]
                   }
@@ -4908,6 +5262,12 @@
                       "neutral"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -4982,6 +5342,12 @@
                               "neutral"
                             ],
                             "stunDurationMax": 45
+                          },
+                          {
+                            "condition": [
+                              "backturned/hi-counter"
+                            ],
+                            "criticalHoldDelay": "26"
                           }
                         ]
                       }
@@ -5029,6 +5395,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "29"
                   }
                 ]
               }
@@ -5105,6 +5477,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -5173,6 +5551,12 @@
                     ],
                     "criticalHoldDelay": 14,
                     "stunDurationMax": 61
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "36"
                   }
                 ]
               }
@@ -5321,6 +5705,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -5455,6 +5845,12 @@
                       "guard"
                     ],
                     "hitBlock": 17
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "14"
                   }
                 ]
               }
@@ -5675,6 +6071,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 50
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "6"
                   }
                 ]
               }
@@ -5717,6 +6119,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -5759,6 +6167,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 36
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "28"
                   }
                 ]
               }
@@ -5801,6 +6215,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 50
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "6"
                   }
                 ]
               }
@@ -5937,6 +6357,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 45
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -5970,6 +6396,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 60
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "36"
                   }
                 ]
               }
@@ -6004,6 +6436,12 @@
                       "hi-counter"
                     ],
                     "stunDurationMax": 38
+                  },
+                  {
+                    "condition": [
+                      "backturned/hi-counter"
+                    ],
+                    "criticalHoldDelay": "26"
                   }
                 ]
               }
@@ -6042,6 +6480,12 @@
                           "hi-counter"
                         ],
                         "stunDurationMax": 35
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": "36"
                       }
                     ]
                   }
@@ -6164,6 +6608,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": "29",
                     "stunDurationMax": 70
                   }
                 ]
@@ -6202,6 +6647,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": "29",
                         "stunDurationMax": 70
                       }
                     ]
@@ -6240,6 +6686,7 @@
                               "counter",
                               "hi-counter"
                             ],
+                            "criticalHoldDelay": "29",
                             "stunDurationMax": 70
                           }
                         ]

@@ -345,9 +345,9 @@ define(
                             stun
                         );
                     },
-                    'hc': function(advantageOnCounterHit, stun) {
+                    'hc': function(advantageOnHiCounterHit, stun) {
                         return changeAdvantageHelper(
-                            advantageOnCounterHit, nodeData,
+                            advantageOnHiCounterHit, nodeData,
                             NodeFactoryActionStepResult.doesDescribeHiCounterHit,
                             NodeFactoryActionStepResult.CONDITION.HI_COUNTER_HIT,
                             stun
