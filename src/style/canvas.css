@@ -12,6 +12,9 @@ g.canvas {
   fill: none;
   stroke: #dfdfdf;
 }
+.node_link.guaranteed {
+  stroke: #8fbf00;
+}
 g.node {
   cursor: default;
 }

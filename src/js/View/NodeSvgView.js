@@ -23,6 +23,8 @@ define(
         var onNodeToggleChildren = createSignal();
         var updateSignal         = createSignal();
 
+        var getAdvantageFunc = null;
+
         return {
             init:                           init,
             create:                         create,
@@ -46,7 +48,12 @@ define(
 
         function init() {
             NodeSvgViewTexts.init();
-            NodeSvgViewTexts.onUpdate.addListener(updateSignal.dispatch);
+            NodeSvgViewTexts.onUpdate.addListener(function(optGetAdvantageFunc) {
+                if (optGetAdvantageFunc !== undefined) {
+                    getAdvantageFunc = optGetAdvantageFunc;
+                }
+                updateSignal.dispatch();
+            });
         }
 
         function create(nodeView) {
@@ -89,10 +96,33 @@ define(
                 if (!NodeView.isPlaceholder(nodeView)) {
                     circle.classList.remove('placeholder');
                 }
+                updateLinkColor();
                 texts2.updateByData(nodeView);
                 updateClassesByData();
                 indicatorsView.update(NodeView.getNodeData(nodeView), nodeSize);
                 updateLinkThickness();
+            }
+
+            function updateLinkColor() {
+                link.classList.remove("guaranteed");
+                if (getAdvantageFunc) {
+                    var parentNodeView = NodeView.getParentNodeView(nodeView);
+                    if (!parentNodeView) return;
+                    var advantageRange = getAdvantageFunc(parentNodeView);
+                    if (!advantageRange) return;
+                    var ownNodeData = NodeView.getNodeData(nodeView);
+                    var parentNodeData = NodeView.getNodeData(parentNodeView);
+                    if (!NodeFactoryMove.isMoveNode(ownNodeData)) return;
+                    if (!NodeFactoryMove.isMoveNode(parentNodeData)) return;
+                    if (
+                        advantageRange.min +
+                        NodeFactoryMove.getActiveFramesCount(parentNodeData) - 1 +
+                        NodeFactoryMove.getRecoveryFramesCount(parentNodeData) >
+                        NodeFactoryMove.getActiveFrames(ownNodeData)[0]
+                    ) {
+                        link.classList.add("guaranteed");
+                    }
+                }
             }
 
             function destroy(optX, optY) {

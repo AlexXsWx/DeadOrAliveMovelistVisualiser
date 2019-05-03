@@ -31,6 +31,10 @@ g.canvas { transition: transform 500ms; }
 .node_link {
     fill: none;
     stroke: @color-gray-link;
+
+    &.guaranteed {
+        stroke: @color-safe;
+    }
 }
 
 g.node {

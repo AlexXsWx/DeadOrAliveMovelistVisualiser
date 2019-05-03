@@ -2,9 +2,17 @@ define(
 
     'View/NodeSvgViewTexts',
 
-    [ 'View/NodeView', 'View/NodeSvgViewTextGetters', 'Tools/Signal', 'Tools/Tools' ],
+    [
+        'Model/NodeFactoryMove',
+        'Model/NodeFactoryActionStepResult',
+        'View/NodeView', 'View/NodeSvgViewTextGetters', 'Tools/Signal', 'Tools/Tools',
+    ],
 
-    function NodeSvgViewTexts(NodeView, NodeSvgViewTextGetters, createSignal, _) {
+    function NodeSvgViewTexts(
+        NodeFactoryMove,
+        NodeFactoryActionStepResult,
+        NodeView, NodeSvgViewTextGetters, createSignal, _
+    ) {
 
         var TEXT_GETTER_OPTIONS = [
             NodeSvgViewTextGetters.getEmptyText,
@@ -25,6 +33,45 @@ define(
             NodeSvgViewTextGetters.getEmptyText, // TODO: stun depth
             NodeSvgViewTextGetters.getEmptyText  // TODO: unhold duration
         ];
+
+        var GET_ADVANTAGE_FUNC = [];
+
+        GET_ADVANTAGE_FUNC[
+            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnBlock)
+        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeGuard);
+        GET_ADVANTAGE_FUNC[
+            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnNeutralHit)
+        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeNeutralHit);
+        GET_ADVANTAGE_FUNC[
+            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnCounterHit)
+        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeCounterHit);
+        GET_ADVANTAGE_FUNC[
+            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnHiCounterHit)
+        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeHiCounterHit);
+        GET_ADVANTAGE_FUNC[
+            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getGuaranteedAdvantageOnBackHit)
+        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeBackHit, true);
+
+        function createGetAdvantage(actionStepResultPredicate, optGuaranteed) {
+            return getAdvantage;
+            function getAdvantage(nodeView) {
+                var nodeData = NodeView.getNodeData(nodeView);
+                if (!nodeData) return;
+                return NodeFactoryMove.getAdvantageRange(
+                    nodeData,
+                    optGuaranteed
+                        ? function(actionStepResult) {
+                            return (
+                                actionStepResult.criticalHoldDelay ||
+                                NodeFactoryActionStepResult.getHitBlockOrStun(actionStepResult)
+                            );
+                        }
+                        : NodeFactoryActionStepResult.getHitBlockOrStun,
+                    actionStepResultPredicate,
+                    NodeFactoryMove.isMoveNode(nodeData) ? NodeView.findAncestorNodeData(nodeView) : null
+                );
+            }
+        }
 
         var textGetters = {
             top:    TEXT_GETTER_OPTIONS[0],
@@ -52,19 +99,22 @@ define(
             _.getDomElement('topTextOption').addEventListener('change', function(event) {
                 var select = this;
                 var selectedOptionValue = +select.selectedOptions[0].value;
-                textGetters.top = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                var index = selectedOptionValue || 0;
+                textGetters.top = TEXT_GETTER_OPTIONS[index];
                 updateSignal.dispatch();
             });
             _.getDomElement('rightTextOption').addEventListener('change', function(event) {
                 var select = this;
                 var selectedOptionValue = +select.selectedOptions[0].value;
-                textGetters.right = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
-                updateSignal.dispatch();
+                var index = selectedOptionValue || 0;
+                textGetters.right = TEXT_GETTER_OPTIONS[index];
+                updateSignal.dispatch(GET_ADVANTAGE_FUNC[index] || null);
             });
             _.getDomElement('bottomTextOption').addEventListener('change', function(event) {
                 var select = this;
                 var selectedOptionValue = +select.selectedOptions[0].value;
-                textGetters.bottom = TEXT_GETTER_OPTIONS[selectedOptionValue || 0];
+                var index = selectedOptionValue || 0;
+                textGetters.bottom = TEXT_GETTER_OPTIONS[index];
                 updateSignal.dispatch();
             });
 
