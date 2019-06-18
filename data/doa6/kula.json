@@ -1,0 +1,2758 @@
+{
+  "header": {
+    "format": 3,
+    "timeSaved": 1560891027878
+  },
+  "body": {
+    "character": "Kula",
+    "version": "1.06 steam",
+    "stances": [
+      {
+        "abbreviation": "STD",
+        "description": "Standing",
+        "appliesExtraFrame": true,
+        "moves": [
+          {
+            "input": "S",
+            "frameData": [
+              18,
+              2,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 17
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "S",
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "S",
+                    "actionSteps": [
+                      {
+                        "actionMask": "P",
+                        "actionType": "strike"
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "S",
+                        "actionSteps": [
+                          {
+                            "actionMask": "P",
+                            "actionType": "strike"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "4S",
+                        "actionSteps": [
+                          {
+                            "actionMask": "P",
+                            "actionType": "strike"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "6S",
+            "frameData": [
+              0,
+              12,
+              7
+            ],
+            "actionSteps": [
+              {
+                "actionType": "hold",
+                "isTracking": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  2,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "H",
+                    "context": [
+                      "HIT"
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "*",
+                    "frameData": [
+                      0,
+                      0,
+                      40
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4S",
+            "frameData": [
+              0,
+              22,
+              18
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high mid low",
+                "actionType": "hold",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "P",
+            "frameData": [
+              9,
+              2,
+              19
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard",
+                      "neutral"
+                    ],
+                    "hitBlock": 14
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  8,
+                  2,
+                  19
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 13
+                      },
+                      {
+                        "condition": [
+                          "neutral"
+                        ],
+                        "hitBlock": 14
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      16,
+                      2,
+                      24
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high P",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 14
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          15,
+                          5,
+                          46
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 15
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "frameData": [
+                          20,
+                          3,
+                          28
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "K",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 19
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "K",
+                            "frameData": [
+                              24,
+                              5,
+                              24
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "K",
+                                "actionType": "strike",
+                                "isTracking": false,
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "guard"
+                                    ],
+                                    "hitBlock": 22
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "input": "2K",
+                            "frameData": [
+                              26,
+                              4,
+                              23
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "K",
+                                "actionType": "strike",
+                                "isTracking": false,
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "guard"
+                                    ],
+                                    "hitBlock": 11
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6P",
+                    "frameData": [
+                      19,
+                      2,
+                      25
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 16
+                          }
+                        ]
+                      }
+                    ],
+                    "endsWith": "SA"
+                  },
+                  {
+                    "input": "K",
+                    "frameData": [
+                      15,
+                      2,
+                      25
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 17
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      25,
+                      7,
+                      28
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 19
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  15,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 18
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "6P",
+            "frameData": [
+              11,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 14
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  18,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 15
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "SA"
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  18,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 17
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  24,
+                  3,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 12
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4P",
+            "frameData": [
+              16,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 14
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  15,
+                  5,
+                  46
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 15
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  16,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 18
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      24,
+                      5,
+                      24
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 22
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      26,
+                      4,
+                      23
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K ground",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 11
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "1P",
+            "frameData": [
+              16,
+              2,
+              22
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 17
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2P",
+            "frameData": [
+              13,
+              2,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 17
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "8P",
+            "frameData": [
+              17,
+              3,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 18
+                  },
+                  {
+                    "condition": [
+                      "neutral"
+                    ],
+                    "stunDurationMax": 56
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  17,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 20
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "BT"
+              },
+              {
+                "input": "6P",
+                "frameData": [
+                  19,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 16
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "SA"
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  20,
+                  3,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 16
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  23,
+                  7,
+                  28
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3P",
+            "frameData": [
+              14,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 15
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "66P",
+            "frameData": [
+              20,
+              2,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 17
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              13,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 18
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  18,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 17
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      23,
+                      3,
+                      29
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 26
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      24,
+                      3,
+                      25
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 12
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "P",
+                "frameData": [
+                  23,
+                  3,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 17
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4K",
+            "frameData": [
+              18,
+              3,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 17
+                  }
+                ]
+              }
+            ],
+            "endsWith": "BT",
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  24,
+                  2,
+                  29
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 30
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "9K",
+            "frameData": [
+              16,
+              3,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 12
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  19,
+                  3,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 20
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  23,
+                  7,
+                  28
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "P",
+                "frameData": [
+                  21,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "6P",
+                "frameData": [
+                  23,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 16
+                      }
+                    ]
+                  }
+                ],
+                "endsWith": "SA"
+              }
+            ]
+          },
+          {
+            "input": "6K",
+            "frameData": [
+              14,
+              2,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2K",
+            "frameData": [
+              15,
+              2,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 20
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3K",
+            "frameData": [
+              15,
+              2,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 17
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "1K",
+            "frameData": [
+              16,
+              2,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 11
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "8K",
+            "frameData": [
+              15,
+              2,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 16
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "66K",
+            "frameData": [
+              21,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 20
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "P+K",
+            "frameData": [
+              22,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 16
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "6P+K",
+            "frameData": [
+              19,
+              2,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 21
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3P+K",
+            "frameData": [
+              17,
+              2,
+              32
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 18
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "214K",
+                "context": [
+                  "HIT"
+                ],
+                "frameData": [
+                  18,
+                  3,
+                  28
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      24,
+                      5,
+                      24
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 22
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      26,
+                      4,
+                      23
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 11
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "H+K",
+            "frameData": [
+              20,
+              3,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 16
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "6H+K",
+            "frameData": [
+              22,
+              2,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 32
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2H+K",
+            "frameData": [
+              24,
+              3,
+              25
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 12
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "3H+K",
+            "frameData": [
+              23,
+              7,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 19
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "P",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              10,
+              2,
+              18
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 17
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  8,
+                  2,
+                  19
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 13
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "P",
+                    "frameData": [
+                      16,
+                      2,
+                      24
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "P",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 14
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "P",
+                        "frameData": [
+                          15,
+                          5,
+                          46
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 15
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "input": "K",
+                        "frameData": [
+                          20,
+                          3,
+                          28
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "K",
+                            "actionType": "strike",
+                            "isTracking": true,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 19
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "K",
+                            "frameData": [
+                              24,
+                              5,
+                              24
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "K",
+                                "actionType": "strike",
+                                "isTracking": false,
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "guard"
+                                    ],
+                                    "hitBlock": 22
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "input": "2K",
+                            "frameData": [
+                              26,
+                              4,
+                              23
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "K",
+                                "actionType": "strike",
+                                "isTracking": false,
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "guard"
+                                    ],
+                                    "hitBlock": 11
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "6P",
+                    "frameData": [
+                      19,
+                      2,
+                      25
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 16
+                          }
+                        ]
+                      }
+                    ],
+                    "endsWith": "SA"
+                  },
+                  {
+                    "input": "K",
+                    "frameData": [
+                      15,
+                      2,
+                      25
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 17
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      25,
+                      7,
+                      28
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 19
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  15,
+                  2,
+                  26
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 18
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4P",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              16,
+              2,
+              23
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 14
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2P",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              13,
+              2,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 11
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              13,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 20
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  18,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 17
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      23,
+                      3,
+                      29
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 26
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      24,
+                      3,
+                      25
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": true,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 12
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "P",
+                "frameData": [
+                  23,
+                  3,
+                  22
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "P",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 17
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "4K",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              15,
+              2,
+              24
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 19
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "2K",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              24,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 12
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "P+K",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              17,
+              2,
+              37
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 23
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "214K",
+                "context": [
+                  "HIT"
+                ],
+                "frameData": [
+                  18,
+                  3,
+                  28
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 19
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      24,
+                      5,
+                      24
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 22
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "input": "2K",
+                    "frameData": [
+                      26,
+                      4,
+                      23
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 11
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "214P",
+            "frameData": [
+              15,
+              5,
+              46
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 15
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "236P",
+            "frameData": [
+              19,
+              16,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 20
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "H+K",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              20,
+              2,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 30
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "T",
+            "frameData": [
+              5,
+              2,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "6T",
+            "frameData": [
+              7,
+              2,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "4T",
+            "frameData": [
+              10,
+              2,
+              29
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "236T",
+            "frameData": [
+              12,
+              2,
+              33
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "2T",
+            "frameData": [
+              5,
+              2,
+              27
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "1T",
+            "frameData": [
+              10,
+              3,
+              31
+            ],
+            "actionSteps": [
+              {
+                "actionType": "throw",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "7H",
+            "frameData": [
+              0,
+              18,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "hold",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "4H",
+            "frameData": [
+              0,
+              18,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "hold",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "6H",
+            "frameData": [
+              0,
+              18,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "hold",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "1H",
+            "frameData": [
+              0,
+              18,
+              12
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "low",
+                "actionType": "hold",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "9P",
+            "frameData": [
+              20,
+              0,
+              19
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "followUps": [
+              {
+                "input": "P",
+                "frameData": [
+                  9,
+                  2,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "mid P",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 27
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "K",
+                "frameData": [
+                  13,
+                  2,
+                  23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "high K",
+                    "actionType": "strike",
+                    "isTracking": true,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 13
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "7P",
+            "frameData": [
+              20,
+              0,
+              35
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ]
+          },
+          {
+            "input": "*",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ],
+            "endsWith": "SA"
+          },
+          {
+            "input": "2K",
+            "context": [
+              "OGND"
+            ],
+            "frameData": [
+              18,
+              2,
+              30
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K ground",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "8P+K",
+            "context": [
+              "OGND"
+            ],
+            "frameData": [
+              39,
+              4,
+              999
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K ground",
+                "actionType": "strike",
+                "isTracking": false
+              }
+            ]
+          },
+          {
+            "input": "214K",
+            "frameData": [
+              20,
+              3,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 19
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  24,
+                  5,
+                  24
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 23
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  26,
+                  4,
+                  23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 11
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "SS",
+        "description": "Sidestep",
+        "appliesExtraFrame": false,
+        "moves": [
+          {
+            "input": "S",
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "GND",
+        "description": "From the ground",
+        "appliesExtraFrame": true,
+        "moves": [
+          {
+            "input": "K",
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "2K",
+            "actionSteps": [
+              {
+                "actionMask": "low K ground",
+                "actionType": "strike",
+                "isTracking": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "RUN",
+        "description": "Running",
+        "moves": [
+          {
+            "input": "T",
+            "frameData": [
+              7,
+              2,
+              37
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "high",
+                "actionType": "throw",
+                "isTracking": true
+              }
+            ]
+          },
+          {
+            "input": "P",
+            "frameData": [
+              20,
+              2,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 17
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "K",
+            "frameData": [
+              21,
+              2,
+              26
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "mid K",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 20
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "abbreviation": "SA",
+        "description": "Special attacks",
+        "appliesExtraFrame": false,
+        "moves": [
+          {
+            "input": "214P",
+            "frameData": [
+              15,
+              5,
+              46
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 15
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "236P",
+            "frameData": [
+              19,
+              16,
+              20
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "P",
+                "actionType": "strike",
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 20
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "214K",
+            "frameData": [
+              20,
+              3,
+              28
+            ],
+            "actionSteps": [
+              {
+                "actionMask": "K",
+                "actionType": "strike",
+                "isTracking": true,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 19
+                  }
+                ]
+              }
+            ],
+            "followUps": [
+              {
+                "input": "K",
+                "frameData": [
+                  24,
+                  5,
+                  24
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 22
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "2K",
+                "frameData": [
+                  26,
+                  4,
+                  23
+                ],
+                "actionSteps": [
+                  {
+                    "actionMask": "K",
+                    "actionType": "strike",
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 11
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "input": "*",
+            "actionSteps": [
+              {
+                "actionType": "other"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
