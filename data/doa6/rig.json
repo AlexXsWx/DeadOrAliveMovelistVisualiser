@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1556715429271
+    "timeSaved": 1561299959478
   },
   "body": {
     "character": "Rig",
@@ -50,7 +50,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "6"
+                    "criticalHoldDelay": 6
                   }
                 ]
               }
@@ -104,7 +104,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "6"
+                        "criticalHoldDelay": 6
                       }
                     ]
                   }
@@ -177,7 +177,7 @@
                             "condition": [
                               "backturned/hi-counter"
                             ],
-                            "criticalHoldDelay": "26"
+                            "criticalHoldDelay": 26
                           }
                         ]
                       }
@@ -226,7 +226,7 @@
                                 "condition": [
                                   "backturned/hi-counter"
                                 ],
-                                "criticalHoldDelay": "26"
+                                "criticalHoldDelay": 26
                               }
                             ]
                           }
@@ -346,7 +346,7 @@
                             "condition": [
                               "backturned/hi-counter"
                             ],
-                            "criticalHoldDelay": "26"
+                            "criticalHoldDelay": 26
                           }
                         ]
                       }
@@ -390,7 +390,7 @@
                                 "condition": [
                                   "backturned/hi-counter"
                                 ],
-                                "criticalHoldDelay": "26"
+                                "criticalHoldDelay": 26
                               }
                             ]
                           }
@@ -457,7 +457,7 @@
                                     "condition": [
                                       "backturned/hi-counter"
                                     ],
-                                    "criticalHoldDelay": "26"
+                                    "criticalHoldDelay": 26
                                   }
                                 ]
                               }
@@ -549,7 +549,7 @@
                             "condition": [
                               "backturned/hi-counter"
                             ],
-                            "criticalHoldDelay": "28"
+                            "criticalHoldDelay": 28
                           }
                         ]
                       }
@@ -639,7 +639,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "36"
+                        "criticalHoldDelay": 36
                       }
                     ]
                   }
@@ -822,7 +822,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -866,7 +866,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "36"
+                        "criticalHoldDelay": 36
                       }
                     ]
                   }
@@ -908,7 +908,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "36"
+                    "criticalHoldDelay": 36
                   }
                 ]
               }
@@ -940,7 +940,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "34"
+                    "criticalHoldDelay": 34
                   }
                 ]
               }
@@ -985,7 +985,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -1034,7 +1034,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -1080,7 +1080,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -1125,7 +1125,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "29"
+                        "criticalHoldDelay": 29
                       }
                     ]
                   }
@@ -1214,7 +1214,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -1328,7 +1328,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -1458,7 +1458,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "28"
+                    "criticalHoldDelay": 28
                   }
                 ]
               }
@@ -1508,7 +1508,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "29"
+                    "criticalHoldDelay": 29
                   }
                 ]
               }
@@ -1623,7 +1623,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "36"
+                    "criticalHoldDelay": 36
                   }
                 ]
               }
@@ -1678,7 +1678,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -1747,7 +1747,7 @@
                             "condition": [
                               "backturned/hi-counter"
                             ],
-                            "criticalHoldDelay": "36"
+                            "criticalHoldDelay": 36
                           }
                         ]
                       }
@@ -1785,7 +1785,7 @@
                             "condition": [
                               "backturned/hi-counter"
                             ],
-                            "criticalHoldDelay": "26"
+                            "criticalHoldDelay": 26
                           }
                         ]
                       }
@@ -1865,7 +1865,7 @@
                                     "condition": [
                                       "backturned/hi-counter"
                                     ],
-                                    "criticalHoldDelay": "26"
+                                    "criticalHoldDelay": 26
                                   }
                                 ]
                               }
@@ -1980,7 +1980,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "29"
+                        "criticalHoldDelay": 29
                       }
                     ]
                   }
@@ -2161,7 +2161,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -2234,7 +2234,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -2283,7 +2283,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -2393,7 +2393,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -2438,7 +2438,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -2486,7 +2486,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -2530,7 +2530,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -2599,7 +2599,7 @@
                             "condition": [
                               "backturned/hi-counter"
                             ],
-                            "criticalHoldDelay": "26"
+                            "criticalHoldDelay": 26
                           }
                         ]
                       }
@@ -2650,7 +2650,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "29"
+                        "criticalHoldDelay": 29
                       }
                     ]
                   }
@@ -2739,7 +2739,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "28"
+                    "criticalHoldDelay": 28
                   }
                 ]
               }
@@ -2860,7 +2860,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "29"
+                    "criticalHoldDelay": 29
                   }
                 ]
               }
@@ -2993,7 +2993,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -3235,7 +3235,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -3335,7 +3335,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "36"
+                    "criticalHoldDelay": 36
                   }
                 ]
               }
@@ -3590,7 +3590,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "14"
+                    "criticalHoldDelay": 14
                   }
                 ]
               }
@@ -4016,7 +4016,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "38"
+                        "criticalHoldDelay": 38
                       }
                     ]
                   }
@@ -4112,7 +4112,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "36"
+                    "criticalHoldDelay": 36
                   }
                 ]
               }
@@ -4160,7 +4160,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -4209,7 +4209,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -4257,7 +4257,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "28"
+                    "criticalHoldDelay": 28
                   }
                 ]
               }
@@ -4446,7 +4446,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -4721,7 +4721,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "34"
+                    "criticalHoldDelay": 34
                   }
                 ]
               }
@@ -4766,7 +4766,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "36"
+                    "criticalHoldDelay": 36
                   }
                 ]
               }
@@ -4811,7 +4811,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "36"
+                        "criticalHoldDelay": 36
                       }
                     ]
                   }
@@ -4856,7 +4856,7 @@
                             "condition": [
                               "backturned/hi-counter"
                             ],
-                            "criticalHoldDelay": "26"
+                            "criticalHoldDelay": 26
                           }
                         ]
                       }
@@ -4926,7 +4926,7 @@
                             "condition": [
                               "backturned/hi-counter"
                             ],
-                            "criticalHoldDelay": "26"
+                            "criticalHoldDelay": 26
                           }
                         ]
                       }
@@ -4996,7 +4996,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -5039,7 +5039,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -5130,7 +5130,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -5181,7 +5181,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -5226,7 +5226,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "26"
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
@@ -5267,7 +5267,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -5347,7 +5347,7 @@
                             "condition": [
                               "backturned/hi-counter"
                             ],
-                            "criticalHoldDelay": "26"
+                            "criticalHoldDelay": 26
                           }
                         ]
                       }
@@ -5400,7 +5400,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "29"
+                    "criticalHoldDelay": 29
                   }
                 ]
               }
@@ -5482,7 +5482,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -5556,7 +5556,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "36"
+                    "criticalHoldDelay": 36
                   }
                 ]
               }
@@ -5710,7 +5710,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -5850,7 +5850,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "14"
+                    "criticalHoldDelay": 14
                   }
                 ]
               }
@@ -6076,7 +6076,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "6"
+                    "criticalHoldDelay": 6
                   }
                 ]
               }
@@ -6124,7 +6124,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -6172,7 +6172,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "28"
+                    "criticalHoldDelay": 28
                   }
                 ]
               }
@@ -6220,7 +6220,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "6"
+                    "criticalHoldDelay": 6
                   }
                 ]
               }
@@ -6362,7 +6362,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -6401,7 +6401,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "36"
+                    "criticalHoldDelay": 36
                   }
                 ]
               }
@@ -6441,7 +6441,7 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": "26"
+                    "criticalHoldDelay": 26
                   }
                 ]
               }
@@ -6485,7 +6485,7 @@
                         "condition": [
                           "backturned/hi-counter"
                         ],
-                        "criticalHoldDelay": "36"
+                        "criticalHoldDelay": 36
                       }
                     ]
                   }
@@ -6608,7 +6608,7 @@
                       "counter",
                       "hi-counter"
                     ],
-                    "criticalHoldDelay": "29",
+                    "criticalHoldDelay": 29,
                     "stunDurationMax": 70
                   }
                 ]
@@ -6647,7 +6647,7 @@
                           "counter",
                           "hi-counter"
                         ],
-                        "criticalHoldDelay": "29",
+                        "criticalHoldDelay": 29,
                         "stunDurationMax": 70
                       }
                     ]
@@ -6686,7 +6686,7 @@
                               "counter",
                               "hi-counter"
                             ],
-                            "criticalHoldDelay": "29",
+                            "criticalHoldDelay": 29,
                             "stunDurationMax": 70
                           }
                         ]

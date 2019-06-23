@@ -131,7 +131,7 @@ define(
 
             function changeCriticalHoldDelay(newValue, actionStepResult) {
                 var oldValue = actionStepResult.criticalHoldDelay;
-                actionStepResult.criticalHoldDelay = newValue;
+                actionStepResult.criticalHoldDelay = newValue ? Number(newValue) : undefined;
                 return newValue === oldValue;
             }
 
