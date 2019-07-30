@@ -114,6 +114,7 @@ define(
                     var parentNodeData = NodeView.getNodeData(parentNodeView);
                     if (!NodeFactoryMove.isMoveNode(ownNodeData)) return;
                     if (!NodeFactoryMove.isMoveNode(parentNodeData)) return;
+                    // TODO: some followup nodes might not have active frames, such as strike-throws
                     if (
                         advantageRange.min +
                         NodeFactoryMove.getActiveFramesCount(parentNodeData) - 1 +

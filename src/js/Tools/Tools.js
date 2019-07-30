@@ -719,6 +719,7 @@ define(
                 set: set,
                 has: has,
                 get: get,
+                getByIndex: getByIndex,
                 clear:    clear,
                 clearAll: clearAll,
                 forEachValue: forEachValue,
@@ -744,9 +745,15 @@ define(
                 return contains(keys, object);
             }
 
-            function get(object) {
+            function get(object, optFallbackValue) {
                 if (optKeyFilter && !optKeyFilter(object)) throw new Error("Invalid access");
-                var index = getIndex(object);
+                return getByIndex(getIndex(object), optFallbackValue);
+            }
+
+            function getByIndex(index, optFallbackValue) {
+                if (index === -1 && optFallbackValue !== undefined) {
+                    return optFallbackValue;
+                }
                 if (index < 0 || index >= values.length) throw new Error("Out of bounds");
                 return values[index];
             }

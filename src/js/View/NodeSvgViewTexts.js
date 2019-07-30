@@ -14,43 +14,58 @@ define(
         NodeView, NodeSvgViewTextGetters, createSignal, _
     ) {
 
-        var TEXT_GETTER_OPTIONS = [
-            NodeSvgViewTextGetters.getEmptyText,
-            NodeSvgViewTextGetters.getTextEnding,
-            NodeSvgViewTextGetters.getTextActiveFrames,
-            NodeSvgViewTextGetters.getCooldown,
-            NodeSvgViewTextGetters.getAdvantageOnBlock,
-            NodeSvgViewTextGetters.getAdvantageOnNeutralHit,
-            NodeSvgViewTextGetters.getAdvantageOnCounterHit,
-            NodeSvgViewTextGetters.getAdvantageOnHiCounterHit,
-            NodeSvgViewTextGetters.getGuaranteedAdvantageOnBackHit,
-            NodeSvgViewTextGetters.getReach,
-            NodeSvgViewTextGetters.getForcetechAdvantage,
-            NodeSvgViewTextGetters.getHardKnockdownAdvantage,
-            NodeSvgViewTextGetters.getFollowupDelay,
-            NodeSvgViewTextGetters.getComment,
-            NodeSvgViewTextGetters.getMainTags,
-            NodeSvgViewTextGetters.getEmptyText, // TODO: stun depth
-            NodeSvgViewTextGetters.getEmptyText  // TODO: unhold duration
-        ];
-
-        var GET_ADVANTAGE_FUNC = [];
-
-        GET_ADVANTAGE_FUNC[
-            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnBlock)
-        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeGuard);
-        GET_ADVANTAGE_FUNC[
-            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnNeutralHit)
-        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeNeutralHit);
-        GET_ADVANTAGE_FUNC[
-            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnCounterHit)
-        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeCounterHit);
-        GET_ADVANTAGE_FUNC[
-            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnHiCounterHit)
-        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeHiCounterHit);
-        GET_ADVANTAGE_FUNC[
-            TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getGuaranteedAdvantageOnBackHit)
-        ] = createGetAdvantage(NodeFactoryActionStepResult.doesDescribeBackHit, true);
+        var textGetterOptions = [
+            [ 'None',          NodeSvgViewTextGetters.getEmptyText        ],
+            [ 'Ending',        NodeSvgViewTextGetters.getTextEnding       ],
+            [ 'Active frames', NodeSvgViewTextGetters.getTextActiveFrames ],
+            [ 'Cooldown',      NodeSvgViewTextGetters.getCooldown         ],
+            [
+                'Advantage on block',
+                NodeSvgViewTextGetters.getAdvantageOnBlock,
+                createGetAdvantage(NodeFactoryActionStepResult.doesDescribeGuard)
+            ], [
+                'Advantage on neutral hit',
+                NodeSvgViewTextGetters.getAdvantageOnNeutralHit,
+                createGetAdvantage(NodeFactoryActionStepResult.doesDescribeNeutralHit)
+            ], [
+                'Advantage on counter hit',
+                NodeSvgViewTextGetters.getAdvantageOnCounterHit,
+                createGetAdvantage(NodeFactoryActionStepResult.doesDescribeCounterHit)
+            ], [
+                'Advantage on hi counter hit',
+                NodeSvgViewTextGetters.getAdvantageOnHiCounterHit,
+                createGetAdvantage(NodeFactoryActionStepResult.doesDescribeHiCounterHit)
+            ], [
+                'Guaranteed adv. on back hit',
+                NodeSvgViewTextGetters.getGuaranteedAdvantageOnBackHit,
+                createGetAdvantage(NodeFactoryActionStepResult.doesDescribeBackHit, true)
+            ],
+            [ 'Reach',                    NodeSvgViewTextGetters.getReach                  ],
+            [ 'Forcetech advantage',      NodeSvgViewTextGetters.getForcetechAdvantage     ],
+            [ 'Hard knockdown advantage', NodeSvgViewTextGetters.getHardKnockdownAdvantage ],
+            [ 'Followup delay',           NodeSvgViewTextGetters.getFollowupDelay          ],
+            [ 'Comment',                  NodeSvgViewTextGetters.getComment                ],
+            [ 'Tags',                     NodeSvgViewTextGetters.getMainTags               ]
+            // TODO: implement
+            // , [ 'Stun depth',    NodeSvgViewTextGetters.getEmptyText ],
+            // [ 'Unhold duration', NodeSvgViewTextGetters.getEmptyText ]
+        ].reduce(
+            function(textGetterOptions, values) {
+                var name               = values[0];
+                var textGetter         = values[1];
+                var optAdvantageGetter = values[2];
+                console.assert(!textGetterOptions.has(textGetter), 'Getter already in use');
+                textGetterOptions.set(
+                    textGetter,
+                    {
+                        name: name,
+                        advantageGetter: optAdvantageGetter
+                    }
+                );
+                return textGetterOptions;
+            },
+            _.createObjectStorage()
+        );
 
         function createGetAdvantage(actionStepResultPredicate, optGuaranteed) {
             return getAdvantage;
@@ -74,14 +89,19 @@ define(
         }
 
         var textGetters = {
-            top:    TEXT_GETTER_OPTIONS[0],
-            right:  TEXT_GETTER_OPTIONS[1],
-            bottom: TEXT_GETTER_OPTIONS[0]
+            top:    NodeSvgViewTextGetters.getEmptyText,
+            right:  NodeSvgViewTextGetters.getTextEnding,
+            bottom: NodeSvgViewTextGetters.getEmptyText
         };
 
         var flipTextToRight = false;
 
         var updateSignal = createSignal();
+
+        var domCache = {
+            root:        null,
+            rightSelect: null
+        };
 
         return {
             init:                           init,
@@ -95,49 +115,126 @@ define(
 
 
         function init() {
+            createDom(domCache, function(position, textGetter) {
+                switch (position) {
+                    case 'top':    textGetters.top    = textGetter; break;
+                    case 'right':  textGetters.right  = textGetter; break;
+                    case 'bottom': textGetters.bottom = textGetter; break;
+                    default: console.error('Unexpected position: ', position);
+                }
+                updateSignal.dispatch(
+                    position === 'right'
+                        ? textGetterOptions.get(textGetter).advantageGetter || null
+                        : undefined
+                );
 
-            _.getDomElement('topTextOption').addEventListener('change', function(event) {
-                var select = this;
-                var selectedOptionValue = +select.selectedOptions[0].value;
-                var index = selectedOptionValue || 0;
-                textGetters.top = TEXT_GETTER_OPTIONS[index];
-                updateSignal.dispatch();
             });
-            _.getDomElement('rightTextOption').addEventListener('change', function(event) {
-                var select = this;
-                var selectedOptionValue = +select.selectedOptions[0].value;
-                var index = selectedOptionValue || 0;
-                textGetters.right = TEXT_GETTER_OPTIONS[index];
-                updateSignal.dispatch(GET_ADVANTAGE_FUNC[index] || null);
-            });
-            _.getDomElement('bottomTextOption').addEventListener('change', function(event) {
-                var select = this;
-                var selectedOptionValue = +select.selectedOptions[0].value;
-                var index = selectedOptionValue || 0;
-                textGetters.bottom = TEXT_GETTER_OPTIONS[index];
-                updateSignal.dispatch();
-            });
-
             _.getDomElement('flipTextToRight').addEventListener('change', function(event) {
                 var checkbox = this;
                 flipTextToRight = checkbox.checked;
                 updateSignal.dispatch();
             });
+        }
 
+        function createDom(outDomCache, changeListener) {
+            outDomCache.root = _.getDomElement('additionalInfoSelector');
+            outDomCache.root.appendChild(
+                createLabeledRow(
+                    'Top',
+                    [
+                        createSelect(
+                            changeListener.bind(null, 'top'),
+                            textGetters.top
+                        )
+                    ]
+                )
+            );
+
+            outDomCache.rightSelect = createSelect(
+                changeListener.bind(null, 'right'),
+                textGetters.right
+            );
+            outDomCache.root.appendChild(
+                createLabeledRow('Right', [ outDomCache.rightSelect ])
+            );
+
+            outDomCache.root.appendChild(
+                createLabeledRow(
+                    'Bottom',
+                    [
+                        createSelect(
+                            changeListener.bind(null, 'bottom'),
+                            textGetters.bottom
+                        )
+                    ]
+                )
+            );
+
+            return;
+
+            function createLabeledRow(label, children) {
+                return _.createDomElement({
+                    tag: 'tr',
+                    children: [
+                        _.createDomElement({
+                            tag: 'td',
+                            children: [
+                                _.createDomElement({
+                                    tag: 'label',
+                                    children: [ _.createTextNode(label) ]
+                                })
+                            ]
+                        }),
+                        _.createDomElement({
+                            tag: 'td',
+                            children: children
+                        })
+                    ]
+                });
+            }
+
+            function createSelect(changeListener, initiallySelectedTextGetter) {
+                return _.createDomElement({
+                    tag: 'select',
+                    listeners: {
+                        'change': function(event) {
+                            var select = this;
+                            var selectedOptionIndex = Number(select.selectedOptions[0]['value']);
+                            console.assert(
+                                selectedOptionIndex >= 0,
+                                'Invalid selected option value'
+                            );
+                            return changeListener(
+                                textGetterOptions.getKeys()[selectedOptionIndex]
+                            );
+                        }
+                    },
+                    children: textGetterOptions.getKeys().map(function(textGetter, index) {
+                        var obj = textGetterOptions.get(textGetter);
+                        var attributes = {
+                            'value': index,
+                        };
+                        if (textGetter === initiallySelectedTextGetter) {
+                            attributes['selected'] = true;
+                        }
+                        return _.createDomElement({
+                            tag: 'option',
+                            attributes: attributes,
+                            children: [ _.createTextNode(obj.name) ]
+                        });
+                    })
+                });
+            }
         }
 
         function setRightTextToAdvantageOnBlock() {
             textGetters.right = NodeSvgViewTextGetters.getAdvantageOnBlock;
-            _.getDomElement('rightTextOption').selectedIndex = (
-                TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getAdvantageOnBlock)
-            );
+            domCache.rightSelect.selectedIndex = textGetterOptions.getIndex(textGetters.right);
         }
 
         function setRightTextToHardKnockdowns() {
             textGetters.right = NodeSvgViewTextGetters.getHardKnockdownAdvantage;
-            _.getDomElement('rightTextOption').selectedIndex = (
-                TEXT_GETTER_OPTIONS.indexOf(NodeSvgViewTextGetters.getHardKnockdownAdvantage)
-            );
+            domCache.rightSelect.selectedIndex = textGetterOptions.getIndex(textGetters.right);
         }
 
         function hasTextAtTop() {
