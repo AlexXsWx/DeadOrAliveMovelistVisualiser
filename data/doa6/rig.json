@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1561299959478
+    "timeSaved": 1564505149088
   },
   "body": {
     "character": "Rig",
@@ -44,6 +44,7 @@
                     "condition": [
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 50
                   },
                   {
@@ -98,6 +99,7 @@
                         "condition": [
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 6,
                         "stunDurationMax": 50
                       },
                       {
@@ -171,6 +173,7 @@
                               "counter",
                               "hi-counter"
                             ],
+                            "criticalHoldDelay": 12,
                             "stunDurationMax": 35
                           },
                           {
@@ -220,6 +223,7 @@
                                   "counter",
                                   "hi-counter"
                                 ],
+                                "criticalHoldDelay": 6,
                                 "stunDurationMax": 50
                               },
                               {
@@ -340,6 +344,7 @@
                               "counter",
                               "hi-counter"
                             ],
+                            "criticalHoldDelay": 6,
                             "stunDurationMax": 45
                           },
                           {
@@ -384,6 +389,7 @@
                                   "counter",
                                   "hi-counter"
                                 ],
+                                "criticalHoldDelay": 12,
                                 "stunDurationMax": 35
                               },
                               {
@@ -458,6 +464,12 @@
                                       "backturned/hi-counter"
                                     ],
                                     "criticalHoldDelay": 26
+                                  },
+                                  {
+                                    "condition": [
+                                      "hi-counter"
+                                    ],
+                                    "criticalHoldDelay": 14
                                   }
                                 ]
                               }
@@ -543,6 +555,7 @@
                             "condition": [
                               "hi-counter"
                             ],
+                            "criticalHoldDelay": 6,
                             "stunDurationMax": 35
                           },
                           {
@@ -816,6 +829,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 14,
                     "stunDurationMax": 56
                   },
                   {
@@ -860,6 +874,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 24,
                         "stunDurationMax": 60
                       },
                       {
@@ -902,6 +917,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 24,
                     "stunDurationMax": 60
                   },
                   {
@@ -940,7 +956,21 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": 34
+                    "criticalHoldDelay": 34,
+                    "tags": [
+                      "FS"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "neutral",
+                      "counter",
+                      "hi-counter"
+                    ],
+                    "criticalHoldDelay": 34,
+                    "tags": [
+                      "FS"
+                    ]
                   }
                 ]
               }
@@ -979,6 +1009,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 45
                   },
                   {
@@ -1028,6 +1059,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 6,
                         "stunDurationMax": 45
                       },
                       {
@@ -1074,6 +1106,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 6,
                         "stunDurationMax": 45
                       },
                       {
@@ -1119,6 +1152,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 6,
                         "stunDurationMax": 45
                       },
                       {
@@ -1164,6 +1198,7 @@
                               "counter",
                               "hi-counter"
                             ],
+                            "criticalHoldDelay": 6,
                             "stunDurationMax": 27
                           }
                         ]
@@ -1208,6 +1243,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 45
                   },
                   {
@@ -1261,32 +1297,51 @@
                 "frameData": [
                   20,
                   2,
-                  6,
-                  2,
-                  22
+                  0
                 ],
                 "actionSteps": [
                   {
                     "actionMask": "high K",
-                    "actionType": "jump attack",
+                    "actionType": "strike",
                     "isTracking": false,
                     "damage": 16,
-                    "reach": 1.93,
-                    "togglesStance": false
-                  },
-                  {
-                    "actionMask": "high K",
-                    "actionType": "jump attack",
-                    "isTracking": false,
-                    "damage": 20,
-                    "reach": 2.58,
+                    "reach": 1.95,
                     "togglesStance": false,
                     "results": [
                       {
                         "condition": [
-                          "guard"
+                          "hi-counter"
                         ],
-                        "hitBlock": 11
+                        "criticalHoldDelay": 24,
+                        "stunDurationMax": 60
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      6,
+                      2,
+                      22
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "high K",
+                        "actionType": "jump attack",
+                        "isTracking": false,
+                        "damage": 20,
+                        "reach": 2.57,
+                        "togglesStance": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 11
+                          }
+                        ]
                       }
                     ]
                   }
@@ -1322,6 +1377,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 14,
                     "stunDurationMax": 56
                   },
                   {
@@ -1365,6 +1421,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 14,
                         "stunDurationMax": 56
                       }
                     ]
@@ -1384,11 +1441,7 @@
                     "frameData": [
                       23,
                       2,
-                      5,
-                      2,
-                      7,
-                      2,
-                      26
+                      0
                     ],
                     "actionSteps": [
                       {
@@ -1396,24 +1449,66 @@
                         "actionType": "strike",
                         "isTracking": false,
                         "damage": 6,
-                        "togglesStance": false
-                      },
-                      {
-                        "actionMask": "mid K",
-                        "actionType": "strike",
-                        "isTracking": false,
-                        "damage": 6,
-                        "togglesStance": false
-                      },
-                      {
-                        "actionMask": "mid K",
-                        "actionType": "strike",
-                        "isTracking": false,
-                        "damage": 10,
-                        "togglesStance": false
+                        "togglesStance": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "hi-counter"
+                            ],
+                            "criticalHoldDelay": 6,
+                            "stunDurationMax": 50
+                          }
+                        ]
                       }
                     ],
-                    "endsWith": "BT"
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          5,
+                          2,
+                          0
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "jump attack",
+                            "isTracking": false,
+                            "damage": 6,
+                            "togglesStance": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "hi-counter"
+                                ],
+                                "criticalHoldDelay": 6,
+                                "stunDurationMax": 45
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              7,
+                              2,
+                              26
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionMask": "mid K",
+                                "actionType": "jump attack",
+                                "isTracking": false,
+                                "damage": 10,
+                                "togglesStance": false
+                              }
+                            ],
+                            "endsWith": "BT"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -1452,6 +1547,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 26
                   },
                   {
@@ -1502,6 +1598,7 @@
                     "condition": [
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 36
                   },
                   {
@@ -1617,6 +1714,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 50
                   },
                   {
@@ -1652,12 +1750,6 @@
                     "results": [
                       {
                         "condition": [
-                          "guard"
-                        ],
-                        "hitBlock": 24
-                      },
-                      {
-                        "condition": [
                           "neutral/open",
                           "counter/open",
                           "hi-counter/open"
@@ -1679,6 +1771,12 @@
                           "backturned/hi-counter"
                         ],
                         "criticalHoldDelay": 26
+                      },
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 25
                       }
                     ]
                   }
@@ -1741,6 +1839,7 @@
                               "counter",
                               "hi-counter"
                             ],
+                            "criticalHoldDelay": 24,
                             "stunDurationMax": 60
                           },
                           {
@@ -1786,6 +1885,12 @@
                               "backturned/hi-counter"
                             ],
                             "criticalHoldDelay": 26
+                          },
+                          {
+                            "condition": [
+                              "hi-counter"
+                            ],
+                            "criticalHoldDelay": 14
                           }
                         ]
                       }
@@ -1974,6 +2079,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 6,
                         "stunDurationMax": 45
                       },
                       {
@@ -2019,6 +2125,7 @@
                               "counter",
                               "hi-counter"
                             ],
+                            "criticalHoldDelay": 6,
                             "stunDurationMax": 27
                           }
                         ]
@@ -2155,6 +2262,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 45
                   },
                   {
@@ -2162,6 +2270,15 @@
                       "backturned/hi-counter"
                     ],
                     "criticalHoldDelay": 26
+                  },
+                  {
+                    "condition": [
+                      "crouching/counter",
+                      "crouching/hi-counter"
+                    ],
+                    "tags": [
+                      "FS"
+                    ]
                   }
                 ]
               }
@@ -2228,6 +2345,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 14,
                     "stunDurationMax": 36
                   },
                   {
@@ -2277,6 +2395,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 6,
                         "stunDurationMax": 45
                       },
                       {
@@ -2387,6 +2506,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 14,
                     "stunDurationMax": 36
                   },
                   {
@@ -2432,6 +2552,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 12,
                         "stunDurationMax": 35
                       },
                       {
@@ -2480,6 +2601,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 45
                   },
                   {
@@ -2524,6 +2646,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 12,
                         "stunDurationMax": 35
                       },
                       {
@@ -2600,6 +2723,12 @@
                               "backturned/hi-counter"
                             ],
                             "criticalHoldDelay": 26
+                          },
+                          {
+                            "condition": [
+                              "hi-counter"
+                            ],
+                            "criticalHoldDelay": 14
                           }
                         ]
                       }
@@ -2644,6 +2773,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 6,
                         "stunDurationMax": 45
                       },
                       {
@@ -2689,6 +2819,7 @@
                               "counter",
                               "hi-counter"
                             ],
+                            "criticalHoldDelay": 6,
                             "stunDurationMax": 27
                           }
                         ]
@@ -2733,6 +2864,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 35
                   },
                   {
@@ -2854,6 +2986,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 45
                   },
                   {
@@ -2899,6 +3032,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 6,
                         "stunDurationMax": 27
                       }
                     ]
@@ -2987,6 +3121,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 6,
                         "stunDurationMax": 45
                       },
                       {
@@ -2994,6 +3129,15 @@
                           "backturned/hi-counter"
                         ],
                         "criticalHoldDelay": 26
+                      },
+                      {
+                        "condition": [
+                          "crouching/counter",
+                          "crouching/hi-counter"
+                        ],
+                        "tags": [
+                          "FS"
+                        ]
                       }
                     ]
                   }
@@ -3029,6 +3173,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 14,
                     "stunDurationMax": 56
                   }
                 ]
@@ -3044,11 +3189,7 @@
                 "frameData": [
                   23,
                   2,
-                  5,
-                  2,
-                  7,
-                  2,
-                  26
+                  0
                 ],
                 "actionSteps": [
                   {
@@ -3056,21 +3197,64 @@
                     "actionType": "strike",
                     "isTracking": false,
                     "damage": 6,
-                    "togglesStance": false
-                  },
+                    "togglesStance": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "hi-counter"
+                        ],
+                        "criticalHoldDelay": 6,
+                        "stunDurationMax": 50
+                      }
+                    ]
+                  }
+                ],
+                "followUps": [
                   {
-                    "actionMask": "mid K",
-                    "actionType": "strike",
-                    "isTracking": false,
-                    "damage": 6,
-                    "togglesStance": false
-                  },
-                  {
-                    "actionMask": "mid K",
-                    "actionType": "strike",
-                    "isTracking": false,
-                    "damage": 10,
-                    "togglesStance": false
+                    "input": "*",
+                    "frameData": [
+                      5,
+                      2,
+                      0
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "jump attack",
+                        "isTracking": false,
+                        "damage": 6,
+                        "togglesStance": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "hi-counter"
+                            ],
+                            "criticalHoldDelay": 6,
+                            "stunDurationMax": 45
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          7,
+                          2,
+                          26
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid K",
+                            "actionType": "jump attack",
+                            "isTracking": false,
+                            "damage": 10,
+                            "togglesStance": false
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
                   }
                 ]
               }
@@ -3117,6 +3301,9 @@
                 "damage": 55,
                 "reach": 3.64,
                 "togglesStance": false,
+                "tags": [
+                  "CH"
+                ],
                 "results": [
                   {
                     "condition": [
@@ -3185,6 +3372,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 45
                   },
                   {
@@ -3229,6 +3417,7 @@
                           "counter",
                           "hi-counter"
                         ],
+                        "criticalHoldDelay": 14,
                         "stunDurationMax": 36
                       },
                       {
@@ -3450,9 +3639,7 @@
             "frameData": [
               15,
               2,
-              6,
-              2,
-              22
+              0
             ],
             "actionSteps": [
               {
@@ -3465,25 +3652,38 @@
                 "results": [
                   {
                     "condition": [
-                      "guard"
+                      "hi-counter"
                     ],
-                    "hitBlock": 11
+                    "criticalHoldDelay": 24,
+                    "stunDurationMax": 60
                   }
                 ]
-              },
+              }
+            ],
+            "followUps": [
               {
-                "actionMask": "high K",
-                "actionType": "strike",
-                "isTracking": false,
-                "damage": 20,
-                "reach": 2.57,
-                "togglesStance": false,
-                "results": [
+                "input": "*",
+                "frameData": [
+                  6,
+                  2,
+                  22
+                ],
+                "actionSteps": [
                   {
-                    "condition": [
-                      "guard"
-                    ],
-                    "hitBlock": 11
+                    "actionMask": "high K",
+                    "actionType": "jump attack",
+                    "isTracking": false,
+                    "damage": 20,
+                    "reach": 2.57,
+                    "togglesStance": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 11
+                      }
+                    ]
                   }
                 ]
               }
@@ -3590,7 +3790,21 @@
                     "condition": [
                       "backturned/hi-counter"
                     ],
-                    "criticalHoldDelay": 14
+                    "criticalHoldDelay": 14,
+                    "tags": [
+                      "FS"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "neutral",
+                      "counter",
+                      "hi-counter"
+                    ],
+                    "criticalHoldDelay": 9,
+                    "tags": [
+                      "FS"
+                    ]
                   }
                 ]
               }
@@ -3604,11 +3818,7 @@
                 "frameData": [
                   24,
                   3,
-                  9,
-                  3,
-                  8,
-                  2,
-                  23
+                  0
                 ],
                 "actionSteps": [
                   {
@@ -3620,16 +3830,11 @@
                 ],
                 "followUps": [
                   {
-                    "input": "S",
-                    "context": [
-                      "HIT"
-                    ],
+                    "input": "*",
                     "frameData": [
-                      16,
+                      9,
                       3,
-                      5,
-                      2,
-                      31
+                      0
                     ],
                     "actionSteps": [
                       {
@@ -3641,99 +3846,187 @@
                     ],
                     "followUps": [
                       {
-                        "input": "4S",
-                        "context": [
-                          "HIT"
-                        ],
+                        "input": "*",
                         "frameData": [
-                          30,
+                          8,
                           2,
-                          32
+                          23
                         ],
                         "actionSteps": [
                           {
                             "actionMask": "high K",
                             "actionType": "strike",
                             "isTracking": true,
-                            "togglesStance": true
-                          }
-                        ]
-                      },
-                      {
-                        "input": "S",
-                        "context": [
-                          "HIT",
-                          "2B"
-                        ],
-                        "frameData": [
-                          0,
-                          13,
-                          0
-                        ],
-                        "actionSteps": [
-                          {
-                            "actionMask": "high mid",
-                            "actionType": "hold",
-                            "togglesStance": false
+                            "togglesStance": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "hi-counter"
+                                ],
+                                "tags": [
+                                  "FS"
+                                ]
+                              }
+                            ]
                           }
                         ],
                         "followUps": [
                           {
-                            "input": "*",
+                            "input": "S",
+                            "context": [
+                              "HIT"
+                            ],
                             "frameData": [
-                              17,
-                              2,
+                              16,
+                              3,
                               0
                             ],
                             "actionSteps": [
                               {
-                                "actionMask": "mid K",
+                                "actionMask": "high K",
                                 "actionType": "strike",
-                                "isTracking": false,
-                                "togglesStance": true
+                                "isTracking": true,
+                                "togglesStance": false
                               }
                             ],
                             "followUps": [
                               {
                                 "input": "*",
                                 "frameData": [
-                                  0,
-                                  0,
-                                  35
+                                  5,
+                                  2,
+                                  31
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "other",
-                                    "togglesStance": false
+                                    "actionMask": "high K",
+                                    "actionType": "strike",
+                                    "isTracking": true,
+                                    "togglesStance": false,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "hi-counter"
+                                        ],
+                                        "tags": [
+                                          "FS"
+                                        ]
+                                      }
+                                    ]
                                   }
-                                ]
-                              },
-                              {
-                                "input": "H",
-                                "context": [
-                                  "HIT"
                                 ],
-                                "frameData": [
-                                  0,
-                                  0,
-                                  35
-                                ],
-                                "actionSteps": [
+                                "followUps": [
                                   {
-                                    "actionType": "other",
-                                    "togglesStance": false
-                                  }
-                                ]
-                              },
-                              {
-                                "input": "*",
-                                "context": [
-                                  "HIT"
-                                ],
-                                "actionSteps": [
+                                    "input": "4S",
+                                    "context": [
+                                      "HIT"
+                                    ],
+                                    "frameData": [
+                                      30,
+                                      2,
+                                      32
+                                    ],
+                                    "actionSteps": [
+                                      {
+                                        "actionMask": "high K",
+                                        "actionType": "strike",
+                                        "isTracking": true,
+                                        "togglesStance": true
+                                      }
+                                    ]
+                                  },
                                   {
-                                    "actionType": "OH",
-                                    "togglesStance": true
+                                    "input": "S",
+                                    "context": [
+                                      "HIT",
+                                      "4B"
+                                    ],
+                                    "frameData": [
+                                      0,
+                                      13,
+                                      0
+                                    ],
+                                    "actionSteps": [
+                                      {
+                                        "actionMask": "high mid",
+                                        "actionType": "hold",
+                                        "togglesStance": false
+                                      }
+                                    ],
+                                    "followUps": [
+                                      {
+                                        "input": "*",
+                                        "frameData": [
+                                          17,
+                                          2,
+                                          0
+                                        ],
+                                        "actionSteps": [
+                                          {
+                                            "actionMask": "mid K",
+                                            "actionType": "strike",
+                                            "isTracking": false,
+                                            "togglesStance": true,
+                                            "results": [
+                                              {
+                                                "condition": [
+                                                  "airborne",
+                                                  "hi-counter"
+                                                ],
+                                                "tags": [
+                                                  "FS"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ],
+                                        "followUps": [
+                                          {
+                                            "input": "*",
+                                            "frameData": [
+                                              0,
+                                              0,
+                                              35
+                                            ],
+                                            "actionSteps": [
+                                              {
+                                                "actionType": "other",
+                                                "togglesStance": false
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "input": "H",
+                                            "context": [
+                                              "HIT"
+                                            ],
+                                            "frameData": [
+                                              0,
+                                              0,
+                                              35
+                                            ],
+                                            "actionSteps": [
+                                              {
+                                                "actionType": "other",
+                                                "togglesStance": false
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "input": "*",
+                                            "context": [
+                                              "HIT"
+                                            ],
+                                            "actionSteps": [
+                                              {
+                                                "actionType": "OH",
+                                                "togglesStance": true
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
                                   }
                                 ]
                               }
@@ -3953,7 +4246,7 @@
           {
             "input": "4S",
             "context": [
-              "1B"
+              "2B"
             ],
             "frameData": [
               0,
@@ -3972,7 +4265,7 @@
           {
             "input": "6S",
             "context": [
-              "2B"
+              "4B"
             ],
             "frameData": [
               0,
@@ -4017,6 +4310,17 @@
                           "backturned/hi-counter"
                         ],
                         "criticalHoldDelay": 38
+                      },
+                      {
+                        "condition": [
+                          "neutral",
+                          "counter",
+                          "hi-counter",
+                          "airborne"
+                        ],
+                        "tags": [
+                          "FS"
+                        ]
                       }
                     ]
                   }
@@ -4106,6 +4410,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 50
                   },
                   {
@@ -4154,6 +4459,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 45
                   },
                   {
@@ -4203,6 +4509,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 45
                   },
                   {
@@ -4251,6 +4558,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 36
                   },
                   {
@@ -4299,6 +4607,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 50
                   }
                 ]
@@ -4440,6 +4749,7 @@
                       "counter",
                       "hi-counter"
                     ],
+                    "criticalHoldDelay": 6,
                     "stunDurationMax": 45
                   },
                   {
@@ -4447,6 +4757,15 @@
                       "backturned/hi-counter"
                     ],
                     "criticalHoldDelay": 26
+                  },
+                  {
+                    "condition": [
+                      "crouching/counter",
+                      "crouching/hi-counter"
+                    ],
+                    "tags": [
+                      "FS"
+                    ]
                   }
                 ]
               }
@@ -4570,6 +4889,9 @@
             "followUps": [
               {
                 "input": "S",
+                "context": [
+                  "1B"
+                ],
                 "frameData": [
                   5,
                   2,
@@ -4722,6 +5044,16 @@
                       "backturned/hi-counter"
                     ],
                     "criticalHoldDelay": 34
+                  },
+                  {
+                    "condition": [
+                      "neutral",
+                      "counter",
+                      "hi-counter"
+                    ],
+                    "tags": [
+                      "FS"
+                    ]
                   }
                 ]
               }
@@ -4927,6 +5259,15 @@
                               "backturned/hi-counter"
                             ],
                             "criticalHoldDelay": 26
+                          },
+                          {
+                            "condition": [
+                              "crouching/counter",
+                              "crouching/hi-counter"
+                            ],
+                            "tags": [
+                              "FS"
+                            ]
                           }
                         ]
                       }
@@ -4997,6 +5338,15 @@
                       "backturned/hi-counter"
                     ],
                     "criticalHoldDelay": 26
+                  },
+                  {
+                    "condition": [
+                      "crouching/counter",
+                      "crouching/hi-counter"
+                    ],
+                    "tags": [
+                      "FS"
+                    ]
                   }
                 ]
               }
@@ -5040,6 +5390,15 @@
                       "backturned/hi-counter"
                     ],
                     "criticalHoldDelay": 26
+                  },
+                  {
+                    "condition": [
+                      "crouching/counter",
+                      "crouching/hi-counter"
+                    ],
+                    "tags": [
+                      "FS"
+                    ]
                   }
                 ]
               }
@@ -5131,6 +5490,15 @@
                           "backturned/hi-counter"
                         ],
                         "criticalHoldDelay": 26
+                      },
+                      {
+                        "condition": [
+                          "crouching/counter",
+                          "crouching/hi-counter"
+                        ],
+                        "tags": [
+                          "FS"
+                        ]
                       }
                     ]
                   }
@@ -5671,9 +6039,7 @@
             "frameData": [
               16,
               2,
-              9,
-              2,
-              19
+              0
             ],
             "actionSteps": [
               {
@@ -5683,70 +6049,95 @@
                 "damage": 15,
                 "reach": 1.84,
                 "togglesStance": false
-              },
-              {
-                "actionMask": "mid K",
-                "actionType": "strike",
-                "isTracking": false,
-                "damage": 10,
-                "reach": 2.48,
-                "togglesStance": false,
-                "results": [
-                  {
-                    "condition": [
-                      "guard"
-                    ],
-                    "hitBlock": 19
-                  },
-                  {
-                    "condition": [
-                      "neutral",
-                      "counter",
-                      "hi-counter"
-                    ],
-                    "stunDurationMax": 45
-                  },
-                  {
-                    "condition": [
-                      "backturned/hi-counter"
-                    ],
-                    "criticalHoldDelay": 26
-                  }
-                ]
               }
-            ],
-            "endsWith": "BND",
-            "followUpInterval": [
-              35,
-              41
             ],
             "followUps": [
               {
-                "input": "K",
+                "input": "*",
                 "frameData": [
-                  28,
+                  9,
                   2,
-                  23
+                  19
                 ],
                 "actionSteps": [
                   {
                     "actionMask": "mid K",
                     "actionType": "strike",
                     "isTracking": false,
-                    "damage": 20,
-                    "reach": 2.04,
+                    "damage": 10,
+                    "reach": 2.48,
                     "togglesStance": false,
                     "results": [
                       {
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": 12
+                        "hitBlock": 19
+                      },
+                      {
+                        "condition": [
+                          "neutral",
+                          "counter",
+                          "hi-counter"
+                        ],
+                        "stunDurationMax": 45
+                      },
+                      {
+                        "condition": [
+                          "backturned/hi-counter"
+                        ],
+                        "criticalHoldDelay": 26
                       }
                     ]
                   }
                 ],
-                "endsWith": "BT"
+                "endsWith": "BND",
+                "followUpInterval": [
+                  17,
+                  23
+                ],
+                "followUps": [
+                  {
+                    "input": "K",
+                    "frameData": [
+                      28,
+                      2,
+                      23
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid K",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "damage": 20,
+                        "reach": 2.04,
+                        "togglesStance": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 12
+                          }
+                        ]
+                      }
+                    ],
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "context": [
+                          "JUGGLE"
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "throw"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -5851,6 +6242,16 @@
                       "backturned/hi-counter"
                     ],
                     "criticalHoldDelay": 14
+                  },
+                  {
+                    "condition": [
+                      "neutral",
+                      "counter",
+                      "hi-counter"
+                    ],
+                    "tags": [
+                      "FS"
+                    ]
                   }
                 ]
               }
@@ -5864,11 +6265,7 @@
                 "frameData": [
                   24,
                   3,
-                  9,
-                  3,
-                  8,
-                  2,
-                  23
+                  0
                 ],
                 "actionSteps": [
                   {
@@ -5880,16 +6277,11 @@
                 ],
                 "followUps": [
                   {
-                    "input": "S",
-                    "context": [
-                      "HIT"
-                    ],
+                    "input": "*",
                     "frameData": [
-                      16,
+                      9,
                       3,
-                      5,
-                      2,
-                      31
+                      0
                     ],
                     "actionSteps": [
                       {
@@ -5901,99 +6293,187 @@
                     ],
                     "followUps": [
                       {
-                        "input": "4S",
-                        "context": [
-                          "HIT"
-                        ],
+                        "input": "*",
                         "frameData": [
-                          30,
+                          8,
                           2,
-                          32
+                          23
                         ],
                         "actionSteps": [
                           {
                             "actionMask": "high K",
                             "actionType": "strike",
                             "isTracking": true,
-                            "togglesStance": true
-                          }
-                        ]
-                      },
-                      {
-                        "input": "S",
-                        "context": [
-                          "HIT",
-                          "2B"
-                        ],
-                        "frameData": [
-                          0,
-                          13,
-                          0
-                        ],
-                        "actionSteps": [
-                          {
-                            "actionMask": "high mid",
-                            "actionType": "hold",
-                            "togglesStance": false
+                            "togglesStance": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "hi-counter"
+                                ],
+                                "tags": [
+                                  "FS"
+                                ]
+                              }
+                            ]
                           }
                         ],
                         "followUps": [
                           {
-                            "input": "*",
+                            "input": "S",
+                            "context": [
+                              "HIT"
+                            ],
                             "frameData": [
-                              17,
-                              2,
+                              16,
+                              3,
                               0
                             ],
                             "actionSteps": [
                               {
-                                "actionMask": "mid K",
+                                "actionMask": "high K",
                                 "actionType": "strike",
-                                "isTracking": false,
-                                "togglesStance": true
+                                "isTracking": true,
+                                "togglesStance": false
                               }
                             ],
                             "followUps": [
                               {
                                 "input": "*",
                                 "frameData": [
-                                  0,
-                                  0,
-                                  35
+                                  5,
+                                  2,
+                                  31
                                 ],
                                 "actionSteps": [
                                   {
-                                    "actionType": "other",
-                                    "togglesStance": false
+                                    "actionMask": "high K",
+                                    "actionType": "strike",
+                                    "isTracking": true,
+                                    "togglesStance": false,
+                                    "results": [
+                                      {
+                                        "condition": [
+                                          "hi-counter"
+                                        ],
+                                        "tags": [
+                                          "FS"
+                                        ]
+                                      }
+                                    ]
                                   }
-                                ]
-                              },
-                              {
-                                "input": "H",
-                                "context": [
-                                  "HIT"
                                 ],
-                                "frameData": [
-                                  0,
-                                  0,
-                                  35
-                                ],
-                                "actionSteps": [
+                                "followUps": [
                                   {
-                                    "actionType": "other",
-                                    "togglesStance": false
-                                  }
-                                ]
-                              },
-                              {
-                                "input": "*",
-                                "context": [
-                                  "HIT"
-                                ],
-                                "actionSteps": [
+                                    "input": "4S",
+                                    "context": [
+                                      "HIT"
+                                    ],
+                                    "frameData": [
+                                      30,
+                                      2,
+                                      32
+                                    ],
+                                    "actionSteps": [
+                                      {
+                                        "actionMask": "high K",
+                                        "actionType": "strike",
+                                        "isTracking": true,
+                                        "togglesStance": true
+                                      }
+                                    ]
+                                  },
                                   {
-                                    "actionType": "OH",
-                                    "togglesStance": true
+                                    "input": "S",
+                                    "context": [
+                                      "HIT",
+                                      "4B"
+                                    ],
+                                    "frameData": [
+                                      0,
+                                      13,
+                                      0
+                                    ],
+                                    "actionSteps": [
+                                      {
+                                        "actionMask": "high mid",
+                                        "actionType": "hold",
+                                        "togglesStance": false
+                                      }
+                                    ],
+                                    "followUps": [
+                                      {
+                                        "input": "*",
+                                        "frameData": [
+                                          17,
+                                          2,
+                                          0
+                                        ],
+                                        "actionSteps": [
+                                          {
+                                            "actionMask": "mid K",
+                                            "actionType": "strike",
+                                            "isTracking": false,
+                                            "togglesStance": true,
+                                            "results": [
+                                              {
+                                                "condition": [
+                                                  "airborne",
+                                                  "hi-counter"
+                                                ],
+                                                "tags": [
+                                                  "FS"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ],
+                                        "followUps": [
+                                          {
+                                            "input": "*",
+                                            "frameData": [
+                                              0,
+                                              0,
+                                              35
+                                            ],
+                                            "actionSteps": [
+                                              {
+                                                "actionType": "other",
+                                                "togglesStance": false
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "input": "H",
+                                            "context": [
+                                              "HIT"
+                                            ],
+                                            "frameData": [
+                                              0,
+                                              0,
+                                              35
+                                            ],
+                                            "actionSteps": [
+                                              {
+                                                "actionType": "other",
+                                                "togglesStance": false
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "input": "*",
+                                            "context": [
+                                              "HIT"
+                                            ],
+                                            "actionSteps": [
+                                              {
+                                                "actionType": "OH",
+                                                "togglesStance": true
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
                                   }
                                 ]
                               }
