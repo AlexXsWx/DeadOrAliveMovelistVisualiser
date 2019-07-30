@@ -13,7 +13,8 @@ define(
             NEUTRAL_HIT:    'neutral',
             COUNTER_HIT:    'counter',
             HI_COUNTER_HIT: 'hi-counter',
-            BACK:           'backturned'
+            BACK:           'backturned',
+            CROUCHING:      'crouching'
         };
 
         return {
@@ -29,10 +30,26 @@ define(
             addCondition:    addCondition,
             removeCondition: removeCondition,
 
-            doesDescribeGuard:        conditionChecker(guardRegex),
-            doesDescribeNeutralHit:   conditionChecker(CONDITION.NEUTRAL_HIT,    CONDITION.BACK),
-            doesDescribeCounterHit:   conditionChecker(CONDITION.COUNTER_HIT,    CONDITION.BACK),
-            doesDescribeHiCounterHit: conditionChecker(CONDITION.HI_COUNTER_HIT, CONDITION.BACK),
+            doesDescribeGuard:      conditionChecker(guardRegex),
+            doesDescribeNeutralHit: conditionChecker(CONDITION.NEUTRAL_HIT,    [CONDITION.BACK, CONDITION.CROUCHING]),
+            // doesDescribeCounterHit: conditionChecker(CONDITION.COUNTER_HIT, [CONDITION.BACK, CONDITION.CROUCHING]),
+            doesDescribeCounterHit: function(actionStepResult) {
+                if (!actionStepResult) return false;
+                var condition = actionStepResult.condition;
+                if (_.searchInStringArray(condition, CONDITION.BACK) >= 0) return false;
+                if (_.searchInStringArray(condition, CONDITION.CROUCHING) >= 0) return false;
+                if (!condition || !condition.length) return false;
+                for (var i = 0; i < condition.length; ++i) {
+                    if (
+                        condition[i].search(CONDITION.COUNTER_HIT) >= 0 &&
+                        condition[i].search(CONDITION.HI_COUNTER_HIT) < 0
+                    ) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            doesDescribeHiCounterHit: conditionChecker(CONDITION.HI_COUNTER_HIT, [CONDITION.BACK, CONDITION.CROUCHING]),
             doesDescribeBackHit:      conditionChecker(CONDITION.BACK),
 
             // When a move forces to get up from first hit
@@ -187,13 +204,15 @@ define(
 
         // Helpers
 
-        function conditionChecker(include, optExclude) {
+        function conditionChecker(include, optExcludes) {
             return function(actionStepResult) {
                 return (
                     actionStepResult &&
                     _.searchInStringArray(actionStepResult.condition, include) >= 0 && (
-                        !optExclude ||
-                        _.searchInStringArray(actionStepResult.condition, optExclude) < 0
+                        !optExcludes ||
+                        optExcludes.every(function(exclude) {
+                            return _.searchInStringArray(actionStepResult.condition, exclude) < 0;
+                        })
                     )
                 );
             };
