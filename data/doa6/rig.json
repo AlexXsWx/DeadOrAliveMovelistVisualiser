@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1564505149088
+    "timeSaved": 1564522025531
   },
   "body": {
     "character": "Rig",
@@ -4914,6 +4914,22 @@
                     ]
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "input": "66",
+            "context": [
+              "BT"
+            ],
+            "frameData": [
+              8,
+              0,
+              0
+            ],
+            "actionSteps": [
+              {
+                "actionType": "other"
               }
             ]
           },
