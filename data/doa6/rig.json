@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1564522025531
+    "timeSaved": 1569141615451
   },
   "body": {
     "character": "Rig",
@@ -710,13 +710,7 @@
                             "condition": [
                               "guard"
                             ],
-                            "hitBlock": 15
-                          },
-                          {
-                            "condition": [
-                              "neutral"
-                            ],
-                            "hitBlock": 24
+                            "hitBlock": 20
                           }
                         ]
                       }
@@ -3338,7 +3332,7 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": 22
+                    "hitBlock": 30
                   }
                 ]
               }
@@ -3582,13 +3576,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": 15
-                      },
-                      {
-                        "condition": [
-                          "neutral"
-                        ],
-                        "hitBlock": 24
+                        "hitBlock": 20
                       }
                     ]
                   }
@@ -4666,13 +4654,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": 15
-                      },
-                      {
-                        "condition": [
-                          "neutral"
-                        ],
-                        "hitBlock": 24
+                        "hitBlock": 20
                       }
                     ]
                   }
@@ -5998,13 +5980,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": 15
-                      },
-                      {
-                        "condition": [
-                          "neutral"
-                        ],
-                        "hitBlock": 24
+                        "hitBlock": 20
                       }
                     ]
                   }
