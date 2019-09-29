@@ -719,6 +719,7 @@ define(
                 set: set,
                 has: has,
                 get: get,
+                getIndex: getIndex,
                 getByIndex: getByIndex,
                 clear:    clear,
                 clearAll: clearAll,
