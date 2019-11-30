@@ -1,11 +1,11 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1569141615451
+    "timeSaved": 1575147428998
   },
   "body": {
     "character": "Rig",
-    "version": "DOA6 v1.0.2 #20 (steam)",
+    "version": "DOA6 v1.15 #14 (steam)",
     "stances": [
       {
         "abbreviation": "STD",
@@ -1559,7 +1559,7 @@
             "frameData": [
               20,
               2,
-              22
+              26
             ],
             "actionSteps": [
               {
@@ -1574,26 +1574,21 @@
                     "condition": [
                       "guard"
                     ],
-                    "hitBlock": 13
+                    "hitBlock": 17
                   },
                   {
                     "condition": [
                       "neutral"
                     ],
-                    "hitBlock": 19
+                    "hitBlock": 23
                   },
                   {
                     "condition": [
+                      "hi-counter",
                       "counter"
                     ],
-                    "hitBlock": 27
-                  },
-                  {
-                    "condition": [
-                      "hi-counter"
-                    ],
                     "criticalHoldDelay": 6,
-                    "stunDurationMax": 36
+                    "stunDurationMax": 38
                   },
                   {
                     "condition": [
