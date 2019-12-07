@@ -219,7 +219,7 @@ define(
                     var condition = map[prefix];
                     var advantage = actionStepResultToAdvantage(nodeData, condition);
                     if (advantage.value || advantage.value === 0) {
-                        var str = prefix + signed(advantage.value);
+                        var str = prefix + _.signed(advantage.value);
                         if (advantage.stun) str += 's';
                         result.push(str);
                     }
@@ -227,10 +227,6 @@ define(
 
                 return result.join(' ');
 
-            }
-
-            function signed(number) {
-                return String(number)[0] === '-' ? number : '+' + number;
             }
 
             function changeSummary2(newValueRaw, nodeData) {

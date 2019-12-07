@@ -37,6 +37,10 @@ define(
             isNumber:        isNumber,
             isString:        isString,
 
+            // Number
+
+            signed: signed,
+
             // Object
 
             withoutFalsyProperties: withoutFalsyProperties,
@@ -389,6 +393,10 @@ define(
 
         function isString(obj) {
             return typeof obj === 'string';
+        }
+
+        function signed(number) {
+            return String(number)[0] === '-' ? number : '+' + number;
         }
 
         function defined(/* arguments */) {

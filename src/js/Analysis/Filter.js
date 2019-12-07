@@ -494,18 +494,27 @@ define(
         }
 
         function filterResultsToString(results) {
+            if (results.length === 0) return [];
             var latestActiveFrameStart = Math.max.apply(Math, results.map(function(result) {
                 return result.range[0];
             }));
             var sorted = sortResults(results, latestActiveFrameStart);
             var stringLines = [];
             var lastRange = undefined;
-            var lastEnding = undefined;
+            var lastEnding = sorted[0].path[sorted[0].path.length - 1];
             for (var i = 0; i < sorted.length; ++i) {
                 var result = sorted[i];
                 var str = pathHistoryToString(result.path);
                 if (str) {
-                    var range = result.range[0] + '-' + result.range[1] + 'f';
+                    var from = '(<' + latestActiveFrameStart + ')';
+                    var to   = '(>' + latestActiveFrameStart + ')';
+                    if (result.range[0] === latestActiveFrameStart) {
+                        from = latestActiveFrameStart;
+                    }
+                    if (result.range[1] === latestActiveFrameStart) {
+                        to = latestActiveFrameStart;
+                    }
+                    var range = from + '-' + to + 'f';
                     if (range !== lastRange) {
                         stringLines.push('');
                         stringLines.push(range + ':');
@@ -518,76 +527,121 @@ define(
                             lastEnding = ending;
                         }
                     }
-                    stringLines.push(str + '; (' + range + ')');
+                    const advantageOnBlock = getAdvantageOnBlock(result, latestActiveFrameStart);
+                    stringLines.push(
+                        str + '; ' +
+                        '(' +
+                            result.range[0] + '-' + result.range[1] + 'f' +
+                            (isFinite(advantageOnBlock) ? '; g' + _.signed(advantageOnBlock) : '') +
+                        ')'
+                    );
                 }
             }
             return stringLines.join('\n');
         }
 
+        function filterResultToMove(filterResult) {
+            return filterResult.path[filterResult.path.length - 1];
+        }
+
+        function getAdvantageOnBlock(filterResult, latestActiveFrameStart) {
+            var moveNodeData = filterResultToMove(filterResult);
+            var range = NodeFactoryMove.getAdvantageRange(
+                moveNodeData,
+                NodeFactoryActionStepResult.getHitBlock,
+                NodeFactoryActionStepResult.doesDescribeGuard,
+            );
+            if (!range) return -Infinity;
+            var result = range.min + latestActiveFrameStart - filterResult.range[0];
+            return result;
+        }
+
         function sortResults(results, latestActiveFrameStart) {
 
-            // TODO: sort by:
-            // 1. beginning of active frame, latest = first
-            // 2. not a throw/hold (but OH ok?)
-            // 3. Same finishing move
-            // 4. not high
-            // 5. advantage on block
-            // 6. fastest followup / least recovery
-            // 7. having lows in between
-            // 8. not having throws in between
+            var moves = [];
+            function getMoveIndex(moveNodeData) {
+                var index = moves.indexOf(moveNodeData);
+                if (index === -1) {
+                    index = moves.push(moveNodeData) - 1;
+                }
+                return index;
+            }
 
-            // group together options that have same resulting active frames
-            var groupedByActiveFrames = _.arrayGroupedByFactor(results, function(a, b) {
-                return rangeSortFunc(a, b) === 0;
-            });
+            var move = filterResultToMove;
 
-            // put same ending move together
-            groupedByActiveFrames = groupedByActiveFrames.map(function(group) {
-                var groupedByFinalMove = _.arrayGroupedByFactor(
-                    group,
-                    function(a, b) {
+            function getPerceivedPathLength(filterResult) {
+                return filterResult.path.filter(NodeFactoryMove.isMoveNode).length;
+            }
+
+            var prios = [
+                // Moves whose active frame begins at the latest is the classic unholdable
+                function(a, b) { return a.range[0] === latestActiveFrameStart; },
+
+                // Moves whose active frame ends at the latest can be unholdable on force tech
+                function(a, b) { return a.range[1] === latestActiveFrameStart; },
+
+                // Throws can be interrupted by an attack
+                function(a, b) { return !NodeFactoryMove.isMoveThrow(move(a)); },
+
+                // Despite OHs can be interrupted by a throw it's not a common defense
+                function(a, b) { return NodeFactoryMove.isMoveOffensiveHold(move(a)); },
+
+                // Some two-hit moves don't have advantage on block info for the first hit
+                function(a, b) {
+                    return !isFinite(getAdvantageOnBlock(a, latestActiveFrameStart));
+                },
+
+                // Show g+0 or higher first
+                // TODO: account for stances that don't apply initial frame
+                function(a, b) { return getAdvantageOnBlock(a, latestActiveFrameStart) >= 0; },
+
+                // Prioritize mid/low over high since high can be ducked under
+                function(a, b) {
+                    return move(a).actionSteps.some(function(actionStep) {
                         return (
-                            a.path.length > 0 &&
-                            b.path.length > 0 &&
-                            a.path[a.path.length - 1] === b.path[b.path.length - 1]
+                            NodeFactoryActionStep.isActionStepMid(actionStep) ||
+                            NodeFactoryActionStep.isActionStepLow(actionStep)
                         );
-                    }
-                );
-                return flatten(groupedByFinalMove);
-            });
+                    });
+                },
 
-            groupedByActiveFrames.sort(function(a, b) {
-                return rangeSortFunc(a[0], b[0]);
-            });
+                // Sort by advantage on block
+                function(a, b) {
+                    return (
+                        // TODO: account for stances that don't apply initial frame
+                        getAdvantageOnBlock(a, latestActiveFrameStart) >
+                        getAdvantageOnBlock(b, latestActiveFrameStart)
+                    );
+                },
 
-            return flatten(groupedByActiveFrames);
+                // Group same moves together
+                function(a, b) { return getMoveIndex(move(a)) > getMoveIndex(move(b)); },
 
-            function rangeSortFunc(a, b) { 
-                var prios = [
-                    function(a, b) {
-                        return a.range[0] === latestActiveFrameStart && a.range[1] > b.range[1];
-                    },
-                    function(a, b) {
-                        return a.range[1] === latestActiveFrameStart && a.range[0] > b.range[0];
-                    },
-                    function(a, b) { return a.range[1] === latestActiveFrameStart; },
-                    function(a, b) { return a.range[1] > b.range[1]; },
-                    function(a, b) { return a.range[0] > b.range[0]; }
-                ];
-                for (var i = 0; i < prios.length; ++i) {
+                // Show short combos first
+                function(a, b) { return getPerceivedPathLength(a) < getPerceivedPathLength(b); },
+
+                // Prioritize by active frames end descending
+                function(a, b) { return a.range[1] > b.range[1]; },
+
+                // Prioritize by active frames start descending
+                function(a, b) { return a.range[0] > b.range[0]; }
+
+                // TODO:
+                // fastest followup / least recovery
+                // having lows in between, since they scare opponent to techroll
+                // not having throws in between, since they potentially expose to hi-counter hit
+            ];
+
+            return results.slice().sort(function(a, b) {
+                for (let i = 0; i < prios.length; ++i) {
                     var prio = prios[i];
-                    if (prio(a, b)) return -1;
-                    if (prio(b, a)) return 1;
+                    var aHasPrio = prio(a, b);
+                    var bHasPrio = prio(b, a);
+                    if (aHasPrio && !bHasPrio) return -1;
+                    if (!aHasPrio && bHasPrio) return 1;
                 }
                 return 0;
-            }
-
-            function flatten(arr) {
-                return arr.reduce(
-                    function(acc, curr) { return acc.concat(curr); },
-                    []
-                );
-            }
+            });
         }
 
     }
