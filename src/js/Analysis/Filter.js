@@ -26,6 +26,8 @@ define(
         Strings, _
     ) {
 
+        var backturnedContext = 'BT';
+
         return {
             isTrackingMidKickNode:      isTrackingMidKickNode,
             isGroundAttackNode:         isGroundAttackNode,
@@ -214,8 +216,18 @@ define(
                     rootNodeData,
                     frameToBeActiveOnEnd,
                     function checkMoveNodeFunc(childWorkingPath, stance, framesSpent) {
+                        if (
+                            !genericCheckMoveNode(
+                                childWorkingPath, stance, framesSpent,
+                                traverseRecursive,
+                                warnFunc
+                            )
+                        ) {
+                            return;
+                        }
+                        
                         var intersectingActiveFramesRange = checkMoveNodeActiveFrames(
-                            childWorkingPath, stance, framesSpent
+                            childWorkingPath[childWorkingPath.length - 1], framesSpent
                         );
                         var intersects = intersectingActiveFramesRange.length > 0;
                         if (intersects) {
@@ -245,34 +257,24 @@ define(
             // TODO: include +- of active frames (e.g landed on 3rd out of 5 total)
             return results;
 
-            /** Last element of `workingPath` must be a move node data */
-            function checkMoveNodeActiveFrames(workingPath, workingStance, framesSpent) {
+            function checkMoveNodeActiveFrames(moveNodeData, framesSpent) {
 
                 var intersectingActiveFramesRange = [];
 
-                if (
-                    genericCheckMoveNode(
-                        workingPath, workingStance, framesSpent,
-                        traverseRecursive,
-                        warnFunc
-                    )
-                ) {
-                    var nodeData = workingPath[workingPath.length - 1];
-                    // FIXME: filterFunc can be specific to action step
-                    // E.g. Honoka's 214P+K doesn't have ground hit property on 2nd active frames group
-                    if (!optNodeDataFilterFunc || optNodeDataFilterFunc(nodeData)) {
-                        var actionLocalRange = NodeFactoryMove.getActiveFramesRangeThatIntersectsWith(
-                            nodeData,
-                            frameToBeActiveOnStart - framesSpent,
-                            frameToBeActiveOnEnd   - framesSpent
-                        );
-                        var intersects = actionLocalRange.length > 0;
-                        if (intersects) {
-                            intersectingActiveFramesRange = [
-                                framesSpent + actionLocalRange[0],
-                                framesSpent + actionLocalRange[1]
-                            ];
-                        }
+                // FIXME: filterFunc can be specific to action step
+                // E.g. Honoka's 214P+K doesn't have ground hit property on 2nd active frames group
+                if (!optNodeDataFilterFunc || optNodeDataFilterFunc(moveNodeData)) {
+                    var actionLocalRange = NodeFactoryMove.getActiveFramesRangeThatIntersectsWith(
+                        moveNodeData,
+                        frameToBeActiveOnStart - framesSpent,
+                        frameToBeActiveOnEnd   - framesSpent
+                    );
+                    var intersects = actionLocalRange.length > 0;
+                    if (intersects) {
+                        intersectingActiveFramesRange = [
+                            framesSpent + actionLocalRange[0],
+                            framesSpent + actionLocalRange[1]
+                        ];
                     }
                 }
 
@@ -377,7 +379,7 @@ define(
             var checkPassed = false;
 
             var nodeData = workingPath[workingPath.length - 1];
-            // Filter out BT moves
+            // check BT status
             if (!doesContextQualify(nodeData, workingStance)) {
                 return checkPassed;
             }
@@ -428,20 +430,29 @@ define(
                     warnFunc(workingPath, Strings('undefinedInitialFrame'));
                 }
                 var framesSpentByStance = (nodeData.appliesExtraFrame === false) ? 0 : 1;
-                traverseRecursive(workingPath, false, framesSpent + framesSpentByStance, undefined);
+                traverseRecursive(
+                    workingPath, false, framesSpent + framesSpentByStance,
+                    (workingStance === backturnedContext) ? backturnedContext : undefined
+                );
             }
         }
 
         function doesStanceQualify(stanceNodeData, stance) {
-            // FIXME: this doesn't path through moves that end with BT
-            return stanceNodeData.abbreviation === stance;
+            return (
+                stanceNodeData.abbreviation === stance || (
+                    stance === backturnedContext &&
+                    stanceNodeData.abbreviation === CommonStances.DEFAULT
+                )
+            );
         }
 
         function doesContextQualify(moveNodeData, stance) {
             return (
-                (moveNodeData.context.length === 0) ||
+                (moveNodeData.context.length === 0 && stance !== backturnedContext) ||
                 _.arraysConsistOfSameStrings(
-                    moveNodeData.context.join(',').toLowerCase().split(','),
+                    moveNodeData.context.length === 0
+                        ? []
+                        : moveNodeData.context.join(',').toLowerCase().split(','),
                     stance.toLowerCase().split(',')
                 )
             );
