@@ -148,7 +148,7 @@ define(
 
         function showFilterResults(warnings, prefix, result) {
 
-            var output = '';
+            var output = prefix;
 
             var warningMessages = Object.keys(warnings);
 
@@ -168,8 +168,6 @@ define(
 
                 output += '\n\n';
             }
-
-            output += prefix;
 
             _.setTextContent(domCache.filterOutput, output);
 

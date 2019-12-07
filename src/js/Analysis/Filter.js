@@ -496,12 +496,26 @@ define(
         function filterResultsToString(results) {
             var sorted = sortResults(results);
             var stringLines = [];
+            var lastRange = undefined;
+            var lastEnding = undefined;
             for (var i = 0; i < sorted.length; ++i) {
                 var result = sorted[i];
                 var str = pathHistoryToString(result.path);
                 if (str) {
-                    str += ' (' + result.range[0] + '-' + result.range[1] + 'f)';
-                    stringLines.push(str);
+                    var range = result.range[0] + '-' + result.range[1] + 'f';
+                    if (range !== lastRange) {
+                        stringLines.push('');
+                        stringLines.push(range + ':');
+                        stringLines.push('');
+                        lastRange = range;
+                    } else {
+                        var ending = result.path[result.path.length - 1];
+                        if (lastEnding !== ending) {
+                            stringLines.push('');
+                            lastEnding = ending;
+                        }
+                    }
+                    stringLines.push(str + '; (' + range + ')');
                 }
             }
             return stringLines.join('\n');
