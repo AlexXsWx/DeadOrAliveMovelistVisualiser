@@ -494,7 +494,10 @@ define(
         }
 
         function filterResultsToString(results) {
-            var sorted = sortResults(results);
+            var latestActiveFrameStart = Math.max.apply(Math, results.map(function(result) {
+                return result.range[0];
+            }));
+            var sorted = sortResults(results, latestActiveFrameStart);
             var stringLines = [];
             var lastRange = undefined;
             var lastEnding = undefined;
@@ -521,11 +524,21 @@ define(
             return stringLines.join('\n');
         }
 
-        function sortResults(results) {
+        function sortResults(results, latestActiveFrameStart) {
+
+            // TODO: sort by:
+            // 1. beginning of active frame, latest = first
+            // 2. not a throw/hold (but OH ok?)
+            // 3. Same finishing move
+            // 4. not high
+            // 5. advantage on block
+            // 6. fastest followup / least recovery
+            // 7. having lows in between
+            // 8. not having throws in between
 
             // group together options that have same resulting active frames
             var groupedByActiveFrames = _.arrayGroupedByFactor(results, function(a, b) {
-                return compareRange(a, b) === 0;
+                return rangeSortFunc(a, b) === 0;
             });
 
             // put same ending move together
@@ -544,16 +557,28 @@ define(
             });
 
             groupedByActiveFrames.sort(function(a, b) {
-                return compareRange(a[0], b[0]);
+                return rangeSortFunc(a[0], b[0]);
             });
 
             return flatten(groupedByActiveFrames);
 
-            function compareRange(a, b) {
-                if (a.range[0] < b.range[0]) return -1;
-                if (a.range[0] > b.range[0]) return 1;
-                if (a.range[1] < b.range[1]) return -1;
-                if (a.range[1] > b.range[1]) return 1;
+            function rangeSortFunc(a, b) { 
+                var prios = [
+                    function(a, b) {
+                        return a.range[0] === latestActiveFrameStart && a.range[1] > b.range[1];
+                    },
+                    function(a, b) {
+                        return a.range[1] === latestActiveFrameStart && a.range[0] > b.range[0];
+                    },
+                    function(a, b) { return a.range[1] === latestActiveFrameStart; },
+                    function(a, b) { return a.range[1] > b.range[1]; },
+                    function(a, b) { return a.range[0] > b.range[0]; }
+                ];
+                for (var i = 0; i < prios.length; ++i) {
+                    var prio = prios[i];
+                    if (prio(a, b)) return -1;
+                    if (prio(b, a)) return 1;
+                }
                 return 0;
             }
 
