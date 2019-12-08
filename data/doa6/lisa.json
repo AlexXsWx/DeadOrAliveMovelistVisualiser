@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1574369670533
+    "timeSaved": 1575812346662
   },
   "body": {
     "character": "Lisa",
@@ -216,7 +216,7 @@
                               {
                                 "input": "T",
                                 "frameData": [
-                                  64,
+                                  31,
                                   2,
                                   31
                                 ],
@@ -781,7 +781,7 @@
           {
             "input": "9P",
             "frameData": [
-              0,
+              33,
               0,
               0
             ],
@@ -797,13 +797,14 @@
                 "frameData": [
                   0,
                   0,
-                  45
+                  12
                 ],
                 "actionSteps": [
                   {
                     "actionType": "other"
                   }
-                ]
+                ],
+                "endsWith": "BT"
               }
             ]
           },
@@ -1217,19 +1218,35 @@
                 "followUps": [
                   {
                     "input": "P",
+                    "frameData": [
+                      34,
+                      0,
+                      0
+                    ],
                     "actionSteps": [
                       {
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "9P"
+                    "endsWith": "9P",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
                   },
                   {
                     "input": "K",
                     "frameData": [
                       33,
                       6,
-                      12
+                      0
                     ],
                     "actionSteps": [
                       {
@@ -1246,7 +1263,23 @@
                         ]
                       }
                     ],
-                    "endsWith": "9P"
+                    "endsWith": "9P",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          12
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
                   },
                   {
                     "input": "6K",
@@ -1355,7 +1388,7 @@
                         "frameData": [
                           27,
                           3,
-                          45
+                          0
                         ],
                         "actionSteps": [
                           {
@@ -1372,7 +1405,17 @@
                             ]
                           }
                         ],
-                        "endsWith": "1KK"
+                        "endsWith": "1KK",
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              0,
+                              0,
+                              45
+                            ]
+                          }
+                        ]
                       },
                       {
                         "input": "2K",
@@ -1657,7 +1700,7 @@
             "frameData": [
               31,
               6,
-              12
+              0
             ],
             "actionSteps": [
               {
@@ -1674,7 +1717,18 @@
                 ]
               }
             ],
-            "endsWith": "9P"
+            "endsWith": "9P",
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  0,
+                  12
+                ],
+                "endsWith": "BT"
+              }
+            ]
           },
           {
             "input": "7K",
@@ -1730,6 +1784,11 @@
               },
               {
                 "input": "P",
+                "frameData": [
+                  45,
+                  0,
+                  0
+                ],
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -2030,7 +2089,7 @@
                     "frameData": [
                       29,
                       3,
-                      45
+                      0
                     ],
                     "actionSteps": [
                       {
@@ -2047,7 +2106,17 @@
                         ]
                       }
                     ],
-                    "endsWith": "1KK"
+                    "endsWith": "1KK",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          45
+                        ]
+                      }
+                    ]
                   },
                   {
                     "input": "2K",
@@ -2816,19 +2885,35 @@
                 "followUps": [
                   {
                     "input": "P",
+                    "frameData": [
+                      34,
+                      0,
+                      0
+                    ],
                     "actionSteps": [
                       {
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "9P"
+                    "endsWith": "9P",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
                   },
                   {
                     "input": "K",
                     "frameData": [
                       33,
                       6,
-                      12
+                      0
                     ],
                     "actionSteps": [
                       {
@@ -2845,7 +2930,23 @@
                         ]
                       }
                     ],
-                    "endsWith": "9P"
+                    "endsWith": "9P",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          12
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
                   },
                   {
                     "input": "6K",
@@ -2954,7 +3055,7 @@
                         "frameData": [
                           27,
                           3,
-                          45
+                          0
                         ],
                         "actionSteps": [
                           {
@@ -2971,7 +3072,17 @@
                             ]
                           }
                         ],
-                        "endsWith": "1KK"
+                        "endsWith": "1KK",
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              0,
+                              0,
+                              45
+                            ]
+                          }
+                        ]
                       },
                       {
                         "input": "2K",
@@ -3653,6 +3764,11 @@
             "input": "P+K",
             "context": [
               "BT"
+            ],
+            "frameData": [
+              25,
+              0,
+              0
             ],
             "actionSteps": [
               {
@@ -4338,7 +4454,8 @@
                 "actionType": "OH grab",
                 "isTracking": false
               }
-            ]
+            ],
+            "endsWith": "BT"
           },
           {
             "input": "6T",
@@ -4356,7 +4473,8 @@
                 "actionType": "OH grab",
                 "isTracking": true
               }
-            ]
+            ],
+            "endsWith": "BT"
           },
           {
             "input": "T",
@@ -4374,7 +4492,8 @@
                 "actionType": "throw",
                 "isTracking": true
               }
-            ]
+            ],
+            "endsWith": "BT"
           },
           {
             "input": "T",
@@ -4629,6 +4748,130 @@
                   }
                 ],
                 "endsWith": "BT"
+              },
+              {
+                "input": "P+K",
+                "frameData": [
+                  34,
+                  0,
+                  0
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      8,
+                      7,
+                      30
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionMask": "mid P",
+                        "actionType": "strike",
+                        "isTracking": false,
+                        "results": [
+                          {
+                            "condition": [
+                              "guard"
+                            ],
+                            "hitBlock": 45
+                          }
+                        ]
+                      }
+                    ],
+                    "followUps": [
+                      {
+                        "input": "4",
+                        "frameData": [
+                          0,
+                          0,
+                          35
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ],
+                        "endsWith": "BT"
+                      }
+                    ]
+                  },
+                  {
+                    "input": "H",
+                    "frameData": [
+                      16,
+                      0,
+                      14
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ],
+                    "endsWith": "BT",
+                    "followUps": [
+                      {
+                        "input": "P+K",
+                        "frameData": [
+                          33,
+                          7,
+                          30
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "mid P",
+                            "actionType": "strike",
+                            "isTracking": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "guard"
+                                ],
+                                "hitBlock": 53
+                              }
+                            ]
+                          }
+                        ],
+                        "followUps": [
+                          {
+                            "input": "4",
+                            "frameData": [
+                              0,
+                              0,
+                              40
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionType": "other"
+                              }
+                            ],
+                            "endsWith": "BT"
+                          }
+                        ]
+                      },
+                      {
+                        "input": "T",
+                        "frameData": [
+                          31,
+                          2,
+                          31
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionMask": "high",
+                            "actionType": "OH grab",
+                            "isTracking": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -4806,16 +5049,34 @@
         "moves": [
           {
             "input": "*",
+            "frameData": [
+              8,
+              7,
+              30
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 53
+                  }
+                ]
               }
             ],
             "followUps": [
               {
                 "input": "4",
+                "frameData": [
+                  0,
+                  0,
+                  40
+                ],
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -4827,6 +5088,11 @@
           },
           {
             "input": "H",
+            "frameData": [
+              16,
+              0,
+              14
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -4836,16 +5102,34 @@
             "followUps": [
               {
                 "input": "P+K",
+                "frameData": [
+                  33,
+                  7,
+                  30
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 53
+                      }
+                    ]
                   }
                 ],
                 "followUps": [
                   {
                     "input": "4",
+                    "frameData": [
+                      0,
+                      0,
+                      40
+                    ],
                     "actionSteps": [
                       {
                         "actionType": "other"
@@ -4857,6 +5141,11 @@
               },
               {
                 "input": "T",
+                "frameData": [
+                  31,
+                  2,
+                  31
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "high",
@@ -4872,29 +5161,38 @@
       },
       {
         "abbreviation": "9P",
+        "appliesExtraFrame": false,
         "moves": [
           {
-            "input": "*",
-            "actionSteps": [
-              {
-                "actionType": "other",
-                "isTracking": true
-              }
-            ],
-            "endsWith": "BT"
-          },
-          {
             "input": "P",
+            "frameData": [
+              22,
+              3,
+              38
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 40
+                  }
+                ]
               }
             ],
             "followUps": [
               {
                 "input": "4",
+                "frameData": [
+                  0,
+                  0,
+                  28
+                ],
                 "actionSteps": [
                   {
                     "actionType": "other"
@@ -4906,17 +5204,69 @@
           },
           {
             "input": "K",
+            "frameData": [
+              26,
+              2,
+              0
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 35
+                  }
+                ]
               }
             ],
-            "endsWith": "BT"
+            "followUps": [
+              {
+                "input": "*",
+                "context": [
+                  "HIT"
+                ],
+                "frameData": [
+                  0,
+                  0,
+                  31
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ],
+                "endsWith": "BT"
+              },
+              {
+                "input": "*",
+                "context": [
+                  "WHIFF"
+                ],
+                "frameData": [
+                  0,
+                  0,
+                  44
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              }
+            ]
           },
           {
             "input": "P+K",
+            "frameData": [
+              25,
+              0,
+              0
+            ],
             "actionSteps": [
               {
                 "actionType": "other"
@@ -4926,13 +5276,19 @@
           },
           {
             "input": "T",
+            "frameData": [
+              27,
+              2,
+              34
+            ],
             "actionSteps": [
               {
                 "actionMask": "high",
                 "actionType": "OH grab",
                 "isTracking": false
               }
-            ]
+            ],
+            "endsWith": "BT"
           }
         ]
       },
@@ -4941,42 +5297,73 @@
         "appliesExtraFrame": false,
         "moves": [
           {
-            "input": "*",
-            "actionSteps": [
-              {
-                "actionType": "other"
-              }
-            ]
-          },
-          {
             "input": "K",
+            "frameData": [
+              69,
+              4,
+              23
+            ],
             "actionSteps": [
               {
                 "actionMask": "mid K",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 35
+                  }
+                ]
               }
             ],
             "endsWith": "BT"
           },
           {
             "input": "P",
+            "frameData": [
+              52,
+              3,
+              25
+            ],
             "actionSteps": [
               {
                 "actionMask": "high P",
                 "actionType": "strike",
-                "isTracking": false
+                "isTracking": false,
+                "results": [
+                  {
+                    "condition": [
+                      "guard"
+                    ],
+                    "hitBlock": 23
+                  }
+                ]
               }
             ],
             "endsWith": "BT",
             "followUps": [
               {
                 "input": "P",
+                "frameData": [
+                  23,
+                  2,
+                  27
+                ],
                 "actionSteps": [
                   {
                     "actionMask": "mid P",
                     "actionType": "strike",
-                    "isTracking": false
+                    "isTracking": false,
+                    "results": [
+                      {
+                        "condition": [
+                          "guard"
+                        ],
+                        "hitBlock": 20
+                      }
+                    ]
                   }
                 ]
               }
@@ -4984,13 +5371,19 @@
           },
           {
             "input": "T",
+            "frameData": [
+              72,
+              2,
+              29
+            ],
             "actionSteps": [
               {
                 "actionMask": "high",
                 "actionType": "OH grab",
                 "isTracking": false
               }
-            ]
+            ],
+            "endsWith": "BT"
           }
         ]
       },
