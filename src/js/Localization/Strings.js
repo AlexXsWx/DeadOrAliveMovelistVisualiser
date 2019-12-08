@@ -25,7 +25,10 @@ define(
             'hasNoFrameData': 'has no frame data, probabilities that use it are excluded',
             'stance': 'stance',
             'undefinedInitialFrame': 'did not define appliesExtraFrame, assuming it does',
-            'skippingFreeCancel': 'has no-input followup and defines no ending stance',
+            'skippingFreeCancel': (
+                'has no-input followup and defines no ending stance, ' +
+                'assuming free cancel is not available'
+            ),
 
             'undoIsBorked': '[Ctrl]+[Z] is disabled since it may corrupt the entered data',
 
