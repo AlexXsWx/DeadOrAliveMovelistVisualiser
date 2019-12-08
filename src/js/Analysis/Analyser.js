@@ -169,22 +169,55 @@ define(
                 output += '\n\n';
             }
 
-            _.setTextContent(domCache.filterOutput, output);
+            var target = getOutputView();
+            // FIXME: use once dynamic functionality is working (e.g. clicking on a tag)
+            // var target = getOutputWindow();
+
+            _.setTextContent(target.root, output);
 
             if (
                 result instanceof DocumentFragment ||
                 result instanceof HTMLElement
             ) {
-                domCache.filterOutput.appendChild(_.createTextNode('\n'));
-                domCache.filterOutput.appendChild(result);
+                target.root.appendChild(_.createTextNode('\n'));
+                target.root.appendChild(result);
             } else {
-                domCache.filterOutput.appendChild(_.createTextNode(result));
+                target.root.appendChild(_.createTextNode(result));
             }
 
-            _.showDomElement(domCache.popupFilterResult);
+            target.show();
+
+            return;
 
             function amountStr(amount) {
                 return 'x' + amount;
+            }
+
+            function getOutputView() {
+                return {
+                    root: domCache.filterOutput,
+                    show: function() {
+                        _.showDomElement(domCache.popupFilterResult);
+                    }
+                };
+            }
+
+            function getOutputWindow() {
+                var newWindow = window.open(
+                    "",
+                    null,
+                    "status=no,toolbar=no,menubar=no,location=no"
+                );
+                if (!newWindow) return getOutputView();
+                var target = newWindow.document.body;
+                target.innerHTML = "";
+                var pre = newWindow.document.createElement("pre");
+                target.appendChild(pre);
+                target = pre;
+                return {
+                    root: target,
+                    show: function() {},
+                };
             }
         }
 

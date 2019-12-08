@@ -544,6 +544,8 @@ define(
             return filterResult.path[filterResult.path.length - 1];
         }
 
+        // FIXME: account for stances that don't apply initial frame
+        // FIXME: account for no-input followup
         function getAdvantageOnBlock(filterResult, latestActiveFrameStart) {
             var moveNodeData = filterResultToMove(filterResult);
             var range = NodeFactoryMove.getAdvantageRange(
@@ -592,7 +594,6 @@ define(
                 },
 
                 // Show g+0 or higher first
-                // TODO: account for stances that don't apply initial frame
                 function(a, b) { return getAdvantageOnBlock(a, latestActiveFrameStart) >= 0; },
 
                 // Prioritize mid/low over high since high can be ducked under
@@ -608,7 +609,6 @@ define(
                 // Sort by advantage on block
                 function(a, b) {
                     return (
-                        // TODO: account for stances that don't apply initial frame
                         getAdvantageOnBlock(a, latestActiveFrameStart) >
                         getAdvantageOnBlock(b, latestActiveFrameStart)
                     );
