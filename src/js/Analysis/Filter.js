@@ -447,15 +447,17 @@ define(
         }
 
         function doesContextQualify(moveNodeData, stance) {
+            var parts = moveNodeData.context.join(',').toLowerCase().split(',');
             return (
-                (moveNodeData.context.length === 0 && stance !== backturnedContext) ||
-                _.arraysConsistOfSameStrings(
-                    moveNodeData.context.length === 0
-                        ? []
-                        : moveNodeData.context.join(',').toLowerCase().split(','),
-                    stance.toLowerCase().split(',')
-                )
+                _.contains(parts, backturnedContext.toLowerCase()) ===
+                (stance === backturnedContext)
             );
+            // _.arraysConsistOfSameStrings(
+            //     moveNodeData.context.length === 0
+            //         ? []
+            //         : moveNodeData.context.join(',').toLowerCase().split(','),
+            //     stance.toLowerCase().split(',')
+            // );
         }
 
         function pathHistoryToString(pathHistory) {
