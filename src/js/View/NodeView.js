@@ -801,7 +801,7 @@ define(
                 sortByAdvantage(nodeView, function(nodeData) {
                     return NodeFactoryMove.getAdvantageRange(
                         nodeData,
-                        NodeFactoryActionStepResult.getHitBlock,
+                        NodeFactoryActionStepResult.getHitBlockOrStun,
                         NodeFactoryActionStepResult.doesDescribeGuard
                     );
                 });
@@ -811,7 +811,7 @@ define(
                 sortByAdvantage(nodeView, function(nodeData) {
                     return NodeFactoryMove.getAdvantageRange(
                         nodeData,
-                        NodeFactoryActionStepResult.getHitBlock,
+                        NodeFactoryActionStepResult.getHitBlockOrStun,
                         NodeFactoryActionStepResult.doesDescribeNeutralHit
                     );
                 });
@@ -821,7 +821,7 @@ define(
                 sortByAdvantage(nodeView, function(nodeData) {
                     return NodeFactoryMove.getAdvantageRange(
                         nodeData,
-                        NodeFactoryActionStepResult.getHitBlock,
+                        NodeFactoryActionStepResult.getHitBlockOrStun,
                         NodeFactoryActionStepResult.doesDescribeCounterHit
                     );
                 });

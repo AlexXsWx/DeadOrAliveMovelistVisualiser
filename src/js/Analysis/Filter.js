@@ -550,7 +550,7 @@ define(
             var moveNodeData = filterResultToMove(filterResult);
             var range = NodeFactoryMove.getAdvantageRange(
                 moveNodeData,
-                NodeFactoryActionStepResult.getHitBlock,
+                NodeFactoryActionStepResult.getHitBlockOrStun,
                 NodeFactoryActionStepResult.doesDescribeGuard,
             );
             if (!range) return -Infinity;

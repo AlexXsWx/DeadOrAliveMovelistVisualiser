@@ -592,7 +592,7 @@ define(
                             // if (NodeFactory.getNoInputFollowup(nodeData)) return false;
                             var advantageRange = NodeFactoryMove.getAdvantageRange(
                                 nodeData,
-                                NodeFactoryActionStepResult.getHitBlock,
+                                NodeFactoryActionStepResult.getHitBlockOrStun,
                                 NodeFactoryActionStepResult.doesDescribeGuard,
                                 NodeFactoryMove.isMoveNode(nodeData)
                                     ? NodeView.findAncestorNodeData(nodeView)

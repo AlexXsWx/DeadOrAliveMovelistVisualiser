@@ -527,15 +527,15 @@ define(
             [
                 {
                     names: ['advantageOnBlock'],
-                    getDuration:            NodeFactoryActionStepResult.getHitBlock,
+                    getDuration:            NodeFactoryActionStepResult.getHitBlockOrStun,
                     actionStepResultFilter: NodeFactoryActionStepResult.doesDescribeGuard
                 }, {
                     names: ['advantageOnHit', 'advantageOnNeutralHit'],
-                    getDuration:            NodeFactoryActionStepResult.getHitBlock,
+                    getDuration:            NodeFactoryActionStepResult.getHitBlockOrStun,
                     actionStepResultFilter: NodeFactoryActionStepResult.doesDescribeNeutralHit
                 }, {
                     names: ['advantageOnCounterHit'],
-                    getDuration:            NodeFactoryActionStepResult.getHitBlock,
+                    getDuration:            NodeFactoryActionStepResult.getHitBlockOrStun,
                     actionStepResultFilter: NodeFactoryActionStepResult.doesDescribeCounterHit
                 }
             ].reduce(
