@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1576977327148
+    "timeSaved": 1577006524005
   },
   "body": {
     "character": "Mila",
@@ -538,7 +538,7 @@
             "frameData": [
               10,
               2,
-              15
+              0
             ],
             "actionSteps": [
               {
@@ -555,7 +555,22 @@
                 ]
               }
             ],
-            "endsWith": "P"
+            "endsWith": "P",
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  0,
+                  15
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              }
+            ]
           },
           {
             "input": "6P",
@@ -2763,7 +2778,7 @@
             "frameData": [
               13,
               2,
-              15
+              0
             ],
             "actionSteps": [
               {
@@ -2780,7 +2795,22 @@
                 ]
               }
             ],
-            "endsWith": "P"
+            "endsWith": "P",
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  0,
+                  15
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              }
+            ]
           },
           {
             "input": "4P",
