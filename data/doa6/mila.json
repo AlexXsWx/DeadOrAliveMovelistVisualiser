@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1577006524005
+    "timeSaved": 1577021878245
   },
   "body": {
     "character": "Mila",
@@ -193,14 +193,29 @@
                         "frameData": [
                           24,
                           0,
-                          11
+                          0
                         ],
                         "actionSteps": [
                           {
                             "actionType": "other"
                           }
                         ],
-                        "endsWith": "TF"
+                        "endsWith": "TF",
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              0,
+                              0,
+                              11
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionType": "other"
+                              }
+                            ]
+                          }
+                        ]
                       }
                     ]
                   },
@@ -707,14 +722,29 @@
                     "frameData": [
                       24,
                       0,
-                      11
+                      0
                     ],
                     "actionSteps": [
                       {
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "TF"
+                    "endsWith": "TF",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          11
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
@@ -913,14 +943,29 @@
                         "frameData": [
                           25,
                           0,
-                          11
+                          0
                         ],
                         "actionSteps": [
                           {
                             "actionType": "other"
                           }
                         ],
-                        "endsWith": "TF"
+                        "endsWith": "TF",
+                        "followUps": [
+                          {
+                            "input": "*",
+                            "frameData": [
+                              0,
+                              0,
+                              11
+                            ],
+                            "actionSteps": [
+                              {
+                                "actionType": "other"
+                              }
+                            ]
+                          }
+                        ]
                       }
                     ]
                   }
@@ -1015,14 +1060,29 @@
                     "frameData": [
                       25,
                       0,
-                      11
+                      0
                     ],
                     "actionSteps": [
                       {
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "TF"
+                    "endsWith": "TF",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          11
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
@@ -1126,14 +1186,29 @@
                     "frameData": [
                       30,
                       0,
-                      11
+                      0
                     ],
                     "actionSteps": [
                       {
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "TF"
+                    "endsWith": "TF",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          11
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -1541,14 +1616,29 @@
                     "frameData": [
                       28,
                       0,
-                      11
+                      0
                     ],
                     "actionSteps": [
                       {
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "TF"
+                    "endsWith": "TF",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          11
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -1808,14 +1898,29 @@
                             "frameData": [
                               25,
                               0,
-                              11
+                              0
                             ],
                             "actionSteps": [
                               {
                                 "actionType": "other"
                               }
                             ],
-                            "endsWith": "TF"
+                            "endsWith": "TF",
+                            "followUps": [
+                              {
+                                "input": "*",
+                                "frameData": [
+                                  0,
+                                  0,
+                                  11
+                                ],
+                                "actionSteps": [
+                                  {
+                                    "actionType": "other"
+                                  }
+                                ]
+                              }
+                            ]
                           }
                         ]
                       }
@@ -2352,14 +2457,29 @@
                 "frameData": [
                   28,
                   0,
-                  11
+                  0
                 ],
                 "actionSteps": [
                   {
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "TF"
+                "endsWith": "TF",
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      0,
+                      0,
+                      11
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -3240,14 +3360,29 @@
                                 "frameData": [
                                   25,
                                   0,
-                                  11
+                                  0
                                 ],
                                 "actionSteps": [
                                   {
                                     "actionType": "other"
                                   }
                                 ],
-                                "endsWith": "TF"
+                                "endsWith": "TF",
+                                "followUps": [
+                                  {
+                                    "input": "*",
+                                    "frameData": [
+                                      0,
+                                      0,
+                                      11
+                                    ],
+                                    "actionSteps": [
+                                      {
+                                        "actionType": "other"
+                                      }
+                                    ]
+                                  }
+                                ]
                               }
                             ]
                           }
@@ -3333,14 +3468,29 @@
                     "frameData": [
                       23,
                       0,
-                      16
+                      0
                     ],
                     "actionSteps": [
                       {
                         "actionType": "other"
                       }
                     ],
-                    "endsWith": "TF"
+                    "endsWith": "TF",
+                    "followUps": [
+                      {
+                        "input": "*",
+                        "frameData": [
+                          0,
+                          0,
+                          16
+                        ],
+                        "actionSteps": [
+                          {
+                            "actionType": "other"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -3403,14 +3553,29 @@
             "frameData": [
               31,
               0,
-              11
+              0
             ],
             "actionSteps": [
               {
                 "actionType": "other"
               }
             ],
-            "endsWith": "TF"
+            "endsWith": "TF",
+            "followUps": [
+              {
+                "input": "*",
+                "frameData": [
+                  0,
+                  0,
+                  11
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -3688,14 +3853,29 @@
                 "frameData": [
                   28,
                   0,
-                  11
+                  0
                 ],
                 "actionSteps": [
                   {
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "TF"
+                "endsWith": "TF",
+                "followUps": [
+                  {
+                    "input": "*",
+                    "frameData": [
+                      0,
+                      0,
+                      11
+                    ],
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
@@ -4094,7 +4274,17 @@
                     "actionType": "other"
                   }
                 ],
-                "endsWith": "TF"
+                "endsWith": "TF",
+                "followUps": [
+                  {
+                    "input": "*",
+                    "actionSteps": [
+                      {
+                        "actionType": "other"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
