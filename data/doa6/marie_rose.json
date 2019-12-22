@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1577035566502
+    "timeSaved": 1577035990698
   },
   "body": {
     "character": "Marie Rose",
@@ -196,7 +196,7 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low P",
+                    "actionMask": "low P ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "results": [
@@ -291,7 +291,7 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "mid P",
+                        "actionMask": "mid P ground",
                         "actionType": "strike",
                         "isTracking": false,
                         "results": [
@@ -418,7 +418,7 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "low K",
+                        "actionMask": "low K ground",
                         "actionType": "strike",
                         "isTracking": true,
                         "results": [
@@ -443,7 +443,7 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
                     "results": [
@@ -996,7 +996,7 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "results": [
@@ -1106,7 +1106,7 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "results": [
@@ -1201,7 +1201,7 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid P",
+                    "actionMask": "mid P ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "results": [
@@ -1324,7 +1324,7 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid P",
+                "actionMask": "mid P ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "results": [
@@ -1695,7 +1695,7 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low P",
+                "actionMask": "low P ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "results": [
@@ -2228,7 +2228,7 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
                     "results": [
@@ -2385,7 +2385,7 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "results": [
@@ -2592,7 +2592,7 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "results": [
@@ -2615,7 +2615,7 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "mid K",
+                "actionMask": "mid K ground",
                 "actionType": "strike",
                 "isTracking": false,
                 "results": [
@@ -2763,7 +2763,7 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low K",
+                    "actionMask": "low K ground",
                     "actionType": "strike",
                     "isTracking": true,
                     "results": [
@@ -2791,7 +2791,7 @@
             ],
             "actionSteps": [
               {
-                "actionMask": "low K",
+                "actionMask": "low K ground",
                 "actionType": "strike",
                 "isTracking": true,
                 "results": [
@@ -2832,7 +2832,7 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid K",
+                    "actionMask": "mid K ground",
                     "actionType": "strike",
                     "isTracking": false,
                     "results": [
@@ -2871,7 +2871,7 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "low P",
+                    "actionMask": "low P ground",
                     "actionType": "strike",
                     "isTracking": true,
                     "results": [
@@ -2894,7 +2894,7 @@
                 ],
                 "actionSteps": [
                   {
-                    "actionMask": "mid K",
+                    "actionMask": "mid K ground",
                     "actionType": "strike",
                     "isTracking": false
                   }
@@ -2909,7 +2909,7 @@
                     ],
                     "actionSteps": [
                       {
-                        "actionMask": "mid K",
+                        "actionMask": "mid K ground",
                         "actionType": "strike",
                         "isTracking": false,
                         "results": [
