@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1576970752254
+    "timeSaved": 1576977327148
   },
   "body": {
     "character": "Mila",
@@ -3085,7 +3085,7 @@
       },
       {
         "abbreviation": "1H+K",
-        "appliesExtraFrame": true,
+        "appliesExtraFrame": false,
         "moves": [
           {
             "input": "*",
