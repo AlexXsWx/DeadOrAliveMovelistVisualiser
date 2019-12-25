@@ -177,6 +177,9 @@ define(
 
             _.setTextContent(target.root, output);
 
+            if (result instanceof Function) {
+                result = result();
+            }
             if (
                 result instanceof DocumentFragment ||
                 result instanceof HTMLElement

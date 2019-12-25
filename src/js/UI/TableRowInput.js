@@ -38,7 +38,7 @@ define(
             _.setCustomProperty(input, 'inputHistory', createHistoryManager());
             setValue(valueConfirmed);
 
-            Hotkeys.addInputEscListener(input, function() {
+            Hotkeys.addInputEscListener(input, function(event) {
                 // reset to last confirmed value
                 setValue(valueConfirmed);
                 callOnInput(valueConfirmed);
@@ -46,7 +46,8 @@ define(
                 // onEsc && onEsc();
             });
 
-            Hotkeys.addInputEnterListener(input, function() {
+            Hotkeys.addInputEnterListener(input, function(event) {
+                if (multiline && event.shiftKey) return;
                 blurInput();
                 handleBlurOrConfirm();
             });

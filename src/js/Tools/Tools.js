@@ -78,6 +78,7 @@ define(
             lerp: lerp
         });
 
+        // FIXME: merge with `copyKeysInto`
         function merge(/* arguments */) {
             var result = {};
             optimizedSliceArguments.apply(null, arguments).forEach(function(obj) {

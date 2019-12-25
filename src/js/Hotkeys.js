@@ -19,7 +19,11 @@ define(
         };
 
         function undoRedoInput(redo) {
-            return _.getCustomProperty(document.activeElement, 'inputHistory').undoRedo(redo);
+            var historyManager = _.getCustomProperty(document.activeElement, 'inputHistory');
+            if (historyManager) return historyManager.undoRedo(redo);
+            // FIXME
+            _.report('active input element is missing input history manager');
+            return true;
         }
 
         function isInputSelected(optType) {
@@ -43,7 +47,7 @@ define(
         function addInputEscListener(element, onEsc) {
             element.addEventListener('keydown', function(event) {
                 if (event.keyCode === KeyCodes.ESC) {
-                    onEsc();
+                    onEsc(event);
                     event.stopPropagation();
                 }
             });
@@ -52,7 +56,7 @@ define(
         function addInputEnterListener(element, onEnter) {
             element.addEventListener('keydown', function(event) {
                 if (event.keyCode === KeyCodes.ENTER) {
-                    onEnter();
+                    onEnter(event);
                 }
             });
         }
