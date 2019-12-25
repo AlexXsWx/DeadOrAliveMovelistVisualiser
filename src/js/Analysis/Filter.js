@@ -610,6 +610,8 @@ define(
                 };
             }
 
+            var filters = [];
+
             var output;
 
             return createResultsView;
@@ -627,12 +629,19 @@ define(
                     update();
                 });
 
+                var filterer = createFilterer();
+                filterer.onChange.addListener(function(newValue) {
+                    filters = newValue;
+                    update();
+                });
+
                 update();
 
                 return _.createDomElement({
                     tag: 'div',
                     children: [
                         orderer.domRoot,
+                        filterer.domRoot,
                         output
                     ]
                 });
@@ -659,7 +668,41 @@ define(
                             );
                         },
                         multiline: true
-                    })
+                    });
+                    var domRoot = _.createDomElement({
+                        tag: 'table',
+                        children: [ input.domRoot ],
+                    });
+                    return {
+                        domRoot: domRoot,
+                        onChange: onChange.listenersManager
+                    };
+                }
+
+                function createFilterer() {
+                    var onChange = createSignal();
+                    var input = TableRowInput.create({
+                        // FIXME: localize
+                        name: 'Filter out (regex):',
+                        // FIXME
+                        description: 'FIXME',
+                        // value: selection.map(getEntryName).join("\n"),
+                        onInput: function() {
+                            onChange.dispatch(
+                                input.input.value.split("\n").map(function(line) {
+                                    if (!line) return;
+                                    var result;
+                                    try {
+                                        result = new RegExp(line);
+                                    } catch(error) {
+                                        // ignore
+                                    }
+                                    return result;
+                                }).filter(Boolean)
+                            );
+                        },
+                        multiline: true
+                    });
                     var domRoot = _.createDomElement({
                         tag: 'table',
                         children: [ input.domRoot ],
@@ -679,6 +722,8 @@ define(
                 if (results.length === 0) return '';
                 var sorted = sortResults(results, selectedPrios);
                 var stringLines = [];
+                var filteredOut = [];
+                var foundResults = 0;
                 var lastRange = undefined;
                 var lastEnding = sorted[0].path[sorted[0].path.length - 1];
                 var rangeStr = (
@@ -719,16 +764,34 @@ define(
                             }
                         // }
                         var advantageOnBlock = getAdvantageOnBlock(result, latestActiveFrameStart);
-                        stringLines.push(
-                            str + '; ' +
+                        str += (
+                            '; ' +
                             '(' +
                                 result.range[0] + '-' + result.range[1] + 'f' +
                                 (isFinite(advantageOnBlock) ? '; g' + _.signed(advantageOnBlock) : '') +
                             ')'
                         );
+                        if (filters.every(function(f) { return !f.test(str); })) {
+                            stringLines.push(str);
+                            foundResults += 1;
+                        } else {
+                            filteredOut.push(str);
+                        }
                     }
                 }
-                return stringLines.join('\n');
+                var result = (
+                    // FIXME: localize
+                    'Found ' + foundResults + ' / ' + sorted.length + ' match(es): \n' +
+                    stringLines.join('\n')
+                );
+                if (filteredOut.length > 0) {
+                    result += (
+                        // FIXME: localize
+                        '\n\n\nFiltered out ' + filteredOut.length + ' match(es): \n' +
+                        filteredOut.join('\n')
+                    );
+                }
+                return result;
             }
         }
 
