@@ -325,7 +325,8 @@ define(
             );
             traverseRecursive([], true, 0, optCurrentStance || CommonStances.DEFAULT);
 
-            return filterResultsToString(results);
+            // FIXME
+            return filterResultsToString(results, 0, 0);
 
             /** Last elements of `workingPath` must be a move node data */
             function checkMoveNodeDuration(
@@ -495,31 +496,40 @@ define(
             return pathHistory;
         }
 
-        function filterResultsToString(results) {
+        function filterResultsToString(results, latestActiveFrameStart, latestActiveFrameEnd) {
             if (results.length === 0) return [];
-            var latestActiveFrameStart = Math.max.apply(Math, results.map(function(result) {
-                return result.range[0];
-            }));
-            var sorted = sortResults(results, latestActiveFrameStart);
+            var sorted = sortResults(results, latestActiveFrameStart, latestActiveFrameEnd);
             var stringLines = [];
             var lastRange = undefined;
             var lastEnding = sorted[0].path[sorted[0].path.length - 1];
+            var rangeStr = (
+                latestActiveFrameStart + '..' +
+                latestActiveFrameEnd + 'f'
+            );
             for (var i = 0; i < sorted.length; ++i) {
                 var result = sorted[i];
                 var str = pathHistoryToString(result.path);
                 if (str) {
-                    var from = '(<' + latestActiveFrameStart + ')';
-                    var to   = '(>' + latestActiveFrameStart + ')';
-                    if (result.range[0] === latestActiveFrameStart) {
-                        from = latestActiveFrameStart;
+                    // FIXME: localize
+                    var range = 'Begins and ends outside ' + rangeStr;
+                    if (
+                        result.range[0] >= latestActiveFrameStart &&
+                        result.range[0] <= latestActiveFrameEnd
+                    ) {
+                        // FIXME: localize
+                        range = 'Begins during ' + rangeStr;
+                    } else
+                    if (
+                        result.range[1] >= latestActiveFrameEnd &&
+                        result.range[1] <= latestActiveFrameEnd
+                    ) {
+                        // FIXME: localize
+                        range = 'Ends during ' + rangeStr;
                     }
-                    if (result.range[1] === latestActiveFrameStart) {
-                        to = latestActiveFrameStart;
-                    }
-                    var range = from + '-' + to + 'f';
                     if (range !== lastRange) {
                         stringLines.push('');
-                        stringLines.push(range + ':');
+                        stringLines.push('');
+                        stringLines.push('  ' + range + ':');
                         stringLines.push('');
                         lastRange = range;
                     } else {
@@ -529,7 +539,7 @@ define(
                             lastEnding = ending;
                         }
                     }
-                    const advantageOnBlock = getAdvantageOnBlock(result, latestActiveFrameStart);
+                    var advantageOnBlock = getAdvantageOnBlock(result, latestActiveFrameStart);
                     stringLines.push(
                         str + '; ' +
                         '(' +
@@ -548,7 +558,7 @@ define(
 
         // FIXME: account for stances that don't apply initial frame
         // FIXME: account for no-input followup
-        function getAdvantageOnBlock(filterResult, latestActiveFrameStart) {
+        function getAdvantageOnBlock(filterResult, rangeStart) {
             var moveNodeData = filterResultToMove(filterResult);
             var range = NodeFactoryMove.getAdvantageRange(
                 moveNodeData,
@@ -556,11 +566,10 @@ define(
                 NodeFactoryActionStepResult.doesDescribeGuard,
             );
             if (!range) return -Infinity;
-            var result = range.min + latestActiveFrameStart - filterResult.range[0];
-            return result;
+            return range.min + Math.max(0, rangeStart - filterResult.range[0]);
         }
 
-        function sortResults(results, latestActiveFrameStart) {
+        function sortResults(results, rangeStart, rangeEnd) {
 
             var moves = [];
             function getMoveIndex(moveNodeData) {
@@ -577,12 +586,20 @@ define(
                 return filterResult.path.filter(NodeFactoryMove.isMoveNode).length;
             }
 
-            var prios = [
-                // Moves whose active frame begins at the latest is the classic unholdable
-                function(a, b) { return a.range[0] === latestActiveFrameStart; },
+            function rangeStartWithinRange(a) {
+                return a.range[0] >= rangeStart && a.range[0] <= rangeEnd;
+            }
 
-                // Moves whose active frame ends at the latest can be unholdable on force tech
-                function(a, b) { return a.range[1] === latestActiveFrameStart; },
+            function rangeEndWithinRange(a) {
+                return a.range[1] >= rangeStart && a.range[1] <= rangeEnd;
+            }
+
+            var prios = [
+                // Moves whose active frame begins at the given frame is the classic unholdable
+                function(a, b) { return rangeStartWithinRange(a); },
+
+                // Moves whose active frame ends at the given frame can be unholdable on force tech
+                function(a, b) { return rangeEndWithinRange(a); },
 
                 // Throws can be interrupted by an attack
                 function(a, b) { return !NodeFactoryMove.isMoveThrow(move(a)); },
@@ -591,12 +608,10 @@ define(
                 function(a, b) { return NodeFactoryMove.isMoveOffensiveHold(move(a)); },
 
                 // Some two-hit moves don't have advantage on block info for the first hit
-                function(a, b) {
-                    return !isFinite(getAdvantageOnBlock(a, latestActiveFrameStart));
-                },
+                function(a, b) { return !isFinite(getAdvantageOnBlock(a, rangeStart)); },
 
                 // Show g+0 or higher first
-                function(a, b) { return getAdvantageOnBlock(a, latestActiveFrameStart) >= 0; },
+                function(a, b) { return getAdvantageOnBlock(a, rangeStart) >= 0; },
 
                 // Prioritize mid/low over high since high can be ducked under
                 function(a, b) {
@@ -611,10 +626,17 @@ define(
                 // Sort by advantage on block
                 function(a, b) {
                     return (
-                        getAdvantageOnBlock(a, latestActiveFrameStart) >
-                        getAdvantageOnBlock(b, latestActiveFrameStart)
+                        getAdvantageOnBlock(a, rangeStart) >
+                        getAdvantageOnBlock(b, rangeStart)
                     );
                 },
+
+                // TODO: when given range, sort by active frames start, ascending
+                // function(a, b) {
+                //     if (rangeStartWithinRange(a)) return a.range[0] < b.range[0];
+                //     if (rangeEndWithinRange(a))   return a.range[1] < b.range[1];
+                //     return false;
+                // },
 
                 // Group same moves together
                 function(a, b) { return getMoveIndex(move(a)) > getMoveIndex(move(b)); },
@@ -635,14 +657,19 @@ define(
             ];
 
             return results.slice().sort(function(a, b) {
-                for (let i = 0; i < prios.length; ++i) {
-                    var prio = prios[i];
-                    var aHasPrio = prio(a, b);
-                    var bHasPrio = prio(b, a);
-                    if (aHasPrio && !bHasPrio) return -1;
-                    if (!aHasPrio && bHasPrio) return 1;
-                }
-                return 0;
+                return _.flatForEach(
+                    prios,
+                    function(prio) {
+                        var aHasPrio = prio(a, b);
+                        var bHasPrio = prio(b, a);
+                        if (aHasPrio && !bHasPrio) return -1;
+                        if (!aHasPrio && bHasPrio) return 1;
+                        return 0;
+                    },
+                    function(result) {
+                        return result !== 0;
+                    }
+                );
             });
         }
 

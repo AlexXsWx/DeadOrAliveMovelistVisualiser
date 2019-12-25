@@ -80,6 +80,8 @@ define(
 
             searchInStringArray: searchInStringArray,
 
+            flatForEach: flatForEach,
+
             createObjectStorage: createObjectStorage,
 
             // DOM
@@ -292,6 +294,42 @@ define(
                 if (array[i].search(regexOrString) >= 0) return i;
             }
             return -1;
+        }
+
+        function flatForEach(array, func, optStopCondition) {
+            var path = [0];
+            var result = undefined;
+            while (path.length > 0) {
+                var a = getArray();
+                var i = getPointer();
+                if (i < a.length) {
+                    if (isArray(a[i])) {
+                        goDeeper();
+                        continue;
+                    }
+                    result = func(a[i], i, a);
+                    if (optStopCondition && optStopCondition(result)) break;
+                } else {
+                    goUp();
+                }
+                incrementPointer();
+            }
+            return result;
+            function goDeeper() { path.push(0); }
+            function goUp() { path.pop(); }
+            function getPointer() { return path[path.length - 1]; }
+            function incrementPointer() {
+                if (path.length > 0) {
+                    path[path.length - 1] += 1;
+                }
+            }
+            function getArray() {
+                if (path.length === 1) return array;
+                return path.reduce(
+                    function(acc, curr) { return acc[curr]; },
+                    array
+                );
+            }
         }
 
         function getOrThrow(array, index) {

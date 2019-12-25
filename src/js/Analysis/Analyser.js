@@ -136,7 +136,9 @@ define(
                     filterFunc,
                     warnings,
                     optStartingStance
-                )
+                ),
+                frameStart,
+                frameEnd,
             );
 
             showFilterResults(
