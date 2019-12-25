@@ -10,6 +10,7 @@ define(
         'Analysis/Analyser', 'Analysis/Filter',
         'Localization/Strings',
         'Tools/TreeTools', 'Tools/GithubStuff', 'Tools/Executor', 'Tools/LimitsFinder',
+        'Tools/ObjectStorage',
         'Tools/Tools'
     ],
 
@@ -21,11 +22,12 @@ define(
         Analyser, Filter,
         Strings,
         TreeTools, GithubStuff, Executor, createLimitsFinder,
+        createObjectStorage,
         _
     ) {
 
         var canvas;
-        var visibleNodesSvgViews = _.createObjectStorage();
+        var visibleNodesSvgViews = createObjectStorage();
 
         var domCache = {
             download:                null,
@@ -360,8 +362,8 @@ define(
 
                 limitsFinder.invalidate();
 
-                var nodeViewsVisibleBeforeUpdate    = _.createObjectStorage();
-                var nodeSvgViewsVisibleBeforeUpdate = _.createObjectStorage();
+                var nodeViewsVisibleBeforeUpdate    = createObjectStorage();
+                var nodeSvgViewsVisibleBeforeUpdate = createObjectStorage();
 
                 TreeTools.forAllCurrentChildren(
                     rootNodeView,

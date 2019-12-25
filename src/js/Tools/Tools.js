@@ -2,14 +2,14 @@ define(
 
     'Tools/Tools',
 
-    [],
+    ['Tools/TypeTools', 'Tools/DomTools'],
 
-    function() {
+    function(_, domTools) {
 
         var mixinStorage = createMixinStorage('doa5lrMovelistMixinStorage');
 
         // TODO: split into sub packages like DOM, object, array etc
-        return {
+        return merge(_, domTools, {
 
             // Other
 
@@ -27,15 +27,6 @@ define(
             // FP
 
             flattenRecursionDirty: flattenRecursionDirty,
-
-            // Types
-
-            isArray:         isArray,
-            isObject:        isObject,
-            isNonEmptyArray: isNonEmptyArray,
-            isBool:          isBool,
-            isNumber:        isNumber,
-            isString:        isString,
 
             // Number
 
@@ -82,33 +73,23 @@ define(
 
             flatForEach: flatForEach,
 
-            createObjectStorage: createObjectStorage,
-
-            // DOM
-
-            getDomElement: getDomElement,
-
-            createDomElement: createDomElement,
-            createTextNode:   createTextNode,
-            createMergedRow:  createMergedRow,
-            createSvgElement: createSvgElement,
-
-            removeAllChildren:       removeAllChildren,
-            removeElementFromParent: removeElementFromParent,
-
-            hideDomElement: hideDomElement,
-            showDomElement: showDomElement,
-
-            setTextContent: setTextContent,
-
-            addClickListenerToElement:       addClickListenerToElement,
-            addClickListenerToElementWithId: addClickListenerToElementWithId,
-            dispatchInputEvent:              dispatchInputEvent,
-
             // Math
 
             lerp: lerp
-        };
+        });
+
+        function merge(/* arguments */) {
+            var result = {};
+            optimizedSliceArguments.apply(null, arguments).forEach(function(obj) {
+                forEachOwnProperty(obj, function(key, value) {
+                    if (Object.hasOwnProperty.call(result, key)) {
+                        report("Object already has given key, overwriting");
+                    }
+                    result[key] = value;
+                });
+            });
+            return result;
+        }
 
         function report(/*arguments*/) {
             console.error.apply(console, arguments);
@@ -186,28 +167,6 @@ define(
             } catch(error) {
                 return false;
             }
-        }
-
-        function getDomElement(id) {
-            var result = document.getElementById(id);
-            console.assert(Boolean(result), 'element #"' + id + '" not found');
-            return result;
-        }
-
-        function addClickListenerToElementWithId(id, listener) {
-            addClickListenerToElement(getDomElement(id), listener);
-        }
-
-        function addClickListenerToElement(element, listener) {
-            element.addEventListener('click', listener);
-        }
-
-        function hideDomElement(element) {
-            element.classList.add('hidden');
-        }
-
-        function showDomElement(element) {
-            element.classList.remove('hidden');
         }
 
         function arraysAreEqual(arrayA, arrayB) {
@@ -303,7 +262,7 @@ define(
                 var a = getArray();
                 var i = getPointer();
                 if (i < a.length) {
-                    if (isArray(a[i])) {
+                    if (_.isArray(a[i])) {
                         goDeeper();
                         continue;
                     }
@@ -339,11 +298,11 @@ define(
 
         function withoutFalsyProperties(obj, optCustomHandlers) {
             var result;
-            if (isArray(obj)) {
+            if (_.isArray(obj)) {
                 result = [];
                 for (var i = 0; i < obj.length; ++i) {
                     var value = obj[i];
-                    if (isArray(value) || isObject(value)) {
+                    if (_.isArray(value) || _.isObject(value)) {
                         value = withoutFalsyProperties(value);
                     }
                     if (isTruthyValue(value)) {
@@ -357,7 +316,7 @@ define(
                     if (optCustomHandlers && optCustomHandlers[key]) {
                         value = optCustomHandlers[key](value);
                     } else {
-                        if (isArray(value) || isObject(value)) {
+                        if (_.isArray(value) || _.isObject(value)) {
                             value = withoutFalsyProperties(value);
                         }
                     }
@@ -385,15 +344,15 @@ define(
         function isTruthyValue(obj) {
             if (obj === 0)     return true;
             if (obj === false) return true;
-            if (isArray(obj))  return obj.length > 0;
-            if (isObject(obj)) return Object.getOwnPropertyNames(obj).length > 0;
+            if (_.isArray(obj))  return obj.length > 0;
+            if (_.isObject(obj)) return Object.getOwnPropertyNames(obj).length > 0;
             return Boolean(obj);
         }
 
         // TODO: revisit names
         /** overwrites values of `target`'s keys with corresponding values `source`, if provided */
         function defaults(source, target) {
-            if (!source || !isObject(source)) return target;
+            if (!source || !_.isObject(source)) return target;
             Object.getOwnPropertyNames(target).forEach(function(propName) {
                 target[propName] = defined(source[propName], target[propName]);
             });
@@ -403,34 +362,6 @@ define(
                 }
             }
             return target;
-        }
-
-        function isArray(obj) {
-            return Array.isArray(obj);
-        }
-
-        function isObject(obj) {
-            var type = typeof obj;
-            return (
-                type === 'function' ||
-                type === 'object' && Boolean(obj)
-            );
-        }
-
-        function isNonEmptyArray(obj) {
-            return isArray(obj) && obj.length > 0;
-        }
-
-        function isBool(obj) {
-            return obj === true || obj === false;
-        }
-
-        function isNumber(obj) {
-            return typeof obj === 'number';
-        }
-
-        function isString(obj) {
-            return typeof obj === 'string';
         }
 
         function signed(number) {
@@ -524,118 +455,8 @@ define(
             return result;
         }
 
-        function createDomElement(options) {
-            return createClassedElementWithAttributesChildrenAndListeners(
-                options, documentElementCreator
-            );
-        }
-
-        function createTextNode(textContent) {
-            return document.createTextNode(textContent);
-        }
-
-        function createSvgElement(options) {
-            return createClassedElementWithAttributesChildrenAndListeners(options, svgElementCreator);
-        }
-
-        function documentElementCreator(tag) {
-            return document.createElement(tag);
-        }
-
-        function svgElementCreator(tag) {
-            return document.createElementNS("http://www.w3.org/2000/svg", tag);
-        }
-
-        function createClassedElementWithAttributesChildrenAndListeners(options, elementCreator) {
-
-            var tag        = options.tag;
-            var attributes = options.attributes;
-            var children   = options.children;
-            var listeners  = options.listeners;
-            var classes    = options.classes;
-
-            console.assert(Boolean(tag), 'invalid tag');
-
-            var element = elementCreator(tag);
-
-            if (isArray(children)) {
-                for (var i = 0; i < children.length; ++i) {
-                    element.appendChild(children[i]);
-                }
-            }
-
-            applyAttributesClassesAndAddListeners(element, {
-               attributes: attributes,
-               listeners:  listeners,
-               classes:    classes
-            });
-
-            return element;
-
-        }
-
-        function applyAttributesClassesAndAddListeners(element, options) {
-
-            var attributes = options.attributes;
-            var listeners  = options.listeners;
-            var classes    = options.classes;
-
-            isObject(attributes) && forEachOwnProperty(attributes, function(attribute, value) {
-                if (value !== undefined) element.setAttribute(attribute, value);
-            });
-
-            isObject(listeners) && forEachOwnProperty(listeners, function(key, value) {
-                if (value !== undefined) {
-                    if (key === 'click') {
-                        addClickListenerToElement(element, value);
-                    } else {
-                        element.addEventListener(key, value);
-                    }
-                }
-            });
-
-            if (isArray(classes)) {
-                for (var i = 0; i < classes.length; ++i) {
-                    element.classList.add(classes[i]);
-                }
-            }
-
-        }
-
-        function createMergedRow(colspan, children, classes) {
-            return createDomElement({
-                tag: 'tr',
-                children: [
-                    createDomElement({
-                        tag: 'td',
-                        attributes: { 'colspan': colspan },
-                        children: children
-                    })
-                ],
-                classes: classes
-            });
-        }
-
-        function removeAllChildren(domElement) {
-            domElement.innerHTML = '';
-        }
-
-        function setTextContent(domElement, text) {
-            removeAllChildren(domElement);
-            if (text instanceof DocumentFragment) {
-                domElement.appendChild(text);
-            } else {
-                domElement.appendChild(createTextNode(text));
-            }
-        }
-
         function lerp(start, target, weight) {
             return start * (1.0 - weight) + target * weight;
-        }
-
-        // FIXME: may not be compatible with browsers other than chrome
-        function dispatchInputEvent(inputElement, eventName) {
-            inputElement.dispatchEvent(new Event(eventName, { bubbles: false, cancelable: true }));
         }
 
         function mapValues(obj) {
@@ -699,10 +520,6 @@ define(
             return args;
         }
 
-        function removeElementFromParent(element) {
-            element.parentNode.removeChild(element);
-        }
-
         function createArray(size, elementCreator) {
             var result = [];
             for (var i = 0; i < size; ++i) {
@@ -750,80 +567,6 @@ define(
             console.groupCollapsed(msg);
             console.trace(msg);
             console.groupEnd();
-        }
-
-        function createObjectStorage(optKeyFilter) {
-
-            var keys   = [];
-            var values = [];
-
-            return {
-                set: set,
-                has: has,
-                get: get,
-                getIndex: getIndex,
-                getByIndex: getByIndex,
-                clear:    clear,
-                clearAll: clearAll,
-                forEachValue: forEachValue,
-                getKeys:      getKeys,
-                getValues:    getValues
-            };
-
-            function set(object, optValue) {
-                if (optKeyFilter && !optKeyFilter(object)) return false;
-                var index;
-                if (has(object)) {
-                    index = getIndex(object);
-                } else {
-                    index = keys.length;
-                    keys.push(object);
-                }
-                values[index] = optValue;
-                return true;
-            }
-
-            function has(object) {
-                if (optKeyFilter && !optKeyFilter(object)) return false;
-                return contains(keys, object);
-            }
-
-            function get(object, optFallbackValue) {
-                if (optKeyFilter && !optKeyFilter(object)) throw new Error("Invalid access");
-                return getByIndex(getIndex(object), optFallbackValue);
-            }
-
-            function getByIndex(index, optFallbackValue) {
-                if (index === -1 && optFallbackValue !== undefined) {
-                    return optFallbackValue;
-                }
-                if (index < 0 || index >= values.length) throw new Error("Out of bounds");
-                return values[index];
-            }
-
-            function clear(object) {
-                if (optKeyFilter && !optKeyFilter(object)) return false;
-                var index = getIndex(object);
-                if (index < 0 || index >= values.length) throw new Error("Out of bounds");
-                keys.splice(index, 1);
-                values.splice(index, 1);
-                return true;
-            }
-
-            function clearAll() {
-                keys.length   = 0;
-                values.length = 0;
-            }
-
-            function forEachValue(action) {
-                values.forEach(function(value) { action(value); });
-            }
-
-            function getKeys() { return keys.slice(); }
-
-            function getValues() { return values.slice(); }
-
-            function getIndex(object) { return keys.indexOf(object); }
         }
 
     }

@@ -5,13 +5,15 @@ define(
     [
         'Model/NodeFactoryMove',
         'Model/NodeFactoryActionStepResult',
-        'View/NodeView', 'View/NodeSvgViewTextGetters', 'Tools/Signal', 'Tools/Tools',
+        'View/NodeView', 'View/NodeSvgViewTextGetters',
+        'Tools/Signal', 'Tools/ObjectStorage', 'Tools/Tools',
     ],
 
     function NodeSvgViewTexts(
         NodeFactoryMove,
         NodeFactoryActionStepResult,
-        NodeView, NodeSvgViewTextGetters, createSignal, _
+        NodeView, NodeSvgViewTextGetters,
+        createSignal, createObjectStorage, _
     ) {
 
         var textGetterOptions = [
@@ -64,7 +66,7 @@ define(
                 );
                 return textGetterOptions;
             },
-            _.createObjectStorage()
+            createObjectStorage()
         );
 
         function createGetAdvantage(actionStepResultPredicate, optGuaranteed) {

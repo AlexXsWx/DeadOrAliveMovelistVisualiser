@@ -5,10 +5,13 @@ define(
     [
         'Model/NodeFactoryRoot',
         'Localization/Strings',
-        'Tools/JsonFileReader', 'Tools/Request', 'Tools/Tools'
+        'Tools/JsonFileReader', 'Tools/Request', 'Tools/ObjectStorage', 'Tools/Tools'
     ],
 
-    function NodeSerializer(NodeFactoryRoot, Strings, JsonFileReader, Request, _) {
+    function NodeSerializer(
+        NodeFactoryRoot, Strings,
+        JsonFileReader, Request, createObjectStorage, _
+    ) {
 
         // ==== Link ====
 
@@ -57,7 +60,7 @@ define(
 
             Link.objectIdCounter = 0;
 
-            var shared = _.createObjectStorage();
+            var shared = createObjectStorage();
 
             var temp1 = NodeFactoryRoot.serialize(rootNodeData, shared, createLink);
             var usedLinks = shared.getValues().filter(function(link) { return link.usage > 0; });
@@ -120,7 +123,7 @@ define(
                 return;
             }
 
-            var sharedStorage = _.createObjectStorage(/*function(key) { return _.isObject(key); }*/);
+            var sharedStorage = createObjectStorage(/*function(key) { return _.isObject(key); }*/);
 
             var rootNodeData;
             try {
