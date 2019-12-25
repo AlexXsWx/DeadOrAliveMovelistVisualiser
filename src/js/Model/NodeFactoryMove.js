@@ -256,7 +256,10 @@ define(
                 var recoveryFrames = _.defined(frameData[i + 1], 0);
                 var activeFrameStart = t + 1;
                 var activeFrameEnd = t + activeFrames;
-                if (!(activeFrameEnd < frameStart || activeFrameStart > frameEnd)) {
+                if (
+                    activeFrames > 0 &&
+                    !(activeFrameEnd < frameStart || activeFrameStart > frameEnd)
+                ) {
                     return [activeFrameStart, activeFrameEnd];
                 }
                 t += activeFrames + recoveryFrames;
