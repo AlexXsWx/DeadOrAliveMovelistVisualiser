@@ -1,7 +1,7 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1575726597531
+    "timeSaved": 1577329071867
   },
   "body": {
     "character": "Rig",
@@ -270,6 +270,14 @@
                                   "counter"
                                 ],
                                 "stunDurationMax": 38
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "hard knock-down"
+                                ]
                               }
                             ]
                           }
@@ -303,6 +311,14 @@
                                   "neutral"
                                 ],
                                 "hitBlock": 25
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "hard knock-down"
+                                ]
                               }
                             ]
                           }
@@ -510,6 +526,14 @@
                                   "counter"
                                 ],
                                 "stunDurationMax": 38
+                              },
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "hard knock-down"
+                                ]
                               }
                             ]
                           }
@@ -749,6 +773,14 @@
                               "counter"
                             ],
                             "stunDurationMax": 38
+                          },
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "hard knock-down"
+                            ]
                           }
                         ]
                       }
@@ -964,6 +996,14 @@
                     "criticalHoldDelay": 34,
                     "tags": [
                       "FS"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
                     ]
                   }
                 ]
@@ -1495,7 +1535,17 @@
                                 "actionType": "jump attack",
                                 "isTracking": false,
                                 "damage": 10,
-                                "togglesStance": false
+                                "togglesStance": false,
+                                "results": [
+                                  {
+                                    "condition": [
+                                      "airborne"
+                                    ],
+                                    "tags": [
+                                      "hard knock-down"
+                                    ]
+                                  }
+                                ]
                               }
                             ],
                             "endsWith": "BT"
@@ -2028,6 +2078,14 @@
                               "guard"
                             ],
                             "hitBlock": 13
+                          },
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "hard knock-down"
+                            ]
                           }
                         ]
                       }
@@ -2216,6 +2274,14 @@
                           "guard"
                         ],
                         "hitBlock": 13
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -2268,6 +2334,14 @@
                     "tags": [
                       "FS"
                     ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -2298,6 +2372,14 @@
                           "guard"
                         ],
                         "hitBlock": 10
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -2810,6 +2892,14 @@
                             ],
                             "criticalHoldDelay": 6,
                             "stunDurationMax": 27
+                          },
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "hard knock-down"
+                            ]
                           }
                         ]
                       }
@@ -2935,6 +3025,14 @@
                           "counter"
                         ],
                         "stunDurationMax": 38
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -3127,6 +3225,14 @@
                         "tags": [
                           "FS"
                         ]
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -3238,7 +3344,17 @@
                             "actionType": "jump attack",
                             "isTracking": false,
                             "damage": 10,
-                            "togglesStance": false
+                            "togglesStance": false,
+                            "results": [
+                              {
+                                "condition": [
+                                  "airborne"
+                                ],
+                                "tags": [
+                                  "hard knock-down"
+                                ]
+                              }
+                            ]
                           }
                         ],
                         "endsWith": "BT"
@@ -3302,6 +3418,14 @@
                     "tags": [
                       "GB"
                     ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -3328,6 +3452,14 @@
                       "guard"
                     ],
                     "hitBlock": 30
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -3610,6 +3742,14 @@
                           "counter"
                         ],
                         "stunDurationMax": 38
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -3705,6 +3845,14 @@
                       "counter"
                     ],
                     "stunDurationMax": 38
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -3743,6 +3891,14 @@
                       "counter"
                     ],
                     "stunDurationMax": 38
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -3914,7 +4070,17 @@
                                         "actionMask": "high K",
                                         "actionType": "strike",
                                         "isTracking": true,
-                                        "togglesStance": true
+                                        "togglesStance": true,
+                                        "results": [
+                                          {
+                                            "condition": [
+                                              "airborne"
+                                            ],
+                                            "tags": [
+                                              "hard knock-down"
+                                            ]
+                                          }
+                                        ]
                                       }
                                     ]
                                   },
@@ -4080,7 +4246,7 @@
             "frameData": [
               10,
               2,
-              25
+              0
             ],
             "actionSteps": [
               {
@@ -4090,6 +4256,47 @@
                 "damage": 52,
                 "reach": 1.47,
                 "togglesStance": false
+              }
+            ],
+            "followUps": [
+              {
+                "input": "*",
+                "context": [
+                  "HIT"
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other",
+                    "results": [
+                      {
+                        "condition": [
+                          "neutral",
+                          "counter",
+                          "hi-counter"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "input": "*",
+                "context": [
+                  "WHIFF"
+                ],
+                "frameData": [
+                  0,
+                  0,
+                  25
+                ],
+                "actionSteps": [
+                  {
+                    "actionType": "other"
+                  }
+                ]
               }
             ]
           },
@@ -4688,6 +4895,14 @@
                           "counter"
                         ],
                         "stunDurationMax": 38
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -4742,6 +4957,14 @@
                     ],
                     "tags": [
                       "FS"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
                     ]
                   }
                 ]
@@ -4887,6 +5110,14 @@
                           "guard"
                         ],
                         "hitBlock": 7
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -5046,6 +5277,14 @@
                     ],
                     "tags": [
                       "FS"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
                     ]
                   }
                 ]
@@ -5261,6 +5500,14 @@
                             "tags": [
                               "FS"
                             ]
+                          },
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "hard knock-down"
+                            ]
                           }
                         ]
                       }
@@ -5291,6 +5538,14 @@
                       "guard"
                     ],
                     "hitBlock": 12
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -5339,6 +5594,14 @@
                     ],
                     "tags": [
                       "FS"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
                     ]
                   }
                 ]
@@ -5391,6 +5654,14 @@
                     ],
                     "tags": [
                       "FS"
+                    ]
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
                     ]
                   }
                 ]
@@ -5491,6 +5762,14 @@
                         ],
                         "tags": [
                           "FS"
+                        ]
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock-down"
                         ]
                       }
                     ]
@@ -6014,6 +6293,14 @@
                           "counter"
                         ],
                         "stunDurationMax": 38
+                      },
+                      {
+                        "condition": [
+                          "airborne"
+                        ],
+                        "tags": [
+                          "hard knock-down"
+                        ]
                       }
                     ]
                   }
@@ -6198,6 +6485,14 @@
                       "counter"
                     ],
                     "stunDurationMax": 38
+                  },
+                  {
+                    "condition": [
+                      "airborne"
+                    ],
+                    "tags": [
+                      "hard knock-down"
+                    ]
                   }
                 ]
               }
@@ -6365,7 +6660,17 @@
                                         "actionMask": "high K",
                                         "actionType": "strike",
                                         "isTracking": true,
-                                        "togglesStance": true
+                                        "togglesStance": true,
+                                        "results": [
+                                          {
+                                            "condition": [
+                                              "airborne"
+                                            ],
+                                            "tags": [
+                                              "hard knock-down"
+                                            ]
+                                          }
+                                        ]
                                       }
                                     ]
                                   },
@@ -7009,6 +7314,14 @@
                               "guard"
                             ],
                             "hitBlock": 13
+                          },
+                          {
+                            "condition": [
+                              "airborne"
+                            ],
+                            "tags": [
+                              "hard knock-down"
+                            ]
                           }
                         ]
                       }
