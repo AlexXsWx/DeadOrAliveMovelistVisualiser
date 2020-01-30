@@ -43,6 +43,7 @@ define(
             getRecoveryFramesCount:  getRecoveryFramesCount,
             getActiveFrames:         getActiveFrames,
             getDamage:               getDamage,
+            getReach:                getReach,
             changeFrameData:         changeFrameData
 
             // guessMoveTypeByInput: guessMoveTypeByInput
@@ -326,6 +327,15 @@ define(
             return nodeData.actionSteps.reduce(
                 function(sum, actionStep) {
                     return sum + (actionStep && Number(actionStep.damage) || NaN);
+                },
+                0
+            );
+        }
+
+        function getReach(nodeData) {
+            return nodeData.actionSteps.reduce(
+                function(acc, actionStep) {
+                    return Math.max(acc, Number(actionStep.reach) || 0);
                 },
                 0
             );

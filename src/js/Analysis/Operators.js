@@ -472,6 +472,19 @@ define(
                 getValue1: function(str, extra) { return []; }
             },
 
+            // Reach
+            {
+                type: Type2.Integer,
+                predicate: function(str) {
+                    return str === 'reach';
+                },
+                getValue1: function(str, extra) {
+                    var nodeData = extra.nodeData;
+                    if (!NodeFactoryMove.isMoveNode(nodeData)) return 0;
+                    return NodeFactoryMove.getReach(nodeData);
+                }
+            },
+
             // Ending
             {
                 type: Type2.String,
