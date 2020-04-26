@@ -1,11 +1,11 @@
 {
   "header": {
     "format": 3,
-    "timeSaved": 1583877496767
+    "timeSaved": 1587907028616
   },
   "body": {
     "character": "Tamaki",
-    "version": "Ver. 1.21 #17 (Steam)",
+    "version": "Ver. 1.22 #19 (Steam)",
     "stances": [
       {
         "abbreviation": "STD",
@@ -1404,7 +1404,7 @@
                 "frameData": [
                   16,
                   2,
-                  27
+                  24
                 ],
                 "actionSteps": [
                   {
@@ -1416,7 +1416,7 @@
                         "condition": [
                           "guard"
                         ],
-                        "hitBlock": 22
+                        "hitBlock": 19
                       }
                     ]
                   }
